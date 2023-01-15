@@ -7,6 +7,9 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\GiftCard;
 use App\Utils\Tools;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class GiftCardController extends BaseController
 {
@@ -49,7 +52,7 @@ final class GiftCardController extends BaseController
         ],
     ];
 
-    public function index($request, $response, $args)
+    public function index(Request $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -58,7 +61,7 @@ final class GiftCardController extends BaseController
         );
     }
 
-    public function add($request, $response, $args)
+    public function add(Request $request, Response $response, array $args): ResponseInterface
     {
         $card_number = $request->getParam('card_number');
         $card_value = $request->getParam('card_value');
@@ -99,7 +102,17 @@ final class GiftCardController extends BaseController
         ]);
     }
 
-    public function ajax($request, $response, $args)
+    public function delete(Request $request, Response $response, array $args): ResponseInterface
+    {
+        $card_id = $args['id'];
+        GiftCard::find($card_id)->delete();
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '删除成功',
+        ]);
+    }
+
+    public function ajax(Request $request, Response $response, array $args): ResponseInterface
     {
         $giftcards = GiftCard::orderBy('id', 'desc')->get();
         foreach ($giftcards as $giftcard) {
@@ -111,16 +124,6 @@ final class GiftCardController extends BaseController
         }
         return $response->withJson([
             'giftcards' => $giftcards,
-        ]);
-    }
-
-    public function delete($request, $response, $args)
-    {
-        $card_id = $args['id'];
-        GiftCard::find($card_id)->delete();
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '删除成功',
         ]);
     }
 }

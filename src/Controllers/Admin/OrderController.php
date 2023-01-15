@@ -85,9 +85,17 @@ final class OrderController extends BaseController
         $order->save();
 
         $invoice = Invoice::where('order_id', $order_id)->first();
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '订单取消成功，但关联账单状态异常',
+            ]);
+        }
+
         $invoice->update_time = \time();
 
-        if ($invoice->status === 'paid_gateway' || $invoice->status === 'paid_balance' || $invoice->status === 'paid_admin') {
+        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin', 'paid_giftcard'])) {
             $invoice->status = 'cancelled';
             $invoice->save();
 

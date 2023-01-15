@@ -224,9 +224,10 @@ return function (SlimApp $app): void {
         $this->post('/user/ajax', App\Controllers\Admin\UserController::class . ':ajax');
 
         // Coupon Mange
-        $this->get('/coupon', App\Controllers\AdminController::class . ':coupon');
-        $this->post('/coupon', App\Controllers\AdminController::class . ':addCoupon');
-        $this->post('/coupon/ajax', App\Controllers\AdminController::class . ':ajaxCoupon');
+        $this->get('/coupon', App\Controllers\Admin\CouponController::class . ':index');
+        $this->post('/coupon', App\Controllers\Admin\CouponController::class . ':add');
+        $this->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
+        $this->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
 
         // Subscribe Log Mange
         $this->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
@@ -272,7 +273,7 @@ return function (SlimApp $app): void {
         // 账单
         $this->get('/invoice', App\Controllers\Admin\InvoiceController::class . ':index');
         $this->get('/invoice/{id}/view', App\Controllers\Admin\InvoiceController::class . ':detail');
-        $this->post('/invoice/{id}/mark_paid', App\Controllers\Admin\InvoiceController::class . ':mark_paid');
+        $this->post('/invoice/{id}/mark_paid', App\Controllers\Admin\InvoiceController::class . ':markPaid');
         $this->post('/invoice/ajax', App\Controllers\Admin\InvoiceController::class . ':ajax');
     })->add(new Admin());
 
