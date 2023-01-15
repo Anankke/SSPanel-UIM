@@ -84,9 +84,33 @@ final class OrderController extends BaseController
         $order->status = 'cancelled';
         $order->save();
 
+        $invoice = Invoice::where('order_id', $order_id)->first();
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '订单取消成功，但关联账单状态异常',
+            ]);
+        }
+
+        $invoice->update_time = \time();
+
+        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin', 'paid_giftcard'])) {
+            $invoice->status = 'cancelled';
+            $invoice->save();
+
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '订单取消成功，但关联账单已支付',
+            ]);
+        }
+
+        $invoice->status = 'cancelled';
+        $invoice->save();
+
         return $response->withJson([
             'ret' => 1,
-            'msg' => '取消成功',
+            'msg' => '订单取消成功',
         ]);
     }
 
@@ -94,6 +118,7 @@ final class OrderController extends BaseController
     {
         $order_id = $args['id'];
         Order::find($order_id)->delete();
+        Invoice::where('order_id', $order_id)->first()->delete();
 
         return $response->withJson([
             'ret' => 1,
@@ -109,7 +134,7 @@ final class OrderController extends BaseController
             $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '" 
             onclick="deleteOrder(' . $order->id . ')">删除</button>
             <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '" 
-            onclick="cancelOrder(' . $order->id . ')">复制</button>
+            onclick="cancelOrder(' . $order->id . ')">取消</button>
             <a class="btn btn-blue" href="/admin/order/' . $order->id . '/view">查看</a>';
             $order->product_type = Tools::getOrderProductType($order);
             $order->status = Tools::getOrderStatus($order);

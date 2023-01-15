@@ -1,116 +1,229 @@
-{include file='admin/main.tpl'}
+{include file='admin/tabler_header.tpl'}
 
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">优惠码</h1>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="//cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        <span class="home-title">优惠码</span>
+                    </h2>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">
+                            查看并管理优惠码
+                        </span>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#create-dialog">
+                            <i class="icon ti ti-plus"></i>
+                            创建
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#create-dialog">
+                            <i class="icon ti ti-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="container">
-        <section class="content-inner margin-top-no">
-            <div class="card">
-                <div class="card-main">
-                    <div class="card-inner">
-                        <div class="form-group form-group-label">
-                            <label class="floating-label" for="prefix">优惠码</label>
-                            <input class="form-control maxwidth-edit" id="prefix" type="text">
-                            <p class="form-control-guide"><i class="mdi mdi-information"></i>生成随机优惠码不填</p>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+                                    <tr>
+                                        {foreach $details['field'] as $key => $value}
+                                            <th>{$value}</th>
+                                        {/foreach}
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
-                        <div class="form-group form-group-label">
-                            <label class="floating-label" for="credit">优惠码额度</label>
-                            <input class="form-control maxwidth-edit" id="credit" type="text">
-                            <p class="form-control-guide"><i class="mdi mdi-information"></i>百分比，九折就填 10</p>
-                        </div>
-                        <div class="form-group form-group-label">
-                            <label class="floating-label" for="expire">优惠码有效期(h)</label>
-                            <input class="form-control maxwidth-edit" id="expire" type="number" value="1">
-                        </div>
-                        <div class="form-group form-group-label">
-                            <label class="floating-label" for="shop">优惠码可用商品ID</label>
-                            <input class="form-control maxwidth-edit" id="shop" type="text">
-                            <p class="form-control-guide"><i class="mdi mdi-information"></i>不填即为所有商品可用，多个的话用英文半角逗号分割</p>
-                        </div>
-                        <div class="form-group form-group-label">
-                            <label class="floating-label" for="shop">优惠码每个用户可用次数，-1为无限次</label>
-                            <input class="form-control maxwidth-edit" id="count" type="number" value="1">
-                        </div>
-                        <div class="form-group form-group-label">
-                            <label for="generate-type">
-                                <label class="floating-label" for="sort">选择生成方式</label>
-                                <select id="generate-type" class="form-control maxwidth-edit">
-                                    <option value="1">指定字符</option>
-                                    <option value="2">随机字符</option>
-                                    <option value="3">指定字符+随机字符</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-10 col-md-push-1">
-                                    <button id="coupon" type="submit"
-                                            class="btn btn-block btn-brand waves-attach waves-light">生成优惠码
-                                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="create-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">优惠码内容</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {foreach $details['create_dialog'] as $detail}
+                        {if $detail['type'] == 'input'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$detail['info']}</label>
+                                <div class="col">
+                                    <input id="{$detail['id']}" type="text" class="form-control"
+                                        placeholder="{$detail['placeholder']}">
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card margin-bottom-no">
-                <div class="card-main">
-                    <div class="card-inner">
-                        <p class="card-heading">优惠码</p>
-                        <p>显示表项:
-                            {include file='table/checkbox.tpl'}
-                        </p>
-                        <div class="card-table">
-                            <div class="table-responsive">
-                                {include file='table/table.tpl'}
+                        {/if}
+                        {if $detail['type'] == 'textarea'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$detail['info']}</label>
+                                <textarea id="{$detail['id']}" class="col form-control" rows="{$detail['rows']}"
+                                    placeholder="{$detail['placeholder']}"></textarea>
                             </div>
+                        {/if}
+                        {if $detail['type'] == 'select'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$detail['info']}</label>
+                                <div class="col">
+                                    <select id="{$detail['id']}" class="col form-select">
+                                        {foreach $detail['select'] as $key => $value}
+                                            <option value="{$key}">{$value}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        {/if}
+                    {/foreach}
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">过期时间</label>
+                        <div class="col">
+                            <input id="expire_time" type="text" class="form-control"
+                                placeholder="">
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="create-button" onclick="createCoupon()"
+                        type="button" class="btn btn-primary" data-bs-dismiss="modal">创建</button>
+                </div>
             </div>
-            {include file='dialog.tpl'}
-        </section>
+        </div>
     </div>
-</main>
 
-{include file='admin/footer.tpl'}
+    <script>
+        flatpickr("#expire_time", {
+            enableTime: true,
+            dateFormat: "U",
+            time_24hr: true,
+            minDate: "today",
+            locale: "zh"
+        });
 
-<script>
-    {include file='table/js_1.tpl'}
-    window.addEventListener('load', () => {
-        {include file='table/js_2.tpl'}
+        var table = $('#data_table').DataTable({
+            ajax: {
+                url: '/admin/coupon/ajax',
+                type: 'POST',
+                dataSrc: 'coupons'
+            },
+            "autoWidth":false,
+            'iDisplayLength': 10,
+            'scrollX': true,
+            'order': [
+                [1, 'desc']
+            ],
+            columns: [
+                {foreach $details['field'] as $key => $value}
+                { data: '{$key}' },
+                {/foreach}
+            ],
+            "columnDefs":[
+                { targets:[0],orderable:false }
+            ],
+            "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row card-footer d-flex d-flexalign-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 条",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_项",
+                "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(在 _MAX_ 项中查找)",
+                "sInfoPostFix": "",
+                "sSearch": "<i class=\"ti ti-search\"></i> ",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "<i class=\"titi-arrow-left\"></i>",
+                    "sNext": "<i class=\"ti ti-arrow-right\"><i>",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+        });
 
-        $$.getElementById('coupon').addEventListener('click', () => {
-            let couponCode = $$getValue('prefix');
+        function loadTable() {
+            table;
+        }
 
+        function createCoupon() {
             $.ajax({
-                type: "POST",
-                url: "/admin/coupon",
+                url: '/admin/coupon',
+                type: 'POST',
                 dataType: "json",
                 data: {
-                    prefix: $$getValue('prefix'),
-                    credit: $$getValue('credit'),
-                    shop: $$getValue('shop'),
-                    onetime: $$getValue('count'),
-                    expire: $$getValue('expire'),
-                    generate_type: $$getValue('generate-type'),
+                    {foreach $details['create_dialog'] as $detail}
+                        {$detail['id']}: $('#{$detail['id']}').val(),
+                    {/foreach}
+                    expire_time: $('#expire_time').val(),
                 },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                        reloadTableAjax();
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
                     }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
                 }
             })
-        })
-    })
-</script>
+        };
+
+        function deleteCoupon(coupon_id) {
+            $('#notice-message').text('确定删除此优惠码？');
+            $('#notice-dialog').modal('show');
+            $('#notice-confirm').on('click', function() {
+                $.ajax({
+                    url: "/admin/coupon/" + coupon_id,
+                    type: 'DELETE',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret == 1) {
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
+                            reloadTableAjax();
+                        } else {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        }
+                    }
+                })
+            });
+        };
+
+        function reloadTableAjax() {
+            table.ajax.reload(null, false);
+        }
+
+        loadTable();
+    </script>
+
+{include file='admin/tabler_footer.tpl'}
