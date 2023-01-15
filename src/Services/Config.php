@@ -106,12 +106,6 @@ final class Config
         ];
     }
 
-    public static function getMuKey()
-    {
-        $muKeyList = \array_key_exists('muKeyList', $_ENV) ? $_ENV['muKeyList'] : ['　'];
-        return array_merge(explode(',', $_ENV['muKey']), $muKeyList);
-    }
-
     public static function getSupportParam($type)
     {
         switch ($type) {
@@ -138,34 +132,13 @@ final class Config
                 ];
             default:
                 return [
-                    'rc4-md5',
-                    'rc4-md5-6',
-                    'aes-128-cfb',
-                    'aes-192-cfb',
-                    'aes-256-cfb',
-                    'aes-128-ctr',
-                    'aes-192-ctr',
-                    'aes-256-ctr',
-                    'camellia-128-cfb',
-                    'camellia-192-cfb',
-                    'camellia-256-cfb',
-                    'bf-cfb',
-                    'cast5-cfb',
-                    'des-cfb',
-                    'des-ede3-cfb',
-                    'idea-cfb',
-                    'rc2-cfb',
-                    'seed-cfb',
-                    'salsa20',
-                    'chacha20',
-                    'xsalsa20',
-                    'chacha20-ietf',
                     'aes-128-gcm',
                     'aes-192-gcm',
                     'aes-256-gcm',
                     'chacha20-ietf-poly1305',
                     'xchacha20-ietf-poly1305',
                     'none',
+                    'plain',
                     '2022-blake3-aes-128-gcm',
                     '2022-blake3-aes-256-gcm',
                     '2022-blake3-chacha20-poly1305',

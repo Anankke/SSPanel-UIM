@@ -290,7 +290,6 @@ return function (SlimApp $app): void {
         // 流媒体检测
         $this->post('/media/saveReport', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点
-        $this->get('/nodes', App\Controllers\WebAPI\NodeController::class . ':getAllInfo');
         $this->get('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户
         $this->get('/users', App\Controllers\WebAPI\UserController::class . ':index');
@@ -301,6 +300,7 @@ return function (SlimApp $app): void {
         $this->get('/func/detect_rules', App\Controllers\WebAPI\FuncController::class . ':getDetectLogs');
         $this->get('/func/ping', App\Controllers\WebAPI\FuncController::class . ':ping');
         // Dummy API for old version
+        $this->get('/nodes', App\Controllers\WebAPI\NodeController::class . ':getAllInfo');
         $this->post('/func/block_ip', App\Controllers\WebAPI\FuncController::class . ':addBlockIp');
         $this->get('/func/block_ip', App\Controllers\WebAPI\FuncController::class . ':getBlockip');
         $this->get('/func/unblock_ip', App\Controllers\WebAPI\FuncController::class . ':getUnblockip');

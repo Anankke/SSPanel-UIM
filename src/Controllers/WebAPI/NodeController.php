@@ -85,18 +85,9 @@ final class NodeController extends BaseController
      */
     public function getAllInfo(Request $request, Response $response, array $args): ResponseInterface
     {
-        $nodes = Node::where('node_ip', '<>', null)->where(
-            static function ($query): void {
-                $query->where('sort', '=', 0)
-                    ->orWhere('sort', '=', 1)
-                    ->orWhere('sort', '=', 11)
-                    ->orWhere('sort', '=', 14);
-            }
-        )->get();
-
         return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
-            'data' => $nodes,
+            'data' => [],
         ]);
     }
 }

@@ -1,7 +1,8 @@
 {include file='admin/tabler_header.tpl'}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="//cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="//cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -103,7 +104,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="create-button" onclick="createGiftCard()"
+                    <button id="create-button" onclick="createCoupon()"
                         type="button" class="btn btn-primary" data-bs-dismiss="modal">创建</button>
                 </div>
             </div>
