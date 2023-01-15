@@ -56,7 +56,7 @@
             "savePath": "public/clients/",
             "downloads": [
                 {
-                    "sourceName": " v2rayN-With-Core.zip",
+                    "sourceName": "v2rayN-With-Core.zip",
                     "saveName": "v2rayN-Core.zip",
                     "apkpureUrl": ""
                 }

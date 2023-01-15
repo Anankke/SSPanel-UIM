@@ -106,7 +106,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <input id="wechat" type="text" class="form-control"
+                                                        <input id="imvalue" type="text" class="form-control" 
+                                                            {if $user->im_type == '4'} disabled="" {/if}
                                                             value="{$user->im_value}" placeholder="社交账户">
                                                     </div>
                                                 </div>
@@ -735,11 +736,11 @@
         $("#modify-im").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/user/wechat",
+                url: "/user/contact_update",
                 dataType: "json",
                 data: {
                     imtype: $('#imtype').val(),
-                    wechat: $('#wechat').val()
+                    imvalue: $('#imvalue').val()
                 },
                 success: function(data) {
                     if (data.ret == 1) {
