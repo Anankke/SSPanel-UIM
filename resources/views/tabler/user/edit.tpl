@@ -322,7 +322,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">更换连接端口</h3>
-                                                    <p>随机分配一个连接端口，这将用于 SS / SSR 客户端</p>
+                                                    <p>随机分配一个连接端口，这将用于 Shadowsocks 客户端</p>
                                                     <p>当前端口是：<code>{$user->port}</code></p>
                                                 </div>
                                                 <div class="card-footer">
