@@ -317,7 +317,7 @@ final class SubController extends BaseController
             }
             $nodes[] = $node;
 
-            $indexes = [0, 1, 2, 5, 7, 8, 9, 12];
+            $indexes = [0, 1, 2, 3, 4, 5, 8, 10, 11, 12, 15];
             foreach ($indexes as $index) {
                 $clash_config['proxy-groups'][$index]['proxies'][] = $node_raw->name;
             }
