@@ -26,15 +26,6 @@ $_ENV['Clash_Config'] = [
             ],
         ],
         [
-            'name' => '🔯 故障转移',
-            'type' => 'fallback',
-            'url' => 'http://www.gstatic.com/generate_204',
-            'interval' => 180,
-            // 插入节点名称
-            'proxies' => [
-            ],
-        ],
-        [
             'name' => '负载均衡-轮询',
             'type' => 'load-balance',
             'url' => 'http://www.gstatic.com/generate_204',
