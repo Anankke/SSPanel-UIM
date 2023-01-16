@@ -10,6 +10,9 @@ $_ENV['Clash_Config'] = [
             // 插入节点名称
             'proxies' => [
                 '♻️ 自动选择',
+                '🔯 故障转移',
+                '🔮 负载均衡（轮询）',
+                '🔮 负载均衡（散列）',         
                 '🎯 全球直连',
             ],
         ],
@@ -18,6 +21,35 @@ $_ENV['Clash_Config'] = [
             'type' => 'url-test',
             'url' => 'http://www.gstatic.com/generate_204',
             'interval' => 300,
+            // 插入节点名称
+            'proxies' => [
+            ],
+        ],
+        [
+            'name' => '🔯 故障转移',
+            'type' => 'fallback',
+            'url' => 'http://www.gstatic.com/generate_204',
+            'interval' => 180,
+            // 插入节点名称
+            'proxies' => [
+            ],
+        ],
+        [
+            'name' => '🔮 负载均衡(轮询)',
+            'type' => 'load-balance',
+            'url' => 'http://www.gstatic.com/generate_204',
+            'interval' => 180,
+            'strategy' => 'round-robin',
+            // 插入节点名称
+            'proxies' => [
+            ],
+        ],
+        [
+            'name' => '🔮 负载均衡(散列)',
+            'type' => 'load-balance',
+            'url' => 'http://www.gstatic.com/generate_204',
+            'interval' => 180,
+            'strategy' => 'consistent-hashing',
             // 插入节点名称
             'proxies' => [
             ],
