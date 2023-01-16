@@ -38,8 +38,8 @@ $_ENV['Clash_Config'] = [
             'name' => '负载均衡-轮询',
             'type' => 'load-balance',
             'url' => 'http://www.gstatic.com/generate_204',
-            'interval' => 180,
             'strategy' => 'round-robin',
+            'interval' => 180,
             // 插入节点名称
             'proxies' => [
             ],
@@ -48,8 +48,8 @@ $_ENV['Clash_Config'] = [
             'name' => '负载均衡-散列',
             'type' => 'load-balance',
             'url' => 'http://www.gstatic.com/generate_204',
-            'interval' => 180,
             'strategy' => 'consistent-hashing',
+            'interval' => 180,
             // 插入节点名称
             'proxies' => [
             ],
