@@ -743,7 +743,7 @@ final class UserController extends BaseController
                 'msg' => '主题不能为空',
             ]);
         }
-        
+
         $user->theme = $theme;
         $user->save();
 
