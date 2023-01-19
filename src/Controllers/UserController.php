@@ -688,33 +688,43 @@ final class UserController extends BaseController
      */
     public function updateContact(Request $request, Response $response, array $args)
     {
-        $type = $request->getParam('imtype');
-        $contact = trim($request->getParam('contact'));
+        $antiXss = new AntiXSS();
+
+        $type = $antiXss->xss_clean($request->getParam('imtype'));
+        $value = $antiXss->xss_clean($request->getParam('imvalue'));
 
         $user = $this->user;
 
         if ($user->telegram_id !== null) {
-            return ResponseHelper::error(
-                $response,
-                '您绑定了 Telegram ，所以此项并不能被修改。'
-            );
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '你的账户绑定了 Telegram ，所以此项并不能被修改',
+            ]);
         }
 
-        if ($contact === '' || $type === '') {
-            return ResponseHelper::error($response, '非法输入');
+        if ($value === '' || $type === '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '联络方式不能为空',
+            ]);
         }
 
-        $user1 = User::where('im_value', $contact)->where('im_type', $type)->first();
-        if ($user1 !== null) {
-            return ResponseHelper::error($response, '此联络方式已经被注册');
+        $user_exist = User::where('im_value', $value)->where('im_type', $type)->first();
+        if ($user_exist !== null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '此联络方式已经被注册',
+            ]);
         }
 
         $user->im_type = $type;
-        $antiXss = new AntiXSS();
-        $user->im_value = $antiXss->xss_clean($contact);
+        $user->im_value = $value;
         $user->save();
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     /**
@@ -722,19 +732,25 @@ final class UserController extends BaseController
      */
     public function updateTheme(Request $request, Response $response, array $args)
     {
-        $theme = $request->getParam('theme');
+        $antiXss = new AntiXSS();
+        $theme = $antiXss->xss_clean($request->getParam('theme'));
 
         $user = $this->user;
 
         if ($theme === '') {
-            return ResponseHelper::error($response, '非法输入');
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '主题不能为空',
+            ]);
         }
 
-        $antiXss = new AntiXSS();
-        $user->theme = $antiXss->xss_clean($theme);
+        $user->theme = $theme;
         $user->save();
 
-        return ResponseHelper::successfully($response, '设置成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     /**

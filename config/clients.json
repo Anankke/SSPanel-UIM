@@ -51,12 +51,12 @@
         },
         {
             "name": "v2rayN",
-            "tagMethod": "github_release",
+            "tagMethod": "github_pre_release",
             "gitRepo": "2dust/v2rayN",
             "savePath": "public/clients/",
             "downloads": [
                 {
-                    "sourceName": "v2rayN-Core.zip",
+                    "sourceName": "v2rayN-With-Core.zip",
                     "saveName": "v2rayN-Core.zip",
                     "apkpureUrl": ""
                 }

@@ -106,7 +106,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <input id="wechat" type="text" class="form-control"
+                                                        <input id="imvalue" type="text" class="form-control" 
+                                                            {if $user->im_type == '4'} disabled="" {/if}
                                                             value="{$user->im_value}" placeholder="社交账户">
                                                     </div>
                                                 </div>
@@ -322,7 +323,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">更换连接端口</h3>
-                                                    <p>随机分配一个连接端口，这将用于 SS / SSR 客户端</p>
+                                                    <p>随机分配一个连接端口，这将用于 Shadowsocks 客户端</p>
                                                     <p>当前端口是：<code>{$user->port}</code></p>
                                                 </div>
                                                 <div class="card-footer">
@@ -735,11 +736,11 @@
         $("#modify-im").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/user/wechat",
+                url: "/user/contact_update",
                 dataType: "json",
                 data: {
                     imtype: $('#imtype').val(),
-                    wechat: $('#wechat').val()
+                    imvalue: $('#imvalue').val()
                 },
                 success: function(data) {
                     if (data.ret == 1) {
