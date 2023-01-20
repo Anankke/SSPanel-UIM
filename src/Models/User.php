@@ -206,7 +206,7 @@ final class User extends Model
      */
     public function trafficUsagePercent(): int
     {
-        if ($this->transfer_enable === 0) {
+        if ($this->transfer_enable == 0) {
             return 0;
         }
         $percent = ($this->u + $this->d) / $this->transfer_enable;
@@ -227,7 +227,7 @@ final class User extends Model
      */
     public function unusedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0) {
+        if ($this->transfer_enable == 0) {
             return 0;
         }
         $unused = $this->transfer_enable - ($this->u + $this->d);
@@ -249,7 +249,7 @@ final class User extends Model
      */
     public function todayUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
+        if ($this->transfer_enable == 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
@@ -271,7 +271,7 @@ final class User extends Model
      */
     public function lastUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
+        if ($this->transfer_enable == 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
             return 0;
         }
         $Lastused = $this->last_day_t;
