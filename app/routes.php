@@ -288,7 +288,7 @@ return function (SlimApp $app): void {
     // WebAPI
     $app->group('/mod_mu', function (): void {
         // 流媒体检测
-        $this->post('/media/saveReport', App\Controllers\WebAPI\NodeController::class . ':saveReport');
+        $this->post('/media/save_report', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点
         $this->get('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户
