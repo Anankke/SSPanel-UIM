@@ -28,7 +28,7 @@ backup()
 
 run()
 {
-    list='key baseUrl db_host db_database db_username db_password muKey muKeyList adminApiToken telegram_token telegram_request_token cloudflare_email cloudflare_key cloudflare_name sentry_dsn github_access_token pwdMethod salt'
+    list='key baseUrl db_host db_database db_username db_password muKey telegram_token telegram_request_token cloudflare_email cloudflare_key cloudflare_name sentry_dsn github_access_token pwdMethod salt'
     for key in $list
     do
         sed -i "${line}i \ \ \ \ \ \ \ \ \$this->blacklist('_ENV', '${key}');" ${file}
