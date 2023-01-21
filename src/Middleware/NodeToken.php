@@ -53,7 +53,7 @@ final class NodeToken
                 if (! Node::where('node_ip', 'LIKE', "${ip}%")->exists()) {
                     return $response->withJson([
                         'ret' => 0,
-                        'data' => "Invalid request IP.",
+                        'data' => 'Invalid request IP.',
                     ]);
                 }
             }
