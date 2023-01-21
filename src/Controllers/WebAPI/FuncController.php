@@ -16,13 +16,12 @@ final class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function ping(Request $request, Response $response, array $args)
+    public function ping(Request $request, Response $response, array $args): ResponseInterface
     {
-        $res = [
+        return $response->withJson([
             'ret' => 1,
-            'data' => 'pong',
-        ];
-        return $response->withJson($res);
+            'data' => 'Pong? Pong!',
+        ]);
     }
 
     /**
@@ -64,12 +63,11 @@ final class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function addBlockIp(Request $request, Response $response, array $args)
+    public function addBlockIp(Request $request, Response $response, array $args): ResponseInterface
     {
-        $res = [
+        return $response->withJson([
             'ret' => 1,
             'data' => 'ok',
-        ];
-        return $response->withJson($res);
+        ]);
     }
 }
