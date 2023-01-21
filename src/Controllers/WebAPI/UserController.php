@@ -28,7 +28,7 @@ final class UserController extends BaseController
      *
      * @return ResponseInterface
      */
-    public function index($request, $response, $args): ResponseInterface
+    public function index(Request $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $request->getQueryParam('node_id');
         $node = Node::find($node_id);
@@ -101,7 +101,7 @@ final class UserController extends BaseController
      *
      * @return ResponseInterface
      */
-    public function addTraffic($request, $response, $args)
+    public function addTraffic(Request $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
@@ -155,7 +155,7 @@ final class UserController extends BaseController
      *
      * @return ResponseInterface
      */
-    public function addAliveIp($request, $response, $args)
+    public function addAliveIp(Request $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
@@ -200,7 +200,7 @@ final class UserController extends BaseController
      *
      * @return ResponseInterface
      */
-    public function addDetectLog($request, $response, $args)
+    public function addDetectLog(Request $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
