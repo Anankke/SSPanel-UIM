@@ -27,7 +27,7 @@ final class NodeController extends BaseController
         $report->result = \json_encode($result);
         $report->created_at = \time();
         $report->save();
-        
+
         return $response->withJson([
             'ret' => 1,
             'data' => 'ok',
