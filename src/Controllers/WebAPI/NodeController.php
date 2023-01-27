@@ -17,7 +17,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function saveReport(Request $request, Response $response, array $args): void
+    public function saveReport(Request $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
@@ -27,19 +27,22 @@ final class NodeController extends BaseController
         $report->result = \json_encode($result);
         $report->created_at = \time();
         $report->save();
-        die('ok');
+
+        return $response->withJson([
+            'ret' => 1,
+            'data' => 'ok',
+        ]);
     }
 
     /**
      * @param array     $args
      */
-    public function info(Request $request, Response $response, array $args)
+    public function info(Request $request, Response $response, array $args): ResponseInterface
     {
-        $res = [
+        return $response->withJson([
             'ret' => 1,
             'data' => 'ok',
-        ];
-        return $response->withJson($res);
+        ]);
     }
 
     /**
@@ -85,18 +88,9 @@ final class NodeController extends BaseController
      */
     public function getAllInfo(Request $request, Response $response, array $args): ResponseInterface
     {
-        $nodes = Node::where('node_ip', '<>', null)->where(
-            static function ($query): void {
-                $query->where('sort', '=', 0)
-                    ->orWhere('sort', '=', 1)
-                    ->orWhere('sort', '=', 11)
-                    ->orWhere('sort', '=', 14);
-            }
-        )->get();
-
-        return ResponseHelper::etagJson($request, $response, [
+        return $response->withJson([
             'ret' => 1,
-            'data' => $nodes,
+            'data' => [],
         ]);
     }
 }

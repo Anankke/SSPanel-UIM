@@ -106,12 +106,6 @@ final class Config
         ];
     }
 
-    public static function getMuKey()
-    {
-        $muKeyList = \array_key_exists('muKeyList', $_ENV) ? $_ENV['muKeyList'] : ['　'];
-        return array_merge(explode(',', $_ENV['muKey']), $muKeyList);
-    }
-
     public static function getSupportParam($type)
     {
         switch ($type) {

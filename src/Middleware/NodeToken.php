@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Models\Node;
-use App\Services\Config;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -28,15 +27,15 @@ final class NodeToken
             // 未提供 key
             return $response->withJson([
                 'ret' => 0,
-                'data' => 'Your key is null.',
+                'data' => 'Invalid request.',
             ]);
         }
 
-        if (!\in_array($key, Config::getMuKey())) {
+        if ($key !== $_ENV['muKey']) {
             // key 不存在
             return $response->withJson([
                 'ret' => 0,
-                'data' => 'Token is invalid.',
+                'data' => 'Invalid request.',
             ]);
         }
 
@@ -44,7 +43,7 @@ final class NodeToken
             // 主站不提供 WebAPI
             return $response->withJson([
                 'ret' => 0,
-                'data' => 'WebAPI is disabled.',
+                'data' => 'Invalid request.',
             ]);
         }
 
@@ -54,7 +53,7 @@ final class NodeToken
                 if (! Node::where('node_ip', 'LIKE', "${ip}%")->exists()) {
                     return $response->withJson([
                         'ret' => 0,
-                        'data' => "IP is invalid. Now, your IP address is ${ip}",
+                        'data' => 'Invalid request IP.',
                     ]);
                 }
             }
