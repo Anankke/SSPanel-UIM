@@ -16,7 +16,7 @@ use App\Utils\ConfRender;
 use App\Utils\Tools;
 use App\Utils\URL;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
@@ -55,7 +55,7 @@ final class LinkController extends BaseController
     /**
      * @param array     $args
      */
-    public static function getContent(Request $request, Response $response, array $args)
+    public static function getContent(ServerRequest $request, Response $response, array $args)
     {
         if (! $_ENV['Subscribe']) {
             return null;
@@ -178,7 +178,7 @@ final class LinkController extends BaseController
             self::subscribeLog($user, $subscribe_type, $request->getHeaderLine('User-Agent'));
         }
 
-        return $getBody;
+        return $response->write($getBody);
     }
 
     /**

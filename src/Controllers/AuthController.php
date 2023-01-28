@@ -18,8 +18,9 @@ use App\Utils\ResponseHelper;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
@@ -31,7 +32,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function login(Request $request, Response $response, array $args)
+    public function login(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
 
@@ -49,23 +50,23 @@ final class AuthController extends BaseController
             $login_number = '';
         }
 
-        return $this->view()
+        return $response->write($this->view()
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
             ->assign('base_url', $_ENV['baseUrl'])
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('captcha', $captcha)
-            ->display('auth/login.tpl');
+            ->fetch('auth/login.tpl'));
     }
 
     /**
      * @param array     $args
      */
-    public function loginHandle(Request $request, Response $response, array $args)
+    public function loginHandle(ServerRequest $request, Response $response, array $args)
     {
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
-            if (! $ret) {
+            if (!$ret) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '系统无法接受您的验证结果，请刷新页面后重试。',
@@ -86,7 +87,7 @@ final class AuthController extends BaseController
             ]);
         }
 
-        if (! Hash::checkPassword($user->pass, $passwd)) {
+        if (!Hash::checkPassword($user->pass, $passwd)) {
             // 记录登录失败
             $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
             return $response->withJson([
@@ -98,7 +99,7 @@ final class AuthController extends BaseController
         if ($user->ga_enable === 1) {
             $ga = new GA();
             $rcode = $ga->verifyCode($user->ga_token, $code);
-            if (! $rcode) {
+            if (!$rcode) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '两步验证码错误，如果您是丢失了生成器或者错误地设置了这个选项，您可以尝试重置密码，即可取消这个选项。',
@@ -124,7 +125,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function qrcodeLoginHandle(Request $request, Response $response, array $args)
+    public function qrcodeLoginHandle(ServerRequest $request, Response $response, array $args)
     {
         $token = $request->getParam('token');
         $number = $request->getParam('number');
@@ -145,7 +146,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function register(Request $request, Response $response, $next)
+    public function register(ServerRequest $request, Response $response, $next)
     {
         $captcha = [];
 
@@ -170,7 +171,7 @@ final class AuthController extends BaseController
             $login_number = '';
         }
 
-        return $this->view()
+        return $response->write($this->view()
             ->assign('code', $code)
             ->assign('base_url', $_ENV['baseUrl'])
             ->assign('login_token', $login_token)
@@ -178,13 +179,13 @@ final class AuthController extends BaseController
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->assign('captcha', $captcha)
-            ->display('auth/register.tpl');
+            ->fetch('auth/register.tpl'));
     }
 
     /**
      * @param array     $args
      */
-    public function sendVerify(Request $request, Response $response, $next)
+    public function sendVerify(ServerRequest $request, Response $response, $next)
     {
         if (Setting::obtain('reg_email_verify')) {
             $email = trim($request->getParam('email'));
@@ -240,7 +241,7 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      */
@@ -360,7 +361,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function registerHandle(Request $request, Response $response, array $args)
+    public function registerHandle(ServerRequest $request, Response $response, array $args)
     {
         if (Setting::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '未开放注册。');
@@ -368,7 +369,7 @@ final class AuthController extends BaseController
 
         if (Setting::obtain('enable_reg_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
-            if (! $ret) {
+            if (!$ret) {
                 return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
             }
         }
@@ -438,7 +439,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function logout(Request $request, Response $response, $next)
+    public function logout(ServerRequest $request, Response $response, $next)
     {
         Auth::logout();
         return $response->withStatus(302)
@@ -448,7 +449,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function qrcodeCheck(Request $request, Response $response, array $args)
+    public function qrcodeCheck(ServerRequest $request, Response $response, array $args)
     {
         $token = $request->getParam('token');
         $number = $request->getParam('number');
@@ -468,7 +469,7 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function telegramOauth(Request $request, Response $response, array $args)
+    public function telegramOauth(ServerRequest $request, Response $response, array $args)
     {
         if ($_ENV['enable_telegram_login'] === true) {
             $auth_data = $request->getQueryParams();
@@ -476,26 +477,26 @@ final class AuthController extends BaseController
                 $telegram_id = $auth_data['id'];
                 $user = User::query()->where('telegram_id', $telegram_id)->firstOrFail(); // Welcome Back :)
                 if ($user === null) {
-                    return $this->view()
+                    return $response->write($this->view()
                         ->assign('title', '您需要先进行邮箱注册后绑定Telegram才能使用授权登录')
                         ->assign('message', '很抱歉带来的不便，请重新试试')
                         ->assign('redirect', '/auth/login')
-                        ->display('telegram_error.tpl');
+                        ->fetch('telegram_error.tpl'));
                 }
                 Auth::login($user->id, 3600);
                 $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
-                return $this->view()
+                return $response->write($this->view()
                     ->assign('title', '登录成功')
                     ->assign('message', '正在前往仪表盘')
                     ->assign('redirect', '/user')
-                    ->display('telegram_success.tpl');
+                    ->fetch('telegram_success.tpl'));
             }
-            return $this->view()
+            return $response->write($this->view()
                 ->assign('title', '登陆超时或非法构造信息')
                 ->assign('message', '很抱歉带来的不便，请重新试试')
                 ->assign('redirect', '/auth/login')
-                ->display('telegram_error.tpl');
+                ->fetch('telegram_error.tpl'));
         }
         return $response->withRedirect('/404');
     }

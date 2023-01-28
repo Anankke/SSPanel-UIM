@@ -9,7 +9,7 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class PAYJS extends AbstractPayment

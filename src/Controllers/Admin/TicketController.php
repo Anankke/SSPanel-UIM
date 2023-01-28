@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
@@ -32,12 +32,12 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/ticket/index.tpl')
+                ->fetch('admin/ticket/index.tpl')
         );
     }
 
@@ -46,7 +46,7 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function update(Request $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $comment = $request->getParam('comment');
@@ -101,7 +101,7 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function ticketView(Request $request, Response $response, array $args)
+    public function ticketView(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();
@@ -116,7 +116,7 @@ final class TicketController extends BaseController
                 ->assign('ticket', $ticket)
                 ->assign('comments', $comments)
                 ->registerClass('Tools', Tools::class)
-                ->display('admin/ticket/view.tpl')
+                ->fetch('admin/ticket/view.tpl')
         );
     }
 
@@ -125,7 +125,7 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function close(Request $request, Response $response, array $args)
+    public function close(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();
@@ -161,7 +161,7 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function delete(Request $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         Ticket::where('id', '=', $id)->delete();
@@ -177,7 +177,7 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function ajax(Request $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $tickets = Ticket::orderBy('id', 'desc')->get();
 

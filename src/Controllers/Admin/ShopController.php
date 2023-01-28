@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Bought;
 use App\Models\Shop;
 use App\Utils\ResponseHelper;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class ShopController extends BaseController
@@ -18,7 +18,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -33,7 +33,7 @@ final class ShopController extends BaseController
                     'status' => '状态',
                     'period_sales' => '周期销量',
                 ], 'shop/ajax'))
-                ->display('admin/shop/index.tpl')
+                ->fetch('admin/shop/index.tpl')
         );
     }
 
@@ -42,11 +42,11 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function create(Request $request, Response $response, array $args)
+    public function create(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
-                ->display('admin/shop/create.tpl')
+                ->fetch('admin/shop/create.tpl')
         );
     }
 
@@ -55,7 +55,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function add(Request $request, Response $response, array $args)
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         $shop = new Shop();
         $shop->name = $request->getParam('name');
@@ -120,14 +120,14 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function edit(Request $request, Response $response, array $args)
+    public function edit(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $shop = Shop::find($id);
         return $response->write(
             $this->view()
                 ->assign('shop', $shop)
-                ->display('admin/shop/edit.tpl')
+                ->fetch('admin/shop/edit.tpl')
         );
     }
 
@@ -136,7 +136,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function update(Request $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $shop = Shop::find($id);
@@ -210,7 +210,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function deleteGet(Request $request, Response $response, array $args)
+    public function deleteGet(ServerRequest $request, Response $response, array $args)
     {
         $id = $request->getParam('id');
         $shop = Shop::find($id);
@@ -237,7 +237,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function bought(Request $request, Response $response, array $args)
+    public function bought(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -252,7 +252,7 @@ final class ShopController extends BaseController
                     'renew' => '自动续费时间',
                     'auto_reset_bandwidth' => '续费时是否重置流量',
                 ], 'bought/ajax'))
-                ->display('admin/shop/bought.tpl')
+                ->fetch('admin/shop/bought.tpl')
         );
     }
 
@@ -261,7 +261,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function deleteBoughtGet(Request $request, Response $response, array $args)
+    public function deleteBoughtGet(ServerRequest $request, Response $response, array $args)
     {
         $id = $request->getParam('id');
         $shop = Bought::find($id);
@@ -283,7 +283,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxShop(Request $request, Response $response, array $args)
+    public function ajaxShop(ServerRequest $request, Response $response, array $args)
     {
         $query = Shop::getTableDataFromAdmin(
             $request,
@@ -325,7 +325,7 @@ final class ShopController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxBought(Request $request, Response $response, array $args)
+    public function ajaxBought(ServerRequest $request, Response $response, array $args)
     {
         $query = Bought::getTableDataFromAdmin(
             $request,

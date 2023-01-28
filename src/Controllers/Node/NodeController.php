@@ -9,7 +9,7 @@ use App\Models\Node;
 use App\Models\StreamMedia;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class NodeController extends BaseController
@@ -17,7 +17,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function saveReport(Request $request, Response $response, array $args): void
+    public function saveReport(ServerRequest $request, Response $response, array $args): void
     {
         $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
@@ -33,7 +33,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function info(Request $request, Response $response, array $args)
+    public function info(ServerRequest $request, Response $response, array $args)
     {
         $res = [
             'ret' => 1,
@@ -45,7 +45,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function getInfo(Request $request, Response $response, array $args): ResponseInterface
+    public function getInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
         $node = Node::find($node_id);
@@ -83,7 +83,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function getAllInfo(Request $request, Response $response, array $args): ResponseInterface
+    public function getAllInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query): void {

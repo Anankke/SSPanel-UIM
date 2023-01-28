@@ -13,7 +13,7 @@ use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class PaymentWall extends AbstractPayment

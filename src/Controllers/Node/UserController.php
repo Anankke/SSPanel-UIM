@@ -15,7 +15,7 @@ use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class UserController extends BaseController
@@ -23,7 +23,7 @@ final class UserController extends BaseController
     /**
      * GET /mod_mu/users
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
@@ -113,7 +113,7 @@ final class UserController extends BaseController
     /**
      * POST /mod_mu/users/traffic
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
@@ -169,7 +169,7 @@ final class UserController extends BaseController
     /**
      * POST /mod_mu/users/aliveip
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
@@ -214,7 +214,7 @@ final class UserController extends BaseController
     /**
      * POST /mod_mu/users/detectlog
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
