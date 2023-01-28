@@ -31,7 +31,7 @@ abstract class Model extends EloquentModel
      *  'count' => int
      * ]
      */
-    public static function getTableDataFromAdmin(\Slim\Http\Request $request, ?callable $callback = null, ?callable $precondition = null): array
+    public static function getTableDataFromAdmin(\Slim\Http\ServerRequest $request, ?callable $callback = null, ?callable $precondition = null): array
     {
         //得到排序的方式
         $order = $request->getParam('order')[0]['dir'];

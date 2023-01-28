@@ -10,7 +10,7 @@ use App\Services\Auth;
 use App\Services\View;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class THeadPay extends AbstractPayment
@@ -42,7 +42,7 @@ final class THeadPay extends AbstractPayment
         return 'THeadPay 平头哥支付';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $amount = (int) $request->getParam('amount');
         $user = Auth::getUser();

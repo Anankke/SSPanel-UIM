@@ -13,7 +13,7 @@ use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class PaymentWall extends AbstractPayment
@@ -33,7 +33,7 @@ final class PaymentWall extends AbstractPayment
         return 'PaymentWall';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withStatus(204);
         // TODO: Implement purchase() method.

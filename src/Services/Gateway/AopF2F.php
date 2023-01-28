@@ -13,7 +13,7 @@ use Omnipay\Alipay\AbstractAopGateway;
 use Omnipay\Alipay\AopF2FGateway;
 use Omnipay\Omnipay;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class AopF2F extends AbstractPayment
@@ -33,7 +33,7 @@ final class AopF2F extends AbstractPayment
         return '支付宝在线充值';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $amount = $request->getParam('amount');
         $user = Auth::getUser();

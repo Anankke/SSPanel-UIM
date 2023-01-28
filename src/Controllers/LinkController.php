@@ -8,7 +8,7 @@ use App\Models\Link;
 use App\Models\Node;
 use App\Models\UserSubscribeLog;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 /**
@@ -16,7 +16,7 @@ use Slim\Http\Response;
  */
 final class LinkController extends BaseController
 {
-    public static function getContent(Request $request, Response $response, array $args): ResponseInterface
+    public static function getContent(ServerRequest $request, Response $response, array $args)
     {
         if (! $_ENV['Subscribe']) {
             return $response->withJson([

@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\GiftCard;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class GiftCardController extends BaseController
@@ -52,7 +52,7 @@ final class GiftCardController extends BaseController
         ],
     ];
 
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -61,7 +61,7 @@ final class GiftCardController extends BaseController
         );
     }
 
-    public function add(Request $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $card_number = $request->getParam('card_number');
         $card_value = $request->getParam('card_value');
@@ -102,7 +102,7 @@ final class GiftCardController extends BaseController
         ]);
     }
 
-    public function delete(Request $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $card_id = $args['id'];
         GiftCard::find($card_id)->delete();
@@ -112,7 +112,7 @@ final class GiftCardController extends BaseController
         ]);
     }
 
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $giftcards = GiftCard::orderBy('id', 'desc')->get();
         foreach ($giftcards as $giftcard) {

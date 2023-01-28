@@ -9,7 +9,7 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class PAYJS extends AbstractPayment
@@ -83,7 +83,7 @@ final class PAYJS extends AbstractPayment
         curl_close($curl);
         return $data;
     }
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $price = $request->getParam('price');
         if ($price <= 0) {

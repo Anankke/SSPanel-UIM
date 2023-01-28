@@ -11,7 +11,7 @@ use App\Services\Auth;
 use App\Services\Mail;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class CodeController extends BaseController
@@ -21,7 +21,7 @@ final class CodeController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -35,14 +35,14 @@ final class CodeController extends BaseController
                     'user_name' => '用户名',
                     'usedatetime' => '使用时间',
                 ], 'code/ajax'))
-                ->display('admin/code/index.tpl')
+                ->fetch('admin/code/index.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function ajaxCode(Request $request, Response $response, array $args)
+    public function ajaxCode(ServerRequest $request, Response $response, array $args)
     {
         $query = Code::getTableDataFromAdmin(
             $request,
@@ -81,18 +81,18 @@ final class CodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function create(Request $request, Response $response, array $args)
+    public function create(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
-                ->display('admin/code/add.tpl')
+                ->fetch('admin/code/add.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function add(Request $request, Response $response, array $args)
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         $cards = [];
         $user = Auth::getUser();

@@ -11,7 +11,7 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\Shop;
 use App\Utils\ResponseHelper;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class ShopController extends BaseController
@@ -19,16 +19,16 @@ final class ShopController extends BaseController
     /**
      * @param array     $args
      */
-    public function shop(Request $request, Response $response, array $args)
+    public function shop(ServerRequest $request, Response $response, array $args)
     {
         $shops = Shop::where('status', 1)->orderBy('name')->get();
-        return $this->view()->assign('shops', $shops)->display('user/shop.tpl');
+        return $response->write($this->view()->assign('shops', $shops)->fetch('user/shop.tpl'));
     }
 
     /**
      * @param array     $args
      */
-    public function couponCheck(Request $request, Response $response, array $args)
+    public function couponCheck(ServerRequest $request, Response $response, array $args)
     {
         $coupon = $request->getParam('coupon');
         $coupon = trim($coupon);
@@ -80,7 +80,7 @@ final class ShopController extends BaseController
     /**
      * @param array     $args
      */
-    public function buy(Request $request, Response $response, array $args)
+    public function buy(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
         $shop = $request->getParam('shop');
@@ -170,7 +170,7 @@ final class ShopController extends BaseController
     /**
      * @param array     $args
      */
-    public function buyTrafficPackage(Request $request, Response $response, array $args)
+    public function buyTrafficPackage(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
         $shop = $request->getParam('shop');

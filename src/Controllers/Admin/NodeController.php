@@ -12,7 +12,7 @@ use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class NodeController extends BaseController
@@ -54,12 +54,12 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/node/index.tpl')
+                ->fetch('admin/node/index.tpl')
         );
     }
 
@@ -68,12 +68,12 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function create(Request $request, Response $response, array $args): ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
-                ->display('admin/node/create.tpl')
+                ->fetch('admin/node/create.tpl')
         );
     }
 
@@ -82,7 +82,7 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function add(Request $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node = new Node();
         $node->name = $request->getParam('name');
@@ -166,7 +166,7 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function edit(Request $request, Response $response, array $args): ResponseInterface
+    public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $node = Node::find($id);
@@ -174,7 +174,7 @@ final class NodeController extends BaseController
             $this->view()
                 ->assign('node', $node)
                 ->assign('update_field', self::$update_field)
-                ->display('admin/node/edit.tpl')
+                ->fetch('admin/node/edit.tpl')
         );
     }
 
@@ -183,7 +183,7 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function update(Request $request, Response $response, array $args): ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $node = Node::find($id);
@@ -253,7 +253,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function resetNodePassword(Request $request, Response $response, array $args)
+    public function resetNodePassword(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $node = Node::find($id);
@@ -274,7 +274,7 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function delete(Request $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $node = Node::find($id);
@@ -340,7 +340,7 @@ final class NodeController extends BaseController
      *
      * @param array     $args
      */
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $nodes = Node::orderBy('id', 'desc')->get();
 

@@ -9,7 +9,7 @@ use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Utils\QQWry;
 use App\Utils\Tools;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class IpController extends BaseController
@@ -46,12 +46,12 @@ final class IpController extends BaseController
      *
      * @param array     $args
      */
-    public function login(Request $request, Response $response, array $args)
+    public function login(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$login_details)
-                ->display('admin/log/login.tpl')
+                ->fetch('admin/log/login.tpl')
         );
     }
 
@@ -60,7 +60,7 @@ final class IpController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxLogin(Request $request, Response $response, array $args)
+    public function ajaxLogin(ServerRequest $request, Response $response, array $args)
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;
@@ -90,12 +90,12 @@ final class IpController extends BaseController
      *
      * @param array     $args
      */
-    public function alive(Request $request, Response $response, array $args)
+    public function alive(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$ip_details)
-                ->display('admin/log/alive.tpl')
+                ->fetch('admin/log/alive.tpl')
         );
     }
 
@@ -104,7 +104,7 @@ final class IpController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxAlive(Request $request, Response $response, array $args)
+    public function ajaxAlive(ServerRequest $request, Response $response, array $args)
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;
