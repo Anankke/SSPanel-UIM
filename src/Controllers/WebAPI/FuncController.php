@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\WebAPI;
+namespace App\Controllers\Node;
 
 use App\Controllers\BaseController;
 use App\Models\DetectRule;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class FuncController extends BaseController
@@ -16,18 +16,19 @@ final class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function ping(Request $request, Response $response, array $args): ResponseInterface
+    public function ping(ServerRequest $request, Response $response, array $args)
     {
-        return $response->withJson([
+        $res = [
             'ret' => 1,
-            'data' => 'Pong? Pong!',
-        ]);
+            'data' => 'pong',
+        ];
+        return $response->withJson($res);
     }
 
     /**
      * @param array     $args
      */
-    public function getDetectLogs(Request $request, Response $response, array $args): ResponseInterface
+    public function getDetectLogs(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $rules = DetectRule::all();
 
@@ -41,7 +42,7 @@ final class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function getBlockip(Request $request, Response $response, array $args): ResponseInterface
+    public function getBlockip(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
@@ -52,7 +53,7 @@ final class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function getUnblockip(Request $request, Response $response, array $args): ResponseInterface
+    public function getUnblockip(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
@@ -63,11 +64,12 @@ final class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function addBlockIp(Request $request, Response $response, array $args): ResponseInterface
+    public function addBlockIp(ServerRequest $request, Response $response, array $args)
     {
-        return $response->withJson([
+        $res = [
             'ret' => 1,
             'data' => 'ok',
-        ]);
+        ];
+        return $response->withJson($res);
     }
 }

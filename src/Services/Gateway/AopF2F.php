@@ -13,7 +13,7 @@ use Omnipay\Alipay\AbstractAopGateway;
 use Omnipay\Alipay\AopF2FGateway;
 use Omnipay\Omnipay;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class AopF2F extends AbstractPayment

@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">=8.0",
+        "php": "^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mysqli": "*",
@@ -10,6 +10,7 @@
         "cloudflare/sdk": "^1",
         "esdeathlove/datatables": "^1.6",
         "guzzlehttp/guzzle": "^7.4",
+        "guzzlehttp/psr7": "^2.4",
         "illuminate/database": "^9.0",
         "illuminate/pagination": "^9.0",
         "irazasyed/telegram-bot-sdk": "^3",
@@ -23,13 +24,13 @@
         "robmorgan/phinx": "^0.13",
         "sendgrid/sendgrid": "^8",
         "sentry/sentry": "^3",
-        "slim/slim": "^3.12",
+        "slim/http": "^1.3",
+        "slim/slim": "^4.11",
         "smarty/smarty": "^4",
         "stripe/stripe-php": "^7",
         "symfony/console": "*",
         "symfony/yaml": "^6",
-        "voku/anti-xss": "^4",
-        "zeuxisoo/slim-whoops": "0.6.*"
+        "voku/anti-xss": "^4"
     },
     "autoload": {
         "psr-4": {

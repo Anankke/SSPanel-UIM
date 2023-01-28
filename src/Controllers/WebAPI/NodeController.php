@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\WebAPI;
+namespace App\Controllers\Node;
 
 use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Models\StreamMedia;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class NodeController extends BaseController
@@ -17,7 +17,7 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function saveReport(Request $request, Response $response, array $args): ResponseInterface
+    public function saveReport(ServerRequest $request, Response $response, array $args): void
     {
         $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
@@ -27,28 +27,25 @@ final class NodeController extends BaseController
         $report->result = \json_encode($result);
         $report->created_at = \time();
         $report->save();
-
-        return $response->withJson([
-            'ret' => 1,
-            'data' => 'ok',
-        ]);
+        die('ok');
     }
 
     /**
      * @param array     $args
      */
-    public function info(Request $request, Response $response, array $args): ResponseInterface
+    public function info(ServerRequest $request, Response $response, array $args)
     {
-        return $response->withJson([
+        $res = [
             'ret' => 1,
             'data' => 'ok',
-        ]);
+        ];
+        return $response->withJson($res);
     }
 
     /**
      * @param array     $args
      */
-    public function getInfo(Request $request, Response $response, array $args): ResponseInterface
+    public function getInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
         $node = Node::find($node_id);
@@ -86,11 +83,21 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function getAllInfo(Request $request, Response $response, array $args): ResponseInterface
+    public function getAllInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        return $response->withJson([
+        $nodes = Node::where('node_ip', '<>', null)->where(
+            static function ($query): void {
+                $query->where('sort', '=', 0)
+                    ->orWhere('sort', '=', 10)
+                    ->orWhere('sort', '=', 12)
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
+            }
+        )->get();
+
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
-            'data' => [],
+            'data' => $nodes,
         ]);
     }
 }

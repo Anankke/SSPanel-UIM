@@ -11,7 +11,7 @@ use App\Services\Captcha;
 use App\Services\Password;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 /*
@@ -25,7 +25,7 @@ final class PasswordController extends BaseController
     /**
      * @param array     $args
      */
-    public function reset(Request $request, Response $response, array $args)
+    public function reset(ServerRequest $request, Response $response, array $args)
     {
         $captcha = [];
 
@@ -36,14 +36,14 @@ final class PasswordController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('captcha', $captcha)
-                ->display('password/reset.tpl')
+                ->fetch('password/reset.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function handleReset(Request $request, Response $response, array $args)
+    public function handleReset(ServerRequest $request, Response $response, array $args)
     {
         if (Setting::obtain('enable_reset_password_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
@@ -71,7 +71,7 @@ final class PasswordController extends BaseController
     /**
      * @param array     $args
      */
-    public function token(Request $request, Response $response, array $args)
+    public function token(ServerRequest $request, Response $response, array $args)
     {
         $token = PasswordReset::where('token', $args['token'])->where('expire_time', '>', \time())->orderBy('id', 'desc')->first();
         if ($token === null) {
@@ -79,14 +79,14 @@ final class PasswordController extends BaseController
         }
 
         return $response->write(
-            $this->view()->display('password/token.tpl')
+            $this->view()->fetch('password/token.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function handleToken(Request $request, Response $response, array $args)
+    public function handleToken(ServerRequest $request, Response $response, array $args)
     {
         $tokenStr = $args['token'];
         $password = $request->getParam('password');

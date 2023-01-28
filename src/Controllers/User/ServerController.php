@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 /**
@@ -19,7 +19,7 @@ final class ServerController extends BaseController
     /**
      * @param array     $args
      */
-    public function userServerPage(Request $request, Response $response, array $args): ResponseInterface
+    public function userServerPage(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $query = Node::query();
@@ -51,7 +51,7 @@ final class ServerController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('servers', $all_node)
-                ->display('user/server.tpl')
+                ->fetch('user/server.tpl')
         );
     }
 }

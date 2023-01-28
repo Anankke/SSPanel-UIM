@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\DetectBanLog;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class DetectBanLogController extends BaseController
@@ -16,7 +16,7 @@ final class DetectBanLogController extends BaseController
     /**
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -32,14 +32,14 @@ final class DetectBanLogController extends BaseController
                     'ban_end_time' => '封禁结束时间',
                     'all_detect_number' => '累计违规次数',
                 ], 'ban/ajax'))
-                ->display('admin/detect/ban.tpl')
+                ->fetch('admin/detect/ban.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function ajaxLog(Request $request, Response $response, array $args): ResponseInterface
+    public function ajaxLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $query = DetectBanLog::getTableDataFromAdmin(
             $request,

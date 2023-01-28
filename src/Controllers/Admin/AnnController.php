@@ -9,7 +9,7 @@ use App\Models\Ann;
 use App\Models\User;
 use App\Utils\Telegram;
 use League\HTMLToMarkdown\HtmlConverter;
-use Slim\Http\Request;
+use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 
 final class AnnController extends BaseController
@@ -33,12 +33,12 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/announcement/index.tpl')
+                ->fetch('admin/announcement/index.tpl')
         );
     }
 
@@ -47,12 +47,12 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function create(Request $request, Response $response, array $args)
+    public function create(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
-                ->display('admin/announcement/create.tpl')
+                ->fetch('admin/announcement/create.tpl')
         );
     }
 
@@ -61,7 +61,7 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function add(Request $request, Response $response, array $args)
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         $email_notify_class = (int) $request->getParam('email_notify_class');
         $email_notify = (int) $request->getParam('email_notify');
@@ -115,13 +115,13 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function edit(Request $request, Response $response, array $args)
+    public function edit(ServerRequest $request, Response $response, array $args)
     {
         $ann = Ann::find($args['id']);
         return $response->write(
             $this->view()
                 ->assign('ann', $ann)
-                ->display('admin/announcement/edit.tpl')
+                ->fetch('admin/announcement/edit.tpl')
         );
     }
 
@@ -130,7 +130,7 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function update(Request $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $ann = Ann::find($args['id']);
         $ann->content = $request->getParam('content');
@@ -153,7 +153,7 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function delete(Request $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $ann = Ann::find($args['id']);
         if (! $ann->delete()) {
@@ -173,7 +173,7 @@ final class AnnController extends BaseController
      *
      * @param array     $args
      */
-    public function ajax(Request $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $anns = Ann::orderBy('id', 'asc')->get();
 
