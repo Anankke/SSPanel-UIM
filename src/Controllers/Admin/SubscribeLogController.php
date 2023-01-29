@@ -8,8 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\UserSubscribeLog;
 use App\Utils\QQWry;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class SubscribeLogController extends BaseController
 {

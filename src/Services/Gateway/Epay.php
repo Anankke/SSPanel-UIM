@@ -17,8 +17,8 @@ use App\Services\Gateway\Epay\EpayNotify;
 use App\Services\Gateway\Epay\EpaySubmit;
 use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class Epay extends AbstractPayment
 {

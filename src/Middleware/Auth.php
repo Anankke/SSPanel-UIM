@@ -15,9 +15,6 @@ use function in_array;
 
 final class Auth implements MiddlewareInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = AuthService::getUser();

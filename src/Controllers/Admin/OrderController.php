@@ -35,7 +35,7 @@ final class OrderController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/order/index.tpl')
+                ->fetch('admin/order/index.tpl')
         );
     }
 
@@ -64,7 +64,7 @@ final class OrderController extends BaseController
                 ->assign('invoice', $invoice)
                 ->assign('product_content', $product_content)
                 ->assign('invoice_content', $invoice_content)
-                ->display('admin/order/view.tpl')
+                ->fetch('admin/order/view.tpl')
         );
     }
 

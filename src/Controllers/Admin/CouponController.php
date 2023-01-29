@@ -95,7 +95,7 @@ final class CouponController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/coupon.tpl')
+                ->fetch('admin/coupon.tpl')
         );
     }
 

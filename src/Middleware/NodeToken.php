@@ -9,18 +9,16 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Factory\AppFactory;
 
 final class NodeToken implements MiddlewareInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $key = $request->getQueryParams()['key'] ?? null;
         if ($key === null) {
             // 未提供 key
-            return $response->withJson([
+            return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',
             ]);
@@ -28,7 +26,7 @@ final class NodeToken implements MiddlewareInterface
 
         if ($key !== $_ENV['muKey']) {
             // key 不存在
-            return $response->withJson([
+            return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',
             ]);
@@ -36,7 +34,7 @@ final class NodeToken implements MiddlewareInterface
 
         if ($_ENV['WebAPI'] === false) {
             // 主站不提供 WebAPI
-            return $response->withJson([
+            return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',
             ]);
@@ -46,7 +44,7 @@ final class NodeToken implements MiddlewareInterface
             $ip = $request->getServerParam('REMOTE_ADDR');
             if ($ip !== '127.0.0.1') {
                 if (! Node::where('node_ip', 'LIKE', "${ip}%")->exists()) {
-                    return $response->withJson([
+                    return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                         'ret' => 0,
                         'data' => 'Invalid request IP.',
                     ]);
@@ -54,6 +52,6 @@ final class NodeToken implements MiddlewareInterface
             }
         }
 
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 }

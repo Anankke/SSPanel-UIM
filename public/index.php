@@ -33,7 +33,6 @@ $app = AppFactory::create($response_factory);
 
 $app->add(new ErrorHandler());
 
-/** @var callable */
 $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);
 

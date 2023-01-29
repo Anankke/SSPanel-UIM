@@ -13,9 +13,9 @@ final class Update extends Command
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
         if ($copy_result === true) {
-            echo '备份成功' . PHP_EOL;
+            echo '.config.php 文件备份成功' . PHP_EOL;
         } else {
-            echo '备份失败，迁移终止' . PHP_EOL;
+            echo '.config.php 文件备份失败，迁移终止' . PHP_EOL;
         }
 
         echo PHP_EOL;
@@ -30,7 +30,7 @@ final class Update extends Command
             $matches_new = [];
             preg_match($regex, $config_new, $matches_new);
             if (isset($matches_new[0]) === false) {
-                echo '未找到配置项：' . $key . ' 未能在新config文件中找到，可能已被更名或废弃' . PHP_EOL;
+                echo '未找到配置项：' . $key . ' 未能在新版本 .config.php 文件中找到，可能已被更名或废弃' . PHP_EOL;
                 continue;
             }
 
@@ -69,9 +69,9 @@ final class Update extends Command
             $difference = substr($difference, 15);
             $difference = substr($difference, 0, -2);
 
-            echo '新增配置项：' . $difference . ':' . $comment . PHP_EOL;
+            echo '新增 .config.php 配置项：' . $difference . ':' . $comment . PHP_EOL;
         }
-        echo '新增配置项通常带有默认值，因此通常即使不作任何改动网站也可以正常运行' . PHP_EOL;
+        echo '没有任何新.config.php 配置项需要添加' . PHP_EOL;
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo PHP_EOL . '迁移完成' . PHP_EOL;

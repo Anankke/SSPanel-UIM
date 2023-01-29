@@ -17,21 +17,20 @@ final class Tool extends Command
 {
     public $description = <<<EOL
 ├─=: php xcat Tool [选项]
-│ ├─ setTelegram             - 设置 Telegram 机器人
-│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置
-│ ├─ exportAllSettings       - 导出所有设置
-│ ├─ importAllSettings       - 导入所有设置
-│ ├─ upgradeDatabase         - 升级(如果不存在的话初始化) 数据库
-│ ├─ resetNodePassword       - 重置所有节点通讯密钥
-│ ├─ getCookie               - 获取指定用户的 Cookie
-│ ├─ resetPort               - 重置单个用户端口
-│ ├─ createAdmin             - 创建管理员帐号
-│ ├─ resetAllPort            - 重置所有用户端口
-│ ├─ resetTraffic            - 重置所有用户流量
-│ ├─ generateUUID            - 为所有用户生成新的 UUID
-│ ├─ generateGa              - 为所有用户生成新的 Ga Secret
+│ ├─ setTelegram             - 设置 Telegram 机器人
+│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置
+│ ├─ exportAllSettings       - 导出所有设置
+│ ├─ importAllSettings       - 导入所有设置
+│ ├─ resetNodePassword       - 重置所有节点通讯密钥
+│ ├─ getCookie               - 获取指定用户的 Cookie
+│ ├─ resetPort               - 重置单个用户端口
+│ ├─ createAdmin             - 创建管理员帐号
+│ ├─ resetAllPort            - 重置所有用户端口
+│ ├─ resetTraffic            - 重置所有用户流量
+│ ├─ generateUUID            - 为所有用户生成新的 UUID
+│ ├─ generateGa              - 为所有用户生成新的 Ga Secret
 | ├─ generateApiToken        - 为所有用户生成新的 API Token
-│ ├─ setTheme                - 为所有用户设置新的主题
+│ ├─ setTheme                - 为所有用户设置新的主题
 
 EOL;
 
@@ -44,7 +43,7 @@ EOL;
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
             } else {
-                echo '方法不存在.' . PHP_EOL;
+                echo '方法不存在' . PHP_EOL;
             }
         }
     }
@@ -70,7 +69,7 @@ EOL;
             $setting->save();
         }
 
-        echo '已使用默认值覆盖所有设置.' . PHP_EOL;
+        echo '已使用默认值覆盖所有数据库设置' . PHP_EOL;
     }
 
     public function exportAllSettings(): void
@@ -87,7 +86,7 @@ EOL;
         $json_settings = \json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents('./config/settings.json', $json_settings);
 
-        echo '已导出所有设置.' . PHP_EOL;
+        echo '已导出所有数据库设置' . PHP_EOL;
     }
 
     public function importAllSettings(): void
@@ -116,7 +115,7 @@ EOL;
                 $new_item->mark = $item['mark'];
                 $new_item->save();
 
-                echo "添加新设置：${item_name}" . PHP_EOL;
+                echo "添加新数据库设置：${item_name}" . PHP_EOL;
                 $add_counter += 1;
             }
         }
@@ -130,19 +129,13 @@ EOL;
         }
 
         if ($add_counter !== 0) {
-            echo "总计添加了 ${add_counter} 条新设置." . PHP_EOL;
+            echo "总计添加了 ${add_counter} 项新数据库设置" . PHP_EOL;
         } else {
-            echo '没有任何新设置需要添加.' . PHP_EOL;
+            echo '没有任何新数据库设置项需要添加' . PHP_EOL;
         }
         if ($del_counter !== 0) {
-            echo "总计移除了 ${del_counter} 条设置." . PHP_EOL;
+            echo "总计移除了 ${del_counter} 项数据库设置" . PHP_EOL;
         }
-    }
-
-    public function upgradeDatabase(): void
-    {
-        $phinx = new \Phinx\Console\PhinxApplication();
-        $phinx->run();
     }
 
     public function resetNodePassword(): void
@@ -152,7 +145,7 @@ EOL;
             $node->password = Tools::genRandomChar(32);
             $node->save();
         }
-        echo '已重置所有节点密码.' . PHP_EOL;
+        echo '已重置所有节点密码' . PHP_EOL;
     }
 
     /**
@@ -168,7 +161,7 @@ EOL;
                 echo '重置成功!';
             }
         } else {
-            echo 'not found user.';
+            echo '用户不存在';
         }
     }
 

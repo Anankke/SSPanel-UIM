@@ -21,7 +21,6 @@
         "paymentwall/paymentwall-php": "^2",
         "phpmailer/phpmailer": "^6",
         "ramsey/uuid": "^4",
-        "robmorgan/phinx": "^0.13",
         "sendgrid/sendgrid": "^8",
         "sentry/sentry": "^3",
         "slim/http": "^1.3",

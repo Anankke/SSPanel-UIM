@@ -33,9 +33,9 @@ final class Job extends Command
 {
     public $description = <<<EOL
 ├─=: php xcat Job [选项]
-│ ├─ DailyJob                - 每日任务，每天
-│ ├─ CheckJob                - 检查任务，每分钟
-│ ├─ UserJob                 - 用户账户相关任务，每小时
+│ ├─ DailyJob                - 每日任务，每天
+│ ├─ CheckJob                - 检查任务，每分钟
+│ ├─ UserJob                 - 用户账户相关任务，每小时
 EOL;
 
     public function boot(): void

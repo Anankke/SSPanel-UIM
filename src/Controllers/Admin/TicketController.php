@@ -8,8 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
 final class TicketController extends BaseController

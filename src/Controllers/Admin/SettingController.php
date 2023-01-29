@@ -8,7 +8,6 @@ use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\Mail;
 use App\Services\Payment;
-use Exception;
 
 final class SettingController extends BaseController
 {

@@ -14,8 +14,8 @@ use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class UserController extends BaseController
 {

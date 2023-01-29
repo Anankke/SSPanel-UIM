@@ -9,8 +9,8 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
 /**

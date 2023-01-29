@@ -9,8 +9,8 @@ use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Utils\QQWry;
 use App\Utils\Tools;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class IpController extends BaseController
 {

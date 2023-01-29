@@ -57,7 +57,7 @@ final class GiftCardController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/giftcard.tpl')
+                ->fetch('admin/giftcard.tpl')
         );
     }
 

@@ -53,11 +53,11 @@ abstract class Model extends EloquentModel
         if ($search) {
             $query->where(
                 static function ($query) use ($search): void {
-                    $query->where('id', 'LIKE binary', "%${search}%");
+                    $query->where('id', 'LIKE binary', "%{$search}%");
                     $attributes = Capsule::schema()->getColumnListing(self::getTableName());
                     foreach ($attributes as $s) {
                         if ($s !== 'id') {
-                            $query->orwhere($s, 'LIKE binary', "%${search}%");
+                            $query->orwhere($s, 'LIKE binary', "%{$search}%");
                         }
                     }
                 }

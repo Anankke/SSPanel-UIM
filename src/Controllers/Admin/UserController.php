@@ -14,8 +14,8 @@ use App\Utils\Check;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\Tools;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class UserController extends BaseController
 {

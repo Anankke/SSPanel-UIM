@@ -7,6 +7,7 @@ return [
     'remove' => [
         NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
         NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class,
+        NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineGlobalConstants::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenGlobals::class,
         PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\TodoSniff::class,
@@ -21,6 +22,7 @@ return [
         SlevomatCodingStandard\Sniffs\Classes\ModernClassNameReferenceSniff::class,
         SlevomatCodingStandard\Sniffs\Classes\SuperfluousExceptionNamingSniff::class,
         SlevomatCodingStandard\Sniffs\Classes\SuperfluousAbstractClassNamingSniff::class,
+        SlevomatCodingStandard\Sniffs\Classes\SuperfluousInterfaceNamingSniff::class,
         SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff::class,
         SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff::class,
         SlevomatCodingStandard\Sniffs\Namespaces\UseSpacingSniff::class,
@@ -35,11 +37,6 @@ return [
             'exclude' => [
                 'src/Command/Job.php',
             ],
-        ],
-        // Db migration should not have a class declaration
-        // If they have, phinx will unable to found them
-        PHP_CodeSniffer\Standards\PSR1\Sniffs\Classes\ClassDeclarationSniff::class => [
-            'exclude' => ['db/migrations'],
         ],
     ],
 

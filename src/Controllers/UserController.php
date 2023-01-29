@@ -34,8 +34,8 @@ use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
 use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
 /**
@@ -461,7 +461,6 @@ final class UserController extends BaseController
             ->assign('methods', $methods)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
-            ->registerClass('URL', URL::class)
             ->fetch('user/edit.tpl'));
     }
 

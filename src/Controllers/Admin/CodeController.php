@@ -11,8 +11,8 @@ use App\Services\Auth;
 use App\Services\Mail;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class CodeController extends BaseController
 {
