@@ -1248,5 +1248,15 @@
         "type": "string",
         "default": "https://t.me/joinchat/XXXXX",
         "mark": "用户群组链接"
+    },
+    {
+        "id": null,
+        "item": "db_version",
+        "value": "20230115000",
+        "class": "db",
+        "is_public": 0,
+        "type": "int",
+        "default": "20230115000",
+        "mark": "当前数据库版本"
     }
 ]

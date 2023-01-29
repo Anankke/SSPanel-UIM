@@ -1,0 +1,109 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Command;
+
+use App\Interfaces\MigrationInterface;
+use App\Models\Setting;
+use App\Services\DB;
+
+use function count;
+use function explode;
+use function krsort;
+use function ksort;
+use function is_numeric;
+use function scandir;
+use function substr;
+
+use const PHP_INT_MAX;
+use const SCANDIR_SORT_NONE;
+
+final class Migration extends Command
+{
+    public $description = <<< END
+├─=: php xcat Migration [版本]
+│ ├─ <version>               - 迁移至指定版本（前进/退回）
+│ ├─ latest                  - 迁移至最新版本
+│ ├─ new                     - 导入全新数据库至最新版本
+END;
+
+    public function boot(): void
+    {
+        $reverse = false;
+        // (min_version, max_version]
+        $min_version = 0;
+        $max_version = 0;
+        $target = $this->argv[2] ?? 0;
+        if ($target === 'latest') {
+            $min_version = Setting::obtain('db_version');
+            $max_version = PHP_INT_MAX;
+        } else if ($target === 'new') {
+            $tables = []; //DB::select('SHOW TABLES');
+            if ($tables === []) {
+                $min_version = 0;
+                $max_version = PHP_INT_MAX;
+            } else {
+                echo "Table exists in database!!! Do not use 'new' version.\n";
+                return;
+            }
+        } else if (is_numeric($target)) {
+            $target = (int) $target;
+            $current = Setting::obtain('db_version');
+            if ($target < $current) {
+                $reverse = true;
+                $min_version = $target;
+                $max_version = $current;
+            } else {
+                $min_version = $current;
+                $max_version = $target;
+            }
+        } else {
+            echo "Illegle version argument\n";
+            return;
+        }
+
+        $queue = [];
+        $files = scandir(BASE_PATH . '/db/migrations/', SCANDIR_SORT_NONE);
+        if ($files) {
+            foreach ($files as $file) {
+                if ($file === '.' || $file === '..' || substr($file, -4) !== '.php') {
+                    continue;
+                }
+                $version = (int) (explode('-', $file, 1)[0] ?? 0);
+                if (!($version > $min_version && $version <= $max_version)) {
+                    continue;
+                }
+                $object = require BASE_PATH . '/db/migrations/' . $file;
+                if ($object instanceof MigrationInterface) {
+                    $queue[$version] = $object;
+                }
+            }
+        }
+
+        if ($reverse) {
+            krsort($queue);
+            foreach ($queue as $version => $object) {
+                echo "Reverse to $version\n";
+                $object->down();
+            }
+            $current = $min_version;
+        } else {
+            ksort($queue);
+            foreach ($queue as $version => $object) {
+                echo "Forward to $version\n";
+                $object->up();
+            }
+            $current = $max_version;
+        }
+        if ($target === 'new') {
+            $sql = 'INSERT INTO `config` (`item`, `value`, `type`, `default`) VALUES("db_version", ?, "int", "20230201000")';
+        } else {
+            $sql = 'UPDATE `config` SET `value` = ? WHERE `item` = "db_version"';
+        }
+        DB::insert($sql, [$current]);
+
+        $count = count($queue);
+        echo "Imigration complete. $count items processed.\n" ;
+    }
+}
