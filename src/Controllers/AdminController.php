@@ -11,8 +11,8 @@ use App\Utils\DatatablesHelper;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Ozdemir\Datatables\Datatables;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 /*
  *  Admin Controller

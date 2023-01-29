@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class UserApiToken
 {

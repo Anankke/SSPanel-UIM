@@ -7,15 +7,13 @@ namespace App\Command;
 use App\Interfaces\MigrationInterface;
 use App\Models\Setting;
 use App\Services\DB;
-
 use function count;
 use function explode;
+use function is_numeric;
 use function krsort;
 use function ksort;
-use function is_numeric;
 use function scandir;
 use function substr;
-
 use const PHP_INT_MAX;
 use const SCANDIR_SORT_NONE;
 
@@ -38,7 +36,7 @@ END;
         if ($target === 'latest') {
             $min_version = Setting::obtain('db_version');
             $max_version = PHP_INT_MAX;
-        } else if ($target === 'new') {
+        } elseif ($target === 'new') {
             $tables = []; //DB::select('SHOW TABLES');
             if ($tables === []) {
                 $min_version = 0;
@@ -47,7 +45,7 @@ END;
                 echo "Table exists in database!!! Do not use 'new' version.\n";
                 return;
             }
-        } else if (is_numeric($target)) {
+        } elseif (is_numeric($target)) {
             $target = (int) $target;
             $current = Setting::obtain('db_version');
             if ($target < $current) {
@@ -84,14 +82,14 @@ END;
         if ($reverse) {
             krsort($queue);
             foreach ($queue as $version => $object) {
-                echo "Reverse to $version\n";
+                echo "Reverse to {$version}\n";
                 $object->down();
             }
             $current = $min_version;
         } else {
             ksort($queue);
             foreach ($queue as $version => $object) {
-                echo "Forward to $version\n";
+                echo "Forward to {$version}\n";
                 $object->up();
             }
             $current = $max_version;
@@ -104,6 +102,6 @@ END;
         DB::insert($sql, [$current]);
 
         $count = count($queue);
-        echo "Imigration complete. $count items processed.\n" ;
+        echo "Imigration complete. {$count} items processed.\n";
     }
 }

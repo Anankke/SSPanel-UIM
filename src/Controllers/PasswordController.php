@@ -11,8 +11,8 @@ use App\Services\Captcha;
 use App\Services\Password;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 /*
  * Class Password

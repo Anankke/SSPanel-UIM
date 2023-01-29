@@ -8,8 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\DetectBanLog;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class DetectBanLogController extends BaseController
 {

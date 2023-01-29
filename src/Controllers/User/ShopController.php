@@ -11,8 +11,8 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\Shop;
 use App\Utils\ResponseHelper;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class ShopController extends BaseController
 {

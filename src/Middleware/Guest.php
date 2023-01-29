@@ -13,9 +13,6 @@ use Slim\Factory\AppFactory;
 
 final class Guest implements MiddlewareInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = AuthService::getUser();

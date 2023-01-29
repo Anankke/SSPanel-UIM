@@ -8,8 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 /**
  *  User ServerController

@@ -12,8 +12,8 @@ use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class NodeController extends BaseController
 {

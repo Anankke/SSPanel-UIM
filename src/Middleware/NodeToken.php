@@ -12,9 +12,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class NodeToken implements MiddlewareInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $key = $request->getQueryParams()['key'] ?? null;

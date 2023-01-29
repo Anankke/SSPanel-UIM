@@ -11,8 +11,8 @@ use App\Models\Setting;
 use App\Models\User;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 abstract class AbstractPayment
 {

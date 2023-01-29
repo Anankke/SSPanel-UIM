@@ -21,9 +21,6 @@ final class AuthorizationBearer implements MiddlewareInterface
         $this->token = $token;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // The OAuth 2.0 Authorization Framework: Bearer Token Usage
@@ -35,7 +32,7 @@ final class AuthorizationBearer implements MiddlewareInterface
             substr($authHeader, 0, 7) !== 'Bearer ' ||
             substr($authHeader, 8) !== $this->token
         ) {
-            /** @var \Slim\Http\Response */
+            /** @var \Slim\Http\Response $response */
             $response = AppFactory::determineResponseFactory()->createResponse(401);
             return $response->withJson([
                 'ret' => 0,

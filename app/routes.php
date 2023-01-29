@@ -8,7 +8,7 @@ use App\Middleware\Guest;
 use App\Middleware\NodeToken;
 use Slim\Routing\RouteCollectorProxy;
 
-return function (Slim\App $app): void {
+return static function (Slim\App $app): void {
     // Home
     $app->get('/', App\Controllers\HomeController::class . ':index');
     $app->get('/404', App\Controllers\HomeController::class . ':page404');
@@ -24,7 +24,7 @@ return function (Slim\App $app): void {
     $app->post('/telegram_callback', App\Controllers\HomeController::class . ':telegram');
 
     // User Center
-    $app->group('/user', function (RouteCollectorProxy $group): void {
+    $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');
         $group->get('/', App\Controllers\UserController::class . ':index');
 
@@ -110,14 +110,14 @@ return function (Slim\App $app): void {
         $group->get('/payment/return/{type}', App\Services\Payment::class . ':returnHTML');
     })->add(new Auth());
 
-    $app->group('/payment', function (RouteCollectorProxy $group): void {
+    $app->group('/payment', static function (RouteCollectorProxy $group): void {
         $group->get('/notify/{type}', App\Services\Payment::class . ':notify');
         $group->post('/notify/{type}', App\Services\Payment::class . ':notify');
         $group->post('/status/{type}', App\Services\Payment::class . ':getStatus');
     });
 
     // Auth
-    $app->group('/auth', function (RouteCollectorProxy $group): void {
+    $app->group('/auth', static function (RouteCollectorProxy $group): void {
         $group->get('/login', App\Controllers\AuthController::class . ':login');
         $group->post('/qrcode_check', App\Controllers\AuthController::class . ':qrcodeCheck');
         $group->post('/login', App\Controllers\AuthController::class . ':loginHandle');
@@ -130,7 +130,7 @@ return function (Slim\App $app): void {
     })->add(new Guest());
 
     // Password
-    $app->group('/password', function (RouteCollectorProxy $group): void {
+    $app->group('/password', static function (RouteCollectorProxy $group): void {
         $group->get('/reset', App\Controllers\PasswordController::class . ':reset');
         $group->post('/reset', App\Controllers\PasswordController::class . ':handleReset');
         $group->get('/token/{token}', App\Controllers\PasswordController::class . ':token');
@@ -138,7 +138,7 @@ return function (Slim\App $app): void {
     })->add(new Guest());
 
     // Admin
-    $app->group('/admin', function (RouteCollectorProxy $group): void {
+    $app->group('/admin', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\AdminController::class . ':index');
         $group->get('/', App\Controllers\AdminController::class . ':index');
 
@@ -286,7 +286,7 @@ return function (Slim\App $app): void {
     //})->add(new UserApiToken());
 
     // WebAPI
-    $app->group('/mod_mu', function (RouteCollectorProxy $group): void {
+    $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
         // 流媒体检测
         $group->post('/media/save_report', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点

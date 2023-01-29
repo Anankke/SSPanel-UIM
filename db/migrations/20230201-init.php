@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Interfaces\MigrationInterface;
 use App\Services\DB;
 
-return new class implements MigrationInterface {
+return new class() implements MigrationInterface {
     private const INIT = <<< END
       CREATE TABLE `alive_ip` (
         `id` bigint(20) NOT NULL AUTO_INCREMENT,

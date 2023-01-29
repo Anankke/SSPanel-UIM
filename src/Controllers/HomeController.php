@@ -8,8 +8,8 @@ use App\Models\InviteCode;
 use App\Services\Auth;
 use App\Utils\Telegram\Process;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 /**
  *  HomeController

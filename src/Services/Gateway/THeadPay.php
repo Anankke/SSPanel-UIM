@@ -10,8 +10,8 @@ use App\Services\Auth;
 use App\Services\View;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class THeadPay extends AbstractPayment
 {

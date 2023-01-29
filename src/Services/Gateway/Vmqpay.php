@@ -8,8 +8,8 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class Vmqpay extends AbstractPayment
 {

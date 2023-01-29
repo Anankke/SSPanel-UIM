@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Services\View;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\CallableResolver;
 use Slim\Exception\HttpMethodNotAllowedException;
@@ -18,9 +18,6 @@ use Throwable;
 
 final class ErrorHandler implements MiddlewareInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
@@ -29,7 +26,7 @@ final class ErrorHandler implements MiddlewareInterface
             // 404 or 405 throwed by router
             $smarty = View::getSmarty();
             $code = $e->getCode();
-            $response->getBody()->write($smarty->fetch("$code.tpl"));
+            $response->getBody()->write($smarty->fetch("{$code}.tpl"));
             $response = $response->withStatus($code);
         } catch (Throwable $e) {
             $response_factory = AppFactory::determineResponseFactory();
@@ -40,7 +37,7 @@ final class ErrorHandler implements MiddlewareInterface
             } else {
                 $response = $response_factory->createResponse(500);
                 $smarty = View::getSmarty();
-                $response->getBody()->write($smarty->fetch("500.tpl"));
+                $response->getBody()->write($smarty->fetch('500.tpl'));
             }
         }
         return $response;
