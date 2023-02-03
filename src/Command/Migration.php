@@ -21,9 +21,9 @@ final class Migration extends Command
 {
     public $description = <<< END
 ├─=: php xcat Migration [版本]
-│ ├─ <version>               - 迁移至指定版本（前进/退回）
-│ ├─ latest                  - 迁移至最新版本
-│ ├─ new                     - 导入全新数据库至最新版本
+│├─ <version>               - 迁移至指定版本（前进/退回）
+│├─ latest                  - 迁移至最新版本
+│├─ new                     - 导入全新数据库至最新版本
 END;
 
     public function boot(): void
