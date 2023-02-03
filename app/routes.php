@@ -290,7 +290,6 @@ return static function (Slim\App $app): void {
         // 流媒体检测
         $group->post('/media/save_report', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点
-        $group->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
         $group->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
         $group->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
         // 用户
