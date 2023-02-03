@@ -1,6 +1,5 @@
 #!/usr/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+
 cat << "EOF"
 SSPanel-UIM update script
 Author: M1Screw
