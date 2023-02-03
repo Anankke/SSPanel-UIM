@@ -293,7 +293,6 @@ return static function (Slim\App $app): void {
         $group->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
         $group->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
         $group->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
-        $group->get('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户
         $group->get('/users', App\Controllers\WebAPI\UserController::class . ':index');
         $group->post('/users/traffic', App\Controllers\WebAPI\UserController::class . ':addTraffic');
