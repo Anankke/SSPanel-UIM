@@ -22,10 +22,11 @@ use App\Models\UserSubscribeLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Config;
+use App\Services\DB;
+use App\Services\MFA;
 use App\Services\Payment;
 use App\Utils\Check;
 use App\Utils\Cookie;
-use App\Utils\DatatablesHelper;
 use App\Utils\Hash;
 use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
@@ -35,7 +36,6 @@ use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
 
 /**
@@ -205,54 +205,6 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function checkGa(ServerRequest $request, Response $response, array $args)
-    {
-        $code = $request->getParam('code');
-        if ($code === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '二维码不能为空',
-            ]);
-        }
-        $user = $this->user;
-        $ga = new GoogleAuthenticator();
-        $rcode = $ga->verifyCode($user->ga_token, $code);
-        if (! $rcode) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '测试错误',
-            ]);
-        }
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '测试成功',
-        ]);
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function setGa(ServerRequest $request, Response $response, array $args)
-    {
-        $enable = $request->getParam('enable');
-        if ($enable === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '选项无效',
-            ]);
-        }
-        $user = $this->user;
-        $user->ga_enable = $enable;
-        $user->save();
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '设置成功',
-        ]);
-    }
-
-    /**
-     * @param array     $args
-     */
     public function resetPort(ServerRequest $request, Response $response, array $args)
     {
         $temp = $this->user->resetPort();
@@ -272,19 +224,6 @@ final class UserController extends BaseController
             'ret' => ($temp['ok'] === true ? 1 : 0),
             'msg' => $temp['msg'],
         ]);
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function resetGa(ServerRequest $request, Response $response, array $args)
-    {
-        $ga = new GoogleAuthenticator();
-        $secret = $ga->createSecret();
-        $user = $this->user;
-        $user->ga_token = $secret;
-        $user->save();
-        return $response->withStatus(302)->withHeader('Location', '/user/edit');
     }
 
     /**
@@ -386,8 +325,8 @@ final class UserController extends BaseController
     public function media(ServerRequest $request, Response $response, array $args)
     {
         $results = [];
-        $db = new DatatablesHelper();
-        $nodes = $db->query('SELECT DISTINCT node_id FROM stream_media');
+        $pdo = DB::getPdo();
+        $nodes = $pdo->query('SELECT DISTINCT node_id FROM stream_media');
 
         foreach ($nodes as $node_id) {
             $node = Node::where('id', $node_id)->first();
@@ -453,12 +392,14 @@ final class UserController extends BaseController
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
         $bind_token = TelegramSessionManager::addBindSession($this->user);
         $methods = Config::getSupportParam('method');
+        $gaurl = MFA::getGAurl($this->user);
 
         return $reponse->write($this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
             ->assign('bind_token', $bind_token)
             ->assign('methods', $methods)
+            ->assign('gaurl', $gaurl)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
             ->fetch('user/edit.tpl'));

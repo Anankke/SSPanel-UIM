@@ -7,11 +7,11 @@ namespace App\Command;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User as ModelsUser;
-use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
+use Vectorface\GoogleAuthenticator;
 
 final class Tool extends Command
 {
@@ -218,9 +218,8 @@ EOL;
     {
         $users = ModelsUser::all();
         foreach ($users as $user) {
-            $ga = new GA();
+            $ga = new GoogleAuthenticator();
             $secret = $ga->createSecret();
-
             $user->ga_token = $secret;
             $user->save();
         }
@@ -299,7 +298,7 @@ EOL;
             $user->node_speedlimit = 0;
             $user->theme = $_ENV['theme'];
 
-            $ga = new GA();
+            $ga = new GoogleAuthenticator();
             $secret = $ga->createSecret();
             $user->ga_token = $secret;
             $user->ga_enable = 0;

@@ -24,7 +24,6 @@ use App\Models\UserSubscribeLog;
 use App\Services\Analytics;
 use App\Services\DB;
 use App\Services\Mail;
-use App\Utils\DatatablesHelper;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
@@ -75,11 +74,6 @@ EOL;
         StreamMedia::where('created_at', '<', \time() - 86400 * 3)->delete();
         TelegramSession::where('datetime', '<', \time() - 900)->delete();
         // ------- 清理各表记录
-
-        // ------- 重置自增 ID
-        $db = new DatatablesHelper();
-        Tools::resetAutoIncrement($db, 'node_online_log');
-        // ------- 重置自增 ID
 
         // ------- 用户每日流量报告
         $users = User::all();
