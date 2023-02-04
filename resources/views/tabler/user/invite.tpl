@@ -52,7 +52,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">返利记录</h3>
+                            <h3 class="card-title my-3">返利记录</h3>
                         </div>
                         {if $paybacks->count() != '0'}
                             <div class="table-responsive">

@@ -29,6 +29,7 @@
         "stripe/stripe-php": "^7",
         "symfony/console": "*",
         "symfony/yaml": "^6",
+        "vectorface/googleauthenticator": "^3.0",
         "voku/anti-xss": "^4"
     },
     "autoload": {

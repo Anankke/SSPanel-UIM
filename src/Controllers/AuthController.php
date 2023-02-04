@@ -12,7 +12,6 @@ use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Mail;
 use App\Utils\Check;
-use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\TelegramSessionManager;
@@ -22,6 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
 
 /**
@@ -97,7 +97,7 @@ final class AuthController extends BaseController
         }
 
         if ($user->ga_enable === 1) {
-            $ga = new GA();
+            $ga = new GoogleAuthenticator();
             $rcode = $ga->verifyCode($user->ga_token, $code);
             if (!$rcode) {
                 return $response->withJson([
@@ -326,7 +326,7 @@ final class AuthController extends BaseController
             $user->telegram_id = $telegram_id;
         }
 
-        $ga = new GA();
+        $ga = new GoogleAuthenticator();
         $secret = $ga->createSecret();
         $user->ga_token = $secret;
         $user->ga_enable = 0;
