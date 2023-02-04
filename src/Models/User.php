@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\Mail;
-use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Telegram;
 use App\Utils\Tools;
@@ -290,11 +289,7 @@ final class User extends Model
 
     public function getGAurl()
     {
-        $ga = new GA();
-        return $ga->getUrl(
-            urlencode($_ENV['appName'] . '-' . $this->user_name . '-两步验证码'),
-            $this->ga_token
-        );
+        return 'otpauth://totp/' . urlencode($_ENV['appName'] . '-' . $this->email . '-两步验证码') . '?secret=' . $this->ga_token . '';
     }
 
     /**
