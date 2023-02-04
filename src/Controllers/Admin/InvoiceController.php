@@ -32,7 +32,7 @@ final class InvoiceController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/invoice/index.tpl')
+                ->fetch('admin/invoice/index.tpl')
         );
     }
 
@@ -51,7 +51,7 @@ final class InvoiceController extends BaseController
             $this->view()
                 ->assign('invoice', $invoice)
                 ->assign('invoice_content', $invoice_content)
-                ->display('admin/invoice/view.tpl')
+                ->fetch('admin/invoice/view.tpl')
         );
     }
 

@@ -49,7 +49,7 @@ final class ProductController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/product/index.tpl')
+                ->fetch('admin/product/index.tpl')
         );
     }
 
@@ -58,7 +58,7 @@ final class ProductController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
-                ->display('admin/product/create.tpl')
+                ->fetch('admin/product/create.tpl')
         );
     }
 
@@ -180,7 +180,7 @@ final class ProductController extends BaseController
                 ->assign('content', $content)
                 ->assign('limit', $limit)
                 ->assign('update_field', self::$update_field)
-                ->display('admin/product/edit.tpl')
+                ->fetch('admin/product/edit.tpl')
         );
     }
 
