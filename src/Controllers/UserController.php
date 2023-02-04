@@ -21,10 +21,10 @@ use App\Models\UserSubscribeLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Config;
+use App\Services\DB;
 use App\Services\Payment;
 use App\Utils\Check;
 use App\Utils\Cookie;
-use App\Utils\DatatablesHelper;
 use App\Utils\Hash;
 use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
@@ -361,8 +361,8 @@ final class UserController extends BaseController
     public function media(ServerRequest $request, Response $response, array $args)
     {
         $results = [];
-        $db = new DatatablesHelper();
-        $nodes = $db->query('SELECT DISTINCT node_id FROM stream_media');
+        $pdo = DB::getPdo();
+        $nodes = $pdo->query('SELECT DISTINCT node_id FROM stream_media');
 
         foreach ($nodes as $node_id) {
             $node = Node::where('id', $node_id)->first();
