@@ -8,7 +8,6 @@ use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Utils\Tools;
-use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
@@ -30,7 +29,7 @@ final class OrderController extends BaseController
         ],
     ];
 
-    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -39,7 +38,7 @@ final class OrderController extends BaseController
         );
     }
 
-    public function detail(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function detail(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
 
@@ -68,7 +67,7 @@ final class OrderController extends BaseController
         );
     }
 
-    public function cancel(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function cancel(ServerRequest $request, Response $response, array $args)
     {
         $order_id = $args['id'];
         $order = Order::find($order_id);
@@ -114,7 +113,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $order_id = $args['id'];
         Order::find($order_id)->delete();
@@ -126,7 +125,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $orders = Order::orderBy('id', 'desc')->get();
 

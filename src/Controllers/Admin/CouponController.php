@@ -7,7 +7,6 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\UserCoupon;
 use App\Utils\Tools;
-use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
@@ -90,7 +89,7 @@ final class CouponController extends BaseController
      *
      * @param array     $args
      */
-    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -104,7 +103,7 @@ final class CouponController extends BaseController
      *
      * @param array     $args
      */
-    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         $code = $request->getParam('code');
         $type = $request->getParam('type');
@@ -199,7 +198,7 @@ final class CouponController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $coupon_id = $args['id'];
         UserCoupon::find($coupon_id)->delete();
@@ -214,7 +213,7 @@ final class CouponController extends BaseController
      *
      * @param array     $args
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $coupons = UserCoupon::orderBy('id', 'desc')->get();
         foreach ($coupons as $coupon) {

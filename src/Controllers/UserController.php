@@ -437,7 +437,6 @@ final class UserController extends BaseController
             ->assign('methods', $methods)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
-            ->registerClass('URL', URL::class)
             ->fetch('user/edit.tpl'));
     }
 

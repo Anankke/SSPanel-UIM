@@ -7,7 +7,6 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Product;
 use App\Utils\Tools;
-use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
@@ -45,7 +44,7 @@ final class ProductController extends BaseController
         'node_group_required',
     ];
 
-    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -54,7 +53,7 @@ final class ProductController extends BaseController
         );
     }
 
-    public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -63,7 +62,7 @@ final class ProductController extends BaseController
         );
     }
 
-    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         // base product
         $type = $request->getParam('type');
@@ -169,7 +168,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function edit(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $product = Product::find($id);
@@ -185,7 +184,7 @@ final class ProductController extends BaseController
         );
     }
 
-    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $product_id = $args['id'];
         // base product
@@ -290,7 +289,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $product_id = $args['id'];
         Product::find($product_id)->delete();
@@ -301,7 +300,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function copy(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function copy(ServerRequest $request, Response $response, array $args)
     {
         try {
             $old_product_id = $args['id'];
@@ -330,7 +329,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $products = Product::orderBy('id', 'desc')->get();
 
