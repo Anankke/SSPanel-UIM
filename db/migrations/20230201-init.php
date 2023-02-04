@@ -248,15 +248,6 @@ return new class() implements MigrationInterface {
         KEY `userid` (`userid`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       
-      CREATE TABLE `phinxlog` (
-        `version` bigint(20) NOT NULL,
-        `migration_name` varchar(100) DEFAULT NULL,
-        `start_time` timestamp NULL DEFAULT NULL,
-        `end_time` timestamp NULL DEFAULT NULL,
-        `breakpoint` tinyint(1) DEFAULT 0,
-        PRIMARY KEY (`version`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-      
       CREATE TABLE `product` (
         `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品ID',
         `type` varchar(255) DEFAULT NULL COMMENT '类型',

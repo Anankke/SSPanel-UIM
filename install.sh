@@ -38,7 +38,7 @@ do_install_sspanel() {
     GRANT ALL PRIVILEGES ON $db_database.* TO '$db_username'@'localhost' IDENTIFIED BY '$db_password';
     FLUSH PRIVILEGES;"
     echo "Importing config to database..."
-    php vendor/bin/phinx migrate
+    php xcat Migration new
     php xcat Tool importAllSettings
     wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat
     current_dir=$(pwd)
