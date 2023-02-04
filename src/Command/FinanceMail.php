@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\User;
-use App\Utils\DatatablesHelper;
+use App\Services\Config;
 use App\Utils\Telegram;
 use Ozdemir\Datatables\Datatables;
+use Ozdemir\Datatables\DB\MySQL;
 
 final class FinanceMail extends Command
 {
@@ -34,31 +35,28 @@ EOL;
 
     public function day(): void
     {
-        $datatables = new Datatables(new DatatablesHelper());
+        $datatables = new Datatables(new MySQL(Config::getDbConfig()));
         $datatables->query(
             'select code.number, code.userid, code.usedatetime from code
 		where TO_DAYS(NOW()) - TO_DAYS(code.usedatetime) = 1 and code.type = -1 and code.isused= 1'
         );
-        $text_json = $datatables->generate();
-        $text_array = \json_decode($text_json, true);
+        $text_array = $datatables->generate()->toArray();
         $codes = $text_array['data'];
         $text_html = '<table border=1><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
-        $income_count = 0;
         $income_total = 0.00;
         foreach ($codes as $code) {
             $text_html .= '<tr>';
-            $text_html .= '<td>' . $code['number'] . '</td>';
-            $text_html .= '<td>' . $code['userid'] . '</td>';
-            $user = User::find($code['userid']);
+            $text_html .= '<td>' . $code[0] . '</td>';
+            $text_html .= '<td>' . $code[1] . '</td>';
+            $user = User::find($code[1]);
             $text_html .= '<td>' . $user->user_name . '</td>';
-            $text_html .= '<td>' . $code['usedatetime'] . '</td>';
+            $text_html .= '<td>' . $code[2] . '</td>';
             $text_html .= '</tr>';
-            ++$income_count;
-            $income_total += $code['number'];
+            $income_total += $code[0];
         }
 
         $text_html .= '</table>';
-        $text_html .= '<br>昨日总收入笔数：' . $income_count . '<br>昨日总收入金额：' . $income_total;
+        $text_html .= '<br>昨日总收入笔数：' . $text_array['recordsTotal'] . '<br>昨日总收入金额：' . $income_total;
 
         $adminUser = User::where('is_admin', '=', '1')->get();
         foreach ($adminUser as $user) {
@@ -77,7 +75,7 @@ EOL;
         if ($_ENV['finance_public']) {
             Telegram::send(
                 '新鲜出炉的财务日报~' . PHP_EOL .
-                '昨日总收入笔数:' . $income_count . PHP_EOL .
+                '昨日总收入笔数:' . $text_array['recordsTotal'] . PHP_EOL .
                 '昨日总收入金额:' . $income_total . PHP_EOL .
                 '凌晨也在努力工作~'
             );
@@ -86,24 +84,21 @@ EOL;
 
     public function week(): void
     {
-        $datatables = new Datatables(new DatatablesHelper());
+        $datatables = new Datatables(new MySQL(Config::getDbConfig()));
         $datatables->query(
             'SELECT code.number FROM code
 		WHERE DATEDIFF(NOW(),code.usedatetime) <=7 AND DATEDIFF(NOW(),code.usedatetime) >=1 AND code.isused = 1'
         );
         //每周的第一天是周日，因此统计周日～周六的七天
-        $text_json = $datatables->generate();
-        $text_array = \json_decode($text_json, true);
+        $text_array = $datatables->generate()->toArray();
         $codes = $text_array['data'];
         $text_html = '';
-        $income_count = 0;
         $income_total = 0.00;
         foreach ($codes as $code) {
-            ++$income_count;
-            $income_total += $code['number'];
+            $income_total += $code[0];
         }
 
-        $text_html .= '<br>上周总收入笔数：' . $income_count . '<br>上周总收入金额：' . $income_total;
+        $text_html .= '<br>上周总收入笔数：' . $text_array['recordsTotal'] . '<br>上周总收入金额：' . $income_total;
 
         $adminUser = User::where('is_admin', '=', '1')->get();
         foreach ($adminUser as $user) {
@@ -122,7 +117,7 @@ EOL;
         if ($_ENV['finance_public']) {
             Telegram::send(
                 '新鲜出炉的财务周报~' . PHP_EOL .
-                '上周总收入笔数:' . $income_count . PHP_EOL .
+                '上周总收入笔数:' . $text_array['recordsTotal'] . PHP_EOL .
                 '上周总收入金额:' . $income_total . PHP_EOL .
                 '周末也在努力工作~'
             );
@@ -131,22 +126,19 @@ EOL;
 
     public function month(): void
     {
-        $datatables = new Datatables(new DatatablesHelper());
+        $datatables = new Datatables(new MySQL(Config::getDbConfig()));
         $datatables->query(
             'select code.number from code
 		where date_format(code.usedatetime,\'%Y-%m\')=date_format(date_sub(curdate(), interval 1 month),\'%Y-%m\') and code.type = -1 and code.isused= 1'
         );
-        $text_json = $datatables->generate();
-        $text_array = \json_decode($text_json, true);
+        $text_array = $datatables->generate()->toArray();
         $codes = $text_array['data'];
         $text_html = '';
-        $income_count = 0;
         $income_total = 0.00;
         foreach ($codes as $code) {
-            ++$income_count;
-            $income_total += $code['number'];
+            $income_total += $code[0];
         }
-        $text_html .= '<br>上月总收入笔数：' . $income_count . '<br>上月总收入金额：' . $income_total;
+        $text_html .= '<br>上月总收入笔数：' . $text_array['recordsTotal'] . '<br>上月总收入金额：' . $income_total;
 
         $adminUser = User::where('is_admin', '=', '1')->get();
         foreach ($adminUser as $user) {
@@ -165,7 +157,7 @@ EOL;
         if ($_ENV['finance_public']) {
             Telegram::send(
                 '新鲜出炉的财务月报~' . PHP_EOL .
-                '上月总收入笔数:' . $income_count . PHP_EOL .
+                '上月总收入笔数:' . $text_array['recordsTotal'] . PHP_EOL .
                 '上月总收入金额:' . $income_total . PHP_EOL .
                 '月初也在努力工作~'
             );

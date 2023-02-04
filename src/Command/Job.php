@@ -85,7 +85,13 @@ EOL;
         $users = User::all();
 
         $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
-        $ann_latest = $ann_latest_raw->content . '<br><br>';
+
+        // 判断是否有公告
+        if ($ann_latest_raw === null) {
+            $ann_latest = '<br><br>';
+        } else {
+            $ann_latest = $ann_latest_raw->content . '<br><br>';
+        }
 
         $lastday_total = 0;
 
