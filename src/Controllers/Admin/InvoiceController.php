@@ -8,9 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Utils\Tools;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class InvoiceController extends BaseController
 {
@@ -28,16 +27,16 @@ final class InvoiceController extends BaseController
         ],
     ];
 
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/invoice/index.tpl')
+                ->fetch('admin/invoice/index.tpl')
         );
     }
 
-    public function detail(Request $request, Response $response, array $args): ResponseInterface
+    public function detail(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
 
@@ -52,11 +51,11 @@ final class InvoiceController extends BaseController
             $this->view()
                 ->assign('invoice', $invoice)
                 ->assign('invoice_content', $invoice_content)
-                ->display('admin/invoice/view.tpl')
+                ->fetch('admin/invoice/view.tpl')
         );
     }
 
-    public function markPaid(Request $request, Response $response, array $args): ResponseInterface
+    public function markPaid(ServerRequest $request, Response $response, array $args)
     {
         $invoice_id = $args['id'];
         $invoice = Invoice::find($invoice_id);
@@ -90,7 +89,7 @@ final class InvoiceController extends BaseController
         ]);
     }
 
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $invoices = Invoice::orderBy('id', 'desc')->get();
 

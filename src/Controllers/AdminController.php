@@ -11,8 +11,8 @@ use App\Utils\DatatablesHelper;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Ozdemir\Datatables\Datatables;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 /*
  *  Admin Controller
@@ -24,12 +24,12 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('sts', new Analytics())
-                ->display('admin/index.tpl')
+                ->fetch('admin/index.tpl')
         );
     }
 
@@ -38,11 +38,11 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function sys(Request $request, Response $response, array $args)
+    public function sys(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
-                ->display('admin/index.tpl')
+                ->fetch('admin/index.tpl')
         );
     }
 
@@ -51,7 +51,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function invite(Request $request, Response $response, array $args)
+    public function invite(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -65,7 +65,7 @@ final class AdminController extends BaseController
                     'ref_get' => '获利金额',
                     'datetime' => '时间',
                 ], 'payback/ajax'))
-                ->display('admin/invite.tpl')
+                ->fetch('admin/invite.tpl')
         );
     }
 
@@ -74,7 +74,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxPayback(Request $request, Response $response, array $args)
+    public function ajaxPayback(ServerRequest $request, Response $response, array $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select payback.id,payback.total,payback.userid as event_user_id,event_user.user_name as event_user_name,payback.ref_by as ref_user_id,ref_user.user_name as ref_user_name,payback.ref_get,payback.datetime from payback,user as event_user,user as ref_user where event_user.id = payback.userid and ref_user.id = payback.ref_by');
@@ -91,7 +91,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function chgInvite(Request $request, Response $response, array $args)
+    public function chgInvite(ServerRequest $request, Response $response, array $args)
     {
         $userid = $request->getParam('userid');
         if ($userid === null) {
@@ -124,7 +124,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function addInvite(Request $request, Response $response, array $args)
+    public function addInvite(ServerRequest $request, Response $response, array $args)
     {
         $num = $request->getParam('num');
         if (Tools::isInt($num) === false) {
@@ -162,7 +162,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function coupon(Request $request, Response $response, array $args)
+    public function coupon(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -174,7 +174,7 @@ final class AdminController extends BaseController
                     'credit' => '额度',
                     'onetime' => '次数',
                 ], 'coupon/ajax'))
-                ->display('admin/coupon.tpl')
+                ->fetch('admin/coupon.tpl')
         );
     }
 
@@ -183,7 +183,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxCoupon(Request $request, Response $response, array $args)
+    public function ajaxCoupon(ServerRequest $request, Response $response, array $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select id,code,expire,shop,credit,onetime from coupon');
@@ -200,7 +200,7 @@ final class AdminController extends BaseController
      *
      * @param array     $args
      */
-    public function addCoupon(Request $request, Response $response, array $args)
+    public function addCoupon(ServerRequest $request, Response $response, array $args)
     {
         $generate_type = (int) $request->getParam('generate_type');
         $final_code = $request->getParam('prefix');

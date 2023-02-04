@@ -9,15 +9,15 @@ use App\Models\DetectLog;
 use App\Models\DetectRule;
 use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class DetectController extends BaseController
 {
     /**
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -29,14 +29,14 @@ final class DetectController extends BaseController
                     'regex' => '正则表达式',
                     'type' => '类型',
                 ], 'detect/ajax'))
-                ->display('admin/detect/index.tpl')
+                ->fetch('admin/detect/index.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function ajaxRule(Request $request, Response $response, array $args)
+    public function ajaxRule(ServerRequest $request, Response $response, array $args)
     {
         $query = DetectRule::getTableDataFromAdmin(
             $request,
@@ -73,18 +73,18 @@ final class DetectController extends BaseController
     /**
      * @param array     $args
      */
-    public function create(Request $request, Response $response, array $args)
+    public function create(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
-                ->display('admin/detect/add.tpl')
+                ->fetch('admin/detect/add.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function add(Request $request, Response $response, array $args)
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         $rule = new DetectRule();
         $rule->name = $request->getParam('name');
@@ -109,21 +109,21 @@ final class DetectController extends BaseController
     /**
      * @param array     $args
      */
-    public function edit(Request $request, Response $response, array $args)
+    public function edit(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $rule = DetectRule::find($id);
         return $response->write(
             $this->view()
                 ->assign('rule', $rule)
-                ->display('admin/detect/edit.tpl')
+                ->fetch('admin/detect/edit.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function update(Request $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $rule = DetectRule::find($id);
@@ -149,7 +149,7 @@ final class DetectController extends BaseController
     /**
      * @param array     $args
      */
-    public function delete(Request $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $id = $request->getParam('id');
         $rule = DetectRule::find($id);
@@ -168,7 +168,7 @@ final class DetectController extends BaseController
     /**
      * @param array     $args
      */
-    public function log(Request $request, Response $response, array $args)
+    public function log(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -185,14 +185,14 @@ final class DetectController extends BaseController
                     'rule_type' => '规则类型',
                     'datetime' => '时间',
                 ], 'log/ajax'))
-                ->display('admin/detect/log.tpl')
+                ->fetch('admin/detect/log.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function ajaxLog(Request $request, Response $response, array $args)
+    public function ajaxLog(ServerRequest $request, Response $response, array $args)
     {
         $query = DetectLog::getTableDataFromAdmin(
             $request,

@@ -8,8 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\UserSubscribeLog;
 use App\Utils\QQWry;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class SubscribeLogController extends BaseController
 {
@@ -33,12 +33,12 @@ final class SubscribeLogController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/subscribe.tpl')
+                ->fetch('admin/subscribe.tpl')
         );
     }
 
@@ -47,7 +47,7 @@ final class SubscribeLogController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxSubscribeLog(Request $request, Response $response, array $args): ResponseInterface
+    public function ajaxSubscribeLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;

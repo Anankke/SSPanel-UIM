@@ -9,8 +9,8 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class StripeCard extends AbstractPayment
 {
@@ -33,7 +33,7 @@ final class StripeCard extends AbstractPayment
         return 'Stripe';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $trade_no = uniqid();
         $user = Auth::getUser();

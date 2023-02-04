@@ -5,18 +5,23 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Services\Auth as AuthService;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Factory\AppFactory;
 
-final class Admin
+final class Admin implements MiddlewareInterface
 {
-    public function __invoke(\Slim\Http\Request $request, \Slim\Http\Response $response, callable $next): \Slim\Http\Response
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = AuthService::getUser();
-        if (! $user->isLogin) {
-            return $response->withStatus(302)->withHeader('Location', '/auth/login');
+        if (!$user->isLogin) {
+            return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/auth/login');
         }
-        if (! $user->is_admin) {
-            return $response->withStatus(302)->withHeader('Location', '/user');
+        if (!$user->is_admin) {
+            return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/user');
         }
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 }

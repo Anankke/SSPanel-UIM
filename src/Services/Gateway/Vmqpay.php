@@ -8,8 +8,8 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class Vmqpay extends AbstractPayment
 {
@@ -28,7 +28,7 @@ final class Vmqpay extends AbstractPayment
         return 'Vmq 支付';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $trade_no = \time();
         $user = Auth::getUser();

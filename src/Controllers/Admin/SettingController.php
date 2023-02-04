@@ -8,7 +8,6 @@ use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\Mail;
 use App\Services\Payment;
-use Exception;
 
 final class SettingController extends BaseController
 {
@@ -31,7 +30,7 @@ final class SettingController extends BaseController
                 ->assign('settings', $config)
                 ->assign('payment_gateways', self::returnGatewaysList())
                 ->assign('active_payment_gateway', self::returnActiveGateways())
-                ->display('admin/setting.tpl')
+                ->fetch('admin/setting.tpl')
         );
     }
 
@@ -146,7 +145,7 @@ final class SettingController extends BaseController
                 [],
                 []
             );
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '测试邮件发送失败',

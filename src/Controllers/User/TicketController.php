@@ -9,8 +9,8 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
 /**
@@ -21,7 +21,7 @@ final class TicketController extends BaseController
     /**
      * @param array     $args
      */
-    public function ticket(Request $request, Response $response, array $args): ?ResponseInterface
+    public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
         if ($_ENV['enable_ticket'] !== true) {
             return null;
@@ -45,14 +45,14 @@ final class TicketController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('tickets', $tickets)
-                ->display('user/ticket/index.tpl')
+                ->fetch('user/ticket/index.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function ticketAdd(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $title = $request->getParam('title');
         $comment = $request->getParam('comment');
@@ -123,7 +123,7 @@ final class TicketController extends BaseController
     /**
      * @param array     $args
      */
-    public function ticketUpdate(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $comment = $request->getParam('comment');
@@ -196,7 +196,7 @@ final class TicketController extends BaseController
     /**
      * @param array     $args
      */
-    public function ticketView(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketView(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
@@ -226,7 +226,7 @@ final class TicketController extends BaseController
                 ->assign('ticket', $ticket)
                 ->assign('comments', $comments)
                 ->registerClass('Tools', Tools::class)
-                ->display('user/ticket/view.tpl')
+                ->fetch('user/ticket/view.tpl')
         );
     }
 }

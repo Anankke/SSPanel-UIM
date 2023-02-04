@@ -14,21 +14,21 @@ use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class UserController extends BaseController
 {
     /**
      * GET /mod_mu/users
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
      * @return ResponseInterface
      */
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $request->getQueryParam('node_id');
         $node = Node::find($node_id);
@@ -95,13 +95,13 @@ final class UserController extends BaseController
     /**
      * POST /mod_mu/users/traffic
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
      * @return ResponseInterface
      */
-    public function addTraffic(Request $request, Response $response, array $args): ResponseInterface
+    public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
@@ -149,13 +149,13 @@ final class UserController extends BaseController
     /**
      * POST /mod_mu/users/aliveip
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
      * @return ResponseInterface
      */
-    public function addAliveIp(Request $request, Response $response, array $args): ResponseInterface
+    public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
@@ -194,13 +194,13 @@ final class UserController extends BaseController
     /**
      * POST /mod_mu/users/detectlog
      *
-     * @param Request   $request
+     * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
      *
      * @return ResponseInterface
      */
-    public function addDetectLog(Request $request, Response $response, array $args): ResponseInterface
+    public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {

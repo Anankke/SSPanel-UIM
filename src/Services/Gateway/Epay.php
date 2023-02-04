@@ -17,8 +17,8 @@ use App\Services\Gateway\Epay\EpayNotify;
 use App\Services\Gateway\Epay\EpaySubmit;
 use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class Epay extends AbstractPayment
 {
@@ -49,7 +49,7 @@ final class Epay extends AbstractPayment
         return 'epay在线充值';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $type = $request->getParam('type');
         $price = $request->getParam('price');

@@ -11,20 +11,20 @@ use App\Models\Setting;
 use App\Models\User;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 abstract class AbstractPayment
 {
     /**
      * @param array     $args
      */
-    abstract public function purchase(Request $request, Response $response, array $args): ResponseInterface;
+    abstract public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
     /**
      * @param array     $args
      */
-    abstract public function notify(Request $request, Response $response, array $args): ResponseInterface;
+    abstract public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
     /**
      * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
@@ -46,7 +46,7 @@ abstract class AbstractPayment
     /**
      * @param array     $args
      */
-    public function getReturnHTML(Request $request, Response $response, array $args): ResponseInterface
+    public function getReturnHTML(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write('ok');
     }
@@ -54,7 +54,7 @@ abstract class AbstractPayment
     /**
      * @param array     $args
      */
-    public function getStatus(Request $request, Response $response, array $args): ResponseInterface
+    public function getStatus(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $p = Paylist::where('tradeno', $_POST['pid'])->first();
         return $response->withJson([

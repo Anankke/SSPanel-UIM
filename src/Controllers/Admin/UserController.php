@@ -14,8 +14,8 @@ use App\Utils\Check;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\Tools;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class UserController extends BaseController
 {
@@ -94,20 +94,20 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('shops', Shop::orderBy('name')->get())
                 ->assign('details', self::$details)
-                ->display('admin/user/index.tpl')
+                ->fetch('admin/user/index.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function createNewUser(Request $request, Response $response, array $args)
+    public function createNewUser(ServerRequest $request, Response $response, array $args)
     {
         $email = $request->getParam('email');
         $ref_by = $request->getParam('ref_by');
@@ -170,21 +170,21 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function edit(Request $request, Response $response, array $args)
+    public function edit(ServerRequest $request, Response $response, array $args)
     {
         $user = User::find($args['id']);
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
                 ->assign('edit_user', $user)
-                ->display('admin/user/edit.tpl')
+                ->fetch('admin/user/edit.tpl')
         );
     }
 
     /**
      * @param array     $args
      */
-    public function update(Request $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $user = User::find($id);
@@ -236,7 +236,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function delete(Request $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $user = User::find((int) $id);
@@ -257,7 +257,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function changetouser(Request $request, Response $response, array $args)
+    public function changetouser(ServerRequest $request, Response $response, array $args)
     {
         $userid = $request->getParam('userid');
         $adminid = $request->getParam('adminid');
@@ -295,7 +295,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function ajax(Request $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $users = User::orderBy('id', 'desc')->get();
 

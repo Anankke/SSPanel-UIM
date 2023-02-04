@@ -8,8 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\UserHourlyUsage;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class TrafficLogController extends BaseController
 {
@@ -29,12 +29,12 @@ final class TrafficLogController extends BaseController
      *
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/log/traffic.tpl')
+                ->fetch('admin/log/traffic.tpl')
         );
     }
 
@@ -43,7 +43,7 @@ final class TrafficLogController extends BaseController
      *
      * @param array     $args
      */
-    public function ajaxTrafficLog(Request $request, Response $response, array $args): ResponseInterface
+    public function ajaxTrafficLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;

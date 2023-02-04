@@ -8,9 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Utils\Tools;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class OrderController extends BaseController
 {
@@ -30,16 +29,16 @@ final class OrderController extends BaseController
         ],
     ];
 
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/order/index.tpl')
+                ->fetch('admin/order/index.tpl')
         );
     }
 
-    public function detail(Request $request, Response $response, array $args): ResponseInterface
+    public function detail(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
 
@@ -64,11 +63,11 @@ final class OrderController extends BaseController
                 ->assign('invoice', $invoice)
                 ->assign('product_content', $product_content)
                 ->assign('invoice_content', $invoice_content)
-                ->display('admin/order/view.tpl')
+                ->fetch('admin/order/view.tpl')
         );
     }
 
-    public function cancel(Request $request, Response $response, array $args): ResponseInterface
+    public function cancel(ServerRequest $request, Response $response, array $args)
     {
         $order_id = $args['id'];
         $order = Order::find($order_id);
@@ -114,7 +113,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function delete(Request $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $order_id = $args['id'];
         Order::find($order_id)->delete();
@@ -126,7 +125,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $orders = Order::orderBy('id', 'desc')->get();
 

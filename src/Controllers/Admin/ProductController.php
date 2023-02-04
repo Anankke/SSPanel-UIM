@@ -7,9 +7,8 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Product;
 use App\Utils\Tools;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class ProductController extends BaseController
 {
@@ -45,25 +44,25 @@ final class ProductController extends BaseController
         'node_group_required',
     ];
 
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->display('admin/product/index.tpl')
+                ->fetch('admin/product/index.tpl')
         );
     }
 
-    public function create(Request $request, Response $response, array $args): ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
-                ->display('admin/product/create.tpl')
+                ->fetch('admin/product/create.tpl')
         );
     }
 
-    public function add(Request $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args)
     {
         // base product
         $type = $request->getParam('type');
@@ -169,7 +168,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function edit(Request $request, Response $response, array $args): ResponseInterface
+    public function edit(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
         $product = Product::find($id);
@@ -181,11 +180,11 @@ final class ProductController extends BaseController
                 ->assign('content', $content)
                 ->assign('limit', $limit)
                 ->assign('update_field', self::$update_field)
-                ->display('admin/product/edit.tpl')
+                ->fetch('admin/product/edit.tpl')
         );
     }
 
-    public function update(Request $request, Response $response, array $args): ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args)
     {
         $product_id = $args['id'];
         // base product
@@ -290,7 +289,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function delete(Request $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args)
     {
         $product_id = $args['id'];
         Product::find($product_id)->delete();
@@ -301,7 +300,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function copy(Request $request, Response $response, array $args): ResponseInterface
+    public function copy(ServerRequest $request, Response $response, array $args)
     {
         try {
             $old_product_id = $args['id'];
@@ -330,7 +329,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $products = Product::orderBy('id', 'desc')->get();
 

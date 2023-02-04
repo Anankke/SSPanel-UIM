@@ -8,15 +8,15 @@ use App\Controllers\BaseController;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
 use App\Utils\Tools;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class DetectController extends BaseController
 {
     /**
      * @param array     $args
      */
-    public function index(Request $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
@@ -29,16 +29,16 @@ final class DetectController extends BaseController
         }
 
         $render = Tools::paginateRender($logs);
-        return $this->view()
+        return $response->write($this->view()
             ->assign('rules', $logs)
             ->assign('render', $render)
-            ->display('user/detect/index.tpl');
+            ->fetch('user/detect/index.tpl'));
     }
 
     /**
      * @param array     $args
      */
-    public function log(Request $request, Response $response, array $args)
+    public function log(ServerRequest $request, Response $response, array $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
@@ -68,9 +68,9 @@ final class DetectController extends BaseController
         }
 
         $render = Tools::paginateRender($logs);
-        return $this->view()
+        return $response->write($this->view()
             ->assign('logs', $logs)
             ->assign('render', $render)
-            ->display('user/detect/log.tpl');
+            ->fetch('user/detect/log.tpl'));
     }
 }

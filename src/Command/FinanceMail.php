@@ -13,9 +13,9 @@ final class FinanceMail extends Command
 {
     public $description = <<<EOL
 ├─=: php xcat FinanceMail [选项]
-│ ├─ day                     - 日报
-│ ├─ week                    - 周报
-│ ├─ month                   - 月报
+│ ├─ day                     - 日报
+│ ├─ week                    - 周报
+│ ├─ month                   - 月报
 EOL;
 
     public function boot(): void
