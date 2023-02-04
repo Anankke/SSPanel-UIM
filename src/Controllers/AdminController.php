@@ -34,19 +34,6 @@ final class AdminController extends BaseController
     }
 
     /**
-     * 统计信息
-     *
-     * @param array     $args
-     */
-    public function sys(ServerRequest $request, Response $response, array $args)
-    {
-        return $response->write(
-            $this->view()
-                ->fetch('admin/index.tpl')
-        );
-    }
-
-    /**
      * 后台邀请返利页面
      *
      * @param array     $args
@@ -82,7 +69,7 @@ final class AdminController extends BaseController
             return date('Y-m-d H:i:s', $data['datetime']);
         });
         return $response->write(
-            $datatables->generate()
+            (string) $datatables->generate()
         );
     }
 
