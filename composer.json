@@ -8,7 +8,7 @@
         "anankke/omnipay-alipay": "^3.1.3",
         "aws/aws-sdk-php": "^3",
         "cloudflare/sdk": "^1",
-        "esdeathlove/datatables": "^1.6",
+        "ozdemir/datatables": "^2",
         "guzzlehttp/guzzle": "^7.4",
         "guzzlehttp/psr7": "^2.4",
         "illuminate/database": "^9.0",
