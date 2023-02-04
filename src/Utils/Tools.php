@@ -314,19 +314,6 @@ final class Tools
     }
 
     /**
-     * 重置自增列 ID
-     */
-    public static function resetAutoIncrement(DatatablesHelper $db, string $table): void
-    {
-        $maxid = $db->query(
-            "SELECT `auto_increment` AS `maxid` FROM `information_schema`.`tables` WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "'"
-        )[0]['maxid'];
-        if ($maxid >= 2000000000) {
-            $db->query('ALTER TABLE `' . $table . '` auto_increment = 1');
-        }
-    }
-
-    /**
      * Eloquent 分页链接渲染
      *
      * @param mixed $data

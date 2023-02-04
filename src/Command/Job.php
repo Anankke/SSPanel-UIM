@@ -24,7 +24,6 @@ use App\Models\UserSubscribeLog;
 use App\Services\Analytics;
 use App\Services\DB;
 use App\Services\Mail;
-use App\Utils\DatatablesHelper;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
@@ -76,16 +75,17 @@ EOL;
         TelegramSession::where('datetime', '<', \time() - 900)->delete();
         // ------- 清理各表记录
 
-        // ------- 重置自增 ID
-        $db = new DatatablesHelper();
-        Tools::resetAutoIncrement($db, 'node_online_log');
-        // ------- 重置自增 ID
-
         // ------- 用户每日流量报告
         $users = User::all();
 
         $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
-        $ann_latest = $ann_latest_raw->content . '<br><br>';
+
+        // 判断是否有公告
+        if ($ann_latest_raw === null) {
+            $ann_latest = '<br><br>';
+        } else {
+            $ann_latest = $ann_latest_raw->content . '<br><br>';
+        }
 
         $lastday_total = 0;
 

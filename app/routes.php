@@ -142,7 +142,6 @@ return static function (Slim\App $app): void {
         $group->get('', App\Controllers\AdminController::class . ':index');
         $group->get('/', App\Controllers\AdminController::class . ':index');
 
-        $group->get('/sys', App\Controllers\AdminController::class . ':sys');
         $group->get('/invite', App\Controllers\AdminController::class . ':invite');
         $group->post('/invite', App\Controllers\AdminController::class . ':addInvite');
         $group->post('/chginvite', App\Controllers\AdminController::class . ':chgInvite');

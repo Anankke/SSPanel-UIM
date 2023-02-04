@@ -21,11 +21,10 @@ use App\Models\UserSubscribeLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Config;
+use App\Services\DB;
 use App\Services\Payment;
 use App\Utils\Check;
 use App\Utils\Cookie;
-use App\Utils\DatatablesHelper;
-use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
@@ -34,6 +33,7 @@ use App\Utils\Tools;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
 
 /**
@@ -190,7 +190,7 @@ final class UserController extends BaseController
             ]);
         }
         $user = $this->user;
-        $ga = new GA();
+        $ga = new GoogleAuthenticator();
         $rcode = $ga->verifyCode($user->ga_token, $code);
         if (! $rcode) {
             return $response->withJson([
@@ -254,7 +254,7 @@ final class UserController extends BaseController
      */
     public function resetGa(ServerRequest $request, Response $response, array $args)
     {
-        $ga = new GA();
+        $ga = new GoogleAuthenticator();
         $secret = $ga->createSecret();
         $user = $this->user;
         $user->ga_token = $secret;
@@ -361,8 +361,8 @@ final class UserController extends BaseController
     public function media(ServerRequest $request, Response $response, array $args)
     {
         $results = [];
-        $db = new DatatablesHelper();
-        $nodes = $db->query('SELECT DISTINCT node_id FROM stream_media');
+        $pdo = DB::getPdo();
+        $nodes = $pdo->query('SELECT DISTINCT node_id FROM stream_media');
 
         foreach ($nodes as $node_id) {
             $node = Node::where('id', $node_id)->first();

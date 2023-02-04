@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Utils\DatatablesHelper;
+use App\Services\DB;
 use App\Utils\QQWry;
 use App\Utils\Tools;
 
@@ -76,9 +76,9 @@ final class Ip extends Model
 
     public function getUserAliveIpCount()
     {
-        $db = new DatatablesHelper();
+        $pdo = DB::getPdo();
         $res = [];
-        foreach ($db->query('SELECT `userid`, COUNT(DISTINCT `ip`) AS `count` FROM `alive_ip` WHERE `datetime` >= UNIX_TIMESTAMP(NOW()) - 60 GROUP BY `userid`') as $line) {
+        foreach ($pdo->query('SELECT `userid`, COUNT(DISTINCT `ip`) AS `count` FROM `alive_ip` WHERE `datetime` >= UNIX_TIMESTAMP(NOW()) - 60 GROUP BY `userid`') as $line) {
             $res[strval($line['userid'])] = $line['count'];
         }
         return $res;

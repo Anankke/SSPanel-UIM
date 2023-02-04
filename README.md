@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Anankke/SSPanel-Uim/dev/public/images/uim-logo-round_192x192.png" alt="logo" width="130" height="130" align="left" />
+<img src="public/images/uim-logo-round_192x192.png" alt="logo" width="130" height="130" align="left" />
 
 <h1>SSPanel UIM</h1>
 
@@ -16,7 +16,7 @@
 
 ## 简介
 
-SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan 设计的多用户管理面板，基于 orvice/ss-panel v3 版本开发。
+SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan 协议设计的多用途代理服务销售管理系统。
 
 ## 特性
 
@@ -24,9 +24,9 @@ SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan 设计的多用户管�
 - 数据库化配置，管理面板一键配置
 - 支持多种邮件服务，内置队列功能，无需第三方组件即可使用
 - 内置基于 Bootstrap 5 的 tabler 主题，Smarty 模板引擎支持
-- 自定义节点配置，支持 Shadowsocks 2022，Shadowsocks AEAD，Trojan-Go 等最新代理协议
+- 支持 Shadowsocks 2022，Shadowsocks AEAD，Trojan-Go 等最新代理协议
 - 通用订阅接口，一键 json/clash 格式订阅下发，自定义客户端更简单
-- 模块化订阅系统，支持多种传统订阅模式，自定义订阅更方便
+- 自定义节点配置，模块化订阅系统，支持多种传统订阅模式，自定义订阅更方便
 - 支持 用户IP匿名化，无日志模式，用户自助删除数据 等隐私保护功能，满足合规性需求
 
 ## 安装
@@ -35,8 +35,8 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 
 - Git
 - Nginx
-- PHP 8.0
-- MySQL 8.0 / MariaDB 10.6+
+- PHP 8.0+
+- MariaDB 10.6+
 
 ## 文档
 
@@ -59,9 +59,11 @@ SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档�
 ## 支持开发者
 
 ### M1Screw
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O850UEH)
 
 ## Sponsor / 赞助商
+
 [![](.github/jetbrains.png)](https://www.jetbrains.com/?from=SSPanel-UIM)
 
 ## 协议

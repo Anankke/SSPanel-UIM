@@ -71,7 +71,7 @@ final class Update extends Command
 
             echo '新增 .config.php 配置项：' . $difference . ':' . $comment . PHP_EOL;
         }
-        echo '没有任何新.config.php 配置项需要添加' . PHP_EOL;
+        echo '没有任何新 .config.php 配置项需要添加' . PHP_EOL;
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo PHP_EOL . '迁移完成' . PHP_EOL;
