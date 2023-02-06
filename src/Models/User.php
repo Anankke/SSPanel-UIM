@@ -287,11 +287,6 @@ final class User extends Model
         return date('Ymd') !== date('Ymd', $this->last_check_in_time);
     }
 
-    public function getGAurl()
-    {
-        return 'otpauth://totp/' . urlencode($_ENV['appName'] . '-' . $this->email . '-两步验证码') . '?secret=' . $this->ga_token . '';
-    }
-
     /**
      * 获取用户的邀请码
      */
