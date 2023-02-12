@@ -6,24 +6,37 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use App\Services\Mail;
 
-final class CaptchaController extends BaseController
+final class EmailController extends BaseController
 {
     public static $update_field = [
-        'captcha_provider',
-        'enable_reg_captcha',
-        'enable_login_captcha',
-        'enable_checkin_captcha',
-        'enable_reset_password_captcha',
-        // Turnstile
-        'turnstile_sitekey',
-        'turnstile_secret',
-        // Geetest
-        'geetest_id',
-        'geetest_key',
+        'mail_driver',
+        // SMTP
+        'smtp_host',
+        'smtp_username',
+        'smtp_password',
+        'smtp_port',
+        'smtp_name',
+        'smtp_sender',
+        'smtp_ssl',
+        'smtp_bbc',
+        // Mailgun
+        'mailgun_key',
+        'mailgun_domain',
+        'mailgun_sender',
+        // Sendgrid
+        'sendgrid_key',
+        'sendgrid_sender',
+        'sendgrid_name',
+        // AWS SES
+        'aws_access_key_id',
+        'aws_secret_access_key',
+        'aws_region',
+        'aws_ses_sender',
     ];
 
-    public function captcha($request, $response, $args)
+    public function email($request, $response, $args)
     {
         $settings = [];
         $settings_raw = Setting::get(['item', 'value', 'type']);
@@ -40,11 +53,11 @@ final class CaptchaController extends BaseController
             $this->view()
                 ->assign('update_field', self::$update_field)
                 ->assign('settings', $settings)
-                ->fetch('admin/setting/captcha.tpl')
+                ->fetch('admin/setting/email.tpl')
         );
     }
 
-    public function saveCaptcha($request, $response, $args)
+    public function saveEmail($request, $response, $args)
     {
         $list = self::$update_field;
 
@@ -68,6 +81,30 @@ final class CaptchaController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '保存成功',
+        ]);
+    }
+
+    public function testEmail($request, $response, $args)
+    {
+        $to = $request->getParam('recipient');
+
+        try {
+            Mail::send(
+                $to,
+                '测试邮件',
+                'auth/test.tpl',
+                [],
+                []
+            );
+        } catch (\Throwable $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '测试邮件发送失败',
+            ]);
+        }
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '测试邮件发送成功',
         ]);
     }
 }
