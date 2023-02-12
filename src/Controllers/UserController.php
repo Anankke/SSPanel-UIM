@@ -576,7 +576,7 @@ final class UserController extends BaseController
 
         $newusername = $antiXss->xss_clean($request->getParam('newusername'));
         $user = $this->user;
-        
+
         $user->user_name = $newusername;
         $user->save();
 
