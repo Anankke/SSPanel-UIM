@@ -11,12 +11,12 @@
     <!-- CSS files -->
     <link href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
     <link href="//cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
-    <link href="//cdn.datatables.net/v/bs5/dt-1.13.1/datatables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/v/bs5/dt-1.13.2/datatables.min.css" rel="stylesheet" />
     <!-- JS files -->
     <script src="//cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/v/bs5/dt-1.13.1/datatables.min.js"></script>
+    <script src="//cdn.datatables.net/v/bs5/dt-1.13.2/datatables.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;
@@ -89,10 +89,35 @@
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
-                                            <a class="dropdown-item" href="/admin/setting">
-                                                <i class="ti ti-tool"></i>&nbsp;
-                                                设置
-                                            </a>
+                                            <div class="dropend">
+                                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                                                    <i class="ti ti-settings"></i>&nbsp;
+                                                    设置
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    <a href="/admin/setting/billing" class="dropdown-item">
+                                                      财务
+                                                    </a>
+                                                    <a href="/admin/setting/email" class="dropdown-item">
+                                                      邮件
+                                                    </a>
+                                                    <a href="/admin/setting/support" class="dropdown-item">
+                                                      客服
+                                                    </a>
+                                                    <a href="/admin/setting/captcha" class="dropdown-item">
+                                                      验证
+                                                    </a>
+                                                    <a href="/admin/setting/reg" class="dropdown-item">
+                                                      注册
+                                                    </a>
+                                                    <a href="/admin/setting/ref" class="dropdown-item">
+                                                      邀请
+                                                    </a>
+                                                    <a href="/admin/setting/im" class="dropdown-item">
+                                                      IM
+                                                    </a>
+                                                </div>
+                                            </div>
                                             <a class="dropdown-item" href="/admin/user">
                                                 <i class="ti ti-users"></i>&nbsp;
                                                 用户

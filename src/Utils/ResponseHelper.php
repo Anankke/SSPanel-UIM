@@ -7,7 +7,6 @@ namespace App\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
-
 use function array_keys;
 use function hash;
 use function json_encode;

@@ -18,7 +18,6 @@
         "league/html-to-markdown": "^5.1",
         "league/omnipay": "^3.2.1",
         "mailgun/mailgun-php": "^3",
-        "paymentwall/paymentwall-php": "^2",
         "phpmailer/phpmailer": "^6",
         "ramsey/uuid": "^4",
         "sendgrid/sendgrid": "^8",

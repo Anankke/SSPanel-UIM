@@ -11,17 +11,6 @@ use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
 
-/**
- * User Model
- *
- * @property-read   int     $id         ID
- *
- * @todo More property
- *
- * @property        bool    $is_admin           是否管理员
- * @property        bool    $expire_notified    If user is notified for expire
- * @property        bool    $traffic_notified   If user is noticed for low traffic
- */
 final class User extends Model
 {
     /**

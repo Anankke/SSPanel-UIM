@@ -119,7 +119,7 @@ final class UserController extends BaseController
             if ($email === '') {
                 throw new \Exception('请填写邮箱');
             }
-            if (!Check::isEmailLegal($email)) {
+            if (! Check::isEmailLegal($email)) {
                 throw new \Exception('邮箱格式不正确');
             }
             $exist = User::where('email', $email)->first();

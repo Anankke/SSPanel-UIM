@@ -66,7 +66,7 @@ final class AuthController extends BaseController
     {
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
-            if (!$ret) {
+            if (! $ret) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '系统无法接受您的验证结果，请刷新页面后重试。',
@@ -87,7 +87,7 @@ final class AuthController extends BaseController
             ]);
         }
 
-        if (!Hash::checkPassword($user->pass, $passwd)) {
+        if (! Hash::checkPassword($user->pass, $passwd)) {
             // 记录登录失败
             $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
             return $response->withJson([
@@ -99,7 +99,7 @@ final class AuthController extends BaseController
         if ($user->ga_enable === 1) {
             $ga = new GoogleAuthenticator();
             $rcode = $ga->verifyCode($user->ga_token, $code);
-            if (!$rcode) {
+            if (! $rcode) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '两步验证码错误，如果您是丢失了生成器或者错误地设置了这个选项，您可以尝试重置密码，即可取消这个选项。',
@@ -195,27 +195,32 @@ final class AuthController extends BaseController
             if ($email === '') {
                 return ResponseHelper::error($response, '未填写邮箱');
             }
+
             // check email format
             $check_res = Check::isEmailLegal($email);
             if ($check_res['ret'] === 0) {
                 return $response->withJson($check_res);
             }
+
             $user = User::where('email', $email)->first();
             if ($user !== null) {
                 return ResponseHelper::error($response, '此邮箱已经注册');
             }
+
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])
                 ->where('expire_in', '>', \time())
                 ->count();
-            if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
+            if ($ipcount > Setting::obtain('email_verify_ip_limit')) {
                 return ResponseHelper::error($response, '此IP请求次数过多');
             }
+
             $mailcount = EmailVerify::where('email', '=', $email)
                 ->where('expire_in', '>', \time())
                 ->count();
-            if ($mailcount >= 3) {
+            if ($mailcount > Setting::obtain('email_verify_email_limit')) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
             }
+
             $code = Tools::genRandomChar(6);
             $ev = new EmailVerify();
             $ev->expire_in = \time() + Setting::obtain('email_verify_ttl');
@@ -223,6 +228,7 @@ final class AuthController extends BaseController
             $ev->email = $email;
             $ev->code = $code;
             $ev->save();
+
             try {
                 Mail::send(
                     $email,
@@ -237,6 +243,7 @@ final class AuthController extends BaseController
             } catch (Exception $e) {
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
+
             return ResponseHelper::successfully($response, '验证码发送成功，请查收邮件。');
         }
         return ResponseHelper::error($response, ' 不允许注册');
@@ -340,7 +347,7 @@ final class AuthController extends BaseController
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
         }
 
-        if ($user->save() && !$is_admin_reg) {
+        if ($user->save() && ! $is_admin_reg) {
             Auth::login($user->id, 3600);
             $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
@@ -365,7 +372,7 @@ final class AuthController extends BaseController
 
         if (Setting::obtain('enable_reg_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
-            if (!$ret) {
+            if (! $ret) {
                 return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
             }
         }

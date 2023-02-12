@@ -6,7 +6,7 @@ use App\Interfaces\MigrationInterface;
 use App\Services\DB;
 
 return new class() implements MigrationInterface {
-    private const INIT = <<< END
+    private const UP = <<< END
       CREATE TABLE `alive_ip` (
         `id` bigint(20) NOT NULL AUTO_INCREMENT,
         `nodeid` int(11) DEFAULT NULL,
@@ -324,7 +324,7 @@ return new class() implements MigrationInterface {
         `invite_num` int(11) DEFAULT 0 COMMENT '可用邀请次数',
         `money` decimal(10,2) NOT NULL DEFAULT 0.00,
         `ref_by` bigint(20) unsigned DEFAULT 0 COMMENT '邀请人ID',
-        `method` varchar(255) DEFAULT 'rc4-md5' COMMENT 'SS/SSR加密方式',
+        `method` varchar(255) DEFAULT 'rc4-md5' COMMENT 'Shadowsocks加密方式',
         `reg_ip` varchar(255) DEFAULT '127.0.0.1' COMMENT '注册IP',
         `node_speedlimit` double NOT NULL DEFAULT 0 COMMENT '用户限速',
         `node_iplimit` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '同时可连接IP数',
@@ -342,13 +342,8 @@ return new class() implements MigrationInterface {
         `ga_enable` int(11) DEFAULT 0,
         `remark` text DEFAULT '' COMMENT '备注',
         `node_group` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点分组',
-        `protocol` varchar(255) DEFAULT 'origin' COMMENT 'SS/SSR协议方式',
-        `protocol_param` varchar(255) DEFAULT '',
-        `obfs` varchar(255) DEFAULT 'plain' COMMENT 'SS/SSR混淆方式',
-        `obfs_param` varchar(255) DEFAULT '',
         `is_banned` int(11) DEFAULT 0 COMMENT '是否封禁',
         `banned_reason` varchar(255) DEFAULT '' COMMENT '封禁理由',
-        `is_multi_user` int(11) DEFAULT 0,
         `telegram_id` bigint(20) DEFAULT 0,
         `expire_notified` tinyint(1) DEFAULT 0,
         `traffic_notified` tinyint(1) DEFAULT 0,
@@ -420,22 +415,14 @@ return new class() implements MigrationInterface {
         `request_user_agent` text DEFAULT NULL COMMENT '请求 UA 信息',
         PRIMARY KEY (`id`),
         KEY `user_id` (`user_id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-      
-      CREATE TABLE `user_token` (
-        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-        `token` varchar(255) DEFAULT NULL,
-        `user_id` bigint(20) unsigned DEFAULT NULL,
-        `create_time` bigint(20) unsigned DEFAULT NULL,
-        `expire_time` bigint(20) DEFAULT NULL,
-        PRIMARY KEY (`id`),
-        KEY `user_id` (`user_id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;      
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;   
 END;
+
+    private const DOWN = '';
 
     public function up(): void
     {
-        DB::getPdo()->exec(self::INIT);
+        DB::getPdo()->exec(self::UP);
     }
 
     public function down(): void

@@ -242,10 +242,23 @@ return static function (Slim\App $app): void {
         $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajaxLog');
 
         // 设置中心
-        $group->get('/setting', App\Controllers\Admin\SettingController::class . ':index');
-        $group->post('/setting', App\Controllers\Admin\SettingController::class . ':save');
-        $group->post('/setting/email', App\Controllers\Admin\SettingController::class . ':test');
-        $group->post('/setting/payment', App\Controllers\Admin\SettingController::class . ':payment');
+        $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
+        $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');
+        $group->get('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':captcha');
+        $group->post('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':saveCaptcha');
+        $group->get('/setting/email', App\Controllers\Admin\Setting\EmailController::class . ':email');
+        $group->post('/setting/email', App\Controllers\Admin\Setting\EmailController::class . ':saveEmail');
+        $group->get('/setting/im', App\Controllers\Admin\Setting\ImController::class . ':im');
+        $group->post('/setting/im', App\Controllers\Admin\Setting\ImController::class . ':saveIm');
+        $group->get('/setting/other', App\Controllers\Admin\Setting\OtherController::class . ':other');
+        $group->post('/setting/other', App\Controllers\Admin\Setting\OtherController::class . ':saveOther');
+        $group->get('/setting/ref', App\Controllers\Admin\Setting\RefController::class . ':ref');
+        $group->post('/setting/ref', App\Controllers\Admin\Setting\RefController::class . ':saveRef');
+        $group->get('/setting/reg', App\Controllers\Admin\Setting\RegController::class . ':reg');
+        $group->post('/setting/reg', App\Controllers\Admin\Setting\RegController::class . ':saveReg');
+        $group->get('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':support');
+        $group->post('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':saveSupport');
+        $group->post('/setting/test_email', App\Controllers\Admin\Setting\EmailController::class . ':testEmail');
 
         // 礼品卡
         $group->get('/giftcard', App\Controllers\Admin\GiftCardController::class . ':index');

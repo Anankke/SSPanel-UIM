@@ -215,7 +215,7 @@ final class Callback
 
     public static function getUserIndexKeyboard($user)
     {
-        $checkin = (!$user->isAbleToCheckin() ? '已签到' : '签到');
+        $checkin = (! $user->isAbleToCheckin() ? '已签到' : '签到');
         $Keyboard = [
             [
                 [
@@ -395,7 +395,7 @@ final class Callback
                 foreach ($totallogin as $single) {
                     $location = $iplocation->getlocation($single->ip);
                     $loginiplocation = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-                    if (!\in_array($loginiplocation, $userloginip)) {
+                    if (! \in_array($loginiplocation, $userloginip)) {
                         $userloginip[] = $loginiplocation;
                     }
                 }
@@ -888,7 +888,7 @@ final class Callback
     {
         $paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get');
 
-        if (!is_null($paybacks_sum)) {
+        if (! is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
         $invitation = Setting::getClass('invite');
@@ -992,7 +992,7 @@ final class Callback
             $temp['keyboard'] = [
                 [
                     [
-                        'text' => (!$this->User->isAbleToCheckin() ? '已签到' : '签到'),
+                        'text' => (! $this->User->isAbleToCheckin() ? '已签到' : '签到'),
                         'callback_data' => 'user.checkin.' . $this->triggerUser['id'],
                     ],
                 ],

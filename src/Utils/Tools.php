@@ -157,7 +157,7 @@ final class Tools
     {
         $user = User::orderBy('id', 'desc')->first();
         if ($user === null) {
-            return 1024; // @todo
+            return 1024;
         }
         return $user->port;
     }

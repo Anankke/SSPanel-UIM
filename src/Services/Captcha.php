@@ -46,7 +46,7 @@ final class Captcha
                         'content' => $postdata,
                     ],
                     ];
-                    $json = @file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create($opts));
+                    $json = file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create($opts));
                     $result = \json_decode($json)->success;
                 }
                 break;
@@ -76,7 +76,7 @@ final class Captcha
                             'timeout' => 5,
                         ],
                     ];
-                    $json = @file_get_contents(
+                    $json = file_get_contents(
                         'http://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id,
                         false,
                         stream_context_create($opts)
