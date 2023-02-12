@@ -421,8 +421,10 @@ final class UserController extends BaseController
      */
     public function buyInvite(ServerRequest $request, Response $response, array $args)
     {
+        $antiXss = new AntiXSS();
+
         $price = Setting::obtain('invite_price');
-        $num = $request->getParam('num');
+        $num = $antiXss->xss_clean($request->getParam('num'));
         $num = trim($num);
 
         if (! Tools::isInt($num) || $price < 0 || $num <= 0) {
@@ -452,9 +454,10 @@ final class UserController extends BaseController
      */
     public function customInvite(ServerRequest $request, Response $response, array $args)
     {
+        $antiXss = new AntiXSS();
+
         $price = Setting::obtain('custom_invite_price');
-        $customcode = $request->getParam('customcode');
-        $customcode = trim($customcode);
+        $customcode = trim($antiXss->xss_clean($request->getParam('customcode')));
 
         if (Tools::isSpecialChars($customcode) || $price < 0 || $customcode === '' || strlen($customcode) > 32) {
             return ResponseHelper::error(
@@ -522,8 +525,10 @@ final class UserController extends BaseController
      */
     public function updateEmail(ServerRequest $request, Response $response, array $args)
     {
+        $antiXss = new AntiXSS();
+
         $user = $this->user;
-        $newemail = $request->getParam('newemail');
+        $newemail = $antiXss->xss_clean($request->getParam('newemail'));
         $oldemail = $user->email;
         $otheruser = User::where('email', $newemail)->first();
 
@@ -556,8 +561,7 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, '新邮箱不能和旧邮箱一样');
         }
 
-        $antiXss = new AntiXSS();
-        $user->email = $antiXss->xss_clean($newemail);
+        $user->email = $newemail;
         $user->save();
 
         return ResponseHelper::successfully($response, '修改成功');
@@ -568,10 +572,12 @@ final class UserController extends BaseController
      */
     public function updateUsername(ServerRequest $request, Response $response, array $args)
     {
-        $newusername = $request->getParam('newusername');
-        $user = $this->user;
         $antiXss = new AntiXSS();
-        $user->user_name = $antiXss->xss_clean($newusername);
+
+        $newusername = $antiXss->xss_clean($request->getParam('newusername'));
+        $user = $this->user;
+        
+        $user->user_name = $newusername;
         $user->save();
 
         return ResponseHelper::successfully($response, '修改成功');
@@ -742,9 +748,9 @@ final class UserController extends BaseController
      */
     public function updateMethod(ServerRequest $request, Response $response, array $args)
     {
-        $user = $this->user;
-
         $antiXss = new AntiXSS();
+
+        $user = $this->user;
 
         $method = strtolower($antiXss->xss_clean($request->getParam('method')));
 
@@ -824,6 +830,7 @@ final class UserController extends BaseController
         $user = $this->user;
 
         $passwd = $request->getParam('passwd');
+
         if (! Hash::checkPassword($user->pass, $passwd)) {
             return ResponseHelper::error($response, '密码错误');
         }
