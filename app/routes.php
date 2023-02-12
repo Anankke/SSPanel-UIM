@@ -85,11 +85,12 @@ return static function (Slim\App $app): void {
 
         $group->get('/code_check', App\Controllers\UserController::class . ':codeCheck');
         $group->post('/code', App\Controllers\UserController::class . ':codePost');
-        $group->post('/ga_check', App\Controllers\UserController::class . ':checkGa');
-        $group->post('/ga_set', App\Controllers\UserController::class . ':setGa');
-        $group->get('/ga_reset', App\Controllers\UserController::class . ':resetGa');
+        // MFA
+        $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
+        $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
+        $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
+        // Telegram
         $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
-        $group->post('/unblock', App\Controllers\UserController::class . ':unblock');
         $group->get('/bought', App\Controllers\UserController::class . ':bought');
         $group->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');
         $group->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
