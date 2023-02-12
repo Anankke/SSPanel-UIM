@@ -34,7 +34,7 @@ $container['notAllowedHandler'] = static function ($c) {
     };
 };
 
-if ($_ENV['debug'] === false) {
+if ($_ENV['sentry_dsn'] !== '') {
     $container['errorHandler'] = static function ($c) {
         return static function ($request, $response, $exception) {
             $view = View::getSmarty();
