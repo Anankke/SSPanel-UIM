@@ -91,6 +91,7 @@
                                         <div class="dropdown-menu-column">
                                             <div class="dropend">
                                                 <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                                                    <i class="ti ti-settings"></i>&nbsp;
                                                     设置
                                                 </a>
                                                 <div class="dropdown-menu">

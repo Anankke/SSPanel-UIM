@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a id="save-node" href="#" class="btn btn-primary">
+                        <a id="save-setting" href="#" class="btn btn-primary">
                             <i class="icon ti ti-device-floppy"></i>
                             保存
                         </a>
@@ -60,15 +60,15 @@
                     <div class="tab-content">
                         <div class="tab-pane active show" id="gateway">
                             {foreach $payment_gateways as $key => $value}
-                            <label class="row">
-                                <span class="col">{$value}</span>
-                                <span class="col-auto">
-                                    <label class="form-check form-check-single form-switch">
+                            <div class="form-group mb-3 row">
+                                <div class="row align-items-center">
+                                    <label class="form-label col-3 col-form-label">{$key}</label>
+                                    <label class="col-auto ms-auto form-check form-check-single form-switch">
                                         <input id="{$value}_enable" class="form-check-input" type="checkbox"
                                         {if in_array($value, $active_payment_gateway)}checked="" {/if}>
                                     </label>
-                                </span>
-                            </label>
+                                </div>
+                            </div>
                             {/foreach}
                         </div>
                         <div class="tab-pane" id="f2f">
@@ -98,11 +98,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">自定义回调地址</label>
+                                    <label class="form-label col-3 col-form-label">自定义回调地址（可选）</label>
                                     <div class="col">
                                         <input id="f2f_pay_notify_url" type="text" class="form-control" value="{$settings['f2f_pay_notify_url']}">
                                     </div>
-                                    <label class="form-label col-form-label">此项可留空，不影响使用</label>
                                 </div>
                             </div>
                         </div>
@@ -202,6 +201,24 @@
                                         <select id="stripe_card" class="col form-select" value="{$settings['stripe_card']}">
                                             <option value="0">停用</option>
                                             <option value="1" {if $settings['stripe_card'] === true}selected{/if}>启用</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">支付宝支付</label>
+                                    <div class="col">
+                                        <select id="stripe_alipay" class="col form-select" value="{$settings['stripe_alipay']}">
+                                            <option value="0">停用</option>
+                                            <option value="1" {if $settings['stripe_alipay'] === true}selected{/if}>启用</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">微信支付</label>
+                                    <div class="col">
+                                        <select id="stripe_wechat" class="col form-select" value="{$settings['stripe_wechat']}">
+                                            <option value="0">停用</option>
+                                            <option value="1" {if $settings['stripe_wechat'] === true}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -326,7 +343,6 @@
                 if (data.ret == 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
-                    window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                 } else {
                     $('#fail-message').text(data.msg);
                     $('#fail-dialog').modal('show');

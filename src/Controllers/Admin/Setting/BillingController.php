@@ -35,6 +35,8 @@ final class BillingController extends BaseController
         'pmw_height',
         // Stripe
         'stripe_card',
+        'stripe_alipay',
+        'stripe_wechat',
         'stripe_currency',
         'stripe_pk',
         'stripe_sk',
@@ -79,7 +81,7 @@ final class BillingController extends BaseController
         $gateway_in_use = [];
 
         foreach (array_values(self::returnGatewaysList()) as $value) {
-            $payment_enable = $request->getParam("${value}_enable");
+            $payment_enable = $request->getParam("${value}");
             if ($payment_enable === 'true') {
                 \array_push($gateway_in_use, $value);
             }

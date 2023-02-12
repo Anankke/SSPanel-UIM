@@ -156,7 +156,7 @@
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "stripe_sk",
+        "default": "",
         "mark": "stripe_sk"
     },
     {
@@ -166,7 +166,7 @@
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "stripe_pk",
+        "default": "",
         "mark": "stripe_pk"
     },
     {
@@ -176,7 +176,7 @@
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "stripe_webhook_key",
+        "default": "",
         "mark": "web_hook密钥"
     },
     {
