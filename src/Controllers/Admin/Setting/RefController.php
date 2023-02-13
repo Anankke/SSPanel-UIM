@@ -7,34 +7,22 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 
-final class RegController extends BaseController
+final class RefController extends BaseController
 {
     public static $update_field = [
-        'reg_mode',
-        'reg_email_verify',
-        'email_verify_ttl',
-        'email_verify_ip_limit',
-        'email_verify_email_limit',
-        'sign_up_for_daily_report',
-        'enable_reg_im',
-        'random_group',
-        'min_port',
-        'max_port',
-        'sign_up_for_free_traffic',
-        'free_user_reset_day',
-        'free_user_reset_bandwidth',
-        'sign_up_for_free_time',
-        'sign_up_for_class',
-        'sign_up_for_class_time',
-        'sign_up_for_method',
-        'sign_up_for_invitation_codes',
-        'connection_device_limit',
-        'connection_rate_limit',
-        'reg_forbidden_ip',
-        'reg_forbidden_port',
+        'invitation_to_register_balance_reward',
+        'invitation_to_register_traffic_reward',
+        'invite_price',
+        'custom_invite_price',
+        'invitation_mode',
+        'invite_rebate_mode',
+        'rebate_ratio',
+        'rebate_frequency_limit',
+        'rebate_amount_limit',
+        'rebate_time_range_limit',
     ];
 
-    public function reg($request, $response, $args)
+    public function ref($request, $response, $args)
     {
         $settings = [];
         $settings_raw = Setting::get(['item', 'value', 'type']);
@@ -51,11 +39,11 @@ final class RegController extends BaseController
             $this->view()
                 ->assign('update_field', self::$update_field)
                 ->assign('settings', $settings)
-                ->fetch('admin/setting/reg.tpl')
+                ->fetch('admin/setting/ref.tpl')
         );
     }
 
-    public function saveReg($request, $response, $args)
+    public function saveRef($request, $response, $args)
     {
         $list = self::$update_field;
 

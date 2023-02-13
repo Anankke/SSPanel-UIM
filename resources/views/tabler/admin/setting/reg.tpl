@@ -49,8 +49,8 @@
                                     <label class="form-label col-3 col-form-label">注册模式</label>
                                     <div class="col">
                                         <select id="reg_mode" class="col form-select" value="{$settings['reg_mode']}">
-                                            <option value="close" {if $settings['reg_mode'] == 'close'}selected{/if}>关闭公共注册</option>
-                                            <option value="open" {if $settings['reg_mode'] == 'open'}selected{/if}>开启公共注册</option>
+                                            <option value="close" {if $settings['reg_mode'] == 'close'}selected{/if}>关闭注册</option>
+                                            <option value="open" {if $settings['reg_mode'] == 'open'}selected{/if}>公开注册</option>
                                             <option value="invite" {if $settings['reg_mode'] == 'invite'}selected{/if}>仅限用户邀请注册</option>
                                         </select>
                                     </div>
