@@ -195,27 +195,32 @@ final class AuthController extends BaseController
             if ($email === '') {
                 return ResponseHelper::error($response, '未填写邮箱');
             }
+
             // check email format
             $check_res = Check::isEmailLegal($email);
             if ($check_res['ret'] === 0) {
                 return $response->withJson($check_res);
             }
+
             $user = User::where('email', $email)->first();
             if ($user !== null) {
                 return ResponseHelper::error($response, '此邮箱已经注册');
             }
+
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])
                 ->where('expire_in', '>', \time())
                 ->count();
-            if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
+            if ($ipcount > Setting::obtain('email_verify_ip_limit')) {
                 return ResponseHelper::error($response, '此IP请求次数过多');
             }
+
             $mailcount = EmailVerify::where('email', '=', $email)
                 ->where('expire_in', '>', \time())
                 ->count();
-            if ($mailcount >= 3) {
+            if ($mailcount > Setting::obtain('email_verify_email_limit')) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
             }
+
             $code = Tools::genRandomChar(6);
             $ev = new EmailVerify();
             $ev->expire_in = \time() + Setting::obtain('email_verify_ttl');
@@ -223,6 +228,7 @@ final class AuthController extends BaseController
             $ev->email = $email;
             $ev->code = $code;
             $ev->save();
+
             try {
                 Mail::send(
                     $email,
@@ -237,6 +243,7 @@ final class AuthController extends BaseController
             } catch (Exception $e) {
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
+
             return ResponseHelper::successfully($response, '验证码发送成功，请查收邮件。');
         }
         return ResponseHelper::error($response, ' 不允许注册');

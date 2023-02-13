@@ -751,6 +751,16 @@
     },
     {
         "id": null,
+        "item": "email_verify_email_limit",
+        "value": "5",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "5",
+        "mark": "验证码有效期内单个邮箱可请求的发信次数"
+    },
+    {
+        "id": null,
         "item": "enable_reg_im",
         "value": "0",
         "class": "register",
