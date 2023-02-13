@@ -22,7 +22,6 @@ return [
         SlevomatCodingStandard\Sniffs\Classes\SuperfluousInterfaceNamingSniff::class,
         SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff::class,
         SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff::class,
-        SlevomatCodingStandard\Sniffs\Namespaces\UseSpacingSniff::class,
         SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff::class,
         SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff::class,
         SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
