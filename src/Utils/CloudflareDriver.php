@@ -11,7 +11,6 @@ use Cloudflare\API\Endpoints\Zones;
 
 final class CloudflareDriver
 {
-    // @todo: parameters
     public static function modifyRecord(DNS $dns, $zoneID, $recordID, $name, $content, $proxied = false)
     {
         $details = ['type' => 'A', 'name' => $name, 'content' => $content, 'proxied' => $proxied];

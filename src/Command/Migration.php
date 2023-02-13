@@ -69,7 +69,7 @@ END;
                     continue;
                 }
                 $version = (int) (explode('-', $file, 1)[0] ?? 0);
-                if (!($version > $min_version && $version <= $max_version)) {
+                if (! ($version > $min_version && $version <= $max_version)) {
                     continue;
                 }
                 $object = require BASE_PATH . '/db/migrations/' . $file;

@@ -671,46 +671,6 @@
     },
     {
         "id": null,
-        "item": "pmw_publickey",
-        "value": "",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "pmw公钥"
-    },
-    {
-        "id": null,
-        "item": "pmw_privatekey",
-        "value": "",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "pmw私钥"
-    },
-    {
-        "id": null,
-        "item": "pmw_widget",
-        "value": "m2_1",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "m2_1",
-        "mark": "pmw_widget"
-    },
-    {
-        "id": null,
-        "item": "pmw_height",
-        "value": "350px",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "350px",
-        "mark": "pmw_height"
-    },
-    {
-        "id": null,
         "item": "reg_mode",
         "value": "open",
         "class": "register",
