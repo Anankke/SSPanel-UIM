@@ -80,7 +80,7 @@
                                             被邀请用户充值时返利</option>
                                             <option value="after_purchase" {if $settings['invitation_mode'] == 'after_purchase'}selected{/if}>
                                             被邀请用户购买时返利</option>
-                                            </select>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
@@ -95,6 +95,7 @@
                                             限制邀请人能从被邀请人身上获得的返利金额</option>
                                             <option value="limit_time_range" {if $settings['invite_rebate_mode'] == 'limit_time_range'}selected{/if}>
                                             限制邀请人能从被邀请人身上获得返利的时间范围</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
