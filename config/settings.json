@@ -156,7 +156,7 @@
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "stripe_sk",
+        "default": "",
         "mark": "stripe_sk"
     },
     {
@@ -166,7 +166,7 @@
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "stripe_pk",
+        "default": "",
         "mark": "stripe_pk"
     },
     {
@@ -176,7 +176,7 @@
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "stripe_webhook_key",
+        "default": "",
         "mark": "web_hook密钥"
     },
     {
@@ -748,6 +748,16 @@
         "type": "int",
         "default": "5",
         "mark": "验证码有效期内单个ip可请求的发信次数"
+    },
+    {
+        "id": null,
+        "item": "email_verify_email_limit",
+        "value": "5",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "5",
+        "mark": "验证码有效期内单个邮箱可请求的发信次数"
     },
     {
         "id": null,
