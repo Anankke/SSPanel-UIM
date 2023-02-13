@@ -105,19 +105,16 @@
                                                       客服
                                                     </a>
                                                     <a href="/admin/setting/captcha" class="dropdown-item">
-                                                      人机验证
+                                                      验证
                                                     </a>
                                                     <a href="/admin/setting/reg" class="dropdown-item">
                                                       注册
                                                     </a>
                                                     <a href="/admin/setting/ref" class="dropdown-item">
-                                                      邀请返利
+                                                      邀请
                                                     </a>
                                                     <a href="/admin/setting/im" class="dropdown-item">
-                                                      IM集成
-                                                    </a>
-                                                    <a href="/admin/setting/other" class="dropdown-item">
-                                                      其他
+                                                      IM
                                                     </a>
                                                 </div>
                                             </div>

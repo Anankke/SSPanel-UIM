@@ -7,7 +7,7 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 
-final class CaptchaController extends BaseController
+final class ImController extends BaseController
 {
     public static $update_field = [
         'telegram_add_node',
