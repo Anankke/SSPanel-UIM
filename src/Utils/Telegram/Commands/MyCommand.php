@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram\Reply;
 use Telegram\Bot\Actions;
@@ -39,7 +40,7 @@ final class MyCommand extends Command
         $ChatID = $Message->getChat()->getId();
 
         if ($ChatID < 0) {
-            if ($_ENV['telegram_group_quiet'] === true) {
+            if (Setting::obtain('telegram_group_quiet') === true) {
                 // 群组中不回应
                 return;
             }
@@ -64,7 +65,7 @@ final class MyCommand extends Command
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text' => $_ENV['user_not_bind_reply'],
+                    'text' => Setting::obtain('user_not_bind_reply'),
                     'reply_to_message_id' => $MessageID,
                     'parse_mode' => 'Markdown',
                 ]

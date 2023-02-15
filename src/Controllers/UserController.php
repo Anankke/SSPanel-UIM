@@ -16,9 +16,7 @@ use App\Models\Node;
 use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\StreamMedia;
-use App\Models\Token;
 use App\Models\User;
-use App\Models\UserSubscribeLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Config;
@@ -32,7 +30,6 @@ use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
-use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -54,24 +51,6 @@ final class UserController extends BaseController
             $captcha = Captcha::generate();
         }
 
-        if ($_ENV['subscribe_client_url'] !== '') {
-            $getClient = new Token();
-            for ($i = 0; $i < 10; $i++) {
-                $token = $this->user->id . Tools::genRandomChar(16);
-                $Elink = Token::where('token', '=', $token)->first();
-                if ($Elink === null) {
-                    $getClient->token = $token;
-                    break;
-                }
-            }
-            $getClient->user_id = $this->user->id;
-            $getClient->create_time = \time();
-            $getClient->expire_time = \time() + 10 * 60;
-            $getClient->save();
-        } else {
-            $token = '';
-        }
-
         $data = [
             'today_traffic_usage' => (int) $this->user->transfer_enable === 0 ? 0 : ($this->user->u + $this->user->d - $this->user->last_day_t) / $this->user->transfer_enable * 100,
             'past_traffic_usage' => (int) $this->user->transfer_enable === 0 ? 0 : $this->user->last_day_t / $this->user->transfer_enable * 100,
@@ -80,14 +59,9 @@ final class UserController extends BaseController
 
         return $response->write(
             $this->view()
-                ->assign('ssr_sub_token', $this->user->getSublink())
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
-                ->assign('mergeSub', $_ENV['mergeSub'])
-                ->assign('subUrl', $_ENV['subUrl'] . '/link/')
-                ->registerClass('URL', URL::class)
-                ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
-                ->assign('getClient', $token)
+                ->assign('getTraditionalSub', LinkController::getTraditionalSub($this->user))
                 ->assign('data', $data)
                 ->assign('captcha', $captcha)
                 ->fetch('user/index.tpl')
@@ -179,9 +153,9 @@ final class UserController extends BaseController
 
         if ($codeq->type === 10002) {
             if (\time() > strtotime($user->expire_in)) {
-                $user->expire_in = date('Y-m-d H:i:s', \time() + $codeq->number * 86400);
+                $user->expire_in = date('Y-m-d H:i:s', \time() + (int) $codeq->number * 86400);
             } else {
-                $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + $codeq->number * 86400);
+                $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + (int) $codeq->number * 86400);
             }
             $user->save();
         }
@@ -191,7 +165,7 @@ final class UserController extends BaseController
                 $user->class_expire = date('Y-m-d H:i:s', \time());
                 $user->save();
             }
-            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $codeq->number * 86400);
+            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + (int) $codeq->number * 86400);
             $user->class = $codeq->type;
             $user->save();
         }
@@ -377,7 +351,8 @@ final class UserController extends BaseController
             }
         }
 
-        array_multisort(array_column($results, 'node_name'), SORT_ASC, $results);
+        $node_names = array_column($results, 'node_name');
+        array_multisort($node_names, SORT_ASC, $results);
 
         return $response->write($this->view()
             ->assign('results', $results)
@@ -394,7 +369,7 @@ final class UserController extends BaseController
         $methods = Config::getSupportParam('method');
         $gaurl = MFA::getGAurl($this->user);
 
-        return $reponse->write($this->view()
+        return $response->write($this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
             ->assign('bind_token', $bind_token)
@@ -659,98 +634,43 @@ final class UserController extends BaseController
      */
     public function updateContact(ServerRequest $request, Response $response, array $args)
     {
-        $type = $request->getParam('imtype');
-        $contact = trim($request->getParam('contact'));
+        $antiXss = new AntiXSS();
+
+        $type = $antiXss->xss_clean($request->getParam('imtype'));
+        $value = $antiXss->xss_clean($request->getParam('imvalue'));
 
         $user = $this->user;
 
         if ($user->telegram_id !== null) {
-            return ResponseHelper::error(
-                $response,
-                '您绑定了 Telegram ，所以此项并不能被修改。'
-            );
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '你的账户绑定了 Telegram ，所以此项并不能被修改',
+            ]);
         }
 
-        if ($contact === '' || $type === '') {
-            return ResponseHelper::error($response, '非法输入');
+        if ($value === '' || $type === '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '联络方式不能为空',
+            ]);
         }
 
-        $user1 = User::where('im_value', $contact)->where('im_type', $type)->first();
-        if ($user1 !== null) {
-            return ResponseHelper::error($response, '此联络方式已经被注册');
+        $user_exist = User::where('im_value', $value)->where('im_type', $type)->first();
+        if ($user_exist !== null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '此联络方式已经被注册',
+            ]);
         }
 
         $user->im_type = $type;
-        $antiXss = new AntiXSS();
-        $user->im_value = $antiXss->xss_clean($contact);
+        $user->im_value = $value;
         $user->save();
 
-        return ResponseHelper::successfully($response, '修改成功');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function updateSSR(ServerRequest $request, Response $response, array $args)
-    {
-        $protocol = $request->getParam('protocol');
-        $obfs = $request->getParam('obfs');
-        $obfs_param = $request->getParam('obfs_param');
-        $obfs_param = trim($obfs_param);
-
-        $user = $this->user;
-
-        if ($obfs === '' || $protocol === '') {
-            return ResponseHelper::error($response, '非法输入');
-        }
-
-        if (! Tools::isParamValidate('obfs', $obfs)) {
-            return ResponseHelper::error($response, '协议无效');
-        }
-
-        if (! Tools::isParamValidate('protocol', $protocol)) {
-            return ResponseHelper::error($response, '协议无效');
-        }
-
-        $antiXss = new AntiXSS();
-
-        $user->protocol = $antiXss->xss_clean($protocol);
-        $user->obfs = $antiXss->xss_clean($obfs);
-        $user->obfs_param = $antiXss->xss_clean($obfs_param);
-
-        if (! Tools::checkNoneProtocol($user)) {
-            return ResponseHelper::error(
-                $response,
-                '系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>'
-                . implode(',', Config::getSupportParam('allow_none_protocol'))
-                . '<br>之内，请您先修改您的加密方式，再来修改此处设置。'
-            );
-        }
-
-        if (! URL::SSCanConnect($user) && ! URL::SSRCanConnect($user)) {
-            return ResponseHelper::error(
-                $response,
-                '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。'
-            );
-        }
-
-        $user->save();
-
-        if (! URL::SSCanConnect($user)) {
-            return ResponseHelper::error(
-                $response,
-                '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。'
-            );
-        }
-
-        if (! URL::SSRCanConnect($user)) {
-            return ResponseHelper::error(
-                $response,
-                '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。'
-            );
-        }
-
-        return ResponseHelper::successfully($response, '设置成功，您可自由选用客户端来连接。');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     /**
@@ -758,19 +678,25 @@ final class UserController extends BaseController
      */
     public function updateTheme(ServerRequest $request, Response $response, array $args)
     {
-        $theme = $request->getParam('theme');
+        $antiXss = new AntiXSS();
+        $theme = $antiXss->xss_clean($request->getParam('theme'));
 
         $user = $this->user;
 
         if ($theme === '') {
-            return ResponseHelper::error($response, '非法输入');
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '主题不能为空',
+            ]);
         }
 
-        $antiXss = new AntiXSS();
-        $user->theme = $antiXss->xss_clean($theme);
+        $user->theme = $theme;
         $user->save();
 
-        return ResponseHelper::successfully($response, '设置成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     /**
@@ -1001,57 +927,6 @@ final class UserController extends BaseController
             'old_local' => null,
         ], $expire_in);
         return $response->withStatus(302)->withHeader('Location', $local);
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function getUserAllURL(ServerRequest $request, Response $response, array $args)
-    {
-        $user = $this->user;
-        $type = $request->getQueryParams()['type'];
-        $return = '';
-        switch ($type) {
-            case 'ss':
-                $return .= URL::getNewAllUrl($user, ['type' => 'ss']) . PHP_EOL;
-                break;
-            case 'ssr':
-                $return .= URL::getNewAllUrl($user, ['type' => 'ssr']) . PHP_EOL;
-                break;
-            case 'v2ray':
-                $return .= URL::getNewAllUrl($user, ['type' => 'vmess']) . PHP_EOL;
-                break;
-            default:
-                $return .= '悟空别闹！';
-                break;
-        }
-        $response = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')
-            ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
-            ->withHeader('Content-Disposition', ' attachment; filename=node.txt');
-
-        return $response->write($return);
-    }
-
-    /**
-     * 订阅记录
-     *
-     * @param array    $args
-     */
-    public function subscribeLog(ServerRequest $request, Response $response, array $args)
-    {
-        if ($_ENV['subscribeLog_show'] === false) {
-            return $response->withStatus(302)->withHeader('Location', '/user');
-        }
-
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
-
-        $render = Tools::paginateRender($logs);
-        return $this->view()
-            ->assign('logs', $logs)
-            ->assign('render', $render)
-            ->registerClass('Tools', Tools::class)
-            ->fetch('user/subscribe_log.tpl');
     }
 
     /**

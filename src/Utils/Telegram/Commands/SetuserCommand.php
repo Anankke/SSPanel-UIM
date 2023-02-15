@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram\Reply;
 use App\Utils\Telegram\TelegramTools;
@@ -46,14 +47,14 @@ final class SetuserCommand extends Command
             'username' => $Message->getFrom()->getUsername(),
         ];
 
-        if (! \in_array($SendUser['id'], $_ENV['telegram_admins'])) {
+        if (! \in_array($SendUser['id'], \json_decode(Setting::obtain('telegram_admins')))) {
             $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
             if ($AdminUser === null) {
                 // 非管理员回复消息
-                if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] !== '') {
+                if (Setting::obtain('enable_not_admin_reply') === true && Setting::obtain('not_admin_reply_msg') !== '') {
                     $this->replyWithMessage(
                         [
-                            'text' => $_ENV['not_admin_reply_msg'],
+                            'text' => Setting::obtain('not_admin_reply_msg'),
                             'parse_mode' => 'HTML',
                             'reply_to_message_id' => $MessageID,
                         ]
@@ -86,7 +87,7 @@ final class SetuserCommand extends Command
             if ($User === null) {
                 $this->replyWithMessage(
                     [
-                        'text' => $_ENV['no_user_found'],
+                        'text' => Setting::obtain('no_user_found'),
                         'parse_mode' => 'HTML',
                         'reply_to_message_id' => $MessageID,
                     ]
@@ -192,7 +193,7 @@ final class SetuserCommand extends Command
             if ($User === null) {
                 $this->replyWithMessage(
                     [
-                        'text' => $_ENV['no_user_found'],
+                        'text' => Setting::obtain('no_user_found'),
                         'parse_mode' => 'HTML',
                         'reply_to_message_id' => $MessageID,
                     ]
@@ -208,7 +209,7 @@ final class SetuserCommand extends Command
         if ($useOptionMethod === '') {
             $this->replyWithMessage(
                 [
-                    'text' => $_ENV['data_method_not_found'],
+                    'text' => Setting::obtain('data_method_not_found'),
                     'parse_mode' => 'HTML',
                     'reply_to_message_id' => $MessageID,
                 ]

@@ -147,7 +147,7 @@
                                         站点公告
                                     </a>
                                     {if $config['subscribeLog_show'] == true && $config['subscribeLog'] == true}
-                                        <a class="dropdown-item" href="/user/subscribe_log">
+                                        <a class="dropdown-item" href="/user/subscribe/log">
                                             <i class="ti ti-rss"></i></i>&nbsp;
                                             订阅日志
                                         </a>
@@ -201,16 +201,16 @@
                                 </div>
                             </li>
                             {if $user->is_admin}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/admin">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <i class="ti ti-settings icon"></i>
-                                        </span>
-                                        <span class="nav-link-title">
-                                            管理
-                                        </span>
-                                    </a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <i class="ti ti-settings icon"></i>
+                                    </span>
+                                    <span class="nav-link-title">
+                                        管理
+                                    </span>
+                                </a>
+                            </li>
                             {/if}
                         </ul>
                     </div>

@@ -214,6 +214,108 @@
                                         <input id="telegram_group_link" type="text" class="form-control" value="{$settings['telegram_group_link']}">
                                     </div>
                                 </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Telegram 机器人发送欢迎消息</label>
+                                    <div class="col">
+                                        <select id="enable_welcome_message" class="col form-select" value="{$settings['enable_welcome_message']}">
+                                            <option value="0" {if $settings['enable_welcome_message'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_welcome_message'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Telegram 机器人在群组中不回应</label>
+                                    <div class="col">
+                                        <select id="telegram_group_quiet" class="col form-select" value="{$settings['telegram_group_quiet']}">
+                                            <option value="0" {if $settings['telegram_group_quiet'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['telegram_group_quiet'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">允许 Bot 加入下方配置之外的群组</label>
+                                    <div class="col">
+                                        <select id="allow_to_join_new_groups" class="col form-select" value="{$settings['allow_to_join_new_groups']}">
+                                            <option value="0" {if $settings['allow_to_join_new_groups'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['allow_to_join_new_groups'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">允许加入的群组 ID</label>
+                                    <div class="col">
+                                        <input id="group_id_allowed_to_join" type="text" class="form-control" value="{$settings['group_id_allowed_to_join']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">额外的 Telegram 管理员 ID</label>
+                                    <div class="col">
+                                        <input id="telegram_admins" type="text" class="form-control" value="{$settings['telegram_admins']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">非管理员操作管理员功能是否回复</label>
+                                    <div class="col">
+                                        <select id="enable_not_admin_reply" class="col form-select" value="{$settings['enable_not_admin_reply']}">
+                                            <option value="0" {if $settings['enable_not_admin_reply'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_not_admin_reply'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">非管理员操作管理员功能的回复内容</label>
+                                    <div class="col">
+                                        <input id="not_admin_reply_msg" type="text" class="form-control" value="{$settings['not_admin_reply_msg']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">管理员操作时，找不到用户的回复</label>
+                                    <div class="col">
+                                        <input id="no_user_found" type="text" class="form-control" value="{$settings['no_user_found']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">管理员操作时，修改数据的字段没有找到的回复</label>
+                                    <div class="col">
+                                        <input id="data_method_not_found" type="text" class="form-control" value="{$settings['data_method_not_found']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">允许任意未知的命令触发 /help 的回复</label>
+                                    <div class="col">
+                                        <select id="help_any_command" class="col form-select" value="{$settings['help_any_command']}">
+                                            <option value="0" {if $settings['help_any_command'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['help_any_command'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">开启在群组搜寻用户信息时显示用户完整邮箱，关闭则会对邮箱中间内容打码</label>
+                                    <div class="col">
+                                        <select id="enable_user_email_group_show" class="col form-select" value="{$settings['enable_user_email_group_show']}">
+                                            <option value="0" {if $settings['enable_user_email_group_show'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_user_email_group_show'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">未绑定账户的回复</label>
+                                    <div class="col">
+                                        <input id="user_not_bind_reply" type="text" class="form-control" value="{$settings['user_not_bind_reply']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">面向游客的产品介绍</label>
+                                    <div class="col">
+                                        <input id="telegram_general_pricing" type="text" class="form-control" value="{$settings['telegram_general_pricing']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">面向游客的服务条款</label>
+                                    <div class="col">
+                                        <input id="telegram_general_terms" type="text" class="form-control" value="{$settings['telegram_general_terms']}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

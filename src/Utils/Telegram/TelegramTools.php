@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Tools;
 
@@ -309,7 +310,7 @@ final class TelegramTools
      */
     public static function getUserEmail(string $email, int $ChatID): string
     {
-        if ($_ENV['enable_user_email_group_show'] === true || $ChatID > 0) {
+        if (Setting::obtain('enable_user_email_group_show') === true || $ChatID > 0) {
             return $email;
         }
         $a = strpos($email, '@');

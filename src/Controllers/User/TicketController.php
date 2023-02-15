@@ -100,7 +100,7 @@ final class TicketController extends BaseController
         if ($_ENV['useScFtqq'] === true) {
             $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
             $postdata = http_build_query([
-                'text' => $_ENV['appName'] . '-新工单被开启',
+                'title' => $_ENV['appName'] . '-新工单被开启',
                 'desp' => $title,
             ]);
             $opts = [
@@ -173,7 +173,7 @@ final class TicketController extends BaseController
         if ($_ENV['useScFtqq'] === true) {
             $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
             $postdata = http_build_query([
-                'text' => $_ENV['appName'] . '-工单被回复',
+                'title' => $_ENV['appName'] . '-工单被回复',
                 'desp' => $ticket->title,
             ]);
             $opts = [

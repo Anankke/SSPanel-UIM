@@ -116,30 +116,10 @@ $_ENV['enable_telegram']                    = false;        //是否开启 Teleg
 $_ENV['telegram_token']                     = '';           //Telegram bot,bot 的 token ，跟 father bot 申请
 $_ENV['telegram_chatid']                    = -111;         //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
-$_ENV['telegram_group_quiet']               = false;        //Telegram 机器人在群组中不回应
 $_ENV['telegram_request_token']             = '';           //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat Tool setTelegram
-
-# 通用
-$_ENV['finance_public']                     = true;         //财务报告是否向群公开
-$_ENV['enable_welcome_message']             = true;         //机器人发送欢迎消息
-
-# Telegram BOT 其他选项
-$_ENV['allow_to_join_new_groups']           = true;         //允许 Bot 加入下方配置之外的群组
-$_ENV['group_id_allowed_to_join']           = [];           //允许加入的群组 ID，格式为 PHP 数组
-$_ENV['telegram_admins']                    = [];           //额外的 Telegram 管理员 ID，格式为 PHP 数组
-$_ENV['enable_not_admin_reply']             = true;         //非管理员操作管理员功能是否回复
-$_ENV['not_admin_reply_msg']                = '!';          //非管理员操作管理员功能的回复内容
-$_ENV['no_user_found']                      = '!';          //管理员操作时，找不到用户的回复
-$_ENV['no_search_value_provided']           = '!';          //管理员操作时，没有提供用户搜索值的回复
-$_ENV['data_method_not_found']              = '!';          //管理员操作时，修改数据的字段没有找到的回复
-$_ENV['delete_message_time']                = 180;          //在以下时间后删除用户命令触发的 bot 回复，单位：秒，删除时间可能会因为定时任务而有差异，为 0 代表不开启此功能
-$_ENV['delete_admin_message_time']          = 86400;        //在以下时间后删除管理命令触发的 bot 回复，单位：秒，删除时间可能会因为定时任务而有差异，为 0 代表不开启此功能
-$_ENV['enable_delete_user_cmd']             = false;        //自动删除群组中用户发送的命令，使用 delete_message_time 配置的时间，删除时间可能会因为定时任务而有差异
-$_ENV['help_any_command']                   = false;        //允许任意未知的命令触发 /help 的回复
 
 $_ENV['remark_user_search_email']           = ['邮箱'];                     //用户搜索字段 email 的别名，可多个，格式为 PHP 数组
 $_ENV['remark_user_search_port']            = ['端口'];                     //用户搜索字段 port 的别名，可多个，格式为 PHP 数组
-
 $_ENV['remark_user_option_is_admin']        = ['管理员'];                   //用户搜索字段 is_admin 的别名，可多个，格式为 PHP 数组
 $_ENV['remark_user_option_enable']          = ['用户启用'];                  //用户搜索字段 enable 的别名，可多个，格式为 PHP 数组
 $_ENV['remark_user_option_money']           = ['金钱', '余额'];             //用户搜索字段 money 的别名，可多个，格式为 PHP 数组
@@ -155,11 +135,6 @@ $_ENV['remark_user_option_expire_in']       = ['账号过期时间'];           
 $_ENV['remark_user_option_node_speedlimit'] = ['限速'];                    //用户搜索字段 node_speedlimit 的别名，可多个，格式为 PHP 数组
 $_ENV['remark_user_option_node_connector']  = ['连接数', '客户端'];         //用户搜索字段 node_connector 的别名，可多个，格式为 PHP 数组
 
-$_ENV['enable_user_email_group_show']       = false;                      //开启在群组搜寻用户信息时显示用户完整邮箱，关闭则会对邮箱中间内容打码，如 g****@gmail.com
-$_ENV['user_not_bind_reply']                = '您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号.';                      //未绑定账户的回复
-$_ENV['telegram_general_pricing']           = '产品介绍.';                  //面向游客的产品介绍
-$_ENV['telegram_general_terms']             = '服务条款.';                  //面向游客的服务条款
-
 //社交登录设置
 #Telegram
 $_ENV['enable_telegram_login']              = false;   //开启这个设置前请先配置 Telegram bot 否则不会生效
@@ -168,8 +143,8 @@ $_ENV['enable_telegram_login']              = false;   //开启这个设置前�
 $_ENV['enable_ticket']        = true;        //是否开启工单系统
 $_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
 
-# Server酱 用户提交新工单或者回复工单时用微信提醒机场主 https://sct.ftqq.com/
-$_ENV['useScFtqq']            = false;        //是否开启工单Server酱提醒
+# Server酱 https://sct.ftqq.com/
+$_ENV['useScFtqq']            = false;        //是否开启Server酱提醒工单/节点上下线
 $_ENV['ScFtqq_SCKEY']         = '';           //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
 #后台商品列表 销量统计
@@ -184,8 +159,6 @@ $_ENV['detect_gfw_count']                = '3';                                 
 
 #离线检测
 $_ENV['enable_detect_offline']           = true;
-#离线检测是否推送到Server酱 请配置好上文的Server配置
-$_ENV['enable_detect_offline_useScFtqq'] = false;
 
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 
