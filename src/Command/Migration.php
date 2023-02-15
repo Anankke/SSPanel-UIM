@@ -94,7 +94,6 @@ END;
             }
         } else {
             ksort($queue);
-            $current = 0;
             foreach ($queue as $version => $object) {
                 echo "Forward to {$version}\n";
                 $object->up();

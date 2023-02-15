@@ -6,16 +6,18 @@ namespace App\Command;
 
 final class Update extends Command
 {
-    public $description = '├─=: php xcat Update         - 更新并迁移配置' . PHP_EOL;
+    public $description = <<< END
+├─=: php xcat Update         - 更新并迁移配置
+END;
 
     public function boot(): void
     {
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
         if ($copy_result === true) {
-            echo '.config.php 文件备份成功。\n';
+            echo ".config.php 文件备份成功。\n";
         } else {
-            echo '.config.php 文件备份失败，迁移终止。\n';
+            echo ".config.php 文件备份失败，迁移终止。\n";
         }
 
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
@@ -28,7 +30,7 @@ final class Update extends Command
             $matches_new = [];
             preg_match($regex, $config_new, $matches_new);
             if (isset($matches_new[0]) === false) {
-                echo '未找到配置项：' . $key . ' 未能在新版本 .config.php 文件中找到，可能已被更名或废弃。\n';
+                echo "未找到配置项：" . $key . " 未能在新版本 .config.php 文件中找到，可能已被更名或废弃。\n";
                 continue;
             }
 
@@ -66,11 +68,11 @@ final class Update extends Command
             $difference = substr($difference, 15);
             $difference = substr($difference, 0, -2);
 
-            echo '新增 .config.php 配置项：' . $difference . ':' . $comment . ' \n';
+            echo "新增 .config.php 配置项：" . $difference . ":" . $comment . " \n";
         }
-        echo '没有任何新 .config.php 配置项需要添加。\n';
+        echo "没有任何新 .config.php 配置项需要添加。\n";
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
-        echo '迁移完成。\n';
+        echo "迁移完成。\n";
     }
 }
