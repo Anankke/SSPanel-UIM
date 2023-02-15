@@ -32,6 +32,20 @@ final class ImController extends BaseController
         'telegram_group_bound_user',
         'telegram_show_group_link',
         'telegram_group_link',
+        'enable_welcome_message',
+        'telegram_group_quiet',
+        'allow_to_join_new_groups',
+        'group_id_allowed_to_join',
+        'telegram_admins',
+        'enable_not_admin_reply',
+        'not_admin_reply_msg',
+        'no_user_found',
+        'data_method_not_found',
+        'help_any_command',
+        'enable_user_email_group_show',
+        'user_not_bind_reply',
+        'telegram_general_pricing',
+        'telegram_general_terms',
     ];
 
     public function im($request, $response, $args)

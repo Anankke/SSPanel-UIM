@@ -75,7 +75,7 @@ final class Callback
         $this->CallbackData = $Callback->getData();
         $this->AllowEditMessage = \time() < $Callback->getMessage()->getDate() + 172800;
 
-        if ($this->ChatID < 0 && $_ENV['telegram_group_quiet'] === true) {
+        if ($this->ChatID < 0 && Setting::obtain('telegram_group_quiet') === true) {
             // 群组中不回应
             return;
         }
@@ -172,7 +172,7 @@ final class Callback
             case 'general.pricing':
                 // 产品介绍
                 $sendMessage = [
-                    'text' => $_ENV['telegram_general_pricing'],
+                    'text' => Setting::obtain('telegram_general_pricing'),
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => \json_encode(
@@ -185,7 +185,7 @@ final class Callback
             case 'general.terms':
                 // 服务条款
                 $sendMessage = [
-                    'text' => $_ENV['telegram_general_terms'],
+                    'text' => Setting::obtain('telegram_general_terms'),
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => \json_encode(

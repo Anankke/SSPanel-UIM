@@ -13,12 +13,10 @@ final class Update extends Command
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
         if ($copy_result === true) {
-            echo '.config.php 文件备份成功' . PHP_EOL;
+            echo '.config.php 文件备份成功。\n';
         } else {
-            echo '.config.php 文件备份失败，迁移终止' . PHP_EOL;
+            echo '.config.php 文件备份失败，迁移终止。\n';
         }
-
-        echo PHP_EOL;
 
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
@@ -30,7 +28,7 @@ final class Update extends Command
             $matches_new = [];
             preg_match($regex, $config_new, $matches_new);
             if (isset($matches_new[0]) === false) {
-                echo '未找到配置项：' . $key . ' 未能在新版本 .config.php 文件中找到，可能已被更名或废弃' . PHP_EOL;
+                echo '未找到配置项：' . $key . ' 未能在新版本 .config.php 文件中找到，可能已被更名或废弃。\n';
                 continue;
             }
 
@@ -40,7 +38,6 @@ final class Update extends Command
             $config_new = str_replace($matches_new[0], $matches_old[0], $config_new);
             $migrated[] = '_ENV[\'' . $key . '\']';
         }
-        echo PHP_EOL;
 
         //检查新增了哪些config
         $regex_new = '/_ENV\[\'.*?\'\]/s';
@@ -69,11 +66,11 @@ final class Update extends Command
             $difference = substr($difference, 15);
             $difference = substr($difference, 0, -2);
 
-            echo '新增 .config.php 配置项：' . $difference . ':' . $comment . PHP_EOL;
+            echo '新增 .config.php 配置项：' . $difference . ':' . $comment . ' \n';
         }
-        echo '没有任何新 .config.php 配置项需要添加' . PHP_EOL;
+        echo '没有任何新 .config.php 配置项需要添加。\n';
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
-        echo PHP_EOL . '迁移完成' . PHP_EOL;
+        echo '迁移完成。\n';
     }
 }

@@ -142,7 +142,7 @@ final class Message
         ];
         if ($NewChatMember->getUsername() === $_ENV['telegram_bot']) {
             // 机器人加入新群组
-            if ($_ENV['allow_to_join_new_groups'] !== true && ! \in_array($this->ChatID, $_ENV['group_id_allowed_to_join'])) {
+            if (Setting::obtain('allow_to_join_new_groups') !== true && ! \in_array($this->ChatID, \json_decode(Setting::obtain('group_id_allowed_to_join')))) {
                 // 退群
                 $this->replyWithMessage(
                     [
@@ -156,8 +156,8 @@ final class Message
                         'user_id' => $Member['id'],
                     ]
                 );
-                if (count($_ENV['telegram_admins']) >= 1) {
-                    foreach ($_ENV['telegram_admins'] as $id) {
+                if (count(\json_decode(Setting::obtain('telegram_admins'))) >= 1) {
+                    foreach (\json_decode(Setting::obtain('telegram_admins')) as $id) {
                         $this->bot->sendMessage(
                             [
                                 'text' => '根据您的设定，Bot 退出了一个群组.' . PHP_EOL . PHP_EOL . '群组名称：' . $this->Message->getChat()->getTitle(),
@@ -169,7 +169,7 @@ final class Message
             } else {
                 $this->replyWithMessage(
                     [
-                        'text' => '同志们好，同志们辛苦了.',
+                        'text' => '雷猴啊。',
                     ]
                 );
             }
@@ -188,7 +188,7 @@ final class Message
             ) {
                 $this->replyWithMessage(
                     [
-                        'text' => '由于 ' . $Member['name'] . ' 未绑定账户，将被移除.',
+                        'text' => '由于 ' . $Member['name'] . ' 未绑定账户，将被移除。',
                     ]
                 );
                 TelegramTools::sendPost(
@@ -200,8 +200,8 @@ final class Message
                 );
                 return;
             }
-            if ($_ENV['enable_welcome_message'] === true) {
-                $text = ($NewUser->class >= 1 ? '欢迎 VIP' . $NewUser->class . ' 用户 ' . $Member['name'] . '回到组织.' : '欢迎 ' . $Member['name']);
+            if (Setting::obtain('enable_welcome_message') === true) {
+                $text = ($NewUser->class >= 1 ? '欢迎 VIP' . $NewUser->class . ' 用户 ' . $Member['name'] . '加入群组。' : '欢迎 ' . $Member['name']);
                 $this->replyWithMessage(
                     [
                         'text' => $text,
