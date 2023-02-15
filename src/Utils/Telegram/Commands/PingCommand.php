@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
+use App\Models\Setting;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -49,7 +50,7 @@ final class PingCommand extends Command
                 ]
             );
         } else {
-            if ($_ENV['telegram_group_quiet'] === true) {
+            if (Setting::obtain('telegram_group_quiet') === true) {
                 // 群组中不回应
                 return;
             }

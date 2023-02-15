@@ -671,46 +671,6 @@
     },
     {
         "id": null,
-        "item": "pmw_publickey",
-        "value": "",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "pmw公钥"
-    },
-    {
-        "id": null,
-        "item": "pmw_privatekey",
-        "value": "",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "pmw私钥"
-    },
-    {
-        "id": null,
-        "item": "pmw_widget",
-        "value": "m2_1",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "m2_1",
-        "mark": "pmw_widget"
-    },
-    {
-        "id": null,
-        "item": "pmw_height",
-        "value": "350px",
-        "class": "pmw",
-        "is_public": 0,
-        "type": "string",
-        "default": "350px",
-        "mark": "pmw_height"
-    },
-    {
-        "id": null,
         "item": "reg_mode",
         "value": "open",
         "class": "register",
@@ -1261,12 +1221,152 @@
     },
     {
         "id": null,
+        "item": "enable_welcome_message",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Telegram 机器人发送欢迎消息"
+    },
+    {
+        "id": null,
+        "item": "telegram_group_quiet",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Telegram 机器人在群组中不回应"
+    },
+    {
+        "id": null,
+        "item": "allow_to_join_new_groups",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "允许 Bot 加入下方配置之外的群组"
+    },
+    {
+        "id": null,
+        "item": "group_id_allowed_to_join",
+        "value": "[]",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "array",
+        "default": "[]",
+        "mark": "允许加入的群组 ID"
+    },
+    {
+        "id": null,
+        "item": "telegram_admins",
+        "value": "[]",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "array",
+        "default": "[]",
+        "mark": "额外的 Telegram 管理员 ID"
+    },
+    {
+        "id": null,
+        "item": "enable_not_admin_reply",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "非管理员操作管理员功能是否回复"
+    },
+    {
+        "id": null,
+        "item": "not_admin_reply_msg",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "非管理员操作管理员功能的回复内容"
+    },
+    {
+        "id": null,
+        "item": "no_user_found",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "管理员操作时，找不到用户的回复"
+    },
+    {
+        "id": null,
+        "item": "data_method_not_found",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "管理员操作时，修改数据的字段没有找到的回复"
+    },
+    {
+        "id": null,
+        "item": "help_any_command",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "允许任意未知的命令触发 /help 的回复"
+    },
+    {
+        "id": null,
+        "item": "enable_user_email_group_show",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "开启在群组搜寻用户信息时显示用户完整邮箱，关闭则会对邮箱中间内容打码"
+    },
+    {
+        "id": null,
+        "item": "user_not_bind_reply",
+        "value": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "mark": "未绑定账户的回复"
+    },
+    {
+        "id": null,
+        "item": "telegram_general_pricing",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "面向游客的产品介绍"
+    },
+    {
+        "id": null,
+        "item": "telegram_general_terms",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "面向游客的服务条款"
+    },
+    {
+        "id": null,
         "item": "db_version",
-        "value": "20230201000",
+        "value": "20230201",
         "class": "db",
         "is_public": 0,
         "type": "int",
-        "default": "20230201000",
+        "default": "20230201",
         "mark": "当前数据库版本"
     }
 ]

@@ -28,11 +28,6 @@ final class BillingController extends BaseController
         'theadpay_url',
         'theadpay_mchid',
         'theadpay_key',
-        // Paymentwall
-        'pmw_publickey',
-        'pmw_privatekey',
-        'pmw_widget',
-        'pmw_height',
         // Stripe
         'stripe_card',
         'stripe_alipay',

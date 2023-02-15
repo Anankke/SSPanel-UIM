@@ -86,33 +86,33 @@ final class PAYJS extends AbstractPayment
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $price = $request->getParam('price');
+
         if ($price <= 0) {
-            return $response->withJson(['code' => -1, 'errmsg' => '非法的金额.']);
+            return $response->withJson([
+                'code' => -1,
+                'errmsg' => '非法的金额.',
+            ]);
         }
+
         $user = Auth::getUser();
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
         $pl->tradeno = self::generateGuid();
         $pl->save();
-        //if ($type != 'alipay') {
-        //$type = '';
-        //}
         $data = [];
         $data['mchid'] = Setting::obtain('payjs_mchid');
-        //$data['type'] = $type;
         $data['out_trade_no'] = $pl->tradeno;
         $data['total_fee'] = (float) $price * 100;
         $data['notify_url'] = self::getCallbackUrl();
-        //$data['callback_url'] = $_ENV['baseUrl'] . '/user/code';
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
-        //$url = 'https://payjs.cn/api/cashier?' . http_build_query($data);
         $url = Setting::obtain('payjs_url') . '/cashier?' . http_build_query($data);
-        return $response->withJson(['code' => 0, 'url' => $url, 'pid' => $data['out_trade_no']]);
-        //$result = \json_decode($this->post($data), true);
-        //$result['pid'] = $pl->tradeno;
-        //return \json_encode($result);
+        return $response->withJson([
+            'code' => 0,
+            'url' => $url,
+            'pid' => $data['out_trade_no'],
+        ]);
     }
     public function query($tradeNo)
     {
@@ -129,7 +129,6 @@ final class PAYJS extends AbstractPayment
 
         if ($return_code === 1) {
             // 验证签名
-            // $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);
             ksort($data);
@@ -175,7 +174,6 @@ final class PAYJS extends AbstractPayment
         } else {
             $data = $request->getParsedBody();
 
-            // $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);
             ksort($data);

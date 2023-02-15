@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
+use App\Models\Setting;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -27,12 +28,12 @@ final class HelpCommand extends Command
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
         if ($Message->getChat()->getId() < 0) {
-            if ($_ENV['telegram_group_quiet'] === true) {
+            if (Setting::obtain('telegram_group_quiet') === true) {
                 return;
             }
         }
         if (! preg_match('/^\/help\s?(@' . $_ENV['telegram_bot'] . ')?.*/i', $Message->getText())) {
-            if ($_ENV['help_any_command'] === false) {
+            if (Setting::obtain('help_any_command') === false) {
                 return;
             }
         }

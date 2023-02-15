@@ -46,9 +46,6 @@
                             <a href="#theadpay" class="nav-link" data-bs-toggle="tab">TheadPay</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#paymentwall" class="nav-link" data-bs-toggle="tab">Paymentwall</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#stripe" class="nav-link" data-bs-toggle="tab">Stripe</a>
                         </li>
                         <li class="nav-item">
@@ -161,34 +158,6 @@
                                     <label class="form-label col-3 col-form-label">密钥</label>
                                     <div class="col">
                                         <input id="theadpay_key" type="text" class="form-control" value="{$settings['theadpay_key']}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="paymentwall">
-                            <div class="card-body">
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">公钥</label>
-                                    <div class="col">
-                                        <input id="pmw_publickey" type="text" class="form-control" value="{$settings['pmw_publickey']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">私钥</label>
-                                    <div class="col">
-                                        <input id="pmw_privatekey" type="text" class="form-control" value="{$settings['pmw_privatekey']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">支付图标宽度</label>
-                                    <div class="col">
-                                        <input id="pmw_widget" type="text" class="form-control" value="{$settings['pmw_widget']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">支付图标高度</label>
-                                    <div class="col">
-                                        <input id="pmw_height" type="text" class="form-control" value="{$settings['pmw_height']}">
                                     </div>
                                 </div>
                             </div>

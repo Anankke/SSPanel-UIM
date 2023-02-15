@@ -17,7 +17,6 @@ use App\Models\Setting;
 use App\Models\Shop;
 use App\Models\StreamMedia;
 use App\Models\TelegramSession;
-use App\Models\Token;
 use App\Models\User;
 use App\Models\UserHourlyUsage;
 use App\Models\UserSubscribeLog;
@@ -65,7 +64,6 @@ EOL;
         // ------- 清理各表记录
         UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', \time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
         UserHourlyUsage::where('datetime', '<', \time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
-        Token::where('expire_time', '<', \time())->delete();
         DetectLog::where('datetime', '<', \time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', \time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', \time() - 86400 * 3)->delete();

@@ -33,8 +33,6 @@ abstract class AbstractPayment
 
     /**
      * 是否启用支付网关
-     *
-     * TODO: 传入目前用户信, etc..
      */
     abstract public static function _enable(): bool;
 

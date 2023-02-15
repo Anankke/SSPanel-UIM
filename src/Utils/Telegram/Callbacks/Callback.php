@@ -75,7 +75,7 @@ final class Callback
         $this->CallbackData = $Callback->getData();
         $this->AllowEditMessage = \time() < $Callback->getMessage()->getDate() + 172800;
 
-        if ($this->ChatID < 0 && $_ENV['telegram_group_quiet'] === true) {
+        if ($this->ChatID < 0 && Setting::obtain('telegram_group_quiet') === true) {
             // 群组中不回应
             return;
         }
@@ -172,7 +172,7 @@ final class Callback
             case 'general.pricing':
                 // 产品介绍
                 $sendMessage = [
-                    'text' => $_ENV['telegram_general_pricing'],
+                    'text' => Setting::obtain('telegram_general_pricing'),
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => \json_encode(
@@ -185,7 +185,7 @@ final class Callback
             case 'general.terms':
                 // 服务条款
                 $sendMessage = [
-                    'text' => $_ENV['telegram_general_terms'],
+                    'text' => Setting::obtain('telegram_general_terms'),
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => \json_encode(
@@ -215,7 +215,7 @@ final class Callback
 
     public static function getUserIndexKeyboard($user)
     {
-        $checkin = (!$user->isAbleToCheckin() ? '已签到' : '签到');
+        $checkin = (! $user->isAbleToCheckin() ? '已签到' : '签到');
         $Keyboard = [
             [
                 [
@@ -395,7 +395,7 @@ final class Callback
                 foreach ($totallogin as $single) {
                     $location = $iplocation->getlocation($single->ip);
                     $loginiplocation = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-                    if (!\in_array($loginiplocation, $userloginip)) {
+                    if (! \in_array($loginiplocation, $userloginip)) {
                         $userloginip[] = $loginiplocation;
                     }
                 }
@@ -888,7 +888,7 @@ final class Callback
     {
         $paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get');
 
-        if (!is_null($paybacks_sum)) {
+        if (! is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
         $invitation = Setting::getClass('invite');
@@ -992,7 +992,7 @@ final class Callback
             $temp['keyboard'] = [
                 [
                     [
-                        'text' => (!$this->User->isAbleToCheckin() ? '已签到' : '签到'),
+                        'text' => (! $this->User->isAbleToCheckin() ? '已签到' : '签到'),
                         'callback_data' => 'user.checkin.' . $this->triggerUser['id'],
                     ],
                 ],

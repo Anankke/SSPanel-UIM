@@ -104,7 +104,7 @@ final class UserController extends BaseController
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
-        if (!$data || !\is_array($data?->data)) {
+        if (! $data || ! \is_array($data?->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -158,7 +158,7 @@ final class UserController extends BaseController
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
-        if (!$data || !\is_array($data?->data)) {
+        if (! $data || ! \is_array($data?->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -167,7 +167,7 @@ final class UserController extends BaseController
 
         $node_id = $request->getQueryParam('node_id');
 
-        if ($node_id === null || !Node::where('id', $node_id)->exists()) {
+        if ($node_id === null || ! Node::where('id', $node_id)->exists()) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -203,7 +203,7 @@ final class UserController extends BaseController
     public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = \json_decode($request->getBody()->__toString());
-        if (!$data || !\is_array($data?->data)) {
+        if (! $data || ! \is_array($data?->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -212,7 +212,7 @@ final class UserController extends BaseController
 
         $node_id = $request->getQueryParam('node_id');
 
-        if ($node_id === null || !Node::where('id', $node_id)->exists()) {
+        if ($node_id === null || ! Node::where('id', $node_id)->exists()) {
             return $response->withJson([
                 'ret' => 0,
             ]);

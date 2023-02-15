@@ -66,7 +66,7 @@ final class AuthController extends BaseController
     {
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
-            if (!$ret) {
+            if (! $ret) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '系统无法接受您的验证结果，请刷新页面后重试。',
@@ -87,7 +87,7 @@ final class AuthController extends BaseController
             ]);
         }
 
-        if (!Hash::checkPassword($user->pass, $passwd)) {
+        if (! Hash::checkPassword($user->pass, $passwd)) {
             // 记录登录失败
             $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
             return $response->withJson([
@@ -99,7 +99,7 @@ final class AuthController extends BaseController
         if ($user->ga_enable === 1) {
             $ga = new GoogleAuthenticator();
             $rcode = $ga->verifyCode($user->ga_token, $code);
-            if (!$rcode) {
+            if (! $rcode) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '两步验证码错误，如果您是丢失了生成器或者错误地设置了这个选项，您可以尝试重置密码，即可取消这个选项。',
@@ -347,7 +347,7 @@ final class AuthController extends BaseController
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
         }
 
-        if ($user->save() && !$is_admin_reg) {
+        if ($user->save() && ! $is_admin_reg) {
             Auth::login($user->id, 3600);
             $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
@@ -372,7 +372,7 @@ final class AuthController extends BaseController
 
         if (Setting::obtain('enable_reg_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
-            if (!$ret) {
+            if (! $ret) {
                 return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
             }
         }

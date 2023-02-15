@@ -50,7 +50,7 @@ final class UnbindCommand extends Command
                 // 回送信息
                 $this->replyWithMessage(
                     [
-                        'text' => $_ENV['user_not_bind_reply'],
+                        'text' => Setting::obtain('user_not_bind_reply'),
                         'parse_mode' => 'Markdown',
                     ]
                 );
