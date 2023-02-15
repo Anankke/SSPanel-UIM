@@ -1222,11 +1222,11 @@
     {
         "id": null,
         "item": "db_version",
-        "value": "20230201000",
+        "value": "20230201",
         "class": "db",
         "is_public": 0,
         "type": "int",
-        "default": "20230201000",
+        "default": "20230201",
         "mark": "当前数据库版本"
     }
 ]

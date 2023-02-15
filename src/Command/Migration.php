@@ -32,9 +32,10 @@ END;
         // (min_version, max_version]
         $min_version = 0;
         $max_version = 0;
+        $current = Setting::obtain('db_version');
         $target = $this->argv[2] ?? 0;
         if ($target === 'latest') {
-            $min_version = Setting::obtain('db_version');
+            $min_version = $current;
             $max_version = PHP_INT_MAX;
         } elseif ($target === 'new') {
             $tables = []; //DB::select('SHOW TABLES');
@@ -47,7 +48,6 @@ END;
             }
         } elseif (is_numeric($target)) {
             $target = (int) $target;
-            $current = Setting::obtain('db_version');
             if ($target < $current) {
                 $reverse = true;
                 $min_version = $target;
@@ -57,9 +57,11 @@ END;
                 $max_version = $target;
             }
         } else {
-            echo "Illegle version argument\n";
+            echo "Illegal version argument.\n";
             return;
         }
+
+        echo "Current database version {$current}.\n";
 
         $queue = [];
         $files = scandir(BASE_PATH . '/db/migrations/', SCANDIR_SORT_NONE);
@@ -69,7 +71,9 @@ END;
                     continue;
                 }
                 $version = (int) (explode('-', $file, 1)[0] ?? 0);
-                if (! ($version > $min_version && $version <= $max_version)) {
+                echo "Found migration version {$version}.\n";
+                if ($version <= $min_version || $version > $max_version) {
+                    echo "Skip migration version {$version}.\n";
                     continue;
                 }
                 $object = require BASE_PATH . '/db/migrations/' . $file;
@@ -84,15 +88,20 @@ END;
             foreach ($queue as $version => $object) {
                 echo "Reverse to {$version}\n";
                 $object->down();
+                if ($version < $current) {
+                    $current = $version;
+                }
             }
-            $current = $min_version;
         } else {
             ksort($queue);
+            $current = 0;
             foreach ($queue as $version => $object) {
                 echo "Forward to {$version}\n";
                 $object->up();
+                if ($version > $current) {
+                    $current = $version;
+                }
             }
-            $current = $max_version;
         }
         if ($target === 'new') {
             $sql = 'INSERT INTO `config` (`item`, `value`, `type`, `default`) VALUES("db_version", ?, "int", "20230201000")';
@@ -102,6 +111,6 @@ END;
         DB::insert($sql, [$current]);
 
         $count = count($queue);
-        echo "Imigration complete. {$count} items processed.\n";
+        echo "Migration complete. {$count} item(s) processed.\n";
     }
 }
