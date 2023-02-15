@@ -14,6 +14,7 @@ return [
         PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\EvalSniff::class,
         PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\GlobalKeywordSniff::class,
         PhpCsFixer\Fixer\Import\OrderedImportsFixer::class,
+        PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer::class,
         SlevomatCodingStandard\Sniffs\ControlStructures\DisallowShortTernaryOperatorSniff::class,
         SlevomatCodingStandard\Sniffs\Classes\ForbiddenPublicPropertySniff::class,
         SlevomatCodingStandard\Sniffs\Classes\ModernClassNameReferenceSniff::class,
