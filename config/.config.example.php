@@ -143,8 +143,8 @@ $_ENV['enable_telegram_login']              = false;   //开启这个设置前�
 $_ENV['enable_ticket']        = true;        //是否开启工单系统
 $_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
 
-# Server酱 用户提交新工单或者回复工单时用微信提醒机场主 https://sct.ftqq.com/
-$_ENV['useScFtqq']            = false;        //是否开启工单Server酱提醒
+# Server酱 https://sct.ftqq.com/
+$_ENV['useScFtqq']            = false;        //是否开启Server酱提醒工单/节点上下线
 $_ENV['ScFtqq_SCKEY']         = '';           //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
 #后台商品列表 销量统计
@@ -159,8 +159,6 @@ $_ENV['detect_gfw_count']                = '3';                                 
 
 #离线检测
 $_ENV['enable_detect_offline']           = true;
-#离线检测是否推送到Server酱 请配置好上文的Server配置
-$_ENV['enable_detect_offline_useScFtqq'] = false;
 
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 

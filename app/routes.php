@@ -51,7 +51,6 @@ return static function (Slim\App $app): void {
 
         // 审计
         $group->get('/detect', App\Controllers\User\DetectController::class . ':index');
-        $group->get('/detect/log', App\Controllers\User\DetectController::class . ':log');
 
         $group->get('/shop', App\Controllers\User\ShopController::class . ':shop');
         $group->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
@@ -65,8 +64,6 @@ return static function (Slim\App $app): void {
         $group->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticketView');
         $group->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticketUpdate');
 
-        $group->post('/buy_invite', App\Controllers\UserController::class . ':buyInvite');
-        $group->post('/custom_invite', App\Controllers\UserController::class . ':customInvite');
         $group->get('/edit', App\Controllers\UserController::class . ':edit');
         $group->post('/email', App\Controllers\UserController::class . ':updateEmail');
         $group->post('/username', App\Controllers\UserController::class . ':updateUsername');
@@ -85,10 +82,12 @@ return static function (Slim\App $app): void {
 
         $group->get('/code_check', App\Controllers\UserController::class . ':codeCheck');
         $group->post('/code', App\Controllers\UserController::class . ':codePost');
+
         // MFA
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
         $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
+
         // Telegram
         $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
         $group->get('/bought', App\Controllers\UserController::class . ':bought');
@@ -96,11 +95,12 @@ return static function (Slim\App $app): void {
         $group->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $group->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
 
-        //深色模式
+        //深色模式切换
         $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
 
-        // 订阅记录
-        $group->get('/subscribe_log', App\Controllers\UserController::class . ':subscribeLog');
+        // 记录
+        $group->get('/subscribe/log', App\Controllers\User\LogController::class . ':subscribe');
+        $group->get('/detect/log', App\Controllers\User\LogController::class . ':detect');
 
         // getUserAllURL
         $group->get('/getUserAllURL', App\Controllers\UserController::class . ':getUserAllURL');
@@ -258,6 +258,8 @@ return static function (Slim\App $app): void {
         $group->post('/setting/reg', App\Controllers\Admin\Setting\RegController::class . ':saveReg');
         $group->get('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':support');
         $group->post('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':saveSupport');
+        $group->get('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':feature');
+        $group->post('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':saveFeature');
         $group->post('/setting/test_email', App\Controllers\Admin\Setting\EmailController::class . ':testEmail');
 
         // 礼品卡

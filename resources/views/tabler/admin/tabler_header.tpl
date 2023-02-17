@@ -116,6 +116,9 @@
                                                     <a href="/admin/setting/im" class="dropdown-item">
                                                       IM
                                                     </a>
+                                                    <a href="/admin/setting/feature" class="dropdown-item">
+                                                      功能
+                                                    </a>
                                                 </div>
                                             </div>
                                             <a class="dropdown-item" href="/admin/user">

@@ -36,14 +36,14 @@
                             <span class="form-check-label">记住此设备</span>
                         </label>
                     </div>
-                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
+                    {if $public_setting['enable_login_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
                     <div class="mb-2">
                         <div class="input-group mb-2">
                             <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                         </div>
                     </div>
                     {/if}
-                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'geetest'}
+                    {if $public_setting['enable_login_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
                     <div class="mb-2">
                         <div class="input-group mb-2">
                             <div id="geetest"></div>
@@ -72,10 +72,10 @@
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
                     remember_me: $('#remember_me').val(),
-                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
+                    {if $public_setting['enable_login_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
                     turnstile: turnstile.getResponse(),
                     {/if}
-                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'geetest'}
+                    {if $public_setting['enable_login_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
                     geetest: geetest.getValidate(),
                     {/if}
                 },
@@ -93,10 +93,10 @@
         });
     </script>
 
-    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
+    {if $public_setting['enable_login_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
     {/if}
-    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'geetest'}
+    {if $public_setting['enable_login_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
         <script src="http://static.geetest.com/v4/gt4.js"></script>
         <script>
             var geetest_result = '';

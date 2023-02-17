@@ -17,7 +17,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\User;
-use App\Models\UserSubscribeLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Config;
@@ -414,80 +413,6 @@ final class UserController extends BaseController
             ->assign('invite_url', $invite_url)
             ->assign('paybacks_sum', $paybacks_sum)
             ->fetch('user/invite.tpl'));
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function buyInvite(ServerRequest $request, Response $response, array $args)
-    {
-        $antiXss = new AntiXSS();
-
-        $price = Setting::obtain('invite_price');
-        $num = $antiXss->xss_clean($request->getParam('num'));
-        $num = trim($num);
-
-        if (! Tools::isInt($num) || $price < 0 || $num <= 0) {
-            return ResponseHelper::error($response, '非法请求');
-        }
-
-        $amount = $price * $num;
-
-        $user = $this->user;
-
-        if (! $user->isLogin) {
-            return $response->withJson([ 'ret' => -1 ]);
-        }
-
-        if ($user->money < $amount) {
-            return ResponseHelper::error($response, '余额不足，总价为' . $amount . '元。');
-        }
-        $user->invite_num += $num;
-        $user->money -= $amount;
-        $user->save();
-
-        return ResponseHelper::successfully($response, '邀请次数添加成功');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function customInvite(ServerRequest $request, Response $response, array $args)
-    {
-        $antiXss = new AntiXSS();
-
-        $price = Setting::obtain('custom_invite_price');
-        $customcode = trim($antiXss->xss_clean($request->getParam('customcode')));
-
-        if (Tools::isSpecialChars($customcode) || $price < 0 || $customcode === '' || strlen($customcode) > 32) {
-            return ResponseHelper::error(
-                $response,
-                '定制失败，邀请链接不能为空，后缀不能包含特殊符号且长度不能大于32字符'
-            );
-        }
-
-        if (InviteCode::where('code', $customcode)->count() !== 0) {
-            return ResponseHelper::error($response, '此后缀名被抢注了');
-        }
-
-        $user = $this->user;
-
-        if (! $user->isLogin) {
-            return $response->withJson([ 'ret' => -1 ]);
-        }
-
-        if ($user->money < $price) {
-            return ResponseHelper::error(
-                $response,
-                '余额不足，总价为' . $price . '元。'
-            );
-        }
-        $code = InviteCode::where('user_id', $user->id)->first();
-        $code->code = $customcode;
-        $user->money -= $price;
-        $user->save();
-        $code->save();
-        return ResponseHelper::successfully($response, '定制成功');
     }
 
     /**
@@ -928,28 +853,6 @@ final class UserController extends BaseController
             'old_local' => null,
         ], $expire_in);
         return $response->withStatus(302)->withHeader('Location', $local);
-    }
-
-    /**
-     * 订阅记录
-     *
-     * @param array    $args
-     */
-    public function subscribeLog(ServerRequest $request, Response $response, array $args)
-    {
-        if ($_ENV['subscribeLog_show'] === false) {
-            return $response->withStatus(302)->withHeader('Location', '/user');
-        }
-
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
-
-        $render = Tools::paginateRender($logs);
-        return $this->view()
-            ->assign('logs', $logs)
-            ->assign('render', $render)
-            ->registerClass('Tools', Tools::class)
-            ->fetch('user/subscribe_log.tpl');
     }
 
     /**

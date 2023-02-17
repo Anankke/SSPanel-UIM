@@ -59,15 +59,10 @@
                         <li>
                             <a href="/user/edit"><i class="mdi mdi-account-edit icon-lg"></i>&nbsp;资料编辑</a>
                         </li>
-                        {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
-                        <li>
-                            <a href="/user/subscribe_log"><i class="mdi mdi-file-find icon-lg"></i>&nbsp;订阅记录</a>
-                        </li>
-                        {/if}
                         {if $config['enable_ticket']===true}
-                            <li>
-                                <a href="/user/ticket"><i class="mdi mdi-comment-question icon-lg"></i>&nbsp;工单系统</a>
-                            </li>
+                        <li>
+                            <a href="/user/ticket"><i class="mdi mdi-comment-question icon-lg"></i>&nbsp;工单系统</a>
+                        </li>
                         {/if}
                         <li>
                             <a href="/user/invite"><i class="mdi mdi-account-multiple-plus icon-lg"></i>&nbsp;邀请链接</a>
@@ -79,16 +74,10 @@
                             <a href="/user/server"><i class="mdi mdi-server icon-lg"></i>&nbsp;节点列表</a>
                         </li>
                         <li>
-                            <a href="/user/media"><i class="mdi mdi-multimedia icon-lg"></i>&nbsp;流媒体解锁</a>
-                        </li>
-                        <li>
                             <a href="/user/announcement"><i class="mdi mdi-bullhorn-variant icon-lg"></i>&nbsp;站点公告</a>
                         </li>
                         <li>
                             <a href="/user/detect"><i class="mdi mdi-account-filter icon-lg"></i>&nbsp;审计规则</a>
-                        </li>
-                        <li>
-                            <a href="/user/detect/log"><i class="mdi mdi-calendar-filter icon-lg"></i>&nbsp;审计记录</a>
                         </li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">商店</a>

@@ -54,18 +54,6 @@
                                         <input id="invitation_to_register_traffic_reward" type="text" class="form-control" value="{$settings['invitation_to_register_traffic_reward']}">
                                     </div>
                                 </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">邀请码价格，设为小于 0 时不开放购买</label>
-                                    <div class="col">
-                                        <input id="invite_price" type="text" class="form-control" value="{$settings['invite_price']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">定制邀请码价格，设为小于 0 时不开放购买</label>
-                                    <div class="col">
-                                        <input id="custom_invite_price" type="text" class="form-control" value="{$settings['custom_invite_price']}">
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="rebate">
