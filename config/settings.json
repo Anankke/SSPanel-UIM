@@ -881,26 +881,6 @@
     },
     {
         "id": null,
-        "item": "invite_price",
-        "value": "-1",
-        "class": "invite",
-        "is_public": 1,
-        "type": "int",
-        "default": "-1",
-        "mark": "用户购买邀请码所需要的价格"
-    },
-    {
-        "id": null,
-        "item": "custom_invite_price",
-        "value": "-1",
-        "class": "invite",
-        "is_public": 1,
-        "type": "int",
-        "default": "-1",
-        "mark": "用户定制邀请码所需要的价格"
-    },
-    {
-        "id": null,
         "item": "sign_up_for_invitation_codes",
         "value": "10",
         "class": "register",
@@ -1358,6 +1338,36 @@
         "type": "string",
         "default": "",
         "mark": "面向游客的服务条款"
+    },
+    {
+        "id": null,
+        "item": "display_media",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示节点流媒体解锁情况"
+    },
+    {
+        "id": null,
+        "item": "display_subscribe_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示用户订阅记录"
+    },
+    {
+        "id": null,
+        "item": "display_detect_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示用户审计记录"
     },
     {
         "id": null,

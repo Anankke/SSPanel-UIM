@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Setting;
-
 // Config is singleton instance store all config
 final class Config
 {
@@ -15,52 +13,10 @@ final class Config
 
     public static function getPublicConfig()
     {
-        $public_configs = Setting::getPublicConfig();
-
-        // 鉴于还未完成配置的全面数据库化，先这么用着
-
         return [
-            'version' => VERSION,
             'appName' => $_ENV['appName'],
             'baseUrl' => $_ENV['baseUrl'],
-            // 充值
-            'stripe_min_recharge' => $public_configs['stripe_min_recharge'],
-            'stripe_max_recharge' => $public_configs['stripe_max_recharge'],
-            // 客服系统
-            'live_chat' => $public_configs['live_chat'],
-            'tawk_id' => $public_configs['tawk_id'],
-            'crisp_id' => $public_configs['crisp_id'],
-            'livechat_id' => $public_configs['livechat_id'],
-            'mylivechat_id' => $public_configs['mylivechat_id'],
-            // 联系方式
-            'enable_admin_contact' => $public_configs['enable_admin_contact'],
-            'admin_contact1' => $public_configs['admin_contact1'],
-            'admin_contact2' => $public_configs['admin_contact2'],
-            'admin_contact3' => $public_configs['admin_contact3'],
-            // 验证码
-            'captcha_provider' => $public_configs['captcha_provider'],
-            'enable_reg_captcha' => $public_configs['enable_reg_captcha'],
-            'enable_login_captcha' => $public_configs['enable_login_captcha'],
-            'enable_checkin_captcha' => $public_configs['enable_checkin_captcha'],
-            'enable_reset_password_captcha' => $public_configs['enable_reset_password_captcha'],
-            // 注册
-            'register_mode' => $public_configs['reg_mode'],
-            'enable_email_verify' => $public_configs['reg_email_verify'],
-            'enable_reg_im' => $public_configs['enable_reg_im'],
-            'min_port' => $public_configs['min_port'],
-            'max_port' => $public_configs['max_port'],
-            'invite_price' => $public_configs['invite_price'],
-            'custom_invite_price' => $public_configs['custom_invite_price'],
-            // 邀请
-            'invite_get_money' => $public_configs['invitation_to_register_balance_reward'],
-            'invite_gift' => $public_configs['invitation_to_register_traffic_reward'],
-            'code_payback' => $public_configs['rebate_ratio'],
-            // EPay
-            'epay_alipay' => $public_configs['epay_alipay'],
-            'epay_wechat' => $public_configs['epay_wechat'],
-            'epay_qq' => $public_configs['epay_qq'],
-            'epay_usdt' => $public_configs['epay_usdt'],
-            // 待处理
+
             'enable_checkin' => $_ENV['enable_checkin'],
             'checkinMin' => $_ENV['checkinMin'],
             'checkinMax' => $_ENV['checkinMax'],
@@ -78,7 +34,6 @@ final class Config
             'enable_telegram_login' => $_ENV['enable_telegram_login'],
 
             'subscribeLog' => $_ENV['subscribeLog'],
-            'subscribeLog_show' => $_ENV['subscribeLog_show'],
             'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],
 
             'enable_auto_detect_ban' => $_ENV['enable_auto_detect_ban'],

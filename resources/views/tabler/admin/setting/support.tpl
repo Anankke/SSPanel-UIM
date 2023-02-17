@@ -85,7 +85,7 @@
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">是否显示管理员联系方式</label>
                                     <div class="col">
-                                        <select id="live_chat" class="col form-select" value="{$settings['enable_admin_contact']}">
+                                        <select id="enable_admin_contact" class="col form-select" value="{$settings['enable_admin_contact']}">
                                             <option value="0" {if $settings['enable_admin_contact'] == false}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_admin_contact'] == true}selected{/if}>开启</option>
                                         </select>

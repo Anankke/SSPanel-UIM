@@ -7,20 +7,15 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 
-final class RefController extends BaseController
+final class FeatureController extends BaseController
 {
     public static $update_field = [
-        'invitation_to_register_balance_reward',
-        'invitation_to_register_traffic_reward',
-        'invitation_mode',
-        'invite_rebate_mode',
-        'rebate_ratio',
-        'rebate_frequency_limit',
-        'rebate_amount_limit',
-        'rebate_time_range_limit',
+        'display_media',
+        'display_subscribe_log',
+        'display_detect_log',
     ];
 
-    public function ref($request, $response, $args)
+    public function feature($request, $response, $args)
     {
         $settings = [];
         $settings_raw = Setting::get(['item', 'value', 'type']);
@@ -37,11 +32,11 @@ final class RefController extends BaseController
             $this->view()
                 ->assign('update_field', self::$update_field)
                 ->assign('settings', $settings)
-                ->fetch('admin/setting/ref.tpl')
+                ->fetch('admin/setting/feature.tpl')
         );
     }
 
-    public function saveRef($request, $response, $args)
+    public function saveFeature($request, $response, $args)
     {
         $list = self::$update_field;
 

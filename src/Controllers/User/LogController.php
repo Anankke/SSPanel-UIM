@@ -20,10 +20,6 @@ final class LogController extends BaseController
      */
     public function subscribe(ServerRequest $request, Response $response, array $args)
     {
-        if ($_ENV['subscribeLog_show'] === false) {
-            return $response->withStatus(302)->withHeader('Location', '/user');
-        }
-
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         return $response->write($this->view()

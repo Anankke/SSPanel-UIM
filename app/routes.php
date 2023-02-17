@@ -64,8 +64,6 @@ return static function (Slim\App $app): void {
         $group->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticketView');
         $group->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticketUpdate');
 
-        $group->post('/buy_invite', App\Controllers\UserController::class . ':buyInvite');
-        $group->post('/custom_invite', App\Controllers\UserController::class . ':customInvite');
         $group->get('/edit', App\Controllers\UserController::class . ':edit');
         $group->post('/email', App\Controllers\UserController::class . ':updateEmail');
         $group->post('/username', App\Controllers\UserController::class . ':updateUsername');
@@ -260,6 +258,8 @@ return static function (Slim\App $app): void {
         $group->post('/setting/reg', App\Controllers\Admin\Setting\RegController::class . ':saveReg');
         $group->get('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':support');
         $group->post('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':saveSupport');
+        $group->get('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':feature');
+        $group->post('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':saveFeature');
         $group->post('/setting/test_email', App\Controllers\Admin\Setting\EmailController::class . ':testEmail');
 
         // 礼品卡

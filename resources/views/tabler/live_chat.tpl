@@ -1,8 +1,8 @@
-{if $config['live_chat'] == 'tawk'}
+{if $public_setting['live_chat'] == 'tawk'}
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
-        var id = "{$config['tawk_id']}";
+        var id = "{$public_setting['tawk_id']}";
         var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
         s1.async=true;
         s1.src='https://embed.tawk.to/' + id + '/default';
@@ -13,9 +13,9 @@
 </script>
 {/if}
 
-{if $config['live_chat'] == 'crisp'}
+{if $public_setting['live_chat'] == 'crisp'}
 <script type="text/javascript"> window.$crisp = [];
-    window.CRISP_WEBSITE_ID = "{$config["crisp_id"]}";
+    window.CRISP_WEBSITE_ID = "{$public_setting["crisp_id"]}";
     (function () {
         d = document;
         s = d.createElement("script");
@@ -41,12 +41,10 @@
 </script>
 {/if}
 
-{if $config['live_chat'] == 'livechat'}
+{if $public_setting['live_chat'] == 'livechat'}
 <script>
-{literal}
-window.__lc = window.__lc || {};
-{/literal}
-window.__lc.license = "{$config['livechat_id']}";;
+window.__lc = window.__lc || { };
+window.__lc.license = "{$public_setting['livechat_id']}";;
 window.__lc.params = [
     { name: '用户编号', value: '{$user->id}' },
     { name: '用户类别', value: '{$user->class}' },
@@ -57,7 +55,7 @@ window.__lc.params = [
     { name: '剩余流量', value: '{$user->unusedTraffic()}' },
     { name: '账户余额', value: '{$user->money}' }
 ];
-{literal}
+
 (function(n, t, c) {
     function i(n) {
         return e._h ? e._h.apply(null, n) : e._q.push(n)
@@ -93,13 +91,12 @@ window.__lc.params = [
     n.LiveChatWidget = n.LiveChatWidget || e
 } (window, document, [].slice))
 </script>
-{/literal}
 {/if}
 
-{if $config['live_chat'] == 'mylivechat'}
+{if $public_setting['live_chat'] == 'mylivechat'}
 <script type="text/javascript">
     (() => {
-        var hccid = "{$config['mylivechat_id']}";
+        var hccid = "{$public_setting['mylivechat_id']}";
         var nt = document.createElement("script");
         nt.async = true;
         nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid;
