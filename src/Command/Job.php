@@ -237,12 +237,12 @@ EOL;
             $nodes = Node::all();
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && $node->online === true) {
-                    if ($_ENV['useScFtqq'] === true && $_ENV['enable_detect_offline_useScFtqq'] === true) {
+                    if ($_ENV['useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
                         $postdata = http_build_query(
                             [
-                                'text' => $_ENV['appName'] . '-节点掉线了',
+                                'title' => $_ENV['appName'] . '-节点掉线了',
                                 'desp' => $text,
                             ]
                         );
@@ -282,12 +282,12 @@ EOL;
                     $node->online = false;
                     $node->save();
                 } elseif ($node->isNodeOnline() === true && $node->online === false) {
-                    if ($_ENV['useScFtqq'] === true && $_ENV['enable_detect_offline_useScFtqq'] === true) {
+                    if ($_ENV['useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         $postdata = http_build_query(
                             [
-                                'text' => $_ENV['appName'] . '-节点恢复上线了',
+                                'title' => $_ENV['appName'] . '-节点恢复上线了',
                                 'desp' => $text,
                             ]
                         );
