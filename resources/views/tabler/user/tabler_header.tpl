@@ -97,10 +97,10 @@
                                                 资料修改
                                             </a>
                                             {if $config['enable_ticket'] == true}
-                                                <a class="dropdown-item" href="/user/ticket">
-                                                    <i class="ti ti-ticket"></i>&nbsp;
-                                                    工单系统
-                                                </a>
+                                            <a class="dropdown-item" href="/user/ticket">
+                                                <i class="ti ti-ticket"></i>&nbsp;
+                                                工单系统
+                                            </a>
                                             {/if}
                                             <a class="dropdown-item" href="/user/invite">
                                                 <i class="ti ti-friends"></i>&nbsp;
@@ -125,10 +125,12 @@
                                         <i class="ti ti-server"></i>&nbsp;
                                         节点列表
                                     </a>
+                                    {if $config['display_media'] === true}
                                     <a class="dropdown-item" href="/user/media">
                                         <i class="ti ti-key"></i>&nbsp;
                                         流媒体解锁
                                     </a>
+                                    {/if}
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -138,7 +140,7 @@
                                         <i class="ti ti-dots-circle-horizontal icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        更多
+                                        信息
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
@@ -146,11 +148,11 @@
                                         <i class="ti ti-speakerphone"></i>&nbsp;
                                         站点公告
                                     </a>
-                                    {if $config['subscribeLog_show'] == true && $config['subscribeLog'] == true}
-                                        <a class="dropdown-item" href="/user/subscribe/log">
-                                            <i class="ti ti-rss"></i></i>&nbsp;
-                                            订阅日志
-                                        </a>
+                                    {if $config['display_subscribe_log'] === true}
+                                    <a class="dropdown-item" href="/user/subscribe/log">
+                                        <i class="ti ti-rss"></i></i>&nbsp;
+                                        订阅日志
+                                    </a>
                                     {/if}
                                 </div>
                             </li>
@@ -169,10 +171,12 @@
                                         <i class="ti ti-barrier-block"></i>&nbsp;
                                         审计规则
                                     </a>
+                                    {if $config['display_detect_log'] === true}
                                     <a class="dropdown-item" href="/user/detect/log">
                                         <i class="ti ti-notes"></i>&nbsp;
                                         审计日志
                                     </a>
+                                    {/if}
                                 </div>
                             </li>
                             <li class="nav-item dropdown">

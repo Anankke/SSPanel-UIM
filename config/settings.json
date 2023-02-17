@@ -1361,6 +1361,36 @@
     },
     {
         "id": null,
+        "item": "display_media",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示节点流媒体解锁情况"
+    },
+    {
+        "id": null,
+        "item": "display_subscribe_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示用户订阅记录"
+    },
+    {
+        "id": null,
+        "item": "display_detect_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示用户审计记录"
+    },
+    {
+        "id": null,
         "item": "db_version",
         "value": "20230201",
         "class": "db",
