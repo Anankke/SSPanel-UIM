@@ -47,6 +47,9 @@
 </div>
 
 <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+
+{include file='live_chat.tpl'}
+
 </body>
 
 </html>

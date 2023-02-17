@@ -12,8 +12,6 @@ final class RefController extends BaseController
     public static $update_field = [
         'invitation_to_register_balance_reward',
         'invitation_to_register_traffic_reward',
-        'invite_price',
-        'custom_invite_price',
         'invitation_mode',
         'invite_rebate_mode',
         'rebate_ratio',

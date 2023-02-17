@@ -881,26 +881,6 @@
     },
     {
         "id": null,
-        "item": "invite_price",
-        "value": "-1",
-        "class": "invite",
-        "is_public": 1,
-        "type": "int",
-        "default": "-1",
-        "mark": "用户购买邀请码所需要的价格"
-    },
-    {
-        "id": null,
-        "item": "custom_invite_price",
-        "value": "-1",
-        "class": "invite",
-        "is_public": 1,
-        "type": "int",
-        "default": "-1",
-        "mark": "用户定制邀请码所需要的价格"
-    },
-    {
-        "id": null,
         "item": "sign_up_for_invitation_codes",
         "value": "10",
         "class": "register",

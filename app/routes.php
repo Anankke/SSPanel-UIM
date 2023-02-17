@@ -64,8 +64,6 @@ return static function (Slim\App $app): void {
         $group->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticketView');
         $group->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticketUpdate');
 
-        $group->post('/buy_invite', App\Controllers\UserController::class . ':buyInvite');
-        $group->post('/custom_invite', App\Controllers\UserController::class . ':customInvite');
         $group->get('/edit', App\Controllers\UserController::class . ':edit');
         $group->post('/email', App\Controllers\UserController::class . ':updateEmail');
         $group->post('/username', App\Controllers\UserController::class . ':updateUsername');

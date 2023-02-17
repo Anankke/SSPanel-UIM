@@ -125,7 +125,7 @@
                                         <i class="ti ti-server"></i>&nbsp;
                                         节点列表
                                     </a>
-                                    {if $config['display_media'] === true}
+                                    {if $public_setting['display_media'] === true}
                                     <a class="dropdown-item" href="/user/media">
                                         <i class="ti ti-key"></i>&nbsp;
                                         流媒体解锁
@@ -148,7 +148,7 @@
                                         <i class="ti ti-speakerphone"></i>&nbsp;
                                         站点公告
                                     </a>
-                                    {if $config['display_subscribe_log'] === true}
+                                    {if $public_setting['display_subscribe_log'] === true}
                                     <a class="dropdown-item" href="/user/subscribe/log">
                                         <i class="ti ti-rss"></i></i>&nbsp;
                                         订阅日志
@@ -171,7 +171,7 @@
                                         <i class="ti ti-barrier-block"></i>&nbsp;
                                         审计规则
                                     </a>
-                                    {if $config['display_detect_log'] === true}
+                                    {if $public_setting['display_detect_log'] === true}
                                     <a class="dropdown-item" href="/user/detect/log">
                                         <i class="ti ti-notes"></i>&nbsp;
                                         审计日志
