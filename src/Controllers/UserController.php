@@ -17,7 +17,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\User;
-use App\Models\UserSubscribeLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Config;
@@ -928,28 +927,6 @@ final class UserController extends BaseController
             'old_local' => null,
         ], $expire_in);
         return $response->withStatus(302)->withHeader('Location', $local);
-    }
-
-    /**
-     * 订阅记录
-     *
-     * @param array    $args
-     */
-    public function subscribeLog(ServerRequest $request, Response $response, array $args)
-    {
-        if ($_ENV['subscribeLog_show'] === false) {
-            return $response->withStatus(302)->withHeader('Location', '/user');
-        }
-
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
-
-        $render = Tools::paginateRender($logs);
-        return $this->view()
-            ->assign('logs', $logs)
-            ->assign('render', $render)
-            ->registerClass('Tools', Tools::class)
-            ->fetch('user/subscribe_log.tpl');
     }
 
     /**
