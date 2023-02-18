@@ -64,7 +64,6 @@ $_ENV['trafficLog']               = false;                          //是否记�
 $_ENV['trafficLog_keep_days']     = 14;                             //每小时使用流量记录保留天数
 
 $_ENV['subscribeLog']               = false;                        //是否记录用户订阅日志
-$_ENV['subscribeLog_show']          = true;                         //是否允许用户查看订阅记录
 $_ENV['subscribeLog_keep_days']     = 7;                            //订阅记录保留天数
 
 //订阅设置---------------------------------------------------------------------------------------
@@ -117,23 +116,6 @@ $_ENV['telegram_token']                     = '';           //Telegram bot,bot �
 $_ENV['telegram_chatid']                    = -111;         //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
 $_ENV['telegram_request_token']             = '';           //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat Tool setTelegram
-
-$_ENV['remark_user_search_email']           = ['邮箱'];                     //用户搜索字段 email 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_search_port']            = ['端口'];                     //用户搜索字段 port 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_is_admin']        = ['管理员'];                   //用户搜索字段 is_admin 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_enable']          = ['用户启用'];                  //用户搜索字段 enable 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_money']           = ['金钱', '余额'];             //用户搜索字段 money 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_port']            = ['端口'];                     //用户搜索字段 port 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_transfer_enable'] = ['流量'];                     //用户搜索字段 transfer_enable 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_passwd']          = ['连接密码'];                 //用户搜索字段 passwd 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_method']          = ['加密'];                     //用户搜索字段 method 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_invite_num']      = ['邀请数量'];                 //用户搜索字段 invite_num 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_node_group']      = ['用户组', '用户分组'];       //用户搜索字段 node_group 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_class']           = ['等级'];                     //用户搜索字段 class 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_class_expire']    = ['等级过期时间'];             //用户搜索字段 class_expire 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_expire_in']       = ['账号过期时间'];             //用户搜索字段 expire_in 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_node_speedlimit'] = ['限速'];                    //用户搜索字段 node_speedlimit 的别名，可多个，格式为 PHP 数组
-$_ENV['remark_user_option_node_connector']  = ['连接数', '客户端'];         //用户搜索字段 node_connector 的别名，可多个，格式为 PHP 数组
 
 //社交登录设置
 #Telegram
