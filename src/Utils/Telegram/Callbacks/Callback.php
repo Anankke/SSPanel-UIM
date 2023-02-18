@@ -917,7 +917,7 @@ final class Callback
                     ];
                     break;
                 case 'v2':
-                    $text = 'Vmess/Vless 传统订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text = 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL;
                     $text .= '<code>' . $TraditionalSub_Url . '?v2ray=1' . '</code>';
                     $text .= PHP_EOL . PHP_EOL;
                     $sendMessage = [
@@ -950,16 +950,6 @@ final class Callback
         } else {
             $temp = $this->getUserSubscribeKeyboard();
         }
-        $sendMessage = [
-            'text' => $temp['text'],
-            'disable_web_page_preview' => false,
-            'reply_to_message_id' => null,
-            'reply_markup' => \json_encode(
-                [
-                    'inline_keyboard' => $temp['keyboard'],
-                ]
-            ),
-        ];
         $this->replyWithMessage(
             array_merge(
                 [
