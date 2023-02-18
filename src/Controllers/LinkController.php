@@ -202,7 +202,6 @@ final class LinkController extends BaseController
                     $header_type = $header['type'] ?? '';
                     $host = $node_custom_config['host'] ?? '';
                     $path = $node_custom_config['path'] ?? '/';
-                    $enable_vless = $node_custom_config['enable_vless'] ?? '0';
 
                     $v2rayn_array = [
                         'v' => '2',
@@ -218,10 +217,6 @@ final class LinkController extends BaseController
                         'tls' => $security,
                     ];
 
-                    if ($enable_vless === '1' || $enable_vless === 1) {
-                        $links .= 'vless://' . \base64_encode(\json_encode($v2rayn_array)) . PHP_EOL;
-                        break;
-                    }
                     $links .= 'vmess://' . \base64_encode(\json_encode($v2rayn_array)) . PHP_EOL;
                     break;
             }

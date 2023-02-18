@@ -75,7 +75,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach $userloginip as $login}
+                                    {foreach $loginips as $login}
                                         <tr>
                                             <td>{$login->ip}</td>
                                             <td>{date('Y-m-d H:i:s', $login->datetime)}</td>

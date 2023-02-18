@@ -193,24 +193,31 @@
                                         <div class="tab-pane show" id="traditional-sub">
                                             <div>
                                                 <p>
-                                                    传统订阅（Shadowsocks）：<code>{$getTraditionalSub}?sub=2</code>
+                                                    传统订阅（Shadowsocks）：<code>{$getTraditionalSub}?ss=1</code>
                                                 </p>
                                                 <p>
-                                                    传统订阅（V2Ray）：<code>{$getTraditionalSub}?sub=3</code>
+                                                    传统订阅（Shadowsocks SIP002）：<code>{$getTraditionalSub}?sip002=1</code>
                                                 </p>
                                                 <p>
-                                                    传统订阅（Trojan）：<code>{$getTraditionalSub}?sub=4</code>
+                                                    传统订阅（V2Ray）：<code>{$getTraditionalSub}?v2ray=1</code>
+                                                </p>
+                                                <p>
+                                                    传统订阅（Trojan）：<code>{$getTraditionalSub}?trojan=1</code>
                                                 </p>
                                                 <div class="btn-list justify-content-start">
-                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=2"
+                                                    <a data-clipboard-text="{$getTraditionalSub}?ss=1"
                                                         class="copy btn btn-primary">
                                                         复制传统订阅（Shadowsocks）
                                                     </a>
-                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=3"
+                                                    <a data-clipboard-text="{$getTraditionalSub}?sip002=1"
+                                                        class="copy btn btn-primary">
+                                                        复制传统订阅（Shadowsocks SIP002）
+                                                    </a>
+                                                    <a data-clipboard-text="{$getTraditionalSub}?v2ray=1"
                                                         class="copy btn btn-primary">
                                                         复制传统订阅（V2Ray）
                                                     </a>
-                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=4"
+                                                    <a data-clipboard-text="{$getTraditionalSub}?trojan=1"
                                                         class="copy btn btn-primary">
                                                         复制传统订阅（Trojan）
                                                     </a>
@@ -286,27 +293,15 @@
                                         </div>
                                         <div class="tab-pane" id="ios">
                                             <p>
-                                                适用于 Shadowrocket 的订阅：<code>{$getUniversalSub}/clash</code>
+                                                适用于 Clash 兼容客户端的订阅：<code>{$getUniversalSub}/clash</code>
                                             </p>
                                             <p>
-                                                在购买并安装 Shadowrocket 后，只需 <span style="color: red;">使用 Safari
-                                                    浏览器</span> 点击下方按钮，然后在弹出的弹窗中点击 <b>打开</b>，即可快捷完成订阅设置
-                                            </p>
-                                            <p style="color: red;">
-                                                如若提示无法打开，是因为需要先安装对应 APP，然后才能导入
+                                                在购买并安装 Clash 兼容客户端之后，点击复制 Clash 按钮，然后打开 Clash 兼容客户端导入即可。
                                             </p>
                                             <div class="btn-list justify-content-start">
-                                                <a href="https://apps.apple.com/us/app/shadowrocket/id932747118"
-                                                    class="btn btn-primary">
-                                                    购买 Shadowrocket
-                                                </a>
                                                 <a data-clipboard-text="{$getUniversalSub}/clash"
                                                     class="copy btn btn-primary">
-                                                    复制 Shadowrocket
-                                                </a>
-                                                <a href="sub://{base64_encode("{$getUniversalSub}/clash")}"
-                                                    class="btn btn-primary">
-                                                    导入 Shadowrocket
+                                                    复制 Clash
                                                 </a>
                                             </div>
                                         </div>

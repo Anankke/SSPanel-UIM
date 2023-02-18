@@ -10,7 +10,6 @@ use App\Models\Code;
 use App\Models\Docs;
 use App\Models\EmailVerify;
 use App\Models\InviteCode;
-use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Models\Node;
 use App\Models\Payback;
@@ -26,7 +25,6 @@ use App\Services\Payment;
 use App\Utils\Check;
 use App\Utils\Cookie;
 use App\Utils\Hash;
-use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
@@ -205,47 +203,12 @@ final class UserController extends BaseController
      */
     public function profile(ServerRequest $request, Response $response, array $args)
     {
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $paybacks = Payback::where('ref_by', $this->user->id)
-            ->orderBy('datetime', 'desc')
-            ->paginate(15, ['*'], 'page', $pageNum);
-
         // 登录IP
-        $totallogin = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-
-        // 使用IP
-        $userip = [];
-        $iplocation = new QQWry();
-        $total = Ip::where('datetime', '>=', \time() - 300)->where('userid', '=', $this->user->id)->get();
-        foreach ($total as $single) {
-            $single->ip = Tools::getRealIp($single->ip);
-            $is_node = Node::where('node_ip', $single->ip)->first();
-            if ($is_node) {
-                continue;
-            }
-            if (! isset($userip[$single->ip])) {
-                $location = $iplocation->getlocation($single->ip);
-                $userip[$single->ip] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            }
-        }
-
-        if ($request->getParam('json') === 1) {
-            return $response->withJson([
-                'ret' => 1,
-                'paybacks' => $paybacks,
-                'userloginip' => $totallogin,
-                'userip' => $userip,
-            ]);
-        }
-
-        $boughts = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->get();
+        $loginips = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
 
         return $response->write(
             $this->view()
-                ->assign('boughts', $boughts)
-                ->assign('userip', $userip)
-                ->assign('userloginip', $totallogin)
-                ->assign('paybacks', $paybacks)
+                ->assign('loginips', $loginips)
                 ->registerClass('Tools', Tools::class)
                 ->fetch('user/profile.tpl')
         );
