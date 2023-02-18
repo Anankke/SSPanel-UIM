@@ -391,17 +391,14 @@ final class Callback
                 // 登录记录
                 $iplocation = new QQWry();
                 $totallogin = LoginIp::where('userid', '=', $this->User->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-                $userloginip = [];
-                foreach ($totallogin as $single) {
-                    $location = $iplocation->getlocation($single->ip);
-                    $loginiplocation = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-                    if (! \in_array($loginiplocation, $userloginip)) {
-                        $userloginip[] = $loginiplocation;
-                    }
-                }
                 $text = '<strong>以下是您最近 10 次的登录位置：</strong>';
                 $text .= PHP_EOL . PHP_EOL;
-                $text .= implode('、', $userloginip);
+
+                foreach ($totallogin as $single) {
+                    $location = $iplocation->getlocation($single->ip);
+                    $text .= $single->ip . ' - ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . PHP_EOL;
+                }
+                
                 $sendMessage = [
                     'text' => $text,
                     'disable_web_page_preview' => false,
