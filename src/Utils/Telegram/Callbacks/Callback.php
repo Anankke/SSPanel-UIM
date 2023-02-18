@@ -81,7 +81,7 @@ final class Callback
             return;
         }
         switch (true) {
-            case strpos($this->CallbackData, 'user。') === 0:
+            case strpos($this->CallbackData, 'user.') === 0:
                 // 用户相关
                 $this->userCallback();
                 break;
@@ -241,7 +241,7 @@ final class Callback
             [
                 [
                     'text' => $checkin,
-                    'callback_data' => 'user.checkin。' . $user->telegram_id,
+                    'callback_data' => 'user.checkin.' . $user->telegram_id,
                 ],
             ],
         ];
@@ -280,7 +280,7 @@ final class Callback
             return $this->guestCallback();
         }
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('。', $CallbackDataExplode[0]);
+        $Operate = explode('.', $CallbackDataExplode[0]);
         $op_1 = $Operate[1];
         switch ($op_1) {
             case 'edit':
@@ -385,7 +385,7 @@ final class Callback
             ],
         ];
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('。', $CallbackDataExplode[0]);
+        $Operate = explode('.', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
         switch ($OpEnd) {
             case 'login_log':
@@ -580,7 +580,7 @@ final class Callback
             ],
         ];
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('。', $CallbackDataExplode[0]);
+        $Operate = explode('.', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
         switch ($OpEnd) {
             case 'update_link':
@@ -1016,7 +1016,7 @@ final class Callback
     public function userInvite(): void
     {
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('。', $CallbackDataExplode[0]);
+        $Operate = explode('.', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
         switch ($OpEnd) {
             case 'get':
@@ -1082,7 +1082,7 @@ final class Callback
                 [
                     [
                         'text' => (! $this->User->isAbleToCheckin() ? '已签到' : '签到'),
-                        'callback_data' => 'user.checkin。' . $this->triggerUser['id'],
+                        'callback_data' => 'user.checkin.' . $this->triggerUser['id'],
                     ],
                 ],
             ];
