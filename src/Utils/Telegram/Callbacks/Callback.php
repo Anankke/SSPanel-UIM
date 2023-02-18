@@ -18,7 +18,6 @@ use App\Utils\QQWry;
 use App\Utils\Telegram\Reply;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
-use Telegram\Bot\FileUpload\InputFile;
 
 final class Callback
 {
@@ -860,9 +859,7 @@ final class Callback
             $TraditionalSub_Url = LinkController::getTraditionalSub($this->User);
             switch ($CallbackDataExplode[1]) {
                 case 'clash':
-                    $text = 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL;
-                    $text .= '<code>' . $UniversalSub_Url . '/clash' . '</code>';
-                    $text .= PHP_EOL . PHP_EOL;
+                    $text = 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL;
                     $sendMessage = [
                         'text' => $text,
                         'disable_web_page_preview' => true,
@@ -875,9 +872,7 @@ final class Callback
                     ];
                     break;
                 case 'json':
-                    $text = 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL;
-                    $text .= '<code>' . $UniversalSub_Url . '/json' . '</code>';
-                    $text .= PHP_EOL . PHP_EOL;
+                    $text = 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL;
                     $sendMessage = [
                         'text' => $text,
                         'disable_web_page_preview' => true,
@@ -890,9 +885,7 @@ final class Callback
                     ];
                     break;
                 case 'ss':
-                    $text = 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL;
-                    $text .= '<code>' . $TraditionalSub_Url . '?ss=1' . '</code>';
-                    $text .= PHP_EOL . PHP_EOL;
+                    $text = 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL;
                     $sendMessage = [
                         'text' => $text,
                         'disable_web_page_preview' => true,
@@ -905,9 +898,7 @@ final class Callback
                     ];
                     break;
                 case 'sip002':
-                    $text = 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL;
-                    $text .= '<code>' . $TraditionalSub_Url . '?sip002=1' . '</code>';
-                    $text .= PHP_EOL . PHP_EOL;
+                    $text = 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL;
                     $sendMessage = [
                         'text' => $text,
                         'disable_web_page_preview' => true,
@@ -920,9 +911,7 @@ final class Callback
                     ];
                     break;
                 case 'v2':
-                    $text = 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL;
-                    $text .= '<code>' . $TraditionalSub_Url . '?v2ray=1' . '</code>';
-                    $text .= PHP_EOL . PHP_EOL;
+                    $text = 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL;
                     $sendMessage = [
                         'text' => $text,
                         'disable_web_page_preview' => true,
@@ -935,9 +924,7 @@ final class Callback
                     ];
                     break;
                 case 'trojan':
-                    $text = 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL;
-                    $text .= '<code>' . $TraditionalSub_Url . '?trojan=1' . '</code>';
-                    $text .= PHP_EOL . PHP_EOL;
+                    $text = 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?trojan=1</code>' . PHP_EOL . PHP_EOL;
                     $sendMessage = [
                         'text' => $text,
                         'disable_web_page_preview' => true,
