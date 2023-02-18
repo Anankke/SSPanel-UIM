@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Callbacks;
 
+use App\Controllers\LinkController;
 use App\Controllers\SubController;
 use App\Models\InviteCode;
 use App\Models\Ip;
@@ -391,14 +392,15 @@ final class Callback
                 // 登录记录
                 $iplocation = new QQWry();
                 $totallogin = LoginIp::where('userid', '=', $this->User->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-                $text = '<strong>以下是您最近 10 次的登录位置：</strong>';
-                $text .= PHP_EOL . PHP_EOL;
+                $text = '<strong>以下是您最近 10 次的登录 IP 和地理位置：</strong>' . PHP_EOL;
+                $text .= '<strong>地理位置根据 IP 数据库预估，可能与实际位置不符</strong>' . PHP_EOL;
+                $text .= PHP_EOL;
 
                 foreach ($totallogin as $single) {
                     $location = $iplocation->getlocation($single->ip);
                     $text .= $single->ip . ' - ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . PHP_EOL;
                 }
-                
+
                 $sendMessage = [
                     'text' => $text,
                     'disable_web_page_preview' => false,
@@ -522,16 +524,6 @@ final class Callback
                 [
                     'text' => '更改加密方式',
                     'callback_data' => 'user.edit.encrypt',
-                ],
-                [
-                    'text' => '更改协议类型',
-                    'callback_data' => 'user.edit.protocol',
-                ],
-            ],
-            [
-                [
-                    'text' => '更改混淆类型',
-                    'callback_data' => 'user.edit.obfs',
                 ],
                 [
                     'text' => '每日邮件接收',
@@ -802,6 +794,30 @@ final class Callback
                     'text' => 'Clash',
                     'callback_data' => 'user.subscribe|clash',
                 ],
+                [
+                    'text' => 'Json',
+                    'callback_data' => 'user.subscribe|json',
+                ],
+            ],
+            [
+                [
+                    'text' => 'Shadowsocks',
+                    'callback_data' => 'user.subscribe|ss',
+                ],
+                [
+                    'text' => 'Shadowsocks SIP002',
+                    'callback_data' => 'user.subscribe|sip002',
+                ],
+            ],
+            [
+                [
+                    'text' => 'Vmess/Vless',
+                    'callback_data' => 'user.subscribe|v2',
+                ],
+                [
+                    'text' => 'Trojan',
+                    'callback_data' => 'user.subscribe|trojan',
+                ],
             ],
             [
                 [
@@ -837,25 +853,98 @@ final class Callback
                     ],
                 ],
             ];
-            $token = Tools::generateSSRSubCode($this->User->id);
-            $UserApiUrl = SubController::getUniversalSub($this->User);
+            $UniversalSub_Url = SubController::getUniversalSub($this->User);
+            $TraditionalSub_Url = LinkController::getTraditionalSub($this->User);
             switch ($CallbackDataExplode[1]) {
                 case 'clash':
-                    $temp['text'] = '您的 Clash 配置文件.' . PHP_EOL . '同时，您也可使用该订阅链接：' . $UserApiUrl . '/clash';
-                    $filename = 'Clash_' . $token . '_' . \time() . '.yaml';
-                    $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
-                    $fh = fopen($filepath, 'w+');
-                    $string = SubController::getClash($this->User);
-                    fwrite($fh, $string);
-                    fclose($fh);
-                    $this->bot->sendDocument(
-                        [
-                            'chat_id' => $this->ChatID,
-                            'document' => InputFile::create($filepath),
-                            'caption' => $temp['text'],
-                        ]
-                    );
-                    unlink($filepath);
+                    $text = 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text .= '<code>' . $UniversalSub_Url . '/clash' . '</code>';
+                    $text .= PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => \json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
+                    break;
+                case 'json':
+                    $text = 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text .= '<code>' . $UniversalSub_Url . '/json' . '</code>';
+                    $text .= PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => \json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
+                    break;
+                case 'ss':
+                    $text = 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text .= '<code>' . $TraditionalSub_Url . '?ss=1' . '</code>';
+                    $text .= PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => \json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
+                    break;
+                case 'sip002':
+                    $text = 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text .= '<code>' . $TraditionalSub_Url . '?sip002=1' . '</code>';
+                    $text .= PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => \json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
+                    break;
+                case 'v2':
+                    $text = 'Vmess/Vless 传统订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text .= '<code>' . $TraditionalSub_Url . '?v2ray=1' . '</code>';
+                    $text .= PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => \json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
+                    break;
+                case 'trojan':
+                    $text = 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL;
+                    $text .= '<code>' . $TraditionalSub_Url . '?trojan=1' . '</code>';
+                    $text .= PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => \json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
                     break;
             }
         } else {

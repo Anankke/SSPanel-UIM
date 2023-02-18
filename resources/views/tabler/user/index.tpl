@@ -193,24 +193,31 @@
                                         <div class="tab-pane show" id="traditional-sub">
                                             <div>
                                                 <p>
-                                                    传统订阅（Shadowsocks）：<code>{$getTraditionalSub}?sub=2</code>
+                                                    传统订阅（Shadowsocks）：<code>{$getTraditionalSub}?ss=1</code>
                                                 </p>
                                                 <p>
-                                                    传统订阅（V2Ray）：<code>{$getTraditionalSub}?sub=3</code>
+                                                    传统订阅（Shadowsocks SIP002）：<code>{$getTraditionalSub}?sip002=1</code>
                                                 </p>
                                                 <p>
-                                                    传统订阅（Trojan）：<code>{$getTraditionalSub}?sub=4</code>
+                                                    传统订阅（V2Ray）：<code>{$getTraditionalSub}?v2ray=1</code>
+                                                </p>
+                                                <p>
+                                                    传统订阅（Trojan）：<code>{$getTraditionalSub}?trojan=1</code>
                                                 </p>
                                                 <div class="btn-list justify-content-start">
-                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=2"
+                                                    <a data-clipboard-text="{$getTraditionalSub}?ss=1"
                                                         class="copy btn btn-primary">
                                                         复制传统订阅（Shadowsocks）
                                                     </a>
-                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=3"
+                                                    <a data-clipboard-text="{$getTraditionalSub}?sip002=1"
+                                                        class="copy btn btn-primary">
+                                                        复制传统订阅（Shadowsocks SIP002）
+                                                    </a>
+                                                    <a data-clipboard-text="{$getTraditionalSub}?v2ray=1"
                                                         class="copy btn btn-primary">
                                                         复制传统订阅（V2Ray）
                                                     </a>
-                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=4"
+                                                    <a data-clipboard-text="{$getTraditionalSub}?trojan=1"
                                                         class="copy btn btn-primary">
                                                         复制传统订阅（Trojan）
                                                     </a>
