@@ -81,7 +81,7 @@ final class Callback
             return;
         }
         switch (true) {
-            case strpos($this->CallbackData, 'user.') === 0:
+            case strpos($this->CallbackData, 'user。') === 0:
                 // 用户相关
                 $this->userCallback();
                 break;
@@ -111,7 +111,7 @@ final class Callback
                 ],
             ],
         ];
-        $text = '游客您好，以下是 BOT 菜单：' . PHP_EOL . PHP_EOL . '本站用户请前往用户中心进行 Telegram 绑定操作.';
+        $text = '游客您好，以下是 BOT 菜单：' . PHP_EOL . PHP_EOL . '本站用户请前往用户中心进行 Telegram 绑定操作。';
         return [
             'text' => $text,
             'keyboard' => $Keyboard,
@@ -241,7 +241,7 @@ final class Callback
             [
                 [
                     'text' => $checkin,
-                    'callback_data' => 'user.checkin.' . $user->telegram_id,
+                    'callback_data' => 'user.checkin。' . $user->telegram_id,
                 ],
             ],
         ];
@@ -273,14 +273,14 @@ final class Callback
             if ($this->ChatID < 0) {
                 // 群组内提示
                 return $this->answerCallbackQuery([
-                    'text' => '您好，您尚未绑定账户，无法进行操作.',
+                    'text' => '您好，您尚未绑定账户，无法进行操作。',
                     'show_alert' => true,
                 ]);
             }
             return $this->guestCallback();
         }
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('.', $CallbackDataExplode[0]);
+        $Operate = explode('。', $CallbackDataExplode[0]);
         $op_1 = $Operate[1];
         switch ($op_1) {
             case 'edit':
@@ -299,7 +299,7 @@ final class Callback
                 // 签到
                 if ((int) $Operate[2] !== $this->triggerUser['id']) {
                     $this->answerCallbackQuery([
-                        'text' => '您好，您无法操作他人的账户.',
+                        'text' => '您好，您无法操作他人的账户。',
                         'show_alert' => true,
                     ]);
                     return;
@@ -385,7 +385,7 @@ final class Callback
             ],
         ];
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('.', $CallbackDataExplode[0]);
+        $Operate = explode('。', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
         switch ($OpEnd) {
             case 'login_log':
@@ -418,7 +418,8 @@ final class Callback
                 // 使用记录
                 $iplocation = new QQWry();
                 $total = Ip::where('datetime', '>=', \time() - 300)->where('userid', '=', $this->User->id)->get();
-                $text = '<strong>以下是您最近 5 分钟的使用 IP 和地理位置：</strong>';
+                $text = '<strong>以下是您最近 5 分钟的使用 IP 和地理位置：</strong>' . PHP_EOL;
+                $text .= PHP_EOL;
 
                 foreach ($total as $single) {
                     $single->ip = Tools::getRealIp($single->ip);
@@ -562,7 +563,7 @@ final class Callback
     {
         if ($this->ChatID < 0) {
             return $this->answerCallbackQuery([
-                'text' => '无法在群组中进行该操作.',
+                'text' => '无法在群组中进行该操作。',
                 'show_alert' => true,
             ]);
         }
@@ -579,14 +580,14 @@ final class Callback
             ],
         ];
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('.', $CallbackDataExplode[0]);
+        $Operate = explode('。', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
         switch ($OpEnd) {
             case 'update_link':
                 // 重置订阅链接
                 $this->User->cleanLink();
                 $this->answerCallbackQuery([
-                    'text' => '订阅链接重置成功，请在下方重新更新订阅.',
+                    'text' => '订阅链接重置成功，请在下方重新更新订阅。',
                     'show_alert' => true,
                 ]);
                 $temp = $this->getUserSubscribeKeyboard();
@@ -605,10 +606,10 @@ final class Callback
                 // 重置链接密码
                 $this->User->passwd = Tools::genRandomChar(8);
                 if ($this->User->save()) {
-                    $answerCallbackQuery = '连接密码更新成功，请在下方重新更新订阅.';
+                    $answerCallbackQuery = '连接密码更新成功，请在下方重新更新订阅。';
                     $temp = $this->getUserSubscribeKeyboard();
                 } else {
-                    $answerCallbackQuery = '出现错误，连接密码更新失败，请联系管理员.';
+                    $answerCallbackQuery = '出现错误，连接密码更新失败，请联系管理员。';
                     $temp = $this->getUserEditKeyboard();
                 }
                 $this->answerCallbackQuery([
@@ -635,10 +636,10 @@ final class Callback
                         if ($temp['ok'] === true) {
                             $text = '您当前的加密方式为：' . $this->User->method . PHP_EOL . PHP_EOL . $temp['msg'];
                         } else {
-                            $text = '发生错误，请重新选择.' . PHP_EOL . PHP_EOL . $temp['msg'];
+                            $text = '发生错误，请重新选择。' . PHP_EOL . PHP_EOL . $temp['msg'];
                         }
                     } else {
-                        $text = '发生错误，请重新选择.';
+                        $text = '发生错误，请重新选择。';
                     }
                 } else {
                     $Encrypts = [];
@@ -688,7 +689,7 @@ final class Callback
                             $text .= ($this->User->sendDailyMail === 0 ? '不发送' : '发送');
                             $text .= '</strong>';
                         } else {
-                            $text = '发生错误.';
+                            $text = '发生错误。';
                         }
                         break;
                     default:
@@ -712,9 +713,9 @@ final class Callback
             case 'unbind':
                 // Telegram 账户解绑
                 $this->AllowEditMessage = false;
-                $text = '发送 **/unbind 账户邮箱** 进行解绑.';
+                $text = '发送 **/unbind 账户邮箱** 进行解绑。';
                 if (Setting::obtain('telegram_unbind_kick_member') === true) {
-                    $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群.';
+                    $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群。';
                 }
                 $sendMessage = [
                     'text' => $text,
@@ -727,7 +728,7 @@ final class Callback
             case 'unban':
                 // 群组解封
                 $sendMessage = [
-                    'text' => '如果您已经身处用户群，请勿随意点击解封，否则会导致您被移除出群组.',
+                    'text' => '如果您已经身处用户群，请勿随意点击解封，否则会导致您被移除出群组。',
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => \json_encode(
@@ -755,7 +756,7 @@ final class Callback
                     ]
                 );
                 $this->answerCallbackQuery([
-                    'text' => '已提交解封，如您仍无法加入群组，请联系管理员.',
+                    'text' => '已提交解封，如您仍无法加入群组，请联系管理员。',
                     'show_alert' => true,
                 ]);
                 break;
@@ -789,7 +790,7 @@ final class Callback
 
     public function getUserSubscribeKeyboard()
     {
-        $text = '订阅中心.';
+        $text = '选择你想要使用的订阅链接类型：';
         $keyboard = [
             [
                 [
@@ -983,11 +984,11 @@ final class Callback
         $text = [
             '<strong>分享计划，您每邀请 1 位用户注册：</strong>',
             '',
-            '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励.',
-            '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金.',
-            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利.',
+            '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励。',
+            '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金。',
+            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利。',
             '',
-            '已获得返利：' . $paybacks_sum . ' 元.',
+            '已获得返利：' . $paybacks_sum . ' 元。',
         ];
         $keyboard = [
             [
@@ -1015,7 +1016,7 @@ final class Callback
     public function userInvite(): void
     {
         $CallbackDataExplode = explode('|', $this->CallbackData);
-        $Operate = explode('.', $CallbackDataExplode[0]);
+        $Operate = explode('。', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
         switch ($OpEnd) {
             case 'get':
@@ -1081,7 +1082,7 @@ final class Callback
                 [
                     [
                         'text' => (! $this->User->isAbleToCheckin() ? '已签到' : '签到'),
-                        'callback_data' => 'user.checkin.' . $this->triggerUser['id'],
+                        'callback_data' => 'user.checkin。' . $this->triggerUser['id'],
                     ],
                 ],
             ];
