@@ -391,15 +391,16 @@ final class Callback
             case 'login_log':
                 // 登录记录
                 $iplocation = new QQWry();
-                $totallogin = LoginIp::where('userid', '=', $this->User->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+                $total = LoginIp::where('userid', '=', $this->User->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
                 $text = '<strong>以下是您最近 10 次的登录 IP 和地理位置：</strong>' . PHP_EOL;
-                $text .= '<strong>地理位置根据 IP 数据库预估，可能与实际位置不符</strong>' . PHP_EOL;
                 $text .= PHP_EOL;
 
-                foreach ($totallogin as $single) {
+                foreach ($total as $single) {
                     $location = $iplocation->getlocation($single->ip);
                     $text .= $single->ip . ' - ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . PHP_EOL;
                 }
+
+                $text .= PHP_EOL . '<strong>注意：地理位置根据 IP 数据库预估，可能与实际位置不符，仅供参考使用</strong>' . PHP_EOL;
 
                 $sendMessage = [
                     'text' => $text,
@@ -417,7 +418,8 @@ final class Callback
                 // 使用记录
                 $iplocation = new QQWry();
                 $total = Ip::where('datetime', '>=', \time() - 300)->where('userid', '=', $this->User->id)->get();
-                $userip = [];
+                $text = '<strong>以下是您最近 5 分钟的使用 IP 和地理位置：</strong>';
+
                 foreach ($total as $single) {
                     $single->ip = Tools::getRealIp($single->ip);
                     $is_node = Node::where('node_ip', $single->ip)->first();
@@ -425,11 +427,11 @@ final class Callback
                         continue;
                     }
                     $location = $iplocation->getlocation($single->ip);
-                    $userip[$single->ip] = '[' . $single->ip . '] ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+                    $text .= $single->ip . ' - ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . PHP_EOL;
                 }
-                $text = '<strong>以下是您最近 5 分钟的使用 IP：</strong>';
-                $text .= PHP_EOL . PHP_EOL;
-                $text .= implode(PHP_EOL, $userip);
+
+                $text .= PHP_EOL . '<strong>注意：地理位置根据 IP 数据库预估，可能与实际位置不符，仅供参考使用</strong>' . PHP_EOL;
+
                 $sendMessage = [
                     'text' => $text,
                     'disable_web_page_preview' => false,
@@ -949,6 +951,16 @@ final class Callback
             }
         } else {
             $temp = $this->getUserSubscribeKeyboard();
+            $sendMessage = [
+                'text' => $temp['text'],
+                'disable_web_page_preview' => false,
+                'reply_to_message_id' => null,
+                'reply_markup' => \json_encode(
+                    [
+                        'inline_keyboard' => $temp['keyboard'],
+                    ]
+                ),
+            ];
         }
         $this->replyWithMessage(
             array_merge(
