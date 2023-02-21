@@ -34,8 +34,6 @@ END;
         $max_version = 0;
         try {
             $current = Setting::obtain('db_version');
-        } catch (\Exception $e) {
-            // TODO
         } finally {
             $current = 0;
         }
