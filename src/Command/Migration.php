@@ -32,7 +32,13 @@ END;
         // (min_version, max_version]
         $min_version = 0;
         $max_version = 0;
-        $current = Setting::obtain('db_version');
+        try {
+            $current = Setting::obtain('db_version');
+        } catch (\Exception $e) {
+            // TODO
+        } finally {
+            $current = 0;
+        }
         $target = $this->argv[2] ?? 0;
         if ($target === 'latest') {
             $min_version = $current;
