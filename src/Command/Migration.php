@@ -32,7 +32,7 @@ END;
         // (min_version, max_version]
         $min_version = 0;
         $max_version = 0;
-        
+
         $target = $this->argv[2] ?? 0;
 
         if ($target === 'new') {

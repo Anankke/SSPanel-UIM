@@ -354,24 +354,23 @@ final class UserController extends BaseController
             $code = InviteCode::where('user_id', $this->user->id)->first();
         }
 
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-
         $paybacks = Payback::where('ref_by', $this->user->id)
             ->orderBy('id', 'desc')
-            ->paginate(15, ['*'], 'page', $pageNum);
+            ->get();
+
+        foreach ($paybacks as $payback) {
+            $payback->datetime = Tools::toDateTime($payback->datetime);
+        }
 
         $paybacks_sum = Payback::where('ref_by', $this->user->id)->sum('ref_get');
         if (! $paybacks_sum) {
             $paybacks_sum = 0;
         }
 
-        $render = Tools::paginateRender($paybacks);
-
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
 
         return $response->write($this->view()
             ->assign('code', $code)
-            ->assign('render', $render)
             ->assign('paybacks', $paybacks)
             ->assign('invite_url', $invite_url)
             ->assign('paybacks_sum', $paybacks_sum)
