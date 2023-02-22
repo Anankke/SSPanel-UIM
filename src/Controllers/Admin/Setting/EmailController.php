@@ -34,6 +34,11 @@ final class EmailController extends BaseController
         'aws_secret_access_key',
         'aws_region',
         'aws_ses_sender',
+        // Postal
+        'postal_host',
+        'postal_key',
+        'postal_sender',
+        'postal_name',
     ];
 
     public function email($request, $response, $args)

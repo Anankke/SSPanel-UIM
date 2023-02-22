@@ -43,6 +43,9 @@
                             <a href="#mailgun" class="nav-link" data-bs-toggle="tab">Mailgun</a>
                         </li>
                         <li class="nav-item">
+                            <a href="#postal" class="nav-link" data-bs-toggle="tab">Postal</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#ses" class="nav-link" data-bs-toggle="tab">AWS SES</a>
                         </li>
                     </ul>
@@ -59,6 +62,7 @@
                                             <option value="smtp" {if $settings['mail_driver'] == "smtp"}selected{/if}>smtp</option>
                                             <option value="sendgrid" {if $settings['mail_driver'] == "sendgrid"}selected{/if}>sendgrid</option>
                                             <option value="mailgun" {if $settings['mail_driver'] == "mailgun"}selected{/if}>mailgun</option>
+                                            <option value="postal" {if $settings['mail_driver'] == "postal"}selected{/if}>postal</option>
                                             <option value="ses" {if $settings['mail_driver'] == "ses"}selected{/if}>ses</option>
                                         </select>
                                     </div>
@@ -187,6 +191,34 @@
                                     <label class="form-label col-3 col-form-label">Mailgun 发信地址</label>
                                     <div class="col">
                                         <input id="mailgun_sender" type="text" class="form-control" value="{$settings['mailgun_sender']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="postal">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Postal API地址</label>
+                                    <div class="col">
+                                        <input id="postal_host" type="text" class="form-control" value="{$settings['postal_host']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Postal API密钥</label>
+                                    <div class="col">
+                                        <input id="postal_key" type="text" class="form-control" value="{$settings['postal_key']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Postal发件邮箱</label>
+                                    <div class="col">
+                                        <input id="postal_sender" type="text" class="form-control" value="{$settings['postal_sender']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Postal发件人名称</label>
+                                    <div class="col">
+                                        <input id="postal_name" type="text" class="form-control" value="{$settings['postal_name']}">
                                     </div>
                                 </div>
                             </div>

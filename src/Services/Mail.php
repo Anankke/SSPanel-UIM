@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Models\Setting;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\NullMail;
+use App\Services\Mail\Postal;
 use App\Services\Mail\SendGrid;
 use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
@@ -30,6 +31,8 @@ final class Mail
                 return new Smtp();
             case 'sendgrid':
                 return new SendGrid();
+            case 'postal':
+                return new Postal();
             default:
                 return new NullMail();
         }
