@@ -32,22 +32,25 @@ END;
         // (min_version, max_version]
         $min_version = 0;
         $max_version = 0;
-        try {
-            $current = Setting::obtain('db_version');
-        } finally {
-            $current = 0;
-        }
+        
         $target = $this->argv[2] ?? 0;
+
+        if ($target === 'new') {
+            $current = 0;
+        } else {
+            $current = Setting::obtain('db_version');
+        }
+
         if ($target === 'latest') {
             $min_version = $current;
             $max_version = PHP_INT_MAX;
         } elseif ($target === 'new') {
-            $tables = []; //DB::select('SHOW TABLES');
+            $tables = DB::select('SHOW TABLES');
             if ($tables === []) {
                 $min_version = 0;
                 $max_version = PHP_INT_MAX;
             } else {
-                echo "Table exists in database!!! Do not use 'new' version.\n";
+                echo "Database is not empty, do not use 'new' version.\n";
                 return;
             }
         } elseif (is_numeric($target)) {

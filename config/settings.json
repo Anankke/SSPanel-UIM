@@ -541,6 +541,46 @@
     },
     {
         "id": null,
+        "item": "postal_host",
+        "value": "",
+        "class": "postal",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal API地址"
+    },
+    {
+        "id": null,
+        "item": "postal_key",
+        "value": "",
+        "class": "postal",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal API密钥"
+    },
+    {
+        "id": null,
+        "item": "postal_sender",
+        "value": "",
+        "class": "postal",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal发件邮箱"
+    },
+    {
+        "id": null,
+        "item": "postal_name",
+        "value": "",
+        "class": "postal",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal发件人名称"
+    },
+    {
+        "id": null,
         "item": "aws_access_key_id",
         "value": "",
         "class": "aws_ses",
