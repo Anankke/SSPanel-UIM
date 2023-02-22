@@ -60,9 +60,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>邀请用户ID</th>
                                             <th>邀请用户昵称</th>
                                             <th>返利金额</th>
-                                            <th>结算审核</th>
                                             <th>返利时间</th>
                                         </tr>
                                     </thead>
@@ -70,13 +70,13 @@
                                         {foreach $paybacks as $payback}
                                             <tr>
                                                 <td>{$payback->id}</td>
+                                                <td>{$payback->userid}</td>
                                                 {if $payback->user()!=null}
                                                     <td>{$payback->user()->user_name}</td>
                                                 {else}
                                                     <td>已注销</td>
                                                 {/if}
                                                 <td>{$payback->ref_get} 元</td>
-                                                <td>{$payback->fraud_detect}</td>
                                                 <td>{$payback->datetime}</td>
                                             </tr>
                                         {/foreach}

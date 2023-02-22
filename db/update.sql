@@ -1,4 +1,4 @@
--- Update from phinx migration
+-- Update from phinx migration 20230115090200_add_user_coupon
 ALTER TABLE detect_ban_log DROP FOREIGN KEY detect_ban_log_ibfk_1;
 ALTER TABLE detect_log DROP FOREIGN KEY detect_log_ibfk_1;
 ALTER TABLE detect_log DROP FOREIGN KEY detect_log_ibfk_2;
