@@ -7,7 +7,6 @@ namespace App\Command;
 use App\Interfaces\MigrationInterface;
 use App\Models\Setting;
 use App\Services\DB;
-
 use function count;
 use function explode;
 use function is_numeric;
@@ -15,7 +14,6 @@ use function krsort;
 use function ksort;
 use function scandir;
 use function substr;
-
 use const PHP_INT_MAX;
 use const SCANDIR_SORT_NONE;
 

@@ -5,8 +5,7 @@ declare(strict_types=1);
 use App\Interfaces\MigrationInterface;
 use App\Services\DB;
 
-return new class() implements MigrationInterface
-{
+return new class() implements MigrationInterface {
     public function up(): int
     {
         DB::getPdo()->exec(
