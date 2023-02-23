@@ -240,7 +240,7 @@
                                                 <div class="btn-list justify-content-start">
                                                     <a data-clipboard-text="{$getUniversalSub}/clash"
                                                         class="copy btn btn-primary">
-                                                        复制 Clash
+                                                        复制 Clash 订阅链接
                                                     </a>
                                                     <a href="/clients/Clash-Windows.exe"
                                                         class="btn btn-primary">
@@ -260,7 +260,7 @@
                                             <div class="btn-list justify-content-start">
                                                 <a data-clipboard-text="{$getUniversalSub}/clash"
                                                     class="copy btn btn-primary">
-                                                    复制 Clash
+                                                    复制 Clash 订阅链接
                                                 </a>
                                                 <a href="/clients/Clash-Windows.dmg"
                                                     class="btn btn-primary">
@@ -279,7 +279,7 @@
                                             <div class="btn-list justify-content-start">
                                                 <a data-clipboard-text="{$getUniversalSub}/clash"
                                                     class="copy btn btn-primary">
-                                                    复制 Clash
+                                                    复制 Clash 订阅链接
                                                 </a>
                                                 <a href="/clients/Clash-Android.apk"
                                                     class="btn btn-primary">
@@ -296,12 +296,20 @@
                                                 适用于 Clash 兼容客户端的订阅：<code>{$getUniversalSub}/clash</code>
                                             </p>
                                             <p>
-                                                在购买并安装 Clash 兼容客户端之后，点击复制 Clash 按钮，然后打开 Clash 兼容客户端导入即可。
+                                                在购买并安装 Clash 兼容客户端（比如 Stash）之后，点击<code>复制 Clash 订阅链接</code>按钮，然后打开 Clash 兼容客户端导入即可。
                                             </p>
                                             <div class="btn-list justify-content-start">
+                                                <a href="https://apps.apple.com/app/stash/id1596063349" target="_blank"
+                                                    class="btn btn-primary">
+                                                    购买 Stash
+                                                </a>
                                                 <a data-clipboard-text="{$getUniversalSub}/clash"
                                                     class="copy btn btn-primary">
-                                                    复制 Clash
+                                                    复制 Clash 订阅链接
+                                                </a>
+                                                <a href="stash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
+                                                    class="btn btn-primary">
+                                                    导入 Stash
                                                 </a>
                                             </div>
                                         </div>
@@ -312,7 +320,7 @@
                                             <div class="btn-list justify-content-start">
                                                 <a data-clipboard-text="{$getUniversalSub}/clash"
                                                     class="copy btn btn-primary">
-                                                    复制 Clash
+                                                    复制 Clash 订阅链接
                                                 </a>
                                                 <a href="/clients/Clash-Windows.tar.gz"
                                                     class="btn btn-primary">
