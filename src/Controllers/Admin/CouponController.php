@@ -155,7 +155,7 @@ final class CouponController extends BaseController
         if ($generate_method === 'char_random') {
             $code .= Tools::genRandomChar(8);
 
-            if (UserCoupon::where('code', $code)->count() === 0) {
+            if (UserCoupon::where('code', $code)->count() !== 0) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '出现了一些问题，请稍后重试',
@@ -166,7 +166,7 @@ final class CouponController extends BaseController
         if ($generate_method === 'random') {
             $code = Tools::genRandomChar(8);
 
-            if (UserCoupon::where('code', $code)->count() === 0) {
+            if (UserCoupon::where('code', $code)->count() !== 0) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '出现了一些问题，请稍后重试',
