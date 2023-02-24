@@ -79,7 +79,7 @@ final class CouponController extends BaseController
                 'select' => [
                     'char' => '指定字符',
                     'random' => '随机字符（无视优惠码参数）',
-                    'char_ramdom' => '指定字符+随机字符',
+                    'char_random' => '指定字符+随机字符',
                 ],
             ],
         ],
@@ -152,7 +152,7 @@ final class CouponController extends BaseController
             }
         }
 
-        if ($generate_method === 'char_ramdom') {
+        if ($generate_method === 'char_random') {
             $code .= Tools::genRandomChar(8);
 
             if (UserCoupon::where('code', $code)->count() === 0) {
@@ -163,7 +163,7 @@ final class CouponController extends BaseController
             }
         }
 
-        if ($generate_method === 'ramdom') {
+        if ($generate_method === 'random') {
             $code = Tools::genRandomChar(8);
 
             if (UserCoupon::where('code', $code)->count() === 0) {
@@ -257,7 +257,11 @@ final class CouponController extends BaseController
                 $coupon->use_time = $limit->use_time;
             }
             $coupon->use_time = $limit->use_time;
-            $coupon->new_user = $limit->new_user;
+            if ($limit->new_user === 1) {
+                $coupon->new_user = '是';
+            } else {
+                $coupon->new_user = '否';
+            }
             if ($limit->disabled === 1) {
                 $coupon->disabled = '是';
             } else {
