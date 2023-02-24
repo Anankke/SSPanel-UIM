@@ -251,12 +251,11 @@ final class CouponController extends BaseController
             $coupon->type = Tools::getCouponType($content);
             $coupon->value = $content->value;
             $coupon->product_id = $limit->product_id;
-            if ($limit->use_time < 0) {
+            if ((int) $limit->use_time < 0) {
                 $coupon->use_time = '不限次数';
             } else {
                 $coupon->use_time = $limit->use_time;
             }
-            $coupon->use_time = $limit->use_time;
             if ($limit->new_user === 1) {
                 $coupon->new_user = '是';
             } else {
