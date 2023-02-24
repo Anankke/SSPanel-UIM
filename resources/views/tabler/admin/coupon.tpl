@@ -95,7 +95,7 @@
                         {/if}
                     {/foreach}
                     <div class="form-group mb-3 row">
-                        <label class="form-label col-3 col-form-label">过期时间</label>
+                        <label class="form-label col-3 col-form-label">过期时间（留空则为不限制）</label>
                         <div class="col">
                             <input id="expire_time" type="text" class="form-control"
                                 placeholder="">
@@ -204,6 +204,28 @@
                 $.ajax({
                     url: "/admin/coupon/" + coupon_id,
                     type: 'DELETE',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret == 1) {
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
+                            reloadTableAjax();
+                        } else {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        }
+                    }
+                })
+            });
+        };
+
+        function disableCoupon(coupon_id) {
+            $('#notice-message').text('确定禁用此优惠码？');
+            $('#notice-dialog').modal('show');
+            $('#notice-confirm').on('click', function() {
+                $.ajax({
+                    url: "/admin/coupon/" + coupon_id + "/disable",
+                    type: 'POST',
                     dataType: "json",
                     success: function(data) {
                         if (data.ret == 1) {

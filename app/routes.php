@@ -90,12 +90,13 @@ return static function (Slim\App $app): void {
 
         // Telegram
         $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
+
         $group->get('/bought', App\Controllers\UserController::class . ':bought');
         $group->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');
         $group->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $group->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
 
-        //深色模式切换
+        // 深色模式切换
         $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
 
         // 记录
@@ -228,6 +229,7 @@ return static function (Slim\App $app): void {
         $group->post('/coupon', App\Controllers\Admin\CouponController::class . ':add');
         $group->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
         $group->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
+        $group->post('/coupon/{id}/disable', App\Controllers\Admin\CouponController::class . ':disable');
 
         // Subscribe Log Mange
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
