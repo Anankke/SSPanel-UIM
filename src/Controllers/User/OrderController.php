@@ -25,9 +25,13 @@ final class OrderController extends BaseController
 
     public function create(ServerRequest $request, Response $response, array $args)
     {
-        $product_id = $args['product_id'];
-        $product = Product::where('id', $product_id)
-            ->first();
+        $product_id = $request->getQueryParams()['product_id'] ?? null;
+
+        if ($product_id === null) {
+            return $response->withRedirect('/user/product');
+        }
+
+        $product = Product::where('id', $product_id)->first();
 
         $product->content = \json_decode($product->content);
 
