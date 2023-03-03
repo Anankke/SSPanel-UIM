@@ -21,7 +21,8 @@ final class ProductController extends BaseController
             $product->content = \json_decode($product->content);
         }
 
-        return $response->write($this->view()
+        return $response->write(
+            $this->view()
                 ->assign('products', $products)
                 ->fetch('user/product.tpl')
         );

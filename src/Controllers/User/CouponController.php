@@ -39,7 +39,14 @@ final class CouponController extends BaseController
             ]);
         }
 
-        $product = Product::find($product_id);
+        if ($coupon->expire_time < \time()) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '优惠码无效',
+            ]);
+        }
+
+        $product = Product::where('id', $product_id)->first();
 
         if ($product === null) {
             return $response->withJson([
@@ -50,16 +57,15 @@ final class CouponController extends BaseController
 
         $limit = \json_decode($coupon->limit);
 
-        if ($limit->disabled === 1) {
+        if ((int) $limit->disabled === 1) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码无效',
             ]);
         }
 
-        $product_limit = explode(',' , $limit->product_id);
-
-        if ($product_limit !== ''){
+        if ($limit->product_id !== '') {
+            $product_limit = explode(',', $limit->product_id);
             if (! in_array($product_id, $product_limit)) {
                 return $response->withJson([
                     'ret' => 0,
@@ -67,7 +73,7 @@ final class CouponController extends BaseController
                 ]);
             }
         }
-        
+
         $user = $this->user;
         $use_limit = $limit->use_time;
 
@@ -82,14 +88,14 @@ final class CouponController extends BaseController
         }
 
         $content = \json_decode($coupon->content);
-        
+
         if ($content->type === 'percentage') {
             $discount = $product->price * $content->value / 100;
         } else {
             $discount = $content->value;
         }
 
-        $buy_price = $product->price - $content->value;
+        $buy_price = $product->price - $discount;
 
         return $response->withJson([
             'ret' => 1,
