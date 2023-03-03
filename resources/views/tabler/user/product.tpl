@@ -117,13 +117,13 @@
                                                 <div class="row g-2">
                                                     {if $product->stock === -1 || $product->stock > 0}
                                                     <div class="col">
-                                                        <button href="/user/order/create?product_id={$product->id}"
-                                                            class="btn btn-primary w-100 my-3">购买</button>
+                                                        <a href="/user/order/create?product_id={$product->id}"
+                                                            class="btn btn-primary w-100 my-3">购买</a>
                                                     </div>
                                                     {else}
                                                     <div class="col">
-                                                        <button href="" class="btn btn-primary w-100 my-3"
-                                                            disabled>告罄</button>
+                                                        <a href="" class="btn btn-primary w-100 my-3"
+                                                            disabled>告罄</a>
                                                     </div>
                                                     {/if}
                                                 </div>
