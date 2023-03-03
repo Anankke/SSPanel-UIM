@@ -1,5 +1,8 @@
 {include file='user/tabler_header.tpl'}
 
+<link href="//cdn.datatables.net/v/bs5/dt-1.13.3/datatables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/v/bs5/dt-1.13.3/datatables.min.js"></script>
+
 <div class="page-wrapper">
     <div class="container-xl">       
         <div class="page-header d-print-none text-white">
