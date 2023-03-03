@@ -9,7 +9,7 @@
                         <span class="home-title">商品列表</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">在这里浏览商店商品并根据需要下单</span>
+                        <span class="home-subtitle">浏览你所需要的商品</span>
                     </div>
                 </div>
             </div>
@@ -117,12 +117,12 @@
                                                 <div class="row g-2">
                                                     {if $product->stock === -1 || $product->stock > 0}
                                                     <div class="col">
-                                                        <button onclick="buy('{$product->id}')" href="#"
+                                                        <button href="/user/order/create?product_id={$product->id}"
                                                             class="btn btn-primary w-100 my-3">购买</button>
                                                     </div>
                                                     {else}
                                                     <div class="col">
-                                                        <button href="#" class="btn btn-primary w-100 my-3"
+                                                        <button href="" class="btn btn-primary w-100 my-3"
                                                             disabled>告罄</button>
                                                     </div>
                                                     {/if}
@@ -139,107 +139,5 @@
             </div>
         </div>
     </div>
-
-    <div class="modal modal-blur fade" id="product-buy-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">确认订单</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <span>商品名称：</span>
-                        <span id="product-buy-name" style="float: right"></span>
-                    </div>
-                    <div class="mb-3">
-                        <span>商品售价：</span>
-                        <span id="product-buy-price" style="float: right"></span>
-                    </div>
-                    <div class="mb-3">
-                        <span>折扣：</span>
-                        <span id="product-buy-discount" style="float: right">0.00</span>
-                    </div>
-                    <hr />
-                    <div class="mb-3">
-                        <span>合计：</span>
-                        <span id="product-buy-total" style="float: right">0</span>
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group mb-2">
-                            <input id="coupon" type="text" class="form-control" placeholder="填写优惠码，没有请留空">
-                            <button id="verify-coupon" class="btn" type="button">检查</button>
-                        </div>
-                    </div>
-                    <p id="valid-msg"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="create-order" type="button" class="btn btn-primary"
-                        data-bs-dismiss="modal">创建订单</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function buy(product_id) {
-            order_product_id = product_id;
-            product_buy_name = $('#product-' + product_id + '-name').text();
-            product_buy_price = $('#product-' + product_id + '-price').text();
-
-            $('#product-buy-dialog').modal('show');
-            $('#product-buy-name').text(product_buy_name);
-            $('#product-buy-price').text((product_buy_price * 1).toFixed(2));
-            $('#product-buy-total').text((product_buy_price * 1).toFixed(2));
-        }
-
-        $("#verify-coupon").click(function() {
-            $.ajax({
-                url: '/user/coupon',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    coupon: $('#coupon').val(),
-                    product_id: order_product_id
-                },
-                success: function(data) {
-                    if (data.ret == 1) {
-                        $('#product-buy-discount').text(data.discount);
-                        $('#product-buy-total').text(data.buy_price);
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#product-buy-dialog').modal('hide');
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#create-order").click(function() {
-            $.ajax({
-                url: '/user/order',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    coupon: $('#coupon').val(),
-                    product_id: order_product_id
-                },
-                success: function(data) {
-                    if (data.ret == 1) {
-                        $('#success-message').text('正在准备您的订单');
-                        $('#success-dialog').modal('show');
-                        setTimeout(function() {
-                            $(location).attr('href', '/user/order/' + data.order_id);
-                        }, 1500);
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#product-buy-dialog').modal('hide');
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-    </script>
     
 {include file='user/tabler_footer.tpl'}
