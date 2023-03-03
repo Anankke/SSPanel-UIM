@@ -79,7 +79,8 @@ final class OrderController extends BaseController
             $order->op = '<a class="btn btn-blue" href="/user/order/' . $order->id . '/view">查看</a>';
             if ($order->status === 'pending_payment') {
                 $invoice_id = Invoice::where('order_id', $order->id)->first()->id;
-                $order->op .= '<a class="btn btn-red" href="/user/invoice/' . $invoice_id . '/cancel">支付</a>';
+                $order->op .= '
+                <a class="btn btn-red" href="/user/invoice/' . $invoice_id . '">支付</a>';
             }
             $order->product_type = Tools::getOrderProductType($order);
             $order->status = Tools::getOrderStatus($order);
