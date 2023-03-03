@@ -27,7 +27,7 @@ final class OrderController extends BaseController
     {
         $product_id = $request->getQueryParams()['product_id'] ?? null;
 
-        if ($product_id === null) {
+        if ($product_id === null || $product_id === '') {
             return $response->withRedirect('/user/product');
         }
 

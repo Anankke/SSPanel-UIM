@@ -17,72 +17,80 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="col-sm-12 col-md-6 col-lg-9">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">订单详情</h3>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-transparent table-responsive">
-                            <thead>
-                                <tr>
-                                    <th>名称</th>
-                                    <th class="text-center" style="width: 1%">内容</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                <td>商品名称</td>
-                                <td class="text-end">{$product->product_name}</td>
-                            </tr>
-                            <tr>
-                                <td>商品类型</td>
-                                {if $product->type === 'tabp'}
-                                    <td class="text-end">时间流量包</td>
-                                {elseif $product->type === 'time'}
-                                    <td class="text-end">时间包</td>
-                                {else}
-                                    <td class="text-end">流量包</td>
-                                {/if}
-                            </tr>
-                            <tr>
-                                <td>商品时长</td>
-                                <td class="text-end">{$product->content->time} 天</td>
-                            </tr>
-                            <tr>
-                                <td>等级时长</td>
-                                <td class="text-end">{$product->content->class_time} 天</td>
-                            </tr>
-                            <tr>
-                                <td>等级</td>
-                                <td class="text-end">Lv. {$product->content->class}</td>
-                            </tr>
-                            <tr>
-                                <td>可用流量</td>
-                                <td class="text-end">{$product->content->bandwidth} GB</td>
-                            </tr>
-                            <tr>
-                                <td>速率限制</td>
-                                <td class="text-end">{$product->content->speed_limit} Mbps</td>
-                            </tr>
-                            <tr>
-                                <td>同时连接 IP 限制</td>
-                                <td class="text-end">{$product->content->ip_limit}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-3">
-                <div class="row row-cards">
+            <div class="row row-cards">
+                <div class="col-sm-12 col-md-6 col-lg-9">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">金额详情</h3>
+                            <h3 class="card-title">订单内容</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-transparent table-responsive">
+                                <tr hidden>
+                                    <td>商品ID</td>
+                                    <td id="product-id" class="text-end">{$product->id}</td>
+                                </tr>
+                                <tr>
+                                    <td>商品名称</td>
+                                    <td class="text-end">{$product->name}</td>
+                                </tr>
+                                <tr>
+                                    <td>商品类型</td>
+                                    {if $product->type === 'tabp'}
+                                        <td class="text-end">时间流量包</td>
+                                    {elseif $product->type === 'time'}
+                                        <td class="text-end">时间包</td>
+                                    {else}
+                                        <td class="text-end">流量包</td>
+                                    {/if}
+                                </tr>
+                                <tr>
+                                    <td>商品时长</td>
+                                    <td class="text-end">{$product->content->time} 天</td>
+                                </tr>
+                                <tr>
+                                    <td>等级时长</td>
+                                    <td class="text-end">{$product->content->class_time} 天</td>
+                                </tr>
+                                <tr>
+                                    <td>等级</td>
+                                    <td class="text-end">Lv. {$product->content->class}</td>
+                                </tr>
+                                <tr>
+                                    <td>可用流量</td>
+                                    <td class="text-end">{$product->content->bandwidth} GB</td>
+                                </tr>
+                                <tr>
+                                    <td>速率限制</td>
+                                    {if $product->content->speed_limit < 0}
+                                    <td class="text-end">不限制</td>  
+                                    {else}
+                                    <td class="text-end">{$product->content->speed_limit} Mbps</td>
+                                    {/if}
+                                    
+                                </tr>
+                                <tr>
+                                    <td>同时连接 IP 限制</td>
+                                    {if $product->content->ip_limit < 0}
+                                        <td class="text-end">不限制</td>
+                                    {else}
+                                    <td class="text-end">{$product->content->ip_limit}</td>
+                                    {/if}
+                                    
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">价格明细（元）</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-transparent table-responsive">
                                 <tr>
                                     <td>商品价格</td>
-                                    <td class="text-end">{$product->price} 元</td>
+                                    <td class="text-end">{$product->price}</td>
                                 </tr>
                                 <tr>
                                     <td>优惠码</td>
@@ -90,16 +98,16 @@
                                 </tr>
                                 <tr>
                                     <td>优惠金额</td>
-                                    <td class="text-end" id="product-buy-discount">0 元</td>
+                                    <td class="text-end" id="product-buy-discount"></td>
                                 </tr>
                                 <tr>
                                     <td>实际支付</td>
-                                    <td class="text-end" id="product-buy-total">{$product->price} 元</td>
+                                    <td class="text-end" id="product-buy-total">{$product->price}</td>
                                 </tr>
                             </table>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card my-3">
                         <div class="card-header">
                             <h3 class="card-title">优惠码</h3>
                         </div>
@@ -112,7 +120,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card my-3">
                         <div class="card-body">
                             <button id="create-order" href=""
                             class="btn btn-primary w-100 my-3">创建订单</button>
@@ -131,15 +139,15 @@
                 dataType: "json",
                 data: {
                     coupon: $('#coupon').val(),
-                    product_id: $('#product-id').val(),
+                    product_id: {$product->id},
                 },
                 success: function(data) {
                     if (data.ret == 1) {
+                        $('#coupon-code').text($('#coupon').val());
                         $('#product-buy-discount').text(data.discount);
                         $('#product-buy-total').text(data.buy_price);
                     } else {
                         $('#fail-message').text(data.msg);
-                        $('#product-buy-dialog').modal('hide');
                         $('#fail-dialog').modal('show');
                     }
                 }
@@ -153,7 +161,7 @@
                 dataType: "json",
                 data: {
                     coupon: $('#coupon').val(),
-                    product_id: $('#product-id').val(),
+                    product_id: {$product->id},
                 },
                 success: function(data) {
                     if (data.ret == 1) {
