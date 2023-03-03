@@ -106,6 +106,12 @@ return static function (Slim\App $app): void {
         // 产品页面
         $group->get('/product', App\Controllers\User\ProductController::class . ':product');
 
+        // 订单页面
+        $group->get('/order', App\Controllers\User\OrderController::class . ':order');
+        $group->get('/order/create', App\Controllers\User\OrderController::class . ':create');
+        $group->post('/order/create', App\Controllers\User\OrderController::class . ':process');
+        $group->get('/order/{id}', App\Controllers\User\OrderController::class . ':detail');
+
         // 新优惠码系统
         $group->post('/coupon', App\Controllers\User\CouponController::class . ':check');
 
