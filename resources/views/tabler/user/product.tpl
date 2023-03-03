@@ -50,12 +50,19 @@
                                     {foreach $products as $product}
                                     <div class="col-md-3 col-sm-12 my-3">
                                         <div class="card card-md">
+                                            {if $product->type === 'tabp'}
+                                            <div class="ribbon bg-blue">时间流量包</div>
+                                            {elseif $product->type === 'time'}
+                                            <div class="ribbon bg-blue">时间包</div>
+                                            {else}
+                                            <div class="ribbon bg-blue">流量包</div>
+                                            {/if}
                                             <div class="card-body text-center">
                                                 <div id="product-{$product->id}-name"
                                                     class="text-uppercase text-muted font-weight-medium">
                                                     {$product->name}</div>
                                                 <div id="product-{$product->id}-price"
-                                                    class="display-6 fw-bold my-3">{$product->price}
+                                                    class="display-6 my-3"><p class="fw-bold">{$product->price}</p> <i class="ti ti-currency-yuan"></i>
                                                 </div>
                                                 <div class="list-group list-group-flush">
                                                     <div class="list-group-item">
@@ -111,11 +118,11 @@
                                                     {if $product->stock === -1 || $product->stock > 0}
                                                     <div class="col">
                                                         <button onclick="buy('{$product->id}')" href="#"
-                                                            class="btn btn-primary w-100">购买</button>
+                                                            class="btn btn-primary w-100 my-3">购买</button>
                                                     </div>
                                                     {else}
                                                     <div class="col">
-                                                        <button href="#" class="btn btn-primary w-100"
+                                                        <button href="#" class="btn btn-primary w-100 my-3"
                                                             disabled>告罄</button>
                                                     </div>
                                                     {/if}
