@@ -457,7 +457,7 @@
                                     <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
                                     {else}
                                     {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-                                    <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                                    <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                                     {/if}
                                     {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
                                     <div id="geetest"></div>
@@ -481,6 +481,14 @@
             $('#success-dialog').modal('show');
         });
 
+        const checkin_button = document.querySelector('#check-in');
+        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
+        const turnstile_recaptcha = document.querySelector('#cf-turnstile');
+        {/if}
+        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
+        const geetest_recaptcha = document.querySelector('#geetest');
+        {/if}
+
         $("#check-in").click(function() {
             $.ajax({
                 type: "POST",
@@ -496,6 +504,13 @@
                 },
                 success: function(data) {
                     if (data.ret == 1) {
+                        checkin_button.disabled = true;
+                        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
+                        turnstile_recaptcha.remove();
+                        {/if}
+                        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
+                        geetest_recaptcha.remove();
+                        {/if}
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {
