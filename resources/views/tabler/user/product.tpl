@@ -55,29 +55,70 @@
                                                     class="text-uppercase text-muted font-weight-medium">
                                                     {$product->name}</div>
                                                 <div id="product-{$product->id}-price"
-                                                    class="display-6 fw-bold my-3">{$product->price / 100}
+                                                    class="display-6 fw-bold my-3">{$product->price}
                                                 </div>
-                                                <ul class="list-unstyled lh-lg">
-                                                    {$product->html}
-                                                </ul>
-                                                <div class="row g-2">
-                                                    {if $product->stock - $product->sales > '0'}
-                                                        <div class="col">
-                                                            <button onclick="buy('{$product->id}')" href="#"
-                                                                class="btn btn-primary w-100">购买</button>
+                                                <div class="list-group list-group-flush">
+                                                    <div class="list-group-item">
+                                                        <div class="row align-items-center">
+                                                            <div class="col text-truncate">
+                                                                <div class="text-reset d-block">Lv. {$product->content->class}</div>
+                                                                <div class="d-block text-muted text-truncate mt-n1">等级</div>
+                                                            </div>
                                                         </div>
-                                                    {else}
-                                                        <div class="col">
-                                                            <button href="#" class="btn btn-primary w-100"
-                                                                disabled>告罄</button>
-                                                        </div>
-                                                    {/if}
-                                                    <div class="col-auto align-self-center">
-                                                        <span class="pop form-help" data-bs-toggle="popover"
-                                                            data-bs-placement="top"
-                                                            data-bs-content="{$product->translate}"
-                                                            data-bs-html="true">?</span>
                                                     </div>
+                                                    <div class="list-group-item">
+                                                        <div class="row align-items-center">
+                                                            <div class="col text-truncate">
+                                                                <div class="text-reset d-block">{$product->content->class_time} 天</div>
+                                                                <div class="d-block text-muted text-truncate mt-n1">等级时长</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item">
+                                                        <div class="row align-items-center">
+                                                            <div class="col text-truncate">
+                                                                <div class="text-reset d-block">{$product->content->bandwidth} GB</div>
+                                                                <div class="d-block text-muted text-truncate mt-n1">可用流量</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item">
+                                                        <div class="row align-items-center">
+                                                            <div class="col text-truncate">
+                                                                {if $product->content->speed_limit < 0}
+                                                                <div class="text-reset d-block">不限制</div>  
+                                                                {else}
+                                                                <div class="text-reset d-block">{$product->content->speed_limit} Mbps</div>
+                                                                {/if}
+                                                                <div class="d-block text-muted text-truncate mt-n1">连接速度</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item">
+                                                        <div class="row align-items-center">
+                                                            <div class="col text-truncate">
+                                                                {if $product->content->ip_limit < 0}
+                                                                <div class="text-reset d-block">不限制</div>
+                                                                {else}
+                                                                <div class="text-reset d-block">{$product->content->ip_limit}</div>
+                                                                {/if}
+                                                                <div class="d-block text-muted text-truncate mt-n1">同时连接 IP 数</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2">
+                                                    {if $product->stock === -1 || $product->stock > 0}
+                                                    <div class="col">
+                                                        <button onclick="buy('{$product->id}')" href="#"
+                                                            class="btn btn-primary w-100">购买</button>
+                                                    </div>
+                                                    {else}
+                                                    <div class="col">
+                                                        <button href="#" class="btn btn-primary w-100"
+                                                            disabled>告罄</button>
+                                                    </div>
+                                                    {/if}
                                                 </div>
                                             </div>
                                         </div>

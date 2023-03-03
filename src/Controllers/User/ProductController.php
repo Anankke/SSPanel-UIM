@@ -17,6 +17,10 @@ final class ProductController extends BaseController
             ->orderBy('id', 'asc')
             ->get();
 
+        foreach ($products as $product) {
+            $product->content = \json_decode($product->content);
+        }
+
         return $response->write($this->view()
                 ->assign('products', $products)
                 ->fetch('user/product.tpl')
