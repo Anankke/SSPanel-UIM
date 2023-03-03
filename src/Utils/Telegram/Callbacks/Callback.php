@@ -813,7 +813,7 @@ final class Callback
             ],
             [
                 [
-                    'text' => 'Vmess/Vless',
+                    'text' => 'V2Ray',
                     'callback_data' => 'user.subscribe|v2',
                 ],
                 [

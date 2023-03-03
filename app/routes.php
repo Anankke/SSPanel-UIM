@@ -103,8 +103,11 @@ return static function (Slim\App $app): void {
         $group->get('/subscribe/log', App\Controllers\User\LogController::class . ':subscribe');
         $group->get('/detect/log', App\Controllers\User\LogController::class . ':detect');
 
-        // getUserAllURL
-        $group->get('/getUserAllURL', App\Controllers\UserController::class . ':getUserAllURL');
+        // 产品页面
+        $group->get('/product', App\Controllers\User\ProductController::class . ':product');
+
+        // 新优惠码系统
+        $group->post('/coupon', App\Controllers\User\CouponController::class . ':check');
 
         // 支付
         $group->post('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');

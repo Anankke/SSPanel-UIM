@@ -189,6 +189,26 @@
                                         商店
                                     </span>
                                 </a>
+                                {if $user->use_new_shop}
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-menu-columns">
+                                        <div class="dropdown-menu-column">
+                                            <a class="dropdown-item" href="/user/product">
+                                                <i class="ti ti-building-store"></i>&nbsp;
+                                                商品列表
+                                            </a>
+                                            <a class="dropdown-item" href="/user/order">
+                                                <i class="ti ti-file-invoice"></i>&nbsp;
+                                                订单管理
+                                            </a>
+                                            <a class="dropdown-item" href="/user/invoice">
+                                                <i class="ti ti-coin"></i>&nbsp;
+                                                账单管理
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {else}
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
@@ -203,6 +223,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {/if}
                             </li>
                             {if $user->is_admin}
                             <li class="nav-item">
