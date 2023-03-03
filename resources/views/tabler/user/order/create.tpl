@@ -71,7 +71,7 @@
                                 <tr>
                                     <td>同时连接 IP 限制</td>
                                     {if $product->content->ip_limit < 0}
-                                        <td class="text-end">不限制</td>
+                                    <td class="text-end">不限制</td>
                                     {else}
                                     <td class="text-end">{$product->content->ip_limit}</td>
                                     {/if}
