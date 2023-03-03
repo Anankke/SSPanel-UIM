@@ -552,6 +552,9 @@ final class Tools
         if ($order->status === 'activated') {
             return '已激活';
         }
+        if ($order->status === 'expired') {
+            return '已过期';
+        }
         if ($order->status === 'cancelled') {
             return '已取消';
         }
