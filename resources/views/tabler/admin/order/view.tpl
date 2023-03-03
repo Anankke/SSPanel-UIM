@@ -18,25 +18,15 @@
                             <i class="icon ti ti-user"></i>
                             查看关联用户
                         </a>
-                        <a href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-sm-none btn-icon">
-                            <i class="icon ti ti-user"></i>
-                        </a>
                         <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-none d-sm-inline-block">
                             <i class="icon ti ti-file-dollar"></i>
                             查看关联账单
-                        </a>
-                        <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-sm-none btn-icon">
-                            <i class="icon ti ti-file-dollar"></i>
                         </a>
                         {if $order->status !== 'cancelled' && $order->status !== 'activated'}
                         <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#cancel_order_confirm_dialog">
                             <i class="icon ti ti-x"></i>
                             取消订单
-                        </button>
-                        <button href="#" class="btn btn-red d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#cancel_order_confirm_dialog">
-                            <i class="icon ti ti-x"></i>
                         </button>
                         {/if}
                     </div>

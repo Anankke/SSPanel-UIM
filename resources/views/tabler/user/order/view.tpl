@@ -12,6 +12,15 @@
                         <span class="home-subtitle">查看订单详情</span>
                     </div>
                 </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#create-ticket">
+                            <i class="icon ti ti-file-dollar"></i>
+                            查看关联账单
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -21,46 +30,23 @@
                 <div class="card-stamp">
                     {if time() > $order->expired_at && $order->order_status != 'paid' && $order->order_status != 'abnormal'}
                         <div class="card-stamp-icon bg-red">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
+                            <i class="icon ti ti-x"></i>
                         </div>
                     {else}
                         {if time() < $order->expired_at && $order->order_status != 'paid'}
                             <div class="card-stamp-icon bg-yellow">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24"
-                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <circle cx="12" cy="12" r="9"></circle>
-                                    <polyline points="12 7 12 12 15 15"></polyline>
-                                </svg>
+                                <i class="icon ti ti-clock"></i>
                             </div>
                         {/if}
                     {/if}
                     {if $order->order_status == 'paid'}
                         <div class="card-stamp-icon bg-green">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 12l5 5l10 -10"></path>
-                            </svg>
+                            <i class="icon ti ti-check"></i>
                         </div>
                     {/if}
                     {if $order->order_status == 'abnormal'}
                         <div class="card-stamp-icon bg-red">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-ban" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <circle cx="12" cy="12" r="9"></circle>
-                                <line x1="5.7" y1="5.7" x2="18.3" y2="18.3"></line>
-                            </svg>
+                            <i class="icon ti ti-ban"></i>
                         </div>
                     {/if}
                 </div>
@@ -227,99 +213,5 @@
             </div>
         </div>
     </div>
-
-    <div class="modal modal-blur fade" id="waiting-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-status bg-yellow"></div>
-                <div class="modal-body">
-                    <div>
-                        <p id="qrcode"></p>
-                        <p id="waiting-message" class="text-muted">等待</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function getOrderStatus() {
-            $.ajax({
-                method: 'GET',
-                url: '/user/order/status/{$order->no}',
-                dataType: "json",
-                success: function(data) {
-                    if (data.status == 'paid') {
-                        clearInterval(cycle);
-                        $('#success-message').text('订单已确认');
-                        $('#waiting-dialog').modal('hide');
-                        $('#success-dialog').modal('show');
-                    }
-                }
-            });
-        }
-
-        $("#submit-payment").click(function() {
-            payment = $('input:radio:checked').val();
-            $("#submit-payment").attr('disabled', true);
-            $('#submit-payment').text('正在处理');
-
-            $.ajax({
-                url: '/user/order',
-                type: 'PUT',
-                dataType: "json",
-                data: {
-                    order_no: '{$order->no}',
-                    method: payment,
-                },
-                success: function(data) {
-                    if (data.ret == 1) {
-                        if (data.type == 'qrcode') {
-                            var qrcode = new QRCode('qrcode', {
-                                text: data.qrcode,
-                                width: 150,
-                                height: 150,
-                                colorDark: '#000000',
-                                colorLight: '#ffffff',
-                                correctLevel: QRCode.CorrectLevel.H
-                            });
-                            $('#waiting-message').text(data.msg);
-                            $('#waiting-dialog').modal('show');
-                            cycle = setInterval(getOrderStatus, 1500);
-                        }
-                        if (data.type == 'link') {
-                            window.location.href = data.link;
-                        }
-                    } else {
-                        if (data.ret == 0) {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        } else {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                        }
-                    }
-                }
-            })
-        });
-
-        $("#success-confirm").click(function() {
-            location.reload();
-        });
-
-        $('#waiting-dialog').on('hide.bs.modal', function() {
-            $('#qrcode').html('');
-            clearInterval(cycle);
-            $("#submit-payment").attr('disabled', false);
-            $('#submit-payment').text('重新支付');
-        });
-
-        $('#fail-dialog').on('hide.bs.modal', function() {
-            $('#qrcode').html('');
-            $("#submit-payment").attr('disabled', false);
-            $('#submit-payment').text('重新支付');
-        });
-    </script>
     
 {include file='user/tabler_footer.tpl'}

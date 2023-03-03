@@ -111,6 +111,7 @@ return static function (Slim\App $app): void {
         $group->get('/order/create', App\Controllers\User\OrderController::class . ':create');
         $group->post('/order/create', App\Controllers\User\OrderController::class . ':process');
         $group->get('/order/{id}', App\Controllers\User\OrderController::class . ':detail');
+        $group->post('/order/ajax', App\Controllers\User\OrderController::class . ':ajax');
 
         // 新优惠码系统
         $group->post('/coupon', App\Controllers\User\CouponController::class . ':check');
