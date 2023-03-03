@@ -59,13 +59,15 @@ final class CouponController extends BaseController
 
         $product_limit = explode(',' , $limit->product_id);
 
-        if (! in_array($product_id, $product_limit)) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '优惠码无效',
-            ]);
+        if ($product_limit !== ''){
+            if (! in_array($product_id, $product_limit)) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '优惠码无效',
+                ]);
+            }
         }
-
+        
         $user = $this->user;
         $use_limit = $limit->use_time;
 
