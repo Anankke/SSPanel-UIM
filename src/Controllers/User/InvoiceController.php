@@ -6,6 +6,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\Invoice;
+use App\Models\Paylist;
 use App\Services\Payment;
 use App\Utils\Tools;
 use Slim\Http\Response;
@@ -47,6 +48,12 @@ final class InvoiceController extends BaseController
             return $response->withRedirect('/user/invoice');
         }
 
+        $paylist = [];
+
+        if ($invoice->status === 'paid_gateway') {
+            $paylist = Paylist::where('invoice_id', $invoice->id)->where('status', 1)->first();
+        }
+
         $invoice->status = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
@@ -57,6 +64,7 @@ final class InvoiceController extends BaseController
             $this->view()
                 ->assign('invoice', $invoice)
                 ->assign('invoice_content', $invoice_content)
+                ->assign('paylist', $paylist)
                 ->assign('payments', Payment::getPaymentsEnabled())
                 ->fetch('user/invoice/view.tpl')
         );

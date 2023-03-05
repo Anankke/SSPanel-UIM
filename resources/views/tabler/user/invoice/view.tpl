@@ -22,7 +22,7 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
-                {if $invoice->status !== 'unpaid' && $invoice->status !== 'cancelled'}
+                {if $invoice->status === 'unpaid'}
                 <div class="col-sm-12 col-md-6 col-lg-9">
                 {else}
                 <div class="col-sm-12 col-md-12 col-lg-12">
@@ -57,6 +57,12 @@
                                     <div class="datagrid-title">支付时间</div>
                                     <div class="datagrid-content">{$invoice->pay_time}</div>
                                 </div>
+                                {if $invoice->status === 'paid_gateway'}
+                                <div class="datagrid-item">
+                                    <div class="datagrid-title">支付网关单号</div>
+                                    <div class="datagrid-content">{$paylist->tradeno}</div>
+                                </div>
+                                {/if}   
                             </div>
                         </div>
                     </div>
@@ -86,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                {if $invoice->status !== 'unpaid' && $invoice->status !== 'cancelled'}
+                {if $invoice->status === 'unpaid'}
                 <div class="col-sm-12 col-md-6 col-lg-3">
                     <div class="card">
                         <div class="card-header">
