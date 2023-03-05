@@ -22,7 +22,11 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
+                {if $invoice->status !== 'unpaid' && $invoice->status !== 'cancelled'}
                 <div class="col-sm-12 col-md-6 col-lg-9">
+                {else}
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                {/if}
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">基本信息</h3>
@@ -82,6 +86,7 @@
                         </div>
                     </div>
                 </div>
+                {if $invoice->status !== 'unpaid' && $invoice->status !== 'cancelled'}
                 <div class="col-sm-12 col-md-6 col-lg-3">
                     <div class="card">
                         <div class="card-header">
@@ -113,6 +118,7 @@
                         </div>
                     </div>
                 </div>
+                {/if}
             </div>
         </div>
     </div>

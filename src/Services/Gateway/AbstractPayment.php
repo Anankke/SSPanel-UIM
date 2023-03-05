@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway;
 
 use App\Models\Code;
+use App\Models\Invoice;
 use App\Models\Payback;
 use App\Models\Paylist;
 use App\Models\Setting;
@@ -71,19 +72,30 @@ abstract class AbstractPayment
             return \json_encode(['errcode' => 0]);
         }
 
+        $p->datetime = \time();
         $p->status = 1;
         $p->save();
+
         $user = User::find($p->userid);
-        $user->money += $p->total;
-        $user->save();
-        $codeq = new Code();
-        $codeq->code = $method;
-        $codeq->isused = 1;
-        $codeq->type = -1;
-        $codeq->number = $p->total;
-        $codeq->usedatetime = date('Y-m-d H:i:s');
-        $codeq->userid = $user->id;
-        $codeq->save();
+
+        if($p->invoice_id !== 0) {
+            $invoice = Invoice::where('invoice_id', $p->invoice_id)->first();
+            $invoice->status = 'paid_gateway';
+            $invoice->update_time = \time();
+            $invoice->pay_time = \time();
+            $invoice->save();
+        } else {
+            $user->money += $p->total;
+            $user->save();
+            $codeq = new Code();
+            $codeq->code = $method;
+            $codeq->isused = 1;
+            $codeq->type = -1;
+            $codeq->number = $p->total;
+            $codeq->usedatetime = date('Y-m-d H:i:s');
+            $codeq->userid = $user->id;
+            $codeq->save();
+        }
 
         // 返利
         if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
