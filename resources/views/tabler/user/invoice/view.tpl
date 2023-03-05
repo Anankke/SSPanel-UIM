@@ -99,7 +99,7 @@
                         </div>
                         <div class="card-footer">
                           <div class="d-flex">
-                          <button id="pay-balance" class="btn" type="button">支付</button>
+                          <button id="pay-balance" class="btn btn-blue" type="button">支付</button>
                           </div>
                         </div>
                     </div>
@@ -108,6 +108,8 @@
                             <h3 class="card-title">网关支付</h3>
                         </div>
                         <div class="card-body">
+                            <input hidden id="price" name="price" value="{$invoice->price}">
+                            <input hidden id="invoice_id" name="invoice_id" value="{$invoice->id}">
                             {if count($payments) > 0}
                                 {foreach from=$payments item=payment}
                                 <div class="mb-3">
