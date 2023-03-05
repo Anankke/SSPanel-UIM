@@ -42,7 +42,8 @@ final class OrderController extends BaseController
 
     public function create(ServerRequest $request, Response $response, array $args)
     {
-        $product_id = $request->getQueryParams()['product_id'] ?? null;
+        $antiXss = new AntiXSS();
+        $product_id = $antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
 
         if ($product_id === null || $product_id === '') {
             return $response->withRedirect('/user/product');
@@ -61,9 +62,15 @@ final class OrderController extends BaseController
 
     public function detail(ServerRequest $request, Response $response, array $args)
     {
-        $id = $args['id'];
+        $antiXss = new AntiXSS();
+        $id = $antiXss->xss_clean($args['id']);
 
-        $order = Order::find($id);
+        $order = Order::where('user_id', $this->user->id)->where('id', $id)->first();
+
+        if ($order === null) {
+            return $response->withRedirect('/user/order');
+        }
+
         $order->product_type = Tools::getOrderProductType($order);
         $order->status = Tools::getOrderStatus($order);
         $order->create_time = Tools::toDateTime($order->create_time);
