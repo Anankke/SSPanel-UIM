@@ -45,7 +45,7 @@ final class InvoiceController extends BaseController
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content, true);
+        $invoice_content = \json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -60,7 +60,7 @@ final class InvoiceController extends BaseController
         $invoice_id = $args['id'];
         $invoice = Invoice::find($invoice_id);
 
-        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin', 'paid_giftcard'])) {
+        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '不能标记已经支付的账单',

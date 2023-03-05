@@ -94,7 +94,7 @@ final class OrderController extends BaseController
 
         $invoice->update_time = \time();
 
-        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin', 'paid_giftcard'])) {
+        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             $invoice->status = 'cancelled';
             $invoice->save();
 

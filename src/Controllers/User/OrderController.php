@@ -256,7 +256,7 @@ final class OrderController extends BaseController
             if ($order->status === 'pending_payment') {
                 $invoice_id = Invoice::where('order_id', $order->id)->first()->id;
                 $order->op .= '
-                <a class="btn btn-red" href="/user/invoice/' . $invoice_id . '">支付</a>';
+                <a class="btn btn-red" href="/user/invoice/' . $invoice_id . '/view">支付</a>';
             }
             $order->product_type = Tools::getOrderProductType($order);
             $order->status = Tools::getOrderStatus($order);
