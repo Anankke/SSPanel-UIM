@@ -592,9 +592,6 @@ final class Tools
         if ($invoice->status === 'paid_balance') {
             return '已支付（账户余额）';
         }
-        if ($invoice->status === 'paid_giftcard') {
-            return '已支付（礼品卡）';
-        }
         if ($invoice->status === 'paid_admin') {
             return '已支付（管理员）';
         }

@@ -89,35 +89,35 @@
                     <div class="datagrid">
                         <div class="datagrid-item">
                             <div class="datagrid-title">商品时长 (天)</div>
-                            <div class="datagrid-content">{$product_content['time']}</div>
+                            <div class="datagrid-content">{$product_content->time}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">可用流量 (GB)</div>
-                            <div class="datagrid-content">{$product_content['bandwidth']}</div>
+                            <div class="datagrid-content">{$product_content->bandwidth}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">等级</div>
-                            <div class="datagrid-content">{$product_content['class']}</div>
+                            <div class="datagrid-content">{$product_content->class}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">等级时长 (天)</div>
-                            <div class="datagrid-content">{$product_content['class_time']}</div>
+                            <div class="datagrid-content">{$product_content->class_time}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">用户分组</div>
-                            <div class="datagrid-content">{$product_content['node_group']}</div>
+                            <div class="datagrid-content">{$product_content->node_group}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">速率限制 (Mbps)</div>
-                            <div class="datagrid-content">{$product_content['speed_limit']}</div>
+                            <div class="datagrid-content">{$product_content->speed_limit}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">同时连接IP限制</div>
                             <div class="datagrid-content">
-                            {if $product_content['ip_limit'] === '-1'}
+                            {if $product_content->ip_limit === '-1'}
                             不限制
                             {else}
-                            {$product_content['ip_limit']}
+                            {$product_content->ip_limit}
                             {/if}
                             </div>
                         </div>
@@ -144,8 +144,8 @@
                                         <tbody>
                                             {foreach $invoice_content as $invoice_content_detail}
                                             <tr>
-                                                <td>{$invoice_content_detail['name']}</td>
-                                                <td>{$invoice_content_detail['price']}</td>
+                                                <td>{$invoice_content_detail->name}</td>
+                                                <td>{$invoice_content_detail->price}</td>
                                             </tr>
                                             {/foreach}
                                         </tbody>

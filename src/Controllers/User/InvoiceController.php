@@ -5,13 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Models\Bought;
-use App\Models\Coupon;
 use App\Models\Invoice;
-use App\Models\Payback;
-use App\Models\Setting;
-use App\Models\Shop;
-use App\Utils\ResponseHelper;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 

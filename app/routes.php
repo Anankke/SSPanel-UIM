@@ -110,8 +110,13 @@ return static function (Slim\App $app): void {
         $group->get('/order', App\Controllers\User\OrderController::class . ':order');
         $group->get('/order/create', App\Controllers\User\OrderController::class . ':create');
         $group->post('/order/create', App\Controllers\User\OrderController::class . ':process');
-        $group->get('/order/{id}', App\Controllers\User\OrderController::class . ':detail');
+        $group->get('/order/{id}/view', App\Controllers\User\OrderController::class . ':detail');
         $group->post('/order/ajax', App\Controllers\User\OrderController::class . ':ajax');
+
+        // 账单页面
+        $group->get('/invoice', App\Controllers\User\InvoiceController::class . ':invoice');
+        $group->get('/invoice/{id}/view', App\Controllers\User\InvoiceController::class . ':detail');
+        $group->post('/invoice/ajax', App\Controllers\User\InvoiceController::class . ':ajax');
 
         // 新优惠码系统
         $group->post('/coupon', App\Controllers\User\CouponController::class . ':check');
