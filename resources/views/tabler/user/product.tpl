@@ -23,12 +23,12 @@
                         <div class="card-body">
                             <div class="m-0 my-2">
                                 <div>
-                                    <p>账户当前余额为：<code>{$user->money}</code> 元，剩余流量为：<code>{$user->unusedTraffic()}</code>
+                                    <p>账户当前余额 <code>{$user->money}</code> 元，剩余流量 <code>{$user->unusedTraffic()}</code>
                                         {if time() > strtotime($user->expire_in)}
                                             ，你的账户已经过期了
                                         {else}
                                             {$diff = round((strtotime($user->expire_in) - time()) / 86400)}
-                                            ，还有 <code>{$diff}</code> 天到期
+                                            ，等级 Lv.{$user->class}，有效期剩余 <code>{$diff}</code> 天
                                         {/if}
                                     </p>
                                 </div>
