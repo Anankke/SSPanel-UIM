@@ -66,32 +66,32 @@ abstract class AbstractPayment
 
     public function postPayment($pid, $method)
     {
-        $p = Paylist::where('tradeno', $pid)->first();
+        $paylist = Paylist::where('tradeno', $pid)->first();
 
-        if ($p->status === 1) {
+        if ($paylist->status === 1) {
             return \json_encode(['errcode' => 0]);
         }
 
-        $p->datetime = \time();
-        $p->status = 1;
-        $p->save();
+        $paylist->datetime = \time();
+        $paylist->status = 1;
+        $paylist->save();
 
-        $user = User::find($p->userid);
+        $user = User::find($paylist->userid);
 
-        if($p->invoice_id !== 0) {
-            $invoice = Invoice::where('invoice_id', $p->invoice_id)->first();
+        if ($paylist->invoice_id !== 0) {
+            $invoice = Invoice::where('invoice_id', $paylist->invoice_id)->first();
             $invoice->status = 'paid_gateway';
             $invoice->update_time = \time();
             $invoice->pay_time = \time();
             $invoice->save();
         } else {
-            $user->money += $p->total;
+            $user->money += $paylist->total;
             $user->save();
             $codeq = new Code();
             $codeq->code = $method;
             $codeq->isused = 1;
             $codeq->type = -1;
-            $codeq->number = $p->total;
+            $codeq->number = $paylist->total;
             $codeq->usedatetime = date('Y-m-d H:i:s');
             $codeq->userid = $user->id;
             $codeq->save();
@@ -99,7 +99,7 @@ abstract class AbstractPayment
 
         // 返利
         if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
-            Payback::rebate($user->id, $p->total);
+            Payback::rebate($user->id, $paylist->total);
         }
 
         return 0;

@@ -111,7 +111,8 @@
                             {if count($payments) > 0}
                                 {foreach from=$payments item=payment}
                                 <div class="mb-3">
-                                    {$payment::getPurchaseHTML()}
+                                    {$payment_name = $payment::_name()}
+                                    {include file="../../gateway/$payment_name.tpl"}
                                 </div>
                                 {/foreach}
                             {/if}
@@ -124,9 +125,6 @@
     </div>
 
     <script>
-        document.getElementById("price").value = "{$invoice->price}";
-        document.getElementById("invoice_id").value = "{$invoice->id}";
-
         $("#pay-balance").click(function() {
             $.ajax({
                 url: '/user/invoice/pay_balance',

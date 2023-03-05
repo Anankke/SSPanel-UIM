@@ -117,9 +117,7 @@ final class Epay extends AbstractPayment
             }
             $trade_status = $_GET['trade_status'];
             if ($trade_status === 'TRADE_SUCCESS') {
-
                 $this->postPayment($out_trade_no, $type . ' ' . $out_trade_no);
-
                 return $response->withJson(['state' => 'success', 'msg' => '支付成功']);
             }
             return $response->withJson(['state' => 'fail', 'msg' => '支付失败']);
@@ -134,15 +132,29 @@ final class Epay extends AbstractPayment
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
     {
+        $user = Auth::getUser();
+
         $money = $_GET['money'];
-        $html = <<<HTML
-        您已成功充值 ${money} 元，正在跳转..
-        <script>
-            setTimeout(function() {
-                location.href="/user/code";
-            },500)
-        </script>
-        HTML;
+
+        if ($user->use_new_shop) {
+            $html = <<<HTML
+            您已成功充值 ${money} 元，正在跳转..
+            <script>
+                setTimeout(function() {
+                    location.href="/user/invoice";
+                },500)
+            </script>
+            HTML;
+        } else {
+            $html = <<<HTML
+            您已成功充值 ${money} 元，正在跳转..
+            <script>
+                setTimeout(function() {
+                    location.href="/user/code";
+                },500)
+            </script>
+            HTML;
+        }
 
         return $response->write($html);
     }
