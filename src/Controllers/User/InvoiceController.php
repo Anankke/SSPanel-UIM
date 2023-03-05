@@ -49,7 +49,7 @@ final class InvoiceController extends BaseController
             $this->view()
                 ->assign('invoice', $invoice)
                 ->assign('invoice_content', $invoice_content)
-                ->fetch('admin/invoice/view.tpl')
+                ->fetch('user/invoice/view.tpl')
         );
     }
 
