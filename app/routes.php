@@ -90,20 +90,37 @@ return static function (Slim\App $app): void {
 
         // Telegram
         $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
+
         $group->get('/bought', App\Controllers\UserController::class . ':bought');
         $group->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');
         $group->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $group->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
 
-        //深色模式切换
+        // 深色模式切换
         $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
 
         // 记录
         $group->get('/subscribe/log', App\Controllers\User\LogController::class . ':subscribe');
         $group->get('/detect/log', App\Controllers\User\LogController::class . ':detect');
 
-        // getUserAllURL
-        $group->get('/getUserAllURL', App\Controllers\UserController::class . ':getUserAllURL');
+        // 产品页面
+        $group->get('/product', App\Controllers\User\ProductController::class . ':product');
+
+        // 订单页面
+        $group->get('/order', App\Controllers\User\OrderController::class . ':order');
+        $group->get('/order/create', App\Controllers\User\OrderController::class . ':create');
+        $group->post('/order/create', App\Controllers\User\OrderController::class . ':process');
+        $group->get('/order/{id}/view', App\Controllers\User\OrderController::class . ':detail');
+        $group->post('/order/ajax', App\Controllers\User\OrderController::class . ':ajax');
+
+        // 账单页面
+        $group->get('/invoice', App\Controllers\User\InvoiceController::class . ':invoice');
+        $group->get('/invoice/{id}/view', App\Controllers\User\InvoiceController::class . ':detail');
+        $group->post('/invoice/pay_balance', App\Controllers\User\InvoiceController::class . ':payBalance');
+        $group->post('/invoice/ajax', App\Controllers\User\InvoiceController::class . ':ajax');
+
+        // 新优惠码系统
+        $group->post('/coupon', App\Controllers\User\CouponController::class . ':check');
 
         // 支付
         $group->post('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
@@ -228,6 +245,7 @@ return static function (Slim\App $app): void {
         $group->post('/coupon', App\Controllers\Admin\CouponController::class . ':add');
         $group->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
         $group->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
+        $group->post('/coupon/{id}/disable', App\Controllers\Admin\CouponController::class . ':disable');
 
         // Subscribe Log Mange
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');

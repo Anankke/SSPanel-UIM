@@ -86,21 +86,21 @@ final class ProductController extends BaseController
         try {
             $product = new Product();
 
-            if ($name === '') {
+            if ($name === '' || $name === null) {
                 throw new \Exception('请填写商品名称');
             }
-            if ($price === '') {
+            if ($price === '' || $price === null) {
                 throw new \Exception('请填写商品售价');
             }
-            if ($stock === '') {
+            if ($stock === '' || $stock === null) {
                 throw new \Exception('请填写商品库存');
             }
 
             if ($type === 'tabp') {
-                if ($time === '') {
+                if ($time === '' || $time === null) {
                     throw new \Exception('请填写套餐时长');
                 }
-                if ($bandwidth === '') {
+                if ($bandwidth === '' || $bandwidth === null) {
                     throw new \Exception('请填写套餐流量');
                 }
 
@@ -119,7 +119,7 @@ final class ProductController extends BaseController
                     'ip_limit' => $ip_limit,
                 ];
             } elseif ($type === 'time') {
-                if ($time === '') {
+                if ($time === '' || $time === null) {
                     throw new \Exception('请填写套餐时长');
                 }
 
@@ -127,7 +127,7 @@ final class ProductController extends BaseController
                     'time' => $time,
                 ];
             } elseif ($type === 'bandwidth') {
-                if ($bandwidth === '') {
+                if ($bandwidth === '' || $bandwidth === null) {
                     throw new \Exception('请填写套餐流量');
                 }
 

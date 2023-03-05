@@ -48,14 +48,14 @@ final class OrderController extends BaseController
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
-        $product_content = \json_decode($order->product_content, true);
+        $product_content = \json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
         $invoice->status = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content, true);
+        $invoice_content = \json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -94,7 +94,7 @@ final class OrderController extends BaseController
 
         $invoice->update_time = \time();
 
-        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin', 'paid_giftcard'])) {
+        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             $invoice->status = 'cancelled';
             $invoice->save();
 

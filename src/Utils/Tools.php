@@ -552,6 +552,9 @@ final class Tools
         if ($order->status === 'activated') {
             return '已激活';
         }
+        if ($order->status === 'expired') {
+            return '已过期';
+        }
         if ($order->status === 'cancelled') {
             return '已取消';
         }
@@ -588,9 +591,6 @@ final class Tools
         }
         if ($invoice->status === 'paid_balance') {
             return '已支付（账户余额）';
-        }
-        if ($invoice->status === 'paid_giftcard') {
-            return '已支付（礼品卡）';
         }
         if ($invoice->status === 'paid_admin') {
             return '已支付（管理员）';
