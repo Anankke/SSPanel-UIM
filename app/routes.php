@@ -116,6 +116,7 @@ return static function (Slim\App $app): void {
         // 账单页面
         $group->get('/invoice', App\Controllers\User\InvoiceController::class . ':invoice');
         $group->get('/invoice/{id}/view', App\Controllers\User\InvoiceController::class . ':detail');
+        $group->post('/invoice/pay_balance', App\Controllers\User\InvoiceController::class . ':payBalance');
         $group->post('/invoice/ajax', App\Controllers\User\InvoiceController::class . ':ajax');
 
         // 新优惠码系统
