@@ -124,7 +124,7 @@
                 type: 'POST',
                 dataType: "json",
                 data: {
-                    invoice_id: {invoice->id},
+                    invoice_id: {$invoice->id},
                 },
                 success: function(data) {
                     if (data.ret == 1) {
