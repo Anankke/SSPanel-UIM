@@ -226,8 +226,8 @@ final class OrderController extends BaseController
 
         $invoice_content[] = [
             'content_id' => 0,
-            'name' => $product->price,
-            'price' => $product->content,
+            'name' => $product->name,
+            'price' => $product->price,
         ];
 
         if ($coupon_raw !== '') {
