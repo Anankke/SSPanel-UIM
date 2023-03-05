@@ -168,7 +168,7 @@
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         setTimeout(function() {
-                            $(location).attr('href', '/user/order/' + data.order_id);
+                            $(location).attr('href', '/user/invoice/' + data.invoice_id);
                         }, 1500);
                     } else {
                         $('#fail-message').text(data.msg);

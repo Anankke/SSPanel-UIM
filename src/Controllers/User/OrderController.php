@@ -8,9 +8,11 @@ use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\UserCoupon;
 use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use voku\helper\AntiXSS;
 
 final class OrderController extends BaseController
 {
@@ -59,16 +61,190 @@ final class OrderController extends BaseController
 
     public function detail(ServerRequest $request, Response $response, array $args)
     {
-        $order_id = $args['id'];
-        $order = Order::where('user_id', $this->user->id)
-            ->where('id', $order_id)
-            ->first();
+        $id = $args['id'];
+
+        $order = Order::find($id);
+        $order->product_type = Tools::getOrderProductType($order);
+        $order->status = Tools::getOrderStatus($order);
+        $order->create_time = Tools::toDateTime($order->create_time);
+        $order->update_time = Tools::toDateTime($order->update_time);
+
+        $product_content = \json_decode($order->product_content);
+
+        $invoice = Invoice::where('order_id', $id)->first();
+        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $invoice->create_time = Tools::toDateTime($invoice->create_time);
+        $invoice->update_time = Tools::toDateTime($invoice->update_time);
+        $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
+        $invoice_content = \json_decode($invoice->content);
 
         return $response->write(
             $this->view()
                 ->assign('order', $order)
+                ->assign('invoice', $invoice)
+                ->assign('product_content', $product_content)
+                ->assign('invoice_content', $invoice_content)
                 ->fetch('user/order/view.tpl')
         );
+    }
+
+    public function process(ServerRequest $request, Response $response, array $args)
+    {
+        $antiXss = new AntiXSS();
+        $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
+        $product_id = $antiXss->xss_clean($request->getParam('product_id'));
+
+        $product = Product::find($product_id);        
+
+        if ($product === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '商品不存在',
+            ]);
+        }
+
+        if ($product->stock === 0) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '商品库存不足',
+            ]);
+        }
+
+        $buy_price = $product->price;
+        $user = $this->user;
+
+        if ($coupon_raw !== '') {
+            $coupon = UserCoupon::where('code', $coupon_raw)->first();
+
+            if ($coupon === null) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '优惠码无效',
+                ]);
+            }
+
+            if ($coupon->expire_time < \time()) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '优惠码无效',
+                ]);
+            }
+
+            $coupon_limit = \json_decode($coupon->limit);
+
+            if ((int) $coupon_limit->disabled === 1) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '优惠码无效',
+                ]);
+            }
+
+            if ($coupon_limit->product_id !== '') {
+                $product_limit = explode(',', $coupon_limit->product_id);
+                if (! in_array($product_id, $product_limit)) {
+                    return $response->withJson([
+                        'ret' => 0,
+                        'msg' => '优惠码无效',
+                    ]);
+                }
+            }
+
+            $coupon_use_limit = $coupon_limit->use_time;
+
+            if ($coupon_use_limit > 0) {
+                $use_count = Order::where('user_id', $user->id)->where('coupon', $coupon->code)->count();
+                if ($use_count >= $coupon_use_limit) {
+                    return $response->withJson([
+                        'ret' => 0,
+                        'msg' => '优惠码无效',
+                    ]);
+                }
+            }
+
+            $content = \json_decode($coupon->content);
+
+            if ($content->type === 'percentage') {
+                $discount = $product->price * $content->value / 100;
+            } else {
+                $discount = $content->value;
+            }
+
+            $buy_price = $product->price - $discount;
+        }
+
+        $product_limit = \json_decode($product->limit);
+
+        if ($product_limit->class_required !== '') {
+            if ($user->class < $product_limit->class_required) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '账户不满足购买条件',
+                ]);
+            }
+        }
+
+        if ($product_limit->node_group_required !== '') {
+            if ($user->node_group !== $product_limit->node_group_required) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '账户不满足购买条件',
+                ]);
+            }
+        }
+
+        if ($product_limit->new_user_required !== 0) {
+            $order_count = Order::where('user_id', $user->id)->count();
+            if ($order_count > 0) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '账户不满足购买条件',
+                ]);
+            }
+        }
+
+        $order = new Order();
+        $order->user_id = $user->id;
+        $order->product_id = $product->id;
+        $order->product_type = $product->type;
+        $order->product_name = $product->name;
+        $order->product_content = $product->content;
+        $order->coupon = $coupon_raw;
+        $order->price = $buy_price;
+        $order->status = 'pending_payment';
+        $order->create_time = time();
+        $order->update_time = time();
+        $order->save();
+
+        $invoice_content[] = [
+            'content_id' => 0,
+            'name' => $product->price,
+            'price' => $product->content,
+        ];
+
+        if ($coupon_raw !== '') {
+            $invoice_content[] = [
+                'content_id' => 1,
+                'name' => '优惠码 ' . $coupon_raw,
+                'price' => '-' . $discount,
+            ];
+        }
+
+        $invoice = new Invoice();
+        $invoice->user_id = $user->id;
+        $invoice->order_id = $order->id; 
+        $invoice->content = \json_encode($invoice_content);
+        $invoice->price = $buy_price;
+        $invoice->status = 'unpaid';
+        $invoice->create_time = \time();
+        $invoice->update_time = \time();
+        $invoice->pay_time = 0;
+        $invoice->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '成功创建订单，正在跳转账单页面',
+            'invoice_id' => $invoice->id,
+        ]);
     }
 
     public function ajax(ServerRequest $request, Response $response, array $args)
