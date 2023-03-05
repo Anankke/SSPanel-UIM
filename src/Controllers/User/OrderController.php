@@ -101,7 +101,7 @@ final class OrderController extends BaseController
         $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
         $product_id = $antiXss->xss_clean($request->getParam('product_id'));
 
-        $product = Product::find($product_id);        
+        $product = Product::find($product_id);
 
         if ($product === null) {
             return $response->withJson([
@@ -222,6 +222,8 @@ final class OrderController extends BaseController
         $order->update_time = time();
         $order->save();
 
+        $invoice_content = [];
+
         $invoice_content[] = [
             'content_id' => 0,
             'name' => $product->price,
@@ -238,7 +240,7 @@ final class OrderController extends BaseController
 
         $invoice = new Invoice();
         $invoice->user_id = $user->id;
-        $invoice->order_id = $order->id; 
+        $invoice->order_id = $order->id;
         $invoice->content = \json_encode($invoice_content);
         $invoice->price = $buy_price;
         $invoice->status = 'unpaid';
