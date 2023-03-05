@@ -144,7 +144,7 @@
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         setTimeout(function() {
-                            $(location).attr('href', '/user/invoice/');
+                            $(location).attr('href', '/user/invoice');
                         }, 1500);
                     } else {
                         $('#fail-message').text(data.msg);
