@@ -79,7 +79,7 @@ abstract class AbstractPayment
         $user = User::find($paylist->userid);
 
         if ($paylist->invoice_id !== 0) {
-            $invoice = Invoice::where('invoice_id', $paylist->invoice_id)->first();
+            $invoice = Invoice::where('id', $paylist->invoice_id)->first();
             $invoice->status = 'paid_gateway';
             $invoice->update_time = \time();
             $invoice->pay_time = \time();
