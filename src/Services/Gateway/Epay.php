@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
+use App\Models\Invoice;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
@@ -127,9 +128,14 @@ final class Epay extends AbstractPayment
 
         return $response->write('非法请求');
     }
-    public static function getPurchaseHTML(): string
+    public static function getPurchaseHTML($invoice_id): string
     {
-        return View::getSmarty()->fetch('gateway/epay.tpl');
+        if ($invoice_id !== 0 && $invoice_id !== null) {
+            $invoice = Invoice::find($invoice_id);
+            return View::getSmarty()->assign('invoice', $invoice)->fetch('gateway/epay.tpl');
+        } else {
+            return View::getSmarty()->fetch('gateway/epay.tpl');
+        }
     }
 
     public function getReturnHTML($request, $response, $args): ResponseInterface

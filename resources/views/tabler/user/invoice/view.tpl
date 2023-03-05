@@ -108,12 +108,10 @@
                             <h3 class="card-title">网关支付</h3>
                         </div>
                         <div class="card-body">
-                            <input hidden id="price" name="price" value="{$invoice->price}">
-                            <input hidden id="invoice_id" name="invoice_id" value="{$invoice->id}">
                             {if count($payments) > 0}
                                 {foreach from=$payments item=payment}
                                 <div class="mb-3">
-                                    {$payment::getPurchaseHTML()}
+                                    {$payment::getPurchaseHTML({$invoice->id})}
                                 </div>
                                 {/foreach}
                             {/if}
