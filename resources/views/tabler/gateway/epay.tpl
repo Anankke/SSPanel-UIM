@@ -4,7 +4,10 @@
     <h4>
     <p class="card-heading"></p>
     <form class="epay" name="epay" action="/user/payment/purchase/epay" method="post">
-        {if ! $user->use_new_shop}
+        {if $user->use_new_shop}
+        <input hidden id="price" name="price" value="">
+        <input hidden id="invoice_id" name="invoice_id" value="">
+        {else}
         <input class="form-control maxwidth-edit" id="price" name="price" placeholder="输入金额，选择以下要付款的渠道"
             autofocus="autofocus" type="number" min="0.01" max="1000" step="0.01" required="required">
         <br />
