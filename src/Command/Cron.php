@@ -36,6 +36,7 @@ EOL;
                 $order->update_time = \time();
                 $order->save();
                 echo "已标记订单 #{$order->id} 为等待激活。\n";
+                continue;
             }
             // 取消超时未支付的订单和关联账单
             if ($order->create_time + 86400 < \time()) {
@@ -47,6 +48,7 @@ EOL;
                 $invoice->update_time = \time();
                 $invoice->save();
                 echo "已取消超时账单 #{$invoice->id}。\n";
+                continue;
             }
         }
 
@@ -67,7 +69,7 @@ EOL;
                     $order->update_time = \time();
                     $order->save();
                     // 获取订单内容准备激活
-                    $content = \json_decode($order->content);
+                    $content = \json_decode($order->product_content);
                     // 激活商品
                     $old_expire_in = new DateTime($user->expire_in);
                     $user->expire_in = $old_expire_in->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
