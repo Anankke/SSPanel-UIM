@@ -12,9 +12,9 @@
                         <span class="home-subtitle">账单详情</span>
                     </div>
                 </div>
+                {if $invoice->status === 'unpaid'}
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        {if $invoice->status !== 'paid_gateway' && $invoice->status !== 'paid_balance' && $invoice->status !== 'paid_admin'}
                         <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#mark_paid_confirm_dialog">
                             <i class="icon ti ti-checklist"></i>
@@ -24,9 +24,9 @@
                             data-bs-target="#mark_paid_confirm_dialog">
                             <i class="icon ti ti-checklist"></i>
                         </button>
-                        {/if}
                     </div>
                 </div>
+                {/if}
             </div>
         </div>
     </div>
