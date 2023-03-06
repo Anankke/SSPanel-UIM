@@ -218,8 +218,8 @@ final class OrderController extends BaseController
         $order->coupon = $coupon_raw;
         $order->price = $buy_price;
         $order->status = 'pending_payment';
-        $order->create_time = time();
-        $order->update_time = time();
+        $order->create_time = \time();
+        $order->update_time = \time();
         $order->save();
 
         $invoice_content = [];
@@ -248,6 +248,12 @@ final class OrderController extends BaseController
         $invoice->update_time = \time();
         $invoice->pay_time = 0;
         $invoice->save();
+
+        if ($product->stock !== -1) {
+            $product->stock -= 1;
+        }
+        $product->sale_count += 1;
+        $product->save();
 
         return $response->withJson([
             'ret' => 1,
