@@ -92,7 +92,7 @@
                                                     <div class="list-group-item">
                                                         <div class="row align-items-center">
                                                             <div class="col text-truncate">
-                                                                {if $product->content->speed_limit < 0}
+                                                                {if $product->content->speed_limit === '0'}
                                                                 <div class="text-reset d-block">不限制</div>  
                                                                 {else}
                                                                 <div class="text-reset d-block">{$product->content->speed_limit} Mbps</div>
@@ -104,7 +104,7 @@
                                                     <div class="list-group-item">
                                                         <div class="row align-items-center">
                                                             <div class="col text-truncate">
-                                                                {if $product->content->ip_limit < 0}
+                                                                {if $product->content->ip_limit === '0'}
                                                                 <div class="text-reset d-block">不限制</div>
                                                                 {else}
                                                                 <div class="text-reset d-block">{$product->content->ip_limit}</div>

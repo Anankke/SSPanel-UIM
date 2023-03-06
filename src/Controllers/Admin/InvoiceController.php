@@ -76,9 +76,11 @@ final class InvoiceController extends BaseController
             ]);
         }
 
+        $order->update_time = \time();
         $order->status = 'pending_activation';
         $order->save();
 
+        $invoice->update_time = \time();
         $invoice->pay_time = \time();
         $invoice->status = 'paid_admin';
         $invoice->save();

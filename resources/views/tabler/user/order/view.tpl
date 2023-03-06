@@ -86,12 +86,18 @@
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">速率限制 (Mbps)</div>
-                            <div class="datagrid-content">{$product_content->speed_limit}</div>
+                            <div class="datagrid-content">
+                            {if $product_content->ip_limit === '0'}
+                            不限制
+                            {else}
+                            {$product_content->speed_limit}
+                            {/if}
+                            </div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">同时连接IP限制</div>
                             <div class="datagrid-content">
-                            {if $product_content->ip_limit === '-1'}
+                            {if $product_content->ip_limit === '0'}
                             不限制
                             {else}
                             {$product_content->ip_limit}

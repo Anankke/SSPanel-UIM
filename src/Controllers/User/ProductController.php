@@ -14,6 +14,7 @@ final class ProductController extends BaseController
     public function product(ServerRequest $request, Response $response, array $args)
     {
         $products = Product::where('status', '1')
+            ->where('type', 'tabp')
             ->orderBy('id', 'asc')
             ->get();
 
