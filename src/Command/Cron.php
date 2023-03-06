@@ -85,16 +85,18 @@ EOL;
                     $user->node_iplimit = $content->ip_limit;
                     $user->save();
                     echo "订单 #{$order->id} 已激活。\n";
+                    continue;
                 }
             }
             // 如果用户账户中有已激活的订单，则判断是否过期
             if ($activated_order !== null) {
-                $order = $activated_order[0];
-                if ($order->update_time + $order->time * 86400 < \time()) {
-                    $order->status = 'expired';
-                    $order->update_time = \time();
-                    $order->save();
+                $content = \json_decode($activated_order->product_content);
+                if ($activated_order->update_time + $content->time * 86400 < \time()) {
+                    $activated_order->status = 'expired';
+                    $activated_order->update_time = \time();
+                    $activated_order->save();
                     echo "订单 #{$order->id} 已过期。\n";
+                    continue;
                 }
             }
         }
