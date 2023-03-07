@@ -209,11 +209,6 @@ return static function (Slim\App $app): void {
         $group->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
         $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
         $group->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
-        // Code Mange
-        $group->get('/code', App\Controllers\Admin\CodeController::class . ':index');
-        $group->get('/code/create', App\Controllers\Admin\CodeController::class . ':create');
-        $group->post('/code', App\Controllers\Admin\CodeController::class . ':add');
-        $group->post('/code/ajax', App\Controllers\Admin\CodeController::class . ':ajaxCode');
         // User Mange
         $group->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $group->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
