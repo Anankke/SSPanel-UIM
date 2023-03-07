@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\DetectLog;
 use App\Models\DetectBanLog;
+use App\Models\DetectLog;
 use App\Models\DetectRule;
-use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use Slim\Http\Response;
