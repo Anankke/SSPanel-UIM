@@ -309,12 +309,13 @@ final class AuthController extends BaseController
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
+
         if ($user_invite !== null && $user_invite->user_id !== 0) {
             $invitation = Setting::getClass('invite');
             // 设置新用户
             $user->ref_by = $user_invite->user_id;
             $user->money = $invitation['invitation_to_register_balance_reward'];
-            // 给邀请人反流量
+            // 邀请人添加邀请流量
             $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
             if ($gift_user->invite_num - 1 >= 0) {
                 --$gift_user->invite_num;
@@ -341,10 +342,17 @@ final class AuthController extends BaseController
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
         $random_group = Setting::obtain('random_group');
+
         if ($random_group === '') {
             $user->node_group = 0;
         } else {
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
+        }
+
+        if (Setting::obtain('enable_reg_new_shop') === true) {
+            $user->use_new_shop = 1;
+        } else {
+            $user->use_new_shop = 0;
         }
 
         if ($user->save() && ! $is_admin_reg) {
