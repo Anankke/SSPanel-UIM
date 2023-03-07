@@ -148,7 +148,7 @@
     <script>
         var table = $('#data_table').DataTable({
             ajax: {
-                url: '/admin/invites/ajax',
+                url: '/admin/invite/ajax',
                 type: 'POST',
                 dataSrc: 'invites'
             },
