@@ -18,9 +18,9 @@ final class InviteController extends BaseController
         'field' => [
             'id' => '事件ID',
             'total' => '原始金额',
-            'event_user_id' => '发起用户ID',
-            'event_user_name' => '发起用户名',
-            'ref_user_id' => '获利用户ID',
+            'userid' => '发起用户ID',
+            'user_name' => '发起用户名',
+            'ref_by' => '获利用户ID',
             'ref_user_name' => '获利用户名',
             'ref_get' => '获利金额',
             'datetime' => '时间',
@@ -155,6 +155,8 @@ final class InviteController extends BaseController
 
         foreach ($paybacks as $payback) {
             $payback->datetime = Tools::toDateTime((int) $payback->datetime);
+            $payback->user_name = User::find($payback->userid)->user_name;
+            $payback->ref_user_name = User::find($payback->ref_by)->user_name;
         }
 
         return $response->withJson([
