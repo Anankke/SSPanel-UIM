@@ -14,7 +14,6 @@ use App\Services\Mail;
 use App\Utils\Check;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
-use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -40,21 +39,8 @@ final class AuthController extends BaseController
             $captcha = Captcha::generate();
         }
 
-        if ($_ENV['enable_telegram_login'] === true) {
-            $login_text = TelegramSessionManager::addLoginSession();
-            $login = explode('|', $login_text);
-            $login_token = $login[0];
-            $login_number = $login[1];
-        } else {
-            $login_token = '';
-            $login_number = '';
-        }
-
         return $response->write($this->view()
-            ->assign('login_token', $login_token)
-            ->assign('login_number', $login_number)
             ->assign('base_url', $_ENV['baseUrl'])
-            ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('captcha', $captcha)
             ->fetch('auth/login.tpl'));
     }
@@ -125,27 +111,6 @@ final class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function qrcodeLoginHandle(ServerRequest $request, Response $response, array $args)
-    {
-        $token = $request->getParam('token');
-        $number = $request->getParam('number');
-
-        $ret = TelegramSessionManager::step2VerifyLoginSession($token, $number);
-        if ($ret === 0) {
-            return ResponseHelper::error($response, '此令牌无法被使用。');
-        }
-
-        $user = User::find($ret);
-
-        Auth::login($user->id, 3600 * 24);
-        // 记录登录成功
-        $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
-        return ResponseHelper::successfully($response, '登录成功');
-    }
-
-    /**
-     * @param array     $args
-     */
     public function register(ServerRequest $request, Response $response, $next)
     {
         $captcha = [];
@@ -161,22 +126,9 @@ final class AuthController extends BaseController
             $code = $antiXss->xss_clean($ary['code']);
         }
 
-        if ($_ENV['enable_telegram_login'] === true) {
-            $login_text = TelegramSessionManager::addLoginSession();
-            $login = explode('|', $login_text);
-            $login_token = $login[0];
-            $login_number = $login[1];
-        } else {
-            $login_token = '';
-            $login_number = '';
-        }
-
         return $response->write($this->view()
             ->assign('code', $code)
             ->assign('base_url', $_ENV['baseUrl'])
-            ->assign('login_token', $login_token)
-            ->assign('login_number', $login_number)
-            ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->assign('captcha', $captcha)
             ->fetch('auth/register.tpl'));
@@ -309,12 +261,13 @@ final class AuthController extends BaseController
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
+
         if ($user_invite !== null && $user_invite->user_id !== 0) {
             $invitation = Setting::getClass('invite');
             // 设置新用户
             $user->ref_by = $user_invite->user_id;
             $user->money = $invitation['invitation_to_register_balance_reward'];
-            // 给邀请人反流量
+            // 邀请人添加邀请流量
             $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
             if ($gift_user->invite_num - 1 >= 0) {
                 --$gift_user->invite_num;
@@ -341,10 +294,17 @@ final class AuthController extends BaseController
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
         $random_group = Setting::obtain('random_group');
+
         if ($random_group === '') {
             $user->node_group = 0;
         } else {
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
+        }
+
+        if (Setting::obtain('enable_reg_new_shop') === true) {
+            $user->use_new_shop = 1;
+        } else {
+            $user->use_new_shop = 0;
         }
 
         if ($user->save() && ! $is_admin_reg) {
@@ -447,88 +407,5 @@ final class AuthController extends BaseController
         Auth::logout();
         return $response->withStatus(302)
             ->withHeader('Location', '/auth/login');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function qrcodeCheck(ServerRequest $request, Response $response, array $args)
-    {
-        $token = $request->getParam('token');
-        $number = $request->getParam('number');
-        $user = Auth::getUser();
-
-        if ($user->isLogin) {
-            return ResponseHelper::error($response, '用户已登陆');
-        }
-
-        if ($_ENV['enable_telegram_login'] === true) {
-            $ret = TelegramSessionManager::checkLoginSession($token, $number);
-            return $response->withJson([
-                'ret' => $ret,
-            ]);
-        }
-
-        return ResponseHelper::error($response, '不允许 QRCode 登陆');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function telegramOauth(ServerRequest $request, Response $response, array $args)
-    {
-        if ($_ENV['enable_telegram_login'] === true) {
-            $auth_data = $request->getQueryParams();
-            if ($this->telegramOauthCheck($auth_data) === true) { // Looks good, proceed.
-                $telegram_id = $auth_data['id'];
-                $user = User::query()->where('telegram_id', $telegram_id)->firstOrFail(); // Welcome Back :)
-                if ($user === null) {
-                    return $response->write($this->view()
-                        ->assign('title', '您需要先进行邮箱注册后绑定Telegram才能使用授权登录')
-                        ->assign('message', '很抱歉带来的不便，请重新试试')
-                        ->assign('redirect', '/auth/login')
-                        ->fetch('telegram_error.tpl'));
-                }
-                Auth::login($user->id, 3600);
-                $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
-
-                return $response->write($this->view()
-                    ->assign('title', '登录成功')
-                    ->assign('message', '正在前往仪表盘')
-                    ->assign('redirect', '/user')
-                    ->fetch('telegram_success.tpl'));
-            }
-            return $response->write($this->view()
-                ->assign('title', '登陆超时或非法构造信息')
-                ->assign('message', '很抱歉带来的不便，请重新试试')
-                ->assign('redirect', '/auth/login')
-                ->fetch('telegram_error.tpl'));
-        }
-        return $response->withRedirect('/404');
-    }
-
-    /**
-     * @param array     $args
-     */
-    private function telegramOauthCheck($auth_data)
-    {
-        $check_hash = $auth_data['hash'];
-        $bot_token = $_ENV['telegram_token'];
-        unset($auth_data['hash']);
-        $data_check_arr = [];
-        foreach ($auth_data as $key => $value) {
-            $data_check_arr[] = $key . '=' . $value;
-        }
-        sort($data_check_arr);
-        $data_check_string = implode("\n", $data_check_arr);
-        $secret_key = \hash('sha256', $bot_token, true);
-        $hash = hash_hmac('sha256', $data_check_string, $secret_key);
-        if (strcmp($hash, $check_hash) !== 0) {
-            return false; // Bad Data :(
-        }
-        if (\time() - $auth_data['auth_date'] > 300) { // Expire @ 5mins
-            return false;
-        }
-        return true; // Good to Go
     }
 }

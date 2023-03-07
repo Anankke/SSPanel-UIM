@@ -5,85 +5,99 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
-use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
+use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
 final class DetectController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
-    public function index(ServerRequest $request, Response $response, array $args)
+    public static $rule_details =
+    [
+        'field' => [
+            'op' => '操作',
+            'id' => '规则ID',
+            'name' => '规则名称',
+            'text' => '规则介绍',
+            'regex' => '正则表达式',
+            'type' => '规则类型',
+        ],
+        'add_dialog' => [
+            [
+                'id' => 'name',
+                'info' => '规则名称',
+                'type' => 'input',
+                'placeholder' => '审计规则名称',
+            ],
+            [
+                'id' => 'text',
+                'info' => '规则介绍',
+                'type' => 'input',
+                'placeholder' => '简洁明了地描述审计规则',
+            ],
+            [
+                'id' => 'regex',
+                'info' => '正则表达式',
+                'type' => 'input',
+                'placeholder' => '用以匹配审计内容的正则表达式',
+            ],
+            [
+                'id' => 'type',
+                'info' => '规则类型',
+                'type' => 'select',
+                'select' => [
+                    '1' => '数据包明文匹配',
+                    '0' => '数据包十六进制匹配',
+                ],
+            ],
+        ],
+    ];
+
+    public static $log_details =
+    [
+        'field' => [
+            'id' => '事件ID',
+            'user_id' => '用户ID',
+            'user_name' => '用户名',
+            'node_id' => '节点ID',
+            'node_name' => '节点名',
+            'list_id' => '规则ID',
+            'rule_name' => '规则名',
+            'rule_text' => '规则描述',
+            'rule_regex' => '规则正则表达式',
+            'rule_type' => '规则类型',
+            'datetime' => '时间',
+        ],
+    ];
+
+    public static $ban_details =
+    [
+        'field' => [
+            'id' => '事件ID',
+            'user_name' => '用户名',
+            'user_id' => '用户ID',
+            'email' => '用户邮箱',
+            'detect_number' => '违规次数',
+            'ban_time' => '封禁时长(分钟)',
+            'start_time' => '统计开始时间',
+            'end_time' => '统计结束&封禁开始时间',
+            'ban_end_time' => '封禁结束时间',
+            'all_detect_number' => '累计违规次数',
+        ],
+    ];
+
+    public function detect(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
-                ->assign('table_config', ResponseHelper::buildTableConfig([
-                    'op' => '操作',
-                    'id' => 'ID',
-                    'name' => '名称',
-                    'text' => '介绍',
-                    'regex' => '正则表达式',
-                    'type' => '类型',
-                ], 'detect/ajax'))
-                ->fetch('admin/detect/index.tpl')
+                ->assign('details', self::$rule_details)
+                ->fetch('admin/detect.tpl')
         );
     }
 
-    /**
-     * @param array     $args
-     */
-    public function ajaxRule(ServerRequest $request, Response $response, array $args)
-    {
-        $query = DetectRule::getTableDataFromAdmin(
-            $request,
-            static function (&$order_field): void {
-                if (\in_array($order_field, ['op'])) {
-                    $order_field = 'id';
-                }
-            }
-        );
-
-        $data = [];
-        foreach ($query['datas'] as $value) {
-            /** @var DetectRule $value */
-
-            $tempdata = [];
-            $tempdata['op'] = '<a class="btn btn-brand" href="/admin/detect/' . $value->id . '/edit">编辑</a> <a class="btn btn-brand-accent" id="delete" value="' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
-            $tempdata['id'] = $value->id;
-            $tempdata['name'] = $value->name;
-            $tempdata['text'] = $value->text;
-            $tempdata['regex'] = $value->regex;
-            $tempdata['type'] = $value->type();
-
-            $data[] = $tempdata;
-        }
-
-        return $response->withJson([
-            'draw' => $request->getParam('draw'),
-            'recordsTotal' => DetectRule::count(),
-            'recordsFiltered' => $query['count'],
-            'data' => $data,
-        ]);
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function create(ServerRequest $request, Response $response, array $args)
-    {
-        return $response->write(
-            $this->view()
-                ->fetch('admin/detect/add.tpl')
-        );
-    }
-
-    /**
-     * @param array     $args
-     */
     public function add(ServerRequest $request, Response $response, array $args)
     {
         $rule = new DetectRule();
@@ -106,52 +120,9 @@ final class DetectController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
-    public function edit(ServerRequest $request, Response $response, array $args)
-    {
-        $id = $args['id'];
-        $rule = DetectRule::find($id);
-        return $response->write(
-            $this->view()
-                ->assign('rule', $rule)
-                ->fetch('admin/detect/edit.tpl')
-        );
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function update(ServerRequest $request, Response $response, array $args)
-    {
-        $id = $args['id'];
-        $rule = DetectRule::find($id);
-
-        $rule->name = $request->getParam('name');
-        $rule->text = $request->getParam('text');
-        $rule->regex = $request->getParam('regex');
-        $rule->type = $request->getParam('type');
-
-        if (! $rule->save()) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '修改失败',
-            ]);
-        }
-        Telegram::sendMarkdown('规则更新：' . PHP_EOL . $request->getParam('name'));
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '修改成功',
-        ]);
-    }
-
-    /**
-     * @param array     $args
-     */
     public function delete(ServerRequest $request, Response $response, array $args)
     {
-        $id = $request->getParam('id');
+        $id = $args['id'];
         $rule = DetectRule::find($id);
         if (! $rule->delete()) {
             return $response->withJson([
@@ -165,87 +136,86 @@ final class DetectController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function log(ServerRequest $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
-                ->assign('table_config', ResponseHelper::buildTableConfig([
-                    'id' => 'ID',
-                    'user_id' => '用户ID',
-                    'user_name' => '用户名',
-                    'node_id' => '节点ID',
-                    'node_name' => '节点名',
-                    'list_id' => '规则ID',
-                    'rule_name' => '规则名',
-                    'rule_text' => '规则描述',
-                    'rule_regex' => '规则正则表达式',
-                    'rule_type' => '规则类型',
-                    'datetime' => '时间',
-                ], 'log/ajax'))
-                ->fetch('admin/detect/log.tpl')
+                ->assign('details', self::$log_details)
+                ->fetch('admin/log/detect_log.tpl')
         );
     }
 
-    /**
-     * @param array     $args
-     */
-    public function ajaxLog(ServerRequest $request, Response $response, array $args)
+    public function ban(ServerRequest $request, Response $response, array $args)
     {
-        $query = DetectLog::getTableDataFromAdmin(
-            $request,
-            static function (&$order_field): void {
-                if (\in_array($order_field, ['node_name'])) {
-                    $order_field = 'node_id';
-                }
-                if (\in_array($order_field, ['rule_name', 'rule_text', 'rule_regex', 'rule_type'])) {
-                    $order_field = 'list_id';
-                }
-                if (\in_array($order_field, ['user_name'])) {
-                    $order_field = 'user_id';
-                }
-            }
+        return $response->write(
+            $this->view()
+                ->assign('details', self::$ban_details)
+                ->fetch('admin/log/detect_ban.tpl')
         );
+    }
 
-        $data = [];
-        foreach ($query['datas'] as $value) {
-            /** @var DetectLog $value */
+    public function ajaxRule(ServerRequest $request, Response $response, array $args)
+    {
+        $rules = DetectRule::orderBy('id', 'desc')->get();
 
-            if ($value->rule() === null) {
-                DetectLog::ruleIsNull($value);
-                continue;
-            }
-            if ($value->node() === null) {
-                DetectLog::nodeIsNull($value);
-                continue;
-            }
-            if ($value->user() === null) {
-                DetectLog::userIsNull($value);
-                continue;
-            }
-            $tempdata = [];
-            $tempdata['id'] = $value->id;
-            $tempdata['user_id'] = $value->user_id;
-            $tempdata['user_name'] = $value->userName();
-            $tempdata['node_id'] = $value->node_id;
-            $tempdata['node_name'] = $value->nodeName();
-            $tempdata['list_id'] = $value->list_id;
-            $tempdata['rule_name'] = $value->ruleName();
-            $tempdata['rule_text'] = $value->ruleText();
-            $tempdata['rule_regex'] = $value->ruleRegex();
-            $tempdata['rule_type'] = $value->ruleType();
-            $tempdata['datetime'] = $value->datetime();
-
-            $data[] = $tempdata;
+        foreach ($rules as $rule) {
+            $rule->op = '<button type="button" class="btn btn-red" id="delete-rule-' . $rule->id . '" 
+            onclick="deleteRule(' . $rule->id . ')">删除</button>';
+            $rule->type = $rule->type();
         }
 
         return $response->withJson([
-            'draw' => $request->getParam('draw'),
-            'recordsTotal' => DetectLog::count(),
-            'recordsFiltered' => $query['count'],
-            'data' => $data,
+            'rules' => $rules,
+        ]);
+    }
+
+    public function ajaxLog(ServerRequest $request, Response $response, array $args)
+    {
+        $length = $request->getParam('length');
+        $page = $request->getParam('start') / $length + 1;
+        $draw = $request->getParam('draw');
+
+        $logs = DetectLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = DetectLog::count();
+
+        foreach ($logs as $log) {
+            $log->user_name = $log->userName();
+            $log->node_name = $log->nodeName();
+            $log->rule_name = $log->ruleName();
+            $log->rule_text = $log->ruleText();
+            $log->rule_regex = $log->ruleRegex();
+            $log->rule_type = $log->ruleType();
+            $log->datetime = Tools::toDateTime((int) $log->datetime);
+        }
+
+        return $response->withJson([
+            'draw' => $draw,
+            'recordsTotal' => $total,
+            'recordsFiltered' => $total,
+            'logs' => $logs,
+        ]);
+    }
+
+    public function ajaxBan(ServerRequest $request, Response $response, array $args)
+    {
+        $length = $request->getParam('length');
+        $page = $request->getParam('start') / $length + 1;
+        $draw = $request->getParam('draw');
+
+        $bans = DetectBanLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = DetectBanLog::count();
+
+        foreach ($bans as $ban) {
+            $ban->start_time = Tools::toDateTime((int) $ban->start_time);
+            $ban->end_time = Tools::toDateTime((int) $ban->end_time);
+            $ban->ban_end_time = $ban->banEndTime();
+        }
+
+        return $response->withJson([
+            'draw' => $draw,
+            'recordsTotal' => $total,
+            'recordsFiltered' => $total,
+            'bans' => $bans,
         ]);
     }
 }
