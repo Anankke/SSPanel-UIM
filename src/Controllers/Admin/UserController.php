@@ -6,8 +6,6 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AuthController;
 use App\Controllers\BaseController;
-use App\Models\Bought;
-use App\Models\Shop;
 use App\Models\User;
 use App\Services\Auth;
 use App\Utils\Check;
@@ -98,7 +96,6 @@ final class UserController extends BaseController
     {
         return $response->write(
             $this->view()
-                ->assign('shops', Shop::orderBy('name')->get())
                 ->assign('details', self::$details)
                 ->fetch('admin/user/index.tpl')
         );
@@ -113,7 +110,6 @@ final class UserController extends BaseController
         $ref_by = $request->getParam('ref_by');
         $password = $request->getParam('password');
         $balance = $request->getParam('balance');
-        $shop_id = $request->getParam('product');
 
         try {
             if ($email === '') {
@@ -131,25 +127,6 @@ final class UserController extends BaseController
             }
             AuthController::registerHelper($response, 'user', $email, $password, '', 1, '', 0, $balance, 1);
             $user = User::where('email', $email)->first();
-            if ($shop_id > 0) {
-                $shop = Shop::find($shop_id);
-                if ($shop !== null) {
-                    $bought = new Bought();
-                    $bought->userid = $user->id;
-                    $bought->shopid = $shop->id;
-                    $bought->datetime = \time();
-                    $bought->renew = 0;
-                    $bought->coupon = '';
-                    $bought->price = $shop->price;
-                    $bought->save();
-                    $shop->buy($user);
-                } else {
-                    return $response->withJson([
-                        'ret' => 0,
-                        'msg' => '添加失败，套餐不存在',
-                    ]);
-                }
-            }
             if ($ref_by !== '') {
                 $user->ref_by = (int) $ref_by;
                 $user->save();
