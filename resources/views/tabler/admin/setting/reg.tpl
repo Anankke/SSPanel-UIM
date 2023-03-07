@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">新用户默认使用新商店系统</label>
+                                    <label class="form-label col-3 col-form-label">默认使用新商店系统</label>
                                     <div class="col">
                                         <select id="enable_reg_new_shop" class="col form-select" value="{$settings['enable_reg_new_shop']}">
                                             <option value="0" {if $settings['enable_reg_new_shop'] == false}selected{/if}>关闭</option>

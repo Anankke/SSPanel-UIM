@@ -137,14 +137,11 @@ return static function (Slim\App $app): void {
     // Auth
     $app->group('/auth', static function (RouteCollectorProxy $group): void {
         $group->get('/login', App\Controllers\AuthController::class . ':login');
-        $group->post('/qrcode_check', App\Controllers\AuthController::class . ':qrcodeCheck');
         $group->post('/login', App\Controllers\AuthController::class . ':loginHandle');
-        $group->post('/qrcode_login', App\Controllers\AuthController::class . ':qrcodeLoginHandle');
         $group->get('/register', App\Controllers\AuthController::class . ':register');
         $group->post('/register', App\Controllers\AuthController::class . ':registerHandle');
         $group->post('/send', App\Controllers\AuthController::class . ':sendVerify');
         $group->get('/logout', App\Controllers\AuthController::class . ':logout');
-        $group->get('/telegram_oauth', App\Controllers\AuthController::class . ':telegramOauth');
     })->add(new Guest());
 
     // Password
