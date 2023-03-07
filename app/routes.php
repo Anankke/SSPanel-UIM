@@ -235,10 +235,10 @@ return static function (Slim\App $app): void {
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
         $group->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajaxSubscribeLog');
         // 邀请日志
-        $group->get('/invite', App\Controllers\InviteController::class . ':invite');
-        $group->post('/invite/update_invite', App\Controllers\InviteController::class . ':update');
-        $group->post('/invite/add_invite', App\Controllers\InviteController::class . ':add');
-        $group->post('/invite/ajax', App\Controllers\InviteController::class . ':ajax');
+        $group->get('/invite', App\Controllers\Admin\InviteController::class . ':invite');
+        $group->post('/invite/update_invite', App\Controllers\Admin\InviteController::class . ':update');
+        $group->post('/invite/add_invite', App\Controllers\Admin\InviteController::class . ':add');
+        $group->post('/invite/ajax', App\Controllers\Admin\InviteController::class . ':ajax');
         // Traffic Log Mange
         $group->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
         $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajaxTrafficLog');
