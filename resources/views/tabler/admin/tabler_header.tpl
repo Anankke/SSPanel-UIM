@@ -204,7 +204,11 @@
                                     </a>
                                     <a class="dropdown-item" href="/admin/detect/log">
                                         <i class="ti ti-notes"></i>&nbsp;
-                                        记录
+                                        碰撞记录
+                                    </a>
+                                    <a class="dropdown-item" href="/admin/detect/ban">
+                                        <i class="ti ti-notes"></i>&nbsp;
+                                        封禁记录
                                     </a>
                                 </div>
                             </li>

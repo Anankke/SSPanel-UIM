@@ -194,26 +194,21 @@ return static function (Slim\App $app): void {
         $group->put('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':update');
         $group->delete('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':delete');
         $group->post('/announcement/ajax', App\Controllers\Admin\AnnController::class . ':ajax');
-        // Detect Mange
-        $group->get('/detect', App\Controllers\Admin\DetectController::class . ':index');
+        // 审计
+        $group->get('/detect', App\Controllers\Admin\DetectController::class . ':detect');
         $group->get('/detect/create', App\Controllers\Admin\DetectController::class . ':create');
-        $group->post('/detect', App\Controllers\Admin\DetectController::class . ':add');
-        $group->get('/detect/{id}/edit', App\Controllers\Admin\DetectController::class . ':edit');
-        $group->put('/detect/{id}', App\Controllers\Admin\DetectController::class . ':update');
-        $group->delete('/detect', App\Controllers\Admin\DetectController::class . ':delete');
-        $group->get('/detect/log', App\Controllers\Admin\DetectController::class . ':log');
+        $group->post('/detect/add', App\Controllers\Admin\DetectController::class . ':add');
+        $group->delete('/detect/{id}', App\Controllers\Admin\DetectController::class . ':delete');
         $group->post('/detect/ajax', App\Controllers\Admin\DetectController::class . ':ajaxRule');
+        $group->get('/detect/log', App\Controllers\Admin\DetectController::class . ':log');
         $group->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
+        $group->get('/detect/ban', App\Controllers\Admin\DetectController::class . ':ban');
+        $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectController::class . ':ajaxBan');
         // IP Mange
         $group->get('/login', App\Controllers\Admin\IpController::class . ':login');
         $group->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
         $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
         $group->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
-        // Code Mange
-        $group->get('/code', App\Controllers\Admin\CodeController::class . ':index');
-        $group->get('/code/create', App\Controllers\Admin\CodeController::class . ':create');
-        $group->post('/code', App\Controllers\Admin\CodeController::class . ':add');
-        $group->post('/code/ajax', App\Controllers\Admin\CodeController::class . ':ajaxCode');
         // User Mange
         $group->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $group->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
@@ -239,9 +234,6 @@ return static function (Slim\App $app): void {
         // Traffic Log Mange
         $group->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
         $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajaxTrafficLog');
-        // Detect Ban Mange
-        $group->get('/detect/ban', App\Controllers\Admin\DetectBanLogController::class . ':index');
-        $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajaxLog');
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');

@@ -27,22 +27,6 @@ final class DetectBanLog extends Model
     }
 
     /**
-     * 统计开始时间
-     */
-    public function startTime(): string
-    {
-        return date('Y-m-d H:i:s', $this->start_time);
-    }
-
-    /**
-     * 统计结束以及封禁开始时间
-     */
-    public function endTime(): string
-    {
-        return date('Y-m-d H:i:s', $this->end_time);
-    }
-
-    /**
      * 封禁结束时间
      */
     public function banEndTime(): string
