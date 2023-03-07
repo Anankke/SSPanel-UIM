@@ -771,6 +771,16 @@
     },
     {
         "id": null,
+        "item": "enable_reg_new_shop",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "新用户默认使用新商店系统"
+    },
+    {
+        "id": null,
         "item": "reg_forbidden_ip",
         "value": "127.0.0.0/8,::1/128",
         "class": "register",
@@ -1382,21 +1392,21 @@
     {
         "id": null,
         "item": "display_media",
-        "value": "1",
+        "value": "0",
         "class": "feature",
         "is_public": 1,
         "type": "bool",
-        "default": "1",
+        "default": "0",
         "mark": "显示节点流媒体解锁情况"
     },
     {
         "id": null,
         "item": "display_subscribe_log",
-        "value": "1",
+        "value": "0",
         "class": "feature",
         "is_public": 1,
         "type": "bool",
-        "default": "1",
+        "default": "0",
         "mark": "显示用户订阅记录"
     },
     {
