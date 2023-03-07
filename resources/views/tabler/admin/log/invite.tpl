@@ -6,20 +6,23 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title">用户列表</span>
+                        <span class="home-title">返利记录</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">
-                            系统中所有用户的列表
-                        </span>
+                        <span class="home-subtitle">查看用户的返利记录</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                         <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                            data-bs-target="#create-dialog">
+                            data-bs-target="#update-invite-dialog">
+                            <i class="icon ti ti-user-edit"></i>
+                            修改邀请者
+                        </button>
+                        <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#add-invite-dialog">
                             <i class="icon ti ti-plus"></i>
-                            创建
+                            添加邀请数量
                         </button>
                     </div>
                 </div>
@@ -48,15 +51,15 @@
         </div>
     </div>
 
-    <div class="modal modal-blur fade" id="create-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-blur fade" id="update-invite-dialog" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">添加用户</h5>
+                    <h5 class="modal-title">修改邀请者</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {foreach $details['create_dialog'] as $from}
+                    {foreach $details['update_dialog'] as $from}
                         {if $from['type'] == 'input'}
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">{$from['info']}</label>
@@ -89,7 +92,54 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="create-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">添加</button>
+                    <button id="update-invite-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="add-invite-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加邀请数量</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {foreach $details['add_dialog'] as $from}
+                        {if $from['type'] == 'input'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <div class="col">
+                                    <input id="{$from['id']}" type="text" class="form-control"
+                                        placeholder="{$from['placeholder']}">
+                                </div>
+                            </div>
+                        {/if}
+                        {if $from['type'] == 'textarea'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <textarea id="{$from['id']}" class="col form-control" rows="{$from['rows']}"
+                                    placeholder="{$from['placeholder']}"></textarea>
+                            </div>
+                        {/if}
+                        {if $from['type'] == 'select'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <div class="col">
+                                    <select id="{$from['id']}" class="col form-select">
+                                        {foreach $from['select'] as $key => $value}
+                                            <option value="{$key}">{$value}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        {/if}
+                    {/foreach}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="add-invite-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交</button>
                 </div>
             </div>
         </div>
@@ -98,9 +148,9 @@
     <script>
         var table = $('#data_table').DataTable({
             ajax: {
-                url: '/admin/user/ajax',
+                url: '/admin/invites/ajax',
                 type: 'POST',
-                dataSrc: 'users'
+                dataSrc: 'invites'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
@@ -145,17 +195,13 @@
             }
         });
 
-        function loadTable() {
-            table;
-        }
-
-        $("#create-button").click(function() {
+        $("#update-invite-button").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/admin/user/create",
+                url: "/admin/invite/update_invite",
                 dataType: "json",
                 data: {
-                    {foreach $details['create_dialog'] as $from}
+                    {foreach $details['update_dialog'] as $from}
                         {$from['id']}: $('#{$from['id']}').val(),
                     {/foreach}
                 },
@@ -172,30 +218,31 @@
             })
         });
 
-        function deleteUser(user_id) {
-            $('#notice-message').text('确定删除此用户？');
-            $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
-                $.ajax({
-                    url: "/admin/user/" + user_id,
-                    type: 'DELETE',
-                    dataType: "json",
-                    success: function(data) {
-                        if (data.ret == 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                            reloadTableAjax();
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
+        $("#add-invite-button").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/admin/invite/add_invite",
+                dataType: "json",
+                data: {
+                    {foreach $details['add_dialog'] as $from}
+                        {$from['id']}: $('#{$from['id']}').val(),
+                    {/foreach}
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                        reloadTableAjax();
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
                     }
-                })
-            });
-        };
+                }
+            })
+        });
 
-        function reloadTableAjax() {
-            table.ajax.reload(null, false);
+        function loadTable() {
+            table;
         }
 
         loadTable();

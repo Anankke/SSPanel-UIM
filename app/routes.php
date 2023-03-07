@@ -159,12 +159,6 @@ return static function (Slim\App $app): void {
     $app->group('/admin', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\AdminController::class . ':index');
         $group->get('/', App\Controllers\AdminController::class . ':index');
-
-        $group->get('/invite', App\Controllers\AdminController::class . ':invite');
-        $group->post('/invite', App\Controllers\AdminController::class . ':addInvite');
-        $group->post('/chginvite', App\Controllers\AdminController::class . ':chgInvite');
-        $group->post('/payback/ajax', App\Controllers\AdminController::class . ':ajaxPayback');
-
         // Node Mange
         $group->get('/node', App\Controllers\Admin\NodeController::class . ':index');
         $group->get('/node/create', App\Controllers\Admin\NodeController::class . ':create');
@@ -175,7 +169,6 @@ return static function (Slim\App $app): void {
         $group->put('/node/{id}', App\Controllers\Admin\NodeController::class . ':update');
         $group->delete('/node/{id}', App\Controllers\Admin\NodeController::class . ':delete');
         $group->post('/node/ajax', App\Controllers\Admin\NodeController::class . ':ajax');
-
         // Ticket Mange
         $group->get('/ticket', App\Controllers\Admin\TicketController::class . ':index');
         $group->post('/ticket', App\Controllers\Admin\TicketController::class . ':add');
@@ -184,7 +177,6 @@ return static function (Slim\App $app): void {
         $group->put('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':update');
         $group->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
         $group->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
-
         // Shop Mange
         $group->get('/shop', App\Controllers\Admin\ShopController::class . ':index');
         $group->post('/shop/ajax', App\Controllers\Admin\ShopController::class . ':ajaxShop');
@@ -193,12 +185,10 @@ return static function (Slim\App $app): void {
         $group->get('/shop/{id}/edit', App\Controllers\Admin\ShopController::class . ':edit');
         $group->put('/shop/{id}', App\Controllers\Admin\ShopController::class . ':update');
         $group->delete('/shop', App\Controllers\Admin\ShopController::class . ':deleteGet');
-
         // Bought Mange
         $group->get('/bought', App\Controllers\Admin\ShopController::class . ':bought');
         $group->delete('/bought', App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
         $group->post('/bought/ajax', App\Controllers\Admin\ShopController::class . ':ajaxBought');
-
         // Ann Mange
         $group->get('/announcement', App\Controllers\Admin\AnnController::class . ':index');
         $group->get('/announcement/create', App\Controllers\Admin\AnnController::class . ':create');
@@ -207,7 +197,6 @@ return static function (Slim\App $app): void {
         $group->put('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':update');
         $group->delete('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':delete');
         $group->post('/announcement/ajax', App\Controllers\Admin\AnnController::class . ':ajax');
-
         // Detect Mange
         $group->get('/detect', App\Controllers\Admin\DetectController::class . ':index');
         $group->get('/detect/create', App\Controllers\Admin\DetectController::class . ':create');
@@ -218,19 +207,16 @@ return static function (Slim\App $app): void {
         $group->get('/detect/log', App\Controllers\Admin\DetectController::class . ':log');
         $group->post('/detect/ajax', App\Controllers\Admin\DetectController::class . ':ajaxRule');
         $group->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
-
         // IP Mange
         $group->get('/login', App\Controllers\Admin\IpController::class . ':login');
         $group->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
         $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
         $group->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
-
         // Code Mange
         $group->get('/code', App\Controllers\Admin\CodeController::class . ':index');
         $group->get('/code/create', App\Controllers\Admin\CodeController::class . ':create');
         $group->post('/code', App\Controllers\Admin\CodeController::class . ':add');
         $group->post('/code/ajax', App\Controllers\Admin\CodeController::class . ':ajaxCode');
-
         // User Mange
         $group->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $group->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
@@ -239,26 +225,26 @@ return static function (Slim\App $app): void {
         $group->post('/user/create', App\Controllers\Admin\UserController::class . ':createNewUser');
         $group->delete('/user/{id}', App\Controllers\Admin\UserController::class . ':delete');
         $group->post('/user/ajax', App\Controllers\Admin\UserController::class . ':ajax');
-
         // Coupon Mange
         $group->get('/coupon', App\Controllers\Admin\CouponController::class . ':index');
         $group->post('/coupon', App\Controllers\Admin\CouponController::class . ':add');
         $group->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
         $group->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
         $group->post('/coupon/{id}/disable', App\Controllers\Admin\CouponController::class . ':disable');
-
         // Subscribe Log Mange
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
         $group->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajaxSubscribeLog');
-
+        // 邀请日志
+        $group->get('/invite', App\Controllers\InviteController::class . ':invite');
+        $group->post('/invite/update_invite', App\Controllers\InviteController::class . ':update');
+        $group->post('/invite/add_invite', App\Controllers\InviteController::class . ':add');
+        $group->post('/invite/ajax', App\Controllers\InviteController::class . ':ajax');
         // Traffic Log Mange
         $group->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
         $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajaxTrafficLog');
-
         // Detect Ban Mange
         $group->get('/detect/ban', App\Controllers\Admin\DetectBanLogController::class . ':index');
         $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajaxLog');
-
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');
@@ -279,13 +265,11 @@ return static function (Slim\App $app): void {
         $group->get('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':feature');
         $group->post('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':saveFeature');
         $group->post('/setting/test_email', App\Controllers\Admin\Setting\EmailController::class . ':testEmail');
-
         // 礼品卡
         $group->get('/giftcard', App\Controllers\Admin\GiftCardController::class . ':index');
         $group->post('/giftcard', App\Controllers\Admin\GiftCardController::class . ':add');
         $group->post('/giftcard/ajax', App\Controllers\Admin\GiftCardController::class . ':ajax');
         $group->delete('/giftcard/{id}', App\Controllers\Admin\GiftCardController::class . ':delete');
-
         // 商品
         $group->get('/product', App\Controllers\Admin\ProductController::class . ':index');
         $group->get('/product/create', App\Controllers\Admin\ProductController::class . ':create');
@@ -295,14 +279,12 @@ return static function (Slim\App $app): void {
         $group->put('/product/{id}', App\Controllers\Admin\ProductController::class . ':update');
         $group->delete('/product/{id}', App\Controllers\Admin\ProductController::class . ':delete');
         $group->post('/product/ajax', App\Controllers\Admin\ProductController::class . ':ajax');
-
         // 订单
         $group->get('/order', App\Controllers\Admin\OrderController::class . ':index');
         $group->get('/order/{id}/view', App\Controllers\Admin\OrderController::class . ':detail');
         $group->post('/order/{id}/cancel', App\Controllers\Admin\OrderController::class . ':cancel');
         $group->delete('/order/{id}', App\Controllers\Admin\OrderController::class . ':delete');
         $group->post('/order/ajax', App\Controllers\Admin\OrderController::class . ':ajax');
-
         // 账单
         $group->get('/invoice', App\Controllers\Admin\InvoiceController::class . ':index');
         $group->get('/invoice/{id}/view', App\Controllers\Admin\InvoiceController::class . ':detail');
