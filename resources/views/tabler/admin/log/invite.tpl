@@ -150,7 +150,7 @@
             ajax: {
                 url: '/admin/invite/ajax',
                 type: 'POST',
-                dataSrc: 'invites'
+                dataSrc: 'paybacks'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
