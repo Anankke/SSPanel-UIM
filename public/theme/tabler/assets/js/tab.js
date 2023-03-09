@@ -24,8 +24,8 @@
 					$thisNavIndicator.one('webkitTransitionEnd oTransitionEnd msTransitionEnd transitionend', function () {
 						$thisNavIndicator.removeClass('reverse');
 					});
-				};
-			};
+				}
+			}
 
 			$thisNavIndicator.addClass('animate').css({
 				left: (thisLeft - thisNavLeft),

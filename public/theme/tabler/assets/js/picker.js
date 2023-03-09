@@ -105,12 +105,12 @@
 				open: function () {
 					if (!$('.picker__date-display', datepickerRoot).length) {
 						that.display(datepickerApi, datepickerRoot, 'highlight');
-					};
+					}
 				},
 				set: function () {
 					if (datepickerApi.get('select') !== null) {
 						that.display(datepickerApi, datepickerRoot, 'select');
-					};
+					}
 				}
 			});
 		};
@@ -123,11 +123,11 @@
 
 				if (!data) {
 					$this.data('bs.pickdate', (data = new Datepicker(this, options)));
-				};
+				}
 
 				data.show();
 			});
-		};
+		}
 
 		var old = $.fn.pickdate;
 

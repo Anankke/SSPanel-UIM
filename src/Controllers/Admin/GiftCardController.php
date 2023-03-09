@@ -9,10 +9,11 @@ use App\Models\GiftCard;
 use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 final class GiftCardController extends BaseController
 {
-    public static $details = [
+    public static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '礼品卡ID',
@@ -87,7 +88,7 @@ final class GiftCardController extends BaseController
             $giftcard = new GiftCard();
             $giftcard->card = $card;
             $giftcard->balance = $card_value;
-            $giftcard->create_time = \time();
+            $giftcard->create_time = time();
             $giftcard->status = 0;
             $giftcard->use_time = 0;
             $giftcard->use_user = 0;

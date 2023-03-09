@@ -10,6 +10,9 @@ use App\Models\Order;
 use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function in_array;
+use function json_decode;
+use function time;
 
 final class OrderController extends BaseController
 {
@@ -48,14 +51,14 @@ final class OrderController extends BaseController
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
-        $product_content = \json_decode($order->product_content);
+        $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
         $invoice->status = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content);
+        $invoice_content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -79,7 +82,7 @@ final class OrderController extends BaseController
             ]);
         }
 
-        $order->update_time = \time();
+        $order->update_time = time();
         $order->status = 'cancelled';
         $order->save();
 
@@ -92,9 +95,9 @@ final class OrderController extends BaseController
             ]);
         }
 
-        $invoice->update_time = \time();
+        $invoice->update_time = time();
 
-        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
+        if (in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             $invoice->status = 'cancelled';
             $invoice->save();
 

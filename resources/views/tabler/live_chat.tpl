@@ -44,7 +44,7 @@
 {if $public_setting['live_chat'] == 'livechat'}
 <script>
 window.__lc = window.__lc || { };
-window.__lc.license = "{$public_setting['livechat_id']}";;
+window.__lc.license = "{$public_setting['livechat_id']}";
 window.__lc.params = [
     { name: '用户编号', value: '{$user->id}' },
     { name: '用户类别', value: '{$user->class}' },

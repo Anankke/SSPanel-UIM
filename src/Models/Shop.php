@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function time;
+
 /**
  * @property-read   int     $id
  *
@@ -160,8 +162,8 @@ final class Shop extends Model
                     }
                     break;
                 case 'expire':
-                    if (\time() > strtotime($user->expire_in)) {
-                        $user->expire_in = date('Y-m-d H:i:s', \time() + (int) $value * 86400);
+                    if (time() > strtotime($user->expire_in)) {
+                        $user->expire_in = date('Y-m-d H:i:s', time() + (int) $value * 86400);
                     } else {
                         $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + (int) $value * 86400);
                     }
@@ -171,12 +173,12 @@ final class Shop extends Model
                         if ($user->class === $value) {
                             $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + (int) $this->content['class_expire'] * 86400);
                         } else {
-                            $user->class_expire = date('Y-m-d H:i:s', \time() + (int) $this->content['class_expire'] * 86400);
+                            $user->class_expire = date('Y-m-d H:i:s', time() + (int) $this->content['class_expire'] * 86400);
                         }
                         $user->class = $value;
                     } else {
                         $user->class = $value;
-                        $user->class_expire = date('Y-m-d H:i:s', \time() + (int) $this->content['class_expire'] * 86400);
+                        $user->class_expire = date('Y-m-d H:i:s', time() + (int) $this->content['class_expire'] * 86400);
                         break;
                     }
                     // no break
@@ -210,7 +212,7 @@ final class Shop extends Model
         if ($period === 'expire') {
             $period = $this->content['class_expire'];
         }
-        return Bought::where('shopid', $this->id)->where('datetime', '>', \time() - $period * 86400)->count();
+        return Bought::where('shopid', $this->id)->where('datetime', '>', time() - $period * 86400)->count();
     }
 
     /*

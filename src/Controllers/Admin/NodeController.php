@@ -17,7 +17,7 @@ use Slim\Http\ServerRequest;
 
 final class NodeController extends BaseController
 {
-    public static $details = [
+    public static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '节点ID',
@@ -34,7 +34,7 @@ final class NodeController extends BaseController
         ],
     ];
 
-    public static $update_field = [
+    public static array $update_field = [
         'name',
         'server',
         'mu_only',
@@ -51,8 +51,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台节点页面
-     *
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -65,8 +63,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台创建节点页面
-     *
-     * @param array     $args
      */
     public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -79,8 +75,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台添加节点
-     *
-     * @param array     $args
      */
     public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -163,8 +157,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台编辑指定节点页面
-     *
-     * @param array     $args
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -180,8 +172,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台更新指定节点内容
-     *
-     * @param array     $args
      */
     public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -250,9 +240,6 @@ final class NodeController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetNodePassword(ServerRequest $request, Response $response, array $args)
     {
         $id = $args['id'];
@@ -271,8 +258,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台删除指定节点
-     *
-     * @param array     $args
      */
     public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -322,7 +307,7 @@ final class NodeController extends BaseController
             $new_node->name .= ' (副本)';
             $new_node->node_bandwidth = 0;
             $new_node->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $e->getMessage(),
@@ -337,8 +322,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台节点页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

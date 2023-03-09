@@ -7,9 +7,13 @@ namespace App\Models;
 use App\Services\Mail;
 use App\Utils\Hash;
 use App\Utils\Telegram;
+use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
+use function in_array;
+use function json_encode;
+use function time;
 
 final class User extends Model
 {
@@ -18,7 +22,7 @@ final class User extends Model
      *
      * @var bool
      */
-    public $isLogin;
+    public bool $isLogin;
     protected $connection = 'default';
 
     protected $table = 'user';
@@ -237,7 +241,7 @@ final class User extends Model
      */
     public function todayUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
+        if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
@@ -259,7 +263,7 @@ final class User extends Model
      */
     public function lastUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
+        if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
             return 0;
         }
         $Lastused = $this->last_day_t;
@@ -339,7 +343,7 @@ final class User extends Model
     public function onlineIpCount(): int
     {
         // 根据 IP 分组去重
-        $total = Ip::where('datetime', '>=', \time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
+        $total = Ip::where('datetime', '>=', time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
         $ip_list = [];
         foreach ($total as $single_record) {
             $ip = Tools::getRealIp($single_record->ip);
@@ -485,7 +489,7 @@ final class User extends Model
         } else {
             $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
             $this->transfer_enable += Tools::toMB($traffic);
-            $this->last_check_in_time = \time();
+            $this->last_check_in_time = time();
             $this->save();
             $return['msg'] = '获得了 ' . $traffic . 'MB 流量.';
         }
@@ -514,7 +518,7 @@ final class User extends Model
                 &&
                 ! $this->is_admin
             ) {
-                \App\Utils\Telegram\TelegramTools::SendPost(
+                TelegramTools::SendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $_ENV['telegram_chatid'],
@@ -538,7 +542,7 @@ final class User extends Model
     public function setPort(int $Port): array
     {
         $PortOccupied = User::pluck('port')->toArray();
-        if (\in_array($Port, $PortOccupied) === true) {
+        if (in_array($Port, $PortOccupied) === true) {
             return [
                 'ok' => false,
                 'msg' => '端口已被占用',
@@ -579,7 +583,7 @@ final class User extends Model
      *
      * @param mixed $total 金额
      */
-    public function addMoneyLog($total): void
+    public function addMoneyLog(mixed $total): void
     {
         if ($_ENV['money_from_admin'] && $total !== 0.00) {
             $codeq = new Code();
@@ -595,9 +599,6 @@ final class User extends Model
 
     /**
      * 发送邮件
-     *
-     * @param array  $array
-     * @param array  $files
      */
     public function sendMail(string $subject, string $template, array $array = [], array $files = [], $is_queue = false): bool
     {
@@ -606,9 +607,9 @@ final class User extends Model
             $emailqueue->to_email = $this->email;
             $emailqueue->subject = $subject;
             $emailqueue->template = $template;
-            $emailqueue->time = \time();
+            $emailqueue->time = time();
             $array = array_merge(['user' => $this], $array);
-            $emailqueue->array = \json_encode($array);
+            $emailqueue->array = json_encode($array);
             $emailqueue->save();
             return true;
         }
@@ -711,7 +712,7 @@ final class User extends Model
         $loginip = new LoginIp();
         $loginip->ip = $ip;
         $loginip->userid = $this->id;
-        $loginip->datetime = \time();
+        $loginip->datetime = time();
         $loginip->type = $type;
 
         return $loginip->save();

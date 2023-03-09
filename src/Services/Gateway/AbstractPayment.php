@@ -14,17 +14,15 @@ use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function in_array;
+use function json_decode;
+use function json_encode;
+use function time;
 
 abstract class AbstractPayment
 {
-    /**
-     * @param array     $args
-     */
     abstract public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
-    /**
-     * @param array     $args
-     */
     abstract public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
     /**
@@ -42,17 +40,11 @@ abstract class AbstractPayment
      */
     abstract public static function _readableName(): string;
 
-    /**
-     * @param array     $args
-     */
     public function getReturnHTML(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write('ok');
     }
 
-    /**
-     * @param array     $args
-     */
     public function getStatus(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $p = Paylist::where('tradeno', $_POST['pid'])->first();
@@ -69,10 +61,10 @@ abstract class AbstractPayment
         $paylist = Paylist::where('tradeno', $pid)->first();
 
         if ($paylist->status === 1) {
-            return \json_encode(['errcode' => 0]);
+            return json_encode(['errcode' => 0]);
         }
 
-        $paylist->datetime = \time();
+        $paylist->datetime = time();
         $paylist->status = 1;
         $paylist->save();
 
@@ -81,8 +73,8 @@ abstract class AbstractPayment
         if ($paylist->invoice_id !== 0) {
             $invoice = Invoice::where('id', $paylist->invoice_id)->first();
             $invoice->status = 'paid_gateway';
-            $invoice->update_time = \time();
-            $invoice->pay_time = \time();
+            $invoice->update_time = time();
+            $invoice->pay_time = time();
             $invoice->save();
         } else {
             $user->money += $paylist->total;
@@ -123,8 +115,8 @@ abstract class AbstractPayment
     protected static function getActiveGateway($key)
     {
         $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
-        $active_gateways = \json_decode($payment_gateways->value);
-        if (\in_array($key, $active_gateways)) {
+        $active_gateways = json_decode($payment_gateways->value);
+        if (in_array($key, $active_gateways)) {
             return true;
         }
         return false;

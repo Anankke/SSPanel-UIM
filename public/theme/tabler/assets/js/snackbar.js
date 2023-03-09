@@ -21,7 +21,7 @@
 					'-webkit-transform': str,
 					'transform': str
 				});
-			};
+			}
 		};
 
 		Snackbar.prototype.hide = function () {
@@ -49,7 +49,7 @@
 
 			if (!$('.snackbar').length) {
 				$(document.body).append('<div class="snackbar"></div>');
-			};
+			}
 
 			this.$element.appendTo('.snackbar').show().addClass(function () {
 				that.$element.on('click', '[data-dismiss="snackbar"]', function () {
@@ -96,13 +96,13 @@
 					} else {
 						$this.data('bs.snackbar', (data = new Snackbar(options)));
 						data.show();
-					};
+					}
 				} else if (!$('.snackbar-inner').length) {
 					$this.data('bs.snackbar', (data = new Snackbar(options)));
 					data.show();
-				};
+				}
 			});
-		};
+		}
 
 		var old = $.fn.snackbar;
 

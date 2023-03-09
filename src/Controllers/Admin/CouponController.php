@@ -9,13 +9,17 @@ use App\Models\UserCoupon;
 use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function in_array;
+use function json_decode;
+use function json_encode;
+use function time;
 
 /*
  *  Coupon Controller
  */
 final class CouponController extends BaseController
 {
-    public static $details = [
+    public static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '优惠码ID',
@@ -87,8 +91,6 @@ final class CouponController extends BaseController
 
     /**
      * 后台优惠码页面
-     *
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args)
     {
@@ -101,8 +103,6 @@ final class CouponController extends BaseController
 
     /**
      * 添加优惠码
-     *
-     * @param array     $args
      */
     public function add(ServerRequest $request, Response $response, array $args)
     {
@@ -115,7 +115,7 @@ final class CouponController extends BaseController
         $generate_method = $request->getParam('generate_method');
         $expire_time = $request->getParam('expire_time');
 
-        if ($code === '' && \in_array($generate_method, ['char', 'char_ramdom'])) {
+        if ($code === '' && in_array($generate_method, ['char', 'char_ramdom'])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码不能为空',
@@ -136,7 +136,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        if ($expire_time !== '' && $expire_time < \time()) {
+        if ($expire_time !== '' && $expire_time < time()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '到期时间不能小于当前时间',
@@ -153,7 +153,7 @@ final class CouponController extends BaseController
         }
 
         if ($generate_method === 'char_random') {
-            $code .= Tools::genRandomChar(8);
+            $code .= Tools::genRandomChar();
 
             if (UserCoupon::where('code', $code)->count() !== 0) {
                 return $response->withJson([
@@ -164,7 +164,7 @@ final class CouponController extends BaseController
         }
 
         if ($generate_method === 'random') {
-            $code = Tools::genRandomChar(8);
+            $code = Tools::genRandomChar();
 
             if (UserCoupon::where('code', $code)->count() !== 0) {
                 return $response->withJson([
@@ -188,9 +188,9 @@ final class CouponController extends BaseController
 
         $coupon = new UserCoupon();
         $coupon->code = $code;
-        $coupon->content = \json_encode($content);
-        $coupon->limit = \json_encode($limit);
-        $coupon->create_time = \time();
+        $coupon->content = json_encode($content);
+        $coupon->limit = json_encode($limit);
+        $coupon->create_time = time();
         if ($expire_time !== '') {
             $coupon->expire_time = $expire_time;
         } else {
@@ -218,9 +218,9 @@ final class CouponController extends BaseController
     {
         $coupon_id = $args['id'];
         $coupon = UserCoupon::find($coupon_id)->first();
-        $limit = \json_decode($coupon->limit);
+        $limit = json_decode($coupon->limit);
         $limit->disabled = 1;
-        $coupon->limit = \json_encode($limit);
+        $coupon->limit = json_encode($limit);
         $coupon->save();
         return $response->withJson([
             'ret' => 1,
@@ -230,15 +230,13 @@ final class CouponController extends BaseController
 
     /**
      * 后台商品优惠码页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajax(ServerRequest $request, Response $response, array $args)
     {
         $coupons = UserCoupon::orderBy('id', 'desc')->get();
         foreach ($coupons as $coupon) {
-            $content = \json_decode($coupon->content);
-            $limit = \json_decode($coupon->limit);
+            $content = json_decode($coupon->content);
+            $limit = json_decode($coupon->limit);
             if ($limit->disabled === 1) {
                 $coupon->op = '<button type="button" class="btn btn-red" id="delete-coupon-' . $coupon->id . '" 
                 onclick="deleteCoupon(' . $coupon->id . ')">删除</button>';

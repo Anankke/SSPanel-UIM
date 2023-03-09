@@ -11,6 +11,10 @@ use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
+use Stripe\StripeClient;
+use function json_decode;
 
 final class StripeCard extends AbstractPayment
 {
@@ -53,8 +57,8 @@ final class StripeCard extends AbstractPayment
 
         $exchange_amount = $price / self::exchange($configs['stripe_currency']) * 100;
 
-        \Stripe\Stripe::setApiKey($configs['stripe_sk']);
-        $session = \Stripe\Checkout\Session::create([
+        Stripe::setApiKey($configs['stripe_sk']);
+        $session = Session::create([
             'customer_email' => $user->email,
             'line_items' => [[
                 'price_data' => [
@@ -96,7 +100,7 @@ final class StripeCard extends AbstractPayment
             die('error_sign');
         }
 
-        $stripe = new \Stripe\StripeClient(Setting::obtain('stripe_sk'));
+        $stripe = new StripeClient(Setting::obtain('stripe_sk'));
         $session = $stripe->checkout->sessions->retrieve($session_id, []);
 
         if ($session->payment_status === 'paid') {
@@ -113,7 +117,7 @@ final class StripeCard extends AbstractPayment
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        $currency = \json_decode(curl_exec($ch));
+        $currency = json_decode(curl_exec($ch));
         curl_close($ch);
 
         return $currency->rates->CNY;

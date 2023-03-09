@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Services\Mail;
 
 use App\Models\Setting;
+use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 final class Smtp extends Base
 {
-    private $mail;
+    private PHPMailer $mail;
 
     public function __construct()
     {
@@ -50,7 +51,7 @@ final class Smtp extends Base
         }
 
         if (! $mail->send()) {
-            throw new \Exception($mail->ErrorInfo);
+            throw new Exception($mail->ErrorInfo);
         }
     }
 }

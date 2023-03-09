@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Command;
 
 use Exception;
+use GuzzleHttp\Client;
+use function json_decode;
+use function json_encode;
+use function time;
 
 /**
  * 世界这么大，何必要让它更艰难呢？
@@ -13,14 +17,14 @@ use Exception;
  */
 final class ClientDownload extends Command
 {
-    public $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
+    public string $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
 
     private $client;
 
     /**
      * 保存基本路径
      */
-    private $basePath = BASE_PATH . '/';
+    private string $basePath = BASE_PATH . '/';
 
     /**
      * 下载配置
@@ -29,14 +33,14 @@ final class ClientDownload extends Command
 
     public function boot(): void
     {
-        $this->client = new \GuzzleHttp\Client();
+        $this->client = new Client();
         $this->version = $this->getLocalVersions();
         $clientsPath = BASE_PATH . '/config/clients.json';
         if (! is_file($clientsPath)) {
             echo 'clients.json 不存在，脚本中止.' . PHP_EOL;
             exit(0);
         }
-        $clients = \json_decode(file_get_contents($clientsPath), true);
+        $clients = json_decode(file_get_contents($clientsPath), true);
         foreach ($clients['clients'] as $client) {
             $this->getSoft($client);
         }
@@ -77,7 +81,7 @@ final class ClientDownload extends Command
     {
         $url = 'https://api.github.com/repos/' . $repo . '/releases/latest' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
-        return (string) \json_decode(
+        return (string) json_decode(
             $request->getBody()->getContents(),
             true
         )['tag_name'];
@@ -90,7 +94,7 @@ final class ClientDownload extends Command
     {
         $url = 'https://api.github.com/repos/' . $repo . '/releases' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
-        $latest = \json_decode(
+        $latest = json_decode(
             $request->getBody()->getContents(),
             true
         )[0];
@@ -105,7 +109,7 @@ final class ClientDownload extends Command
         $request = $this->client->get($url);
         preg_match('#(?<=\<span\sitemprop="version">)[^<]+#', $request->getBody()->getContents(), $tagName);
         preg_match('#[\d\.]+#', $tagName[0], $tagNum);
-        return (string) $tagNum[0];
+        return $tagNum[0];
     }
 
     /**
@@ -113,7 +117,7 @@ final class ClientDownload extends Command
      */
     private function isJson(string $string): bool
     {
-        return \json_decode($string, true) !== false;
+        return json_decode($string, true) !== false;
     }
 
     /**
@@ -129,9 +133,9 @@ final class ClientDownload extends Command
             echo '本地软体版本库 LocalClientVersion.json 不存在，创建文件中...' . PHP_EOL;
             $result = file_put_contents(
                 $filePath,
-                \json_encode(
+                json_encode(
                     [
-                        'createTime' => \time(),
+                        'createTime' => time(),
                     ]
                 )
             );
@@ -145,19 +149,19 @@ final class ClientDownload extends Command
             echo 'LocalClientVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
             exit(0);
         }
-        return \json_decode($fileContent, true);
+        return json_decode($fileContent, true);
     }
 
     /**
      * 储存本地软体版本库
      */
-    private function setLocalVersions(array $versions): bool
+    private function setLocalVersions(array $versions): void
     {
         $fileName = 'LocalClientVersion.json';
         $filePath = BASE_PATH . '/storage/' . $fileName;
-        return (bool) file_put_contents(
+        (bool) file_put_contents(
             $filePath,
-            \json_encode(
+            json_encode(
                 $versions
             )
         );

@@ -10,6 +10,10 @@ use App\Models\UserSubscribeLog;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
+use function array_key_exists;
+use function array_merge;
+use function in_array;
+use function json_decode;
 
 /**
  *  SubController
@@ -42,7 +46,7 @@ final class SubController extends BaseController
         }
 
         $subtype_list = ['json', 'clash', 'sip008'];
-        if (! \in_array($subtype, $subtype_list)) {
+        if (! in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -96,9 +100,9 @@ final class SubController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            $node_custom_config = json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! \array_key_exists('server_user', $node_custom_config)) {
+            if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
@@ -133,7 +137,7 @@ final class SubController extends BaseController
                     $host = $node_custom_config['host'] ?? '';
                     $servicename = $node_custom_config['servicename'] ?? '';
                     $path = $node_custom_config['path'] ?? '/';
-                    $tls = \in_array($security, ['tls', 'xtls']) ? '1' : '0';
+                    $tls = in_array($security, ['tls', 'xtls']) ? '1' : '0';
                     $enable_vless = $node_custom_config['enable_vless'] ?? '0';
                     $node = [
                         'name' => $node_raw->name,
@@ -161,9 +165,9 @@ final class SubController extends BaseController
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                    $security = $node_custom_config['security'] ?? \array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
+                    $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
                     $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport'] ?? \array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                    $transport = $node_custom_config['transport'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
 
                     $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                     $transport_method = $node_custom_config['transport_method'] ?? '';
@@ -223,9 +227,9 @@ final class SubController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            $node_custom_config = json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! \array_key_exists('server_user', $node_custom_config)) {
+            if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
@@ -258,7 +262,7 @@ final class SubController extends BaseController
                     $network = $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
-                    $tls = \in_array($security, ['tls', 'xtls']) ? true : false;
+                    $tls = in_array($security, ['tls', 'xtls']);
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
                     $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
@@ -288,7 +292,7 @@ final class SubController extends BaseController
                     break;
                 case '14':
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    $network = $node_custom_config['network'] ?? \array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                    $network = $node_custom_config['network'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     // Clash 特定配置
@@ -333,7 +337,7 @@ final class SubController extends BaseController
             'proxies' => $nodes,
         ];
 
-        return Yaml::dump(\array_merge($clash, $clash_config), 3, 1);
+        return Yaml::dump(array_merge($clash, $clash_config), 3, 1);
     }
 
     // SIP008 SS 订阅

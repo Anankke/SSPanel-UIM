@@ -11,10 +11,11 @@ use App\Utils\QQWry;
 use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 final class IpController extends BaseController
 {
-    public static $login_details =
+    public static array $login_details =
     [
         'field' => [
             'id' => '事件ID',
@@ -27,7 +28,7 @@ final class IpController extends BaseController
         ],
     ];
 
-    public static $ip_details =
+    public static array $ip_details =
     [
         'field' => [
             'id' => '事件ID',
@@ -43,8 +44,6 @@ final class IpController extends BaseController
 
     /**
      * 后台登录记录页面
-     *
-     * @param array     $args
      */
     public function login(ServerRequest $request, Response $response, array $args)
     {
@@ -57,8 +56,6 @@ final class IpController extends BaseController
 
     /**
      * 后台登录记录页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajaxLogin(ServerRequest $request, Response $response, array $args)
     {
@@ -87,8 +84,6 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面
-     *
-     * @param array     $args
      */
     public function alive(ServerRequest $request, Response $response, array $args)
     {
@@ -101,8 +96,6 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajaxAlive(ServerRequest $request, Response $response, array $args)
     {
@@ -110,8 +103,8 @@ final class IpController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $alives = Ip::where('datetime', '>=', \time() - 60)->orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = count(Ip::where('datetime', '>=', \time() - 60)->orderBy('id', 'desc')->get());
+        $alives = Ip::where('datetime', '>=', time() - 60)->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = count(Ip::where('datetime', '>=', time() - 60)->orderBy('id', 'desc')->get());
 
         $QQWry = new QQWry();
         foreach ($alives as $alive) {

@@ -15,8 +15,6 @@ final class LogController extends BaseController
 {
     /**
      * 订阅记录
-     *
-     * @param array    $args
      */
     public function subscribe(ServerRequest $request, Response $response, array $args)
     {
@@ -28,9 +26,6 @@ final class LogController extends BaseController
             ->fetch('user/subscribe/log.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function detect(ServerRequest $request, Response $response, array $args)
     {
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();

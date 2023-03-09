@@ -11,21 +11,21 @@ use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function json_decode;
+use function json_encode;
+use function time;
 
 final class NodeController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function saveReport(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
-        $result = \json_decode(base64_decode($content), true);
+        $result = json_decode(base64_decode($content), true);
         $report = new StreamMedia();
         $report->node_id = $node_id;
-        $report->result = \json_encode($result);
-        $report->created_at = \time();
+        $report->result = json_encode($result);
+        $report->created_at = time();
         $report->save();
 
         return $response->withJson([
@@ -34,9 +34,6 @@ final class NodeController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function info(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withJson([
@@ -45,9 +42,6 @@ final class NodeController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
@@ -58,7 +52,7 @@ final class NodeController extends BaseController
             ];
             return $response->withJson($res);
         }
-        if (\in_array($node->sort, [0])) {
+        if ($node->sort === 0) {
             $node_explode = explode(';', $node->server);
             $node_server = $node_explode[0];
         } else {
@@ -72,7 +66,7 @@ final class NodeController extends BaseController
             'mu_only' => $node->mu_only,
             'sort' => $node->sort,
             'server' => $node_server,
-            'custom_config' => \json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
+            'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => 'SSPanel-UIM',
             'version' => VERSION,
         ];
@@ -83,9 +77,6 @@ final class NodeController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getAllInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withJson([

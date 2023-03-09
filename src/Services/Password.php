@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\PasswordReset;
 use App\Utils\Tools;
 use Exception;
+use function time;
 
 final class Password
 {
@@ -14,8 +15,8 @@ final class Password
     {
         $pwdRst = new PasswordReset();
         $pwdRst->email = $email;
-        $pwdRst->init_time = \time();
-        $pwdRst->expire_time = \time() + 3600 * 24;
+        $pwdRst->init_time = time();
+        $pwdRst->expire_time = time() + 3600 * 24;
         $pwdRst->token = Tools::genRandomChar(64);
         if (! $pwdRst->save()) {
             return false;
@@ -29,8 +30,7 @@ final class Password
                 'password/reset.tpl',
                 [
                     'resetUrl' => $resetUrl,
-                ],
-                []
+                ]
             );
         } catch (Exception $e) {
             return false;

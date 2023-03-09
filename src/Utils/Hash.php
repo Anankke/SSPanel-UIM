@@ -4,8 +4,24 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use function in_array;
+use function password_hash;
+
 final class Hash
 {
+    public static function cookieHash($passHash, $expire_in)
+    {
+        return substr(\hash('sha256', $passHash . $_ENV['key'] . $expire_in), 5, 45);
+    }
+
+    public static function checkPassword($hashedPassword, $password)
+    {
+        if (in_array($_ENV['pwdMethod'], ['bcrypt', 'argon2i', 'argon2id'])) {
+            return password_verify($password, $hashedPassword);
+        }
+        return $hashedPassword === self::passwordHash($password);
+    }
+
     public static function passwordHash($pass)
     {
         $method = $_ENV['pwdMethod'];
@@ -14,21 +30,14 @@ final class Hash
                 return self::md5WithSalt($pass);
             case 'sha256':
                 return self::sha256WithSalt($pass);
-            case 'bcrypt':
-                return \password_hash($pass, PASSWORD_BCRYPT);
             case 'argon2i':
-                return \password_hash($pass, PASSWORD_ARGON2I);
+                return password_hash($pass, PASSWORD_ARGON2I);
             case 'argon2id':
-                return \password_hash($pass, PASSWORD_ARGON2ID);
+                return password_hash($pass, PASSWORD_ARGON2ID);
 
             default:
-                return \password_hash($pass, PASSWORD_BCRYPT);
+                return password_hash($pass, PASSWORD_BCRYPT);
         }
-    }
-
-    public static function cookieHash($passHash, $expire_in)
-    {
-        return substr(\hash('sha256', $passHash . $_ENV['key'] . $expire_in), 5, 45);
     }
 
     public static function md5WithSalt($pwd)
@@ -41,13 +50,5 @@ final class Hash
     {
         $salt = $_ENV['salt'];
         return \hash('sha256', $pwd . $salt);
-    }
-
-    public static function checkPassword($hashedPassword, $password)
-    {
-        if (\in_array($_ENV['pwdMethod'], ['bcrypt', 'argon2i', 'argon2id'])) {
-            return password_verify($password, $hashedPassword);
-        }
-        return $hashedPassword === self::passwordHash($password);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Slim\Http\ServerRequest;
 
 abstract class Model extends EloquentModel
 {
@@ -31,7 +32,7 @@ abstract class Model extends EloquentModel
      *  'count' => int
      * ]
      */
-    public static function getTableDataFromAdmin(\Slim\Http\ServerRequest $request, ?callable $callback = null, ?callable $precondition = null): array
+    public static function getTableDataFromAdmin(ServerRequest $request, ?callable $callback = null, ?callable $precondition = null): array
     {
         //得到排序的方式
         $order = $request->getParam('order')[0]['dir'];

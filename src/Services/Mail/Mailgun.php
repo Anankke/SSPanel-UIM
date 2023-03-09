@@ -9,10 +9,10 @@ use Mailgun\Mailgun as MailgunService;
 
 final class Mailgun extends Base
 {
-    private $config;
-    private $mg;
-    private $domain;
-    private $sender;
+    private array $config;
+    private MailgunService $mg;
+    private mixed $domain;
+    private mixed $sender;
 
     public function __construct()
     {

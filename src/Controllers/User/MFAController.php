@@ -14,9 +14,6 @@ use Vectorface\GoogleAuthenticator;
  */
 final class MFAController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function checkGa(ServerRequest $request, Response $response, array $args)
     {
         $code = $request->getParam('code');
@@ -41,9 +38,6 @@ final class MFAController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function setGa(ServerRequest $request, Response $response, array $args)
     {
         $enable = $request->getParam('enable');
@@ -62,9 +56,6 @@ final class MFAController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetGa(ServerRequest $request, Response $response, array $args)
     {
         $ga = new GoogleAuthenticator();

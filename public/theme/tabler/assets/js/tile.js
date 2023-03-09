@@ -9,16 +9,16 @@
 
 			if (this.options.parent) {
 				this.$parent = this.getParent();
-			};
+			}
 
 			if (this.options.toggle) {
 				this.toggle();
-			};
+			}
 		};
 
 		if (!$.fn.collapse) {
 			throw new Error('Menu requires Bootstrap collapse.js');
-		};
+		}
 
 		Tile.DEFAULTS = {
 			keyboard: true,
@@ -35,13 +35,13 @@
 				}, this));
 			} else if (!this.$element.hasClass('in')) {
 				this.$element.off('keydown.dismiss.bs.tile');
-			};
+			}
 		};
 
 		Tile.prototype.hide = function () {
 			if (this.transitioning || !this.$element.hasClass('in')) {
 				return;
-			};
+			}
 
 			var startEvent = $.Event('hide.bs.tile');
 
@@ -49,7 +49,7 @@
 
 			if (startEvent.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			var dimension = this.dimension();
 
@@ -69,7 +69,7 @@
 
 			if (!$.support.transition) {
 				return complete.call(this);
-			};
+			}
 
 			this.$element[dimension](0).one('bsTransitionEnd', $.proxy(complete, this)).emulateTransitionEnd(Tile.TRANSITION_DURATION);
 		};
@@ -77,7 +77,7 @@
 		Tile.prototype.show = function () {
 			if (this.transitioning || this.$element.hasClass('in')) {
 				return;
-			};
+			}
 
 			var actives = this.$parent && this.$parent.find('.tile-collapse').children('.in, .collapsing');
 			var activesData;
@@ -86,8 +86,8 @@
 				activesData = actives.data('bs.tile');
 				if (activesData && activesData.transitioning) {
 					return;
-				};
-			};
+				}
+			}
 
 			var startEvent = $.Event('show.bs.tile');
 
@@ -95,12 +95,12 @@
 
 			if (startEvent.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			if (actives && actives.length) {
 				Plugin.call(actives, 'hide');
 				activesData || actives.data('bs.tile', null);
-			};
+			}
 
 			var dimension = this.dimension();
 
@@ -119,7 +119,7 @@
 
 			if (!$.support.transition) {
 				return complete.call(this);
-			};
+			}
 
 			var scrollSize = $.camelCase(['scroll', dimension].join('-'));
 
@@ -131,7 +131,7 @@
 			var target = $trigger.attr('data-target') || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '');
 
 			return $(target);
-		};
+		}
 
 		function Plugin(option) {
 			return this.each(function () {
@@ -141,17 +141,17 @@
 
 				if (!data && options.toggle && /show|hide/.test(option)) {
 					options.toggle = false;
-				};
+				}
 
 				if (!data) {
 					$this.data('bs.tile', (data = new Tile(this, options)));
-				};
+				}
 
 				if (typeof option == 'string') {
 					data[option]();
-				};
+				}
 			})
-		};
+		}
 
 		var old = $.fn.tile;
 
@@ -169,13 +169,13 @@
 			if (!$(e.target).is('[data-ignore="tile"], [data-ignore="tile"] *')) {
 				if (!$this.attr('data-target')) {
 					e.preventDefault();
-				};
+				}
 
 				var $target = getTargetFromTrigger($this);
 				var data    = $target.data('bs.tile');
 				var option  = data ? 'toggle' : $this.data();
 
 				Plugin.call($target, option);
-			};
+			}
 		});
 	}(jQuery));

@@ -12,6 +12,8 @@ use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function json_decode;
+use function time;
 
 final class InvoiceController extends BaseController
 {
@@ -58,7 +60,7 @@ final class InvoiceController extends BaseController
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content);
+        $invoice_content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -97,8 +99,8 @@ final class InvoiceController extends BaseController
         $user->save();
 
         $invoice->status = 'paid_balance';
-        $invoice->update_time = \time();
-        $invoice->pay_time = \time();
+        $invoice->update_time = time();
+        $invoice->pay_time = time();
         $invoice->save();
 
         return $response->withJson([

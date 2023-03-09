@@ -119,7 +119,7 @@
                     }
                 })
             });
-        };
+        }
 
         function copyProduct(product_id) {
             $('#notice-message').text('确定复制此产品？');
@@ -141,7 +141,7 @@
                     }
                 })
             });
-        };
+        }
 
         function reloadTableAjax() {
             table.ajax.reload(null, false);

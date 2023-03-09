@@ -16,9 +16,6 @@ use Slim\Http\ServerRequest;
  */
 final class ServerController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function userServerPage(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;

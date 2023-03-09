@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Utils\Telegram\Reply;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function json_encode;
 
 /**
  * Class MyCommand.
@@ -96,7 +97,7 @@ final class MyCommand extends Command
                 'text' => $text,
                 'parse_mode' => 'Markdown',
                 'reply_to_message_id' => $MessageID,
-                'reply_markup' => \json_encode(
+                'reply_markup' => json_encode(
                     [
                         'inline_keyboard' => [
                             [

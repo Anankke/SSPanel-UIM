@@ -15,7 +15,7 @@ use Slim\Http\ServerRequest;
 
 final class DetectController extends BaseController
 {
-    public static $rule_details =
+    public static array $rule_details =
     [
         'field' => [
             'op' => '操作',
@@ -56,7 +56,7 @@ final class DetectController extends BaseController
         ],
     ];
 
-    public static $log_details =
+    public static array $log_details =
     [
         'field' => [
             'id' => '事件ID',
@@ -73,7 +73,7 @@ final class DetectController extends BaseController
         ],
     ];
 
-    public static $ban_details =
+    public static array $ban_details =
     [
         'field' => [
             'id' => '事件ID',
@@ -141,7 +141,7 @@ final class DetectController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$log_details)
-                ->fetch('admin/log/detect_log.tpl')
+                ->fetch('admin/log/detect.tpl')
         );
     }
 

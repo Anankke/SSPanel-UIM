@@ -12,9 +12,6 @@ use Slim\Http\ServerRequest;
 
 final class ApiController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function getNodeList(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withJson([
@@ -23,9 +20,6 @@ final class ApiController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getNodeInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node = Node::find($args['id']);
@@ -36,9 +30,6 @@ final class ApiController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function ping(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withJson([

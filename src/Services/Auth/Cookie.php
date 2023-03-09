@@ -8,13 +8,14 @@ use App\Models\Node;
 use App\Models\User;
 use App\Utils;
 use App\Utils\Hash;
+use function time;
 
 final class Cookie extends Base
 {
     public function login($uid, $time): void
     {
         $user = User::find($uid);
-        $expire_in = $time + \time();
+        $expire_in = $time + time();
         $key = Hash::cookieHash($user->pass, $expire_in);
         Utils\Cookie::set([
             'uid' => strval($uid),
@@ -40,7 +41,7 @@ final class Cookie extends Base
             return $user;
         }
 
-        if ($expire_in < \time()) {
+        if ($expire_in < time()) {
             return $user;
         }
 
@@ -75,7 +76,7 @@ final class Cookie extends Base
 
     public function logout(): void
     {
-        $time = \time() - 1000;
+        $time = time() - 1000;
         Utils\Cookie::set([
             'uid' => '',
             'email' => '',

@@ -13,6 +13,9 @@ use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function json_decode;
+use function json_encode;
+use function time;
 
 final class OrderController extends BaseController
 {
@@ -51,7 +54,7 @@ final class OrderController extends BaseController
 
         $product = Product::where('id', $product_id)->first();
 
-        $product->content = \json_decode($product->content);
+        $product->content = json_decode($product->content);
 
         return $response->write(
             $this->view()
@@ -76,14 +79,14 @@ final class OrderController extends BaseController
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
-        $product_content = \json_decode($order->product_content);
+        $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
         $invoice->status = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content);
+        $invoice_content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -130,14 +133,14 @@ final class OrderController extends BaseController
                 ]);
             }
 
-            if ($coupon->expire_time < \time()) {
+            if ($coupon->expire_time < time()) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '优惠码无效',
                 ]);
             }
 
-            $coupon_limit = \json_decode($coupon->limit);
+            $coupon_limit = json_decode($coupon->limit);
 
             if ((int) $coupon_limit->disabled === 1) {
                 return $response->withJson([
@@ -168,7 +171,7 @@ final class OrderController extends BaseController
                 }
             }
 
-            $content = \json_decode($coupon->content);
+            $content = json_decode($coupon->content);
 
             if ($content->type === 'percentage') {
                 $discount = $product->price * $content->value / 100;
@@ -179,7 +182,7 @@ final class OrderController extends BaseController
             $buy_price = $product->price - $discount;
         }
 
-        $product_limit = \json_decode($product->limit);
+        $product_limit = json_decode($product->limit);
 
         if ($product_limit->class_required !== '') {
             if ($user->class < $product_limit->class_required) {
@@ -218,8 +221,8 @@ final class OrderController extends BaseController
         $order->coupon = $coupon_raw;
         $order->price = $buy_price;
         $order->status = 'pending_payment';
-        $order->create_time = \time();
-        $order->update_time = \time();
+        $order->create_time = time();
+        $order->update_time = time();
         $order->save();
 
         $invoice_content = [];
@@ -241,11 +244,11 @@ final class OrderController extends BaseController
         $invoice = new Invoice();
         $invoice->user_id = $user->id;
         $invoice->order_id = $order->id;
-        $invoice->content = \json_encode($invoice_content);
+        $invoice->content = json_encode($invoice_content);
         $invoice->price = $buy_price;
         $invoice->status = 'unpaid';
-        $invoice->create_time = \time();
-        $invoice->update_time = \time();
+        $invoice->create_time = time();
+        $invoice->update_time = time();
         $invoice->pay_time = 0;
         $invoice->save();
 

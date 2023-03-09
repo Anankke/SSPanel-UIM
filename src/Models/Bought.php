@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function time;
+
 /**
  * Bought Model
  *
@@ -112,7 +114,7 @@ final class Bought extends Model
      */
     public function usedDays(): int
     {
-        return (int) ((\time() - $this->datetime) / 86400);
+        return (int) ((time() - $this->datetime) / 86400);
     }
 
     /*
@@ -122,7 +124,7 @@ final class Bought extends Model
     {
         $shop = $this->shop();
         if ($shop->useLoop()) {
-            return \time() - $shop->resetExp() * 86400 < $this->datetime;
+            return time() - $shop->resetExp() * 86400 < $this->datetime;
         }
         return false;
     }
@@ -135,9 +137,9 @@ final class Bought extends Model
         $shop = $this->shop();
         if ($shop->useLoop()) {
             $day = 24 * 60 * 60;
-            $resetIndex = 1 + (int) ((\time() - $this->datetime - $day) / ($shop->reset() * $day));
+            $resetIndex = 1 + (int) ((time() - $this->datetime - $day) / ($shop->reset() * $day));
             $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
-            $time = \time() + ($day * 86400);
+            $time = time() + ($day * 86400);
             return ! $unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', (int) $restTime)))) : $time;
         }
         return ! $unix ? '-' : 0;

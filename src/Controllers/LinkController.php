@@ -9,6 +9,10 @@ use App\Models\Node;
 use App\Models\UserSubscribeLog;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_key_exists;
+use function base64_encode;
+use function json_decode;
+use function json_encode;
 
 /**
  *  LinkController
@@ -69,10 +73,6 @@ final class LinkController extends BaseController
 
         if (isset($params['sub'])) {
             switch ($params['sub']) {
-                case '2':
-                    $sub_type = 'ss';
-                    $sub_info = self::getSS($user);
-                    break;
                 case '3':
                     $sub_type = 'v2ray';
                     $sub_info = self::getV2Ray($user);
@@ -117,18 +117,16 @@ final class LinkController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            $node_custom_config = json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! \array_key_exists('server_user', $node_custom_config)) {
+            if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            switch ($node_raw->sort) {
-                case '0':
-                    $links .= \base64_encode($user->method . ':' . $user->passwd . '@' . $server . ':' . $user->port) . '#' .
+            if ($node_raw->sort === '0') {
+                $links .= base64_encode($user->method . ':' . $user->passwd . '@' . $server . ':' . $user->port) . '#' .
                     $node_raw->name . PHP_EOL;
-                    break;
             }
         }
 
@@ -149,22 +147,20 @@ final class LinkController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            $node_custom_config = json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! \array_key_exists('server_user', $node_custom_config)) {
+            if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            switch ($node_raw->sort) {
-                case '0':
-                    $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin_option = $node_custom_config['plugin_option'] ?? '';
+            if ($node_raw->sort === '0') {
+                $plugin = $node_custom_config['plugin'] ?? '';
+                $plugin_option = $node_custom_config['plugin_option'] ?? '';
 
-                    $links .= $user->method . ':' . $user->passwd . '@' . $server . ':' .
+                $links .= $user->method . ':' . $user->passwd . '@' . $server . ':' .
                     $user->port . '/?plugin=' . $plugin . '&' . $plugin_option . '#' .
                     $node_raw->name . PHP_EOL;
-                    break;
             }
         }
 
@@ -184,41 +180,39 @@ final class LinkController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            $node_custom_config = json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! \array_key_exists('server_user', $node_custom_config)) {
+            if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            switch ($node_raw->sort) {
-                case '11':
-                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    //默認值有問題的請懂 V2 怎麽用的人來改一改。
-                    $alter_id = $node_custom_config['alter_id'] ?? '0';
-                    $security = $node_custom_config['security'] ?? 'none';
-                    $network = $node_custom_config['network'] ?? '';
-                    $header = $node_custom_config['header'] ?? ['type' => 'none'];
-                    $header_type = $header['type'] ?? '';
-                    $host = $node_custom_config['host'] ?? '';
-                    $path = $node_custom_config['path'] ?? '/';
+            if ($node_raw->sort === '11') {
+                $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                //默認值有問題的請懂 V2 怎麽用的人來改一改。
+                $alter_id = $node_custom_config['alter_id'] ?? '0';
+                $security = $node_custom_config['security'] ?? 'none';
+                $network = $node_custom_config['network'] ?? '';
+                $header = $node_custom_config['header'] ?? ['type' => 'none'];
+                $header_type = $header['type'] ?? '';
+                $host = $node_custom_config['host'] ?? '';
+                $path = $node_custom_config['path'] ?? '/';
 
-                    $v2rayn_array = [
-                        'v' => '2',
-                        'ps' => $node_raw->name,
-                        'add' => $server,
-                        'port' => $v2_port,
-                        'id' => $user->uuid,
-                        'aid' => $alter_id,
-                        'net' => $network,
-                        'type' => $header_type,
-                        'host' => $host,
-                        'path' => $path,
-                        'tls' => $security,
-                    ];
+                $v2rayn_array = [
+                    'v' => '2',
+                    'ps' => $node_raw->name,
+                    'add' => $server,
+                    'port' => $v2_port,
+                    'id' => $user->uuid,
+                    'aid' => $alter_id,
+                    'net' => $network,
+                    'type' => $header_type,
+                    'host' => $host,
+                    'path' => $path,
+                    'tls' => $security,
+                ];
 
-                    $links .= 'vmess://' . \base64_encode(\json_encode($v2rayn_array)) . PHP_EOL;
-                    break;
+                $links .= 'vmess://' . base64_encode(json_encode($v2rayn_array)) . PHP_EOL;
             }
         }
 
@@ -238,32 +232,30 @@ final class LinkController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            $node_custom_config = json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! \array_key_exists('server_user', $node_custom_config)) {
+            if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            switch ($node_raw->sort) {
-                case '14':
-                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    $host = $node_custom_config['host'] ?? '';
-                    $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                    $security = $node_custom_config['security'] ?? \array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
-                    $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport'] ?? \array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+            if ($node_raw->sort === '14') {
+                $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                $host = $node_custom_config['host'] ?? '';
+                $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
+                $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
+                $mux = $node_custom_config['mux'] ?? '';
+                $transport = $node_custom_config['transport'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
 
-                    $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
-                    $transport_method = $node_custom_config['transport_method'] ?? '';
-                    $servicename = $node_custom_config['servicename'] ?? '';
-                    $path = $node_custom_config['path'] ?? '';
+                $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
+                $transport_method = $node_custom_config['transport_method'] ?? '';
+                $servicename = $node_custom_config['servicename'] ?? '';
+                $path = $node_custom_config['path'] ?? '';
 
-                    $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni=' . $host .
+                $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni=' . $host .
                     '&obfs=' . $transport_plugin . '&path=' . $path . '&mux=' . $mux . '&allowInsecure=' . $allow_insecure .
                     '&obfsParam=' . $transport_method . '&type=' . $transport . '&security=' . $security . '&serviceName=' . $servicename . '#' .
                     $node_raw->name . PHP_EOL;
-                    break;
             }
         }
 

@@ -9,7 +9,7 @@ use Aws\Ses\SesClient;
 
 final class Ses extends Base
 {
-    private $ses;
+    private SesClient $ses;
 
     public function __construct()
     {

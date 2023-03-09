@@ -11,11 +11,12 @@ use App\Services\View;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function json_decode;
 
 final class PAYJS extends AbstractPayment
 {
-    private $appSecret;
-    private $gatewayUri;
+    private string|int|bool $appSecret;
+    private string|int|bool $gatewayUri;
 
     public function __construct()
     {
@@ -120,7 +121,7 @@ final class PAYJS extends AbstractPayment
         $data['payjs_order_id'] = $tradeNo;
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
-        return \json_decode($this->post($data, $type = 'query'), true);
+        return json_decode($this->post($data, $type = 'query'), true);
     }
     public function notify($request, $response, $args): ResponseInterface
     {

@@ -14,7 +14,7 @@ use Slim\Http\ServerRequest;
 
 final class AnnController extends BaseController
 {
-    public static $details =
+    public static array $details =
     [
         'field' => [
             'op' => '操作',
@@ -24,14 +24,12 @@ final class AnnController extends BaseController
         ],
     ];
 
-    public static $update_field = [
+    public static array $update_field = [
         'email_notify_class',
     ];
 
     /**
      * 后台公告页面
-     *
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args)
     {
@@ -44,8 +42,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台公告创建页面
-     *
-     * @param array     $args
      */
     public function create(ServerRequest $request, Response $response, array $args)
     {
@@ -58,8 +54,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台添加公告
-     *
-     * @param array     $args
      */
     public function add(ServerRequest $request, Response $response, array $args)
     {
@@ -112,8 +106,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台编辑公告页面
-     *
-     * @param array     $args
      */
     public function edit(ServerRequest $request, Response $response, array $args)
     {
@@ -127,8 +119,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台编辑公告提交
-     *
-     * @param array     $args
      */
     public function update(ServerRequest $request, Response $response, array $args)
     {
@@ -150,8 +140,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台删除公告
-     *
-     * @param array     $args
      */
     public function delete(ServerRequest $request, Response $response, array $args)
     {
@@ -170,8 +158,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台公告页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajax(ServerRequest $request, Response $response, array $args)
     {

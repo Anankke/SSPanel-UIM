@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use function in_array;
+
 final class Check
 {
     public static function isEmailLegal($email)
@@ -27,13 +29,13 @@ final class Check
                 return $res;
             case 1:
                 // 白名单
-                if (\in_array($mail_suffix, $mail_filter_list)) {
+                if (in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 }
                 return $res;
             case 2:
                 // 黑名单
-                if (! \in_array($mail_suffix, $mail_filter_list)) {
+                if (! in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 }
                 return $res;

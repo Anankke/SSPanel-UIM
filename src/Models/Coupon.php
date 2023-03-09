@@ -22,10 +22,8 @@ final class Coupon extends Model
 
         $shop_array = explode(',', $this->attributes['shop']);
 
-        foreach ($shop_array as $shopid) {
-            if ($shopid === $shop) {
-                return true;
-            }
+        if (in_array($shop, $shop_array, true)) {
+            return true;
         }
 
         return false;
