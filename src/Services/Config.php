@@ -31,8 +31,6 @@ final class Config
             'enable_telegram' => $_ENV['enable_telegram'],
             'telegram_bot' => $_ENV['telegram_bot'],
 
-            'enable_telegram_login' => $_ENV['enable_telegram_login'],
-
             'subscribeLog' => $_ENV['subscribeLog'],
             'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],
 
