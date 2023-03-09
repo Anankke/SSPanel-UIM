@@ -1,7 +1,7 @@
 /*! modernizr 3.6.0 (Custom Build) | MIT *
  * https://modernizr.com/download/?-touchevents-setclasses !*/
 
- !function(e,n,t){function o(e,n){return typeof e===n}function s(){var e,n,t,s,a,i,r;for(var l in c)if(c.hasOwnProperty(l)){if(e=[],n=c[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(s=o(n.fn,"function")?n.fn():n.fn,a=0;a<e.length;a++)i=e[a],r=i.split("."),1===r.length?Modernizr[r[0]]=s:(!Modernizr[r[0]]||Modernizr[r[0]]instanceof Boolean||(Modernizr[r[0]]=new Boolean(Modernizr[r[0]])),Modernizr[r[0]][r[1]]=s),f.push((s?"":"no-")+r.join("-"))}}function a(e){var n=p.className,t=Modernizr._config.classPrefix||"";if(h&&(n=n.baseVal),Modernizr._config.enableJSClass){var o=new RegExp("(^|\\s)"+t+"no-js(\\s|$)");n=n.replace(o,"$1"+t+"js$2")}Modernizr._config.enableClasses&&(n+=" "+t+e.join(" "+t),h?p.className.baseVal=n:p.className=n)}function i(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):h?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function r(){var e=n.body;return e||(e=i(h?"svg":"body"),e.fake=!0),e}function l(e,t,o,s){var a,l,f,c,d="modernizr",u=i("div"),h=r();if(parseInt(o,10))for(;o--;)f=i("div"),f.id=s?s[o]:d+(o+1),u.appendChild(f);return a=i("style"),a.type="text/css",a.id="s"+d,(h.fake?h:u).appendChild(a),h.appendChild(u),a.styleSheet?a.styleSheet.cssText=e:a.appendChild(n.createTextNode(e)),u.id=d,h.fake&&(h.style.background="",h.style.overflow="hidden",c=p.style.overflow,p.style.overflow="hidden",p.appendChild(h)),l=t(u,e),h.fake?(h.parentNode.removeChild(h),p.style.overflow=c,p.offsetHeight):u.parentNode.removeChild(u),!!l}var f=[],c=[],d={_version:"3.6.0",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){c.push({name:e,fn:n,options:t})},addAsyncTest:function(e){c.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=d,Modernizr=new Modernizr;var u=d._config.usePrefixes?" -webkit- -moz- -o- -ms- ".split(" "):["",""];d._prefixes=u;var p=n.documentElement,h="svg"===p.nodeName.toLowerCase(),m=d.testStyles=l;Modernizr.addTest("touchevents",function(){var t;if("ontouchstart"in e||e.DocumentTouch&&n instanceof DocumentTouch)t=!0;else{var o=["@media (",u.join("touch-enabled),("),"heartz",")","{#modernizr{top:9px;position:absolute}}"].join("");m(o,function(e){t=9===e.offsetTop})}return t}),s(),a(f),delete d.addTest,delete d.addAsyncTest;for(var v=0;v<Modernizr._q.length;v++)Modernizr._q[v]();e.Modernizr=Modernizr}(window,document);
+ !function(e,n,t){function o(e,n){return typeof e===n}function s(){var e,n,t,s,a,i,r;for(var l in c)if(c.hasOwnProperty(l)){if(e=[],n=c[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(s=o(n.fn,"function")?n.fn():n.fn,a=0;a<e.length;a++)i=e[a],r=i.split("."),1===r.length?Modernizr[r[0]]=s:(!Modernizr[r[0]]||Modernizr[r[0]]instanceof Boolean||(Modernizr[r[0]]=Boolean(Modernizr[r[0]])),Modernizr[r[0]][r[1]]=s),f.push((s?"":"no-")+r.join("-"))}}function a(e){var n=p.className,t=Modernizr._config.classPrefix||"";if(h&&(n=n.baseVal),Modernizr._config.enableJSClass){var o=new RegExp("(^|\\s)"+t+"no-js(\\s|$)");n=n.replace(o,"$1"+t+"js$2")}Modernizr._config.enableClasses&&(n+=" "+t+e.join(" "+t),h?p.className.baseVal=n:p.className=n)}function i(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):h?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function r(){var e=n.body;return e||(e=i(h?"svg":"body"),e.fake=!0),e}function l(e,t,o,s){var a,l,f,c,d="modernizr",u=i("div"),h=r();if(parseInt(o,10))for(;o--;)f=i("div"),f.id=s?s[o]:d+(o+1),u.appendChild(f);return a=i("style"),a.type="text/css",a.id="s"+d,(h.fake?h:u).appendChild(a),h.appendChild(u),a.styleSheet?a.styleSheet.cssText=e:a.appendChild(n.createTextNode(e)),u.id=d,h.fake&&(h.style.background="",h.style.overflow="hidden",c=p.style.overflow,p.style.overflow="hidden",p.appendChild(h)),l=t(u,e),h.fake?(h.parentNode.removeChild(h),p.style.overflow=c,p.offsetHeight):u.parentNode.removeChild(u),!!l}var f=[],c=[],d={_version:"3.6.0",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){c.push({name:e,fn:n,options:t})},addAsyncTest:function(e){c.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=d,Modernizr=new Modernizr;var u=d._config.usePrefixes?" -webkit- -moz- -o- -ms- ".split(" "):["",""];d._prefixes=u;var p=n.documentElement,h="svg"===p.nodeName.toLowerCase(),m=d.testStyles=l;Modernizr.addTest("touchevents",function(){var t;if("ontouchstart"in e||e.DocumentTouch&&n instanceof DocumentTouch)t=!0;else{var o=["@media (",u.join("touch-enabled),("),"heartz",")","{#modernizr{top:9px;position:absolute}}"].join("");m(o,function(e){t=9===e.offsetTop})}return t}),s(),a(f),delete d.addTest,delete d.addAsyncTest;for(var v=0;v<Modernizr._q.length;v++)Modernizr._q[v]();e.Modernizr=Modernizr}(window,document);
 
  /*!
  * bootstrap v3.3.5 (http://getbootstrap.com)
@@ -32,9 +32,9 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 							parent.addClass('control-highlight');
 						} else {
 							parent.removeClass('control-highlight');
-						};
-				};
-			};
+						}
+				}
+			}
 
 			return this;
 		};
@@ -105,7 +105,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 		if (!$.fn.modal) {
 			throw new Error('Menu requires Bootstrap modal.js');
-		};
+		}
 
 		Menu.DEFAULTS = $.extend({}, $.fn.modal.Constructor.DEFAULTS, {});
 		Menu.TRANSITION_DURATION = 300;
@@ -125,24 +125,24 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 					if (this.ignoreBackdropClick) {
 						this.ignoreBackdropClick = false;
 						return;
-					};
+					}
 
 					if (e.target !== e.currentTarget) {
 						return;
-					};
+					}
 
 					this.options.backdrop == 'static' ? this.$element[0].focus() : this.hide();
 				}, this));
 
 				if (doAnimate) {
 					this.$backdrop[0].offsetWidth;
-				};
+				}
 
 				this.$backdrop.addClass('in');
 
 				if (!callback) {
 					return;
-				};
+				}
 
 				doAnimate ? this.$backdrop.one('bsTransitionEnd', callback).emulateTransitionEnd(Menu.TRANSITION_DURATION_BACKDROP) : callback();
 			} else if (!this.isShown && this.$backdrop) {
@@ -156,7 +156,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				$.support.transition ? this.$backdrop.one('bsTransitionEnd', callbackRemove).emulateTransitionEnd(Menu.TRANSITION_DURATION_BACKDROP) : callbackRemove();
 			} else if (callback) {
 				callback();
-			};
+			}
 		};
 
 		Menu.prototype.hide = function (e) {
@@ -168,7 +168,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (!this.isShown || e.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			this.isShown = false;
 
@@ -201,7 +201,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (this.isShown || e.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			this.isShown = true;
 
@@ -213,7 +213,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				that.$element.one('mouseup.dismiss.bs.menu', function (e) {
 					if ($(e.target).is(that.$element)) {
 						that.ignoreBackdropClick = true;
-					};
+					}
 				});
 			});
 
@@ -222,13 +222,13 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 				if (!that.$element.parent().length) {
 					that.$element.appendTo(that.$body);
-				};
+				}
 
 				that.$element.show();
 
 				if (transition) {
 					that.$element[0].offsetWidth;
-				};
+				}
 
 				that.$element.addClass('in');
 
@@ -252,7 +252,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				if (typeof option == 'string') data[option](_relatedTarget);
 				else if (options.show) data.show(_relatedTarget);
 			});
-		};
+		}
 
 		var old = $.fn.menu;
 
@@ -277,7 +277,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 					return;
 				} else {
 					$target.attr('tabindex', '-1');
-				};
+				}
 
 				$target.one('hidden.bs.menu', function () {
 					$this.is(':visible') && $this.trigger('focus');
@@ -408,12 +408,12 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				open: function () {
 					if (!$('.picker__date-display', datepickerRoot).length) {
 						that.display(datepickerApi, datepickerRoot, 'highlight');
-					};
+					}
 				},
 				set: function () {
 					if (datepickerApi.get('select') !== null) {
 						that.display(datepickerApi, datepickerRoot, 'select');
-					};
+					}
 				}
 			});
 		};
@@ -426,11 +426,11 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 				if (!data) {
 					$this.data('bs.pickdate', (data = new Datepicker(this, options)));
-				};
+				}
 
 				data.show();
 			});
-		};
+		}
 
 		var old = $.fn.pickdate;
 
@@ -466,7 +466,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 					'-webkit-transform': str,
 					'transform': str
 				});
-			};
+			}
 		};
 
 		Snackbar.prototype.hide = function () {
@@ -494,7 +494,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (!$('.snackbar').length) {
 				$(document.body).append('<div class="snackbar"></div>');
-			};
+			}
 
 			this.$element.appendTo('.snackbar').show().addClass(function () {
 				that.$element.on('click', '[data-dismiss="snackbar"]', function () {
@@ -541,13 +541,13 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 					} else {
 						$this.data('bs.snackbar', (data = new Snackbar(options)));
 						data.show();
-					};
+					}
 				} else if (!$('.snackbar-inner').length) {
 					$this.data('bs.snackbar', (data = new Snackbar(options)));
 					data.show();
-				};
+				}
 			});
-		};
+		}
 
 		var old = $.fn.snackbar;
 
@@ -586,8 +586,8 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 					$thisNavIndicator.one('webkitTransitionEnd oTransitionEnd msTransitionEnd transitionend', function () {
 						$thisNavIndicator.removeClass('reverse');
 					});
-				};
-			};
+				}
+			}
 
 			$thisNavIndicator.addClass('animate').css({
 				left: (thisLeft - thisNavLeft),
@@ -623,16 +623,16 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (this.options.parent) {
 				this.$parent = this.getParent();
-			};
+			}
 
 			if (this.options.toggle) {
 				this.toggle();
-			};
+			}
 		};
 
 		if (!$.fn.collapse) {
 			throw new Error('Menu requires Bootstrap collapse.js');
-		};
+		}
 
 		Tile.DEFAULTS = {
 			keyboard: true,
@@ -649,13 +649,13 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				}, this));
 			} else if (!this.$element.hasClass('in')) {
 				this.$element.off('keydown.dismiss.bs.tile');
-			};
+			}
 		};
 
 		Tile.prototype.hide = function () {
 			if (this.transitioning || !this.$element.hasClass('in')) {
 				return;
-			};
+			}
 
 			var startEvent = $.Event('hide.bs.tile');
 
@@ -663,7 +663,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (startEvent.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			var dimension = this.dimension();
 
@@ -683,7 +683,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (!$.support.transition) {
 				return complete.call(this);
-			};
+			}
 
 			this.$element[dimension](0).one('bsTransitionEnd', $.proxy(complete, this)).emulateTransitionEnd(Tile.TRANSITION_DURATION);
 		};
@@ -691,7 +691,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 		Tile.prototype.show = function () {
 			if (this.transitioning || this.$element.hasClass('in')) {
 				return;
-			};
+			}
 
 			var actives = this.$parent && this.$parent.find('.tile-collapse').children('.in, .collapsing');
 			var activesData;
@@ -700,8 +700,8 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				activesData = actives.data('bs.tile');
 				if (activesData && activesData.transitioning) {
 					return;
-				};
-			};
+				}
+			}
 
 			var startEvent = $.Event('show.bs.tile');
 
@@ -709,12 +709,12 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (startEvent.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			if (actives && actives.length) {
 				Plugin.call(actives, 'hide');
 				activesData || actives.data('bs.tile', null);
-			};
+			}
 
 			var dimension = this.dimension();
 
@@ -733,7 +733,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			if (!$.support.transition) {
 				return complete.call(this);
-			};
+			}
 
 			var scrollSize = $.camelCase(['scroll', dimension].join('-'));
 
@@ -745,7 +745,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 			var target = $trigger.attr('data-target') || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '');
 
 			return $(target);
-		};
+		}
 
 		function Plugin(option) {
 			return this.each(function () {
@@ -755,17 +755,17 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 				if (!data && options.toggle && /show|hide/.test(option)) {
 					options.toggle = false;
-				};
+				}
 
 				if (!data) {
 					$this.data('bs.tile', (data = new Tile(this, options)));
-				};
+				}
 
 				if (typeof option == 'string') {
 					data[option]();
-				};
+				}
 			})
-		};
+		}
 
 		var old = $.fn.tile;
 
@@ -783,14 +783,14 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 			if (!$(e.target).is('[data-ignore="tile"], [data-ignore="tile"] *')) {
 				if (!$this.attr('data-target')) {
 					e.preventDefault();
-				};
+				}
 
 				var $target = getTargetFromTrigger($this);
 				var data    = $target.data('bs.tile');
 				var option  = data ? 'toggle' : $this.data();
 
 				Plugin.call($target, option);
-			};
+			}
 		});
 	}(jQuery));
 

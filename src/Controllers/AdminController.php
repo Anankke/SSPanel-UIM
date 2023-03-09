@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Services\Analytics;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
@@ -16,9 +17,9 @@ final class AdminController extends BaseController
     /**
      * 后台首页
      *
-     * @param array     $args
+     * @noinspection PhpUnhandledExceptionInspection
      */
-    public function index(ServerRequest $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()

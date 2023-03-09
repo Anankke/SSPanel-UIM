@@ -8,19 +8,25 @@ use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use function json_decode;
+use function time;
 
 final class DetectGFW extends Command
 {
-    public $description = '├─=: php xcat DetectGFW      - 节点被墙检测定时任务' . PHP_EOL;
+    public string $description = '├─=: php xcat DetectGFW      - 节点被墙检测定时任务' . PHP_EOL;
 
+    /**
+     * @throws TelegramSDKException
+     */
     public function boot(): void
     {
         //节点被墙检测
         $last_time = file_get_contents(BASE_PATH . '/storage/last_detect_gfw_time');
         for ($count = 1; $count <= 12; $count++) {
-            if (\time() - $last_time >= $_ENV['detect_gfw_interval']) {
+            if (time() - $last_time >= $_ENV['detect_gfw_interval']) {
                 $file_interval = fopen(BASE_PATH . '/storage/last_detect_gfw_time', 'wb');
-                fwrite($file_interval, (string) \time());
+                fwrite($file_interval, (string) time());
                 fclose($file_interval);
                 $nodes = Node::all();
                 $adminUser = User::where('is_admin', '=', '1')->get();
@@ -41,13 +47,17 @@ final class DetectGFW extends Command
                     //因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
                     $result_tcping = false;
                     $detect_time = $_ENV['detect_gfw_count'];
+
                     for ($i = 1; $i <= $detect_time; $i++) {
-                        $json_tcping = \json_decode(file_get_contents($api_url), true);
+                        $json_tcping = json_decode(file_get_contents($api_url), true);
                         if ($json_tcping['status'] === 'true') {
                             $result_tcping = true;
                             break;
                         }
                     }
+
+                    $notice_text = '';
+
                     if ($result_tcping === false) {
                         //被墙了
                         echo $node->id . ':false' . PHP_EOL;
@@ -55,6 +65,7 @@ final class DetectGFW extends Command
                         if ($node->gfw_block === true) {
                             continue;
                         }
+
                         foreach ($adminUser as $user) {
                             echo 'Send gfw mail to user: ' . $user->id . '-';
                             $user->sendMail(
@@ -71,11 +82,11 @@ final class DetectGFW extends Command
                                 Setting::obtain('telegram_node_gfwed_text')
                             );
                         }
+
                         if (Setting::obtain('telegram_node_gfwed')) {
                             Telegram::send($notice_text);
                         }
                         $node->gfw_block = true;
-                        $node->save();
                     } else {
                         //没有被墙
                         echo $node->id . ':true' . PHP_EOL;
@@ -102,8 +113,9 @@ final class DetectGFW extends Command
                             Telegram::send($notice_text);
                         }
                         $node->gfw_block = false;
-                        $node->save();
                     }
+
+                    $node->save();
                 }
                 break;
             }

@@ -11,6 +11,11 @@ use App\Services\View;
 use Exception;
 use Omnipay\Alipay\AbstractAopGateway;
 use Omnipay\Alipay\AopF2FGateway;
+use Omnipay\Alipay\Requests\AopCompletePurchaseRequest;
+use Omnipay\Alipay\Requests\AopTradePreCreateRequest;
+use Omnipay\Alipay\Responses\AopCompletePurchaseResponse;
+use Omnipay\Alipay\Responses\AopTradePreCreateResponse;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Omnipay;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -52,7 +57,7 @@ final class AopF2F extends AbstractPayment
 
         $gateway = $this->createGateway();
 
-        /** @var \Omnipay\Alipay\Requests\AopTradePreCreateRequest $request */
+        /** @var AopTradePreCreateRequest $request */
         $request = $gateway->purchase();
         $request->setBizContent([
             'subject' => $pl->tradeno,
@@ -60,7 +65,7 @@ final class AopF2F extends AbstractPayment
             'total_amount' => $pl->total,
         ]);
 
-        /** @var \Omnipay\Alipay\Responses\AopTradePreCreateResponse $aliResponse */
+        /** @var AopTradePreCreateResponse $aliResponse */
         $aliResponse = $request->send();
 
         // 获取收款二维码内容
@@ -77,12 +82,17 @@ final class AopF2F extends AbstractPayment
     public function notify($request, $response, $args): ResponseInterface
     {
         $gateway = $this->createGateway();
-        /** @var \Omnipay\Alipay\Requests\AopCompletePurchaseRequest $aliRequest */
-        $aliRequest = $gateway->completePurchase();
+        /** @var AopCompletePurchaseRequest $aliRequest */
+        try {
+            $aliRequest = $gateway->completePurchase();
+        } catch (InvalidRequestException $e) {
+            return $response->write('fail');
+        }
+
         $aliRequest->setParams($_POST);
 
         try {
-            /** @var \Omnipay\Alipay\Responses\AopCompletePurchaseResponse $aliResponse */
+            /** @var AopCompletePurchaseResponse $aliResponse */
             $aliResponse = $aliRequest->send();
             $pid = $aliResponse->data('out_trade_no');
             if ($aliResponse->isPaid()) {
@@ -96,6 +106,9 @@ final class AopF2F extends AbstractPayment
         return $response->write('unknown');
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/aopf2f.tpl');

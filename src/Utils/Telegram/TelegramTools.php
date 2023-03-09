@@ -7,16 +7,19 @@ namespace App\Utils\Telegram;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Tools;
+use function in_array;
+use function json_encode;
+use function time;
 
 final class TelegramTools
 {
     /**
      * 搜索用户
      *
-     * @param string $value  搜索值
+     * @param int $value  搜索值
      * @param string $method 查找列
      */
-    public static function getUser($value, $method = 'telegram_id')
+    public static function getUser(int $value, string $method = 'telegram_id')
     {
         return User::where($method, $value)->first();
     }
@@ -25,12 +28,13 @@ final class TelegramTools
      * Sends a POST request to Telegram Bot API.
      * 伪异步，无结果返回.
      *
-     * @param array $params
+     * @param $Method
+     * @param $Params
      */
     public static function sendPost($Method, $Params): void
     {
         $URL = 'https://api.telegram.org/bot' . $_ENV['telegram_token'] . '/' . $Method;
-        $POSTData = \json_encode($Params);
+        $POSTData = json_encode($Params);
         $C = curl_init();
         curl_setopt($C, CURLOPT_URL, $URL);
         curl_setopt($C, CURLOPT_POST, 1);
@@ -83,9 +87,14 @@ final class TelegramTools
     /**
      * 待定
      *
-     * @return mixed
+     * @param $User
+     * @param $useOptionMethod
+     * @param $value
+     * @param $ChatID
+     *
+     * @return array
      */
-    public static function operationUser($User, $useOptionMethod, $value, $ChatID)
+    public static function operationUser($User, $useOptionMethod, $value, $ChatID): array
     {
         $Email = self::getUserEmail($User->email, $ChatID);
         $old = $User->$useOptionMethod;
@@ -99,16 +108,16 @@ final class TelegramTools
                     '// [启用|是] —— 字面意思',
                     '// [禁用|否] —— 字面意思',
                 ];
-                if (strpos($value, ' ') !== false) {
+                if (str_contains($value, ' ')) {
                     return [
                         'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::strArrayToCode($strArray),
                     ];
                 }
-                if (\in_array($value, ['启用', '是'])) {
+                if (in_array($value, ['启用', '是'])) {
                     $User->$useOptionMethod = 1;
                     $new = '启用';
-                } elseif (\in_array($value, ['禁用', '否'])) {
+                } elseif (in_array($value, ['禁用', '否'])) {
                     $User->$useOptionMethod = 0;
                     $new = '禁用';
                 } else {
@@ -122,7 +131,7 @@ final class TelegramTools
                 // ##############
             case 'port':
                 // 支持正整数或 0 随机选择
-                if (! is_numeric($value) || strpos((string) $value, '-') === 0) {
+                if (! is_numeric($value) || str_starts_with((string) $value, '-')) {
                     return [
                         'ok' => false,
                         'msg' => '提供的端口非数值，如要随机重置请指定为 0.',
@@ -159,7 +168,7 @@ final class TelegramTools
                     '// *2   —— 以当前流量做乘法，不支持填写单位',
                     '// /2   —— 以当前流量做除法，不支持填写单位',
                 ];
-                if (strpos($value, ' ') !== false) {
+                if (str_contains($value, ' ')) {
                     return [
                         'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::strArrayToCode($strArray),
@@ -190,9 +199,9 @@ final class TelegramTools
                     '// 2020-02-30 08:00:00 —— 指定日期精确到秒',
                 ];
                 if (
-                    strpos($value, '+') === 0
+                    str_starts_with($value, '+')
                     ||
-                    strpos($value, '-') === 0
+                    str_starts_with($value, '-')
                 ) {
                     $operator = substr($value, 0, 1);
                     $number = substr($value, 1);
@@ -215,7 +224,7 @@ final class TelegramTools
                     $number = $value;
                     if (is_numeric($value)) {
                         $number *= 86400;
-                        $new = \time() + $number;
+                        $new = time() + $number;
                         $new = date('Y-m-d H:i:s', (int) $new);
                     } else {
                         if (strtotime($value) === false) {
@@ -265,7 +274,7 @@ final class TelegramTools
                     '// /2  —— 以当前值做除法',
                 ];
                 $value = explode(' ', $value)[0];
-                $new = self::computingMethod($User->$useOptionMethod, $value, false);
+                $new = self::computingMethod($User->$useOptionMethod, $value);
                 if ($new === null) {
                     return [
                         'ok' => false,
@@ -335,7 +344,7 @@ final class TelegramTools
         $return = [];
         $Str = trim($Str);
         for ($x = 0; $x <= 10; $x++) {
-            if (strpos($Str, $Delimiter) !== false && count($return) < $Quantity - 1) {
+            if (str_contains($Str, $Delimiter) && count($return) < $Quantity - 1) {
                 $temp = substr($Str, 0, strpos($Str, $Delimiter));
                 $return[] = $temp;
                 $Str = trim(substr($Str, strlen($temp)));
@@ -385,13 +394,13 @@ final class TelegramTools
     public static function computingMethod(string $Source, string $Value, bool $FloatingNumber = false): ?string
     {
         if (
-            (strpos($Value, '+') === 0
+            (str_starts_with($Value, '+')
                 ||
-                strpos($Value, '-') === 0
+                str_starts_with($Value, '-')
                 ||
-                strpos($Value, '*') === 0
+                str_starts_with($Value, '*')
                 ||
-                strpos($Value, '/') === 0)
+                str_starts_with($Value, '/'))
             &&
             is_numeric(substr($Value, 1))
         ) {
@@ -420,16 +429,16 @@ final class TelegramTools
     public static function trafficMethod(string $Source, string $Value): ?int
     {
         if (
-            strpos($Value, '+') === 0
+            str_starts_with($Value, '+')
             ||
-            strpos($Value, '-') === 0
+            str_starts_with($Value, '-')
             ||
-            strpos($Value, '*') === 0
+            str_starts_with($Value, '*')
             ||
-            strpos($Value, '/') === 0
+            str_starts_with($Value, '/')
         ) {
             $operator = substr($Value, 0, 1);
-            if (! \in_array($operator, ['*', '/'])) {
+            if (! in_array($operator, ['*', '/'])) {
                 $number = Tools::flowAutoShowZ(substr($Value, 1));
             } else {
                 $number = substr($Value, 1, strlen($Value) - 1);

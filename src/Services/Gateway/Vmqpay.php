@@ -7,9 +7,11 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
+use JetBrains\PhpStorm\NoReturn;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 final class Vmqpay extends AbstractPayment
 {
@@ -30,7 +32,7 @@ final class Vmqpay extends AbstractPayment
 
     public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
-        $trade_no = \time();
+        $trade_no = time();
         $user = Auth::getUser();
         $configs = Setting::getClass('vmq');
 
@@ -62,7 +64,7 @@ final class Vmqpay extends AbstractPayment
         return $response->withRedirect($pay_url);
     }
 
-    public function notify($request, $response, $args): ResponseInterface
+    #[NoReturn] public function notify($request, $response, $args): ResponseInterface
     {
         $key = Setting::obtain('vmq_key');
         $payId = $request->getParam('payId');
@@ -78,7 +80,7 @@ final class Vmqpay extends AbstractPayment
             die('error_sign');
         }
 
-        $this->postPayment($payId, "在线支付 ${payId}");
+        $this->postPayment($payId, "在线支付 {$payId}");
         die('success');
     }
 

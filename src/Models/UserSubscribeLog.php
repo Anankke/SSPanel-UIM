@@ -32,7 +32,7 @@ final class UserSubscribeLog extends Model
     /**
      * 获取 IP 位置
      */
-    public function location(?QQWry $QQWry = null)
+    public function location(?QQWry $QQWry = null): false|string
     {
         if ($QQWry === null) {
             $QQWry = new QQWry();

@@ -8,10 +8,15 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function array_merge;
+use function json_decode;
+use function json_encode;
+use function time;
 
 /**
  *  TicketController
@@ -19,7 +24,7 @@ use voku\helper\AntiXSS;
 final class TicketController extends BaseController
 {
     /**
-     * @param array     $args
+     * @throws Exception
      */
     public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
@@ -49,9 +54,6 @@ final class TicketController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $title = $request->getParam('title');
@@ -71,15 +73,15 @@ final class TicketController extends BaseController
                 'comment_id' => 0,
                 'commenter_name' => $this->user->user_name,
                 'comment' => $antiXss->xss_clean($comment),
-                'datetime' => \time(),
+                'datetime' => time(),
             ],
         ];
 
         $ticket = new Ticket();
         $ticket->title = $antiXss->xss_clean($title);
-        $ticket->content = \json_encode($content);
+        $ticket->content = json_encode($content);
         $ticket->userid = $this->user->id;
-        $ticket->datetime = \time();
+        $ticket->datetime = time();
         $ticket->status = 'open_wait_admin';
         $ticket->type = $antiXss->xss_clean($type);
         $ticket->save();
@@ -120,9 +122,6 @@ final class TicketController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
@@ -143,17 +142,17 @@ final class TicketController extends BaseController
 
         $antiXss = new AntiXSS();
 
-        $content_old = \json_decode($ticket->content, true);
+        $content_old = json_decode($ticket->content, true);
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
                 'commenter_name' => $this->user->user_name,
                 'comment' => $antiXss->xss_clean($comment),
-                'datetime' => \time(),
+                'datetime' => time(),
             ],
         ];
 
-        $ticket->content = \json_encode(\array_merge($content_old, $content_new));
+        $ticket->content = json_encode(array_merge($content_old, $content_new));
         $ticket->status = 'open_wait_admin';
         $ticket->save();
 
@@ -194,13 +193,13 @@ final class TicketController extends BaseController
     }
 
     /**
-     * @param array     $args
+     * @throws Exception
      */
     public function ticketView(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
-        $comments = \json_decode($ticket->content, true);
+        $comments = json_decode($ticket->content, true);
 
         $ticket->status = Tools::getTicketStatus($ticket);
         $ticket->type = Tools::getTicketType($ticket);
@@ -221,6 +220,7 @@ final class TicketController extends BaseController
                 'ticket' => $ticket,
             ]);
         }
+
         return $response->write(
             $this->view()
                 ->assign('ticket', $ticket)

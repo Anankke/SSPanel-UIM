@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function time;
+
 /**
  * Bought Model
  *
@@ -112,7 +114,7 @@ final class Bought extends Model
      */
     public function usedDays(): int
     {
-        return (int) ((\time() - $this->datetime) / 86400);
+        return (int) ((time() - $this->datetime) / 86400);
     }
 
     /*
@@ -122,7 +124,7 @@ final class Bought extends Model
     {
         $shop = $this->shop();
         if ($shop->useLoop()) {
-            return \time() - $shop->resetExp() * 86400 < $this->datetime;
+            return time() - $shop->resetExp() * 86400 < $this->datetime;
         }
         return false;
     }
@@ -130,14 +132,14 @@ final class Bought extends Model
     /*
      * 下一次流量重置时间
      */
-    public function resetTime($unix = false)
+    public function resetTime($unix = false): float|int|string
     {
         $shop = $this->shop();
         if ($shop->useLoop()) {
             $day = 24 * 60 * 60;
-            $resetIndex = 1 + (int) ((\time() - $this->datetime - $day) / ($shop->reset() * $day));
-            $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
-            $time = \time() + ($day * 86400);
+            $resetIndex = 1 + (int) ((time() - $this->datetime - $day) / ($shop->reset() * $day));
+            $restTime = $resetIndex * $shop->reset() * $day + (int) $this->datetime;
+            $time = time() + ($day * 86400);
             return ! $unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', (int) $restTime)))) : $time;
         }
         return ! $unix ? '-' : 0;
@@ -146,11 +148,11 @@ final class Bought extends Model
     /*
      * 过期时间
      */
-    public function expTime($unix = false)
+    public function expTime($unix = false): float|int|string
     {
         $shop = $this->shop();
         if ($shop->useLoop()) {
-            $time = $this->datetime + ($shop->resetExp() * 86400);
+            $time = (int) $this->datetime + ($shop->resetExp() * 86400);
             return ! $unix ? date('Y-m-d H:i:s', (int) $time) : $time;
         }
         return ! $unix ? '-' : 0;

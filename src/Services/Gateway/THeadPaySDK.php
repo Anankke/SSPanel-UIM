@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
+use Exception;
+use function is_array;
+use function json_decode;
+use function json_encode;
+
 final class THeadPaySDK
 {
     private $config;
@@ -13,7 +18,10 @@ final class THeadPaySDK
         $this->config = $config;
     }
 
-    public function pay($order)
+    /**
+     * @throws Exception
+     */
+    public function pay($order): array
     {
         $params = [
             'mchid' => $this->config['theadpay_mchid'],
@@ -23,7 +31,7 @@ final class THeadPaySDK
             'return_url' => $order['return_url'],
         ];
         $params['sign'] = $this->sign($params);
-        $data = \json_encode($params);
+        $data = json_encode($params);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->config['theadpay_url'] . "/{$this->config['theadpay_mchid']}");
@@ -36,27 +44,26 @@ final class THeadPaySDK
         $data = curl_exec($curl);
         curl_close($curl);
 
-        $result = \json_decode((string) $data, true);
-        if (! \is_array($result) || ! isset($result['status'])) {
-            throw new \Exception('网络连接异常: 无法连接支付网关');
+        $result = json_decode((string) $data, true);
+        if (! is_array($result) || ! isset($result['status'])) {
+            throw new Exception('网络连接异常: 无法连接支付网关');
         }
         if ($result['status'] !== 'success') {
-            throw new \Exception($result['message']);
+            throw new Exception($result['message']);
         }
 
         return $result;
     }
 
-    public function verify($params)
+    public function verify($params): bool
     {
         return $params['sign'] === $this->sign($params);
     }
 
-    private function sign($params)
+    private function sign($params): string
     {
         unset($params['sign']);
         ksort($params);
-        reset($params);
         $data = http_build_query($params) . '&key=' . $this->config['theadpay_key'];
         return strtoupper(md5($data));
     }

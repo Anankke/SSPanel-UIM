@@ -10,13 +10,13 @@ final class NullMail extends Base
     {
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         return [
         ];
     }
 
-    public function send($to_address, $subject_raw, $text, $files): void
+    public function send($to, $subject, $text, $file): void
     {
         echo '';
     }

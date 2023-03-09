@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Services\Mail;
 
 use App\Models\Setting;
+use SendGrid\Mail\Mail;
+use SendGrid\Mail\TypeException;
 
 final class SendGrid extends Base
 {
-    private $config;
-    private $sg;
-    private $sender;
-    private $name;
-    private $email;
+    private array $config;
+    private \SendGrid $sg;
+    private mixed $sender;
+    private mixed $name;
+    private Mail $email;
 
     public function __construct()
     {
@@ -20,10 +22,10 @@ final class SendGrid extends Base
         $this->sg = new \SendGrid($this->config['key']);
         $this->sender = $this->config['sender'];
         $this->name = $this->config['name'];
-        $this->email = new \SendGrid\Mail\Mail();
+        $this->email = new Mail();
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         $configs = Setting::getClass('sendgrid');
 
@@ -34,18 +36,24 @@ final class SendGrid extends Base
         ];
     }
 
-    public function send($to_address, $subject_raw, $text, $files): void
+    /**
+     * @throws TypeException
+     */
+    public function send($to, $subject, $text, $file): void
     {
         $this->email->setFrom($this->sender, $this->name);
-        $this->email->setSubject($subject_raw);
-        $this->email->addTo($to_address, null);
+
+        $this->email->setSubject($subject);
+
+        $this->email->addTo($to);
+
         $this->email->addContent('text/html', $text);
 
-        foreach ($files as $file) {
+        foreach ($file as $file_raw) {
             $this->email->addAttachment(
-                base64_encode(file_get_contents($file)),
+                base64_encode(file_get_contents($file_raw)),
                 'application/octet-stream',
-                basename($file),
+                basename($file_raw),
                 'attachment',
                 'attachment'
             );

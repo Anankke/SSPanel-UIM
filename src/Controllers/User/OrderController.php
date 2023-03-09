@@ -10,9 +10,14 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserCoupon;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function json_decode;
+use function json_encode;
+use function time;
 
 final class OrderController extends BaseController
 {
@@ -31,7 +36,10 @@ final class OrderController extends BaseController
         ],
     ];
 
-    public function order(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function order(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -40,7 +48,10 @@ final class OrderController extends BaseController
         );
     }
 
-    public function create(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $product_id = $antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
@@ -51,7 +62,7 @@ final class OrderController extends BaseController
 
         $product = Product::where('id', $product_id)->first();
 
-        $product->content = \json_decode($product->content);
+        $product->content = json_decode($product->content);
 
         return $response->write(
             $this->view()
@@ -60,7 +71,10 @@ final class OrderController extends BaseController
         );
     }
 
-    public function detail(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $id = $antiXss->xss_clean($args['id']);
@@ -76,14 +90,14 @@ final class OrderController extends BaseController
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
-        $product_content = \json_decode($order->product_content);
+        $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
         $invoice->status = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content);
+        $invoice_content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -95,7 +109,7 @@ final class OrderController extends BaseController
         );
     }
 
-    public function process(ServerRequest $request, Response $response, array $args)
+    public function process(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
@@ -130,14 +144,14 @@ final class OrderController extends BaseController
                 ]);
             }
 
-            if ($coupon->expire_time < \time()) {
+            if ($coupon->expire_time < time()) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '优惠码无效',
                 ]);
             }
 
-            $coupon_limit = \json_decode($coupon->limit);
+            $coupon_limit = json_decode($coupon->limit);
 
             if ((int) $coupon_limit->disabled === 1) {
                 return $response->withJson([
@@ -168,7 +182,7 @@ final class OrderController extends BaseController
                 }
             }
 
-            $content = \json_decode($coupon->content);
+            $content = json_decode($coupon->content);
 
             if ($content->type === 'percentage') {
                 $discount = $product->price * $content->value / 100;
@@ -179,7 +193,7 @@ final class OrderController extends BaseController
             $buy_price = $product->price - $discount;
         }
 
-        $product_limit = \json_decode($product->limit);
+        $product_limit = json_decode($product->limit);
 
         if ($product_limit->class_required !== '') {
             if ($user->class < $product_limit->class_required) {
@@ -218,8 +232,8 @@ final class OrderController extends BaseController
         $order->coupon = $coupon_raw;
         $order->price = $buy_price;
         $order->status = 'pending_payment';
-        $order->create_time = \time();
-        $order->update_time = \time();
+        $order->create_time = time();
+        $order->update_time = time();
         $order->save();
 
         $invoice_content = [];
@@ -241,11 +255,11 @@ final class OrderController extends BaseController
         $invoice = new Invoice();
         $invoice->user_id = $user->id;
         $invoice->order_id = $order->id;
-        $invoice->content = \json_encode($invoice_content);
+        $invoice->content = json_encode($invoice_content);
         $invoice->price = $buy_price;
         $invoice->status = 'unpaid';
-        $invoice->create_time = \time();
-        $invoice->update_time = \time();
+        $invoice->create_time = time();
+        $invoice->update_time = time();
         $invoice->pay_time = 0;
         $invoice->save();
 
@@ -262,7 +276,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $orders = Order::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 

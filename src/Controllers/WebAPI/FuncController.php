@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Node;
+namespace App\Controllers\WebAPI;
 
 use App\Controllers\BaseController;
 use App\Models\DetectRule;
@@ -13,21 +13,14 @@ use Slim\Http\ServerRequest;
 
 final class FuncController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
-    public function ping(ServerRequest $request, Response $response, array $args)
+    public function ping(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $res = [
+        return $response->withJson([
             'ret' => 1,
-            'data' => 'pong',
-        ];
-        return $response->withJson($res);
+            'data' => 'Pong? Pong!',
+        ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getDetectLogs(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $rules = DetectRule::all();
@@ -39,9 +32,6 @@ final class FuncController extends BaseController
     }
 
     // Dummy function
-    /**
-     * @param array     $args
-     */
     public function getBlockip(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return ResponseHelper::etagJson($request, $response, [
@@ -50,9 +40,6 @@ final class FuncController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getUnblockip(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return ResponseHelper::etagJson($request, $response, [
@@ -61,15 +48,11 @@ final class FuncController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
-    public function addBlockIp(ServerRequest $request, Response $response, array $args)
+    public function addBlockIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $res = [
+        return $response->withJson([
             'ret' => 1,
             'data' => 'ok',
-        ];
-        return $response->withJson($res);
+        ]);
     }
 }

@@ -26,10 +26,7 @@ final class StartCommand extends Command
      */
     protected $description = '[群组/私聊] Bot 初始命令.';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handle()
+    public function handle(): void
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
@@ -58,7 +55,7 @@ final class StartCommand extends Command
                 && strlen($MessageKey) === 16
             ) {
                 // 新用户绑定
-                return $this->bindingAccount($SendUser, $MessageKey);
+                $this->bindingAccount($SendUser, $MessageKey);
             }
             // 回送信息
             $this->replyWithMessage(
@@ -68,20 +65,18 @@ final class StartCommand extends Command
                 ]
             );
         } else {
-            if (Setting::obtain('telegram_group_quiet') === true) {
-                // 群组中不回应
-                return;
+            if (! Setting::obtain('telegram_group_quiet')) {
+                // 发送 '输入中' 会话状态
+                $this->replyWithChatAction(['action' => Actions::TYPING]);
+                // 回送信息
+                $this->replyWithMessage(
+                    [
+                        'text' => '喵喵喵.',
+                        'parse_mode' => 'Markdown',
+                        'reply_to_message_id' => $Message->getMessageId(),
+                    ]
+                );
             }
-            // 发送 '输入中' 会话状态
-            $this->replyWithChatAction(['action' => Actions::TYPING]);
-            // 回送信息
-            $this->replyWithMessage(
-                [
-                    'text' => '喵喵喵.',
-                    'parse_mode' => 'Markdown',
-                    'reply_to_message_id' => $Message->getMessageId(),
-                ]
-            );
         }
     }
 

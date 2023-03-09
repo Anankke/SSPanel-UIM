@@ -17,12 +17,12 @@ abstract class BaseController
     /**
      * @var Smarty
      */
-    protected $view;
+    protected Smarty $view;
 
     /**
      * @var User
      */
-    protected $user;
+    protected User $user;
 
     /**
      * Construct page renderer

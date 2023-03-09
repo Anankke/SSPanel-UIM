@@ -10,9 +10,9 @@ use Postal\SendMessage;
 
 final class Postal extends Base
 {
-    private $config;
-    private $client;
-    private $message;
+    private array $config;
+    private Client $client;
+    private SendMessage $message;
 
     public function __construct()
     {
@@ -24,7 +24,7 @@ final class Postal extends Base
         $this->message->replyTo($this->config['sender']);
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         $configs = Setting::getClass('postal');
         return [
@@ -35,14 +35,14 @@ final class Postal extends Base
         ];
     }
 
-    public function send($to_address, $subject_raw, $text, $files): void
+    public function send($to, $subject, $text, $file): void
     {
-        $this->message->subject($subject_raw);
-        $this->message->to($to_address);
+        $this->message->subject($subject);
+        $this->message->to($to);
         $this->message->plainBody($text);
         $this->message->htmlBody($text);
-        foreach ($files as $file) {
-            $this->message->attach(basename($file), 'text/plain', $file);
+        foreach ($file as $file_raw) {
+            $this->message->attach(basename($file_raw), 'text/plain', $file_raw);
         }
         $this->message->send();
     }

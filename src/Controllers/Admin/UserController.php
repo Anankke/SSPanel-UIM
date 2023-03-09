@@ -8,16 +8,18 @@ use App\Controllers\AuthController;
 use App\Controllers\BaseController;
 use App\Models\User;
 use App\Services\Auth;
-use App\Utils\Check;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 final class UserController extends BaseController
 {
-    public static $details = [
+    public static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '用户ID',
@@ -60,7 +62,7 @@ final class UserController extends BaseController
         ],
     ];
 
-    public static $update_field = [
+    public static array $update_field = [
         'email',
         'user_name',
         'remark',
@@ -90,9 +92,9 @@ final class UserController extends BaseController
     ];
 
     /**
-     * @param array     $args
+     * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -101,10 +103,7 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
-    public function createNewUser(ServerRequest $request, Response $response, array $args)
+    public function createNewUser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $email = $request->getParam('email');
         $ref_by = $request->getParam('ref_by');
@@ -113,14 +112,14 @@ final class UserController extends BaseController
 
         try {
             if ($email === '') {
-                throw new \Exception('请填写邮箱');
+                throw new Exception('请填写邮箱');
             }
-            if (! Check::isEmailLegal($email)) {
-                throw new \Exception('邮箱格式不正确');
+            if (! Tools::isEmailLegal($email)) {
+                throw new Exception('邮箱格式不正确');
             }
             $exist = User::where('email', $email)->first();
             if ($exist !== null) {
-                throw new \Exception('此邮箱已注册');
+                throw new Exception('此邮箱已注册');
             }
             if ($password === '') {
                 $password = Tools::genRandomChar(16);
@@ -131,7 +130,7 @@ final class UserController extends BaseController
                 $user->ref_by = (int) $ref_by;
                 $user->save();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $e->getMessage(),
@@ -145,11 +144,12 @@ final class UserController extends BaseController
     }
 
     /**
-     * @param array     $args
+     * @throws Exception
      */
-    public function edit(ServerRequest $request, Response $response, array $args)
+    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $user = User::find($args['id']);
+
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
@@ -158,10 +158,7 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
-    public function update(ServerRequest $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $user = User::find($id);
@@ -210,10 +207,8 @@ final class UserController extends BaseController
             'msg' => '修改成功',
         ]);
     }
-    /**
-     * @param array     $args
-     */
-    public function delete(ServerRequest $request, Response $response, array $args)
+
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $user = User::find((int) $id);
@@ -231,16 +226,13 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
-    public function changetouser(ServerRequest $request, Response $response, array $args)
+    public function changetouser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $userid = $request->getParam('userid');
         $adminid = $request->getParam('adminid');
         $user = User::find($userid);
         $admin = User::find($adminid);
-        $expire_in = \time() + 60 * 60;
+        $expire_in = time() + 60 * 60;
 
         if (! $admin->is_admin || ! $user || ! Auth::getUser()->isLogin) {
             return $response->withJson([
@@ -269,10 +261,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $users = User::orderBy('id', 'desc')->get();
 

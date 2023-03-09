@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Closure;
+use Exception;
+use Generator;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Connection;
@@ -16,11 +18,12 @@ use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
 use Illuminate\Database\Query\Processors\Processor;
 use Illuminate\Database\Schema\Builder as SchemaBuilder;
 use PDO;
+use PDOStatement;
 
 /**
  * @codingStandardsIgnoreStart
  *
- * @see \Illuminate\Database\Connection
+ * @see Connection
  *
  * @method static void              useDefaultQueryGrammar()                                                Set the query grammar to the default implementation.
  * @method static void              useDefaultSchemaGrammar()                                               Set the schema grammar to the default implementation.
@@ -31,7 +34,7 @@ use PDO;
  * @method static mixed             selectOne(string $query, array $bindings = [], bool $useReadPdo = true) Run a select statement and return a single result.
  * @method static array             selectFromWriteConnection(string $query, array $bindings = [])          Run a select statement against the database.
  * @method static array             select(string $query, array $bindings = [], bool $useReadPdo = true)    Run a select statement against the database.
- * @method static \Generator        cursor(string $query, array $bindings = [], bool $useReadPdo = true)    Run a select statement against the database and returns a generator.
+ * @method static Generator        cursor(string $query, array $bindings = [], bool $useReadPdo = true)    Run a select statement against the database and returns a generator.
  * @method static bool              insert(string $query, array $bindings = [])                             Run an insert statement against the database.
  * @method static int               update(string $query, array $bindings = [])                             Run an update statement against the database.
  * @method static int               delete(string $query, array $bindings = [])                             Run a delete statement against the database.
@@ -39,7 +42,7 @@ use PDO;
  * @method static int               affectingStatement(string $query, array $bindings = [])                 Run an SQL statement and get the number of rows affected.
  * @method static bool              unprepared($query)                                                      Run a raw, unprepared query against the PDO connection.
  * @method static array             pretend(Closure $callback)                                              Execute the given callback in "dry run" mode.
- * @method static void              bindValues(\PDOStatement $statement, array $bindings)                   Bind values to their parameters in the given statement.
+ * @method static void              bindValues(PDOStatement $statement, array $bindings)                   Bind values to their parameters in the given statement.
  * @method static array             prepareBindings(array $bindings)                                        Prepare the query bindings for execution.
  * @method static void              logQuery(string $query, array $bindings, float|null $time = null)       Log a query in the connection's query log.
  * @method static void              reconnect()                                                             Reconnect to the database.
@@ -98,11 +101,11 @@ final class DB extends Manager
 {
     public static function init(): void
     {
-        $db = new static();
+        $db = new DB();
         try {
             $db->addConnection(Config::getDbConfig());
             $db->getConnection()->getPdo();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             die('Could not connect to main database: ' . $e->getMessage());
         }
 

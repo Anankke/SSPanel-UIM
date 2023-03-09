@@ -13,7 +13,7 @@ final class View
     public static $connection;
     public static $beginTime;
 
-    public static function getSmarty()
+    public static function getSmarty(): Smarty
     {
         $smarty = new Smarty(); //实例化smarty
 

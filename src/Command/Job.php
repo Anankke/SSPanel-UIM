@@ -26,10 +26,15 @@ use App\Services\Mail;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use function in_array;
+use function json_decode;
+use function time;
 
 final class Job extends Command
 {
-    public $description = <<<EOL
+    public string $description = <<<EOL
 ├─=: php xcat Job [选项]
 │ ├─ DailyJob                - 每日任务，每天
 │ ├─ CheckJob                - 检查任务，每分钟
@@ -62,15 +67,15 @@ EOL;
         // ------- 重置节点流量
 
         // ------- 清理各表记录
-        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', \time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
-        UserHourlyUsage::where('datetime', '<', \time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
-        DetectLog::where('datetime', '<', \time() - 86400 * 3)->delete();
-        EmailVerify::where('expire_in', '<', \time() - 86400 * 3)->delete();
-        EmailQueue::where('time', '<', \time() - 86400 * 3)->delete();
-        PasswordReset::where('expire_time', '<', \time() - 86400 * 3)->delete();
-        Ip::where('datetime', '<', \time() - 300)->delete();
-        StreamMedia::where('created_at', '<', \time() - 86400 * 3)->delete();
-        TelegramSession::where('datetime', '<', \time() - 900)->delete();
+        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
+        UserHourlyUsage::where('datetime', '<', time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
+        DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
+        EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
+        EmailQueue::where('time', '<', time() - 86400 * 3)->delete();
+        PasswordReset::where('expire_time', '<', time() - 86400 * 3)->delete();
+        Ip::where('datetime', '<', time() - 300)->delete();
+        StreamMedia::where('created_at', '<', time() - 86400 * 3)->delete();
+        TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
 
         // ------- 用户每日流量报告
@@ -147,7 +152,7 @@ EOL;
 
         // ------- 免费用户流量重置
         foreach ($users as $user) {
-            if (\in_array($user->id, $bought_users)) {
+            if (in_array($user->id, $bought_users)) {
                 continue;
             }
             // 跳过使用新商店系统的用户
@@ -210,14 +215,17 @@ EOL;
 
     /**
      * 检查任务，每分钟
+     *
+     * @throws TelegramSDKException
+     * @throws ClientExceptionInterface
      */
     public function CheckJob(): void
     {
         //记录当前时间戳
-        $timestatmp = \time();
+        $timestatmp = time();
         //邮件队列处理
         while (true) {
-            if (\time() - $timestatmp > 59) {
+            if (time() - $timestatmp > 59) {
                 echo '邮件队列处理超时，已跳过' . PHP_EOL;
                 break;
             }
@@ -235,7 +243,7 @@ EOL;
             DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
             if (Tools::isEmail($email_queue['to_email'])) {
                 try {
-                    Mail::send($email_queue['to_email'], $email_queue['subject'], $email_queue['template'], \json_decode($email_queue['array']), []);
+                    Mail::send($email_queue['to_email'], $email_queue['subject'], $email_queue['template'], json_decode($email_queue['array']));
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
@@ -250,6 +258,7 @@ EOL;
             $adminUser = User::where('is_admin', '=', '1')->get();
             $nodes = Node::all();
             foreach ($nodes as $node) {
+                $notice_text = '';
                 if ($node->isNodeOnline() === false && $node->online === true) {
                     if ($_ENV['useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
@@ -316,6 +325,7 @@ EOL;
                         $context = stream_context_create($opts);
                         file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
+
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
@@ -376,11 +386,11 @@ EOL;
                 $trafficlog->user_id = $user->id;
                 $trafficlog->traffic = $transfer_total;
                 $trafficlog->hourly_usage = $transfer_total - $transfer_total_last;
-                $trafficlog->datetime = \time();
+                $trafficlog->datetime = time();
                 $trafficlog->save();
             }
 
-            if (strtotime($user->expire_in) < \time() && $user->expire_notified === false) {
+            if (strtotime($user->expire_in) < time() && $user->expire_notified === false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -396,7 +406,7 @@ EOL;
                 );
                 $user->expire_notified = true;
                 $user->save();
-            } elseif (strtotime($user->expire_in) > \time() && $user->expire_notified === true) {
+            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified === true) {
                 $user->expire_notified = false;
                 $user->save();
             }
@@ -405,6 +415,7 @@ EOL;
             if ($_ENV['notify_limit_mode'] !== false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
+                $unit_text = '';
 
                 if ($user->transfer_enable !== 0 && $user->class !== 0) {
                     if (
@@ -444,7 +455,7 @@ EOL;
 
             if (
                 $_ENV['account_expire_delete_days'] >= 0 &&
-                strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < \time() &&
+                strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
@@ -465,7 +476,7 @@ EOL;
                 max(
                     $user->last_check_in_time,
                     strtotime($user->reg_date)
-                ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < \time() &&
+                ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < time() &&
                 $user->class === 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -484,7 +495,7 @@ EOL;
 
             if (
                 $_ENV['auto_clean_unused_days'] > 0 &&
-                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < \time() &&
+                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
                 $user->class === 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -503,7 +514,7 @@ EOL;
 
             if (
                 $user->class !== 0 &&
-                strtotime($user->class_expire) < \time() &&
+                strtotime($user->class_expire) < time() &&
                 strtotime($user->class_expire) > 1420041600
             ) {
                 $text = '您好，系统发现您的账号等级已经过期了。';
@@ -531,7 +542,7 @@ EOL;
             if ($user->is_banned === 1) {
                 $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
                 if ($logs !== null) {
-                    if (($logs->end_time + $logs->ban_time * 60) <= \time()) {
+                    if (($logs->end_time + $logs->ban_time * 60) <= time()) {
                         $user->is_banned = 0;
                     }
                 }
@@ -541,7 +552,7 @@ EOL;
         }
 
         //自动续费
-        $boughts = Bought::where('renew', '<', \time() + 60)->where('renew', '<>', 0)->get();
+        $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
@@ -582,8 +593,8 @@ EOL;
                 $bought_new = new Bought();
                 $bought_new->userid = $user->id;
                 $bought_new->shopid = $shop->id;
-                $bought_new->datetime = \time();
-                $bought_new->renew = \time() + $shop->auto_renew * 86400;
+                $bought_new->datetime = time();
+                $bought_new->renew = time() + $shop->auto_renew * 86400;
                 $bought_new->price = $shop->price;
                 $bought_new->coupon = '';
                 $bought_new->save();

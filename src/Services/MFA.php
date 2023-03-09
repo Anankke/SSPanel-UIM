@@ -6,8 +6,8 @@ namespace App\Services;
 
 final class MFA
 {
-    public static function getGAurl($user)
+    public static function getGAurl($user): string
     {
-        return 'otpauth://totp/' . rawurlencode($_ENV['appName'] . ' (' . $user->email . ')') . '?secret=' . $user->ga_token . '';
+        return 'otpauth://totp/' . rawurlencode($_ENV['appName'] . ' (' . $user->email . ')') . '?secret=' . $user->ga_token;
     }
 }

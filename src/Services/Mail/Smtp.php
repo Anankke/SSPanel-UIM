@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace App\Services\Mail;
 
 use App\Models\Setting;
+use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 final class Smtp extends Base
 {
-    private $mail;
+    private PHPMailer $mail;
 
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function __construct()
     {
         $configs = Setting::getClass('smtp');
@@ -38,19 +42,23 @@ final class Smtp extends Base
         $this->mail = $mail;
     }
 
-    public function send($to, $subject, $text, $files): void
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
+     */
+    public function send($to, $subject, $text, $file): void
     {
         $mail = $this->mail;
         $mail->addAddress($to);     // Add a recipient
         $mail->isHTML();
         $mail->Subject = $subject;
         $mail->Body = $text;
-        foreach ($files as $file) {
-            $mail->addAttachment($file);
+        foreach ($file as $file_raw) {
+            $mail->addAttachment($file_raw);
         }
 
         if (! $mail->send()) {
-            throw new \Exception($mail->ErrorInfo);
+            throw new Exception($mail->ErrorInfo);
         }
     }
 }

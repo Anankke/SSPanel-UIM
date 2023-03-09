@@ -9,15 +9,15 @@ use App\Models\Model;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
-use DateTime;
-use ZipArchive;
+use function in_array;
+use function time;
 
 final class Tools
 {
     /**
      * 查询IP归属
      */
-    public static function getIpInfo($ip)
+    public static function getIpInfo($ip): false|string
     {
         $iplocation = new QQWry();
         $location = $iplocation->getlocation($ip);
@@ -27,7 +27,7 @@ final class Tools
     /**
      * 根据流量值自动转换单位输出
      */
-    public static function flowAutoShow($value = 0)
+    public static function flowAutoShow($value = 0): string
     {
         $kb = 1024;
         $mb = 1048576;
@@ -60,7 +60,7 @@ final class Tools
     /**
      * 根据含单位的流量值转换 B 输出
      */
-    public static function flowAutoShowZ($Value)
+    public static function flowAutoShowZ($Value): ?float
     {
         $number = substr($Value, 0, -2);
         if (! is_numeric($number)) {
@@ -99,14 +99,14 @@ final class Tools
     }
 
     //虽然名字是toMB，但是实际上功能是from MB to B
-    public static function toMB($traffic)
+    public static function toMB($traffic): float|int
     {
         $mb = 1048576;
         return $traffic * $mb;
     }
 
     //虽然名字是toGB，但是实际上功能是from GB to B
-    public static function toGB($traffic)
+    public static function toGB($traffic): float|int
     {
         $gb = 1048576 * 1024;
         return $traffic * $gb;
@@ -124,33 +124,14 @@ final class Tools
         return $traffic / $gb;
     }
 
-    public static function genRandomChar($length = 8)
+    public static function genRandomChar($length = 8): string
     {
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
-    public static function genToken()
-    {
-        return self::genRandomChar(64);
-    }
-
-    // Unix time to Date Time
-    public static function toDateTime(int $time)
+    public static function toDateTime(int $time): string
     {
         return date('Y-m-d H:i:s', $time);
-    }
-
-    public static function secondsToTime($seconds)
-    {
-        $dtF = new DateTime('@0');
-        $dtT = new DateTime("@${seconds}");
-        return $dtF->diff($dtT)->format('%a 天, %h 小时, %i 分 + %s 秒');
-    }
-
-    public static function genSID()
-    {
-        $unid = uniqid($_ENV['key'], true);
-        return Hash::sha256WithSalt($unid);
     }
 
     public static function getLastPort()
@@ -173,17 +154,7 @@ final class Tools
         return $port[0];
     }
 
-    public static function base64UrlEncode($input)
-    {
-        return strtr(base64_encode($input), ['+' => '-', '/' => '_', '=' => '']);
-    }
-
-    public static function base64UrlDecode($input)
-    {
-        return base64_decode(strtr($input, '-_', '+/'));
-    }
-
-    public static function getDir($dir)
+    public static function getDir($dir): array
     {
         $dirArray = [];
         $handle = opendir($dir);
@@ -200,15 +171,15 @@ final class Tools
         return $dirArray;
     }
 
-    public static function isSpecialChars($input)
+    public static function isSpecialChars($input): bool
     {
         return ! preg_match('/[^A-Za-z0-9\-_\.]/', $input);
     }
 
-    public static function isParamValidate($type, $str)
+    public static function isParamValidate($type, $str): bool
     {
         $list = Config::getSupportParam($type);
-        if (\in_array($str, $list)) {
+        if (in_array($str, $list)) {
             return true;
         }
         return false;
@@ -216,25 +187,23 @@ final class Tools
 
     /**
      * Filter key in `App\Models\Model` object
-     *
-     * @param array $filter_array
      */
     public static function keyFilter(Model $object, array $filter_array): Model
     {
         foreach ($object->toArray() as $key => $value) {
-            if (! \in_array($key, $filter_array)) {
+            if (! in_array($key, $filter_array)) {
                 unset($object->$key);
             }
         }
         return $object;
     }
 
-    public static function getRealIp($rawIp)
+    public static function getRealIp($rawIp): array|string
     {
         return str_replace('::ffff:', '', $rawIp);
     }
 
-    public static function isEmail($input)
+    public static function isEmail($input): bool
     {
         if (filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
             return false;
@@ -242,7 +211,40 @@ final class Tools
         return true;
     }
 
-    public static function isIPv4($input)
+    public static function isEmailLegal($email): array
+    {
+        $res = [];
+        $res['ret'] = 0;
+
+        if (! self::isEmail($email)) {
+            $res['msg'] = '邮箱不规范';
+            return $res;
+        }
+
+        $mail_suffix = explode('@', $email)[1];
+        $mail_filter_list = $_ENV['mail_filter_list'];
+        $res['msg'] = '我们无法将邮件投递至域 ' . $mail_suffix . ' ，请更换邮件地址';
+
+        switch ($_ENV['mail_filter']) {
+            case 1:
+                // 白名单
+                if (in_array($mail_suffix, $mail_filter_list)) {
+                    $res['ret'] = 1;
+                }
+                return $res;
+            case 2:
+                // 黑名单
+                if (! in_array($mail_suffix, $mail_filter_list)) {
+                    $res['ret'] = 1;
+                }
+                return $res;
+            default:
+                $res['ret'] = 1;
+                return $res;
+        }
+    }
+
+    public static function isIPv4($input): bool
     {
         if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
             return false;
@@ -250,7 +252,7 @@ final class Tools
         return true;
     }
 
-    public static function isIPv6($input)
+    public static function isIPv6($input): bool
     {
         if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
             return false;
@@ -258,7 +260,7 @@ final class Tools
         return true;
     }
 
-    public static function isInt($input)
+    public static function isInt($input): bool
     {
         if (filter_var($input, FILTER_VALIDATE_INT) === false) {
             return false;
@@ -267,58 +269,13 @@ final class Tools
     }
 
     /**
-     * Add files and sub-directories in a folder to zip file.
-     *
-     * @param int $exclusiveLength Number of text to be exclusived from the file path.
-     */
-    public static function folderToZip(string $folder, ZipArchive &$zipFile, int $exclusiveLength): void
-    {
-        $handle = opendir($folder);
-        while (($f = readdir($handle)) !== false) {
-            if ($f !== '.' && $f !== '..') {
-                $filePath = "${folder}/${f}";
-                // Remove prefix from file path before add to zip.
-                $localPath = substr($filePath, $exclusiveLength);
-                if (is_file($filePath)) {
-                    $zipFile->addFile($filePath, $localPath);
-                } elseif (is_dir($filePath)) {
-                    // Add sub-directory.
-                    $zipFile->addEmptyDir($localPath);
-                    self::folderToZip($filePath, $zipFile, $exclusiveLength);
-                }
-            }
-        }
-        closedir($handle);
-    }
-
-    /**
-     * 清空文件夹
-     *
-     * @param string $dirName
-     */
-    public static function delDirAndFile($dirPath): void
-    {
-        $handle = opendir($dirPath);
-        if ($handle) {
-            while (($item = readdir($handle)) !== false) {
-                if ($item !== '.' && $item !== '..') {
-                    if (is_dir($dirPath . '/' . $item)) {
-                        self::delDirAndFile($dirPath . '/' . $item);
-                    } else {
-                        unlink($dirPath . '/' . $item);
-                    }
-                }
-            }
-            closedir($handle);
-        }
-    }
-
-    /**
      * Eloquent 分页链接渲染
      *
      * @param mixed $data
+     *
+     * @return string
      */
-    public static function paginateRender($data): string
+    public static function paginateRender(mixed $data): string
     {
         $totalPage = $data->lastPage();
         $currentPage = $data->currentPage();
@@ -384,12 +341,7 @@ final class Tools
         return $html . '</ul>';
     }
 
-    public static function etag($data)
-    {
-        return \hash('crc32c', (string) \json_encode($data));
-    }
-
-    public static function genSubToken()
+    public static function genSubToken(): string
     {
         for ($i = 0; $i < 10; $i++) {
             $token = self::genRandomChar(16);
@@ -417,7 +369,7 @@ final class Tools
         return $NLink->token;
     }
 
-    public static function searchEnvName($name)
+    public static function searchEnvName($name): int|string|null
     {
         global $_ENV;
         foreach ($_ENV as $configKey => $configValue) {
@@ -431,7 +383,7 @@ final class Tools
     /**
      * 工单状态
      */
-    public static function getTicketStatus($ticket)
+    public static function getTicketStatus($ticket): string
     {
         if ($ticket->status === 'closed') {
             return '已结单';
@@ -448,7 +400,7 @@ final class Tools
     /**
      * 工单类型
      */
-    public static function getTicketType($ticket)
+    public static function getTicketType($ticket): string
     {
         if ($ticket->type === 'howto') {
             return '使用';
@@ -465,7 +417,7 @@ final class Tools
     /**
      * 节点状态
      */
-    public static function getNodeType($node)
+    public static function getNodeType($node): string
     {
         return $node->type ? '显示' : '隐藏';
     }
@@ -473,31 +425,21 @@ final class Tools
     /**
      * 节点类型
      */
-    public static function getNodeSort($node)
+    public static function getNodeSort($node): string
     {
-        switch ((int) $node->sort) {
-            case 0:
-                $sort = 'Shadowsocks';
-                break;
-            case 9:
-                $sort = 'ShadowsocksR 单端口多用户（旧）';
-                break;
-            case 11:
-                $sort = 'V2Ray';
-                break;
-            case 14:
-                $sort = 'Trojan';
-                break;
-            default:
-                $sort = '未知';
-        }
-        return $sort;
+        return match ((int) $node->sort) {
+            0 => 'Shadowsocks',
+            9 => 'ShadowsocksR 单端口多用户（旧）',
+            11 => 'V2Ray',
+            14 => 'Trojan',
+            default => '未知',
+        };
     }
 
     /**
      * 礼品卡状态
      */
-    public static function getGiftCardStatus($giftcard)
+    public static function getGiftCardStatus($giftcard): string
     {
         return $giftcard->status ? '已使用' : '未使用';
     }
@@ -505,7 +447,7 @@ final class Tools
     /**
      * 商品类型
      */
-    public static function getProductType($product)
+    public static function getProductType($product): string
     {
         if ($product->type === 'tabp') {
             return '时间流量包';
@@ -522,7 +464,7 @@ final class Tools
     /**
      * 商品状态
      */
-    public static function getProductStatus($product)
+    public static function getProductStatus($product): string
     {
         return $product->status ? '正常' : '下架';
     }
@@ -541,7 +483,7 @@ final class Tools
     /**
      * 订单状态
      */
-    public static function getOrderStatus($order)
+    public static function getOrderStatus($order): string
     {
         if ($order->status === 'pending_payment') {
             return '等待支付';
@@ -564,7 +506,7 @@ final class Tools
     /**
      * 订单商品类型
      */
-    public static function getOrderProductType($order)
+    public static function getOrderProductType($order): string
     {
         if ($order->product_type === 'tabp') {
             return '时间流量包';
@@ -581,7 +523,7 @@ final class Tools
     /**
      * 账单状态
      */
-    public static function getInvoiceStatus($invoice)
+    public static function getInvoiceStatus($invoice): string
     {
         if ($invoice->status === 'unpaid') {
             return '未支付';
@@ -604,9 +546,9 @@ final class Tools
     /**
      * 优惠码状态
      */
-    public static function getCouponStatus($coupon)
+    public static function getCouponStatus($coupon): string
     {
-        if ($coupon->expire_time < \time()) {
+        if ($coupon->expire_time < time()) {
             return '已过期';
         }
         return '激活';
@@ -615,7 +557,7 @@ final class Tools
     /**
      * 优惠码类型
      */
-    public static function getCouponType($content)
+    public static function getCouponType($content): string
     {
         if ($content->type === 'percentage') {
             return '百分比';

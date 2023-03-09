@@ -6,7 +6,7 @@ namespace App\Command;
 
 final class Update extends Command
 {
-    public $description = <<< END
+    public string $description = <<< END
 ├─=: php xcat Update         - 更新并迁移配置
 END;
 

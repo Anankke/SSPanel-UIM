@@ -48,14 +48,11 @@ final class Code extends Model
      */
     public function type(): string
     {
-        switch ($this->type) {
-            case -1:
-                return '充值金额';
-            case -2:
-                return '财务支出';
-            default:
-                return '已经废弃';
-        }
+        return match ($this->type) {
+            -1 => '充值金额',
+            -2 => '财务支出',
+            default => '已经废弃',
+        };
     }
 
     /**
@@ -63,14 +60,11 @@ final class Code extends Model
      */
     public function number(): string
     {
-        switch ($this->type) {
-            case -1:
-                return '充值 ' . $this->number . ' 元';
-            case -2:
-                return '支出 ' . $this->number . ' 元';
-            default:
-                return '已经废弃';
-        }
+        return match ($this->type) {
+            -1 => '充值 ' . $this->number . ' 元',
+            -2 => '支出 ' . $this->number . ' 元',
+            default => '已经废弃',
+        };
     }
 
     /**

@@ -52,7 +52,7 @@ final class ResponseHelper
      *
      * @return ResponseInterface
      */
-    public static function etagJson(RequestInterface $request, ResponseInterface $response, $data, int $flags = 0): ResponseInterface
+    public static function etagJson(RequestInterface $request, ResponseInterface $response, mixed $data, int $flags = 0): ResponseInterface
     {
         $str = (string) json_encode($data, $flags);
         $etag = hash('crc32c', $str);

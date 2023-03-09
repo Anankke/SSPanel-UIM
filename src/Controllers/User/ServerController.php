@@ -7,6 +7,7 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -17,7 +18,7 @@ use Slim\Http\ServerRequest;
 final class ServerController extends BaseController
 {
     /**
-     * @param array     $args
+     * @throws Exception
      */
     public function userServerPage(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

@@ -6,10 +6,12 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use Exception;
+use function json_encode;
 
 final class ImController extends BaseController
 {
-    public static $update_field = [
+    public static array $update_field = [
         'telegram_add_node',
         'telegram_add_node_text',
         'telegram_update_node',
@@ -48,6 +50,9 @@ final class ImController extends BaseController
         'telegram_general_terms',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function im($request, $response, $args)
     {
         $settings = [];
@@ -77,15 +82,15 @@ final class ImController extends BaseController
             $setting = Setting::where('item', '=', $item)->first();
 
             if ($setting->type === 'array') {
-                $setting->value = \json_encode($request->getParam("${item}"));
+                $setting->value = json_encode($request->getParam($item));
             } else {
-                $setting->value = $request->getParam("${item}");
+                $setting->value = $request->getParam($item);
             }
 
             if (! $setting->save()) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => "保存 ${item} 时出错",
+                    'msg' => "保存 {$item} 时出错",
                 ]);
             }
         }

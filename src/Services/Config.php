@@ -11,7 +11,7 @@ final class Config
     {
     }
 
-    public static function getPublicConfig()
+    public static function getPublicConfig(): array
     {
         return [
             'appName' => $_ENV['appName'],
@@ -44,7 +44,7 @@ final class Config
         ];
     }
 
-    public static function getDbConfig()
+    public static function getDbConfig(): array
     {
         return [
             'driver' => $_ENV['db_driver'],
@@ -59,43 +59,39 @@ final class Config
         ];
     }
 
-    public static function getSupportParam($type)
+    public static function getSupportParam($type): array
     {
-        switch ($type) {
-            case 'ss_aead_method':
-                return [
-                    'aes-128-gcm',
-                    'aes-192-gcm',
-                    'aes-256-gcm',
-                    'chacha20-ietf-poly1305',
-                    'xchacha20-ietf-poly1305',
-                ];
-            case 'ss_obfs':
-                return [
-                    'simple_obfs_http',
-                    'simple_obfs_http_compatible',
-                    'simple_obfs_tls',
-                    'simple_obfs_tls_compatible',
-                ];
-            case 'ss_2022':
-                return [
-                    '2022-blake3-aes-128-gcm',
-                    '2022-blake3-aes-256-gcm',
-                    '2022-blake3-chacha20-poly1305',
-                ];
-            default:
-                return [
-                    'aes-128-gcm',
-                    'aes-192-gcm',
-                    'aes-256-gcm',
-                    'chacha20-ietf-poly1305',
-                    'xchacha20-ietf-poly1305',
-                    'none',
-                    'plain',
-                    '2022-blake3-aes-128-gcm',
-                    '2022-blake3-aes-256-gcm',
-                    '2022-blake3-chacha20-poly1305',
-                ];
-        }
+        return match ($type) {
+            'ss_aead_method' => [
+                'aes-128-gcm',
+                'aes-192-gcm',
+                'aes-256-gcm',
+                'chacha20-ietf-poly1305',
+                'xchacha20-ietf-poly1305',
+            ],
+            'ss_obfs' => [
+                'simple_obfs_http',
+                'simple_obfs_http_compatible',
+                'simple_obfs_tls',
+                'simple_obfs_tls_compatible',
+            ],
+            'ss_2022' => [
+                '2022-blake3-aes-128-gcm',
+                '2022-blake3-aes-256-gcm',
+                '2022-blake3-chacha20-poly1305',
+            ],
+            default => [
+                'aes-128-gcm',
+                'aes-192-gcm',
+                'aes-256-gcm',
+                'chacha20-ietf-poly1305',
+                'xchacha20-ietf-poly1305',
+                'none',
+                'plain',
+                '2022-blake3-aes-128-gcm',
+                '2022-blake3-aes-256-gcm',
+                '2022-blake3-chacha20-poly1305',
+            ],
+        };
     }
 }

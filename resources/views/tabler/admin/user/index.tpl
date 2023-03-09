@@ -192,7 +192,7 @@
                     }
                 })
             });
-        };
+        }
 
         function reloadTableAjax() {
             table.ajax.reload(null, false);

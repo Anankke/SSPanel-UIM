@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\User;
+
 final class Auth
 {
     private $user;
@@ -16,7 +18,7 @@ final class Auth
     /**
      * Get current user(cached)
      */
-    public static function getUser(): \App\Models\User
+    public static function getUser(): User
     {
         global $user;
         if ($user === null) {
@@ -30,7 +32,7 @@ final class Auth
         self::getDriver()->logout();
     }
 
-    private static function getDriver()
+    private static function getDriver(): Auth\Cookie
     {
         return Factory::createAuth();
     }

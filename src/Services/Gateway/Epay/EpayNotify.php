@@ -15,7 +15,7 @@ final class EpayNotify
         $this->http_verify_url = $this->alipay_config['apiurl'] . 'api.php?';
     }
 
-    public function verifyNotify()
+    public function verifyNotify(): bool
     {
         if (is_null($_GET)) {//判断POST来的数组是否为空
             return false;
@@ -35,7 +35,7 @@ final class EpayNotify
         return false;
     }
 
-    public function verifyReturn()
+    public function verifyReturn(): bool
     {
         if (is_null($_GET)) {//判断POST来的数组是否为空
             return false;
@@ -55,7 +55,7 @@ final class EpayNotify
         return false;
     }
 
-    public function getSignVeryfy($para_temp, $sign)
+    public function getSignVeryfy($para_temp, $sign): bool
     {
         //除去待签名参数数组中的空值和签名参数
         $para_filter = EpayTool::paraFilter($para_temp);
@@ -69,7 +69,7 @@ final class EpayNotify
         return EpayTool::md5Verify($prestr, $sign, $this->alipay_config['key']);
     }
 
-    public function getResponse($notify_id)
+    public function getResponse($notify_id): bool|string
     {
         $partner = trim($this->alipay_config['partner']);
         $veryfy_url = '';

@@ -8,13 +8,8 @@ use App\Services\Auth\Cookie;
 
 final class Factory
 {
-    public static function createAuth()
+    public static function createAuth(): Cookie
     {
-        $method = $_ENV['authDriver'];
-        switch ($method) {
-            case 'cookie':
-                return new Cookie();
-        }
         return new Cookie();
     }
 }

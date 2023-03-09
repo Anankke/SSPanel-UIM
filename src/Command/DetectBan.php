@@ -7,10 +7,11 @@ namespace App\Command;
 use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\User;
+use function in_array;
 
 final class DetectBan extends Command
 {
-    public $description = '├─=: php xcat DetectBan      - 审计封禁定时任务' . PHP_EOL;
+    public string $description = '├─=: php xcat DetectBan      - 审计封禁定时任务' . PHP_EOL;
 
     /**
      * 审计封禁任务
@@ -20,13 +21,17 @@ final class DetectBan extends Command
         if ($_ENV['enable_auto_detect_ban'] === false) {
             return;
         }
+
         echo '审计封禁检查开始.' . PHP_EOL;
+
         $new_logs = DetectLog::where('status', '=', 0)->orderBy('id', 'asc')->take($_ENV['auto_detect_ban_numProcess'])->get();
+
         if (count($new_logs) !== 0) {
             $user_logs = [];
+
             foreach ($new_logs as $log) {
                 // 分类各个用户的记录数量
-                if (! \in_array($log->user_id, array_keys($user_logs))) {
+                if (! in_array($log->user_id, array_keys($user_logs))) {
                     $user_logs[$log->user_id] = 0;
                 }
                 $user_logs[$log->user_id]++;
@@ -37,13 +42,15 @@ final class DetectBan extends Command
             foreach ($user_logs as $userid => $value) {
                 // 执行封禁
                 $user = User::find($userid);
+
                 if ($user === null) {
                     continue;
                 }
+
                 $user->all_detect_number += $value;
                 $user->save();
 
-                if ($user->is_banned === 1 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin'] === true) || \in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
+                if ($user->is_banned === 1 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin'] === true) || in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
                     // 如果用户已被封禁
                     // 如果用户是管理员
                     // 如果属于钦定用户
@@ -53,8 +60,9 @@ final class DetectBan extends Command
 
                 if ($_ENV['auto_detect_ban_type'] === 1) {
                     $last_DetectBanLog = DetectBanLog::where('user_id', $userid)->orderBy('id', 'desc')->first();
-                    $last_all_detect_number = ($last_DetectBanLog === null ? 0 : (int) $last_DetectBanLog->all_detect_number);
+                    $last_all_detect_number = ((int) $last_DetectBanLog?->all_detect_number);
                     $detect_number = $user->all_detect_number - $last_all_detect_number;
+
                     if ($detect_number >= $_ENV['auto_detect_ban_number']) {
                         $last_detect_ban_time = $user->last_detect_ban_time;
                         $end_time = date('Y-m-d H:i:s');
@@ -75,13 +83,15 @@ final class DetectBan extends Command
                 } else {
                     $number = $user->all_detect_number;
                     $tmp = 0;
-                    foreach ($_ENV['auto_detect_ban'] as $key => $value) {
+
+                    foreach ($_ENV['auto_detect_ban'] as $key => $val) {
                         if ($number >= $key) {
                             if ($key >= $tmp) {
                                 $tmp = $key;
                             }
                         }
                     }
+
                     if ($tmp !== 0) {
                         if ($_ENV['auto_detect_ban'][$tmp]['type'] === 'kill') {
                             $user->killUser();

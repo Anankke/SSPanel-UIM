@@ -175,7 +175,7 @@
                     }
                 }
             })
-        };
+        }
 
         function deleteGiftCard(giftcard_id) {
             $('#notice-message').text('确定删除此礼品卡？');
@@ -197,7 +197,7 @@
                     }
                 })
             });
-        };
+        }
 
         function reloadTableAjax() {
             table.ajax.reload(null, false);

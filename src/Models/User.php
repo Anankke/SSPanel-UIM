@@ -7,9 +7,14 @@ namespace App\Models;
 use App\Services\Mail;
 use App\Utils\Hash;
 use App\Utils\Telegram;
+use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
 use Ramsey\Uuid\Uuid;
+use function in_array;
+use function json_encode;
+use function time;
 
 final class User extends Model
 {
@@ -18,7 +23,7 @@ final class User extends Model
      *
      * @var bool
      */
-    public $isLogin;
+    public bool $isLogin;
     protected $connection = 'default';
 
     protected $table = 'user';
@@ -50,16 +55,12 @@ final class User extends Model
      */
     public function imType(): string
     {
-        switch ($this->im_type) {
-            case 1:
-                return '微信';
-            case 2:
-                return 'QQ';
-            case 5:
-                return 'Discord';
-            default:
-                return 'Telegram';
-        }
+        return match ($this->im_type) {
+            1 => '微信',
+            2 => 'QQ',
+            5 => 'Discord',
+            default => 'Telegram',
+        };
     }
 
     /**
@@ -67,14 +68,10 @@ final class User extends Model
      */
     public function imValue(): string
     {
-        switch ($this->im_type) {
-            case 1:
-            case 2:
-            case 5:
-                return $this->im_value;
-            default:
-                return '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>';
-        }
+        return match ($this->im_type) {
+            1, 2, 5 => $this->im_value,
+            default => '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>',
+        };
     }
 
     /**
@@ -102,12 +99,12 @@ final class User extends Model
         return $this->save();
     }
 
-    public function getForbiddenIp()
+    public function getForbiddenIp(): array|string
     {
         return str_replace(',', PHP_EOL, $this->forbidden_ip);
     }
 
-    public function getForbiddenPort()
+    public function getForbiddenPort(): array|string
     {
         return str_replace(',', PHP_EOL, $this->forbidden_port);
     }
@@ -237,7 +234,7 @@ final class User extends Model
      */
     public function todayUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
+        if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
@@ -259,7 +256,7 @@ final class User extends Model
      */
     public function lastUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
+        if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
             return 0;
         }
         $Lastused = $this->last_day_t;
@@ -320,7 +317,7 @@ final class User extends Model
     /**
      * 获取用户的订阅链接
      */
-    public function getSublink()
+    public function getSublink(): string
     {
         return Tools::generateSSRSubCode($this->id);
     }
@@ -339,7 +336,7 @@ final class User extends Model
     public function onlineIpCount(): int
     {
         // 根据 IP 分组去重
-        $total = Ip::where('datetime', '>=', \time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
+        $total = Ip::where('datetime', '>=', time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
         $ip_list = [];
         foreach ($total as $single_record) {
             $ip = Tools::getRealIp($single_record->ip);
@@ -391,23 +388,13 @@ final class User extends Model
      */
     public function calIncome(string $req): float
     {
-        switch ($req) {
-            case 'yesterday':
-                $number = Code::whereDate('usedatetime', '=', date('Y-m-d', strtotime('-1 days')))->sum('number');
-                break;
-            case 'today':
-                $number = Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number');
-                break;
-            case 'this month':
-                $number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number');
-                break;
-            case 'last month':
-                $number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number');
-                break;
-            default:
-                $number = Code::sum('number');
-                break;
-        }
+        $number = match ($req) {
+            'yesterday' => Code::whereDate('usedatetime', '=', date('Y-m-d', strtotime('-1 days')))->sum('number'),
+            'today' => Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number'),
+            'this month' => Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number'),
+            'last month' => Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number'),
+            default => Code::sum('number'),
+        };
         return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
@@ -477,15 +464,18 @@ final class User extends Model
     {
         $return = [
             'ok' => true,
-            'msg' => '',
         ];
         if (! $this->isAbleToCheckin()) {
             $return['ok'] = false;
             $return['msg'] = '您似乎已经签到过了...';
         } else {
-            $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+            try {
+                $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+            } catch (Exception $e) {
+                $traffic = 0;
+            }
             $this->transfer_enable += Tools::toMB($traffic);
-            $this->last_check_in_time = \time();
+            $this->last_check_in_time = time();
             $this->save();
             $return['msg'] = '获得了 ' . $traffic . 'MB 流量.';
         }
@@ -514,7 +504,7 @@ final class User extends Model
                 &&
                 ! $this->is_admin
             ) {
-                \App\Utils\Telegram\TelegramTools::SendPost(
+                TelegramTools::SendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $_ENV['telegram_chatid'],
@@ -538,7 +528,7 @@ final class User extends Model
     public function setPort(int $Port): array
     {
         $PortOccupied = User::pluck('port')->toArray();
-        if (\in_array($Port, $PortOccupied) === true) {
+        if (in_array($Port, $PortOccupied) === true) {
             return [
                 'ok' => false,
                 'msg' => '端口已被占用',
@@ -579,7 +569,7 @@ final class User extends Model
      *
      * @param mixed $total 金额
      */
-    public function addMoneyLog($total): void
+    public function addMoneyLog(mixed $total): void
     {
         if ($_ENV['money_from_admin'] && $total !== 0.00) {
             $codeq = new Code();
@@ -595,9 +585,6 @@ final class User extends Model
 
     /**
      * 发送邮件
-     *
-     * @param array  $array
-     * @param array  $files
      */
     public function sendMail(string $subject, string $template, array $array = [], array $files = [], $is_queue = false): bool
     {
@@ -606,9 +593,9 @@ final class User extends Model
             $emailqueue->to_email = $this->email;
             $emailqueue->subject = $subject;
             $emailqueue->template = $template;
-            $emailqueue->time = \time();
+            $emailqueue->time = time();
             $array = array_merge(['user' => $this], $array);
-            $emailqueue->array = \json_encode($array);
+            $emailqueue->array = json_encode($array);
             $emailqueue->save();
             return true;
         }
@@ -629,10 +616,11 @@ final class User extends Model
                     $files
                 );
                 return true;
-            } catch (Exception $e) {
+            } catch (Exception | ClientExceptionInterface $e) {
                 echo $e->getMessage();
             }
         }
+
         return false;
     }
 
@@ -711,7 +699,7 @@ final class User extends Model
         $loginip = new LoginIp();
         $loginip->ip = $ip;
         $loginip->userid = $this->id;
-        $loginip->datetime = \time();
+        $loginip->datetime = time();
         $loginip->type = $type;
 
         return $loginip->save();

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
+use App\Utils\Telegram\Callbacks\Callback;
 use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function json_encode;
 
 /**
  * Class MenuCommand.
@@ -43,15 +45,13 @@ final class MenuCommand extends Command
             // 触发用户
             $SendUser = [
                 'id' => $Message->getFrom()->getId(),
-                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
-                'username' => $Message->getFrom()->getUsername(),
             ];
 
             $user = TelegramTools::getUser($SendUser['id']);
             if ($user === null) {
-                $reply = \App\Utils\Telegram\Callbacks\Callback::getGuestIndexKeyboard();
+                $reply = Callback::getGuestIndexKeyboard();
             } else {
-                $reply = \App\Utils\Telegram\Callbacks\Callback::getUserIndexKeyboard($user);
+                $reply = Callback::getUserIndexKeyboard($user);
             }
 
             // 回送信息
@@ -61,7 +61,7 @@ final class MenuCommand extends Command
                     'parse_mode' => 'Markdown',
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => \json_encode(
+                    'reply_markup' => json_encode(
                         [
                             'inline_keyboard' => $reply['keyboard'],
                         ]
@@ -69,5 +69,7 @@ final class MenuCommand extends Command
                 ]
             );
         }
+
+        return null;
     }
 }

@@ -11,17 +11,18 @@ use App\Models\User;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Mail;
-use App\Utils\Check;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
+use function time;
 
 /**
  *  AuthController
@@ -29,7 +30,7 @@ use voku\helper\AntiXSS;
 final class AuthController extends BaseController
 {
     /**
-     * @param array     $args
+     * @throws Exception
      */
     public function login(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -45,10 +46,7 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
-    public function loginHandle(ServerRequest $request, Response $response, array $args)
+    public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
@@ -109,9 +107,9 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @param array     $args
+     * @throws Exception
      */
-    public function register(ServerRequest $request, Response $response, $next)
+    public function register(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
         $captcha = [];
 
@@ -134,10 +132,7 @@ final class AuthController extends BaseController
             ->fetch('auth/register.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
-    public function sendVerify(ServerRequest $request, Response $response, $next)
+    public function sendVerify(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
         if (Setting::obtain('reg_email_verify')) {
             $antiXss = new AntiXSS();
@@ -149,7 +144,7 @@ final class AuthController extends BaseController
             }
 
             // check email format
-            $check_res = Check::isEmailLegal($email);
+            $check_res = Tools::isEmailLegal($email);
             if ($check_res['ret'] === 0) {
                 return $response->withJson($check_res);
             }
@@ -160,14 +155,14 @@ final class AuthController extends BaseController
             }
 
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])
-                ->where('expire_in', '>', \time())
+                ->where('expire_in', '>', time())
                 ->count();
             if ($ipcount > Setting::obtain('email_verify_ip_limit')) {
                 return ResponseHelper::error($response, '此IP请求次数过多');
             }
 
             $mailcount = EmailVerify::where('email', '=', $email)
-                ->where('expire_in', '>', \time())
+                ->where('expire_in', '>', time())
                 ->count();
             if ($mailcount > Setting::obtain('email_verify_email_limit')) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
@@ -175,7 +170,7 @@ final class AuthController extends BaseController
 
             $code = Tools::genRandomChar(6);
             $ev = new EmailVerify();
-            $ev->expire_in = \time() + Setting::obtain('email_verify_ttl');
+            $ev->expire_in = time() + Setting::obtain('email_verify_ttl');
             $ev->ip = $_SERVER['REMOTE_ADDR'];
             $ev->email = $email;
             $ev->code = $code;
@@ -188,11 +183,10 @@ final class AuthController extends BaseController
                     'auth/verify.tpl',
                     [
                         'code' => $code,
-                        'expire' => date('Y-m-d H:i:s', \time() + Setting::obtain('email_verify_ttl')),
-                    ],
-                    []
+                        'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
+                    ]
                 );
-            } catch (Exception $e) {
+            } catch (Exception | ClientExceptionInterface $e) {
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
 
@@ -202,13 +196,26 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @param ServerRequest   $request
-     * @param Response  $response
-     * @param array     $args
+     * @param Response $response
+     * @param $name
+     * @param $email
+     * @param $passwd
+     * @param $code
+     * @param $imtype
+     * @param $imvalue
+     * @param $telegram_id
+     * @param $money
+     * @param $is_admin_reg
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception
      */
-    public static function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg)
+    public static function registerHelper(Response $response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg): ResponseInterface
     {
         $user_invite = InviteCode::where('code', $code)->first();
+        $gift_user = null;
+
         if ($user_invite === null) {
             if (Setting::obtain('reg_mode') === 'invite') {
                 return ResponseHelper::error($response, '邀请码无效');
@@ -228,7 +235,7 @@ final class AuthController extends BaseController
         // do reg user
         $user = new User();
         $antiXss = new AntiXSS();
-        $current_timestamp = \time();
+        $current_timestamp = time();
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $antiXss->xss_clean($email);
@@ -285,11 +292,11 @@ final class AuthController extends BaseController
         $user->ga_token = $secret;
         $user->ga_enable = 0;
 
-        $user->class_expire = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_class_time'] * 86400);
+        $user->class_expire = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
         $user->class = $configs['sign_up_for_class'];
         $user->node_connector = $configs['connection_device_limit'];
         $user->node_speedlimit = $configs['connection_rate_limit'];
-        $user->expire_in = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_free_time'] * 86400);
+        $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
@@ -317,10 +324,7 @@ final class AuthController extends BaseController
         return ResponseHelper::error($response, '未知错误');
     }
 
-    /**
-     * @param array     $args
-     */
-    public function registerHandle(ServerRequest $request, Response $response, array $args)
+    public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '未开放注册。');
@@ -361,7 +365,7 @@ final class AuthController extends BaseController
         }
 
         // check email format
-        $check_res = Check::isEmailLegal($email);
+        $check_res = Tools::isEmailLegal($email);
         if ($check_res['ret'] === 0) {
             return $response->withJson($check_res);
         }
@@ -375,7 +379,7 @@ final class AuthController extends BaseController
             $email_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
             $mailcount = EmailVerify::where('email', '=', $email)
                 ->where('code', '=', $email_code)
-                ->where('expire_in', '>', \time())
+                ->where('expire_in', '>', time())
                 ->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
@@ -396,13 +400,14 @@ final class AuthController extends BaseController
             EmailVerify::where('email', $email)->delete();
         }
 
-        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
+        try {
+            return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
+        } catch (Exception $e) {
+            return ResponseHelper::error($response, $e->getMessage());
+        }
     }
 
-    /**
-     * @param array     $args
-     */
-    public function logout(ServerRequest $request, Response $response, $next)
+    public function logout(ServerRequest $request, Response $response, $next): Response
     {
         Auth::logout();
         return $response->withStatus(302)

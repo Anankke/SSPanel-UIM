@@ -74,7 +74,7 @@ final class Ip extends Model
         return date('Y-m-d H:i:s', $this->datetime);
     }
 
-    public function getUserAliveIpCount()
+    public function getUserAliveIpCount(): array
     {
         $pdo = DB::getPdo();
         $res = [];
@@ -84,7 +84,7 @@ final class Ip extends Model
         return $res;
     }
 
-    public function ip()
+    public function ip(): array|string
     {
         return str_replace('::ffff:', '', $this->attributes['ip']);
     }

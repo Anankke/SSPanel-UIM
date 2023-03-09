@@ -8,12 +8,14 @@ use App\Controllers\BaseController;
 use App\Models\Payback;
 use App\Models\User;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
 final class InviteController extends BaseController
 {
-    public static $details =
+    public static array $details =
     [
         'field' => [
             'id' => '事件ID',
@@ -58,9 +60,9 @@ final class InviteController extends BaseController
     /**
      * 后台邀请记录页面
      *
-     * @param array     $args
+     * @throws Exception
      */
-    public function invite(ServerRequest $request, Response $response, array $args)
+    public function invite(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -71,10 +73,8 @@ final class InviteController extends BaseController
 
     /**
      * 更改用户邀请者
-     *
-     * @param array     $args
      */
-    public function update(ServerRequest $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $userid = $request->getParam('userid');
 
@@ -85,7 +85,7 @@ final class InviteController extends BaseController
             ]);
         }
 
-        if (strpos($userid, '@') !== false) {
+        if (str_contains($userid, '@')) {
             $user = User::where('email', '=', $userid)->first();
         } else {
             $user = User::find((int) $userid);
@@ -109,10 +109,8 @@ final class InviteController extends BaseController
 
     /**
      * 为用户添加邀请次数
-     *
-     * @param array     $args
      */
-    public function add(ServerRequest $request, Response $response, array $args)
+    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $invite_num = $request->getParam('invite_num');
 
@@ -123,7 +121,7 @@ final class InviteController extends BaseController
             ]);
         }
 
-        if (strpos($request->getParam('userid'), '@') !== false) {
+        if (str_contains($request->getParam('userid'), '@')) {
             $user = User::where('email', '=', $request->getParam('userid'))->first();
         } else {
             $user = User::find((int) $request->getParam('userid'));
@@ -146,10 +144,8 @@ final class InviteController extends BaseController
 
     /**
      * 后台登录记录页面 AJAX
-     *
-     * @param array     $args
      */
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $paybacks = Payback::orderBy('id', 'desc')->get();
 
