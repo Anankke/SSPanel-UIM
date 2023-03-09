@@ -103,18 +103,28 @@ EOL;
         // 用 UserID 分组倒序取最新一条包含周期重置商品的购买记录
         $boughts = Bought::whereIn('shopid', $shopid)->orderBy('id', 'desc')->groupBy('userid')->get();
         $bought_users = [];
+
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
+
             if ($user === null) {
                 continue;
             }
+            // 跳过使用新商店系统的用户
+            if ($user->use_new_shop === 1) {
+                continue;
+            }
+
             $shop = $bought->shop();
+
             if ($shop === null) {
                 $bought->delete();
                 continue;
             }
+
             $bought_users[] = $bought->userid;
+
             if ($bought->valid() && $bought->usedDays() % $shop->reset() === 0 && $bought->usedDays() !== 0) {
                 echo '流量重置-' . $user->id . "\n";
                 $user->transfer_enable = Tools::toGB($shop->resetValue());
@@ -138,6 +148,10 @@ EOL;
         // ------- 免费用户流量重置
         foreach ($users as $user) {
             if (\in_array($user->id, $bought_users)) {
+                continue;
+            }
+            // 跳过使用新商店系统的用户
+            if ($user->use_new_shop === 1) {
                 continue;
             }
 
@@ -531,11 +545,17 @@ EOL;
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
+
             if ($user === null) {
+                continue;
+            }
+            // 跳过使用新商店系统的用户
+            if ($user->use_new_shop === 1) {
                 continue;
             }
 
             $shop = $bought->shop();
+
             if ($shop === null) {
                 $bought->delete();
                 $user->sendMail(
@@ -551,6 +571,7 @@ EOL;
                 $bought->save();
                 continue;
             }
+
             if ($user->money >= $shop->price) {
                 $user->money -= $shop->price;
                 $user->save();
