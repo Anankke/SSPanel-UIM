@@ -8,6 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -33,8 +35,10 @@ final class TicketController extends BaseController
 
     /**
      * 后台工单页面
+     *
+     * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args)
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -98,6 +102,8 @@ final class TicketController extends BaseController
 
     /**
      * 后台查看指定工单
+     *
+     * @throws Exception
      */
     public function ticketView(ServerRequest $request, Response $response, array $args)
     {
@@ -121,7 +127,7 @@ final class TicketController extends BaseController
     /**
      * 后台关闭工单
      */
-    public function close(ServerRequest $request, Response $response, array $args)
+    public function close(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();
@@ -155,7 +161,7 @@ final class TicketController extends BaseController
     /**
      * 后台删除工单
      */
-    public function delete(ServerRequest $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         Ticket::where('id', '=', $id)->delete();
@@ -169,7 +175,7 @@ final class TicketController extends BaseController
     /**
      * 后台工单页面 Ajax
      */
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $tickets = Ticket::orderBy('id', 'desc')->get();
 

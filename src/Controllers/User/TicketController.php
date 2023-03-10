@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -22,6 +23,9 @@ use function time;
  */
 final class TicketController extends BaseController
 {
+    /**
+     * @throws Exception
+     */
     public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
         if ($_ENV['enable_ticket'] !== true) {
@@ -188,6 +192,9 @@ final class TicketController extends BaseController
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function ticketView(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
@@ -213,6 +220,7 @@ final class TicketController extends BaseController
                 'ticket' => $ticket,
             ]);
         }
+
         return $response->write(
             $this->view()
                 ->assign('ticket', $ticket)

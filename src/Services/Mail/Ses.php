@@ -27,7 +27,7 @@ final class Ses extends Base
         $this->ses = $ses;
     }
 
-    public function send($to, $subject, $text, $files): void
+    public function send($to, $subject, $text, $file): void
     {
         $ses = $this->ses;
         $configs = Setting::getClass('aws_ses');

@@ -58,7 +58,7 @@ final class StartCommand extends Command
                 && strlen($MessageKey) === 16
             ) {
                 // 新用户绑定
-                return $this->bindingAccount($SendUser, $MessageKey);
+                $this->bindingAccount($SendUser, $MessageKey);
             }
             // 回送信息
             $this->replyWithMessage(
@@ -70,7 +70,7 @@ final class StartCommand extends Command
         } else {
             if (Setting::obtain('telegram_group_quiet') === true) {
                 // 群组中不回应
-                return;
+                return null;
             }
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
@@ -83,6 +83,8 @@ final class StartCommand extends Command
                 ]
             );
         }
+
+        return null;
     }
 
     public function bindingAccount($SendUser, $MessageText): void

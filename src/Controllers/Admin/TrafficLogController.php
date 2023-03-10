@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\UserHourlyUsage;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -26,6 +27,8 @@ final class TrafficLogController extends BaseController
 
     /**
      * 后台流量记录页面
+     *
+     * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

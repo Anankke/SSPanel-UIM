@@ -26,12 +26,12 @@ final class Analytics
         return User::where('last_check_in_time', '>', strtotime('today'))->count();
     }
 
-    public function getTrafficUsage()
+    public function getTrafficUsage(): string
     {
         return Tools::flowAutoShow(User::sum('u') + User::sum('d'));
     }
 
-    public function getTodayTrafficUsage()
+    public function getTodayTrafficUsage(): string
     {
         return Tools::flowAutoShow(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
     }
@@ -41,12 +41,12 @@ final class Analytics
         return User::sum('u') + User::sum('d') - User::sum('last_day_t');
     }
 
-    public function getRawGbTodayTrafficUsage()
+    public function getRawGbTodayTrafficUsage(): float
     {
         return Tools::flowToGB(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
     }
 
-    public function getLastTrafficUsage()
+    public function getLastTrafficUsage(): string
     {
         return Tools::flowAutoShow(User::sum('last_day_t'));
     }
@@ -56,12 +56,12 @@ final class Analytics
         return User::sum('last_day_t');
     }
 
-    public function getRawGbLastTrafficUsage()
+    public function getRawGbLastTrafficUsage(): float
     {
         return Tools::flowToGB(User::sum('last_day_t'));
     }
 
-    public function getUnusedTrafficUsage()
+    public function getUnusedTrafficUsage(): string
     {
         return Tools::flowAutoShow(User::sum('transfer_enable') - User::sum('u') - User::sum('d'));
     }
@@ -71,12 +71,12 @@ final class Analytics
         return User::sum('transfer_enable') - User::sum('u') - User::sum('d');
     }
 
-    public function getRawGbUnusedTrafficUsage()
+    public function getRawGbUnusedTrafficUsage(): float
     {
         return Tools::flowToGB(User::sum('transfer_enable') - User::sum('u') - User::sum('d'));
     }
 
-    public function getTotalTraffic()
+    public function getTotalTraffic(): string
     {
         return Tools::flowAutoShow(User::sum('transfer_enable'));
     }
@@ -86,7 +86,7 @@ final class Analytics
         return User::sum('transfer_enable');
     }
 
-    public function getRawGbTotalTraffic()
+    public function getRawGbTotalTraffic(): float
     {
         return Tools::flowToGB(User::sum('transfer_enable'));
     }

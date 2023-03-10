@@ -9,12 +9,12 @@ use function password_hash;
 
 final class Hash
 {
-    public static function cookieHash($passHash, $expire_in)
+    public static function cookieHash($passHash, $expire_in): string
     {
         return substr(\hash('sha256', $passHash . $_ENV['key'] . $expire_in), 5, 45);
     }
 
-    public static function checkPassword($hashedPassword, $password)
+    public static function checkPassword($hashedPassword, $password): bool
     {
         if (in_array($_ENV['pwdMethod'], ['bcrypt', 'argon2i', 'argon2id'])) {
             return password_verify($password, $hashedPassword);
@@ -22,31 +22,25 @@ final class Hash
         return $hashedPassword === self::passwordHash($password);
     }
 
-    public static function passwordHash($pass)
+    public static function passwordHash($pass): string
     {
         $method = $_ENV['pwdMethod'];
-        switch ($method) {
-            case 'md5':
-                return self::md5WithSalt($pass);
-            case 'sha256':
-                return self::sha256WithSalt($pass);
-            case 'argon2i':
-                return password_hash($pass, PASSWORD_ARGON2I);
-            case 'argon2id':
-                return password_hash($pass, PASSWORD_ARGON2ID);
-
-            default:
-                return password_hash($pass, PASSWORD_BCRYPT);
-        }
+        return match ($method) {
+            'md5' => self::md5WithSalt($pass),
+            'sha256' => self::sha256WithSalt($pass),
+            'argon2i' => password_hash($pass, PASSWORD_ARGON2I),
+            'argon2id' => password_hash($pass, PASSWORD_ARGON2ID),
+            default => password_hash($pass, PASSWORD_BCRYPT),
+        };
     }
 
-    public static function md5WithSalt($pwd)
+    public static function md5WithSalt($pwd): string
     {
         $salt = $_ENV['salt'];
         return md5($pwd . $salt);
     }
 
-    public static function sha256WithSalt($pwd)
+    public static function sha256WithSalt($pwd): string
     {
         $salt = $_ENV['salt'];
         return \hash('sha256', $pwd . $salt);

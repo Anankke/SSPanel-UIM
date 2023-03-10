@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Utils\Tools;
 use DateTime;
+use Exception;
 use function in_array;
 use function json_decode;
 use function time;
@@ -73,7 +74,12 @@ EOL;
                     // 获取订单内容准备激活
                     $content = json_decode($order->product_content);
                     // 激活商品
-                    $old_expire_in = new DateTime($user->expire_in);
+                    $old_expire_in = null;
+                    try {
+                        $old_expire_in = new DateTime($user->expire_in);
+                    } catch (Exception $e) {
+                        continue;
+                    }
                     $user->expire_in = $old_expire_in->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
                     $user->u = 0;
                     $user->d = 0;
@@ -97,7 +103,7 @@ EOL;
                     $activated_order->status = 'expired';
                     $activated_order->update_time = time();
                     $activated_order->save();
-                    echo "订单 #{$order->id} 已过期。\n";
+                    echo "订单 #{$activated_order->id} 已过期。\n";
                 }
             }
         }

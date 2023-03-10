@@ -6,6 +6,7 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use Exception;
 use function json_encode;
 
 final class CaptchaController extends BaseController
@@ -24,6 +25,9 @@ final class CaptchaController extends BaseController
         'geetest_key',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function captcha($request, $response, $args)
     {
         $settings = [];

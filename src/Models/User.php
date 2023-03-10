@@ -54,16 +54,12 @@ final class User extends Model
      */
     public function imType(): string
     {
-        switch ($this->im_type) {
-            case 1:
-                return '微信';
-            case 2:
-                return 'QQ';
-            case 5:
-                return 'Discord';
-            default:
-                return 'Telegram';
-        }
+        return match ($this->im_type) {
+            1 => '微信',
+            2 => 'QQ',
+            5 => 'Discord',
+            default => 'Telegram',
+        };
     }
 
     /**
@@ -71,14 +67,10 @@ final class User extends Model
      */
     public function imValue(): string
     {
-        switch ($this->im_type) {
-            case 1:
-            case 2:
-            case 5:
-                return $this->im_value;
-            default:
-                return '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>';
-        }
+        return match ($this->im_type) {
+            1, 2, 5 => $this->im_value,
+            default => '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>',
+        };
     }
 
     /**
@@ -324,7 +316,7 @@ final class User extends Model
     /**
      * 获取用户的订阅链接
      */
-    public function getSublink()
+    public function getSublink(): string
     {
         return Tools::generateSSRSubCode($this->id);
     }
@@ -395,23 +387,13 @@ final class User extends Model
      */
     public function calIncome(string $req): float
     {
-        switch ($req) {
-            case 'yesterday':
-                $number = Code::whereDate('usedatetime', '=', date('Y-m-d', strtotime('-1 days')))->sum('number');
-                break;
-            case 'today':
-                $number = Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number');
-                break;
-            case 'this month':
-                $number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number');
-                break;
-            case 'last month':
-                $number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number');
-                break;
-            default:
-                $number = Code::sum('number');
-                break;
-        }
+        $number = match ($req) {
+            'yesterday' => Code::whereDate('usedatetime', '=', date('Y-m-d', strtotime('-1 days')))->sum('number'),
+            'today' => Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number'),
+            'this month' => Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number'),
+            'last month' => Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number'),
+            default => Code::sum('number'),
+        };
         return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
@@ -481,13 +463,16 @@ final class User extends Model
     {
         $return = [
             'ok' => true,
-            'msg' => '',
         ];
         if (! $this->isAbleToCheckin()) {
             $return['ok'] = false;
             $return['msg'] = '您似乎已经签到过了...';
         } else {
-            $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+            try {
+                $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+            } catch (Exception $e) {
+                $traffic = 0;
+            }
             $this->transfer_enable += Tools::toMB($traffic);
             $this->last_check_in_time = time();
             $this->save();

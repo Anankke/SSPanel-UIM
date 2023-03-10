@@ -9,6 +9,8 @@ use App\Models\Invoice;
 use App\Models\Paylist;
 use App\Services\Payment;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -30,7 +32,10 @@ final class InvoiceController extends BaseController
         ],
     ];
 
-    public function invoice(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function invoice(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -39,7 +44,10 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function detail(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $id = $antiXss->xss_clean($args['id']);
@@ -72,7 +80,7 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function payBalance(ServerRequest $request, Response $response, array $args)
+    public function payBalance(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
@@ -109,7 +117,7 @@ final class InvoiceController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $invoices = Invoice::orderBy('id', 'desc')->get();
 

@@ -8,6 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function in_array;
@@ -32,7 +34,10 @@ final class OrderController extends BaseController
         ],
     ];
 
-    public function index(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -41,7 +46,10 @@ final class OrderController extends BaseController
         );
     }
 
-    public function detail(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
 
@@ -70,7 +78,7 @@ final class OrderController extends BaseController
         );
     }
 
-    public function cancel(ServerRequest $request, Response $response, array $args)
+    public function cancel(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $order_id = $args['id'];
         $order = Order::find($order_id);
@@ -116,7 +124,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $order_id = $args['id'];
         Order::find($order_id)->delete();
@@ -128,7 +136,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $orders = Order::orderBy('id', 'desc')->get();
 

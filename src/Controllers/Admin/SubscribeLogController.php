@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\UserSubscribeLog;
 use App\Utils\QQWry;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -30,6 +31,8 @@ final class SubscribeLogController extends BaseController
 
     /**
      * 后台订阅记录页面
+     *
+     * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

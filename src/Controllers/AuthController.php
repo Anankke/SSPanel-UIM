@@ -29,6 +29,9 @@ use function time;
  */
 final class AuthController extends BaseController
 {
+    /**
+     * @throws Exception
+     */
     public function login(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
@@ -43,7 +46,7 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
-    public function loginHandle(ServerRequest $request, Response $response, array $args)
+    public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
@@ -103,7 +106,10 @@ final class AuthController extends BaseController
         ]);
     }
 
-    public function register(ServerRequest $request, Response $response, $next)
+    /**
+     * @throws Exception
+     */
+    public function register(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
         $captcha = [];
 
@@ -126,7 +132,7 @@ final class AuthController extends BaseController
             ->fetch('auth/register.tpl'));
     }
 
-    public function sendVerify(ServerRequest $request, Response $response, $next)
+    public function sendVerify(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
         if (Setting::obtain('reg_email_verify')) {
             $antiXss = new AntiXSS();
@@ -191,12 +197,25 @@ final class AuthController extends BaseController
 
     /**
      * @param Response $response
+     * @param $name
+     * @param $email
+     * @param $passwd
+     * @param $code
+     * @param $imtype
+     * @param $imvalue
+     * @param $telegram_id
+     * @param $money
+     * @param $is_admin_reg
+     *
+     * @return ResponseInterface
      *
      * @throws Exception
      */
-    public static function registerHelper(Response $response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg)
+    public static function registerHelper(Response $response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg): ResponseInterface
     {
         $user_invite = InviteCode::where('code', $code)->first();
+        $gift_user = null;
+
         if ($user_invite === null) {
             if (Setting::obtain('reg_mode') === 'invite') {
                 return ResponseHelper::error($response, '邀请码无效');
@@ -305,7 +324,7 @@ final class AuthController extends BaseController
         return ResponseHelper::error($response, '未知错误');
     }
 
-    public function registerHandle(ServerRequest $request, Response $response, array $args)
+    public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '未开放注册。');
@@ -381,10 +400,14 @@ final class AuthController extends BaseController
             EmailVerify::where('email', $email)->delete();
         }
 
-        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
+        try {
+            return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
+        } catch (Exception $e) {
+            return ResponseHelper::error($response, $e->getMessage());
+        }
     }
 
-    public function logout(ServerRequest $request, Response $response, $next)
+    public function logout(ServerRequest $request, Response $response, $next): Response
     {
         Auth::logout();
         return $response->withStatus(302)

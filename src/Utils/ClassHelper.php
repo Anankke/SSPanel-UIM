@@ -21,7 +21,7 @@ final class ClassHelper
         }
     }
 
-    public function getClasses()
+    public function getClasses(): array
     {
         $allClasses = [];
 
@@ -34,9 +34,9 @@ final class ClassHelper
         return $allClasses;
     }
 
-    public function getClassesByNamespace($namespace)
+    public function getClassesByNamespace($namespace): array
     {
-        if (strpos($namespace, '\\') !== 0) {
+        if (! str_starts_with($namespace, '\\')) {
             $namespace = '\\' . $namespace;
         }
 
@@ -44,9 +44,9 @@ final class ClassHelper
         return array_filter($this->getClasses(), static function ($class) use ($termUpper) {
             $className = strtoupper($class);
             if (
-                strpos($className, $termUpper) === 0 and
-                strpos($className, strtoupper('Abstract')) === false and
-                strpos($className, strtoupper('Interface')) === false
+                str_starts_with($className, $termUpper) and
+                ! str_contains($className, strtoupper('Abstract')) and
+                ! str_contains($className, strtoupper('Interface'))
             ) {
                 return $class;
             }

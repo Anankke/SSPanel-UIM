@@ -19,4 +19,8 @@ $application = new Application();
 
 // ... register commands
 
-$application->run();
+try {
+    $application->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}

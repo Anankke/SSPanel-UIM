@@ -66,6 +66,10 @@ final class Callback
      * 源消息是否可编辑
      */
     private bool $AllowEditMessage;
+
+    /**
+     * @throws TelegramSDKException
+     */
     public function __construct(Api $bot, CallbackQuery $Callback)
     {
         $this->bot = $bot;
@@ -86,7 +90,7 @@ final class Callback
             return;
         }
         switch (true) {
-            case strpos($this->CallbackData, 'user.') === 0:
+            case str_starts_with($this->CallbackData, 'user.'):
                 // 用户相关
                 $this->userCallback();
                 break;
@@ -102,7 +106,7 @@ final class Callback
      *
      * @return array
      */
-    public static function getGuestIndexKeyboard()
+    public static function getGuestIndexKeyboard(): array
     {
         $Keyboard = [
             [
@@ -172,6 +176,8 @@ final class Callback
 
     /**
      * 回调数据处理
+     *
+     * @throws TelegramSDKException
      */
     public function guestCallback(): void
     {
@@ -218,10 +224,11 @@ final class Callback
                 ];
                 break;
         }
+
         $this->replyWithMessage($sendMessage);
     }
 
-    public static function getUserIndexKeyboard($user)
+    public static function getUserIndexKeyboard($user): array
     {
         $checkin = (! $user->isAbleToCheckin() ? '已签到' : '签到');
         $Keyboard = [
@@ -273,18 +280,20 @@ final class Callback
 
     /**
      * 用户相关回调数据处理
+     *
+     * @throws TelegramSDKException
      */
     public function userCallback()
     {
         if ($this->User === null) {
             if ($this->ChatID < 0) {
                 // 群组内提示
-                return $this->answerCallbackQuery([
+                $this->answerCallbackQuery([
                     'text' => '您好，您尚未绑定账户，无法进行操作。',
                     'show_alert' => true,
                 ]);
             }
-            return $this->guestCallback();
+            $this->guestCallback();
         }
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
@@ -309,7 +318,6 @@ final class Callback
                         'text' => '您好，您无法操作他人的账户。',
                         'show_alert' => true,
                     ]);
-                    return;
                 }
                 $this->userCheckin();
                 break;
@@ -320,6 +328,7 @@ final class Callback
             default:
                 // 用户首页
                 $temp = self::getUserIndexKeyboard($this->User);
+
                 $this->replyWithMessage([
                     'text' => $temp['text'],
                     'parse_mode' => 'HTML',
@@ -332,9 +341,11 @@ final class Callback
                     ),
                 ]);
         }
+
+        return null;
     }
 
-    public function getUserCenterKeyboard()
+    public function getUserCenterKeyboard(): array
     {
         $text = Reply::getUserTitle($this->User);
         $text .= PHP_EOL . PHP_EOL;
@@ -375,6 +386,8 @@ final class Callback
 
     /**
      * 用户中心
+     *
+     * @throws TelegramSDKException
      */
     public function userCenter(): void
     {
@@ -511,10 +524,11 @@ final class Callback
                 ];
                 break;
         }
+
         $this->replyWithMessage($sendMessage);
     }
 
-    public function getUserEditKeyboard()
+    public function getUserEditKeyboard(): array
     {
         $text = Reply::getUserTitle($this->User);
         $keyboard = [
@@ -563,15 +577,18 @@ final class Callback
 
     /**
      * 用户编辑
+     *
+     * @throws TelegramSDKException
      */
     public function userEdit()
     {
         if ($this->ChatID < 0) {
-            return $this->answerCallbackQuery([
+            $this->answerCallbackQuery([
                 'text' => '无法在群组中进行该操作。',
                 'show_alert' => true,
             ]);
         }
+
         $back = [
             [
                 [
@@ -584,6 +601,9 @@ final class Callback
                 ],
             ],
         ];
+
+        $sendMessage = [];
+
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
@@ -783,6 +803,7 @@ final class Callback
                 ];
                 break;
         }
+
         $this->replyWithMessage(
             array_merge(
                 [
@@ -791,9 +812,11 @@ final class Callback
                 $sendMessage
             )
         );
+
+        return null;
     }
 
-    public function getUserSubscribeKeyboard()
+    public function getUserSubscribeKeyboard(): array
     {
         $text = '选择你想要使用的订阅链接类型：';
         $keyboard = [
@@ -842,6 +865,8 @@ final class Callback
 
     /**
      * 用户订阅
+     *
+     * @throws TelegramSDKException
      */
     public function userSubscribe(): void
     {
@@ -849,6 +874,7 @@ final class Callback
         // 订阅中心
         if (isset($CallbackDataExplode[1])) {
             $temp = [];
+
             $temp['keyboard'] = [
                 [
                     [
@@ -861,6 +887,9 @@ final class Callback
                     ],
                 ],
             ];
+
+            $sendMessage = [];
+
             $UniversalSub_Url = SubController::getUniversalSub($this->User);
             $TraditionalSub_Url = LinkController::getTraditionalSub($this->User);
             switch ($CallbackDataExplode[1]) {
@@ -956,6 +985,7 @@ final class Callback
                 ),
             ];
         }
+
         $this->replyWithMessage(
             array_merge(
                 [
@@ -966,7 +996,7 @@ final class Callback
         );
     }
 
-    public function getUserInviteKeyboard()
+    public function getUserInviteKeyboard(): array
     {
         $paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get');
 
@@ -1005,6 +1035,8 @@ final class Callback
 
     /**
      * 分享计划
+     *
+     * @throws TelegramSDKException
      */
     public function userInvite(): void
     {
@@ -1042,6 +1074,7 @@ final class Callback
                 ];
                 break;
         }
+
         $this->replyWithMessage(
             array_merge(
                 [
@@ -1054,6 +1087,8 @@ final class Callback
 
     /**
      * 每日签到
+     *
+     * @throws TelegramSDKException
      */
     public function userCheckin(): void
     {
@@ -1080,6 +1115,7 @@ final class Callback
                 ],
             ];
         }
+
         $this->replyWithMessage([
             'text' => $temp['text'] . PHP_EOL . PHP_EOL . $checkin['msg'],
             'reply_to_message_id' => $this->MessageID,

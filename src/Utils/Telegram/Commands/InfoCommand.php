@@ -45,8 +45,6 @@ final class InfoCommand extends Command
             // 触发用户
             $SendUser = [
                 'id' => $Message->getFrom()->getId(),
-                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
-                'username' => $Message->getFrom()->getUsername(),
             ];
             if (! in_array($SendUser['id'], json_decode(Setting::obtain('telegram_admins')))) {
                 $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
@@ -68,8 +66,6 @@ final class InfoCommand extends Command
                 // 回复源消息用户
                 $FindUser = [
                     'id' => $Message->getReplyToMessage()->getFrom()->getId(),
-                    'name' => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
-                    'username' => $Message->getReplyToMessage()->getFrom()->getUsername(),
                 ];
                 $User = TelegramTools::getUser($FindUser['id']);
                 if ($User === null) {

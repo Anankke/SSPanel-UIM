@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserCoupon;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -16,7 +17,7 @@ use function time;
 
 final class CouponController extends BaseController
 {
-    public function check(ServerRequest $request, Response $response, array $args)
+    public function check(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));

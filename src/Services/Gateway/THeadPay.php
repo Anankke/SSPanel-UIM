@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -81,7 +82,7 @@ final class THeadPay extends AbstractPayment
         }
     }
 
-    public function notify($request, $response, $args): ResponseInterface
+    #[NoReturn] public function notify($request, $response, $args): ResponseInterface
     {
         $params = $request->getParsedBody();
         if ($this->sdk->verify($params)) {
@@ -93,6 +94,9 @@ final class THeadPay extends AbstractPayment
         die('fail');
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/theadpay.tpl');

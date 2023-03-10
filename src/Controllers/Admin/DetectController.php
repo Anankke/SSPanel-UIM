@@ -10,8 +10,11 @@ use App\Models\DetectLog;
 use App\Models\DetectRule;
 use App\Utils\Telegram;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 final class DetectController extends BaseController
 {
@@ -89,7 +92,10 @@ final class DetectController extends BaseController
         ],
     ];
 
-    public function detect(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detect(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -98,7 +104,10 @@ final class DetectController extends BaseController
         );
     }
 
-    public function add(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws TelegramSDKException
+     */
+    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $rule = new DetectRule();
         $rule->name = $request->getParam('name');
@@ -120,7 +129,7 @@ final class DetectController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $rule = DetectRule::find($id);
@@ -136,7 +145,10 @@ final class DetectController extends BaseController
         ]);
     }
 
-    public function log(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function log(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -145,7 +157,10 @@ final class DetectController extends BaseController
         );
     }
 
-    public function ban(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function ban(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -154,7 +169,7 @@ final class DetectController extends BaseController
         );
     }
 
-    public function ajaxRule(ServerRequest $request, Response $response, array $args)
+    public function ajaxRule(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $rules = DetectRule::orderBy('id', 'desc')->get();
 
@@ -169,7 +184,7 @@ final class DetectController extends BaseController
         ]);
     }
 
-    public function ajaxLog(ServerRequest $request, Response $response, array $args)
+    public function ajaxLog(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;
@@ -196,7 +211,7 @@ final class DetectController extends BaseController
         ]);
     }
 
-    public function ajaxBan(ServerRequest $request, Response $response, array $args)
+    public function ajaxBan(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;

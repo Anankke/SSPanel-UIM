@@ -44,6 +44,7 @@ final class LinkController extends BaseController
             ]);
         }
 
+        $sub_type = '';
         $sub_info = [];
 
         if (isset($params['clash']) && $params['clash'] === '1') {
@@ -262,7 +263,7 @@ final class LinkController extends BaseController
         return $links;
     }
 
-    public static function getTraditionalSub($user)
+    public static function getTraditionalSub($user): string
     {
         $userid = $user->id;
         $token = Link::where('userid', $userid)->first();

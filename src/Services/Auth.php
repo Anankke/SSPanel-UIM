@@ -32,7 +32,7 @@ final class Auth
         self::getDriver()->logout();
     }
 
-    private static function getDriver()
+    private static function getDriver(): Auth\Cookie
     {
         return Factory::createAuth();
     }

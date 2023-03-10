@@ -24,14 +24,14 @@ final class Payment
         return $payments;
     }
 
-    public static function getPaymentsEnabled()
+    public static function getPaymentsEnabled(): array
     {
         return array_values(array_filter(Payment::getAllPaymentMap(), static function ($payment) {
             return $payment::_enable();
         }));
     }
 
-    public static function getPaymentMap()
+    public static function getPaymentMap(): array
     {
         $result = [];
 
@@ -61,7 +61,7 @@ final class Payment
         return $response->withStatus(404);
     }
 
-    public static function returnHTML($request, $response, $args)
+    public static function returnHTML($request, $response, $args): string
     {
         $payment = self::getPaymentByName($args['type']);
 

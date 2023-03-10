@@ -8,7 +8,7 @@ use function in_array;
 
 final class Check
 {
-    public static function isEmailLegal($email)
+    public static function isEmailLegal($email): array
     {
         $res = [];
         $res['ret'] = 0;

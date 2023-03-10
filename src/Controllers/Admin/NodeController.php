@@ -10,6 +10,7 @@ use App\Models\Setting;
 use App\Utils\CloudflareDriver;
 use App\Utils\Telegram;
 use App\Utils\Tools;
+use Cloudflare\API\Endpoints\EndpointException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -51,6 +52,8 @@ final class NodeController extends BaseController
 
     /**
      * 后台节点页面
+     *
+     * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -63,6 +66,8 @@ final class NodeController extends BaseController
 
     /**
      * 后台创建节点页面
+     *
+     * @throws Exception
      */
     public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -75,6 +80,8 @@ final class NodeController extends BaseController
 
     /**
      * 后台添加节点
+     *
+     * @throws EndpointException
      */
     public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -157,11 +164,14 @@ final class NodeController extends BaseController
 
     /**
      * 后台编辑指定节点页面
+     *
+     * @throws Exception
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $node = Node::find($id);
+
         return $response->write(
             $this->view()
                 ->assign('node', $node)
@@ -240,7 +250,7 @@ final class NodeController extends BaseController
         ]);
     }
 
-    public function resetNodePassword(ServerRequest $request, Response $response, array $args)
+    public function resetNodePassword(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $node = Node::find($id);

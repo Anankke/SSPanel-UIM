@@ -108,7 +108,7 @@ final class UserController extends BaseController
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
-        if (! $data || ! is_array($data?->data)) {
+        if (! $data || ! is_array($data->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -162,7 +162,7 @@ final class UserController extends BaseController
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
-        if (! $data || ! is_array($data?->data)) {
+        if (! $data || ! is_array($data->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -207,7 +207,7 @@ final class UserController extends BaseController
     public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
-        if (! $data || ! is_array($data?->data)) {
+        if (! $data || ! is_array($data->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);

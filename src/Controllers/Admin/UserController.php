@@ -13,6 +13,7 @@ use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function time;
@@ -91,7 +92,10 @@ final class UserController extends BaseController
         'forbidden_port',
     ];
 
-    public function index(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -100,7 +104,7 @@ final class UserController extends BaseController
         );
     }
 
-    public function createNewUser(ServerRequest $request, Response $response, array $args)
+    public function createNewUser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $email = $request->getParam('email');
         $ref_by = $request->getParam('ref_by');
@@ -140,9 +144,13 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function edit(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $user = User::find($args['id']);
+
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
@@ -151,7 +159,7 @@ final class UserController extends BaseController
         );
     }
 
-    public function update(ServerRequest $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $user = User::find($id);
@@ -201,7 +209,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $user = User::find((int) $id);
@@ -219,7 +227,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function changetouser(ServerRequest $request, Response $response, array $args)
+    public function changetouser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $userid = $request->getParam('userid');
         $adminid = $request->getParam('adminid');
@@ -254,7 +262,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $users = User::orderBy('id', 'desc')->get();
 

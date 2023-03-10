@@ -38,11 +38,11 @@ final class CheckinCommand extends Command
         if ($ChatID < 0) {
             if (Setting::obtain('telegram_group_quiet') === true) {
                 // 群组中不回应
-                return;
+                return null;
             }
             if ($ChatID !== $_ENV['telegram_chatid']) {
                 // 非我方群组
-                return;
+                return null;
             }
         }
 
@@ -52,8 +52,6 @@ final class CheckinCommand extends Command
         // 触发用户
         $SendUser = [
             'id' => $Message->getFrom()->getId(),
-            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
-            'username' => $Message->getFrom()->getUsername(),
         ];
         $User = TelegramTools::getUser($SendUser['id']);
         if ($User === null) {

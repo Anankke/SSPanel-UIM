@@ -31,23 +31,13 @@ final class Node extends Model
      */
     public function sort(): string
     {
-        switch ($this->sort) {
-            case 0:
-                $sort = 'Shadowsocks';
-                break;
-            case 1:
-                $sort = 'ShadowsocksR';
-                break;
-            case 11:
-                $sort = 'V2Ray 节点';
-                break;
-            case 14:
-                $sort = 'Trojan';
-                break;
-            default:
-                $sort = '系统保留';
-        }
-        return $sort;
+        return match ($this->sort) {
+            0 => 'Shadowsocks',
+            1 => 'ShadowsocksR',
+            11 => 'V2Ray 节点',
+            14 => 'Trojan',
+            default => '系统保留',
+        };
     }
 
     /**
@@ -55,20 +45,12 @@ final class Node extends Model
      */
     public function muOnly(): string
     {
-        switch ($this->mu_only) {
-            case -1:
-                $mu_only = '只启用普通端口';
-                break;
-            case 0:
-                $mu_only = '单端口多用户与普通端口并存';
-                break;
-            case 1:
-                $mu_only = '只启用单端口多用户';
-                break;
-            default:
-                $mu_only = '错误类型';
-        }
-        return $mu_only;
+        return match ($this->mu_only) {
+            -1 => '只启用普通端口',
+            0 => '单端口多用户与普通端口并存',
+            1 => '只启用单端口多用户',
+            default => '错误类型',
+        };
     }
 
     /**
