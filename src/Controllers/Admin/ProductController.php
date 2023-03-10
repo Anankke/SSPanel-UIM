@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Product;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function json_decode;
@@ -48,7 +49,10 @@ final class ProductController extends BaseController
         'node_group_required',
     ];
 
-    public function index(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -57,7 +61,10 @@ final class ProductController extends BaseController
         );
     }
 
-    public function create(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -66,7 +73,7 @@ final class ProductController extends BaseController
         );
     }
 
-    public function add(ServerRequest $request, Response $response, array $args)
+    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // base product
         $type = $request->getParam('type');
@@ -172,12 +179,16 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function edit(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $product = Product::find($id);
         $content = json_decode($product->content, true);
         $limit = json_decode($product->limit, true);
+
         return $response->write(
             $this->view()
                 ->assign('product', $product)
@@ -188,7 +199,7 @@ final class ProductController extends BaseController
         );
     }
 
-    public function update(ServerRequest $request, Response $response, array $args)
+    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $product_id = $args['id'];
         // base product
@@ -293,7 +304,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args)
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $product_id = $args['id'];
         Product::find($product_id)->delete();
@@ -304,7 +315,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function copy(ServerRequest $request, Response $response, array $args)
+    public function copy(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         try {
             $old_product_id = $args['id'];
@@ -333,7 +344,7 @@ final class ProductController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $products = Product::orderBy('id', 'desc')->get();
 

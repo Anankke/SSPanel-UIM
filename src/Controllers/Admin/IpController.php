@@ -9,6 +9,8 @@ use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Utils\QQWry;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function time;
@@ -44,8 +46,10 @@ final class IpController extends BaseController
 
     /**
      * 后台登录记录页面
+     *
+     * @throws Exception
      */
-    public function login(ServerRequest $request, Response $response, array $args)
+    public function login(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -57,7 +61,7 @@ final class IpController extends BaseController
     /**
      * 后台登录记录页面 AJAX
      */
-    public function ajaxLogin(ServerRequest $request, Response $response, array $args)
+    public function ajaxLogin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;
@@ -84,8 +88,10 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面
+     *
+     * @throws Exception
      */
-    public function alive(ServerRequest $request, Response $response, array $args)
+    public function alive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -97,7 +103,7 @@ final class IpController extends BaseController
     /**
      * 后台在线 IP 页面 AJAX
      */
-    public function ajaxAlive(ServerRequest $request, Response $response, array $args)
+    public function ajaxAlive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;

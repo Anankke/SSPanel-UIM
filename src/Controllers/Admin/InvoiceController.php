@@ -8,6 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function in_array;
@@ -30,7 +32,10 @@ final class InvoiceController extends BaseController
         ],
     ];
 
-    public function index(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -39,7 +44,10 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function detail(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
 
@@ -58,7 +66,7 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function markPaid(ServerRequest $request, Response $response, array $args)
+    public function markPaid(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $invoice_id = $args['id'];
         $invoice = Invoice::find($invoice_id);
@@ -94,7 +102,7 @@ final class InvoiceController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $invoices = Invoice::orderBy('id', 'desc')->get();
 

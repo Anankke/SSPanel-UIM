@@ -56,7 +56,7 @@ abstract class AbstractPayment
 
     abstract public static function getPurchaseHTML(): string;
 
-    public function postPayment($pid, $method)
+    public function postPayment($pid, $method): false|int|string
     {
         $paylist = Paylist::where('tradeno', $pid)->first();
 
@@ -97,22 +97,22 @@ abstract class AbstractPayment
         return 0;
     }
 
-    public static function generateGuid()
+    public static function generateGuid(): string
     {
         return substr(Uuid::uuid4()->toString(), 0, 8);
     }
 
-    protected static function getCallbackUrl()
+    protected static function getCallbackUrl(): string
     {
         return $_ENV['baseUrl'] . '/payment/notify/' . get_called_class()::_name();
     }
 
-    protected static function getUserReturnUrl()
+    protected static function getUserReturnUrl(): string
     {
         return $_ENV['baseUrl'] . '/user/payment/return/' . get_called_class()::_name();
     }
 
-    protected static function getActiveGateway($key)
+    protected static function getActiveGateway($key): bool
     {
         $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
         $active_gateways = json_decode($payment_gateways->value);

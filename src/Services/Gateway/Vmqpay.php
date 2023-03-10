@@ -7,6 +7,7 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
+use JetBrains\PhpStorm\NoReturn;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -63,7 +64,7 @@ final class Vmqpay extends AbstractPayment
         return $response->withRedirect($pay_url);
     }
 
-    public function notify($request, $response, $args): ResponseInterface
+    #[NoReturn] public function notify($request, $response, $args): ResponseInterface
     {
         $key = Setting::obtain('vmq_key');
         $payId = $request->getParam('payId');

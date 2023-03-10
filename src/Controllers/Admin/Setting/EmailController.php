@@ -7,6 +7,7 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\Mail;
+use Exception;
 use Throwable;
 use function json_encode;
 
@@ -43,6 +44,9 @@ final class EmailController extends BaseController
         'postal_name',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function email($request, $response, $args)
     {
         $settings = [];

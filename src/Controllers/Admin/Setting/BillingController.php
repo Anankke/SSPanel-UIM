@@ -7,6 +7,7 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\Payment;
+use Exception;
 use function json_decode;
 use function json_encode;
 
@@ -50,6 +51,9 @@ final class BillingController extends BaseController
         'epay_usdt',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function billing($request, $response, $args)
     {
         $settings = [];
@@ -119,7 +123,7 @@ final class BillingController extends BaseController
         ]);
     }
 
-    public function returnGatewaysList()
+    public function returnGatewaysList(): array
     {
         $result = [];
 

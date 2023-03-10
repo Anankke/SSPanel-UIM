@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Services\Mail;
 
 use App\Models\Setting;
+use Exception;
 use Mailgun\Mailgun as MailgunService;
+use Psr\Http\Client\ClientExceptionInterface;
 
 final class Mailgun extends Base
 {
@@ -22,7 +24,7 @@ final class Mailgun extends Base
         $this->sender = $this->config['sender'];
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         $configs = Setting::getClass('mailgun');
 
@@ -33,12 +35,19 @@ final class Mailgun extends Base
         ];
     }
 
-    public function send($to, $subject, $text, $files): void
+    /**
+     * @throws Exception
+     * @throws ClientExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function send($to, $subject, $text, $file): void
     {
         $inline = [];
-        foreach ($files as $file) {
-            $inline[] = ['filePath' => $file, 'filename' => basename($file)];
+
+        foreach ($file as $file_raw) {
+            $inline[] = ['filePath' => $file_raw, 'filename' => basename($file_raw)];
         }
+
         if (count($inline) === 0) {
             $this->mg->messages()->send($this->domain, [
                 'from' => $this->sender,

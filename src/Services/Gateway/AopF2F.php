@@ -15,6 +15,7 @@ use Omnipay\Alipay\Requests\AopCompletePurchaseRequest;
 use Omnipay\Alipay\Requests\AopTradePreCreateRequest;
 use Omnipay\Alipay\Responses\AopCompletePurchaseResponse;
 use Omnipay\Alipay\Responses\AopTradePreCreateResponse;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Omnipay;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -82,7 +83,12 @@ final class AopF2F extends AbstractPayment
     {
         $gateway = $this->createGateway();
         /** @var AopCompletePurchaseRequest $aliRequest */
-        $aliRequest = $gateway->completePurchase();
+        try {
+            $aliRequest = $gateway->completePurchase();
+        } catch (InvalidRequestException $e) {
+            return $response->write('fail');
+        }
+
         $aliRequest->setParams($_POST);
 
         try {
@@ -100,6 +106,9 @@ final class AopF2F extends AbstractPayment
         return $response->write('unknown');
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/aopf2f.tpl');

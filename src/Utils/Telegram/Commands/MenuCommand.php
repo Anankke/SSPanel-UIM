@@ -45,8 +45,6 @@ final class MenuCommand extends Command
             // 触发用户
             $SendUser = [
                 'id' => $Message->getFrom()->getId(),
-                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
-                'username' => $Message->getFrom()->getUsername(),
             ];
 
             $user = TelegramTools::getUser($SendUser['id']);
@@ -71,5 +69,7 @@ final class MenuCommand extends Command
                 ]
             );
         }
+
+        return null;
     }
 }

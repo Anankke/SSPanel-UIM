@@ -11,6 +11,8 @@ use App\Services\Captcha;
 use App\Services\Password;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function time;
@@ -23,7 +25,10 @@ use function time;
  */
 final class PasswordController extends BaseController
 {
-    public function reset(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function reset(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $captcha = [];
 
@@ -38,7 +43,7 @@ final class PasswordController extends BaseController
         );
     }
 
-    public function handleReset(ServerRequest $request, Response $response, array $args)
+    public function handleReset(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (Setting::obtain('enable_reset_password_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
@@ -63,6 +68,9 @@ final class PasswordController extends BaseController
         return ResponseHelper::successfully($response, $msg);
     }
 
+    /**
+     * @throws Exception
+     */
     public function token(ServerRequest $request, Response $response, array $args)
     {
         $token = PasswordReset::where('token', $args['token'])->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
@@ -75,7 +83,7 @@ final class PasswordController extends BaseController
         );
     }
 
-    public function handleToken(ServerRequest $request, Response $response, array $args)
+    public function handleToken(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $tokenStr = $args['token'];
         $password = $request->getParam('password');

@@ -44,7 +44,7 @@ final class QQWry
         $this->fp = 0;
     }
 
-    public function getlocation($ip)
+    public function getlocation($ip): ?array
     {
         if (! $this->fp) {
             return null;
@@ -113,14 +113,10 @@ final class QQWry
 
                         fseek($this->fp, $countryOffset + 4);
 
-                        $location['area'] = $this->getarea();
-
                         break;
 
                     default:
                         $location['country'] = $this->getstring($byte);
-
-                        $location['area'] = $this->getarea();
 
                         break;
                 }
@@ -134,17 +130,14 @@ final class QQWry
 
                 fseek($this->fp, $offset + 8);
 
-                $location['area'] = $this->getarea();
-
                 break;
 
             default:
                 $location['country'] = $this->getstring($byte);
 
-                $location['area'] = $this->getarea();
-
                 break;
         }
+        $location['area'] = $this->getarea();
 
         if ($location['country'] === ' CZ88.NET') {
             $location['country'] = '未知';
@@ -171,7 +164,7 @@ final class QQWry
         return $result['long'];
     }
 
-    private function packip($ip)
+    private function packip($ip): string
     {
         return pack('N', (int) ip2long($ip));
     }

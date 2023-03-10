@@ -6,6 +6,7 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use Exception;
 use function json_encode;
 
 final class ImController extends BaseController
@@ -49,6 +50,9 @@ final class ImController extends BaseController
         'telegram_general_terms',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function im($request, $response, $args)
     {
         $settings = [];

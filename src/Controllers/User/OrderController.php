@@ -10,6 +10,8 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserCoupon;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -34,7 +36,10 @@ final class OrderController extends BaseController
         ],
     ];
 
-    public function order(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function order(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -43,7 +48,10 @@ final class OrderController extends BaseController
         );
     }
 
-    public function create(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $product_id = $antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
@@ -63,7 +71,10 @@ final class OrderController extends BaseController
         );
     }
 
-    public function detail(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $id = $antiXss->xss_clean($args['id']);
@@ -98,7 +109,7 @@ final class OrderController extends BaseController
         );
     }
 
-    public function process(ServerRequest $request, Response $response, array $args)
+    public function process(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
@@ -265,7 +276,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args)
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $orders = Order::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 

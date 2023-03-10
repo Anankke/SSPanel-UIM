@@ -12,6 +12,7 @@ use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Api;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Vectorface\GoogleAuthenticator;
 use function in_array;
 use function json_decode;
@@ -53,11 +54,17 @@ EOL;
         }
     }
 
+    /**
+     * @throws TelegramSDKException
+     */
     public function setTelegram(): void
     {
         $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
+
         $telegram = new Api($_ENV['telegram_token']);
+
         $telegram->removeWebhook();
+
         if ($telegram->setWebhook(['url' => $WebhookUrl])) {
             echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
         } else {
@@ -223,8 +230,15 @@ EOL;
     {
         $users = ModelsUser::all();
         foreach ($users as $user) {
+            $secret = '';
             $ga = new GoogleAuthenticator();
-            $secret = $ga->createSecret();
+
+            try {
+                $secret = $ga->createSecret();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
             $user->ga_token = $secret;
             $user->save();
         }
@@ -250,21 +264,19 @@ EOL;
      */
     public function createAdmin(): void
     {
+        $y = '';
+        $email = '';
+        $passwd = '';
+
         if (count($this->argv) === 3) {
             // ask for input
             fwrite(STDOUT, '(1/3) 请输入管理员邮箱：') . PHP_EOL;
             // get input
             $email = trim(fgets(STDIN));
-            if ($email === null) {
-                die("必须输入管理员邮箱.\r\n");
-            }
 
             // write input back
             fwrite(STDOUT, '(2/3) 请输入管理员账户密码：') . PHP_EOL;
             $passwd = trim(fgets(STDIN));
-            if ($passwd === null) {
-                die("必须输入管理员密码.\r\n");
-            }
 
             fwrite(STDOUT, '(3/3) 按 Y 或 y 确认创建：');
             $y = trim(fgets(STDIN));
@@ -304,7 +316,14 @@ EOL;
             $user->theme = $_ENV['theme'];
 
             $ga = new GoogleAuthenticator();
-            $secret = $ga->createSecret();
+            $secret = '';
+
+            try {
+                $secret = $ga->createSecret();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
             $user->ga_token = $secret;
             $user->ga_enable = 0;
 

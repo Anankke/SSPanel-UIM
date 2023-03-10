@@ -8,6 +8,7 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -40,7 +41,7 @@ final class PAYJS extends AbstractPayment
     /**
      * @name    准备签名/验签字符串
      */
-    public function prepareSign($data)
+    public function prepareSign($data): string
     {
         $data['mchid'] = Setting::obtain('payjs_mchid');
         $data = array_filter($data);
@@ -58,12 +59,12 @@ final class PAYJS extends AbstractPayment
      * @param   sourceData 原数据
      * @return
      */
-    public function verify($data, $signature)
+    public function verify($data, $signature): bool
     {
         $mySign = $this->sign($data);
         return $mySign === $signature;
     }
-    public function post($data, $type = 'pay')
+    public function post($data, $type = 'pay'): bool|string
     {
         if ($type === 'pay') {
             $this->gatewayUri .= 'cashier';
@@ -134,7 +135,7 @@ final class PAYJS extends AbstractPayment
             $data = array_filter($data);
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
-            $resultVerify = $sign ? true : false;
+            $resultVerify = $sign;
 
             if ($resultVerify) {
                 // 验重
@@ -151,7 +152,7 @@ final class PAYJS extends AbstractPayment
         return $response->write('FAIL1');
     }
 
-    public function refund($merchantTradeNo)
+    public function refund($merchantTradeNo): bool|string
     {
         $data = [];
         $data['payjs_order_id'] = $merchantTradeNo;
@@ -160,11 +161,17 @@ final class PAYJS extends AbstractPayment
         return $this->post($data, 'refund');
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/payjs.tpl');
     }
 
+    /**
+     * @throws Exception
+     */
     public function getReturnHTML($request, $response, $args): ResponseInterface
     {
         $pid = (int) $_GET['merchantTradeNo'];
@@ -179,7 +186,7 @@ final class PAYJS extends AbstractPayment
             $data = array_filter($data);
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
-            $resultVerify = $sign ? true : false;
+            $resultVerify = $sign;
 
             if ($resultVerify) {
                 $this->postPayment($data['out_trade_no'], 'PAYJS ' . $data['out_trade_no']);

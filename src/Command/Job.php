@@ -26,6 +26,8 @@ use App\Services\Mail;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function in_array;
 use function json_decode;
 use function time;
@@ -213,6 +215,9 @@ EOL;
 
     /**
      * 检查任务，每分钟
+     *
+     * @throws TelegramSDKException
+     * @throws ClientExceptionInterface
      */
     public function CheckJob(): void
     {
@@ -253,6 +258,7 @@ EOL;
             $adminUser = User::where('is_admin', '=', '1')->get();
             $nodes = Node::all();
             foreach ($nodes as $node) {
+                $notice_text = '';
                 if ($node->isNodeOnline() === false && $node->online === true) {
                     if ($_ENV['useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
@@ -319,6 +325,7 @@ EOL;
                         $context = stream_context_create($opts);
                         file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
+
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
@@ -408,6 +415,7 @@ EOL;
             if ($_ENV['notify_limit_mode'] !== false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
+                $unit_text = '';
 
                 if ($user->transfer_enable !== 0 && $user->class !== 0) {
                     if (

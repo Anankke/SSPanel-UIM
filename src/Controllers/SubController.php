@@ -85,9 +85,13 @@ final class SubController extends BaseController
                 $sub_info
             );
         }
+
+        return $response->withJson([
+            'ret' => 0,
+        ]);
     }
 
-    public static function getJson($user)
+    public static function getJson($user): array
     {
         $nodes = [];
         //篩選出用戶能連接的節點
@@ -101,12 +105,14 @@ final class SubController extends BaseController
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
+            $node = [];
             //檢查是否配置“前端/订阅中下发的服务器地址”
             if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
             }
+
             switch ($node_raw->sort) {
                 case '0':
                     $plugin = $node_custom_config['plugin'] ?? '';
@@ -193,9 +199,11 @@ final class SubController extends BaseController
                     ];
                     break;
             }
-            if ($node === null) {
+
+            if ($node === []) {
                 continue;
             }
+
             $nodes[] = $node;
         }
 
@@ -228,12 +236,14 @@ final class SubController extends BaseController
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
+            $node = [];
             //檢查是否配置“前端/订阅中下发的服务器地址”
             if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
             }
+
             switch ($node_raw->sort) {
                 case '0':
                     $plugin = $node_custom_config['plugin'] ?? '';
@@ -316,9 +326,11 @@ final class SubController extends BaseController
 
                     break;
             }
-            if ($node === null) {
+
+            if ($node === []) {
                 continue;
             }
+
             $nodes[] = $node;
 
             $indexes = [0, 1, 2, 5, 7, 8, 9, 12];
@@ -345,7 +357,7 @@ final class SubController extends BaseController
     {
     }
 
-    public static function getUniversalSub($user)
+    public static function getUniversalSub($user): string
     {
         $userid = $user->id;
         $token = Link::where('userid', $userid)->first();

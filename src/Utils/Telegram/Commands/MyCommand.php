@@ -43,11 +43,11 @@ final class MyCommand extends Command
         if ($ChatID < 0) {
             if (Setting::obtain('telegram_group_quiet') === true) {
                 // 群组中不回应
-                return;
+                return null;
             }
             if ($ChatID !== $_ENV['telegram_chatid']) {
                 // 非我方群组
-                return;
+                return null;
             }
         }
 

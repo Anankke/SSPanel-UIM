@@ -8,6 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\DetectLog;
 use App\Models\UserSubscribeLog;
 use App\Utils\Tools;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
@@ -15,8 +17,10 @@ final class LogController extends BaseController
 {
     /**
      * 订阅记录
+     *
+     * @throws Exception
      */
-    public function subscribe(ServerRequest $request, Response $response, array $args)
+    public function subscribe(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
@@ -26,7 +30,10 @@ final class LogController extends BaseController
             ->fetch('user/subscribe/log.tpl'));
     }
 
-    public function detect(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function detect(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 

@@ -26,7 +26,7 @@ final class Shop extends Model
         'content' => 'array',
     ];
 
-    public function content()
+    public function content(): string
     {
         $content_text = '';
         foreach ($this->content as $key => $value) {
@@ -89,18 +89,18 @@ final class Shop extends Model
         return $this->content['reset_exp'] ?? 0;
     }
 
-    public function trafficPackage()
+    public function trafficPackage(): bool
     {
         return isset($this->content['traffic_package']);
     }
 
-    public function contentExtra()
+    public function contentExtra(): array|int
     {
         if (isset($this->content['content_extra'])) {
             $content_extra = explode(';', $this->content['content_extra']);
             $content_extra_new = [];
             foreach ($content_extra as $innerContent) {
-                if (strpos($innerContent, '-') === false) {
+                if (! str_contains($innerContent, '-')) {
                     $innerContent = 'check-' . $innerContent;
                 }
                 $innerContent = explode('-', $innerContent);

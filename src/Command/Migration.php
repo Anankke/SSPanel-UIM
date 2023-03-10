@@ -13,7 +13,6 @@ use function is_numeric;
 use function krsort;
 use function ksort;
 use function scandir;
-use function substr;
 use const PHP_INT_MAX;
 use const SCANDIR_SORT_NONE;
 
@@ -47,7 +46,6 @@ END;
         } elseif ($target === 'new') {
             $tables = DB::select('SHOW TABLES');
             if ($tables === []) {
-                $min_version = 0;
                 $max_version = PHP_INT_MAX;
             } else {
                 echo "Database is not empty, do not use \"new\" as version.\n";
@@ -74,7 +72,7 @@ END;
         $files = scandir(BASE_PATH . '/db/migrations/', SCANDIR_SORT_NONE);
         if ($files) {
             foreach ($files as $file) {
-                if ($file === '.' || $file === '..' || substr($file, -4) !== '.php') {
+                if ($file === '.' || $file === '..' || ! str_ends_with($file, '.php')) {
                     continue;
                 }
                 $version = (int) explode('-', $file, 1)[0];

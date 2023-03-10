@@ -132,13 +132,13 @@ final class Bought extends Model
     /*
      * 下一次流量重置时间
      */
-    public function resetTime($unix = false)
+    public function resetTime($unix = false): float|int|string
     {
         $shop = $this->shop();
         if ($shop->useLoop()) {
             $day = 24 * 60 * 60;
             $resetIndex = 1 + (int) ((time() - $this->datetime - $day) / ($shop->reset() * $day));
-            $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
+            $restTime = $resetIndex * $shop->reset() * $day + (int) $this->datetime;
             $time = time() + ($day * 86400);
             return ! $unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', (int) $restTime)))) : $time;
         }
@@ -148,11 +148,11 @@ final class Bought extends Model
     /*
      * 过期时间
      */
-    public function expTime($unix = false)
+    public function expTime($unix = false): float|int|string
     {
         $shop = $this->shop();
         if ($shop->useLoop()) {
-            $time = $this->datetime + ($shop->resetExp() * 86400);
+            $time = (int) $this->datetime + ($shop->resetExp() * 86400);
             return ! $unix ? date('Y-m-d H:i:s', (int) $time) : $time;
         }
         return ! $unix ? '-' : 0;

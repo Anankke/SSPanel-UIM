@@ -171,17 +171,11 @@ final class ClientDownload extends Command
     {
         $savePath = $this->basePath . $task['savePath'];
         echo '====== ' . $task['name'] . ' 开始 ======' . PHP_EOL;
-        switch ($task['tagMethod']) {
-            case 'github_pre_release':
-                $tagMethod = 'getLatestPreReleaseTagName';
-                break;
-            case 'apkpure':
-                $tagMethod = 'getApkpureTagName';
-                break;
-            default:
-                $tagMethod = 'getLatestReleaseTagName';
-                break;
-        }
+        $tagMethod = match ($task['tagMethod']) {
+            'github_pre_release' => 'getLatestPreReleaseTagName',
+            'apkpure' => 'getApkpureTagName',
+            default => 'getLatestReleaseTagName',
+        };
         $tagName = $this->$tagMethod($task['gitRepo']);
         if (! isset($this->version[$task['name']])) {
             echo '- 本地不存在 ' . $task['name'] . '，检测到当前最新版本为 ' . $tagName . PHP_EOL;

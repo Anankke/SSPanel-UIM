@@ -8,7 +8,7 @@ use App\Services\Auth\Cookie;
 
 final class Factory
 {
-    public static function createAuth()
+    public static function createAuth(): Cookie
     {
         return new Cookie();
     }

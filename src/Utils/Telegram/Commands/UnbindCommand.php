@@ -34,8 +34,6 @@ final class UnbindCommand extends Command
         // 触发用户
         $SendUser = [
             'id' => $Message->getFrom()->getId(),
-            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
-            'username' => $Message->getFrom()->getUsername(),
         ];
 
         $User = TelegramTools::getUser($SendUser['id']);
@@ -60,6 +58,7 @@ final class UnbindCommand extends Command
             // 消息内容
             $MessageText = explode(' ', trim($Message->getText()));
             $MessageKey = array_splice($MessageText, -1)[0];
+            $text = '';
 
             if ($MessageKey === $User->email) {
                 $temp = $User->telegramReset();
@@ -90,7 +89,7 @@ final class UnbindCommand extends Command
         }
     }
 
-    public function sendtext()
+    public function sendtext(): string
     {
         $text = '以 `/unbind example@qq.com` 的形式发送进行解绑.';
         if (Setting::obtain('telegram_unbind_kick_member') === true) {

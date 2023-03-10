@@ -6,6 +6,7 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use Exception;
 use function json_encode;
 
 final class RegController extends BaseController
@@ -36,6 +37,9 @@ final class RegController extends BaseController
         'reg_forbidden_port',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function reg($request, $response, $args)
     {
         $settings = [];

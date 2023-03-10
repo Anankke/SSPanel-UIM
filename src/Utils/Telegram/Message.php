@@ -19,11 +19,6 @@ final class Message
     private Api $bot;
 
     /**
-     * 触发用户
-     */
-    private $User;
-
-    /**
      * 触发用户TG信息
      */
     private array $triggerUser;
@@ -43,6 +38,9 @@ final class Message
      */
     private $MessageID;
 
+    /**
+     * @throws TelegramSDKException
+     */
     public function __construct(Api $bot, \Telegram\Bot\Objects\Message $Message)
     {
         $this->bot = $bot;
@@ -81,6 +79,7 @@ final class Message
                             }
                         }
                     }
+
                     $this->bot->sendMessage(
                         [
                             'chat_id' => $this->ChatID,
@@ -119,6 +118,12 @@ final class Message
 
     /**
      * 入群检测
+     *
+     * @throws TelegramSDKException
+     * @throws TelegramSDKException
+     * @throws TelegramSDKException
+     * @throws TelegramSDKException
+     * @throws TelegramSDKException
      */
     public function newChatParticipant(): void
     {
@@ -126,17 +131,18 @@ final class Message
         $Member = [
             'id' => $NewChatMember->getId(),
             'name' => $NewChatMember->getFirstName() . ' ' . $NewChatMember->getLastName(),
-            'username' => $NewChatMember->getUsername(),
         ];
         if ($NewChatMember->getUsername() === $_ENV['telegram_bot']) {
             // 机器人加入新群组
             if (Setting::obtain('allow_to_join_new_groups') !== true && ! in_array($this->ChatID, json_decode(Setting::obtain('group_id_allowed_to_join')))) {
                 // 退群
+
                 $this->replyWithMessage(
                     [
                         'text' => '不约，叔叔我们不约.',
                     ]
                 );
+
                 TelegramTools::sendPost(
                     'kickChatMember',
                     [
@@ -179,6 +185,7 @@ final class Message
                         'text' => '由于 ' . $Member['name'] . ' 未绑定账户，将被移除。',
                     ]
                 );
+
                 TelegramTools::sendPost(
                     'kickChatMember',
                     [
@@ -190,6 +197,7 @@ final class Message
             }
             if (Setting::obtain('enable_welcome_message') === true) {
                 $text = ($NewUser->class >= 1 ? '欢迎 VIP' . $NewUser->class . ' 用户 ' . $Member['name'] . '加入群组。' : '欢迎 ' . $Member['name']);
+
                 $this->replyWithMessage(
                     [
                         'text' => $text,

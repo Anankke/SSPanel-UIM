@@ -11,19 +11,25 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\Shop;
 use App\Utils\ResponseHelper;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function time;
 
 final class ShopController extends BaseController
 {
-    public function shop(ServerRequest $request, Response $response, array $args)
+    /**
+     * @throws Exception
+     */
+    public function shop(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $shops = Shop::where('status', 1)->orderBy('name')->get();
+
         return $response->write($this->view()->assign('shops', $shops)->fetch('user/shop.tpl'));
     }
 
-    public function couponCheck(ServerRequest $request, Response $response, array $args)
+    public function couponCheck(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $coupon = $request->getParam('coupon');
         $coupon = trim($coupon);
@@ -72,7 +78,7 @@ final class ShopController extends BaseController
         ]);
     }
 
-    public function buy(ServerRequest $request, Response $response, array $args)
+    public function buy(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $shop = $request->getParam('shop');
@@ -159,7 +165,7 @@ final class ShopController extends BaseController
         return ResponseHelper::successfully($response, '购买成功');
     }
 
-    public function buyTrafficPackage(ServerRequest $request, Response $response, array $args)
+    public function buyTrafficPackage(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $user = $this->user;
         $shop = $request->getParam('shop');

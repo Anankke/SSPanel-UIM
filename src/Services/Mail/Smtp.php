@@ -12,6 +12,9 @@ final class Smtp extends Base
 {
     private PHPMailer $mail;
 
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function __construct()
     {
         $configs = Setting::getClass('smtp');
@@ -39,15 +42,19 @@ final class Smtp extends Base
         $this->mail = $mail;
     }
 
-    public function send($to, $subject, $text, $files): void
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
+     */
+    public function send($to, $subject, $text, $file): void
     {
         $mail = $this->mail;
         $mail->addAddress($to);     // Add a recipient
         $mail->isHTML();
         $mail->Subject = $subject;
         $mail->Body = $text;
-        foreach ($files as $file) {
-            $mail->addAttachment($file);
+        foreach ($file as $file_raw) {
+            $mail->addAttachment($file_raw);
         }
 
         if (! $mail->send()) {

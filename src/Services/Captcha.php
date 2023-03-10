@@ -12,18 +12,15 @@ final class Captcha
 {
     public static function generate(): array
     {
-        switch (Setting::obtain('captcha_provider')) {
-            case 'turnstile':
-                return [
-                    'turnstile_sitekey' => Setting::obtain('turnstile_sitekey'),
-                ];
-            case 'geetest':
-                return [
-                    'geetest_id' => Setting::obtain('geetest_id'),
-                ];
-        }
-
-        return [];
+        return match (Setting::obtain('captcha_provider')) {
+            'turnstile' => [
+                'turnstile_sitekey' => Setting::obtain('turnstile_sitekey'),
+            ],
+            'geetest' => [
+                'geetest_id' => Setting::obtain('geetest_id'),
+            ],
+            default => [],
+        };
     }
 
     /**
@@ -85,8 +82,6 @@ final class Captcha
                     );
                     if (json_decode($json)->result === 'success') {
                         $result = true;
-                    } else {
-                        $result = false;
                     }
                 }
                 break;

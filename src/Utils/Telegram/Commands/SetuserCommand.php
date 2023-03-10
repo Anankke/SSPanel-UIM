@@ -28,10 +28,7 @@ final class SetuserCommand extends Command
      */
     protected $description = '[群组/私聊] 修改用户数据，管理员命令.';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handle()
+    public function handle(): void
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
@@ -62,14 +59,13 @@ final class SetuserCommand extends Command
                         ]
                     );
                 }
-                return;
             }
         }
 
         // 发送 '输入中' 会话状态
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        return $this->reply($SendUser, $Message, $MessageID, $ChatID);
+        $this->reply($SendUser, $Message, $MessageID, $ChatID);
     }
 
     public function reply($SendUser, $Message, $MessageID, $ChatID): void
@@ -82,8 +78,6 @@ final class SetuserCommand extends Command
             // 回复源消息用户
             $FindUser = [
                 'id' => $Message->getReplyToMessage()->getFrom()->getId(),
-                'name' => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
-                'username' => $Message->getReplyToMessage()->getFrom()->getUsername(),
             ];
             $User = TelegramTools::getUser($FindUser['id']);
             if ($User === null) {
@@ -180,7 +174,7 @@ final class SetuserCommand extends Command
         if ($User === null) {
             // 默认搜寻字段
             $useMethod = 'email';
-            if (strpos($UserCode, ':') !== false) {
+            if (str_contains($UserCode, ':')) {
                 // 如果指定了字段
                 $UserCodeExplode = explode(':', $UserCode);
                 $Search = $UserCodeExplode[0];

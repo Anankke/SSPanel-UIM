@@ -6,6 +6,7 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use Exception;
 use function json_encode;
 
 final class RefController extends BaseController
@@ -21,6 +22,9 @@ final class RefController extends BaseController
         'rebate_time_range_limit',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function ref($request, $response, $args)
     {
         $settings = [];

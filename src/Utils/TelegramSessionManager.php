@@ -9,9 +9,8 @@ use function time;
 
 final class TelegramSessionManager
 {
-    public static function generateRandomLink()
+    public static function generateRandomLink(): string
     {
-        $i = 0;
         for ($i = 0; $i < 10; $i++) {
             $token = Tools::genRandomChar(16);
             $Elink = TelegramSession::where('session_content', '=', $token)->first();

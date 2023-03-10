@@ -6,6 +6,7 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use Exception;
 use function json_encode;
 
 final class SupportController extends BaseController
@@ -23,6 +24,9 @@ final class SupportController extends BaseController
         'admin_contact3',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function support($request, $response, $args)
     {
         $settings = [];
