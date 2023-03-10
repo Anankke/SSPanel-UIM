@@ -56,7 +56,7 @@
         hasMime('type', 'application/asx')
       ) {
         is360 = true;
-      };
+      }
     }
   }
 

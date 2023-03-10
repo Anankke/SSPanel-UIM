@@ -12,11 +12,11 @@ final class QQWry
 {
     private $fp;
 
-    private $firstip;
+    private mixed $firstip;
 
-    private $lastip;
+    private mixed $lastip;
 
-    private $totalip;
+    private int|float $totalip;
 
     public function __construct()
     {

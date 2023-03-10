@@ -19,7 +19,7 @@ use const SCANDIR_SORT_NONE;
 
 final class Migration extends Command
 {
-    public $description = <<< END
+    public string $description = <<< END
 ├─=: php xcat Migration [版本]
 │ ├─ <version>               - 迁移至指定版本（前进/退回）
 │ ├─ latest                  - 迁移至最新版本

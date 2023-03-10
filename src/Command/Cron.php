@@ -9,10 +9,13 @@ use App\Models\Order;
 use App\Models\User;
 use App\Utils\Tools;
 use DateTime;
+use function in_array;
+use function json_decode;
+use function time;
 
 final class Cron extends Command
 {
-    public $description = <<<EOL
+    public string $description = <<<EOL
 ├─=: php xcat Cron - 站点定时任务，每五分钟
 EOL;
 
@@ -31,24 +34,23 @@ EOL;
                 continue;
             }
             // 标记订单为等待激活
-            if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
+            if (in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
                 $order->status = 'pending_activation';
-                $order->update_time = \time();
+                $order->update_time = time();
                 $order->save();
                 echo "已标记订单 #{$order->id} 为等待激活。\n";
                 continue;
             }
             // 取消超时未支付的订单和关联账单
-            if ($order->create_time + 86400 < \time()) {
+            if ($order->create_time + 86400 < time()) {
                 $order->status = 'cancelled';
-                $order->update_time = \time();
+                $order->update_time = time();
                 $order->save();
                 echo "已取消超时订单 #{$order->id}。\n";
                 $invoice->status = 'cancelled';
-                $invoice->update_time = \time();
+                $invoice->update_time = time();
                 $invoice->save();
                 echo "已取消超时账单 #{$invoice->id}。\n";
-                continue;
             }
         }
 
@@ -66,10 +68,10 @@ EOL;
                 if ($pending_activation_orders !== null) {
                     $order = $pending_activation_orders[0];
                     $order->status = 'activated';
-                    $order->update_time = \time();
+                    $order->update_time = time();
                     $order->save();
                     // 获取订单内容准备激活
-                    $content = \json_decode($order->product_content);
+                    $content = json_decode($order->product_content);
                     // 激活商品
                     $old_expire_in = new DateTime($user->expire_in);
                     $user->expire_in = $old_expire_in->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
@@ -90,13 +92,12 @@ EOL;
             }
             // 如果用户账户中有已激活的订单，则判断是否过期
             if ($activated_order !== null) {
-                $content = \json_decode($activated_order->product_content);
-                if ($activated_order->update_time + $content->time * 86400 < \time()) {
+                $content = json_decode($activated_order->product_content);
+                if ($activated_order->update_time + $content->time * 86400 < time()) {
                     $activated_order->status = 'expired';
-                    $activated_order->update_time = \time();
+                    $activated_order->update_time = time();
                     $activated_order->save();
                     echo "订单 #{$order->id} 已过期。\n";
-                    continue;
                 }
             }
         }

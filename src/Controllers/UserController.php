@@ -32,15 +32,15 @@ use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function in_array;
+use function json_decode;
+use function time;
 
 /**
  *  HomeController
  */
 final class UserController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function index(ServerRequest $request, Response $response, array $args)
     {
         $captcha = [];
@@ -66,9 +66,6 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function code(ServerRequest $request, Response $response, array $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
@@ -88,9 +85,6 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function codeCheck(ServerRequest $request, Response $response, array $args)
     {
         $time = $request->getQueryParams()['time'];
@@ -108,9 +102,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function codePost(ServerRequest $request, Response $response, array $args)
     {
         $code = trim($request->getParam('code'));
@@ -150,8 +141,8 @@ final class UserController extends BaseController
         }
 
         if ($codeq->type === 10002) {
-            if (\time() > strtotime($user->expire_in)) {
-                $user->expire_in = date('Y-m-d H:i:s', \time() + (int) $codeq->number * 86400);
+            if (time() > strtotime($user->expire_in)) {
+                $user->expire_in = date('Y-m-d H:i:s', time() + (int) $codeq->number * 86400);
             } else {
                 $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + (int) $codeq->number * 86400);
             }
@@ -160,7 +151,7 @@ final class UserController extends BaseController
 
         if ($codeq->type >= 1 && $codeq->type <= 10000) {
             if ($user->class === 0 || $user->class !== $codeq->type) {
-                $user->class_expire = date('Y-m-d H:i:s', \time());
+                $user->class_expire = date('Y-m-d H:i:s', time());
                 $user->save();
             }
             $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + (int) $codeq->number * 86400);
@@ -174,9 +165,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetPort(ServerRequest $request, Response $response, array $args)
     {
         $temp = $this->user->resetPort();
@@ -186,9 +174,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function specifyPort(ServerRequest $request, Response $response, array $args)
     {
         $temp = $this->user->specifyPort((int) $request->getParam('port'));
@@ -198,9 +183,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function profile(ServerRequest $request, Response $response, array $args)
     {
         // 登录IP
@@ -214,9 +196,6 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function announcement(ServerRequest $request, Response $response, array $args)
     {
         $Anns = Ann::orderBy('date', 'desc')->get();
@@ -235,9 +214,6 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function docs(ServerRequest $request, Response $response, array $args)
     {
         $docs = Docs::orderBy('id', 'desc')->get();
@@ -256,9 +232,6 @@ final class UserController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function media(ServerRequest $request, Response $response, array $args)
     {
         $results = [];
@@ -270,11 +243,11 @@ final class UserController extends BaseController
 
             $unlock = StreamMedia::where('node_id', $node_id)
                 ->orderBy('id', 'desc')
-                ->where('created_at', '>', \time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
                 ->first();
 
             if ($unlock !== null && $node !== null) {
-                $details = \json_decode($unlock->result, true);
+                $details = json_decode($unlock->result, true);
                 $details = str_replace('Originals Only', '仅限自制', $details);
                 $details = str_replace('Oversea Only', '仅限海外', $details);
 
@@ -295,11 +268,11 @@ final class UserController extends BaseController
                 $key_node = Node::where('id', $key)->first();
                 $value_node = StreamMedia::where('node_id', $value)
                     ->orderBy('id', 'desc')
-                    ->where('created_at', '>', \time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                    ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
                     ->first();
 
                 if ($value_node !== null) {
-                    $details = \json_decode($value_node->result, true);
+                    $details = json_decode($value_node->result, true);
                     $details = str_replace('Originals Only', '仅限自制', $details);
                     $details = str_replace('Oversea Only', '仅限海外', $details);
 
@@ -322,9 +295,6 @@ final class UserController extends BaseController
             ->fetch('user/media.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function edit(ServerRequest $request, Response $response, array $args)
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
@@ -343,9 +313,6 @@ final class UserController extends BaseController
             ->fetch('user/edit.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function invite(ServerRequest $request, Response $response, array $args)
     {
         $code = InviteCode::where('user_id', $this->user->id)->first();
@@ -377,9 +344,6 @@ final class UserController extends BaseController
             ->fetch('user/invite.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function updatePassword(ServerRequest $request, Response $response, array $args)
     {
         $oldpwd = $request->getParam('oldpwd');
@@ -407,9 +371,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '修改成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function updateEmail(ServerRequest $request, Response $response, array $args)
     {
         $antiXss = new AntiXSS();
@@ -425,7 +386,7 @@ final class UserController extends BaseController
 
         if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
-            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', \time())->first();
+            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
@@ -454,9 +415,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '修改成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function updateUsername(ServerRequest $request, Response $response, array $args)
     {
         $antiXss = new AntiXSS();
@@ -470,9 +428,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '修改成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function bought(ServerRequest $request, Response $response, array $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
@@ -495,9 +450,6 @@ final class UserController extends BaseController
             ->fetch('user/bought.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function deleteBoughtGet(ServerRequest $request, Response $response, array $args)
     {
         $id = $request->getParam('id');
@@ -517,9 +469,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '关闭自动续费成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function updateContact(ServerRequest $request, Response $response, array $args)
     {
         $antiXss = new AntiXSS();
@@ -561,9 +510,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function updateTheme(ServerRequest $request, Response $response, array $args)
     {
         $antiXss = new AntiXSS();
@@ -587,13 +533,10 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function updateMail(ServerRequest $request, Response $response, array $args)
     {
         $value = (int) $request->getParam('mail');
-        if (\in_array($value, [0, 1, 2])) {
+        if (in_array($value, [0, 1, 2])) {
             $user = $this->user;
             if ($value === 2 && $_ENV['enable_telegram'] === false) {
                 return ResponseHelper::error(
@@ -608,14 +551,11 @@ final class UserController extends BaseController
         return ResponseHelper::error($response, '非法输入');
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetPasswd(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
         $pwd = Tools::genRandomChar(16);
-        $current_timestamp = \time();
+        $current_timestamp = time();
         $new_uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->email . '|' . $current_timestamp);
         $existing_uuid = User::where('uuid', $new_uuid)->first();
 
@@ -630,9 +570,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '修改成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function updateMethod(ServerRequest $request, Response $response, array $args)
     {
         $antiXss = new AntiXSS();
@@ -654,18 +591,12 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '修改成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function logout(ServerRequest $request, Response $response, array $args)
     {
         Auth::logout();
         return $response->withStatus(302)->withHeader('Location', '/');
     }
 
-    /**
-     * @param array     $args
-     */
     public function doCheckIn(ServerRequest $request, Response $response, array $args)
     {
         if ($_ENV['enable_checkin'] === false) {
@@ -679,7 +610,7 @@ final class UserController extends BaseController
             }
         }
 
-        if (strtotime($this->user->expire_in) < \time()) {
+        if (strtotime($this->user->expire_in) < time()) {
             return ResponseHelper::error($response, '没有过期的账户才可以签到');
         }
 
@@ -701,17 +632,11 @@ final class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function kill(ServerRequest $request, Response $response, array $args)
     {
         return $response->write($this->view()->fetch('user/kill.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function handleKill(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -730,9 +655,6 @@ final class UserController extends BaseController
         return ResponseHelper::error($response, '管理员不允许删除，如需删除请联系管理员。');
     }
 
-    /**
-     * @param array     $args
-     */
     public function banned(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -741,9 +663,6 @@ final class UserController extends BaseController
             ->fetch('user/banned.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetTelegram(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -752,9 +671,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '重置成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetURL(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -763,9 +679,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '重置成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function resetInviteURL(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -774,9 +687,6 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '重置成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function backtoadmin(ServerRequest $request, Response $response, array $args)
     {
         $userid = Cookie::get('uid');
@@ -797,7 +707,7 @@ final class UserController extends BaseController
                 'old_ip' => null,
                 'old_expire_in' => null,
                 'old_local' => null,
-            ], \time() - 1000);
+            ], time() - 1000);
         }
         $expire_in = Cookie::get('old_expire_in');
         $local = Cookie::get('old_local');
@@ -817,9 +727,6 @@ final class UserController extends BaseController
         return $response->withStatus(302)->withHeader('Location', $local);
     }
 
-    /**
-     * @param array     $args
-     */
     public function switchThemeMode(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;

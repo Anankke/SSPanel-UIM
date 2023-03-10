@@ -22,7 +22,7 @@ use Slim\Http\ServerRequest;
 
 final class Epay extends AbstractPayment
 {
-    protected $epay = [];
+    protected array $epay = [];
 
     public function __construct()
     {
@@ -138,7 +138,7 @@ final class Epay extends AbstractPayment
 
         if ($user->use_new_shop) {
             $html = <<<HTML
-            您已成功充值 ${money} 元，正在跳转..
+            您已成功充值 {$money} 元，正在跳转..
             <script>
                 setTimeout(function() {
                     location.href="/user/invoice";
@@ -147,7 +147,7 @@ final class Epay extends AbstractPayment
             HTML;
         } else {
             $html = <<<HTML
-            您已成功充值 ${money} 元，正在跳转..
+            您已成功充值 {$money} 元，正在跳转..
             <script>
                 setTimeout(function() {
                     location.href="/user/code";

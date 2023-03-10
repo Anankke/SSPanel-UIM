@@ -6,8 +6,8 @@ namespace App\Utils;
 
 final class ClassHelper
 {
-    private static $composer = null;
-    private static $classes = [];
+    private static mixed $composer = null;
+    private static array $classes = [];
 
     public function __construct()
     {

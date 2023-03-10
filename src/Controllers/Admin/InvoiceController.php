@@ -10,6 +10,9 @@ use App\Models\Order;
 use App\Utils\Tools;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function in_array;
+use function json_decode;
+use function time;
 
 final class InvoiceController extends BaseController
 {
@@ -45,7 +48,7 @@ final class InvoiceController extends BaseController
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content);
+        $invoice_content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -60,7 +63,7 @@ final class InvoiceController extends BaseController
         $invoice_id = $args['id'];
         $invoice = Invoice::find($invoice_id);
 
-        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
+        if (in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '不能标记已经支付的账单',
@@ -76,12 +79,12 @@ final class InvoiceController extends BaseController
             ]);
         }
 
-        $order->update_time = \time();
+        $order->update_time = time();
         $order->status = 'pending_activation';
         $order->save();
 
-        $invoice->update_time = \time();
-        $invoice->pay_time = \time();
+        $invoice->update_time = time();
+        $invoice->pay_time = time();
         $invoice->status = 'paid_admin';
         $invoice->save();
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway\Epay;
 
+use function time;
+
 final class EpayTool
 {
     public static function md5Sign($prestr, $key)
@@ -81,7 +83,7 @@ final class EpayTool
     {
         $fp = fopen('/storage/epaylog.txt', 'a');
         flock($fp, LOCK_EX);
-        fwrite($fp, '执行日期：'.date('Y-m-d H:i:s', \time())."\n".$word."\n");
+        fwrite($fp, '执行日期：'.date('Y-m-d H:i:s', time())."\n".$word."\n");
         flock($fp, LOCK_UN);
         fclose($fp);
     }

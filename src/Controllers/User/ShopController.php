@@ -13,21 +13,16 @@ use App\Models\Shop;
 use App\Utils\ResponseHelper;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 final class ShopController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function shop(ServerRequest $request, Response $response, array $args)
     {
         $shops = Shop::where('status', 1)->orderBy('name')->get();
         return $response->write($this->view()->assign('shops', $shops)->fetch('user/shop.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function couponCheck(ServerRequest $request, Response $response, array $args)
     {
         $coupon = $request->getParam('coupon');
@@ -77,9 +72,6 @@ final class ShopController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function buy(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -117,7 +109,7 @@ final class ShopController extends BaseController
             if ($coupon->order($shop->id) === false) {
                 return ResponseHelper::error($response, '此优惠码不适用于此商品');
             }
-            if ($coupon->expire < \time()) {
+            if ($coupon->expire < time()) {
                 return ResponseHelper::error($response, '此优惠码已过期');
             }
             if ($coupon->onetime > 0) {
@@ -148,11 +140,11 @@ final class ShopController extends BaseController
         $bought = new Bought();
         $bought->userid = $user->id;
         $bought->shopid = $shop->id;
-        $bought->datetime = \time();
+        $bought->datetime = time();
         if ($autorenew === 0 || $shop->auto_renew === 0) {
             $bought->renew = 0;
         } else {
-            $bought->renew = \time() + $shop->auto_renew * 86400;
+            $bought->renew = time() + $shop->auto_renew * 86400;
         }
         $bought->coupon = $coupon_code;
         $bought->price = $price;
@@ -167,9 +159,6 @@ final class ShopController extends BaseController
         return ResponseHelper::successfully($response, '购买成功');
     }
 
-    /**
-     * @param array     $args
-     */
     public function buyTrafficPackage(ServerRequest $request, Response $response, array $args)
     {
         $user = $this->user;
@@ -200,7 +189,7 @@ final class ShopController extends BaseController
         $bought = new Bought();
         $bought->userid = $user->id;
         $bought->shopid = $shop->id;
-        $bought->datetime = \time();
+        $bought->datetime = time();
         $bought->renew = 0;
         $bought->coupon = 0;
         $bought->price = $price;

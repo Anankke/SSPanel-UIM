@@ -8,19 +8,21 @@ use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
+use function json_decode;
+use function time;
 
 final class DetectGFW extends Command
 {
-    public $description = '├─=: php xcat DetectGFW      - 节点被墙检测定时任务' . PHP_EOL;
+    public string $description = '├─=: php xcat DetectGFW      - 节点被墙检测定时任务' . PHP_EOL;
 
     public function boot(): void
     {
         //节点被墙检测
         $last_time = file_get_contents(BASE_PATH . '/storage/last_detect_gfw_time');
         for ($count = 1; $count <= 12; $count++) {
-            if (\time() - $last_time >= $_ENV['detect_gfw_interval']) {
+            if (time() - $last_time >= $_ENV['detect_gfw_interval']) {
                 $file_interval = fopen(BASE_PATH . '/storage/last_detect_gfw_time', 'wb');
-                fwrite($file_interval, (string) \time());
+                fwrite($file_interval, (string) time());
                 fclose($file_interval);
                 $nodes = Node::all();
                 $adminUser = User::where('is_admin', '=', '1')->get();
@@ -42,7 +44,7 @@ final class DetectGFW extends Command
                     $result_tcping = false;
                     $detect_time = $_ENV['detect_gfw_count'];
                     for ($i = 1; $i <= $detect_time; $i++) {
-                        $json_tcping = \json_decode(file_get_contents($api_url), true);
+                        $json_tcping = json_decode(file_get_contents($api_url), true);
                         if ($json_tcping['status'] === 'true') {
                             $result_tcping = true;
                             break;

@@ -20,9 +20,9 @@
 							parent.addClass('control-highlight');
 						} else {
 							parent.removeClass('control-highlight');
-						};
-				};
-			};
+						}
+				}
+			}
 
 			return this;
 		};

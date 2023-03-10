@@ -111,7 +111,7 @@
                     }
                 })
             });
-        };
+        }
 
         function cancelOrder(order_id) {
             $('#notice-message').text('确定取消此订单？');
@@ -133,7 +133,7 @@
                     }
                 })
             });
-        };
+        }
 
         function reloadTableAjax() {
             table.ajax.reload(null, false);

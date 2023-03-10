@@ -16,6 +16,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function in_array;
+use function is_array;
+use function json_decode;
+use function time;
 
 final class UserController extends BaseController
 {
@@ -38,7 +42,7 @@ final class UserController extends BaseController
             ]);
         }
 
-        $node->update(['node_heartbeat' => \time()]);
+        $node->update(['node_heartbeat' => time()]);
 
         if (($node->node_bandwidth_limit !== 0) && $node->node_bandwidth_limit < $node->node_bandwidth) {
             return $response->withJson([
@@ -57,7 +61,7 @@ final class UserController extends BaseController
             })
             ->get();
 
-        if (\in_array($node->sort, [11, 14])) {
+        if (in_array($node->sort, [11, 14])) {
             $key_list = [
                 'id', 'node_connector', 'node_speedlimit', 'node_iplimit', 'uuid', 'alive_ip',
             ];
@@ -103,8 +107,8 @@ final class UserController extends BaseController
      */
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $data = \json_decode($request->getBody()->__toString());
-        if (! $data || ! \is_array($data?->data)) {
+        $data = json_decode($request->getBody()->__toString());
+        if (! $data || ! is_array($data?->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -157,8 +161,8 @@ final class UserController extends BaseController
      */
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $data = \json_decode($request->getBody()->__toString());
-        if (! $data || ! \is_array($data?->data)) {
+        $data = json_decode($request->getBody()->__toString());
+        if (! $data || ! is_array($data?->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -181,7 +185,7 @@ final class UserController extends BaseController
                 'userid' => $userid,
                 'nodeid' => $node_id,
                 'ip' => $ip,
-                'datetime' => \time(),
+                'datetime' => time(),
             ]);
         }
 
@@ -202,8 +206,8 @@ final class UserController extends BaseController
      */
     public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $data = \json_decode($request->getBody()->__toString());
-        if (! $data || ! \is_array($data?->data)) {
+        $data = json_decode($request->getBody()->__toString());
+        if (! $data || ! is_array($data?->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -226,7 +230,7 @@ final class UserController extends BaseController
                 'user_id' => $user_id,
                 'list_id' => $list_id,
                 'node_id' => $node_id,
-                'datetime' => \time(),
+                'datetime' => time(),
             ]);
         }
 

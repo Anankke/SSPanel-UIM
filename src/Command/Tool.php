@@ -11,11 +11,16 @@ use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
+use Telegram\Bot\Api;
 use Vectorface\GoogleAuthenticator;
+use function in_array;
+use function json_decode;
+use function json_encode;
+use function time;
 
 final class Tool extends Command
 {
-    public $description = <<<EOL
+    public string $description = <<<EOL
 ├─=: php xcat Tool [选项]
 │ ├─ setTelegram             - 设置 Telegram 机器人
 │ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置
@@ -51,7 +56,7 @@ EOL;
     public function setTelegram(): void
     {
         $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
-        $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
+        $telegram = new Api($_ENV['telegram_token']);
         $telegram->removeWebhook();
         if ($telegram->setWebhook(['url' => $WebhookUrl])) {
             echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
@@ -83,7 +88,7 @@ EOL;
             $setting->value = $setting->default;
         }
 
-        $json_settings = \json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json_settings = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents('./config/settings.json', $json_settings);
 
         echo '已导出所有数据库设置' . PHP_EOL;
@@ -92,7 +97,7 @@ EOL;
     public function importAllSettings(): void
     {
         $json_settings = file_get_contents('./config/settings.json');
-        $settings = \json_decode($json_settings, true);
+        $settings = json_decode($json_settings, true);
         $config = [];
         $add_counter = 0;
         $del_counter = 0;
@@ -115,26 +120,26 @@ EOL;
                 $new_item->mark = $item['mark'];
                 $new_item->save();
 
-                echo "添加新数据库设置：${item_name}" . PHP_EOL;
+                echo "添加新数据库设置：{$item_name}" . PHP_EOL;
                 $add_counter += 1;
             }
         }
         // 检查移除
         $db_settings = Setting::all();
         foreach ($db_settings as $db_setting) {
-            if (! \in_array($db_setting->item, $config)) {
+            if (! in_array($db_setting->item, $config)) {
                 $db_setting->delete();
                 $del_counter += 1;
             }
         }
 
         if ($add_counter !== 0) {
-            echo "总计添加了 ${add_counter} 项新数据库设置" . PHP_EOL;
+            echo "总计添加了 {$add_counter} 项新数据库设置" . PHP_EOL;
         } else {
             echo '没有任何新数据库设置项需要添加' . PHP_EOL;
         }
         if ($del_counter !== 0) {
-            echo "总计移除了 ${del_counter} 项数据库设置" . PHP_EOL;
+            echo "总计移除了 {$del_counter} 项数据库设置" . PHP_EOL;
         }
     }
 
@@ -203,7 +208,7 @@ EOL;
     public function generateUUID(): void
     {
         $users = ModelsUser::all();
-        $current_timestamp = \time();
+        $current_timestamp = time();
         foreach ($users as $user) {
             /** @var ModelsUser $user */
             $user->generateUUID($current_timestamp);
@@ -232,7 +237,7 @@ EOL;
     public function generateApiToken(): void
     {
         $users = ModelsUser::all();
-        $current_timestamp = \time();
+        $current_timestamp = time();
         foreach ($users as $user) {
             /** @var ModelsUser $user */
             $user->generateApiToken($current_timestamp);
@@ -269,7 +274,7 @@ EOL;
         }
 
         if (strtolower($y) === 'y') {
-            $current_timestamp = \time();
+            $current_timestamp = time();
             // create admin user
             $configs = Setting::getClass('register');
             // do reg user
@@ -289,7 +294,7 @@ EOL;
             $user->invite_num = $configs['sign_up_for_invitation_codes'];
             $user->ref_by = 0;
             $user->is_admin = 1;
-            $user->expire_in = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_free_time'] * 86400);
+            $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
             $user->reg_date = date('Y-m-d H:i:s');
             $user->money = 0;
             $user->im_type = 1;
@@ -320,7 +325,7 @@ EOL;
     {
         if (count($this->argv) === 4) {
             $user = ModelsUser::find($this->argv[3]);
-            $expire_in = 86400 + \time();
+            $expire_in = 86400 + time();
             echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
         }
     }

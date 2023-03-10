@@ -10,13 +10,12 @@ use App\Models\Shop;
 use App\Utils\ResponseHelper;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function in_array;
 
 final class ShopController extends BaseController
 {
     /**
      * 后台商品页面
-     *
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args)
     {
@@ -39,8 +38,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台创建新商品页面
-     *
-     * @param array     $args
      */
     public function create(ServerRequest $request, Response $response, array $args)
     {
@@ -52,8 +49,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台添加新商品
-     *
-     * @param array     $args
      */
     public function add(ServerRequest $request, Response $response, array $args)
     {
@@ -117,8 +112,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台编辑指定商品
-     *
-     * @param array     $args
      */
     public function edit(ServerRequest $request, Response $response, array $args)
     {
@@ -133,8 +126,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台更新指定商品内容
-     *
-     * @param array     $args
      */
     public function update(ServerRequest $request, Response $response, array $args)
     {
@@ -207,8 +198,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台下架指定商品
-     *
-     * @param array     $args
      */
     public function deleteGet(ServerRequest $request, Response $response, array $args)
     {
@@ -234,8 +223,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台购买记录页面
-     *
-     * @param array     $args
      */
     public function bought(ServerRequest $request, Response $response, array $args)
     {
@@ -258,8 +245,6 @@ final class ShopController extends BaseController
 
     /**
      * 后台退订指定购买记录的自动续费
-     *
-     * @param array     $args
      */
     public function deleteBoughtGet(ServerRequest $request, Response $response, array $args)
     {
@@ -280,15 +265,13 @@ final class ShopController extends BaseController
 
     /**
      * 后台商品页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajaxShop(ServerRequest $request, Response $response, array $args)
     {
         $query = Shop::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (\in_array($order_field, ['op', 'period_sales'])) {
+                if (in_array($order_field, ['op', 'period_sales'])) {
                     $order_field = 'id';
                 }
             }
@@ -322,21 +305,19 @@ final class ShopController extends BaseController
 
     /**
      * 后台购买记录 AJAX
-     *
-     * @param array     $args
      */
     public function ajaxBought(ServerRequest $request, Response $response, array $args)
     {
         $query = Bought::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (\in_array($order_field, ['op'])) {
+                if ($order_field === 'op') {
                     $order_field = 'id';
                 }
-                if (\in_array($order_field, ['content', 'auto_reset_bandwidth'])) {
+                if (in_array($order_field, ['content', 'auto_reset_bandwidth'])) {
                     $order_field = 'shopid';
                 }
-                if (\in_array($order_field, ['user_name'])) {
+                if ($order_field === 'user_name') {
                     $order_field = 'userid';
                 }
             }

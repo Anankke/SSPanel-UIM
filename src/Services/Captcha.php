@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Setting;
+use function hash_hmac;
+use function json_decode;
 
 final class Captcha
 {
@@ -47,7 +49,7 @@ final class Captcha
                     ],
                     ];
                     $json = file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create($opts));
-                    $result = \json_decode($json)->success;
+                    $result = json_decode($json)->success;
                 }
                 break;
             case 'geetest':
@@ -58,7 +60,7 @@ final class Captcha
                     $captcha_output = $param['geetest']['captcha_output'];
                     $pass_token = $param['geetest']['pass_token'];
                     $gen_time = $param['geetest']['gen_time'];
-                    $sign_token = \hash_hmac('sha256', $lot_number, $captcha_key);
+                    $sign_token = hash_hmac('sha256', $lot_number, $captcha_key);
                     $postdata = http_build_query(
                         [
                             'lot_number' => $lot_number,
@@ -81,7 +83,7 @@ final class Captcha
                         false,
                         stream_context_create($opts)
                     );
-                    if (\json_decode($json)->result === 'success') {
+                    if (json_decode($json)->result === 'success') {
                         $result = true;
                     } else {
                         $result = false;

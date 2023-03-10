@@ -11,9 +11,6 @@ use Slim\Http\ServerRequest;
 
 final class DetectController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function index(ServerRequest $request, Response $response, array $args)
     {
         $rules = DetectRule::get();

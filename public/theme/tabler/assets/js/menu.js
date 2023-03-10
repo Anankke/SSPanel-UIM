@@ -16,7 +16,7 @@
 
 		if (!$.fn.modal) {
 			throw new Error('Menu requires Bootstrap modal.js');
-		};
+		}
 
 		Menu.DEFAULTS = $.extend({}, $.fn.modal.Constructor.DEFAULTS, {});
 		Menu.TRANSITION_DURATION = 300;
@@ -36,24 +36,24 @@
 					if (this.ignoreBackdropClick) {
 						this.ignoreBackdropClick = false;
 						return;
-					};
+					}
 
 					if (e.target !== e.currentTarget) {
 						return;
-					};
+					}
 
 					this.options.backdrop == 'static' ? this.$element[0].focus() : this.hide();
 				}, this));
 
 				if (doAnimate) {
 					this.$backdrop[0].offsetWidth;
-				};
+				}
 
 				this.$backdrop.addClass('in');
 
 				if (!callback) {
 					return;
-				};
+				}
 
 				doAnimate ? this.$backdrop.one('bsTransitionEnd', callback).emulateTransitionEnd(Menu.TRANSITION_DURATION_BACKDROP) : callback();
 			} else if (!this.isShown && this.$backdrop) {
@@ -67,7 +67,7 @@
 				$.support.transition ? this.$backdrop.one('bsTransitionEnd', callbackRemove).emulateTransitionEnd(Menu.TRANSITION_DURATION_BACKDROP) : callbackRemove();
 			} else if (callback) {
 				callback();
-			};
+			}
 		};
 
 		Menu.prototype.hide = function (e) {
@@ -79,7 +79,7 @@
 
 			if (!this.isShown || e.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			this.isShown = false;
 
@@ -112,7 +112,7 @@
 
 			if (this.isShown || e.isDefaultPrevented()) {
 				return;
-			};
+			}
 
 			this.isShown = true;
 
@@ -124,7 +124,7 @@
 				that.$element.one('mouseup.dismiss.bs.menu', function (e) {
 					if ($(e.target).is(that.$element)) {
 						that.ignoreBackdropClick = true;
-					};
+					}
 				});
 			});
 
@@ -133,13 +133,13 @@
 
 				if (!that.$element.parent().length) {
 					that.$element.appendTo(that.$body);
-				};
+				}
 
 				that.$element.show();
 
 				if (transition) {
 					that.$element[0].offsetWidth;
-				};
+				}
 
 				that.$element.addClass('in');
 
@@ -163,7 +163,7 @@
 				if (typeof option == 'string') data[option](_relatedTarget);
 				else if (options.show) data.show(_relatedTarget);
 			});
-		};
+		}
 
 		var old = $.fn.menu;
 
@@ -188,7 +188,7 @@
 					return;
 				} else {
 					$target.attr('tabindex', '-1');
-				};
+				}
 
 				$target.one('hidden.bs.menu', function () {
 					$this.is(':visible') && $this.trigger('focus');

@@ -30,7 +30,7 @@ final class ErrorHandler implements MiddlewareInterface
             $response = $response->withStatus($code);
         } catch (Throwable $e) {
             $response_factory = AppFactory::determineResponseFactory();
-            if ($_ENV['debug'] ?? false === true) {
+            if ($_ENV['debug'] === true) {
                 $callable_resolver = new CallableResolver(null);
                 $error_handler = new SlimErrorHandler($callable_resolver, $response_factory);
                 $response = $error_handler($request, $e, true, true, false);

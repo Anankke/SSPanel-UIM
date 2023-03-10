@@ -6,10 +6,11 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use function json_encode;
 
 final class CaptchaController extends BaseController
 {
-    public static $update_field = [
+    public static array $update_field = [
         'captcha_provider',
         'enable_reg_captcha',
         'enable_login_captcha',
@@ -52,15 +53,15 @@ final class CaptchaController extends BaseController
             $setting = Setting::where('item', '=', $item)->first();
 
             if ($setting->type === 'array') {
-                $setting->value = \json_encode($request->getParam("${item}"));
+                $setting->value = json_encode($request->getParam("{$item}"));
             } else {
-                $setting->value = $request->getParam("${item}");
+                $setting->value = $request->getParam("{$item}");
             }
 
             if (! $setting->save()) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => "保存 ${item} 时出错",
+                    'msg' => "保存 {$item} 时出错",
                 ]);
             }
         }

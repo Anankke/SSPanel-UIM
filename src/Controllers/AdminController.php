@@ -15,8 +15,6 @@ final class AdminController extends BaseController
 {
     /**
      * 后台首页
-     *
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args)
     {

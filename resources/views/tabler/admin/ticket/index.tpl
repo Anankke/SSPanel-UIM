@@ -111,7 +111,7 @@
                     }
                 });
             });
-        };
+        }
 
         function deleteTicket(ticket_id) {
             $('#notice-message').text('确定删除此工单？');
@@ -133,7 +133,7 @@
                     }
                 })
             });
-        };
+        }
 
         function reloadTableAjax() {
             table.ajax.reload(null, false);

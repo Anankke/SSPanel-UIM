@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\Node;
 use App\Models\User;
 use App\Utils\Tools;
+use function time;
 
 final class Analytics
 {
@@ -92,7 +93,7 @@ final class Analytics
 
     public function getOnlineUser($time)
     {
-        $time = \time() - $time;
+        $time = time() - $time;
         return User::where('t', '>', $time)->count();
     }
 
@@ -131,6 +132,6 @@ final class Analytics
                     ->orWhere('sort', '=', 13)
                     ->orWhere('sort', '=', 14);
             }
-        )->where('node_heartbeat', '>', \time() - 90)->count();
+        )->where('node_heartbeat', '>', time() - 90)->count();
     }
 }

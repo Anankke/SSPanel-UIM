@@ -11,7 +11,7 @@ use Ozdemir\Datatables\DB\MySQL;
 
 final class FinanceMail extends Command
 {
-    public $description = <<<EOL
+    public string $description = <<<EOL
 ├─=: php xcat FinanceMail [选项]
 │ ├─ day                     - 日报
 │ ├─ week                    - 周报

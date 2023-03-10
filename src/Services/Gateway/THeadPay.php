@@ -15,7 +15,7 @@ use Slim\Http\ServerRequest;
 
 final class THeadPay extends AbstractPayment
 {
-    protected $sdk;
+    protected THeadPaySDK $sdk;
 
     public function __construct()
     {

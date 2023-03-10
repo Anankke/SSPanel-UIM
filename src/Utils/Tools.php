@@ -11,6 +11,10 @@ use App\Models\User;
 use App\Services\Config;
 use DateTime;
 use ZipArchive;
+use function hash;
+use function in_array;
+use function json_encode;
+use function time;
 
 final class Tools
 {
@@ -143,7 +147,7 @@ final class Tools
     public static function secondsToTime($seconds)
     {
         $dtF = new DateTime('@0');
-        $dtT = new DateTime("@${seconds}");
+        $dtT = new DateTime("@{$seconds}");
         return $dtF->diff($dtT)->format('%a 天, %h 小时, %i 分 + %s 秒');
     }
 
@@ -208,7 +212,7 @@ final class Tools
     public static function isParamValidate($type, $str)
     {
         $list = Config::getSupportParam($type);
-        if (\in_array($str, $list)) {
+        if (in_array($str, $list)) {
             return true;
         }
         return false;
@@ -216,13 +220,11 @@ final class Tools
 
     /**
      * Filter key in `App\Models\Model` object
-     *
-     * @param array $filter_array
      */
     public static function keyFilter(Model $object, array $filter_array): Model
     {
         foreach ($object->toArray() as $key => $value) {
-            if (! \in_array($key, $filter_array)) {
+            if (! in_array($key, $filter_array)) {
                 unset($object->$key);
             }
         }
@@ -276,7 +278,7 @@ final class Tools
         $handle = opendir($folder);
         while (($f = readdir($handle)) !== false) {
             if ($f !== '.' && $f !== '..') {
-                $filePath = "${folder}/${f}";
+                $filePath = "{$folder}/{$f}";
                 // Remove prefix from file path before add to zip.
                 $localPath = substr($filePath, $exclusiveLength);
                 if (is_file($filePath)) {
@@ -294,7 +296,7 @@ final class Tools
     /**
      * 清空文件夹
      *
-     * @param string $dirName
+     * @param $dirPath
      */
     public static function delDirAndFile($dirPath): void
     {
@@ -318,7 +320,7 @@ final class Tools
      *
      * @param mixed $data
      */
-    public static function paginateRender($data): string
+    public static function paginateRender(mixed $data): string
     {
         $totalPage = $data->lastPage();
         $currentPage = $data->currentPage();
@@ -386,7 +388,7 @@ final class Tools
 
     public static function etag($data)
     {
-        return \hash('crc32c', (string) \json_encode($data));
+        return hash('crc32c', (string) json_encode($data));
     }
 
     public static function genSubToken()
@@ -606,7 +608,7 @@ final class Tools
      */
     public static function getCouponStatus($coupon)
     {
-        if ($coupon->expire_time < \time()) {
+        if ($coupon->expire_time < time()) {
             return '已过期';
         }
         return '激活';

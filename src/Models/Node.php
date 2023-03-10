@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function time;
+
 final class Node extends Model
 {
     protected $connection = 'default';
@@ -85,10 +87,10 @@ final class Node extends Model
     public function getNodeOnlineStatus(): int
     {
         // 类型 9 或者心跳为 0
-        if ($this->node_heartbeat === 0 || \in_array($this->sort, [9])) {
+        if ($this->node_heartbeat === 0 || $this->sort === 9) {
             return 0;
         }
-        return $this->node_heartbeat + 300 > \time() ? 1 : -1;
+        return $this->node_heartbeat + 300 > time() ? 1 : -1;
     }
 
     /**
@@ -113,7 +115,7 @@ final class Node extends Model
         if ($this->node_heartbeat === 0) {
             return false;
         }
-        return $this->node_heartbeat > \time() - 300;
+        return $this->node_heartbeat > time() - 300;
     }
 
     /**

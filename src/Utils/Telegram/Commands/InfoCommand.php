@@ -10,6 +10,8 @@ use App\Utils\Telegram\Reply;
 use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function in_array;
+use function json_decode;
 
 /**
  * Class InfoCommand.
@@ -46,7 +48,7 @@ final class InfoCommand extends Command
                 'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
                 'username' => $Message->getFrom()->getUsername(),
             ];
-            if (! \in_array($SendUser['id'], \json_decode(Setting::obtain('telegram_admins')))) {
+            if (! in_array($SendUser['id'], json_decode(Setting::obtain('telegram_admins')))) {
                 $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
                 if ($AdminUser === null) {
                     // 非管理员回复消息

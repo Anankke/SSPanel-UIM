@@ -13,6 +13,7 @@ use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 /*
  * Class Password
@@ -22,9 +23,6 @@ use Slim\Http\ServerRequest;
  */
 final class PasswordController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function reset(ServerRequest $request, Response $response, array $args)
     {
         $captcha = [];
@@ -40,9 +38,6 @@ final class PasswordController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function handleReset(ServerRequest $request, Response $response, array $args)
     {
         if (Setting::obtain('enable_reset_password_captcha') === true) {
@@ -68,12 +63,9 @@ final class PasswordController extends BaseController
         return ResponseHelper::successfully($response, $msg);
     }
 
-    /**
-     * @param array     $args
-     */
     public function token(ServerRequest $request, Response $response, array $args)
     {
-        $token = PasswordReset::where('token', $args['token'])->where('expire_time', '>', \time())->orderBy('id', 'desc')->first();
+        $token = PasswordReset::where('token', $args['token'])->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
         if ($token === null) {
             return $response->withStatus(302)->withHeader('Location', '/password/reset');
         }
@@ -83,9 +75,6 @@ final class PasswordController extends BaseController
         );
     }
 
-    /**
-     * @param array     $args
-     */
     public function handleToken(ServerRequest $request, Response $response, array $args)
     {
         $tokenStr = $args['token'];
@@ -101,7 +90,7 @@ final class PasswordController extends BaseController
         }
 
         /** @var PasswordReset $token */
-        $token = PasswordReset::where('token', $tokenStr)->where('expire_time', '>', \time())->orderBy('id', 'desc')->first();
+        $token = PasswordReset::where('token', $tokenStr)->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
         if ($token === null) {
             return ResponseHelper::error($response, '链接已经失效，请重新获取');
         }
@@ -125,7 +114,7 @@ final class PasswordController extends BaseController
         }
 
         // 禁止链接多次使用
-        $token->expire_time = \time();
+        $token->expire_time = time();
         $token->save();
 
         return ResponseHelper::successfully($response, '重置成功');

@@ -13,7 +13,7 @@ use Slim\Http\ServerRequest;
 
 final class TrafficLogController extends BaseController
 {
-    public static $details =
+    public static array $details =
     [
         'field' => [
             'id' => '记录ID',
@@ -26,8 +26,6 @@ final class TrafficLogController extends BaseController
 
     /**
      * 后台流量记录页面
-     *
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -40,8 +38,6 @@ final class TrafficLogController extends BaseController
 
     /**
      * 后台流量记录页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajaxTrafficLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

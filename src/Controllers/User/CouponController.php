@@ -11,12 +11,11 @@ use App\Models\UserCoupon;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function json_decode;
+use function time;
 
 final class CouponController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function check(ServerRequest $request, Response $response, array $args)
     {
         $antiXss = new AntiXSS();
@@ -39,7 +38,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        if ($coupon->expire_time < \time()) {
+        if ($coupon->expire_time < time()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码无效',
@@ -55,7 +54,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        $limit = \json_decode($coupon->limit);
+        $limit = json_decode($coupon->limit);
 
         if ((int) $limit->disabled === 1) {
             return $response->withJson([
@@ -87,7 +86,7 @@ final class CouponController extends BaseController
             }
         }
 
-        $content = \json_decode($coupon->content);
+        $content = json_decode($coupon->content);
 
         if ($content->type === 'percentage') {
             $discount = $product->price * $content->value / 100;

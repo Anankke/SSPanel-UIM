@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\TelegramSession;
+use function time;
 
 final class TelegramSessionManager
 {
@@ -26,7 +27,7 @@ final class TelegramSessionManager
     {
         $Elink = TelegramSession::where('type', '=', 0)->where('user_id', '=', $user->id)->first();
         if ($Elink !== null) {
-            $Elink->datetime = \time();
+            $Elink->datetime = time();
             $Elink->session_content = self::generateRandomLink();
             $Elink->save();
             return $Elink->session_content;
@@ -35,7 +36,7 @@ final class TelegramSessionManager
         $NLink = new TelegramSession();
         $NLink->type = 0;
         $NLink->user_id = $user->id;
-        $NLink->datetime = \time();
+        $NLink->datetime = time();
         $NLink->session_content = self::generateRandomLink();
         $NLink->save();
 
@@ -44,7 +45,7 @@ final class TelegramSessionManager
 
     public static function verifyBindSession($token)
     {
-        $Elink = TelegramSession::where('type', '=', 0)->where('session_content', $token)->where('datetime', '>', \time() - 600)->orderBy('datetime', 'desc')->first();
+        $Elink = TelegramSession::where('type', '=', 0)->where('session_content', $token)->where('datetime', '>', time() - 600)->orderBy('datetime', 'desc')->first();
         if ($Elink !== null) {
             $uid = $Elink->user_id;
             $Elink->delete();

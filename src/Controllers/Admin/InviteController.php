@@ -13,7 +13,7 @@ use Slim\Http\ServerRequest;
 
 final class InviteController extends BaseController
 {
-    public static $details =
+    public static array $details =
     [
         'field' => [
             'id' => '事件ID',
@@ -57,8 +57,6 @@ final class InviteController extends BaseController
 
     /**
      * 后台邀请记录页面
-     *
-     * @param array     $args
      */
     public function invite(ServerRequest $request, Response $response, array $args)
     {
@@ -71,8 +69,6 @@ final class InviteController extends BaseController
 
     /**
      * 更改用户邀请者
-     *
-     * @param array     $args
      */
     public function update(ServerRequest $request, Response $response, array $args)
     {
@@ -109,8 +105,6 @@ final class InviteController extends BaseController
 
     /**
      * 为用户添加邀请次数
-     *
-     * @param array     $args
      */
     public function add(ServerRequest $request, Response $response, array $args)
     {
@@ -146,8 +140,6 @@ final class InviteController extends BaseController
 
     /**
      * 后台登录记录页面 AJAX
-     *
-     * @param array     $args
      */
     public function ajax(ServerRequest $request, Response $response, array $args)
     {

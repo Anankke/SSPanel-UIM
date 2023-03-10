@@ -7,10 +7,12 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\Mail;
+use Throwable;
+use function json_encode;
 
 final class EmailController extends BaseController
 {
-    public static $update_field = [
+    public static array $update_field = [
         'mail_driver',
         // SMTP
         'smtp_host',
@@ -70,15 +72,15 @@ final class EmailController extends BaseController
             $setting = Setting::where('item', '=', $item)->first();
 
             if ($setting->type === 'array') {
-                $setting->value = \json_encode($request->getParam("${item}"));
+                $setting->value = json_encode($request->getParam("{$item}"));
             } else {
-                $setting->value = $request->getParam("${item}");
+                $setting->value = $request->getParam("{$item}");
             }
 
             if (! $setting->save()) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => "保存 ${item} 时出错",
+                    'msg' => "保存 {$item} 时出错",
                 ]);
             }
         }
@@ -97,11 +99,9 @@ final class EmailController extends BaseController
             Mail::send(
                 $to,
                 '测试邮件',
-                'auth/test.tpl',
-                [],
-                []
+                'auth/test.tpl'
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '测试邮件发送失败',

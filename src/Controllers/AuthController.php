@@ -22,15 +22,13 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
+use function time;
 
 /**
  *  AuthController
  */
 final class AuthController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function login(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
@@ -45,9 +43,6 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function loginHandle(ServerRequest $request, Response $response, array $args)
     {
         if (Setting::obtain('enable_login_captcha') === true) {
@@ -108,9 +103,6 @@ final class AuthController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function register(ServerRequest $request, Response $response, $next)
     {
         $captcha = [];
@@ -134,9 +126,6 @@ final class AuthController extends BaseController
             ->fetch('auth/register.tpl'));
     }
 
-    /**
-     * @param array     $args
-     */
     public function sendVerify(ServerRequest $request, Response $response, $next)
     {
         if (Setting::obtain('reg_email_verify')) {
@@ -160,14 +149,14 @@ final class AuthController extends BaseController
             }
 
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])
-                ->where('expire_in', '>', \time())
+                ->where('expire_in', '>', time())
                 ->count();
             if ($ipcount > Setting::obtain('email_verify_ip_limit')) {
                 return ResponseHelper::error($response, '此IP请求次数过多');
             }
 
             $mailcount = EmailVerify::where('email', '=', $email)
-                ->where('expire_in', '>', \time())
+                ->where('expire_in', '>', time())
                 ->count();
             if ($mailcount > Setting::obtain('email_verify_email_limit')) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
@@ -175,7 +164,7 @@ final class AuthController extends BaseController
 
             $code = Tools::genRandomChar(6);
             $ev = new EmailVerify();
-            $ev->expire_in = \time() + Setting::obtain('email_verify_ttl');
+            $ev->expire_in = time() + Setting::obtain('email_verify_ttl');
             $ev->ip = $_SERVER['REMOTE_ADDR'];
             $ev->email = $email;
             $ev->code = $code;
@@ -188,9 +177,8 @@ final class AuthController extends BaseController
                     'auth/verify.tpl',
                     [
                         'code' => $code,
-                        'expire' => date('Y-m-d H:i:s', \time() + Setting::obtain('email_verify_ttl')),
-                    ],
-                    []
+                        'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
+                    ]
                 );
             } catch (Exception $e) {
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
@@ -202,11 +190,11 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @param ServerRequest   $request
-     * @param Response  $response
-     * @param array     $args
+     * @param Response $response
+     *
+     * @throws Exception
      */
-    public static function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg)
+    public static function registerHelper(Response $response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg)
     {
         $user_invite = InviteCode::where('code', $code)->first();
         if ($user_invite === null) {
@@ -228,7 +216,7 @@ final class AuthController extends BaseController
         // do reg user
         $user = new User();
         $antiXss = new AntiXSS();
-        $current_timestamp = \time();
+        $current_timestamp = time();
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $antiXss->xss_clean($email);
@@ -285,11 +273,11 @@ final class AuthController extends BaseController
         $user->ga_token = $secret;
         $user->ga_enable = 0;
 
-        $user->class_expire = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_class_time'] * 86400);
+        $user->class_expire = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
         $user->class = $configs['sign_up_for_class'];
         $user->node_connector = $configs['connection_device_limit'];
         $user->node_speedlimit = $configs['connection_rate_limit'];
-        $user->expire_in = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_free_time'] * 86400);
+        $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
@@ -317,9 +305,6 @@ final class AuthController extends BaseController
         return ResponseHelper::error($response, '未知错误');
     }
 
-    /**
-     * @param array     $args
-     */
     public function registerHandle(ServerRequest $request, Response $response, array $args)
     {
         if (Setting::obtain('reg_mode') === 'close') {
@@ -375,7 +360,7 @@ final class AuthController extends BaseController
             $email_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
             $mailcount = EmailVerify::where('email', '=', $email)
                 ->where('code', '=', $email_code)
-                ->where('expire_in', '>', \time())
+                ->where('expire_in', '>', time())
                 ->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
@@ -399,9 +384,6 @@ final class AuthController extends BaseController
         return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
     }
 
-    /**
-     * @param array     $args
-     */
     public function logout(ServerRequest $request, Response $response, $next)
     {
         Auth::logout();

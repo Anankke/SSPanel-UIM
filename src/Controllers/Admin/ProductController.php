@@ -7,8 +7,12 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Product;
 use App\Utils\Tools;
+use Exception;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function json_decode;
+use function json_encode;
+use function time;
 
 final class ProductController extends BaseController
 {
@@ -87,21 +91,21 @@ final class ProductController extends BaseController
             $product = new Product();
 
             if ($name === '' || $name === null) {
-                throw new \Exception('请填写商品名称');
+                throw new Exception('请填写商品名称');
             }
             if ($price === '' || $price === null) {
-                throw new \Exception('请填写商品售价');
+                throw new Exception('请填写商品售价');
             }
             if ($stock === '' || $stock === null) {
-                throw new \Exception('请填写商品库存');
+                throw new Exception('请填写商品库存');
             }
 
             if ($type === 'tabp') {
                 if ($time === '' || $time === null) {
-                    throw new \Exception('请填写套餐时长');
+                    throw new Exception('请填写套餐时长');
                 }
                 if ($bandwidth === '' || $bandwidth === null) {
-                    throw new \Exception('请填写套餐流量');
+                    throw new Exception('请填写套餐流量');
                 }
 
                 ($class === '') && $class = '0';
@@ -120,7 +124,7 @@ final class ProductController extends BaseController
                 ];
             } elseif ($type === 'time') {
                 if ($time === '' || $time === null) {
-                    throw new \Exception('请填写套餐时长');
+                    throw new Exception('请填写套餐时长');
                 }
 
                 $content = [
@@ -128,14 +132,14 @@ final class ProductController extends BaseController
                 ];
             } elseif ($type === 'bandwidth') {
                 if ($bandwidth === '' || $bandwidth === null) {
-                    throw new \Exception('请填写套餐流量');
+                    throw new Exception('请填写套餐流量');
                 }
 
                 $content = [
                     'bandwidth' => $bandwidth,
                 ];
             } else {
-                throw new \Exception('商品类型错误');
+                throw new Exception('商品类型错误');
             }
 
             $limit = [
@@ -147,15 +151,15 @@ final class ProductController extends BaseController
             $product->type = $type;
             $product->name = $name;
             $product->price = $price;
-            $product->content = \json_encode($content);
-            $product->limit = \json_encode($limit);
+            $product->content = json_encode($content);
+            $product->limit = json_encode($limit);
             $product->status = $status;
-            $product->create_time = \time();
-            $product->update_time = \time();
+            $product->create_time = time();
+            $product->update_time = time();
             $product->sale_count = 0;
             $product->stock = $stock;
             $product->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $e->getMessage(),
@@ -172,8 +176,8 @@ final class ProductController extends BaseController
     {
         $id = $args['id'];
         $product = Product::find($id);
-        $content = \json_decode($product->content, true);
-        $limit = \json_decode($product->limit, true);
+        $content = json_decode($product->content, true);
+        $limit = json_decode($product->limit, true);
         return $response->write(
             $this->view()
                 ->assign('product', $product)
@@ -210,21 +214,21 @@ final class ProductController extends BaseController
             $product = Product::find($product_id);
 
             if ($name === '') {
-                throw new \Exception('请填写商品名称');
+                throw new Exception('请填写商品名称');
             }
             if ($price === '') {
-                throw new \Exception('请填写商品售价');
+                throw new Exception('请填写商品售价');
             }
             if ($stock === '') {
-                throw new \Exception('请填写商品库存');
+                throw new Exception('请填写商品库存');
             }
 
             if ($type === 'tabp') {
                 if ($time === '') {
-                    throw new \Exception('请填写套餐时长');
+                    throw new Exception('请填写套餐时长');
                 }
                 if ($bandwidth === '') {
-                    throw new \Exception('请填写套餐流量');
+                    throw new Exception('请填写套餐流量');
                 }
 
                 ($class === '') && $class = '0';
@@ -243,7 +247,7 @@ final class ProductController extends BaseController
                 ];
             } elseif ($type === 'time') {
                 if ($time === '') {
-                    throw new \Exception('请填写套餐时长');
+                    throw new Exception('请填写套餐时长');
                 }
 
                 $content = [
@@ -251,14 +255,14 @@ final class ProductController extends BaseController
                 ];
             } elseif ($type === 'bandwidth') {
                 if ($bandwidth === '') {
-                    throw new \Exception('请填写套餐流量');
+                    throw new Exception('请填写套餐流量');
                 }
 
                 $content = [
                     'bandwidth' => $bandwidth,
                 ];
             } else {
-                throw new \Exception('商品类型错误');
+                throw new Exception('商品类型错误');
             }
 
             $limit = [
@@ -270,13 +274,13 @@ final class ProductController extends BaseController
             $product->type = $type;
             $product->name = $name;
             $product->price = $price;
-            $product->content = \json_encode($content);
-            $product->limit = \json_encode($limit);
+            $product->content = json_encode($content);
+            $product->limit = json_encode($limit);
             $product->stock = $stock;
             $product->status = $status;
-            $product->update_time = \time();
+            $product->update_time = time();
             $product->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $e->getMessage(),
@@ -312,11 +316,11 @@ final class ProductController extends BaseController
                 'update_time',
             ]);
             $new_product->name .= ' (副本)';
-            $new_product->create_time = \time();
-            $new_product->update_time = \time();
+            $new_product->create_time = time();
+            $new_product->update_time = time();
             $new_product->sale_count = 0;
             $new_product->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $e->getMessage(),

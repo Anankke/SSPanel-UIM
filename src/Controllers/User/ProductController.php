@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Product;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function json_decode;
 
 final class ProductController extends BaseController
 {
@@ -19,7 +20,7 @@ final class ProductController extends BaseController
             ->get();
 
         foreach ($products as $product) {
-            $product->content = \json_decode($product->content);
+            $product->content = json_decode($product->content);
         }
 
         return $response->write(

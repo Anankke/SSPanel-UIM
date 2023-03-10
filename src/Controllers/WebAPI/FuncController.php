@@ -13,9 +13,6 @@ use Slim\Http\ServerRequest;
 
 final class FuncController extends BaseController
 {
-    /**
-     * @param array     $args
-     */
     public function ping(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withJson([
@@ -24,9 +21,6 @@ final class FuncController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getDetectLogs(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $rules = DetectRule::all();
@@ -38,9 +32,6 @@ final class FuncController extends BaseController
     }
 
     // Dummy function
-    /**
-     * @param array     $args
-     */
     public function getBlockip(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return ResponseHelper::etagJson($request, $response, [
@@ -49,9 +40,6 @@ final class FuncController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function getUnblockip(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return ResponseHelper::etagJson($request, $response, [
@@ -60,9 +48,6 @@ final class FuncController extends BaseController
         ]);
     }
 
-    /**
-     * @param array     $args
-     */
     public function addBlockIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->withJson([

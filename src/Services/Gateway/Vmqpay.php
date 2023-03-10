@@ -10,6 +10,7 @@ use App\Services\Auth;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function time;
 
 final class Vmqpay extends AbstractPayment
 {
@@ -30,7 +31,7 @@ final class Vmqpay extends AbstractPayment
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $trade_no = \time();
+        $trade_no = time();
         $user = Auth::getUser();
         $configs = Setting::getClass('vmq');
 
@@ -78,7 +79,7 @@ final class Vmqpay extends AbstractPayment
             die('error_sign');
         }
 
-        $this->postPayment($payId, "在线支付 ${payId}");
+        $this->postPayment($payId, "在线支付 {$payId}");
         die('success');
     }
 

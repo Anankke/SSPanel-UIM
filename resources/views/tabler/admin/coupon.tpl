@@ -195,7 +195,7 @@
                     }
                 }
             })
-        };
+        }
 
         function deleteCoupon(coupon_id) {
             $('#notice-message').text('确定删除此优惠码？');
@@ -217,7 +217,7 @@
                     }
                 })
             });
-        };
+        }
 
         function disableCoupon(coupon_id) {
             $('#notice-message').text('确定禁用此优惠码？');
@@ -239,7 +239,7 @@
                     }
                 })
             });
-        };
+        }
 
         function reloadTableAjax() {
             table.ajax.reload(null, false);
