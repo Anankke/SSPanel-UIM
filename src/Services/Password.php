@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\PasswordReset;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
 use function time;
 
 final class Password
@@ -32,9 +33,10 @@ final class Password
                     'resetUrl' => $resetUrl,
                 ]
             );
-        } catch (Exception $e) {
+        } catch (Exception | ClientExceptionInterface $e) {
             return false;
         }
+
         return true;
     }
 }

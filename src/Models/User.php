@@ -10,6 +10,7 @@ use App\Utils\Telegram;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
 use Ramsey\Uuid\Uuid;
 use function in_array;
 use function json_encode;
@@ -615,10 +616,11 @@ final class User extends Model
                     $files
                 );
                 return true;
-            } catch (Exception $e) {
+            } catch (Exception | ClientExceptionInterface $e) {
                 echo $e->getMessage();
             }
         }
+
         return false;
     }
 

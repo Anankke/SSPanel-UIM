@@ -16,6 +16,7 @@ use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
@@ -186,7 +187,7 @@ final class AuthController extends BaseController
                         'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
                     ]
                 );
-            } catch (Exception $e) {
+            } catch (Exception | ClientExceptionInterface $e) {
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
 
