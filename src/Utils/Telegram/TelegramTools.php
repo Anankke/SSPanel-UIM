@@ -404,7 +404,20 @@ final class TelegramTools
             &&
             is_numeric(substr($Value, 1))
         ) {
-            $Source = eval('return $Source ' . substr($Value, 0, 1) . '= ' . substr($Value, 1) . ';');
+            switch (substr($Value, 0, 1)) {
+                case '+':
+                    $Source = (int) $Source + (int) substr($Value, 1);
+                    break;
+                case '-':
+                    $Source = (int) $Source - (int) substr($Value, 1);
+                    break;
+                case '*':
+                    $Source = (int) $Source * (int) substr($Value, 1);
+                    break;
+                case '/':
+                    $Source = (int) $Source / (int) substr($Value, 1);
+                    break;
+            }
         } else {
             if (is_numeric($Value)) {
                 $Source = $Value;
@@ -449,7 +462,21 @@ final class TelegramTools
             if ($number === null) {
                 return null;
             }
-            $Source = eval('return $Source ' . $operator . '= ' . $number . ';');
+
+            switch ($operator) {
+                case '+':
+                    $Source = (int) $Source + (int) $number;
+                    break;
+                case '-':
+                    $Source = (int) $Source - (int) $number;
+                    break;
+                case '*':
+                    $Source = (int) $Source * (int) $number;
+                    break;
+                case '/':
+                    $Source = (int) $Source / (int) $number;
+                    break;
+            }
         } else {
             if (is_numeric($Value)) {
                 if ((int) $Value === 0) {
