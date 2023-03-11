@@ -82,7 +82,7 @@ END;
                     continue;
                 }
                 echo "\n";
-                $object = require BASE_PATH . '/db/migrations/' . $file;
+                $object = require_once BASE_PATH . '/db/migrations/' . $file;
                 if ($object instanceof MigrationInterface) {
                     $queue[$version] = $object;
                 }

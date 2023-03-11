@@ -76,7 +76,7 @@ final class Captcha
                         ],
                     ];
                     $json = file_get_contents(
-                        'http://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id,
+                        'https://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id,
                         false,
                         stream_context_create($opts)
                     );

@@ -14,6 +14,11 @@ final class Hash
         return substr(\hash('sha256', $passHash . $_ENV['key'] . $expire_in), 5, 45);
     }
 
+    public static function ipHash($ip, $uid, $expire_in): string
+    {
+        return substr(\hash('sha256', $ip . $_ENV['key'] . $uid . $expire_in), 5, 45);
+    }
+
     public static function checkPassword($hashedPassword, $password): bool
     {
         if (in_array($_ENV['pwdMethod'], ['bcrypt', 'argon2i', 'argon2id'])) {

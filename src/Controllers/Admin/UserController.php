@@ -245,7 +245,7 @@ final class UserController extends BaseController
             'uid' => $user->id,
             'email' => $user->email,
             'key' => Hash::cookieHash($user->pass, $expire_in),
-            'ip' => md5($_SERVER['REMOTE_ADDR'] . $_ENV['key'] . $user->id . $expire_in),
+            'ip' => Hash::ipHash($_SERVER['REMOTE_ADDR'], $user->id, $expire_in),
             'expire_in' => $expire_in,
             'old_uid' => Cookie::get('uid'),
             'old_email' => Cookie::get('email'),

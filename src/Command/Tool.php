@@ -270,15 +270,15 @@ EOL;
 
         if (count($this->argv) === 3) {
             // ask for input
-            fwrite(STDOUT, '(1/3) 请输入管理员邮箱：') . PHP_EOL;
+            echo '(1/3) 请输入管理员邮箱：' . PHP_EOL;
             // get input
             $email = trim(fgets(STDIN));
 
             // write input back
-            fwrite(STDOUT, '(2/3) 请输入管理员账户密码：') . PHP_EOL;
+            echo '(2/3) 请输入管理员账户密码：' . PHP_EOL;
             $passwd = trim(fgets(STDIN));
 
-            fwrite(STDOUT, '(3/3) 按 Y 或 y 确认创建：');
+            echo '(3/3) 按 Y 或 y 确认创建：';
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
             [,,, $email, $passwd] = $this->argv;

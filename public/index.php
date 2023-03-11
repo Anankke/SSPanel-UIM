@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config/.config.php';
-require __DIR__ . '/../config/appprofile.php';
-require __DIR__ . '/../app/predefine.php';
-require __DIR__ . '/../app/envload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/.config.php';
+require_once __DIR__ . '/../config/appprofile.php';
+require_once __DIR__ . '/../app/predefine.php';
+require_once __DIR__ . '/../app/envload.php';
 
 use App\Middleware\ErrorHandler;
 use App\Services\Boot;
@@ -32,7 +32,7 @@ $app = AppFactory::create($response_factory);
 
 $app->add(new ErrorHandler());
 
-$routes = require __DIR__ . '/../app/routes.php';
+$routes = require_once __DIR__ . '/../app/routes.php';
 $routes($app);
 
 $request = ServerRequest::fromGlobals();
