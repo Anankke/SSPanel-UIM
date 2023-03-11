@@ -82,7 +82,7 @@ final class BillingController extends BaseController
         $gateway_in_use = [];
 
         foreach (self::returnGatewaysList() as $value) {
-            $payment_enable = $request->getParam("{$value}");
+            $payment_enable = $request->getParam($value);
             if ($payment_enable === 'true') {
                 $gateway_in_use[] = $value;
             }
@@ -104,9 +104,9 @@ final class BillingController extends BaseController
             $setting = Setting::where('item', '=', $item)->first();
 
             if ($setting->type === 'array') {
-                $setting->value = json_encode($request->getParam("{$item}"));
+                $setting->value = json_encode($request->getParam($item));
             } else {
-                $setting->value = $request->getParam("{$item}");
+                $setting->value = $request->getParam($item);
             }
 
             if (! $setting->save()) {

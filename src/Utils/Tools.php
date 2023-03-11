@@ -9,11 +9,7 @@ use App\Models\Model;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
-use DateTime;
-use ZipArchive;
-use function hash;
 use function in_array;
-use function json_encode;
 use function time;
 
 final class Tools
@@ -133,28 +129,9 @@ final class Tools
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
-    public static function genToken(): string
-    {
-        return self::genRandomChar(64);
-    }
-
-    // Unix time to Date Time
     public static function toDateTime(int $time): string
     {
         return date('Y-m-d H:i:s', $time);
-    }
-
-    public static function secondsToTime($seconds): string
-    {
-        $dtF = new DateTime('@0');
-        $dtT = new DateTime("@{$seconds}");
-        return $dtF->diff($dtT)->format('%a 天, %h 小时, %i 分 + %s 秒');
-    }
-
-    public static function genSID(): string
-    {
-        $unid = uniqid($_ENV['key'], true);
-        return Hash::sha256WithSalt($unid);
     }
 
     public static function getLastPort()
@@ -175,16 +152,6 @@ final class Tools
         $port = array_diff(range(Setting::obtain('min_port'), Setting::obtain('max_port')), $det);
         shuffle($port);
         return $port[0];
-    }
-
-    public static function base64UrlEncode($input): string
-    {
-        return strtr(base64_encode($input), ['+' => '-', '/' => '_', '=' => '']);
-    }
-
-    public static function base64UrlDecode($input): false|string
-    {
-        return base64_decode(strtr($input, '-_', '+/'));
     }
 
     public static function getDir($dir): array
@@ -244,6 +211,39 @@ final class Tools
         return true;
     }
 
+    public static function isEmailLegal($email): array
+    {
+        $res = [];
+        $res['ret'] = 0;
+
+        if (! self::isEmail($email)) {
+            $res['msg'] = '邮箱不规范';
+            return $res;
+        }
+
+        $mail_suffix = explode('@', $email)[1];
+        $mail_filter_list = $_ENV['mail_filter_list'];
+        $res['msg'] = '我们无法将邮件投递至域 ' . $mail_suffix . ' ，请更换邮件地址';
+
+        switch ($_ENV['mail_filter']) {
+            case 1:
+                // 白名单
+                if (in_array($mail_suffix, $mail_filter_list)) {
+                    $res['ret'] = 1;
+                }
+                return $res;
+            case 2:
+                // 黑名单
+                if (! in_array($mail_suffix, $mail_filter_list)) {
+                    $res['ret'] = 1;
+                }
+                return $res;
+            default:
+                $res['ret'] = 1;
+                return $res;
+        }
+    }
+
     public static function isIPv4($input): bool
     {
         if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
@@ -266,53 +266,6 @@ final class Tools
             return false;
         }
         return true;
-    }
-
-    /**
-     * Add files and sub-directories in a folder to zip file.
-     *
-     * @param int $exclusiveLength Number of text to be exclusived from the file path.
-     */
-    public static function folderToZip(string $folder, ZipArchive &$zipFile, int $exclusiveLength): void
-    {
-        $handle = opendir($folder);
-        while (($f = readdir($handle)) !== false) {
-            if ($f !== '.' && $f !== '..') {
-                $filePath = "{$folder}/{$f}";
-                // Remove prefix from file path before add to zip.
-                $localPath = substr($filePath, $exclusiveLength);
-                if (is_file($filePath)) {
-                    $zipFile->addFile($filePath, $localPath);
-                } elseif (is_dir($filePath)) {
-                    // Add sub-directory.
-                    $zipFile->addEmptyDir($localPath);
-                    self::folderToZip($filePath, $zipFile, $exclusiveLength);
-                }
-            }
-        }
-        closedir($handle);
-    }
-
-    /**
-     * 清空文件夹
-     *
-     * @param $dirPath
-     */
-    public static function delDirAndFile($dirPath): void
-    {
-        $handle = opendir($dirPath);
-        if ($handle) {
-            while (($item = readdir($handle)) !== false) {
-                if ($item !== '.' && $item !== '..') {
-                    if (is_dir($dirPath . '/' . $item)) {
-                        self::delDirAndFile($dirPath . '/' . $item);
-                    } else {
-                        unlink($dirPath . '/' . $item);
-                    }
-                }
-            }
-            closedir($handle);
-        }
     }
 
     /**
@@ -386,11 +339,6 @@ final class Tools
             }
         }
         return $html . '</ul>';
-    }
-
-    public static function etag($data): string
-    {
-        return hash('crc32c', (string) json_encode($data));
     }
 
     public static function genSubToken(): string

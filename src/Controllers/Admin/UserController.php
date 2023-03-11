@@ -8,7 +8,6 @@ use App\Controllers\AuthController;
 use App\Controllers\BaseController;
 use App\Models\User;
 use App\Services\Auth;
-use App\Utils\Check;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\Tools;
@@ -115,7 +114,7 @@ final class UserController extends BaseController
             if ($email === '') {
                 throw new Exception('请填写邮箱');
             }
-            if (! Check::isEmailLegal($email)) {
+            if (! Tools::isEmailLegal($email)) {
                 throw new Exception('邮箱格式不正确');
             }
             $exist = User::where('email', $email)->first();

@@ -99,12 +99,12 @@ final class User extends Model
         return $this->save();
     }
 
-    public function getForbiddenIp()
+    public function getForbiddenIp(): array|string
     {
         return str_replace(',', PHP_EOL, $this->forbidden_ip);
     }
 
-    public function getForbiddenPort()
+    public function getForbiddenPort(): array|string
     {
         return str_replace(',', PHP_EOL, $this->forbidden_port);
     }

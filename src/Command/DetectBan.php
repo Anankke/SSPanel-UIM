@@ -21,10 +21,14 @@ final class DetectBan extends Command
         if ($_ENV['enable_auto_detect_ban'] === false) {
             return;
         }
+
         echo '审计封禁检查开始.' . PHP_EOL;
+
         $new_logs = DetectLog::where('status', '=', 0)->orderBy('id', 'asc')->take($_ENV['auto_detect_ban_numProcess'])->get();
+
         if (count($new_logs) !== 0) {
             $user_logs = [];
+
             foreach ($new_logs as $log) {
                 // 分类各个用户的记录数量
                 if (! in_array($log->user_id, array_keys($user_logs))) {
@@ -38,9 +42,11 @@ final class DetectBan extends Command
             foreach ($user_logs as $userid => $value) {
                 // 执行封禁
                 $user = User::find($userid);
+
                 if ($user === null) {
                     continue;
                 }
+
                 $user->all_detect_number += $value;
                 $user->save();
 
@@ -56,6 +62,7 @@ final class DetectBan extends Command
                     $last_DetectBanLog = DetectBanLog::where('user_id', $userid)->orderBy('id', 'desc')->first();
                     $last_all_detect_number = ((int) $last_DetectBanLog?->all_detect_number);
                     $detect_number = $user->all_detect_number - $last_all_detect_number;
+
                     if ($detect_number >= $_ENV['auto_detect_ban_number']) {
                         $last_detect_ban_time = $user->last_detect_ban_time;
                         $end_time = date('Y-m-d H:i:s');
@@ -76,13 +83,15 @@ final class DetectBan extends Command
                 } else {
                     $number = $user->all_detect_number;
                     $tmp = 0;
-                    foreach ($_ENV['auto_detect_ban'] as $key => $value) {
+
+                    foreach ($_ENV['auto_detect_ban'] as $key => $val) {
                         if ($number >= $key) {
                             if ($key >= $tmp) {
                                 $tmp = $key;
                             }
                         }
                     }
+
                     if ($tmp !== 0) {
                         if ($_ENV['auto_detect_ban'][$tmp]['type'] === 'kill') {
                             $user->killUser();

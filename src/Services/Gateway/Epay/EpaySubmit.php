@@ -7,7 +7,7 @@ namespace App\Services\Gateway\Epay;
 final class EpaySubmit
 {
     private $alipay_config;
-    private $alipay_gateway_new;
+    private string $alipay_gateway_new;
 
     public function __construct($alipay_config)
     {

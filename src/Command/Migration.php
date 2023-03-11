@@ -76,7 +76,7 @@ END;
                     continue;
                 }
                 $version = (int) explode('-', $file, 1)[0];
-                echo "Found migration version {$version}";
+                echo "Found migration version {$version}.";
                 if ($version <= $min_version || $version > $max_version) {
                     echo "...skip\n";
                     continue;

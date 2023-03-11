@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utils;
+namespace App\Services;
 
 use Cloudflare\API\Adapter\Guzzle;
 use Cloudflare\API\Auth\APIKey;
