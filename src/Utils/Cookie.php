@@ -29,14 +29,14 @@ final class Cookie
     public static function set($arg, $time): void
     {
         foreach ($arg as $key => $value) {
-            setcookie((string) $key, (string) $value, (int) $time, '/');
+            setcookie((string) $key, (string) $value, (int) $time, '/', '', true, true);
         }
     }
 
     public static function setwithdomain($arg, $time, $domain): void
     {
         foreach ($arg as $key => $value) {
-            setcookie((string) $key, (string) $value, (int) $time, '/', (string) $domain);
+            setcookie((string) $key, (string) $value, (int) $time, '/', (string) $domain, true, true);
         }
     }
 
