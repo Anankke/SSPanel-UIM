@@ -404,20 +404,13 @@ final class TelegramTools
             &&
             is_numeric(substr($Value, 1))
         ) {
-            switch (substr($Value, 0, 1)) {
-                case '+':
-                    $Source = (int) $Source + (int) substr($Value, 1);
-                    break;
-                case '-':
-                    $Source = (int) $Source - (int) substr($Value, 1);
-                    break;
-                case '*':
-                    $Source = (int) $Source * (int) substr($Value, 1);
-                    break;
-                case '/':
-                    $Source = (int) $Source / (int) substr($Value, 1);
-                    break;
-            }
+            $Source = match (substr($Value, 0, 1)) {
+                '+' => (int)$Source + (int)substr($Value, 1),
+                '-' => (int)$Source - (int)substr($Value, 1),
+                '*' => (int)$Source * (int)substr($Value, 1),
+                '/' => (int)$Source / (int)substr($Value, 1),
+                default => null,
+            };
         } else {
             if (is_numeric($Value)) {
                 $Source = $Value;
@@ -463,20 +456,13 @@ final class TelegramTools
                 return null;
             }
 
-            switch ($operator) {
-                case '+':
-                    $Source = (int) $Source + (int) $number;
-                    break;
-                case '-':
-                    $Source = (int) $Source - (int) $number;
-                    break;
-                case '*':
-                    $Source = (int) $Source * (int) $number;
-                    break;
-                case '/':
-                    $Source = (int) $Source / (int) $number;
-                    break;
-            }
+            $Source = match ($operator) {
+                '+' => (int)$Source + (int)$number,
+                '-' => (int)$Source - (int)$number,
+                '*' => (int)$Source * (int)$number,
+                '/' => (int)$Source / (int)$number,
+                default => null,
+            };
         } else {
             if (is_numeric($Value)) {
                 if ((int) $Value === 0) {

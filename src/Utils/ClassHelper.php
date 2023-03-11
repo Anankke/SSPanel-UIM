@@ -14,7 +14,7 @@ final class ClassHelper
         self::$composer = null;
         self::$classes = [];
 
-        self::$composer = require __DIR__ . '/../../vendor/autoload.php';
+        self::$composer = require_once __DIR__ . '/../../vendor/autoload.php';
 
         if (is_null(self::$composer) === false) {
             self::$classes = array_keys(self::$composer->getClassMap());
