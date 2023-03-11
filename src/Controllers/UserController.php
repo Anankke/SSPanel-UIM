@@ -22,7 +22,6 @@ use App\Services\Config;
 use App\Services\DB;
 use App\Services\MFA;
 use App\Services\Payment;
-use App\Utils\Check;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
@@ -423,7 +422,7 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        $check_res = Check::isEmailLegal($newemail);
+        $check_res = Tools::isEmailLegal($newemail);
         if ($check_res['ret'] === 0) {
             return $response->withJson($check_res);
         }

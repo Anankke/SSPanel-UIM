@@ -11,7 +11,6 @@ use App\Models\User;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Mail;
-use App\Utils\Check;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
@@ -145,7 +144,7 @@ final class AuthController extends BaseController
             }
 
             // check email format
-            $check_res = Check::isEmailLegal($email);
+            $check_res = Tools::isEmailLegal($email);
             if ($check_res['ret'] === 0) {
                 return $response->withJson($check_res);
             }
@@ -366,7 +365,7 @@ final class AuthController extends BaseController
         }
 
         // check email format
-        $check_res = Check::isEmailLegal($email);
+        $check_res = Tools::isEmailLegal($email);
         if ($check_res['ret'] === 0) {
             return $response->withJson($check_res);
         }

@@ -283,7 +283,7 @@ final class Callback
      *
      * @throws TelegramSDKException
      */
-    public function userCallback()
+    public function userCallback(): void
     {
         if ($this->User === null) {
             if ($this->ChatID < 0) {
@@ -341,8 +341,6 @@ final class Callback
                     ),
                 ]);
         }
-
-        return null;
     }
 
     public function getUserCenterKeyboard(): array
@@ -580,7 +578,7 @@ final class Callback
      *
      * @throws TelegramSDKException
      */
-    public function userEdit()
+    public function userEdit(): void
     {
         if ($this->ChatID < 0) {
             $this->answerCallbackQuery([
@@ -804,16 +802,11 @@ final class Callback
                 break;
         }
 
-        $this->replyWithMessage(
-            array_merge(
-                [
-                    'parse_mode' => 'HTML',
-                ],
-                $sendMessage
-            )
-        );
+        if (! isset($sendMessage['parse_mode'])) {
+            $sendMessage['parse_mode'] = 'HTML';
+        }
 
-        return null;
+        $this->replyWithMessage($sendMessage);
     }
 
     public function getUserSubscribeKeyboard(): array

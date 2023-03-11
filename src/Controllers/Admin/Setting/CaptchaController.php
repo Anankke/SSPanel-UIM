@@ -57,9 +57,9 @@ final class CaptchaController extends BaseController
             $setting = Setting::where('item', '=', $item)->first();
 
             if ($setting->type === 'array') {
-                $setting->value = json_encode($request->getParam("{$item}"));
+                $setting->value = json_encode($request->getParam($item));
             } else {
-                $setting->value = $request->getParam("{$item}");
+                $setting->value = $request->getParam($item);
             }
 
             if (! $setting->save()) {
