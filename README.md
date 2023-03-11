@@ -10,7 +10,10 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/anankke/sspanel-uim?style=flat-square&color=328657)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Anankke/SSPanel-Uim?style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Anankke/SSPanel-Uim/lint.yml?branch=dev&label=lint&style=flat-square)
-
+![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/sspanel-uim_SSPanel-Uim-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
+[![Sonar Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sspanel-uim_SSPanel-Uim-Dev&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sspanel-uim_SSPanel-Uim-Dev)
+[![Sonar Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sspanel-uim_SSPanel-Uim-Dev&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sspanel-uim_SSPanel-Uim-Dev)
+[![Sonar Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sspanel-uim_SSPanel-Uim-Dev&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sspanel-uim_SSPanel-Uim-Dev)
 
 [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 水群](https://t.me/ssunion) | [Telegram 通知频道](https://t.me/sspanel_uim) | [Telegram 开发频道](https://t.me/sspanel_uim_dev) | [Dev Blog](https://blog.sspanel.org)
 
