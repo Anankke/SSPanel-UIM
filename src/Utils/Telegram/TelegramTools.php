@@ -405,10 +405,10 @@ final class TelegramTools
             is_numeric(substr($Value, 1))
         ) {
             $Source = match (substr($Value, 0, 1)) {
-                '+' => (int)$Source + (int)substr($Value, 1),
-                '-' => (int)$Source - (int)substr($Value, 1),
-                '*' => (int)$Source * (int)substr($Value, 1),
-                '/' => (int)$Source / (int)substr($Value, 1),
+                '+' => (int) $Source + (int) substr($Value, 1),
+                '-' => (int) $Source - (int) substr($Value, 1),
+                '*' => (int) $Source * (int) substr($Value, 1),
+                '/' => (int) $Source / (int) substr($Value, 1),
                 default => null,
             };
         } else {
@@ -457,10 +457,10 @@ final class TelegramTools
             }
 
             $Source = match ($operator) {
-                '+' => (int)$Source + (int)$number,
-                '-' => (int)$Source - (int)$number,
-                '*' => (int)$Source * (int)$number,
-                '/' => (int)$Source / (int)$number,
+                '+' => (int) $Source + (int) $number,
+                '-' => (int) $Source - (int) $number,
+                '*' => (int) $Source * (int) $number,
+                '/' => (int) $Source / (int) $number,
                 default => null,
             };
         } else {
