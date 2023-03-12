@@ -127,7 +127,6 @@ final class AuthController extends BaseController
         return $response->write($this->view()
             ->assign('code', $code)
             ->assign('base_url', $_ENV['baseUrl'])
-            ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->assign('captcha', $captcha)
             ->fetch('auth/register.tpl'));
     }
@@ -292,11 +291,11 @@ final class AuthController extends BaseController
         $user->ga_token = $secret;
         $user->ga_enable = 0;
 
-        $user->class_expire = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
+        $user->class_expire = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_class_time'] * 86400);
         $user->class = $configs['sign_up_for_class'];
         $user->node_connector = $configs['connection_device_limit'];
         $user->node_speedlimit = $configs['connection_rate_limit'];
-        $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
+        $user->expire_in = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];

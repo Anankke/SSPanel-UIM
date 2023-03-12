@@ -772,11 +772,11 @@
     {
         "id": null,
         "item": "enable_reg_new_shop",
-        "value": "0",
+        "value": "1",
         "class": "register",
         "is_public": 0,
         "type": "bool",
-        "default": "0",
+        "default": "1",
         "mark": "新用户默认使用新商店系统"
     },
     {

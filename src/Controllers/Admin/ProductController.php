@@ -80,8 +80,8 @@ final class ProductController extends BaseController
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
-        $class_required = $request->getParam('class_required');
-        $node_group_required = $request->getParam('node_group_required');
+        $class_required = $request->getParam('class_required') ?? '';
+        $node_group_required = $request->getParam('node_group_required') ?? '';
         $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
         try {
@@ -203,8 +203,8 @@ final class ProductController extends BaseController
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
-        $class_required = $request->getParam('class_required');
-        $node_group_required = $request->getParam('node_group_required');
+        $class_required = $request->getParam('class_required') ?? '';
+        $node_group_required = $request->getParam('node_group_required') ?? '';
         $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
         try {
