@@ -127,7 +127,6 @@ final class AuthController extends BaseController
         return $response->write($this->view()
             ->assign('code', $code)
             ->assign('base_url', $_ENV['baseUrl'])
-            ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->assign('captcha', $captcha)
             ->fetch('auth/register.tpl'));
     }
