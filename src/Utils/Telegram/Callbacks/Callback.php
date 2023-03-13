@@ -89,16 +89,16 @@ final class Callback
             // 群组中不回应
             return;
         }
-        switch (true) {
-            case str_starts_with($this->CallbackData, 'user.'):
-                // 用户相关
-                $this->userCallback();
-                break;
-            default:
-                //游客回调数据处理
-                $this->guestCallback();
-                break;
-        }
+        
+        if (str_starts_with($this->CallbackData, 'user.')) {
+            // 用户相关
+            $this->userCallback();
+            return;
+        } else {
+            //游客回调数据处理
+            $this->guestCallback();
+            return;
+        }                
     }
 
     /**
@@ -703,25 +703,25 @@ final class Callback
                     $back[0],
                 ];
                 $OpEnd = end($Operate);
-                switch ($OpEnd) {
-                    case 'update':
-                        $this->User->sendDailyMail = ($this->User->sendDailyMail === 0 ? 1 : 0);
-                        if ($this->User->save()) {
-                            $text = '设置更改成功，每日邮件接收当前设置为：';
-                            $text .= '<strong>';
-                            $text .= ($this->User->sendDailyMail === 0 ? '不发送' : '发送');
-                            $text .= '</strong>';
-                        } else {
-                            $text = '发生错误。';
-                        }
-                        break;
-                    default:
-                        $text = '每日邮件接收当前设置为：';
+
+                if ($OpEnd === 'update') {
+                    $this->User->sendDailyMail = ($this->User->sendDailyMail === 0 ? 1 : 0);
+
+                    if ($this->User->save()) {
+                        $text = '设置更改成功，每日邮件接收当前设置为：';
                         $text .= '<strong>';
                         $text .= ($this->User->sendDailyMail === 0 ? '不发送' : '发送');
                         $text .= '</strong>';
-                        break;
+                    } else {
+                        $text = '发生错误。';
+                    }
+                } else {
+                    $text = '每日邮件接收当前设置为：';
+                    $text .= '<strong>';
+                    $text .= ($this->User->sendDailyMail === 0 ? '不发送' : '发送');
+                    $text .= '</strong>';
                 }
+
                 $sendMessage = [
                     'text' => $text,
                     'disable_web_page_preview' => false,
@@ -1036,36 +1036,37 @@ final class Callback
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
         $OpEnd = end($Operate);
-        switch ($OpEnd) {
-            case 'get':
-                $this->AllowEditMessage = false;
+
+        if ($OpEnd === 'get') {
+            $this->AllowEditMessage = false;
+            $code = InviteCode::where('user_id', $this->User->id)->first();
+
+            if ($code === null) {
+                $this->User->addInviteCode();
                 $code = InviteCode::where('user_id', $this->User->id)->first();
-                if ($code === null) {
-                    $this->User->addInviteCode();
-                    $code = InviteCode::where('user_id', $this->User->id)->first();
-                }
-                $inviteUrl = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
-                $text = '<a href="' . $inviteUrl . '">' . $inviteUrl . '</a>';
-                $sendMessage = [
-                    'text' => $text,
-                    'disable_web_page_preview' => false,
-                    'reply_to_message_id' => null,
-                    'reply_markup' => null,
-                ];
-                break;
-            default:
-                $temp = $this->getUserInviteKeyboard();
-                $sendMessage = [
-                    'text' => $temp['text'],
-                    'disable_web_page_preview' => false,
-                    'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
-                        [
-                            'inline_keyboard' => $temp['keyboard'],
-                        ]
-                    ),
-                ];
-                break;
+            }
+
+            $inviteUrl = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
+            $text = '<a href="' . $inviteUrl . '">' . $inviteUrl . '</a>';
+
+            $sendMessage = [
+                'text' => $text,
+                'disable_web_page_preview' => false,
+                'reply_to_message_id' => null,
+                'reply_markup' => null,
+            ];
+        } else {
+            $temp = $this->getUserInviteKeyboard();
+            $sendMessage = [
+                'text' => $temp['text'],
+                'disable_web_page_preview' => false,
+                'reply_to_message_id' => null,
+                'reply_markup' => json_encode(
+                    [
+                        'inline_keyboard' => $temp['keyboard'],
+                    ]
+                ),
+            ];
         }
 
         $this->replyWithMessage(
