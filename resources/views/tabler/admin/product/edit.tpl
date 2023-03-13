@@ -136,14 +136,14 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户等级要求</label>
                                 <div class="col">
-                                    <input id="class_requried" type="text" class="form-control"
+                                    <input id="class_required" type="text" class="form-control"
                                         value="{$limit->class_required}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户所在的节点组</label>
                                 <div class="col">
-                                    <input id="node_group_requried" type="text" class="form-control"
+                                    <input id="node_group_required" type="text" class="form-control"
                                         value="{$limit->node_group_required}">
                                 </div>
                             </div>
