@@ -17,6 +17,7 @@ final class AdminController extends BaseController
 {
     /**
      * 后台首页
+     *
      * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface

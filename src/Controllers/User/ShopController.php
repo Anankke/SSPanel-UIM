@@ -97,10 +97,8 @@ final class ShopController extends BaseController
 
         $orders = Bought::where('userid', $user->id)->get();
         foreach ($orders as $order) {
-            if ($order->shop()->useLoop()) {
-                if ($order->valid()) {
-                    return ResponseHelper::error($response, '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐');
-                }
+            if ($order->shop()->useLoop() && $order->valid()) {
+                return ResponseHelper::error($response, '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐');
             }
         }
 

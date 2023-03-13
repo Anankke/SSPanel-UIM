@@ -61,7 +61,7 @@ final class Payment
         return $response->withStatus(404);
     }
 
-    public static function returnHTML($request, $response, $args): string
+    public static function returnHTML($request, $response, $args)
     {
         $payment = self::getPaymentByName($args['type']);
 

@@ -89,16 +89,15 @@ final class Callback
             // 群组中不回应
             return;
         }
-        
+
         if (str_starts_with($this->CallbackData, 'user.')) {
             // 用户相关
             $this->userCallback();
             return;
-        } else {
-            //游客回调数据处理
-            $this->guestCallback();
-            return;
-        }                
+        }
+        //游客回调数据处理
+        $this->guestCallback();
+        return;
     }
 
     /**

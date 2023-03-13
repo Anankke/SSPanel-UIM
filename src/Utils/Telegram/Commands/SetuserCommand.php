@@ -48,17 +48,15 @@ final class SetuserCommand extends Command
 
         if (! in_array($SendUser['id'], json_decode(Setting::obtain('telegram_admins')))) {
             $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
-            if ($AdminUser === null) {
+            if ($AdminUser === null && Setting::obtain('enable_not_admin_reply') === true && Setting::obtain('not_admin_reply_msg') !== '') {
                 // 非管理员回复消息
-                if (Setting::obtain('enable_not_admin_reply') === true && Setting::obtain('not_admin_reply_msg') !== '') {
-                    $this->replyWithMessage(
-                        [
-                            'text' => Setting::obtain('not_admin_reply_msg'),
-                            'parse_mode' => 'HTML',
-                            'reply_to_message_id' => $MessageID,
-                        ]
-                    );
-                }
+                $this->replyWithMessage(
+                    [
+                        'text' => Setting::obtain('not_admin_reply_msg'),
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
+                    ]
+                );
             }
         }
 

@@ -27,15 +27,11 @@ final class HelpCommand extends Command
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
-        if ($Message->getChat()->getId() < 0) {
-            if (Setting::obtain('telegram_group_quiet') === true) {
-                return;
-            }
+        if ($Message->getChat()->getId() < 0 && Setting::obtain('telegram_group_quiet') === true) {
+            return;
         }
-        if (! preg_match('/^\/help\s?(@' . $_ENV['telegram_bot'] . ')?.*/i', $Message->getText())) {
-            if (Setting::obtain('help_any_command') === false) {
-                return;
-            }
+        if (! preg_match('/^\/help\s?(@' . $_ENV['telegram_bot'] . ')?.*/i', $Message->getText()) && Setting::obtain('help_any_command') === false) {
+            return;
         }
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $commands = $this->telegram->getCommands();

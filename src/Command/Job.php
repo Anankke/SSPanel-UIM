@@ -541,10 +541,8 @@ EOL;
             // 审计封禁解封
             if ($user->is_banned === 1) {
                 $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
-                if ($logs !== null) {
-                    if (($logs->end_time + $logs->ban_time * 60) <= time()) {
-                        $user->is_banned = 0;
-                    }
+                if ($logs !== null && ($logs->end_time + $logs->ban_time * 60) <= time()) {
+                    $user->is_banned = 0;
                 }
             }
 
