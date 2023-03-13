@@ -73,6 +73,26 @@ final class ProductController extends BaseController
         );
     }
 
+    /**
+     * @throws Exception
+     */
+    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
+        $id = $args['id'];
+        $product = Product::find($id);
+        $content = json_decode($product->content);
+        $limit = json_decode($product->limit);
+
+        return $response->write(
+            $this->view()
+                ->assign('product', $product)
+                ->assign('content', $content)
+                ->assign('limit', $limit)
+                ->assign('update_field', self::$update_field)
+                ->fetch('admin/product/edit.tpl')
+        );
+    }
+
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // base product
@@ -90,8 +110,8 @@ final class ProductController extends BaseController
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
-        $class_required = $request->getParam('class_required');
-        $node_group_required = $request->getParam('node_group_required');
+        $class_required = $request->getParam('class_required') ?? '';
+        $node_group_required = $request->getParam('node_group_required') ?? '';
         $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
         try {
@@ -179,26 +199,6 @@ final class ProductController extends BaseController
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $id = $args['id'];
-        $product = Product::find($id);
-        $content = json_decode($product->content, true);
-        $limit = json_decode($product->limit, true);
-
-        return $response->write(
-            $this->view()
-                ->assign('product', $product)
-                ->assign('content', $content)
-                ->assign('limit', $limit)
-                ->assign('update_field', self::$update_field)
-                ->fetch('admin/product/edit.tpl')
-        );
-    }
-
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $product_id = $args['id'];
@@ -217,8 +217,8 @@ final class ProductController extends BaseController
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
-        $class_required = $request->getParam('class_required');
-        $node_group_required = $request->getParam('node_group_required');
+        $class_required = $request->getParam('class_required') ?? '';
+        $node_group_required = $request->getParam('node_group_required') ?? '';
         $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
         try {
