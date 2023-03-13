@@ -186,7 +186,7 @@
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">连接设备限制</label>
                                     <div class="col">
-                                        <input id="connection_device_limit" type="text" class="form-control" value="{$settings['connection_device_limit']}">
+                                        <input id="connection_ip_limit" type="text" class="form-control" value="{$settings['connection_ip_limit']}">
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">

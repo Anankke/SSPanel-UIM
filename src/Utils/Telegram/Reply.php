@@ -31,7 +31,7 @@ final class Reply
     {
         $text = [
             '当前余额：' . $user->money,
-            '在线设备：' . ($user->node_connector !== 0 ? $user->onlineIpCount() . ' / ' . $user->node_connector : $user->onlineIpCount() . ' / 不限制'),
+            '在线 IP 数：' . ($user->node_iplimit !== 0 ? $user->onlineIpCount() . ' / ' . $user->node_iplimit : $user->onlineIpCount() . ' / 不限制'),
             '端口速率：' . ($user->node_speedlimit !== 0 ? $user->node_speedlimit . 'Mbps' : '无限制'),
             '上次使用：' . $user->lastSsTime(),
             '过期时间：' . $user->class_expire,

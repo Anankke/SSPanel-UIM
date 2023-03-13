@@ -211,10 +211,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 col-12">
-                                    <label class="form-label col-12 col-form-label">链接设备限制</label>
+                                    <label class="form-label col-12 col-form-label">同時连接 IP 限制</label>
                                     <div class="col">
-                                        <input id="node_connector" type="text" class="form-control"
-                                            value="{$edit_user->node_connector}">
+                                        <input id="node_iplimit" type="text" class="form-control"
+                                            value="{$edit_user->node_iplimit}">
                                     </div>
                                 </div>
                         </div>

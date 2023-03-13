@@ -80,7 +80,7 @@ final class TelegramTools
             'class_expire' => ['class_expire'],
             'expire_in' => ['expire_in'],
             'node_speedlimit' => ['node_speedlimit'],
-            'node_connector' => ['node_connector'],
+            'node_iplimit' => ['node_iplimit'],
         ];
     }
 
@@ -264,7 +264,7 @@ final class TelegramTools
             case 'class':
             case 'invite_num':
             case 'node_group':
-            case 'node_connector':
+            case 'node_iplimit':
             case 'node_speedlimit':
                 $strArray = [
                     '// 参数值中不允许有空格',

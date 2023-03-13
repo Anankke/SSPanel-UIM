@@ -83,7 +83,7 @@ final class UserController extends BaseController
         'auto_reset_day',
         'auto_reset_bandwidth',
         'node_speedlimit',
-        'node_connector',
+        'node_iplimit',
         'port',
         'passwd',
         'method',
@@ -189,7 +189,7 @@ final class UserController extends BaseController
         $user->auto_reset_day = $request->getParam('auto_reset_day');
         $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $user->node_speedlimit = $request->getParam('node_speedlimit');
-        $user->node_connector = $request->getParam('node_connector');
+        $user->node_iplimit = $request->getParam('node_iplimit');
         $user->port = $request->getParam('port');
         $user->passwd = $request->getParam('passwd');
         $user->method = $request->getParam('method');
