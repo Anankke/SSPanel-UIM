@@ -85,49 +85,49 @@
                                 <label class="form-label col-3 col-form-label">商品时长 (天)</label>
                                 <div class="col">
                                     <input id="time" type="text" class="form-control" 
-                                        value="{$content['time']}">
+                                        value="{$content->time}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">等级</label>
                                 <div class="col">
                                     <input id="class" type="text" class="form-control" 
-                                        value="{$content['class']}">
+                                        value="{$content->class}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">等级时长 (天)</label>
                                 <div class="col">
                                     <input id="class_time" type="text" class="form-control" 
-                                        value="{$content['class_time']}">
+                                        value="{$content->class_time}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">可用流量 (GB)</label>
                                 <div class="col">
                                     <input id="bandwidth" type="text" class="form-control" 
-                                        value="{$content['bandwidth']}">
+                                        value="{$content->bandwidth}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户分组</label>
                                 <div class="col">
                                     <input id="node_group" type="text" class="form-control" 
-                                        value="{$content['node_group']}">
+                                        value="{$content->node_group}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">速率限制 (Mbps)</label>
                                 <div class="col">
                                     <input id="speed_limit" type="text" class="form-control"
-                                        value="{$content['speed_limit']}">
+                                        value="{$content->speed_limit}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">同时连接IP限制</label>
                                 <div class="col">
                                     <input id="ip_limit" type="text" class="form-control"
-                                        value="{$content['ip_limit']}">
+                                        value="{$content->ip_limit}">
                                 </div>
                             </div>
                             <div class="hr-text">
@@ -137,14 +137,14 @@
                                 <label class="form-label col-3 col-form-label">用户等级要求</label>
                                 <div class="col">
                                     <input id="class_requried" type="text" class="form-control"
-                                        value="{$limit['class_required']}">
+                                        value="{$limit->class_required}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户所在的节点组</label>
                                 <div class="col">
                                     <input id="node_group_requried" type="text" class="form-control"
-                                        value="{$limit['node_group_required']}">
+                                        value="{$limit->node_group_required}">
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -153,7 +153,7 @@
                                     <span class="col-auto">
                                         <label class="form-check form-check-single form-switch">
                                             <input id="new_user_requried" class="form-check-input" type="checkbox" 
-                                                {if $limit['new_user_required'] === 1}checked="" {/if}>
+                                                {if $limit->new_user_required === 1}checked="" {/if}>
                                         </label>
                                     </span>
                                 </label>
@@ -170,7 +170,7 @@
     $("#save-product").click(function() {
         $.ajax({
             url: '/admin/product/{$product->id}',
-            type: 'PUT',
+            type: 'POST',
             dataType: "json",
             data: {
                 {foreach $update_field as $key}

@@ -265,7 +265,7 @@ return static function (Slim\App $app): void {
         $group->post('/product', App\Controllers\Admin\ProductController::class . ':add');
         $group->get('/product/{id}/edit', App\Controllers\Admin\ProductController::class . ':edit');
         $group->post('/product/{id}/copy', App\Controllers\Admin\ProductController::class . ':copy');
-        $group->put('/product/{id}', App\Controllers\Admin\ProductController::class . ':update');
+        $group->post('/product/{id}', App\Controllers\Admin\ProductController::class . ':update');
         $group->delete('/product/{id}', App\Controllers\Admin\ProductController::class . ':delete');
         $group->post('/product/ajax', App\Controllers\Admin\ProductController::class . ':ajax');
         // 订单

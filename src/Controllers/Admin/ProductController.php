@@ -73,6 +73,26 @@ final class ProductController extends BaseController
         );
     }
 
+    /**
+     * @throws Exception
+     */
+    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
+        $id = $args['id'];
+        $product = Product::find($id);
+        $content = json_decode($product->content);
+        $limit = json_decode($product->limit);
+
+        return $response->write(
+            $this->view()
+                ->assign('product', $product)
+                ->assign('content', $content)
+                ->assign('limit', $limit)
+                ->assign('update_field', self::$update_field)
+                ->fetch('admin/product/edit.tpl')
+        );
+    }
+
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // base product
@@ -177,26 +197,6 @@ final class ProductController extends BaseController
             'ret' => 1,
             'msg' => '添加成功',
         ]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $id = $args['id'];
-        $product = Product::find($id);
-        $content = json_decode($product->content, true);
-        $limit = json_decode($product->limit, true);
-
-        return $response->write(
-            $this->view()
-                ->assign('product', $product)
-                ->assign('content', $content)
-                ->assign('limit', $limit)
-                ->assign('update_field', self::$update_field)
-                ->fetch('admin/product/edit.tpl')
-        );
     }
 
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
