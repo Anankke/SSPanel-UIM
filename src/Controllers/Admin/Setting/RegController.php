@@ -31,7 +31,7 @@ final class RegController extends BaseController
         'sign_up_for_class_time',
         'sign_up_for_method',
         'sign_up_for_invitation_codes',
-        'connection_device_limit',
+        'connection_ip_limit',
         'connection_rate_limit',
         'reg_forbidden_ip',
         'reg_forbidden_port',

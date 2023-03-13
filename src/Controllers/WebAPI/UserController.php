@@ -74,7 +74,7 @@ final class UserController extends BaseController
         $alive_ip = (new Ip())->getUserAliveIpCount();
         $users = [];
         foreach ($users_raw as $user_raw) {
-            if (isset($alive_ip[strval($user_raw->id)]) && $user_raw->node_connector !== 0) {
+            if (isset($alive_ip[strval($user_raw->id)]) && $user_raw->node_connector !== 0 && $user_raw->node_iplimit !== 0) {
                 $user_raw->alive_ip = $alive_ip[strval($user_raw->id)];
             }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {

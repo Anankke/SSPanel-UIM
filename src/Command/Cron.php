@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Utils\Tools;
 use DateTime;
 use Exception;
+use function count;
 use function in_array;
 use function json_decode;
 use function time;
@@ -23,7 +24,7 @@ EOL;
     public function boot(): void
     {
         ini_set('memory_limit', '-1');
-
+        // 新商店系统相关
         // 获取等待支付的订单，检查账单支付状态
         $pending_payment_orders = Order::where('status', 'pending_payment')->get();
 
@@ -54,7 +55,6 @@ EOL;
                 echo "已取消超时账单 #{$invoice->id}。\n";
             }
         }
-
         // 获取使用新商店系统的用户，仅更新这部分用户避免与旧系统冲突
         $users_new_shop = User::where('use_new_shop', 1)->get();
 
@@ -65,7 +65,7 @@ EOL;
             // 获取用户账户已激活的订单，一个用户同时只能有一个已激活的订单
             $activated_order = Order::where('user_id', $user_id)->where('status', 'activated')->orderBy('id', 'asc')->first();
             // 如果用户账户中没有已激活的订单，且有等待激活的订单，则激活最早的等待激活订单
-            if ($activated_order === null && $pending_activation_orders !== null) {
+            if ($activated_order === null && count($pending_activation_orders) > 0) {
                 $order = $pending_activation_orders[0];
                 $order->status = 'activated';
                 $order->update_time = time();

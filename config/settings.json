@@ -871,13 +871,13 @@
     },
     {
         "id": null,
-        "item": "connection_device_limit",
+        "item": "connection_ip_limit",
         "value": "0",
         "class": "register",
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "连接设备限制"
+        "mark": "连接 IP 限制"
     },
     {
         "id": null,

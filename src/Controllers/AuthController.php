@@ -293,7 +293,8 @@ final class AuthController extends BaseController
 
         $user->class_expire = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_class_time'] * 86400);
         $user->class = $configs['sign_up_for_class'];
-        $user->node_connector = $configs['connection_device_limit'];
+        $user->node_connector = 0;
+        $user->node_iplimit = $configs['connection_ip_limit'];
         $user->node_speedlimit = $configs['connection_rate_limit'];
         $user->expire_in = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date = date('Y-m-d H:i:s');
