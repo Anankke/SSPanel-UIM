@@ -964,6 +964,19 @@ final class Callback
                         ),
                     ];
                     break;
+                default:
+                    $text = '未知参数' . PHP_EOL . PHP_EOL;
+                    $sendMessage = [
+                        'text' => $text,
+                        'disable_web_page_preview' => true,
+                        'reply_to_message_id' => null,
+                        'reply_markup' => json_encode(
+                            [
+                                'inline_keyboard' => $temp['keyboard'],
+                            ]
+                        ),
+                    ];
+                    break;
             }
         } else {
             $temp = $this->getUserSubscribeKeyboard();

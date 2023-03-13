@@ -198,6 +198,9 @@ final class SubController extends BaseController
                         'remark' => $node_raw->info,
                     ];
                     break;
+                default:
+                    $node = [];
+                    break;
             }
 
             if ($node === []) {
@@ -324,6 +327,9 @@ final class SubController extends BaseController
                         'grpc-opts' => $grpc_opts,
                     ];
 
+                    break;
+                default:
+                    $node = [];
                     break;
             }
 

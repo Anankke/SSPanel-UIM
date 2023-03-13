@@ -115,6 +115,9 @@ final class Epay extends AbstractPayment
                 case 'epusdt':
                     $type = 'USDT';
                     break;
+                default:
+                    $type = 'Alipay';
+                    break;
             }
             $trade_status = $_GET['trade_status'];
             if ($trade_status === 'TRADE_SUCCESS') {
