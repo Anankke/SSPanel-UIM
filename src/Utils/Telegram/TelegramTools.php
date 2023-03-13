@@ -367,8 +367,8 @@ final class TelegramTools
         $useMethod = '';
         foreach ($MethodGroup as $MethodName => $Remarks) {
             if (strlen($MethodName) === strlen($Search) && stripos($MethodName, $Search) === 0) {
-                    $useMethod = $MethodName;
-                    break;
+                $useMethod = $MethodName;
+                break;
             }
             if (count($Remarks) >= 1) {
                 foreach ($Remarks as $Remark) {
