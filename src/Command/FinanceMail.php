@@ -36,8 +36,10 @@ EOL;
     {
         $datatables = new Datatables(new MySQL(Config::getDbConfig()));
         $datatables->query(
-            'select code.number, code.userid, code.usedatetime from code
-		where TO_DAYS(NOW()) - TO_DAYS(code.usedatetime) = 1 and code.type = -1 and code.isused= 1'
+            'SELECT code.number, code.userid, code.usedatetime FROM code 
+            WHERE TO_DAYS(NOW()) - TO_DAYS(code.usedatetime) = 1 
+            AND code.type = -1 
+            AND code.isused = 1'
         );
         $text_array = $datatables->generate()->toArray();
         $codes = $text_array['data'];
@@ -76,8 +78,10 @@ EOL;
     {
         $datatables = new Datatables(new MySQL(Config::getDbConfig()));
         $datatables->query(
-            'SELECT code.number FROM code
-		WHERE DATEDIFF(NOW(),code.usedatetime) <=7 AND DATEDIFF(NOW(),code.usedatetime) >=1 AND code.isused = 1'
+            'SELECT code.number FROM code 
+            WHERE DATEDIFF(NOW(),code.usedatetime) <= 7 
+            AND DATEDIFF(NOW(),code.usedatetime) >= 1 
+            AND code.isused = 1'
         );
         //每周的第一天是周日，因此统计周日～周六的七天
         $text_array = $datatables->generate()->toArray();
@@ -109,8 +113,10 @@ EOL;
     {
         $datatables = new Datatables(new MySQL(Config::getDbConfig()));
         $datatables->query(
-            'select code.number from code
-		where date_format(code.usedatetime,\'%Y-%m\')=date_format(date_sub(curdate(), interval 1 month),\'%Y-%m\') and code.type = -1 and code.isused= 1'
+            'SELECT code.number FROM code 
+            WHERE DATE_FORMAT(code.usedatetime,\'%Y-%m\')=DATE_FORMAT(date_sub(curdate(), interval 1 month),\'%Y-%m\') 
+            AND code.type = -1 
+            AND code.isused = 1'
         );
         $text_array = $datatables->generate()->toArray();
         $codes = $text_array['data'];
