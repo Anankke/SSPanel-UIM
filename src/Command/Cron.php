@@ -65,36 +65,34 @@ EOL;
             // 获取用户账户已激活的订单，一个用户同时只能有一个已激活的订单
             $activated_order = Order::where('user_id', $user_id)->where('status', 'activated')->orderBy('id', 'asc')->first();
             // 如果用户账户中没有已激活的订单，且有等待激活的订单，则激活最早的等待激活订单
-            if ($activated_order === null) {
-                if ($pending_activation_orders !== null) {
-                    $order = $pending_activation_orders[0];
-                    $order->status = 'activated';
-                    $order->update_time = time();
-                    $order->save();
-                    // 获取订单内容准备激活
-                    $content = json_decode($order->product_content);
-                    // 激活商品
-                    $old_expire_in = null;
-                    try {
-                        $old_expire_in = new DateTime($user->expire_in);
-                    } catch (Exception $e) {
-                        continue;
-                    }
-                    $user->expire_in = $old_expire_in->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
-                    $user->u = 0;
-                    $user->d = 0;
-                    $user->last_day_t = 0;
-                    $user->transfer_enable = Tools::toGB($content->bandwidth);
-                    $user->class = $content->class;
-                    $now = new DateTime();
-                    $user->class_expire = $now->modify('+' . $content->class_time . ' days')->format('Y-m-d H:i:s');
-                    $user->node_group = $content->node_group;
-                    $user->node_speedlimit = $content->speed_limit;
-                    $user->node_iplimit = $content->ip_limit;
-                    $user->save();
-                    echo "订单 #{$order->id} 已激活。\n";
+            if ($activated_order === null && $pending_activation_orders !== null) {
+                $order = $pending_activation_orders[0];
+                $order->status = 'activated';
+                $order->update_time = time();
+                $order->save();
+                // 获取订单内容准备激活
+                $content = json_decode($order->product_content);
+                // 激活商品
+                $old_expire_in = null;
+                try {
+                    $old_expire_in = new DateTime($user->expire_in);
+                } catch (Exception $e) {
                     continue;
                 }
+                $user->expire_in = $old_expire_in->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
+                $user->u = 0;
+                $user->d = 0;
+                $user->last_day_t = 0;
+                $user->transfer_enable = Tools::toGB($content->bandwidth);
+                $user->class = $content->class;
+                $now = new DateTime();
+                $user->class_expire = $now->modify('+' . $content->class_time . ' days')->format('Y-m-d H:i:s');
+                $user->node_group = $content->node_group;
+                $user->node_speedlimit = $content->speed_limit;
+                $user->node_iplimit = $content->ip_limit;
+                $user->save();
+                echo "订单 #{$order->id} 已激活。\n";
+                continue;
             }
             // 如果用户账户中有已激活的订单，则判断是否过期
             if ($activated_order !== null) {

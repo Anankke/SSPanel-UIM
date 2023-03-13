@@ -686,6 +686,8 @@ final class User extends Model
                     $text
                 );
                 break;
+            default:
+                return;
         }
     }
 

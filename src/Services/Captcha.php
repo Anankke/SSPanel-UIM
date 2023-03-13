@@ -85,6 +85,8 @@ final class Captcha
                     }
                 }
                 break;
+            default:
+                return false;
         }
 
         return $result;

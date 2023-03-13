@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Ann;
 use App\Models\User;
 use App\Utils\Telegram;
+use Exception;
 use League\HTMLToMarkdown\HtmlConverter;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -33,7 +34,7 @@ final class AnnController extends BaseController
     /**
      * 后台公告页面
      *
-     * @noinspection PhpUnhandledExceptionInspection
+     * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -47,7 +48,7 @@ final class AnnController extends BaseController
     /**
      * 后台公告创建页面
      *
-     * @noinspection PhpUnhandledExceptionInspection
+     * @throws Exception
      */
     public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -115,7 +116,7 @@ final class AnnController extends BaseController
     /**
      * 后台编辑公告页面
      *
-     * @noinspection PhpUnhandledExceptionInspection
+     * @throws Exception
      */
     public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

@@ -147,13 +147,11 @@ final class CouponController extends BaseController
             ]);
         }
 
-        if ($generate_method === 'char') {
-            if (UserCoupon::where('code', $code)->count() !== 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '优惠码已存在',
-                ]);
-            }
+        if ($generate_method === 'char' && UserCoupon::where('code', $code)->count() !== 0) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '优惠码已存在',
+            ]);
         }
 
         if ($generate_method === 'char_random') {
