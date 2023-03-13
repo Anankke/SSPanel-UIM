@@ -170,7 +170,7 @@
     $("#save-product").click(function() {
         $.ajax({
             url: '/admin/product/{$product->id}',
-            type: 'POST',
+            type: 'PUT',
             dataType: "json",
             data: {
                 {foreach $update_field as $key}
