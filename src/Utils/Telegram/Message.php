@@ -57,9 +57,8 @@ final class Message
         if ($this->Message->getText() !== null) {
             // 消息内容
             $MessageData = trim($this->Message->getText());
-            if ($this->ChatID > 0) {
+            if ($this->ChatID > 0 && strlen($MessageData) === 16) {
                 // 私聊
-                if (strlen($MessageData) === 16) {
                     $Uid = TelegramSessionManager::verifyBindSession($MessageData);
                     if ($Uid === 0) {
                         $text = '绑定失败了呢，经检查发现：【' . $MessageData . '】的有效期为 10 分钟，您可以在我们网站上的 **资料编辑** 页面刷新后重试.';
@@ -87,7 +86,6 @@ final class Message
                             'parse_mode' => 'Markdown',
                         ]
                     );
-                }
             }
             return;
         }

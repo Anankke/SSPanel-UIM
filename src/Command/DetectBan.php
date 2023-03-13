@@ -85,10 +85,8 @@ final class DetectBan extends Command
                     $tmp = 0;
 
                     foreach ($_ENV['auto_detect_ban'] as $key => $val) {
-                        if ($number >= $key) {
-                            if ($key >= $tmp) {
-                                $tmp = $key;
-                            }
+                        if ($number >= $key && $key >= $tmp) {
+                            $tmp = $key;
                         }
                     }
 
