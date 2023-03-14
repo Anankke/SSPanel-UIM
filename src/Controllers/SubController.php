@@ -113,8 +113,8 @@ final class SubController extends BaseController
                 $server = $node_custom_config['server_user'];
             }
 
-            switch ($node_raw->sort) {
-                case '0':
+            switch ((int) $node_raw->sort) {
+                case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? '';
                     $node = [
@@ -130,7 +130,7 @@ final class SubController extends BaseController
                         'remark' => $node_raw->info,
                     ];
                     break;
-                case '11':
+                case 11:
                     $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     //默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
@@ -167,7 +167,7 @@ final class SubController extends BaseController
                         'remark' => $node_raw->info,
                     ];
                     break;
-                case '14':
+                case 14:
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
@@ -247,8 +247,8 @@ final class SubController extends BaseController
                 $server = $node_custom_config['server_user'];
             }
 
-            switch ($node_raw->sort) {
-                case '0':
+            switch ((int) $node_raw->sort) {
+                case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? null;
                     // Clash 特定配置
@@ -267,7 +267,7 @@ final class SubController extends BaseController
                     ];
 
                     break;
-                case '11':
+                case 11:
                     $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
@@ -303,7 +303,7 @@ final class SubController extends BaseController
                     ];
 
                     break;
-                case '14':
+                case 14:
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $network = $node_custom_config['network'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
                     $host = $node_custom_config['host'] ?? '';
