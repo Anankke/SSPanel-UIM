@@ -125,7 +125,7 @@ final class LinkController extends BaseController
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            if ($node_raw->sort === '0') {
+            if ((int) $node_raw->sort === 0) {
                 $links .= base64_encode($user->method . ':' . $user->passwd . '@' . $server . ':' . $user->port) . '#' .
                     $node_raw->name . PHP_EOL;
             }
@@ -155,7 +155,7 @@ final class LinkController extends BaseController
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            if ($node_raw->sort === '0') {
+            if ((int) $node_raw->sort === 0) {
                 $plugin = $node_custom_config['plugin'] ?? '';
                 $plugin_option = $node_custom_config['plugin_option'] ?? '';
 
@@ -188,7 +188,7 @@ final class LinkController extends BaseController
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            if ($node_raw->sort === '11') {
+            if ((int) $node_raw->sort === 11) {
                 $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                 //默認值有問題的請懂 V2 怎麽用的人來改一改。
                 $alter_id = $node_custom_config['alter_id'] ?? '0';
@@ -240,7 +240,7 @@ final class LinkController extends BaseController
             } else {
                 $server = $node_custom_config['server_user'];
             }
-            if ($node_raw->sort === '14') {
+            if ((int) $node_raw->sort === 14) {
                 $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                 $host = $node_custom_config['host'] ?? '';
                 $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
