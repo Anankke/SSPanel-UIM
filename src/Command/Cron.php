@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Utils\Tools;
 use DateTime;
 use Exception;
+use function count;
 use function in_array;
 use function json_decode;
 use function time;
@@ -64,7 +65,7 @@ EOL;
             // 获取用户账户已激活的订单，一个用户同时只能有一个已激活的订单
             $activated_order = Order::where('user_id', $user_id)->where('status', 'activated')->orderBy('id', 'asc')->first();
             // 如果用户账户中没有已激活的订单，且有等待激活的订单，则激活最早的等待激活订单
-            if ($activated_order === null && $pending_activation_orders !== null) {
+            if ($activated_order === null && count($pending_activation_orders) > 0) {
                 $order = $pending_activation_orders[0];
                 $order->status = 'activated';
                 $order->update_time = time();
