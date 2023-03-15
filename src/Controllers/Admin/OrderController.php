@@ -62,7 +62,7 @@ final class OrderController extends BaseController
         $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
-        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $invoice->status_text = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);

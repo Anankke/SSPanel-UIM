@@ -68,7 +68,7 @@
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">订单状态</div>
-                            <div class="datagrid-content">{$order->status}</div>
+                            <div class="datagrid-content">{$order->status_text}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">创建时间</div>

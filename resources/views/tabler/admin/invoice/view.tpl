@@ -43,16 +43,16 @@
                             <div class="datagrid-content">{$invoice->user_id}</div>
                         </div>
                         <div class="datagrid-item">
-                            <div class="datagrid-title">订单ID</div>
+                            <div class="datagrid-title">关联订单 ID</div>
                             <div class="datagrid-content">{$invoice->order_id}</div>
                         </div>
                         <div class="datagrid-item">
-                            <div class="datagrid-title">订单金额</div>
+                            <div class="datagrid-title">账单金额</div>
                             <div class="datagrid-content">{$invoice->price}</div>
                         </div>
                         <div class="datagrid-item">
-                            <div class="datagrid-title">订单状态</div>
-                            <div class="datagrid-content">{$invoice->status}</div>
+                            <div class="datagrid-title">账单状态</div>
+                            <div class="datagrid-content">{$invoice->status_text}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">创建时间</div>

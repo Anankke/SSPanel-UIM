@@ -58,7 +58,7 @@ final class InvoiceController extends BaseController
             $paylist = Paylist::where('invoice_id', $invoice->id)->where('status', 1)->first();
         }
 
-        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $invoice->status_text = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
