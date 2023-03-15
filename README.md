@@ -37,9 +37,13 @@ SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan 协议设计的多用�
 SSPanel UIM 的需要以下程序才能正常的安装和运行：
 
 - Git
-- Nginx
+- Nginx（with HTTPS configured）
 - PHP 8.0+
 - MariaDB 10.6+
+
+我们推荐用户在开始使用之前至少有一定程度的 PHP 和 Linux 使用知识，能够至少正确识别使用中所出现的问题并在 issue 中提供所需的信息。
+
+对于拒绝阅读文档且拒绝提供任何反馈的，我们建议其使用其他非开源的方案。
 
 ## 文档
 

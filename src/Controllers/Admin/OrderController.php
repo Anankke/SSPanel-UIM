@@ -45,7 +45,7 @@ final class OrderController extends BaseController
 
         $order = Order::find($id);
         $order->product_type = Tools::getOrderProductType($order);
-        $order->status = Tools::getOrderStatus($order);
+        $order->status_text = Tools::getOrderStatus($order);
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
