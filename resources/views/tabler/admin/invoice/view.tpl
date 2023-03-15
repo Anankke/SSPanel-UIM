@@ -66,6 +66,12 @@
                             <div class="datagrid-title">支付时间</div>
                             <div class="datagrid-content">{$invoice->pay_time}</div>
                         </div>
+                        {if $invoice->status === 'paid_gateway'}
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">支付网关单号</div>
+                            <div class="datagrid-content">{$paylist->tradeno}</div>
+                        </div>
+                        {/if}
                     </div>
                 </div>
             </div>
