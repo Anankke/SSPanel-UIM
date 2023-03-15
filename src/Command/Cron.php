@@ -23,7 +23,7 @@ EOL;
     public function boot(): void
     {
         ini_set('memory_limit', '-1');
-
+        // 新商店系统相关
         // 获取等待支付的订单，检查账单支付状态
         $pending_payment_orders = Order::where('status', 'pending_payment')->get();
 
@@ -54,7 +54,6 @@ EOL;
                 echo "已取消超时账单 #{$invoice->id}。\n";
             }
         }
-
         // 获取使用新商店系统的用户，仅更新这部分用户避免与旧系统冲突
         $users_new_shop = User::where('use_new_shop', 1)->get();
 
