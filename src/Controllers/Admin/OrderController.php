@@ -142,9 +142,13 @@ final class OrderController extends BaseController
 
         foreach ($orders as $order) {
             $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '" 
-            onclick="deleteOrder(' . $order->id . ')">删除</button>
-            <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '" 
-            onclick="cancelOrder(' . $order->id . ')">取消</button>
+            onclick="deleteOrder(' . $order->id . ')">删除</button>';
+            if ($order->status === 'pending_payment') {
+                $order->op .= '
+                <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '" 
+                onclick="cancelOrder(' . $order->id . ')">取消</button>';
+            }
+            $order->op .= '
             <a class="btn btn-blue" href="/admin/order/' . $order->id . '/view">查看</a>';
             $order->product_type = Tools::getOrderProductType($order);
             $order->status = Tools::getOrderStatus($order);
