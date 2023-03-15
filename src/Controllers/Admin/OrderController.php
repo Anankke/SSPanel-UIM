@@ -55,14 +55,14 @@ final class OrderController extends BaseController
 
         $order = Order::find($id);
         $order->product_type = Tools::getOrderProductType($order);
-        $order->status = Tools::getOrderStatus($order);
+        $order->status_text = Tools::getOrderStatus($order);
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
         $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
-        $invoice->status_text = Tools::getInvoiceStatus($invoice);
+        $invoice->status = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
