@@ -67,7 +67,8 @@ final class AnnController extends BaseController
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $email_notify_class = (int) $request->getParam('email_notify_class');
-        $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;;
+        $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;
+
         $content = (string) $request->getParam('content');
         $subject = $_ENV['appName'] . ' - 公告';
 
