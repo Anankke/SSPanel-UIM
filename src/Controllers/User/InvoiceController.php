@@ -108,14 +108,7 @@ final class InvoiceController extends BaseController
         $user->money -= $invoice->price;
         $user->save();
 
-        $money_log = new UserMoneyLog();
-        $money_log->user_id = $user->id;
-        $money_log->before = $money_before;
-        $money_log->after = $user->money;
-        $money_log->amount = -$invoice->price;
-        $money_log->remark = '支付账单 #' . $invoice->id;
-        $money_log->create_time = time();
-        $money_log->save();
+        (new UserMoneyLog())->addMoneyLog($user->id, $money_before, $user->money, -$invoice->price, '支付账单 #' . $invoice->id);
 
         $invoice->status = 'paid_balance';
         $invoice->update_time = time();

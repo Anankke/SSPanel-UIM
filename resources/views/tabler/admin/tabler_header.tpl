@@ -177,6 +177,10 @@
                                         <i class="ti ti-friends"></i>&nbsp;
                                         邀请
                                     </a>
+                                    <a class="dropdown-item" href="/admin/moneylog">
+                                        <i class="ti ti-coin"></i>&nbsp;
+                                        余额
+                                    </a>
                                     <a class="dropdown-item" href="/admin/alive">
                                         <i class="ti ti-router"></i>&nbsp;
                                         在线IP
