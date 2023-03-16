@@ -883,99 +883,25 @@ final class Callback
 
             $UniversalSub_Url = SubController::getUniversalSub($this->User);
             $TraditionalSub_Url = LinkController::getTraditionalSub($this->User);
-            switch ($CallbackDataExplode[1]) {
-                case 'clash':
-                    $text = 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-                case 'json':
-                    $text = 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-                case 'ss':
-                    $text = 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-                case 'sip002':
-                    $text = 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-                case 'v2':
-                    $text = 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-                case 'trojan':
-                    $text = 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?trojan=1</code>' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-                default:
-                    $text = '未知参数' . PHP_EOL . PHP_EOL;
-                    $sendMessage = [
-                        'text' => $text,
-                        'disable_web_page_preview' => true,
-                        'reply_to_message_id' => null,
-                        'reply_markup' => json_encode(
-                            [
-                                'inline_keyboard' => $temp['keyboard'],
-                            ]
-                        ),
-                    ];
-                    break;
-            }
+            $text = match ($CallbackDataExplode[1]) {
+                'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
+                'json' => 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL,
+                'ss' => 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL,
+                'sip002' => 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL,
+                'v2' => 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL,
+                'trojan' => 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?trojan=1</code>' . PHP_EOL . PHP_EOL,
+                default => '未知参数' . PHP_EOL . PHP_EOL,
+            };
+            $sendMessage = [
+                'text' => $text,
+                'disable_web_page_preview' => true,
+                'reply_to_message_id' => null,
+                'reply_markup' => json_encode(
+                    [
+                        'inline_keyboard' => $temp['keyboard'],
+                    ]
+                ),
+            ];
         } else {
             $temp = $this->getUserSubscribeKeyboard();
             $sendMessage = [

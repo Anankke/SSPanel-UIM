@@ -390,7 +390,7 @@ final class Tools
         $number = match ($req) {
             'today' => Paylist::where('status', 1)->whereBetween('datetime', [$today, time()])->sum('total'),
             'yesterday' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 day', $today), $today])->sum('total'),
-            'this month' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('first day of this month'), $today])->sum('total'),
+            'this month' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('first day of this month 00:00:00'), $today])->sum('total'),
             default => Paylist::where('status', 1)->sum('total'),
         };
         return is_null($number) ? 0.00 : round(floatval($number), 2);

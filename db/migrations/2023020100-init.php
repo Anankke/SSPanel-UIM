@@ -327,7 +327,7 @@ return new class() implements MigrationInterface {
                 `invite_num` int(11) DEFAULT 0 COMMENT '可用邀请次数',
                 `money` decimal(10,2) NOT NULL DEFAULT 0.00,
                 `ref_by` bigint(20) unsigned DEFAULT 0 COMMENT '邀请人ID',
-                `method` varchar(255) DEFAULT 'rc4-md5' COMMENT 'Shadowsocks加密方式',
+                `method` varchar(255) DEFAULT 'aes-128-gcm' COMMENT 'Shadowsocks加密方式',
                 `reg_ip` varchar(255) DEFAULT '127.0.0.1' COMMENT '注册IP',
                 `node_speedlimit` double NOT NULL DEFAULT 0 COMMENT '用户限速',
                 `node_iplimit` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '同时可连接IP数',
@@ -339,7 +339,7 @@ return new class() implements MigrationInterface {
                 `sendDailyMail` tinyint(1) DEFAULT 0 COMMENT '每日报告开关',
                 `class` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '等级',
                 `class_expire` datetime DEFAULT '1989-06-04 00:05:00' COMMENT '等级过期时间',
-                `expire_in` datetime DEFAULT '2099-06-04 00:05:00',
+                `expire_in` datetime DEFAULT '2199-01-01 00:00:00',
                 `theme` varchar(255) DEFAULT NULL COMMENT '网站主题',
                 `ga_token` varchar(255) DEFAULT NULL,
                 `ga_enable` int(11) DEFAULT 0,
@@ -392,10 +392,22 @@ return new class() implements MigrationInterface {
                 `code` varchar(255) DEFAULT NULL,
                 `user_id` bigint(20) unsigned DEFAULT NULL,
                 `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-                `updated_at` timestamp NULL DEFAULT '2016-05-31 15:00:00',
+                `updated_at` timestamp NULL DEFAULT '1989-06-04 00:05:00',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `code` (`code`),
                 UNIQUE KEY `user_id` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            
+            CREATE TABLE `user_money_log` (
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
+                `before` decimal(10,2) NOT NULL DEFAULT 0 COMMENT '用户变动前账户余额',
+                `after` decimal(10,2) NOT NULL DEFAULT 0 COMMENT '用户变动后账户余额',
+                `amount` decimal(10,2) NOT NULL DEFAULT 0 COMMENT '变动总额',
+                `remark` text NOT NULL DEFAULT '' COMMENT '备注',
+                `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
+                PRIMARY KEY (`id`),
+                KEY `user_id` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `user_password_reset` (
