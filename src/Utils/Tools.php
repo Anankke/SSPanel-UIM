@@ -6,6 +6,7 @@ namespace App\Utils;
 
 use App\Models\Link;
 use App\Models\Model;
+use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
@@ -378,6 +379,21 @@ final class Tools
             }
         }
         return null;
+    }
+
+    /**
+     * 获取累计收入
+     */
+    public static function getIncome(string $req): float
+    {
+        $today = strtotime('00:00:00');
+        $number = match ($req) {
+            'today' => Paylist::where('status', 1)->whereBetween('datetime', [$today, time()])->sum('total'),
+            'yesterday' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 day', $today), $today])->sum('total'),
+            'this month' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('first day of this month'), $today])->sum('total'),
+            default => Paylist::where('status', 1)->sum('total'),
+        };
+        return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
     /**

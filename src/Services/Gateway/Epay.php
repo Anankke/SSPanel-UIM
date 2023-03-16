@@ -102,23 +102,13 @@ final class Epay extends AbstractPayment
         if ($verify_result) {
             $out_trade_no = $_GET['out_trade_no'];
             $type = $_GET['type'];
-            switch ($type) {
-                case 'alipay':
-                    $type = 'Alipay';
-                    break;
-                case 'qqpay':
-                    $type = 'QQ';
-                    break;
-                case 'wxpay':
-                    $type = 'WeChat';
-                    break;
-                case 'epusdt':
-                    $type = 'USDT';
-                    break;
-                default:
-                    $type = 'Alipay';
-                    break;
-            }
+            $type = match ($type) {
+                'alipay' => 'Alipay',
+                'qqpay' => 'QQ',
+                'wxpay' => 'WeChat',
+                'epusdt' => 'USDT',
+                default => 'Alipay',
+            };
             $trade_status = $_GET['trade_status'];
             if ($trade_status === 'TRADE_SUCCESS') {
                 $this->postPayment($out_trade_no, $type . ' ' . $out_trade_no);
