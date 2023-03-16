@@ -161,7 +161,7 @@ final class UserController extends BaseController
 
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $id = $args['id'];
+        $id = (int) $args['id'];
         $user = User::find($id);
 
         if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
