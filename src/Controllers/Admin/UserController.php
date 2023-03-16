@@ -161,7 +161,7 @@ final class UserController extends BaseController
 
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $id = $args['id'];
+        $id = (int) $args['id'];
         $user = User::find($id);
 
         if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
@@ -169,11 +169,14 @@ final class UserController extends BaseController
             $user->cleanLink();
         }
 
-        if ($request->getParam('money') !== '' && $request->getParam('money') !== null) {
+        if ($request->getParam('money') !== '' &&
+            $request->getParam('money') !== null &&
+            (double) $request->getParam('money') !== (float) $user->money
+        ) {
             $money = (double) $request->getParam('money');
             $diff = $money - $user->money;
             $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-            (new UserMoneyLog())->addMoneyLog($id, $user->money, $money, $diff, $remark);
+            (new UserMoneyLog())->addMoneyLog($id, (float) $user->money, $money, $diff, $remark);
             $user->money = $money;
         }
 

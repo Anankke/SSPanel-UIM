@@ -235,8 +235,8 @@ return static function (Slim\App $app): void {
         $group->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
         $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajax');
         // 用户余额日志
-        $group->get('/moneylog', App\Controllers\Admin\TrafficLogController::class . ':log');
-        $group->post('/moneylog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajax');
+        $group->get('/moneylog', App\Controllers\Admin\MoneyLogController::class . ':log');
+        $group->post('/moneylog/ajax', App\Controllers\Admin\MoneyLogController::class . ':ajax');
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');
