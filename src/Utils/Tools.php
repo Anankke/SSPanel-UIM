@@ -384,7 +384,7 @@ final class Tools
     /**
      * 获取累计收入
      */
-    public function getIncome(string $req): float
+    public static function getIncome(string $req): float
     {
         $today = strtotime('00:00:00');
         $number = match ($req) {
