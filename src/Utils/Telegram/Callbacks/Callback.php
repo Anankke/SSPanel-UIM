@@ -97,7 +97,6 @@ final class Callback
         }
         //游客回调数据处理
         $this->guestCallback();
-        return;
     }
 
     /**

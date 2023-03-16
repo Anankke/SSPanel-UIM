@@ -31,7 +31,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                ￥{$user->calIncome("today")}
+                                                ￥{$today_income}
                                             </div>
                                             <div class="text-muted">
                                                 今日流水
@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                ￥{$user->calIncome("yesterday")}
+                                                ￥{$yesterday_income}
                                             </div>
                                             <div class="text-muted">
                                                 昨日流水
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                ￥{$user->calIncome("this month")}
+                                                ￥{$this_month_income}
                                             </div>
                                             <div class="text-muted">
                                                 这月流水
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                ￥{$user->calIncome("total")}
+                                                ￥{$total_income}
                                             </div>
                                             <div class="text-muted">
                                                 累计流水
