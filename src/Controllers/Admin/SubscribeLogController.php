@@ -46,7 +46,7 @@ final class SubscribeLogController extends BaseController
     /**
      * 后台订阅记录页面 AJAX
      */
-    public function ajaxSubscribeLog(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;

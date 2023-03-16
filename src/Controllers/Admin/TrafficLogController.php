@@ -42,7 +42,7 @@ final class TrafficLogController extends BaseController
     /**
      * 后台流量记录页面 AJAX
      */
-    public function ajaxTrafficLog(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $length = $request->getParam('length');
         $page = $request->getParam('start') / $length + 1;

@@ -47,7 +47,7 @@ final class Epay extends AbstractPayment
 
     public static function _readableName(): string
     {
-        return 'EPay 在线充值';
+        return 'EPay';
     }
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -70,6 +70,14 @@ final class Epay extends AbstractPayment
             $pl->invoice_id = 0;
         }
 
+        $type_text = match ($type) {
+            'qqpay' => 'QQ',
+            'wxpay' => 'WeChat',
+            'epusdt' => 'USDT',
+            default => 'Alipay',
+        };
+
+        $pl->gateway = self::_readableName() . ' ' . $type_text;
         $pl->userid = $user->id;
         $pl->total = $price;
         //订单号
@@ -102,23 +110,12 @@ final class Epay extends AbstractPayment
         if ($verify_result) {
             $out_trade_no = $_GET['out_trade_no'];
             $type = $_GET['type'];
-            switch ($type) {
-                case 'alipay':
-                    $type = 'Alipay';
-                    break;
-                case 'qqpay':
-                    $type = 'QQ';
-                    break;
-                case 'wxpay':
-                    $type = 'WeChat';
-                    break;
-                case 'epusdt':
-                    $type = 'USDT';
-                    break;
-                default:
-                    $type = 'Alipay';
-                    break;
-            }
+            $type = match ($type) {
+                'qqpay' => 'QQ',
+                'wxpay' => 'WeChat',
+                'epusdt' => 'USDT',
+                default => 'Alipay',
+            };
             $trade_status = $_GET['trade_status'];
             if ($trade_status === 'TRADE_SUCCESS') {
                 $this->postPayment($out_trade_no, $type . ' ' . $out_trade_no);

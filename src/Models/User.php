@@ -331,6 +331,15 @@ final class User extends Model
     }
 
     /**
+     * 累计充值金额
+     */
+    public function getTopUp(): float
+    {
+        $number = Paylist::where('userid', $this->id)->sum('number');
+        return is_null($number) ? 0.00 : round((float) $number, 2);
+    }
+
+    /**
      * 在线 IP 个数
      */
     public function onlineIpCount(): int
@@ -372,38 +381,6 @@ final class User extends Model
         $this->delete();
 
         return true;
-    }
-
-    /**
-     * 累计充值金额
-     */
-    public function getTopUp(): float
-    {
-        $number = Code::where('userid', $this->id)->sum('number');
-        return is_null($number) ? 0.00 : round((float) $number, 2);
-    }
-
-    /**
-     * 获取累计收入
-     */
-    public function calIncome(string $req): float
-    {
-        $number = match ($req) {
-            'yesterday' => Code::whereDate('usedatetime', '=', date('Y-m-d', strtotime('-1 days')))->sum('number'),
-            'today' => Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number'),
-            'this month' => Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number'),
-            'last month' => Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number'),
-            default => Code::sum('number'),
-        };
-        return is_null($number) ? 0.00 : round(floatval($number), 2);
-    }
-
-    /**
-     * 获取付费用户总数
-     */
-    public function paidUserCount(): int
-    {
-        return self::where('class', '!=', '0')->count();
     }
 
     /**
@@ -565,25 +542,6 @@ final class User extends Model
     }
 
     /**
-     * 手动修改用户余额时增加充值记录，受限于 Config
-     *
-     * @param mixed $total 金额
-     */
-    public function addMoneyLog(mixed $total): void
-    {
-        if ($_ENV['money_from_admin'] && $total !== 0.00) {
-            $codeq = new Code();
-            $codeq->code = ($total > 0 ? '管理员赏赐' : '管理员惩戒');
-            $codeq->isused = 1;
-            $codeq->type = -1;
-            $codeq->number = $total;
-            $codeq->usedatetime = date('Y-m-d H:i:s');
-            $codeq->userid = $this->id;
-            $codeq->save();
-        }
-    }
-
-    /**
      * 发送邮件
      */
     public function sendMail(string $subject, string $template, array $array = [], array $files = [], $is_queue = false): bool
@@ -656,8 +614,6 @@ final class User extends Model
         $used_traffic = $this->usedTraffic();
         $unused_traffic = $this->unusedTraffic();
         switch ($this->sendDailyMail) {
-            case 0:
-                return;
             case 1:
                 echo 'Send daily mail to user: ' . $this->id;
                 $this->sendMail(
@@ -686,8 +642,8 @@ final class User extends Model
                     $text
                 );
                 break;
+            case 0:
             default:
-                return;
         }
     }
 

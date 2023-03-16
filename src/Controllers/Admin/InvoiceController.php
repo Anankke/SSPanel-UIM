@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Paylist;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -50,9 +51,14 @@ final class InvoiceController extends BaseController
     public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-
         $invoice = Invoice::find($id);
-        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $paylist = [];
+
+        if ($invoice->status === 'paid_gateway') {
+            $paylist = Paylist::where('invoice_id', $invoice->id)->where('status', 1)->first();
+        }
+
+        $invoice->status_text = Tools::getInvoiceStatus($invoice);
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
@@ -62,6 +68,7 @@ final class InvoiceController extends BaseController
             $this->view()
                 ->assign('invoice', $invoice)
                 ->assign('invoice_content', $invoice_content)
+                ->assign('paylist', $paylist)
                 ->fetch('admin/invoice/view.tpl')
         );
     }

@@ -1,18 +1,15 @@
-{include file='user/tabler_header.tpl'}
-
-<link href="//cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
+{include file='admin/tabler_header.tpl'}
 
 <div class="page-wrapper">
-    <div class="container-xl">       
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
-                <div class="col">                   
+                <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title my-3">账单列表</span>
+                        <span class="home-title">网关记录</span>
                     </h2>
-                    <div class="page-pretitle">
-                        <span class="home-subtitle">在这里查看账单列表</span>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">查看站点的支付网关记录</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +25,7 @@
                                 <thead>
                                     <tr>
                                         {foreach $details['field'] as $key => $value}
-                                        <th>{$value}</th>
+                                            <th>{$value}</th>
                                         {/foreach}
                                     </tr>
                                 </thead>
@@ -41,34 +38,31 @@
     </div>
 
     <script>
-       var table = $('#data_table').DataTable({
+        var table = $('#data_table').DataTable({
             ajax: {
-                url: '/user/invoice/ajax',
+                url: '/admin/gateway/ajax',
                 type: 'POST',
-                dataSrc: 'invoices'
+                dataSrc: 'paylists'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
             'scrollX': true,
             'order': [
-                [1, 'desc']
+                [0, 'desc']
             ],
             columns: [
                 {foreach $details['field'] as $key => $value}
                 { data: '{$key}' },
                 {/foreach}
             ],
-            "columnDefs":[
-                { targets:[0],orderable:false }
-            ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
-                "<'row card-footer d-flex d-flexalign-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "<'row card-footer d-flex align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             language: {
                 "sProcessing": "处理中...",
                 "sLengthMenu": "显示 _MENU_ 条",
                 "sZeroRecords": "没有匹配结果",
-                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_项",
+                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
                 "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
                 "sInfoFiltered": "(在 _MAX_ 项中查找)",
                 "sInfoPostFix": "",
@@ -79,26 +73,22 @@
                 "sInfoThousands": ",",
                 "oPaginate": {
                     "sFirst": "首页",
-                    "sPrevious": "<i class=\"titi-arrow-left\"></i>",
-                    "sNext": "<i class=\"ti ti-arrow-right\"><i>",
+                    "sPrevious": "<i class=\"ti ti-arrow-left\"></i>",
+                    "sNext": "<i class=\"ti ti-arrow-right\"></i>",
                     "sLast": "末页"
                 },
                 "oAria": {
                     "sSortAscending": ": 以升序排列此列",
                     "sSortDescending": ": 以降序排列此列"
                 }
-            },
+            }
         });
 
         function loadTable() {
             table;
         }
 
-        function reloadTableAjax() {
-            table.ajax.reload(null, false);
-        }
-
         loadTable();
     </script>
 
-{include file='user/tabler_footer.tpl'}
+{include file='admin/tabler_footer.tpl'}

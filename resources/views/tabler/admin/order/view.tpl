@@ -22,7 +22,7 @@
                             <i class="icon ti ti-file-dollar"></i>
                             查看关联账单
                         </a>
-                        {if $order->status !== 'cancelled' && $order->status !== 'activated'}
+                        {if $order->status === 'pending_payment'}
                         <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#cancel_order_confirm_dialog">
                             <i class="icon ti ti-x"></i>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">订单状态</div>
-                            <div class="datagrid-content">{$order->status}</div>
+                            <div class="datagrid-content">{$order->status_text}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">创建时间</div>

@@ -7,6 +7,7 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Paylist;
+use App\Models\UserMoneyLog;
 use App\Services\Payment;
 use App\Utils\Tools;
 use Exception;
@@ -103,8 +104,11 @@ final class InvoiceController extends BaseController
             ]);
         }
 
+        $money_before = $user->money;
         $user->money -= $invoice->price;
         $user->save();
+
+        (new UserMoneyLog())->addMoneyLog($user->id, $money_before, $user->money, -$invoice->price, '支付账单 #' . $invoice->id);
 
         $invoice->status = 'paid_balance';
         $invoice->update_time = time();
