@@ -181,6 +181,10 @@
                                         <i class="ti ti-coin"></i>&nbsp;
                                         余额
                                     </a>
+                                    <a class="dropdown-item" href="/admin/gateway">
+                                        <i class="ti ti-torii"></i>&nbsp;
+                                        支付网关
+                                    </a>
                                     <a class="dropdown-item" href="/admin/alive">
                                         <i class="ti ti-router"></i>&nbsp;
                                         在线IP
