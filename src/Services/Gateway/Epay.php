@@ -103,7 +103,6 @@ final class Epay extends AbstractPayment
             $out_trade_no = $_GET['out_trade_no'];
             $type = $_GET['type'];
             $type = match ($type) {
-                'alipay' => 'Alipay',
                 'qqpay' => 'QQ',
                 'wxpay' => 'WeChat',
                 'epusdt' => 'USDT',
