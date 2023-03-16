@@ -246,6 +246,7 @@ return new class() implements MigrationInterface {
                 `status` int(11) DEFAULT 0,
                 `invoice_id` int(11) DEFAULT 0,
                 `tradeno` varchar(255) DEFAULT NULL,
+                `gateway` varchar(255) NOT NULL DEFAULT '',
                 `datetime` bigint(20) DEFAULT 0,
                 PRIMARY KEY (`id`),
                 KEY `userid` (`userid`)

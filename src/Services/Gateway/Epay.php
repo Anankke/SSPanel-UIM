@@ -47,7 +47,7 @@ final class Epay extends AbstractPayment
 
     public static function _readableName(): string
     {
-        return 'EPay 在线充值';
+        return 'EPay';
     }
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -70,6 +70,14 @@ final class Epay extends AbstractPayment
             $pl->invoice_id = 0;
         }
 
+        $type_text = match ($type) {
+            'qqpay' => 'QQ',
+            'wxpay' => 'WeChat',
+            'epusdt' => 'USDT',
+            default => 'Alipay',
+        };
+
+        $pl->gateway = self::_readableName() . ' ' . $type_text;
         $pl->userid = $user->id;
         $pl->total = $price;
         //订单号
