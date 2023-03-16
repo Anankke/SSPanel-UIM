@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-final class MoneyController extends BaseController
+final class MoneyLogController extends BaseController
 {
     public static array $details =
     [
