@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\AuthController;
 use App\Controllers\BaseController;
 use App\Models\User;
+use App\Models\UserMoneyLog;
 use App\Services\Auth;
 use App\Utils\Cookie;
 use App\Utils\Hash;
@@ -168,12 +169,17 @@ final class UserController extends BaseController
             $user->cleanLink();
         }
 
-        $user->addMoneyLog($request->getParam('money') - $user->money);
+        if ($request->getParam('money') !== '' && $request->getParam('money') !== null) {
+            $money = (double) $request->getParam('money');
+            $diff = $money - $user->money;
+            $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
+            (new UserMoneyLog())->addMoneyLog($id, $user->money, $money, $diff, $remark);
+            $user->money = $money;
+        }
 
         $user->email = $request->getParam('email');
         $user->user_name = $request->getParam('user_name');
         $user->remark = $request->getParam('remark');
-        $user->money = $request->getParam('money');
         $user->is_admin = $request->getParam('is_admin') === 'true' ? 1 : 0;
         $user->ga_enable = $request->getParam('ga_enable') === 'true' ? 1 : 0;
         $user->use_new_shop = $request->getParam('use_new_shop') === 'true' ? 1 : 0;

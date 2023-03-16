@@ -204,11 +204,6 @@ return static function (Slim\App $app): void {
         $group->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
         $group->get('/detect/ban', App\Controllers\Admin\DetectController::class . ':ban');
         $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectController::class . ':ajaxBan');
-        // IP Mange
-        $group->get('/login', App\Controllers\Admin\IpController::class . ':login');
-        $group->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
-        $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
-        $group->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
         // User Mange
         $group->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $group->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
@@ -223,17 +218,25 @@ return static function (Slim\App $app): void {
         $group->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
         $group->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
         $group->post('/coupon/{id}/disable', App\Controllers\Admin\CouponController::class . ':disable');
-        // Subscribe Log Mange
+        // 登录日志 & 在线IP
+        $group->get('/login', App\Controllers\Admin\IpController::class . ':login');
+        $group->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
+        $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
+        $group->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
+        // 订阅日志
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
-        $group->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajaxSubscribeLog');
+        $group->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajax');
         // 邀请日志
         $group->get('/invite', App\Controllers\Admin\InviteController::class . ':invite');
         $group->post('/invite/update_invite', App\Controllers\Admin\InviteController::class . ':update');
         $group->post('/invite/add_invite', App\Controllers\Admin\InviteController::class . ':add');
         $group->post('/invite/ajax', App\Controllers\Admin\InviteController::class . ':ajax');
-        // Traffic Log Mange
+        // 流量日志
         $group->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
-        $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajaxTrafficLog');
+        $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajax');
+        // 用户余额日志
+        $group->get('/moneylog', App\Controllers\Admin\TrafficLogController::class . ':log');
+        $group->post('/moneylog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajax');
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');

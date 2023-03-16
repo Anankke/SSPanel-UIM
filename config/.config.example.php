@@ -160,7 +160,6 @@ $_ENV['jump_delay']             = 1200;                  //跳转延时，单位
 
 $_ENV['checkNodeIp']            = true;                 //是否webapi验证节点ip
 $_ENV['keep_connect']           = false;               // 流量耗尽用户限速至 1Mbps
-$_ENV['money_from_admin']       = false;            //是否开启管理员修改用户余额时创建充值记录
 
 #Cloudflare
 $_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析
