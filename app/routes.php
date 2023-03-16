@@ -237,6 +237,9 @@ return static function (Slim\App $app): void {
         // 用户余额日志
         $group->get('/moneylog', App\Controllers\Admin\MoneyLogController::class . ':log');
         $group->post('/moneylog/ajax', App\Controllers\Admin\MoneyLogController::class . ':ajax');
+        // 支付网关日志
+        $group->get('/gateway', App\Controllers\Admin\PaylistController::class . ':gateway');
+        $group->post('/gateway/ajax', App\Controllers\Admin\PaylistController::class . ':ajax');
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');

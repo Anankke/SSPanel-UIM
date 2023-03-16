@@ -583,4 +583,16 @@ final class Tools
         }
         return '未知';
     }
+
+    /**
+     * 优惠码类型
+     */
+    public static function getPaylistStatus($paylist): string
+    {
+        return match ($paylist->status) {
+            0 => '未支付',
+            1 => '已支付',
+            default => '未知',
+        };
+    }
 }
