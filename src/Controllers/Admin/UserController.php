@@ -169,7 +169,10 @@ final class UserController extends BaseController
             $user->cleanLink();
         }
 
-        if ($request->getParam('money') !== '' && $request->getParam('money') !== null) {
+        if ($request->getParam('money') !== '' &&
+            $request->getParam('money') !== null &&
+            (double) $request->getParam('money') !== (float) $user->money
+        ) {
             $money = (double) $request->getParam('money');
             $diff = $money - $user->money;
             $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
