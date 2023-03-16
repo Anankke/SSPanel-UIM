@@ -173,7 +173,7 @@ final class UserController extends BaseController
             $money = (double) $request->getParam('money');
             $diff = $money - $user->money;
             $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-            (new UserMoneyLog())->addMoneyLog($id, $user->money, $money, $diff, $remark);
+            (new UserMoneyLog())->addMoneyLog($id, (float) $user->money, $money, $diff, $remark);
             $user->money = $money;
         }
 
