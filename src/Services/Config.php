@@ -56,6 +56,7 @@ final class Config
             'charset' => $_ENV['db_charset'],
             'collation' => $_ENV['db_collation'],
             'prefix' => $_ENV['db_prefix'],
+            'port' => $_ENV['db_port'],
         ];
     }
 
