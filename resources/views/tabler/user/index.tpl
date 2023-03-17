@@ -178,6 +178,9 @@
                                                 <p>
                                                     通用订阅（clash）：<code>{$getUniversalSub}/clash</code>
                                                 </p>
+                                                <p>
+                                                    通用订阅（sip008）：<code>{$getUniversalSub}/sip008</code>
+                                                </p>
                                                 <div class="btn-list justify-content-start">
                                                     <a data-clipboard-text="{$getUniversalSub}/json"
                                                         class="copy btn btn-primary">
@@ -186,6 +189,10 @@
                                                     <a data-clipboard-text="{$getUniversalSub}/clash"
                                                         class="copy btn btn-primary">
                                                         复制通用订阅（clash）
+                                                    </a>
+                                                    <a data-clipboard-text="{$getUniversalSub}/sip008"
+                                                       class="copy btn btn-primary">
+                                                        复制通用订阅（sip008）
                                                     </a>
                                                 </div>
                                             </div>

@@ -16,54 +16,36 @@ return static function (Slim\App $app): void {
     $app->get('/500', App\Controllers\HomeController::class . ':page500');
     $app->get('/tos', App\Controllers\HomeController::class . ':tos');
     $app->get('/staff', App\Controllers\HomeController::class . ':staff');
-
-    // other
-    $app->post('/notify', App\Controllers\HomeController::class . ':notify');
-
     // Telegram
     $app->post('/telegram_callback', App\Controllers\HomeController::class . ':telegram');
-
     // User Center
     $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');
         $group->get('/', App\Controllers\UserController::class . ':index');
-
         // 签到
         $group->post('/checkin', App\Controllers\UserController::class . ':doCheckin');
-
         // 公告
         $group->get('/announcement', App\Controllers\UserController::class . ':announcement');
-
         // 文档
         $group->get('/docs', App\Controllers\UserController::class . ':docs');
-
-        //流媒体解锁
+        // 流媒体解锁
         $group->get('/media', App\Controllers\UserController::class . ':media');
-
+        // 个人资料
         $group->get('/profile', App\Controllers\UserController::class . ':profile');
         $group->get('/invite', App\Controllers\UserController::class . ':invite');
-
         // 封禁
         $group->get('/banned', App\Controllers\UserController::class . ':banned');
-
         // 节点
         $group->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
-
         // 审计
         $group->get('/detect', App\Controllers\User\DetectController::class . ':index');
-
-        $group->get('/shop', App\Controllers\User\ShopController::class . ':shop');
-        $group->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
-        $group->post('/buy', App\Controllers\User\ShopController::class . ':buy');
-        $group->post('/buy_traffic_package', App\Controllers\User\ShopController::class . ':buyTrafficPackage');
-
         // 工单
         $group->get('/ticket', App\Controllers\User\TicketController::class . ':ticket');
         $group->get('/ticket/create', App\Controllers\User\TicketController::class . ':ticketCreate');
         $group->post('/ticket', App\Controllers\User\TicketController::class . ':ticketAdd');
         $group->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticketView');
         $group->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticketUpdate');
-
+        // 资料编辑
         $group->get('/edit', App\Controllers\UserController::class . ':edit');
         $group->post('/email', App\Controllers\UserController::class . ':updateEmail');
         $group->post('/username', App\Controllers\UserController::class . ':updateUsername');
@@ -78,50 +60,35 @@ return static function (Slim\App $app): void {
         $group->post('/kill', App\Controllers\UserController::class . ':handleKill');
         $group->get('/logout', App\Controllers\UserController::class . ':logout');
         $group->get('/backtoadmin', App\Controllers\UserController::class . ':backtoadmin');
-        $group->get('/code', App\Controllers\UserController::class . ':code');
-
-        $group->get('/code_check', App\Controllers\UserController::class . ':codeCheck');
-        $group->post('/code', App\Controllers\UserController::class . ':codePost');
-
         // MFA
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
         $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
-
         // Telegram
         $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
-
-        $group->get('/bought', App\Controllers\UserController::class . ':bought');
-        $group->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');
+        // URL
         $group->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $group->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
-
         // 深色模式切换
         $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
-
         // 记录
         $group->get('/subscribe/log', App\Controllers\User\LogController::class . ':subscribe');
         $group->get('/detect/log', App\Controllers\User\LogController::class . ':detect');
-
         // 产品页面
         $group->get('/product', App\Controllers\User\ProductController::class . ':product');
-
         // 订单页面
         $group->get('/order', App\Controllers\User\OrderController::class . ':order');
         $group->get('/order/create', App\Controllers\User\OrderController::class . ':create');
         $group->post('/order/create', App\Controllers\User\OrderController::class . ':process');
         $group->get('/order/{id}/view', App\Controllers\User\OrderController::class . ':detail');
         $group->post('/order/ajax', App\Controllers\User\OrderController::class . ':ajax');
-
         // 账单页面
         $group->get('/invoice', App\Controllers\User\InvoiceController::class . ':invoice');
         $group->get('/invoice/{id}/view', App\Controllers\User\InvoiceController::class . ':detail');
         $group->post('/invoice/pay_balance', App\Controllers\User\InvoiceController::class . ':payBalance');
         $group->post('/invoice/ajax', App\Controllers\User\InvoiceController::class . ':ajax');
-
         // 新优惠码系统
         $group->post('/coupon', App\Controllers\User\CouponController::class . ':check');
-
         // 支付
         $group->post('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
         $group->get('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');

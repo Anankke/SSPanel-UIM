@@ -820,6 +820,10 @@ final class Callback
                     'text' => 'Json',
                     'callback_data' => 'user.subscribe|json',
                 ],
+                [
+                    'text' => 'Shadowsocks SIP008',
+                    'callback_data' => 'user.subscribe|sip008',
+                ],
             ],
             [
                 [
@@ -886,6 +890,7 @@ final class Callback
             $text = match ($CallbackDataExplode[1]) {
                 'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
                 'json' => 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL,
+                'sip008' => 'Shadowsocks SIP008 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/sip008</code>' . PHP_EOL . PHP_EOL,
                 'ss' => 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL,
                 'sip002' => 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL,
                 'v2' => 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL,

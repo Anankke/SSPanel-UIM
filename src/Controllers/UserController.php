@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\Ann;
-use App\Models\Bought;
-use App\Models\Code;
 use App\Models\Docs;
 use App\Models\EmailVerify;
 use App\Models\InviteCode;
@@ -21,7 +19,6 @@ use App\Services\Captcha;
 use App\Services\Config;
 use App\Services\DB;
 use App\Services\MFA;
-use App\Services\Payment;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
@@ -68,108 +65,6 @@ final class UserController extends BaseController
                 ->assign('captcha', $captcha)
                 ->fetch('user/index.tpl')
         );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function code(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $codes = Code::where('type', '<>', '-2')
-            ->where('userid', '=', $this->user->id)
-            ->orderBy('id', 'desc')
-            ->paginate(15, ['*'], 'page', $pageNum);
-
-        $render = Tools::paginateRender($codes);
-
-        return $response->write(
-            $this->view()
-                ->assign('codes', $codes)
-                ->assign('payments', Payment::getPaymentsEnabled())
-                ->assign('render', $render)
-                ->fetch('user/code.tpl')
-        );
-    }
-
-    public function codeCheck(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $time = $request->getQueryParams()['time'];
-        $codes = Code::where('userid', '=', $this->user->id)
-            ->where('usedatetime', '>', date('Y-m-d H:i:s', $time))
-            ->first();
-
-        if ($codes !== null && str_contains($codes->code, '充值')) {
-            return $response->withJson([
-                'ret' => 1,
-            ]);
-        }
-        return $response->withJson([
-            'ret' => 0,
-        ]);
-    }
-
-    public function codePost(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $code = trim($request->getParam('code'));
-        if ($code === '') {
-            return ResponseHelper::error($response, '请填写充值码');
-        }
-
-        $codeq = Code::where('code', $code)->where('isused', 0)->first();
-        if ($codeq === null) {
-            return ResponseHelper::error($response, '没有这个充值码');
-        }
-
-        $user = $this->user;
-        $codeq->isused = 1;
-        $codeq->usedatetime = date('Y-m-d H:i:s');
-        $codeq->userid = $user->id;
-        $codeq->save();
-
-        if ($codeq->type === -1) {
-            $user->money += $codeq->number;
-            $user->save();
-
-            // 返利
-            if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
-                Payback::rebate($user->id, $codeq->number);
-            }
-
-            return $response->withJson([
-                'ret' => 1,
-                'msg' => '兑换成功，金额为 ' . $codeq->number . ' 元',
-            ]);
-        }
-
-        if ($codeq->type === 10001) {
-            $user->transfer_enable += $codeq->number * 1024 * 1024 * 1024;
-            $user->save();
-        }
-
-        if ($codeq->type === 10002) {
-            if (time() > strtotime($user->expire_in)) {
-                $user->expire_in = date('Y-m-d H:i:s', time() + (int) $codeq->number * 86400);
-            } else {
-                $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + (int) $codeq->number * 86400);
-            }
-            $user->save();
-        }
-
-        if ($codeq->type >= 1 && $codeq->type <= 10000) {
-            if ($user->class === 0 || $user->class !== $codeq->type) {
-                $user->class_expire = date('Y-m-d H:i:s', time());
-                $user->save();
-            }
-            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + (int) $codeq->number * 86400);
-            $user->class = $codeq->type;
-            $user->save();
-        }
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '',
-        ]);
     }
 
     public function resetPort(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -452,51 +347,6 @@ final class UserController extends BaseController
         $user->save();
 
         return ResponseHelper::successfully($response, '修改成功');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function bought(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $shops = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        if ($request->getParam('json') === 1) {
-            foreach ($shops as $shop) {
-                $shop->datetime = $shop->datetime();
-                $shop->name = $shop->shop()->name;
-                $shop->content = $shop->shop()->content();
-            }
-            return $response->withJson([
-                'ret' => 1,
-                'shops' => $shops,
-            ]);
-        }
-        $render = Tools::paginateRender($shops);
-
-        return $response->write($this->view()
-            ->assign('shops', $shops)
-            ->assign('render', $render)
-            ->fetch('user/bought.tpl'));
-    }
-
-    public function deleteBoughtGet(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $id = $request->getParam('id');
-        $shop = Bought::where('id', $id)->where('userid', $this->user->id)->first();
-
-        if ($shop === null) {
-            return ResponseHelper::error($response, '关闭自动续费失败，订单不存在。');
-        }
-
-        if ($this->user->id === $shop->userid) {
-            $shop->renew = 0;
-        }
-
-        if (! $shop->save()) {
-            return ResponseHelper::error($response, '关闭自动续费失败');
-        }
-        return ResponseHelper::successfully($response, '关闭自动续费成功');
     }
 
     public function updateContact(ServerRequest $request, Response $response, array $args): Response|ResponseInterface

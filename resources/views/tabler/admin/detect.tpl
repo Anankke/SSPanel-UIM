@@ -87,7 +87,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="add-invite-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交</button>
+                    <button id="add-detect-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交</button>
                 </div>
             </div>
         </div>
@@ -190,6 +190,10 @@
 
         function loadTable() {
             table;
+        }
+
+        function reloadTableAjax() {
+            table.ajax.reload(null, false);
         }
 
         loadTable();

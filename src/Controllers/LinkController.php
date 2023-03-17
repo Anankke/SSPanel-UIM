@@ -44,6 +44,12 @@ final class LinkController extends BaseController
             ]);
         }
 
+        if ((int) $user->is_banned === 1) {
+            return $response->withJson([
+                'ret' => 0,
+            ]);
+        }
+
         $sub_type = '';
         $sub_info = [];
 

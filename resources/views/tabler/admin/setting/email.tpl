@@ -93,21 +93,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">SMTP 用户名</label>
-                                    <div class="col">
-                                        <input id="smtp_username" type="text" class="form-control" value="{$settings['smtp_username']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">SMTP 密码</label>
                                     <div class="col">
                                         <input id="smtp_password" type="text" class="form-control" value="{$settings['smtp_password']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">SMTP 用户名</label>
-                                    <div class="col">
-                                        <input id="smtp_username" type="text" class="form-control" value="{$settings['smtp_username']}">
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
