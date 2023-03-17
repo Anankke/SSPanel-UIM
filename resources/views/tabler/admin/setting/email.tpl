@@ -261,7 +261,7 @@
 <script>
     $("#save-setting").click(function() {
         $.ajax({
-            url: '/admin/setting/captcha',
+            url: '/admin/setting/email',
             type: 'POST',
             dataType: "json",
             data: {
