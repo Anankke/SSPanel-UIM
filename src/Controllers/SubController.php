@@ -45,6 +45,12 @@ final class SubController extends BaseController
             ]);
         }
 
+        if ((int) $user->is_banned === 1) {
+            return $response->withJson([
+                'ret' => 0,
+            ]);
+        }
+
         $subtype_list = ['json', 'clash', 'sip008'];
         if (! in_array($subtype, $subtype_list)) {
             return $response->withJson([
@@ -54,41 +60,28 @@ final class SubController extends BaseController
 
         $sub_info = [];
 
-        if ($subtype === 'json') {
-            $sub_info = self::getJson($user);
-        }
-
-        if ($subtype === 'clash') {
-            $sub_info = self::getClash($user);
-        }
-
-        if ($subtype === 'sip008') {
-            $sub_info = self::getSIP008($user);
-        }
+        match ($subtype) {
+            'json' => $sub_info = self::getJson($user),
+            'clash' => $sub_info = self::getClash($user),
+            'sip008' => $sub_info = self::getSIP008($user),
+        };
 
         if ($_ENV['subscribeLog'] === true) {
             UserSubscribeLog::addSubscribeLog($user, $subtype, $request->getHeaderLine('User-Agent'));
         }
 
-        if ($subtype === 'json' || $subtype === 'sip008') {
+        if (in_array($subtype, ['json', 'sip008'])) {
             return $response->withJson([
                 $sub_info,
             ]);
         }
-
-        if ($subtype === 'clash') {
-            $sub_details = ' upload=' . $user->u
-            . '; download=' . $user->d
-            . '; total=' . $user->transfer_enable
-            . '; expire=' . strtotime($user->class_expire);
-            return $response->withHeader('Subscription-Userinfo', $sub_details)->write(
-                $sub_info
-            );
-        }
-
-        return $response->withJson([
-            'ret' => 0,
-        ]);
+        $sub_details = ' upload=' . $user->u
+        . '; download=' . $user->d
+        . '; total=' . $user->transfer_enable
+        . '; expire=' . strtotime($user->class_expire);
+        return $response->withHeader('Subscription-Userinfo', $sub_details)->write(
+            $sub_info
+        );
     }
 
     public static function getJson($user): array
@@ -357,8 +350,60 @@ final class SubController extends BaseController
     }
 
     // SIP008 SS 订阅
-    public static function getSIP008($user): void
+    public static function getSIP008($user): array
     {
+        $nodes = [];
+        //篩選出用戶能連接的節點
+        $nodes_raw = Node::where('type', 1)
+            ->where('node_class', '<=', $user->class)
+            ->whereIn('node_group', [0, $user->node_group])
+            ->where(static function ($query): void {
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+            })
+            ->get();
+
+        foreach ($nodes_raw as $node_raw) {
+            $node_custom_config = json_decode($node_raw->custom_config, true);
+            //檢查是否配置“前端/订阅中下发的服务器地址”
+            if (! array_key_exists('server_user', $node_custom_config)) {
+                $server = $node_raw->server;
+            } else {
+                $server = $node_custom_config['server_user'];
+            }
+
+            switch ((int) $node_raw->sort) {
+                case 0:
+                    $plugin = $node_custom_config['plugin'] ?? '';
+                    $plugin_option = $node_custom_config['plugin_option'] ?? '';
+                    $node = [
+                        'id' => $node_raw->id,
+                        'remarks' => $node_raw->name,
+                        'server' => $server,
+                        'server_port' => (int) $user->port,
+                        'password' => $user->passwd,
+                        'method' => $user->method,
+                        'plugin' => $plugin,
+                        'plugin_opts' => $plugin_option,
+                    ];
+                    break;
+                default:
+                    $node = [];
+                    break;
+            }
+
+            if ($node === []) {
+                continue;
+            }
+
+            $nodes[] = $node;
+        }
+
+        return [
+            'version' => 1,
+            'servers' => $nodes,
+            'bytes_used' => $user->u + $user->d,
+            'bytes_remaining' => $user->transfer_enable - $user->u - $user->d,
+        ];
     }
 
     public static function getUniversalSub($user): string
