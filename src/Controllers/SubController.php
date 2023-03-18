@@ -60,7 +60,7 @@ final class SubController extends BaseController
 
         $sub_info = [];
 
-        match($subtype) {
+        match ($subtype) {
             'json' => $sub_info = self::getJson($user),
             'clash' => $sub_info = self::getClash($user),
             'sip008' => $sub_info = self::getSIP008($user),
@@ -74,15 +74,14 @@ final class SubController extends BaseController
             return $response->withJson([
                 $sub_info,
             ]);
-        } else {
-            $sub_details = ' upload=' . $user->u
-            . '; download=' . $user->d
-            . '; total=' . $user->transfer_enable
-            . '; expire=' . strtotime($user->class_expire);
-            return $response->withHeader('Subscription-Userinfo', $sub_details)->write(
-                $sub_info
-            );
         }
+        $sub_details = ' upload=' . $user->u
+        . '; download=' . $user->d
+        . '; total=' . $user->transfer_enable
+        . '; expire=' . strtotime($user->class_expire);
+        return $response->withHeader('Subscription-Userinfo', $sub_details)->write(
+            $sub_info
+        );
     }
 
     public static function getJson($user): array
