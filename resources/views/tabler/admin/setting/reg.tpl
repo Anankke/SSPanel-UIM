@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">注册时赠送的时长（天）</label>
+                                    <label class="form-label col-3 col-form-label">注册时设定的账户有效期（天）</label>
                                     <div class="col">
                                         <input id="sign_up_for_free_time" type="text" class="form-control" value="{$settings['sign_up_for_free_time']}">
                                     </div>
