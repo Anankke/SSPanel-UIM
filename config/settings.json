@@ -857,7 +857,7 @@
         "is_public": 0,
         "type": "int",
         "default": "20",
-        "mark": "注册时赠送的流量（单位：GB）"
+        "mark": "注册时赠送的流量（GB）"
     },
     {
         "id": null,
@@ -867,7 +867,7 @@
         "is_public": 0,
         "type": "int",
         "default": "7",
-        "mark": "注册时赠送的时长（单位：天）"
+        "mark": "注册时设定的账户有效期（天）"
     },
     {
         "id": null,
@@ -907,7 +907,7 @@
         "is_public": 0,
         "type": "int",
         "default": "7",
-        "mark": "注册时设定的等级过期时间（单位：天）"
+        "mark": "注册时设定的等级过期时间（天）"
     },
     {
         "id": null,
@@ -947,7 +947,7 @@
         "is_public": 1,
         "type": "int",
         "default": "1",
-        "mark": "邀请注册余额奖励（单位：元）"
+        "mark": "邀请注册余额奖励（元）"
     },
     {
         "id": null,
@@ -957,7 +957,7 @@
         "is_public": 1,
         "type": "int",
         "default": "10",
-        "mark": "邀请注册流量奖励（单位：GB）"
+        "mark": "邀请注册流量奖励（GB）"
     },
     {
         "id": null,
@@ -1017,7 +1017,7 @@
         "is_public": 0,
         "type": "int",
         "default": "180",
-        "mark": "返利时间范围限制（单位：天）"
+        "mark": "返利时间范围限制（天）"
     },
     {
         "id": null,
