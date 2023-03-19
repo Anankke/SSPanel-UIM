@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway\Epay;
 
+use function is_null;
+
 final class EpayNotify
 {
     private $alipay_config;

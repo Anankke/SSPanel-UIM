@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Vectorface\GoogleAuthenticator;
+use function count;
 use function in_array;
 use function json_decode;
 use function json_encode;

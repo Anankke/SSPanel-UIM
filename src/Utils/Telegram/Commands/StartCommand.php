@@ -10,6 +10,7 @@ use App\Utils\Telegram\TelegramTools;
 use App\Utils\TelegramSessionManager;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function strlen;
 
 /**
  * Class StratCommand.

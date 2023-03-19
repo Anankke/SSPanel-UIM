@@ -28,8 +28,11 @@ use App\Utils\Tools;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function count;
 use function in_array;
 use function json_decode;
+use function max;
+use function strtotime;
 use function time;
 
 final class Job extends Command
@@ -377,11 +380,13 @@ EOL;
             if ($_ENV['trafficLog'] === true) {
                 $transfer_total = $user->transfer_total;
                 $transfer_total_last = UserHourlyUsage::where('user_id', $user->id)->orderBy('id', 'desc')->first();
+
                 if ($transfer_total_last === null) {
                     $transfer_total_last = 0;
                 } else {
                     $transfer_total_last = $transfer_total_last->traffic;
                 }
+
                 $trafficlog = new UserHourlyUsage();
                 $trafficlog->user_id = $user->id;
                 $trafficlog->traffic = $transfer_total;
@@ -395,6 +400,7 @@ EOL;
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
+
                 $user->sendMail(
                     $_ENV['appName'] . '-您的用户账户已经过期了',
                     'news/warn.tpl',
@@ -404,6 +410,7 @@ EOL;
                     [],
                     true
                 );
+
                 $user->expire_notified = true;
                 $user->save();
             } elseif (strtotime($user->expire_in) > time() && $user->expire_notified === true) {

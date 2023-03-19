@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use function chr;
+use function ord;
+
 final class QQWry
 {
     private $fp;

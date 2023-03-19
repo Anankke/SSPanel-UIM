@@ -8,6 +8,7 @@ use App\Models\Setting;
 use Exception;
 use Mailgun\Mailgun as MailgunService;
 use Psr\Http\Client\ClientExceptionInterface;
+use function count;
 
 final class Mailgun extends Base
 {

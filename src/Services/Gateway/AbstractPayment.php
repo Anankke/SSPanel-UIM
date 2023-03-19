@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function get_called_class;
 use function in_array;
 use function json_decode;
 use function json_encode;

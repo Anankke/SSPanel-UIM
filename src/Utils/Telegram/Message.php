@@ -8,8 +8,10 @@ use App\Models\Setting;
 use App\Utils\TelegramSessionManager;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function count;
 use function in_array;
 use function json_decode;
+use function strlen;
 
 final class Message
 {

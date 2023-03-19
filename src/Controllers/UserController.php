@@ -32,6 +32,7 @@ use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 use function in_array;
 use function json_decode;
+use function strlen;
 use function time;
 
 /**

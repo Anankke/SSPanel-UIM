@@ -6,6 +6,7 @@ namespace App\Utils\Telegram;
 
 use App\Models\Bought;
 use App\Models\User;
+use function count;
 
 final class Reply
 {
