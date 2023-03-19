@@ -12,7 +12,9 @@ use App\Utils\Tools;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Ramsey\Uuid\Uuid;
+use function count;
 use function in_array;
+use function is_null;
 use function json_encode;
 use function time;
 

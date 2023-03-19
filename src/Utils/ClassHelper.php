@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use function is_null;
+
 final class ClassHelper
 {
     private static mixed $composer = null;

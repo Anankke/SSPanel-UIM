@@ -15,6 +15,7 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function strlen;
 use function time;
 
 /*

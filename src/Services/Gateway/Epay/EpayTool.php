@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway\Epay;
 
+use function function_exists;
+use function strlen;
 use function time;
 
 final class EpayTool
