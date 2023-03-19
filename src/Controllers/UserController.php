@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\Ann;
-use App\Models\Bought;
-use App\Models\Code;
 use App\Models\Docs;
 use App\Models\EmailVerify;
 use App\Models\InviteCode;
@@ -21,7 +19,6 @@ use App\Services\Captcha;
 use App\Services\Config;
 use App\Services\DB;
 use App\Services\MFA;
-use App\Services\Payment;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;

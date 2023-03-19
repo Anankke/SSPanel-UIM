@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\InviteCode;
 use App\Services\Auth;
 use App\Utils\Telegram\Process;
 use Exception;
