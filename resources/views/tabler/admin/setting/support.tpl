@@ -33,9 +33,6 @@
                         <li class="nav-item">
                             <a href="#support" class="nav-link active" data-bs-toggle="tab">网页客服系统</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#admin_contact" class="nav-link" data-bs-toggle="tab">管理员联络方式</a>
-                        </li>
                     </ul>
                 </div>
                 <div class="card-body">
@@ -76,37 +73,6 @@
                                     <label class="form-label col-3 col-form-label">MyLiveChat ID</label>
                                     <div class="col">
                                         <input id="mylivechat_id" type="text" class="form-control" value="{$settings['mylivechat_id']}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="admin_contact">
-                            <div class="card-body">
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">是否显示管理员联系方式</label>
-                                    <div class="col">
-                                        <select id="enable_admin_contact" class="col form-select" value="{$settings['enable_admin_contact']}">
-                                            <option value="0" {if $settings['enable_admin_contact'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_admin_contact'] == true}selected{/if}>开启</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">联系方式一</label>
-                                    <div class="col">
-                                        <input id="admin_contact1" type="text" class="form-control" value="{$settings['admin_contact1']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">联系方式二</label>
-                                    <div class="col">
-                                        <input id="admin_contact2" type="text" class="form-control" value="{$settings['admin_contact2']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">联系方式三</label>
-                                    <div class="col">
-                                        <input id="admin_contact3" type="text" class="form-control" value="{$settings['admin_contact3']}">
                                     </div>
                                 </div>
                             </div>

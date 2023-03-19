@@ -507,7 +507,17 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "mailgun发送者"
+        "mark": "mailgun发件邮箱"
+    },
+    {
+        "id": null,
+        "item": "mailgun_sender_name",
+        "value": "",
+        "class": "mailgun",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun发信人名称"
     },
     {
         "id": null,
@@ -618,46 +628,6 @@
         "type": "string",
         "default": "",
         "mark": "aws ses发送者"
-    },
-    {
-        "id": null,
-        "item": "enable_admin_contact",
-        "value": "0",
-        "class": "contact",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否显示站长联系方式"
-    },
-    {
-        "id": null,
-        "item": "admin_contact1",
-        "value": "qq",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "qq",
-        "mark": "站长联系方式一"
-    },
-    {
-        "id": null,
-        "item": "admin_contact2",
-        "value": "mail",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "mail",
-        "mark": "站长联系方式二"
-    },
-    {
-        "id": null,
-        "item": "admin_contact3",
-        "value": "telegram",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "telegram",
-        "mark": "站长联系方式三"
     },
     {
         "id": null,
@@ -857,17 +827,17 @@
         "is_public": 0,
         "type": "int",
         "default": "20",
-        "mark": "注册时赠送的流量（单位：GB）"
+        "mark": "注册时赠送的流量（GB）"
     },
     {
         "id": null,
         "item": "sign_up_for_free_time",
-        "value": "7",
+        "value": "365",
         "class": "register",
         "is_public": 0,
         "type": "int",
-        "default": "7",
-        "mark": "注册时赠送的时长（单位：天）"
+        "default": "365",
+        "mark": "注册时设定的账户有效期（天）"
     },
     {
         "id": null,
@@ -877,7 +847,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "连接 IP 限制"
+        "mark": "注册时设定的连接 IP 限制"
     },
     {
         "id": null,
@@ -887,7 +857,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "使用速率限制"
+        "mark": "注册时设定的使用速率限制"
     },
     {
         "id": null,
@@ -907,16 +877,16 @@
         "is_public": 0,
         "type": "int",
         "default": "7",
-        "mark": "注册时设定的等级过期时间（单位：天）"
+        "mark": "注册时设定的等级过期时间（天）"
     },
     {
         "id": null,
         "item": "sign_up_for_method",
-        "value": "chacha20-ietf",
+        "value": "aes-128-gcm",
         "class": "register",
         "is_public": 0,
         "type": "string",
-        "default": "chacha20-ietf",
+        "default": "aes-128-gcm",
         "mark": "默认加密"
     },
     {
@@ -947,7 +917,7 @@
         "is_public": 1,
         "type": "int",
         "default": "1",
-        "mark": "邀请注册余额奖励（单位：元）"
+        "mark": "邀请注册余额奖励（元）"
     },
     {
         "id": null,
@@ -957,7 +927,7 @@
         "is_public": 1,
         "type": "int",
         "default": "10",
-        "mark": "邀请注册流量奖励（单位：GB）"
+        "mark": "邀请注册流量奖励（GB）"
     },
     {
         "id": null,
@@ -1017,7 +987,7 @@
         "is_public": 0,
         "type": "int",
         "default": "180",
-        "mark": "返利时间范围限制（单位：天）"
+        "mark": "返利时间范围限制（天）"
     },
     {
         "id": null,

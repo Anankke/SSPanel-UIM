@@ -181,6 +181,12 @@
                                         <input id="mailgun_sender" type="text" class="form-control" value="{$settings['mailgun_sender']}">
                                     </div>
                                 </div>
+                                 <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Mailgun 发信人名称</label>
+                                    <div class="col">
+                                        <input id="mailgun_sender_name" type="text" class="form-control" value="{$settings['mailgun_sender_name']}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="postal">
