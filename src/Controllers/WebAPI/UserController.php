@@ -16,9 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function count;
 use function in_array;
 use function is_array;
 use function json_decode;
+use function strval;
 use function time;
 
 final class UserController extends BaseController

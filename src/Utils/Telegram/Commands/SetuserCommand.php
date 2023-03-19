@@ -10,6 +10,7 @@ use App\Utils\Telegram\Reply;
 use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function count;
 use function in_array;
 use function json_decode;
 

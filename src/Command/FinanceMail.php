@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Models\Paylist;
 use App\Models\User;
 use App\Utils\Tools;
+use function count;
 
 final class FinanceMail extends Command
 {

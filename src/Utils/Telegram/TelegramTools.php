@@ -7,8 +7,10 @@ namespace App\Utils\Telegram;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Tools;
+use function count;
 use function in_array;
 use function json_encode;
+use function strlen;
 use function time;
 
 final class TelegramTools

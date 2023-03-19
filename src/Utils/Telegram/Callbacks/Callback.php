@@ -22,6 +22,7 @@ use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\CallbackQuery;
 use function in_array;
+use function is_null;
 use function json_encode;
 use function time;
 

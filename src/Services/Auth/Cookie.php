@@ -8,6 +8,7 @@ use App\Models\Node;
 use App\Models\User;
 use App\Utils;
 use App\Utils\Hash;
+use function strval;
 use function time;
 
 final class Cookie extends Base

@@ -13,6 +13,7 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function count;
 use function time;
 
 final class IpController extends BaseController

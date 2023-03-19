@@ -22,6 +22,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
+use function strlen;
 use function time;
 
 /**

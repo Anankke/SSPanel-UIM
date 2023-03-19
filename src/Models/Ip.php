@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Services\DB;
 use App\Utils\QQWry;
 use App\Utils\Tools;
+use function strval;
 
 /**
  * Ip Model

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function in_array;
+
 final class Coupon extends Model
 {
     protected $connection = 'default';

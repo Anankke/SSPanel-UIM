@@ -14,6 +14,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 use function array_merge;
+use function count;
 use function json_decode;
 use function json_encode;
 use function time;

@@ -73,19 +73,13 @@ EOL;
                 // 获取订单内容准备激活
                 $content = json_decode($order->product_content);
                 // 激活商品
-                $old_expire_in = null;
-                try {
-                    $old_expire_in = new DateTime($user->expire_in);
-                } catch (Exception $e) {
-                    continue;
-                }
-                $user->expire_in = $old_expire_in->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
                 $user->transfer_enable = Tools::toGB($content->bandwidth);
                 $user->class = $content->class;
                 $now = new DateTime();
+                $user->expire_in = $now->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
                 $user->class_expire = $now->modify('+' . $content->class_time . ' days')->format('Y-m-d H:i:s');
                 $user->node_group = $content->node_group;
                 $user->node_speedlimit = $content->speed_limit;

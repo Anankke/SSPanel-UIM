@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function array_key_exists;
+use function count;
 use function time;
 
 final class Node extends Model

@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\User;
+use function count;
 use function in_array;
 
 final class DetectBan extends Command
