@@ -29,16 +29,6 @@ final class HomeController extends BaseController
     /**
      * @throws Exception
      */
-    public function code(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $codes = InviteCode::where('user_id', '=', '0')->take(10)->get();
-
-        return $response->write($this->view()->assign('codes', $codes)->fetch('code.tpl'));
-    }
-
-    /**
-     * @throws Exception
-     */
     public function tos(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write($this->view()->fetch('tos.tpl'));
