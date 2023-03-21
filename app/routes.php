@@ -226,6 +226,8 @@ return static function (Slim\App $app): void {
         $group->post('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':saveSupport');
         $group->get('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':feature');
         $group->post('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':saveFeature');
+        $group->get('/setting/sub', App\Controllers\Admin\Setting\SubscribeController::class . ':sub');
+        $group->post('/setting/sub', App\Controllers\Admin\Setting\SubscribeController::class . ':saveSub');
         $group->post('/setting/test_email', App\Controllers\Admin\Setting\EmailController::class . ':testEmail');
         // 礼品卡
         $group->get('/giftcard', App\Controllers\Admin\GiftCardController::class . ':index');

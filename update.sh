@@ -18,9 +18,9 @@ do_update_sspanel_dev(){
     rm -r storage/framework/smarty/compile/*
     php composer.phar update
     php composer.phar selfupdate
-    php xcat Migration latest
     php xcat Update
     php xcat Tool importAllSettings
+    php xcat Migration latest
     wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat 
 }
 
@@ -32,9 +32,9 @@ do_update_sspanel_release(){
     rm -r storage/framework/smarty/compile/*
     php composer.phar update
     php composer.phar selfupdate
-    php xcat Migration $db_version
     php xcat Update
     php xcat Tool importAllSettings
+    php xcat Migration $db_version
     wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat 
 }
 

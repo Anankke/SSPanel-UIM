@@ -23,7 +23,6 @@ final class Config
 
             'jump_delay' => $_ENV['jump_delay'],
             'enable_analytics_code' => $_ENV['enable_analytics_code'],
-            'enable_ticket' => $_ENV['enable_ticket'],
 
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],
@@ -40,7 +39,7 @@ final class Config
             'auto_detect_ban_time' => $_ENV['auto_detect_ban_time'],
             'auto_detect_ban' => $_ENV['auto_detect_ban'],
 
-            'sentry_dsn' => ! isset($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : null,
+            'sentry_dsn' => ! isset($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : '',
         ];
     }
 

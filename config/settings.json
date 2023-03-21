@@ -631,49 +631,9 @@
     },
     {
         "id": null,
-        "item": "enable_admin_contact",
-        "value": "0",
-        "class": "contact",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否显示站长联系方式"
-    },
-    {
-        "id": null,
-        "item": "admin_contact1",
-        "value": "qq",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "qq",
-        "mark": "站长联系方式一"
-    },
-    {
-        "id": null,
-        "item": "admin_contact2",
-        "value": "mail",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "mail",
-        "mark": "站长联系方式二"
-    },
-    {
-        "id": null,
-        "item": "admin_contact3",
-        "value": "telegram",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "telegram",
-        "mark": "站长联系方式三"
-    },
-    {
-        "id": null,
         "item": "tawk_id",
         "value": "",
-        "class": "live_chat",
+        "class": "support",
         "is_public": 1,
         "type": "string",
         "default": "",
@@ -683,7 +643,7 @@
         "id": null,
         "item": "crisp_id",
         "value": "",
-        "class": "live_chat",
+        "class": "support",
         "is_public": 1,
         "type": "string",
         "default": "",
@@ -693,7 +653,7 @@
         "id": null,
         "item": "livechat_id",
         "value": "",
-        "class": "live_chat",
+        "class": "support",
         "is_public": 1,
         "type": "string",
         "default": "",
@@ -703,7 +663,7 @@
         "id": null,
         "item": "mylivechat_id",
         "value": "",
-        "class": "live_chat",
+        "class": "support",
         "is_public": 1,
         "type": "string",
         "default": "",
@@ -713,11 +673,31 @@
         "id": null,
         "item": "live_chat",
         "value": "none",
-        "class": "live_chat",
+        "class": "support",
         "is_public": 1,
         "type": "string",
         "default": "none",
         "mark": "客服系统开关"
+    },
+    {
+        "id": null,
+        "item": "enable_ticket",
+        "value": "1",
+        "class": "support",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用工单系统"
+    },
+    {
+        "id": null,
+        "item": "mail_ticket",
+        "value": "1",
+        "class": "support",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用工单邮件提醒"
     },
     {
         "id": null,
@@ -1428,6 +1408,56 @@
         "type": "bool",
         "default": "1",
         "mark": "显示用户审计记录"
+    },
+    {
+        "id": null,
+        "item": "enable_forced_replacement",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "用户修改账户登录密码时，是否强制更换订阅地址"
+    },
+    {
+        "id": null,
+        "item": "enable_traditional_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "传统订阅系统开关"
+    },
+    {
+        "id": null,
+        "item": "enable_ss_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "Shadowsocks 订阅开关"
+    },
+    {
+        "id": null,
+        "item": "enable_v2_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "V2Ray 订阅开关"
+    },
+    {
+        "id": null,
+        "item": "enable_trojan_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "Trojan 订阅开关"
     },
     {
         "id": null,

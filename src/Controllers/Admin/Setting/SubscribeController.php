@@ -9,23 +9,20 @@ use App\Models\Setting;
 use Exception;
 use function json_encode;
 
-final class SupportController extends BaseController
+final class SubscribeController extends BaseController
 {
     public static array $update_field = [
-        'live_chat',
-        'tawk_id',
-        'crisp_id',
-        'livechat_id',
-        'mylivechat_id',
-        // Ticket
-        'enable_ticket',
-        'mail_ticket',
+        'enable_forced_replacement',
+        'enable_traditional_sub',
+        'enable_ss_sub',
+        'enable_v2_sub',
+        'enable_trojan_sub',
     ];
 
     /**
      * @throws Exception
      */
-    public function support($request, $response, $args)
+    public function sub($request, $response, $args)
     {
         $settings = [];
         $settings_raw = Setting::get(['item', 'value', 'type']);
@@ -42,11 +39,11 @@ final class SupportController extends BaseController
             $this->view()
                 ->assign('update_field', self::$update_field)
                 ->assign('settings', $settings)
-                ->fetch('admin/setting/support.tpl')
+                ->fetch('admin/setting/sub.tpl')
         );
     }
 
-    public function saveSupport($request, $response, $args)
+    public function saveSub($request, $response, $args)
     {
         $list = self::$update_field;
 

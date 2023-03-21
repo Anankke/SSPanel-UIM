@@ -118,7 +118,7 @@ final class PasswordController extends BaseController
             return ResponseHelper::error($response, '重置失败，请重试');
         }
 
-        if ($_ENV['enable_forced_replacement'] === true) {
+        if (Setting::obtain('enable_forced_replacement')) {
             $user->cleanLink();
         }
 

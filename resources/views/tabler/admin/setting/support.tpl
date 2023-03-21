@@ -31,10 +31,10 @@
                     <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                         <li class="nav-item">
-                            <a href="#support" class="nav-link active" data-bs-toggle="tab">网页客服系统</a>
+                            <a href="#support" class="nav-link active" data-bs-toggle="tab">网页客服</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#admin_contact" class="nav-link" data-bs-toggle="tab">管理员联络方式</a>
+                            <a href="#ticket" class="nav-link active" data-bs-toggle="tab">工单</a>
                         </li>
                     </ul>
                 </div>
@@ -80,33 +80,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="admin_contact">
+                        <div class="tab-pane" id="ticket">
                             <div class="card-body">
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">是否显示管理员联系方式</label>
+                                    <label class="form-label col-3 col-form-label">启用工单系统</label>
                                     <div class="col">
-                                        <select id="enable_admin_contact" class="col form-select" value="{$settings['enable_admin_contact']}">
-                                            <option value="0" {if $settings['enable_admin_contact'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_admin_contact'] == true}selected{/if}>开启</option>
+                                        <select id="enable_ticket" class="col form-select" value="{$settings['enable_ticket']}">
+                                            <option value="0" {if $settings['enable_ticket'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_ticket'] == true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">联系方式一</label>
+                                    <label class="form-label col-3 col-form-label">启用工单邮件提醒</label>
                                     <div class="col">
-                                        <input id="admin_contact1" type="text" class="form-control" value="{$settings['admin_contact1']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">联系方式二</label>
-                                    <div class="col">
-                                        <input id="admin_contact2" type="text" class="form-control" value="{$settings['admin_contact2']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">联系方式三</label>
-                                    <div class="col">
-                                        <input id="admin_contact3" type="text" class="form-control" value="{$settings['admin_contact3']}">
+                                        <select id="mail_ticket" class="col form-select" value="{$settings['mail_ticket']}">
+                                            <option value="0" {if $settings['mail_ticket'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['mail_ticket'] == true}selected{/if}>开启</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
