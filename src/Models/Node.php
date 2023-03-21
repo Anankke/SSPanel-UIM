@@ -121,7 +121,7 @@ final class Node extends Model
     /**
      * 更新节点 IP
      */
-    public function changeNodeIp(string $server_name): bool
+    public function changeNodeIp(string $server_name): void
     {
         $result = dns_get_record($server_name, DNS_A + DNS_AAAA);
         $dns = [];
@@ -136,7 +136,6 @@ final class Node extends Model
             $ip = $server_name;
         }
         $this->node_ip = $ip;
-        return true;
     }
 
     /**
