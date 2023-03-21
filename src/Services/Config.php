@@ -40,7 +40,7 @@ final class Config
             'auto_detect_ban_time' => $_ENV['auto_detect_ban_time'],
             'auto_detect_ban' => $_ENV['auto_detect_ban'],
 
-            'sentry_dsn' => ! isset($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : null,
+            'sentry_dsn' => ! isset($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : '',
         ];
     }
 

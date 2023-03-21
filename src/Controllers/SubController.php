@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Link;
 use App\Models\Node;
+use App\Models\Setting;
 use App\Models\UserSubscribeLog;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
@@ -353,6 +354,10 @@ final class SubController extends BaseController
     public static function getSIP008($user): array
     {
         $nodes = [];
+        //判断是否开启SS订阅
+        if (! Setting::obtain('enable_ss_sub')) {
+            return $nodes;
+        }
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
