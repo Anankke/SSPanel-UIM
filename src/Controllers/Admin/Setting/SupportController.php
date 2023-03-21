@@ -17,6 +17,9 @@ final class SupportController extends BaseController
         'crisp_id',
         'livechat_id',
         'mylivechat_id',
+        // Ticket
+        'enable_ticket',
+        'mail_ticket',
     ];
 
     /**

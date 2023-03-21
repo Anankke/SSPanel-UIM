@@ -31,7 +31,10 @@
                     <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                         <li class="nav-item">
-                            <a href="#support" class="nav-link active" data-bs-toggle="tab">网页客服系统</a>
+                            <a href="#support" class="nav-link active" data-bs-toggle="tab">网页客服</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#ticket" class="nav-link active" data-bs-toggle="tab">工单</a>
                         </li>
                     </ul>
                 </div>
@@ -73,6 +76,28 @@
                                     <label class="form-label col-3 col-form-label">MyLiveChat ID</label>
                                     <div class="col">
                                         <input id="mylivechat_id" type="text" class="form-control" value="{$settings['mylivechat_id']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="ticket">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">启用工单系统</label>
+                                    <div class="col">
+                                        <select id="enable_ticket" class="col form-select" value="{$settings['enable_ticket']}">
+                                            <option value="0" {if $settings['enable_ticket'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_ticket'] == true}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">启用工单邮件提醒</label>
+                                    <div class="col">
+                                        <select id="mail_ticket" class="col form-select" value="{$settings['mail_ticket']}">
+                                            <option value="0" {if $settings['mail_ticket'] == false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['mail_ticket'] == true}selected{/if}>开启</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

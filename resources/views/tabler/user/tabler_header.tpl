@@ -96,7 +96,7 @@
                                                 <i class="ti ti-edit"></i>&nbsp;
                                                 资料修改
                                             </a>
-                                            {if $config['enable_ticket'] == true}
+                                            {if $public_setting['enable_ticket']}
                                             <a class="dropdown-item" href="/user/ticket">
                                                 <i class="ti ti-ticket"></i>&nbsp;
                                                 工单系统

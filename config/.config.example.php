@@ -115,10 +115,6 @@ $_ENV['telegram_chatid']                    = -111;         //Telegram bot,群�
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
 $_ENV['telegram_request_token']             = '';           //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat Tool setTelegram
 
-#工单系统设置
-$_ENV['enable_ticket']        = true;        //是否开启工单系统
-$_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
-
 # Server酱 https://sct.ftqq.com/
 $_ENV['useScFtqq']            = false;        //是否开启Server酱提醒工单/节点上下线
 $_ENV['ScFtqq_SCKEY']         = '';           //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
