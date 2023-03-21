@@ -116,6 +116,9 @@
                                                     <a href="/admin/setting/im" class="dropdown-item">
                                                       IM
                                                     </a>
+                                                    <a href="/admin/setting/sub" class="dropdown-item">
+                                                      订阅
+                                                    </a>
                                                     <a href="/admin/setting/feature" class="dropdown-item">
                                                       功能
                                                     </a>

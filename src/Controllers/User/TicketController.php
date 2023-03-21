@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\Tools;
@@ -29,7 +30,7 @@ final class TicketController extends BaseController
      */
     public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
-        if ($_ENV['enable_ticket'] !== true) {
+        if (! Setting::obtain('enable_ticket')) {
             return null;
         }
 
@@ -87,7 +88,7 @@ final class TicketController extends BaseController
         $ticket->type = $antiXss->xss_clean($type);
         $ticket->save();
 
-        if ($_ENV['mail_ticket'] === true) {
+        if (Setting::obtain('mail_ticket')) {
             $adminUser = User::where('is_admin', 1)->get();
             foreach ($adminUser as $user) {
                 $user->sendMail(
@@ -157,7 +158,7 @@ final class TicketController extends BaseController
         $ticket->status = 'open_wait_admin';
         $ticket->save();
 
-        if ($_ENV['mail_ticket'] === true) {
+        if (Setting::obtain('mail_ticket')) {
             $adminUser = User::where('is_admin', 1)->get();
             foreach ($adminUser as $user) {
                 $user->sendMail(

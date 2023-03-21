@@ -40,7 +40,7 @@
                         <div class="tab-pane active show" id="sub">
                             <div class="card-body">
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">传统订阅系统开关</label>
+                                    <label class="form-label col-3 col-form-label">启用传统订阅系统</label>
                                     <div class="col">
                                         <select id="enable_traditional_sub" class="col form-select" value="{$settings['enable_traditional_sub']}">
                                             <option value="0" {if $settings['enable_traditional_sub'] == false}selected{/if}>关闭</option>
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">Shadowsocks 订阅开关（仅影响前端显示与传统/sip002/sip008订阅）</label>
+                                    <label class="form-label col-3 col-form-label">启用 Shadowsocks 订阅（仅影响前端显示与传统/sip002/sip008订阅）</label>
                                     <div class="col">
                                         <select id="enable_ss_sub" class="col form-select" value="{$settings['enable_ss_sub']}">
                                             <option value="0" {if $settings['enable_ss_sub'] == false}selected{/if}>关闭</option>
@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">V2Ray 订阅开关（仅影响前端显示与传统订阅）</label>
+                                    <label class="form-label col-3 col-form-label">启用 V2Ray 订阅（仅影响前端显示与传统订阅）</label>
                                     <div class="col">
                                         <select id="enable_v2_sub" class="col form-select" value="{$settings['enable_v2_sub']}">
                                             <option value="0" {if $settings['enable_v2_sub'] == false}selected{/if}>关闭</option>
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">Trojan 订阅开关（仅影响前端显示与传统订阅）</label>
+                                    <label class="form-label col-3 col-form-label">启用 Trojan 订阅（仅影响前端显示与传统订阅）</label>
                                     <div class="col">
                                         <select id="enable_trojan_sub" class="col form-select" value="{$settings['enable_trojan_sub']}">
                                             <option value="0" {if $settings['enable_trojan_sub'] == false}selected{/if}>关闭</option>
