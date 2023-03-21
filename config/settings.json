@@ -507,7 +507,17 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "mailgun发送者"
+        "mark": "mailgun发件邮箱"
+    },
+    {
+        "id": null,
+        "item": "mailgun_sender_name",
+        "value": "",
+        "class": "mailgun",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun发信人名称"
     },
     {
         "id": null,

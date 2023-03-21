@@ -28,6 +28,7 @@ final class EmailController extends BaseController
         'mailgun_key',
         'mailgun_domain',
         'mailgun_sender',
+        'mailgun_sender_name',
         // Sendgrid
         'sendgrid_key',
         'sendgrid_sender',
