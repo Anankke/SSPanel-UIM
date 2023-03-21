@@ -60,8 +60,8 @@ final class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
-                ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
-                ->assign('getTraditionalSub', LinkController::getTraditionalSub($this->user))
+                ->assign('UniversalSub', SubController::getUniversalSub($this->user))
+                ->assign('TraditionalSub', LinkController::getTraditionalSub($this->user))
                 ->assign('data', $data)
                 ->assign('captcha', $captcha)
                 ->fetch('user/index.tpl')
@@ -286,7 +286,7 @@ final class UserController extends BaseController
         $user->pass = $hashPwd;
         $user->save();
 
-        if ($_ENV['enable_forced_replacement'] === true) {
+        if (Setting::obtain('enable_forced_replacement')) {
             $user->cleanLink();
         }
 

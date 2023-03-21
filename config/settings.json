@@ -1391,6 +1391,56 @@
     },
     {
         "id": null,
+        "item": "enable_forced_replacement",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "用户修改账户登录密码时，是否强制更换订阅地址"
+    },
+    {
+        "id": null,
+        "item": "enable_traditional_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "传统订阅系统开关"
+    },
+    {
+        "id": null,
+        "item": "enable_ss_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "Shadowsocks 订阅开关"
+    },
+    {
+        "id": null,
+        "item": "enable_v2_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "V2Ray 订阅开关"
+    },
+    {
+        "id": null,
+        "item": "enable_trojan_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "Trojan 订阅开关"
+    },
+    {
+        "id": null,
         "item": "db_version",
         "value": "20230201",
         "class": "db",

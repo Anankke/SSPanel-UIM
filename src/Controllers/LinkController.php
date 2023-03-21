@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Link;
 use App\Models\Node;
+use App\Models\Setting;
 use App\Models\UserSubscribeLog;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -22,6 +23,12 @@ final class LinkController extends BaseController
     public static function getContent(ServerRequest $request, Response $response, array $args)
     {
         if (! $_ENV['Subscribe']) {
+            return $response->withJson([
+                'ret' => 0,
+            ]);
+        }
+        //判断是否开启传统订阅
+        if (! Setting::obtain('enable_traditional_sub')) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -114,6 +121,10 @@ final class LinkController extends BaseController
     public static function getSS($user): string
     {
         $links = '';
+        //判断是否开启SS订阅
+        if (! Setting::obtain('enable_ss_sub')) {
+            return $links;
+        }
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
@@ -144,6 +155,10 @@ final class LinkController extends BaseController
     public static function getSIP002($user): string
     {
         $links = '';
+        //判断是否开启SS订阅
+        if (! Setting::obtain('enable_ss_sub')) {
+            return $links;
+        }
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
@@ -177,6 +192,10 @@ final class LinkController extends BaseController
     public static function getV2Ray($user): string
     {
         $links = '';
+        //判断是否开启V2Ray订阅
+        if (! Setting::obtain('enable_v2_sub')) {
+            return $links;
+        }
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
@@ -229,6 +248,10 @@ final class LinkController extends BaseController
     public static function getTrojan($user): string
     {
         $links = '';
+        //判断是否开启Trojan订阅
+        if (! Setting::obtain('enable_trojan_sub')) {
+            return $links;
+        }
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
