@@ -872,11 +872,11 @@
     {
         "id": null,
         "item": "sign_up_for_free_time",
-        "value": "7",
+        "value": "365",
         "class": "register",
         "is_public": 0,
         "type": "int",
-        "default": "7",
+        "default": "365",
         "mark": "注册时设定的账户有效期（天）"
     },
     {
@@ -887,7 +887,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "连接 IP 限制"
+        "mark": "注册时设定的连接 IP 限制"
     },
     {
         "id": null,
@@ -897,7 +897,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "使用速率限制"
+        "mark": "注册时设定的使用速率限制"
     },
     {
         "id": null,
@@ -922,11 +922,11 @@
     {
         "id": null,
         "item": "sign_up_for_method",
-        "value": "chacha20-ietf",
+        "value": "aes-128-gcm",
         "class": "register",
         "is_public": 0,
         "type": "string",
-        "default": "chacha20-ietf",
+        "default": "aes-128-gcm",
         "mark": "默认加密"
     },
     {
