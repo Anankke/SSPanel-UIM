@@ -129,8 +129,13 @@ final class ProductController extends BaseController
 
             if ($type === 'tabp') {
                 if ($time === '' || $time === null) {
-                    throw new Exception('请填写套餐时长');
+                    throw new Exception('请填写商品时长');
                 }
+
+                if ($class_time === '' || $class_time === null) {
+                    throw new Exception('请填写等级时长');
+                }
+
                 if ($bandwidth === '' || $bandwidth === null) {
                     throw new Exception('请填写套餐流量');
                 }
@@ -151,7 +156,11 @@ final class ProductController extends BaseController
                 ];
             } elseif ($type === 'time') {
                 if ($time === '' || $time === null) {
-                    throw new Exception('请填写套餐时长');
+                    throw new Exception('请填写商品时长');
+                }
+
+                if ($class_time === '' || $class_time === null) {
+                    throw new Exception('请填写等级时长');
                 }
 
                 $content = [
