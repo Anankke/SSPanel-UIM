@@ -220,6 +220,8 @@ final class SubController extends BaseController
     {
         $nodes = [];
         $clash_config = $_ENV['Clash_Config'];
+        $clash_group_indexes = $_ENV['Clash_Group_Indexes'];
+        $clash_group_config = $_ENV['Clash_Group_Config'];
 
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
@@ -331,23 +333,16 @@ final class SubController extends BaseController
 
             $nodes[] = $node;
 
-            $indexes = [0, 1, 2, 5, 7, 8, 9, 12];
-            foreach ($indexes as $index) {
-                $clash_config['proxy-groups'][$index]['proxies'][] = $node_raw->name;
+            foreach ($clash_group_indexes as $index) {
+                $clash_group_config['proxy-groups'][$index]['proxies'][] = $node_raw->name;
             }
         }
 
-        $clash = [
-            'port' => 7890,
-            'socks-port' => 7891,
-            'allow-lan' => false,
-            'mode' => 'Global',
-            'log-level' => 'error',
-            'external-controller' => '0.0.0.0:9090',
+        $clash_nodes = [
             'proxies' => $nodes,
         ];
 
-        return Yaml::dump(array_merge($clash, $clash_config), 3, 1);
+        return Yaml::dump(array_merge($clash_config, $clash_nodes, $clash_group_config), 3, 1);
     }
 
     // SIP008 SS 订阅
