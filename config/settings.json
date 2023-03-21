@@ -631,46 +631,6 @@
     },
     {
         "id": null,
-        "item": "enable_admin_contact",
-        "value": "0",
-        "class": "contact",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否显示站长联系方式"
-    },
-    {
-        "id": null,
-        "item": "admin_contact1",
-        "value": "qq",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "qq",
-        "mark": "站长联系方式一"
-    },
-    {
-        "id": null,
-        "item": "admin_contact2",
-        "value": "mail",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "mail",
-        "mark": "站长联系方式二"
-    },
-    {
-        "id": null,
-        "item": "admin_contact3",
-        "value": "telegram",
-        "class": "contact",
-        "is_public": 1,
-        "type": "string",
-        "default": "telegram",
-        "mark": "站长联系方式三"
-    },
-    {
-        "id": null,
         "item": "tawk_id",
         "value": "",
         "class": "live_chat",
