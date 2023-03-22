@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">库存</label>
+                                <label class="form-label col-3 col-form-label">库存（小于0时不限制）</label>
                                 <div class="col">
                                     <input id="stock" type="text" class="form-control" 
                                         value="{$product->stock}">
