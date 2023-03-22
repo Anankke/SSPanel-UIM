@@ -206,6 +206,9 @@ final class NodeController extends BaseController
     {
         $id = $args['id'];
         $node = Node::find($id);
+
+        $custom_config = $request->getParam('custom_config') ?? '{}';
+
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group');
         $node->server = trim($request->getParam('server'));
@@ -215,8 +218,8 @@ final class NodeController extends BaseController
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
 
-        if ($request->getParam('custom_config') !== null && $request->getParam('custom_config') !== '') {
-            $node->custom_config = $request->getParam('custom_config');
+        if ($custom_config !== '') {
+            $node->custom_config = $custom_config;
         } else {
             $node->custom_config = '{}';
         }

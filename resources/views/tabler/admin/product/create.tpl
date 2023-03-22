@@ -33,19 +33,19 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">名称</label>
+                                <label class="form-label col-3 col-form-label required">名称</label>
                                 <div class="col">
                                     <input id="name" type="text" class="form-control" value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">价格</label>
+                                <label class="form-label col-3 col-form-label required">价格</label>
                                 <div class="col">
                                     <input id="price" type="text" class="form-control" value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">库存</label>
+                                <label class="form-label col-3 col-form-label required">库存（小于0时不限制）</label>
                                 <div class="col">
                                     <input id="stock" type="text" class="form-control" value="">
                                 </div>

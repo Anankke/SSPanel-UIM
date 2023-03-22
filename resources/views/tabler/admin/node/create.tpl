@@ -61,11 +61,11 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label required">接入类型</label>
+                                <label class="form-label col-3 col-form-label">接入类型</label>
                                 <div class="col">
                                     <select id="sort" class="col form-select">
-                                        <option value="11">V2Ray</option>
                                         <option value="14">Trojan</option>
+                                        <option value="11">V2Ray</option>
                                         <option value="0">Shadowsocks</option>
                                     </select>
                                 </div>
@@ -81,7 +81,7 @@
                                 <div class="divide-y">
                                     <div>
                                         <label class="row">
-                                            <span class="col required">显示此节点</span>
+                                            <span class="col">显示此节点</span>
                                             <span class="col-auto">
                                                 <label class="form-check form-check-single form-switch">
                                                     <input id="type" class="form-check-input" type="checkbox"
