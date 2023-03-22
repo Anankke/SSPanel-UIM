@@ -196,14 +196,14 @@ final class OrderController extends BaseController
 
         $product_limit = json_decode($product->limit);
 
-        if ($product_limit->class_required !== '' && $user->class < $product_limit->class_required) {
+        if ($product_limit->class_required !== '' && (int) $user->class < (int) $product_limit->class_required) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '账户不满足购买条件',
             ]);
         }
 
-        if ($product_limit->node_group_required !== '' && $user->node_group !== $product_limit->node_group_required) {
+        if ($product_limit->node_group_required !== '' && (int) $user->node_group !== (int) $product_limit->node_group_required) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '账户不满足购买条件',
@@ -260,7 +260,7 @@ final class OrderController extends BaseController
         $invoice->pay_time = 0;
         $invoice->save();
 
-        if ($product->stock !== -1) {
+        if ($product->stock > 0) {
             $product->stock -= 1;
         }
         $product->sale_count += 1;
