@@ -16,7 +16,7 @@ final class GeoIP2
      */
     public function __construct()
     {
-        $this->reader = new Reader(BASE_PATH . '/storage/GeoLite2-City.mmdb');
+        $this->reader = new Reader(BASE_PATH . '/storage/GeoLite2-City/GeoLite2-City.mmdb');
     }
 
     /**
