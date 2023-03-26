@@ -59,8 +59,6 @@ final class SubController extends BaseController
             ]);
         }
 
-        $sub_info = [];
-
         match ($subtype) {
             'json' => $sub_info = self::getJson($user),
             'clash' => $sub_info = self::getClash($user),

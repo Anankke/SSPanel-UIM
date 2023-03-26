@@ -68,36 +68,22 @@ final class UserController extends BaseController
         );
     }
 
-    public function resetPort(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $temp = $this->user->resetPort();
-        return $response->withJson([
-            'ret' => ($temp['ok'] === true ? 1 : 0),
-            'msg' => $temp['msg'],
-        ]);
-    }
-
-    public function specifyPort(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $temp = $this->user->specifyPort((int) $request->getParam('port'));
-        return $response->withJson([
-            'ret' => ($temp['ok'] === true ? 1 : 0),
-            'msg' => $temp['msg'],
-        ]);
-    }
-
     /**
      * @throws Exception
      */
     public function profile(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // 登录IP
-        $loginips = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+        $logins = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+
+        foreach ($logins as $login) {
+            $login->datetime = Tools::toDateTime((int) $login->datetime);
+            $login->location = Tools::getIpLocation($login->ip);
+        }
 
         return $response->write(
             $this->view()
-                ->assign('loginips', $loginips)
-                ->registerClass('Tools', Tools::class)
+                ->assign('logins', $logins)
                 ->fetch('user/profile.tpl')
         );
     }
@@ -302,7 +288,7 @@ final class UserController extends BaseController
         $oldemail = $user->email;
         $otheruser = User::where('email', $newemail)->first();
 
-        if ($_ENV['enable_change_email'] !== true) {
+        if (! $_ENV['enable_change_email']) {
             return ResponseHelper::error($response, '此项不允许自行修改，请联系管理员操作');
         }
 

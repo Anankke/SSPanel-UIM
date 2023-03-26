@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Utils\QQWry;
-
 /**
  * Ip Model
  */
@@ -48,18 +46,6 @@ final class LoginIp extends Model
     public function datetime(): string
     {
         return date('Y-m-d H:i:s', $this->datetime);
-    }
-
-    /**
-     * 获取 IP 位置
-     */
-    public function location(?QQWry $QQWry = null): string
-    {
-        if ($QQWry === null) {
-            $QQWry = new QQWry();
-        }
-        $location = $QQWry->getlocation($this->ip);
-        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
     }
 
     /**

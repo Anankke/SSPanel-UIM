@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Utils\QQWry;
 use voku\helper\AntiXSS;
 
 final class UserSubscribeLog extends Model
@@ -27,18 +26,6 @@ final class UserSubscribeLog extends Model
     public function user(): ?User
     {
         return User::find($this->user_id);
-    }
-
-    /**
-     * 获取 IP 位置
-     */
-    public function location(?QQWry $QQWry = null): false|string
-    {
-        if ($QQWry === null) {
-            $QQWry = new QQWry();
-        }
-        $location = $QQWry->getlocation($this->request_ip);
-        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
     }
 
     /**
