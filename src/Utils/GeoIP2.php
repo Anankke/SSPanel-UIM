@@ -7,6 +7,7 @@ namespace App\Utils;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use const BASE_PATH;
 
 final class GeoIP2
 {
@@ -16,7 +17,8 @@ final class GeoIP2
      */
     public function __construct()
     {
-        $this->reader = new Reader(BASE_PATH . '/storage/GeoLite2-City/GeoLite2-City.mmdb');
+        $this->city_reader = new Reader(BASE_PATH . '/storage/GeoLite2-City/GeoLite2-City.mmdb');
+        $this->country_reader = new Reader(BASE_PATH . '/storage/GeoLite2-Country/GeoLite2-Country.mmdb');
     }
 
     /**
@@ -25,7 +27,7 @@ final class GeoIP2
      */
     public function getCity(string $ip): ?string
     {
-        $record = $this->reader->city($ip);
+        $record = $this->city_reader->city($ip);
         return $record->city->name;
     }
 
@@ -35,7 +37,7 @@ final class GeoIP2
      */
     public function getCountry(string $ip): ?string
     {
-        $record = $this->reader->country($ip);
+        $record = $this->country_reader->country($ip);
         return $record->country->name;
     }
 }
