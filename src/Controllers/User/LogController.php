@@ -24,22 +24,39 @@ final class LogController extends BaseController
     {
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
+        foreach ($logs as $log) {
+            $log->location = Tools::getIpLocation($log->request_ip);
+        }
+
         return $response->write($this->view()
             ->assign('logs', $logs)
-            ->registerClass('Tools', Tools::class)
-            ->fetch('user/subscribe/log.tpl'));
+            ->fetch('user/subscribe_log.tpl'));
     }
 
     /**
+     * 审计碰撞记录
+     *
      * @throws Exception
      */
     public function detect(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
+        foreach ($logs as $log) {
+            $log->node_name = $log->nodeName();
+            $log->rule = $log->rule();
+
+            if ($log->rule->type === 1) {
+                $log->rule->type = '数据包明文匹配';
+            } elseif ($log->type === 2) {
+                $log->rule->type = '数据包 hex 匹配';
+            }
+
+            $log->datetime = Tools::toDateTime($log->datetime);
+        }
+
         return $response->write($this->view()
             ->assign('logs', $logs)
-            ->registerClass('Tools', Tools::class)
             ->fetch('user/detect/log.tpl'));
     }
 }

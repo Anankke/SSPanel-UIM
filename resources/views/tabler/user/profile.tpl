@@ -75,12 +75,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach $loginips as $login}
-                                        <tr>
-                                            <td>{$login->ip}</td>
-                                            <td>{date('Y-m-d H:i:s', $login->datetime)}</td>
-                                            <td>{Tools::getIpInfo($login->ip)}</td>
-                                        </tr>
+                                    {foreach $logins as $login}
+                                    <tr>
+                                        <td>{$login->ip}</td>
+                                        <td>{$login->datetime}</td>
+                                        <td>{$login->location}</td>
+                                    </tr>
                                     {/foreach}
                                 </tbody>
                             </table>
