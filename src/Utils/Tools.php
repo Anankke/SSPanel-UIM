@@ -33,7 +33,11 @@ final class Tools
             return '未知';
         }
 
-        return $country . ' ' . $city;
+        if ($city !== '') {
+            return $city . ', ' . $country;
+        }
+
+        return $country;
     }
 
     /**
