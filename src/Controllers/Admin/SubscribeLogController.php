@@ -6,7 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\UserSubscribeLog;
-use App\Utils\QQWry;
+use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -55,9 +55,8 @@ final class SubscribeLogController extends BaseController
         $subscribes = UserSubscribeLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
         $total = UserSubscribeLog::count();
 
-        $QQWry = new QQWry();
         foreach ($subscribes as $subscribe) {
-            $subscribe->location = $subscribe->location($QQWry);
+            $subscribe->location = Tools::getIpLocation($subscribe->request_ip);
         }
 
         return $response->withJson([

@@ -7,7 +7,6 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Ip;
 use App\Models\LoginIp;
-use App\Utils\QQWry;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -71,10 +70,9 @@ final class IpController extends BaseController
         $logins = LoginIp::orderBy('id', 'desc')->paginate($length, '*', '', $page);
         $total = LoginIp::count();
 
-        $QQWry = new QQWry();
         foreach ($logins as $login) {
             $login->user_name = $login->userName();
-            $login->location = $login->location($QQWry);
+            $login->location = Tools::getIpLocation($login->ip);
             $login->datetime = Tools::toDateTime((int) $login->datetime);
             $login->type = $login->type();
         }
@@ -113,12 +111,11 @@ final class IpController extends BaseController
         $alives = Ip::where('datetime', '>=', time() - 60)->orderBy('id', 'desc')->paginate($length, '*', '', $page);
         $total = count(Ip::where('datetime', '>=', time() - 60)->orderBy('id', 'desc')->get());
 
-        $QQWry = new QQWry();
         foreach ($alives as $alive) {
             $alive->user_name = $alive->userName();
             $alive->node_name = $alive->nodeName();
             $alive->ip = Tools::getRealIp($alive->ip);
-            $alive->location = $alive->location($QQWry);
+            $alive->location = Tools::getIpLocation($alive->ip);
             $alive->datetime = Tools::toDateTime((int) $alive->datetime);
         }
 

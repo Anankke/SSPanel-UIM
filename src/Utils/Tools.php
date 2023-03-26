@@ -21,7 +21,7 @@ final class Tools
     /**
      * 查询IP归属
      */
-    public static function getIpInfo($ip): false|string
+    public static function getIpLocation($ip): false|string
     {
         $iplocation = new QQWry();
         $location = $iplocation->getlocation($ip);
