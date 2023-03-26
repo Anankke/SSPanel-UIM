@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\DB;
-use App\Utils\QQWry;
-use App\Utils\Tools;
 use function strval;
 
 /**
@@ -53,18 +51,6 @@ final class Ip extends Model
             return '节点已不存在';
         }
         return $this->node()->name;
-    }
-
-    /**
-     * 获取 IP 位置
-     */
-    public function location(?QQWry $QQWry = null): string
-    {
-        if ($QQWry === null) {
-            $QQWry = new QQWry();
-        }
-        $location = $QQWry->getlocation(Tools::getRealIp($this->ip));
-        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
     }
 
     /**

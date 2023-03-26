@@ -14,7 +14,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
-use App\Utils\QQWry;
 use App\Utils\Telegram\Reply;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
@@ -406,14 +405,13 @@ final class Callback
         switch ($OpEnd) {
             case 'login_log':
                 // 登录记录
-                $iplocation = new QQWry();
                 $total = LoginIp::where('userid', '=', $this->User->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
                 $text = '<strong>以下是您最近 10 次的登录 IP 和地理位置：</strong>' . PHP_EOL;
                 $text .= PHP_EOL;
 
                 foreach ($total as $single) {
-                    $location = $iplocation->getlocation($single->ip);
-                    $text .= $single->ip . ' - ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . PHP_EOL;
+                    $location = Tools::getIpLocation($single->ip);
+                    $text .= $single->ip . ' - ' . $location . PHP_EOL;
                 }
 
                 $text .= PHP_EOL . '<strong>注意：地理位置根据 IP 数据库预估，可能与实际位置不符，仅供参考使用</strong>' . PHP_EOL;
@@ -432,7 +430,6 @@ final class Callback
                 break;
             case 'usage_log':
                 // 使用记录
-                $iplocation = new QQWry();
                 $total = Ip::where('datetime', '>=', time() - 300)->where('userid', '=', $this->User->id)->get();
                 $text = '<strong>以下是您最近 5 分钟的使用 IP 和地理位置：</strong>' . PHP_EOL;
                 $text .= PHP_EOL;
@@ -443,8 +440,8 @@ final class Callback
                     if ($is_node) {
                         continue;
                     }
-                    $location = $iplocation->getlocation($single->ip);
-                    $text .= $single->ip . ' - ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . PHP_EOL;
+                    $location = Tools::getIpLocation($single->ip);
+                    $text .= $single->ip . ' - ' . $location . PHP_EOL;
                 }
 
                 $text .= PHP_EOL . '<strong>注意：地理位置根据 IP 数据库预估，可能与实际位置不符，仅供参考使用</strong>' . PHP_EOL;
@@ -485,12 +482,11 @@ final class Callback
                 break;
             case 'subscribe_log':
                 // 订阅记录
-                $iplocation = new QQWry();
                 $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->User->id)->take(10)->get();
                 $temp = [];
                 foreach ($logs as $log) {
-                    $location = $iplocation->getlocation($log->request_ip);
-                    $temp[] = '<code>' . $log->request_time . ' 在 [' . $log->request_ip . '] ' . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']) . ' 访问了 ' . $log->subscribe_type . ' 订阅</code>';
+                    $location = Tools::getIpLocation($log->request_ip);
+                    $temp[] = '<code>' . $log->request_time . ' 在 [' . $log->request_ip . '] ' . $location . ' 访问了 ' . $log->subscribe_type . ' 订阅</code>';
                 }
                 $text = '<strong>以下是您最近 10 条订阅记录：</strong>';
                 $text .= PHP_EOL . PHP_EOL;
