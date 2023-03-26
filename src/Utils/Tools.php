@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\Link;
-use App\Models\Model;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
@@ -199,24 +198,6 @@ final class Tools
             return true;
         }
         return false;
-    }
-
-    /**
-     * Filter key in `App\Models\Model` object
-     */
-    public static function keyFilter(Model $object, array $filter_array): Model
-    {
-        foreach ($object->toArray() as $key => $value) {
-            if (! in_array($key, $filter_array)) {
-                unset($object->$key);
-            }
-        }
-        return $object;
-    }
-
-    public static function getRealIp($rawIp): array|string
-    {
-        return str_replace('::ffff:', '', $rawIp);
     }
 
     public static function isEmail($input): bool

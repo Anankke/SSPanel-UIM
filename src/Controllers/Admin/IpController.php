@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\Ip;
 use App\Models\LoginIp;
+use App\Services\DB;
 use App\Utils\Tools;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_map;
+use function array_slice;
 use function count;
-use function time;
 
 final class IpController extends BaseController
 {
@@ -40,14 +40,13 @@ final class IpController extends BaseController
             'node_name' => '节点名',
             'ip' => 'IP',
             'location' => 'IP归属地',
-            'datetime' => '时间',
+            'first_time' => '首次连接',
+            'first_time' => '最后连接',
         ],
     ];
 
     /**
      * 后台登录记录页面
-     *
-     * @throws Exception
      */
     public function login(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -87,8 +86,6 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面
-     *
-     * @throws Exception
      */
     public function alive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -104,26 +101,41 @@ final class IpController extends BaseController
      */
     public function ajaxAlive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $length = $request->getParam('length');
-        $page = $request->getParam('start') / $length + 1;
-        $draw = $request->getParam('draw');
+        $data = $request->getParsedBody();
+        $length = (int) ($data['length'] ?? 0);
+        $start = (int) ($data['start'] ?? 0);
+        $draw = $data['draw'] ?? null;
 
-        $alives = Ip::where('datetime', '>=', time() - 60)->orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = count(Ip::where('datetime', '>=', time() - 60)->orderBy('id', 'desc')->get());
+        $logs = DB::select('
+            SELECT
+                user.user_name,
+                online_log.ip,
+                node.name AS node_name,
+                online_log.first_time,
+                online_log.last_time
+            FROM
+                online_log
+                LEFT JOIN user ON user.id = online_log.user_id
+                LEFT JOIN node ON node.id = online_log.node_id
+        ');
 
-        foreach ($alives as $alive) {
-            $alive->user_name = $alive->userName();
-            $alive->node_name = $alive->nodeName();
-            $alive->ip = Tools::getRealIp($alive->ip);
-            $alive->location = Tools::getIpLocation($alive->ip);
-            $alive->datetime = Tools::toDateTime((int) $alive->datetime);
-        }
+        $count = count($logs);
+        $data = array_map(static function ($val) {
+            return [
+                'user_name' => $val->user_name,
+                'ip' => $val->ip,
+                'node_name' => $val->node_name,
+                'location' => Tools::getIpLocation($val->ip),
+                'first_time' => Tools::toDateTime($val->first_time),
+                'last_time' => Tools::toDateTime($val->last_time),
+            ];
+        }, array_slice($logs, $start, $length));
 
         return $response->withJson([
             'draw' => $draw,
-            'recordsTotal' => $total,
-            'recordsFiltered' => $total,
-            'alives' => $alives,
+            'recordsTotal' => $count,
+            'recordsFiltered' => $count,
+            'alives' => $data,
         ]);
     }
 }

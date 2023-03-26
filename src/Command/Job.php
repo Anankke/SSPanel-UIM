@@ -10,8 +10,8 @@ use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\EmailQueue;
 use App\Models\EmailVerify;
-use App\Models\Ip;
 use App\Models\Node;
+use App\Models\OnlineLog;
 use App\Models\PasswordReset;
 use App\Models\Setting;
 use App\Models\Shop;
@@ -76,7 +76,7 @@ EOL;
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', time() - 86400 * 3)->delete();
         PasswordReset::where('expire_time', '<', time() - 86400 * 3)->delete();
-        Ip::where('datetime', '<', time() - 300)->delete();
+        OnlineLog::where('last_time', '<', time() - 86400 * 30)->delete();
         StreamMedia::where('created_at', '<', time() - 86400 * 3)->delete();
         TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
