@@ -81,11 +81,11 @@ END;
 
         if ($_ENV['maxmind_license_key'] !== '') {
             echo "正在更新 GeoLite2 数据库...\n";
-            $client = new Client(array(
+            $client = new Client([
                 'license_key' => $_ENV['maxmind_license_key'],
                 'dir' => BASE_PATH . '/storage/',
-                'editions' => array('GeoLite2-City', "GeoLite2-Country"),
-            ));
+                'editions' => ['GeoLite2-City', "GeoLite2-Country"],
+            ]);
             $client->run();
         }
     }
