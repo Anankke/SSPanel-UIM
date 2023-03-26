@@ -6,22 +6,20 @@ namespace App\Controllers\WebAPI;
 
 use App\Controllers\BaseController;
 use App\Models\DetectLog;
-use App\Models\Ip;
 use App\Models\Node;
-use App\Models\User;
 use App\Services\DB;
 use App\Utils\ResponseHelper;
-use App\Utils\Tools;
-use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function count;
-use function in_array;
+use function filter_var;
 use function is_array;
 use function json_decode;
-use function strval;
 use function time;
+use const FILTER_FLAG_IPV4;
+use const FILTER_FLAG_IPV6;
+use const FILTER_VALIDATE_IP;
 
 final class UserController extends BaseController
 {
@@ -53,32 +51,49 @@ final class UserController extends BaseController
             ]);
         }
 
-        $users_raw = User::where('is_banned', 0)
-            ->where('expire_in', '>', date('Y-m-d H:i:s'))
-            ->where(static function (Builder $query) use ($node): void {
-                $query->whereRaw(
-                    'class >= ? AND IF(? = 0, 1, node_group = ?)',
-                    [$node->node_class, $node->node_group, $node->node_group]
-                )->orWhere('is_admin', 1);
-            })
-            ->get();
+        $users_raw = DB::select('
+            SELECT
+                user.id,
+                user.u,
+                user.d,
+                user.transfer_enable,
+                user.node_connector,
+                user.node_speedlimit,
+                user.node_iplimit,
+                user.method,
+                user.port,
+                user.passwd,
+                user.uuid,
+                IF(online_log.count IS NULL, 0, online_log.count) AS alive_ip
+            FROM
+                user LEFT JOIN (
+                    SELECT
+                        user_id, COUNT(*) AS count
+                    FROM
+                        online_log
+                    WHERE
+                        last_time > UNIX_TIMESTAMP() - 90
+                    GROUP BY
+                        user_id
+                ) ON online_log.user_id = user.id
+            WHERE
+                user.is_banned = 0
+                AND user.expire_in > CURRENT_TIMESTAMP()
+                AND (
+                    (
+                        user.class >= ?
+                        AND IF(? = 0, 1, user.node_group = ?)
+                    ) OR user.is_admin = 1
+                )
+        ');
 
-        if (in_array($node->sort, [11, 14])) {
-            $key_list = [
-                'id', 'node_connector', 'node_speedlimit', 'node_iplimit', 'uuid', 'alive_ip',
-            ];
-        } else {
-            $key_list = [
-                'id', 'node_connector', 'node_speedlimit', 'node_iplimit', 'method', 'port', 'passwd', 'alive_ip',
-            ];
-        }
+        $keys_unset = match ($node->sort) {
+            11 || 14 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
+            default => ['u', 'd', 'transfer_enable', 'uuid']
+        };
 
-        $alive_ip = (new Ip())->getUserAliveIpCount();
         $users = [];
         foreach ($users_raw as $user_raw) {
-            if (isset($alive_ip[strval($user_raw->id)]) && $user_raw->node_connector !== 0 && $user_raw->node_iplimit !== 0) {
-                $user_raw->alive_ip = $alive_ip[strval($user_raw->id)];
-            }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
                     // 流量耗尽用户限速至 1Mbps
@@ -88,7 +103,9 @@ final class UserController extends BaseController
                 }
             }
 
-            $user_raw = Tools::keyFilter($user_raw, $key_list);
+            foreach ($keys_unset as $key) {
+                unset($user_raw->$key);
+            }
             $users[] = $user_raw;
         }
 
@@ -179,16 +196,25 @@ final class UserController extends BaseController
             ]);
         }
 
+        $stat = DB::getPdo()->prepare('
+            INSERT INTO online_log (user_id, ip, node_id, first_time, last_time)
+                VALUES (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())
+                ON DUPLICATE KEY UPDATE node_id = ?, last_time = UNIX_TIMESTAMP()
+        ');
+
         foreach ($data as $log) {
             $ip = (string) $log?->ip;
-            $userid = (int) $log?->user_id;
+            $user_id = (int) $log?->user_id;
 
-            Ip::insert([
-                'userid' => $userid,
-                'nodeid' => $node_id,
-                'ip' => $ip,
-                'datetime' => time(),
-            ]);
+            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                // convert IPv4 Address to IPv4-mapped IPv6 Address
+                $ip = "::ffff:{$ip}";
+            } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+                // either IPv4 or IPv6 Address
+                continue;
+            }
+
+            $stat->execute([$user_id, $ip, $node_id, $node_id]);
         }
 
         return $response->withJson([

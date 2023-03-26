@@ -7,9 +7,8 @@ namespace App\Utils\Telegram\Callbacks;
 use App\Controllers\LinkController;
 use App\Controllers\SubController;
 use App\Models\InviteCode;
-use App\Models\Ip;
 use App\Models\LoginIp;
-use App\Models\Node;
+use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
@@ -430,18 +429,14 @@ final class Callback
                 break;
             case 'usage_log':
                 // 使用记录
-                $total = Ip::where('datetime', '>=', time() - 300)->where('userid', '=', $this->User->id)->get();
-                $text = '<strong>以下是您最近 5 分钟的使用 IP 和地理位置：</strong>' . PHP_EOL;
+                $logs = OnlineLog::where('user_id', '=', $this->User->id)->orderByDesc('last_time')->get('ip');
+                $text = '<strong>以下是您最近 30 天的使用 IP 和地理位置：</strong>' . PHP_EOL;
                 $text .= PHP_EOL;
 
-                foreach ($total as $single) {
-                    $single->ip = Tools::getRealIp($single->ip);
-                    $is_node = Node::where('node_ip', $single->ip)->first();
-                    if ($is_node) {
-                        continue;
-                    }
-                    $location = Tools::getIpLocation($single->ip);
-                    $text .= $single->ip . ' - ' . $location . PHP_EOL;
+                foreach ($logs as $log) {
+                    $ip = $log->ip();
+                    $location = Tools::getIpLocation($ip);
+                    $text .= "{$ip} - {$location}\n";
                 }
 
                 $text .= PHP_EOL . '<strong>注意：地理位置根据 IP 数据库预估，可能与实际位置不符，仅供参考使用</strong>' . PHP_EOL;

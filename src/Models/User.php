@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\DB;
 use App\Services\Mail;
 use App\Utils\Hash;
 use App\Utils\Telegram;
@@ -346,17 +347,17 @@ final class User extends Model
      */
     public function onlineIpCount(): int
     {
-        // 根据 IP 分组去重
-        $total = Ip::where('datetime', '>=', time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
-        $ip_list = [];
-        foreach ($total as $single_record) {
-            $ip = Tools::getRealIp($single_record->ip);
-            if (Node::where('node_ip', $ip)->first() !== null) {
-                continue;
-            }
-            $ip_list[] = $ip;
-        }
-        return count($ip_list);
+        return DB::select(
+            '
+            SELECT
+                COUNT(*) AS count
+            FROM
+                online_log
+            WHERE
+                user_id = ?
+                AND last_time >= UNIX_TIMESTAMP() - 90',
+            [$this->attributes['id']]
+        )[0]->count;
     }
 
     /**
@@ -373,7 +374,7 @@ final class User extends Model
         DetectLog::where('user_id', '=', $uid)->delete();
         EmailVerify::where('email', $email)->delete();
         InviteCode::where('user_id', '=', $uid)->delete();
-        Ip::where('userid', '=', $uid)->delete();
+        OnlineLog::where('user_id', '=', $uid)->delete();
         Link::where('userid', '=', $uid)->delete();
         LoginIp::where('userid', '=', $uid)->delete();
         PasswordReset::where('email', '=', $email)->delete();
