@@ -10,6 +10,8 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use function floatval;
 use function in_array;
 use function intval;
@@ -21,11 +23,17 @@ final class Tools
     /**
      * 查询IP归属
      */
-    public static function getIpLocation($ip): false|string
+    public static function getIpLocation($ip): string
     {
-        $iplocation = new QQWry();
-        $location = $iplocation->getlocation($ip);
-        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+        $geoip = new GeoIP2();
+        try {
+            $city = $geoip->getCity($ip);
+            $country = $geoip->getCountry($ip);
+        } catch (AddressNotFoundException|InvalidDatabaseException $e) {
+            return '未知';
+        }
+
+        return $country . ' ' . $city;
     }
 
     /**

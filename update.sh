@@ -21,7 +21,6 @@ do_update_sspanel_dev(){
     php xcat Update
     php xcat Tool importAllSettings
     php xcat Migration latest
-    wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat 
 }
 
 do_update_sspanel_release(){
@@ -35,7 +34,6 @@ do_update_sspanel_release(){
     php xcat Update
     php xcat Tool importAllSettings
     php xcat Migration $db_version
-    wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat 
 }
 
 if [[ $1 == "dev" ]]; then

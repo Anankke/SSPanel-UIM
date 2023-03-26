@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use tronovav\GeoIP2Update\Client;
+use const BASE_PATH;
+
 final class Update extends Command
 {
     public string $description = <<< END
@@ -12,6 +15,7 @@ END;
 
     public function boot(): void
     {
+        // 迁移配置
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
         if ($copy_result === true) {
@@ -74,5 +78,15 @@ END;
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo "迁移完成。\n";
+
+        if ($_ENV['maxmind_license_key'] !== '') {
+            echo "正在更新 GeoLite2 数据库...\n";
+            $client = new Client(array(
+                'license_key' => $_ENV['maxmind_license_key'],
+                'dir' => BASE_PATH . '/storage/',
+                'editions' => array('GeoLite2-City', "GeoLite2-Country"),
+            ));
+            $client->run();
+        }
     }
 }
