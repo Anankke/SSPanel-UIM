@@ -24,7 +24,7 @@
                             <table class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>事件ID</th>
                                         <th>类型</th>
                                         <th>IP</th>
                                         <th>归属</th>
@@ -38,7 +38,7 @@
                                         <td>#{$log->id}</td>
                                         <td>{$log->subscribe_type}</td>
                                         <td>{$log->request_ip}</td>
-                                        <td>{Tools::getIpInfo($log->request_ip)}</td>
+                                        <td>{$log->location}</td>
                                         <td>{$log->request_time}</td>
                                         <td>{$log->request_user_agent}</td>
                                     </tr>
