@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0      
+          php-version: 8.1
       - run: |
           composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer require nunomaduro/phpinsights --dev
