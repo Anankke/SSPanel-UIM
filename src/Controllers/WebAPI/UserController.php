@@ -75,7 +75,7 @@ final class UserController extends BaseController
                         last_time > UNIX_TIMESTAMP() - 90
                     GROUP BY
                         user_id
-                ) ON online_log.user_id = user.id
+                ) AS online_log ON online_log.user_id = user.id
             WHERE
                 user.is_banned = 0
                 AND user.expire_in > CURRENT_TIMESTAMP()
@@ -85,10 +85,10 @@ final class UserController extends BaseController
                         AND IF(? = 0, 1, user.node_group = ?)
                     ) OR user.is_admin = 1
                 )
-        ');
+        ', [$node->node_class, $node->node_group, $node->node_group]);
 
-        $keys_unset = match ($node->sort) {
-            11 || 14 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
+        $keys_unset = match ((int) $node->sort) {
+            14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
             default => ['u', 'd', 'transfer_enable', 'uuid']
         };
 

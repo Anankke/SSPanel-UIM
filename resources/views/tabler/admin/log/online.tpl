@@ -43,9 +43,9 @@
             "searching": false,
             "ordering": false,
             ajax: {
-                url: '/admin/alive/ajax',
+                url: '/admin/online/ajax',
                 type: 'POST',
-                dataSrc: 'alives.data'
+                dataSrc: 'onlines'
             },
             "autoWidth":false,
             'iDisplayLength': 10,

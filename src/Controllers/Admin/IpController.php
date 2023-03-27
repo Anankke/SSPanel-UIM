@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\LoginIp;
 use App\Services\DB;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -34,26 +35,28 @@ final class IpController extends BaseController
     [
         'field' => [
             'id' => '事件ID',
-            'userid' => '用户ID',
+            'user_id' => '用户ID',
             'user_name' => '用户名',
-            'nodeid' => '节点ID',
+            'node_id' => '节点ID',
             'node_name' => '节点名',
             'ip' => 'IP',
             'location' => 'IP归属地',
             'first_time' => '首次连接',
-            'first_time' => '最后连接',
+            'last_time' => '最后连接',
         ],
     ];
 
     /**
      * 后台登录记录页面
+     *
+     * @throws Exception
      */
     public function login(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$login_details)
-                ->fetch('admin/ip/login.tpl')
+                ->fetch('admin/log/login.tpl')
         );
     }
 
@@ -86,20 +89,22 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面
+     *
+     * @throws Exception
      */
-    public function alive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function online(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$ip_details)
-                ->fetch('admin/ip/alive.tpl')
+                ->fetch('admin/log/online.tpl')
         );
     }
 
     /**
      * 后台在线 IP 页面 AJAX
      */
-    public function ajaxAlive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajaxOnline(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $data = $request->getParsedBody();
         $length = (int) ($data['length'] ?? 0);
@@ -108,23 +113,31 @@ final class IpController extends BaseController
 
         $logs = DB::select('
             SELECT
+                online_log.id,
+                online_log.user_id,
                 user.user_name,
-                online_log.ip,
+                online_log.node_id,
                 node.name AS node_name,
+                online_log.ip,
                 online_log.first_time,
                 online_log.last_time
             FROM
                 online_log
                 LEFT JOIN user ON user.id = online_log.user_id
                 LEFT JOIN node ON node.id = online_log.node_id
+            WHERE
+                last_time > UNIX_TIMESTAMP() - 90
         ');
 
         $count = count($logs);
         $data = array_map(static function ($val) {
             return [
+                'id' => $val->id,
+                'user_id' => $val->user_id,
                 'user_name' => $val->user_name,
-                'ip' => $val->ip,
+                'node_id' => $val->node_id,
                 'node_name' => $val->node_name,
+                'ip' => str_replace('::ffff:', '', $val->ip),
                 'location' => Tools::getIpLocation($val->ip),
                 'first_time' => Tools::toDateTime($val->first_time),
                 'last_time' => Tools::toDateTime($val->last_time),
@@ -135,7 +148,7 @@ final class IpController extends BaseController
             'draw' => $draw,
             'recordsTotal' => $count,
             'recordsFiltered' => $count,
-            'alives' => $data,
+            'onlines' => $data,
         ]);
     }
 }
