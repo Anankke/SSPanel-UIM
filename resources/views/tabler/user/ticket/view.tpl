@@ -85,13 +85,13 @@
                                     <div class="row">
                                         <div class="col">
                                             <div>
-                                                {nl2br($comment['comment'])}
+                                                {nl2br($comment->comment)}
                                             </div>
-                                            <div class="text-muted my-1">{$comment['commenter_name']} 回复于 {Tools::toDateTime($comment['datetime'])}</div>
+                                            <div class="text-muted my-1">{$comment->commenter_name} 回复于 {$comment->datetime}</div>
                                         </div>
                                         <div class="col-auto">
                                             <div>
-                                                # {$comment['comment_id'] + 1}
+                                                # {$comment->comment_id + 1}
                                             </div>
                                         </div>
                                     </div>
