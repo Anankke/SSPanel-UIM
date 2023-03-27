@@ -188,7 +188,7 @@
                                         <i class="ti ti-torii"></i>&nbsp;
                                         支付网关
                                     </a>
-                                    <a class="dropdown-item" href="/admin/alive">
+                                    <a class="dropdown-item" href="/admin/online">
                                         <i class="ti ti-router"></i>&nbsp;
                                         在线IP
                                     </a>

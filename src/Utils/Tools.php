@@ -265,79 +265,6 @@ final class Tools
         return true;
     }
 
-    /**
-     * Eloquent 分页链接渲染
-     *
-     * @param mixed $data
-     *
-     * @return string
-     */
-    public static function paginateRender(mixed $data): string
-    {
-        $totalPage = $data->lastPage();
-        $currentPage = $data->currentPage();
-        $html = '<ul class="pagination pagination-primary justify-content-end">';
-        for ($i = 1; $i <= $totalPage; $i++) {
-            $active = '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
-            $page = '<li class="page-item"><a class="page-link" href="' . $data->url($i) . '">' . $i . '</a></li>';
-            if ($i === 1) {
-                // 当前为第一页
-                if ($currentPage === $i) {
-                    $html .= '<li class="page-item disabled"><a class="page-link">上一页</a></li>';
-                    $html .= $active;
-                    if ($i === $totalPage) {
-                        $html .= '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
-                        continue;
-                    }
-                } else {
-                    $html .= '<li class="page-item"><a class="page-link" href="' . $data->url($currentPage - 1) . '">上一页</a></li>';
-                    if ($currentPage > 4) {
-                        $html .= '<li class="page-item disabled"><a class="page-link">...</a></li>';
-                    } else {
-                        $html .= $page;
-                    }
-                }
-            }
-            if ($i === $totalPage) {
-                // 当前为最后一页
-                if ($currentPage === $i) {
-                    $html .= $active;
-                    $html .= '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
-                } else {
-                    if ($totalPage - $currentPage > 3) {
-                        $html .= '<li class="page-item disabled"><a class="page-link">...</a></li>';
-                    } else {
-                        $html .= $page;
-                    }
-                    $html .= '<li class="page-item"><a class="page-link" href="' . $data->url($currentPage + 1) . '">下一页</a></li>';
-                }
-            }
-            if ($i > 1 && $i < $totalPage) {
-                // 其他页
-                if ($currentPage === $i) {
-                    $html .= $active;
-                } else {
-                    if ($totalPage > 10) {
-                        if (
-                            ($currentPage > 4 && $i < $currentPage && $i > $currentPage - 3)
-                            ||
-                            ($totalPage - $currentPage > 4 && $i > $currentPage && $i < $currentPage + 4)
-                            ||
-                            ($currentPage <= 4 && $i <= 4)
-                            ||
-                            ($totalPage - $currentPage <= 4 && $i > $currentPage)
-                        ) {
-                            $html .= $page;
-                        }
-                        continue;
-                    }
-                    $html .= $page;
-                }
-            }
-        }
-        return $html . '</ul>';
-    }
-
     public static function genSubToken(): string
     {
         for ($i = 0; $i < 10; $i++) {
@@ -349,21 +276,6 @@ final class Tools
         }
 
         return "couldn't alloc token";
-    }
-
-    public static function generateSSRSubCode(int $userid): string
-    {
-        $Elink = Link::where('userid', $userid)->first();
-        if ($Elink !== null) {
-            return $Elink->token;
-        }
-
-        $NLink = new Link();
-        $NLink->userid = $userid;
-        $NLink->token = self::genSubToken();
-        $NLink->save();
-
-        return $NLink->token;
     }
 
     public static function searchEnvName($name): int|string|null

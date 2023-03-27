@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\LoginIp;
 use App\Services\DB;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -47,6 +48,8 @@ final class IpController extends BaseController
 
     /**
      * 后台登录记录页面
+     *
+     * @throws Exception
      */
     public function login(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -86,20 +89,22 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面
+     *
+     * @throws Exception
      */
-    public function alive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function online(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
                 ->assign('details', self::$ip_details)
-                ->fetch('admin/log/alive.tpl')
+                ->fetch('admin/log/online.tpl')
         );
     }
 
     /**
      * 后台在线 IP 页面 AJAX
      */
-    public function ajaxAlive(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajaxOnline(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $data = $request->getParsedBody();
         $length = (int) ($data['length'] ?? 0);
@@ -135,7 +140,7 @@ final class IpController extends BaseController
             'draw' => $draw,
             'recordsTotal' => $count,
             'recordsFiltered' => $count,
-            'alives' => $data,
+            'onlines' => $data,
         ]);
     }
 }

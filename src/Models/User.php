@@ -318,14 +318,6 @@ final class User extends Model
     }
 
     /**
-     * 获取用户的订阅链接
-     */
-    public function getSublink(): string
-    {
-        return Tools::generateSSRSubCode($this->id);
-    }
-
-    /**
      * 删除用户的邀请码
      */
     public function clearInviteCodes(): void
