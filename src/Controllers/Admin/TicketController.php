@@ -193,10 +193,14 @@ final class TicketController extends BaseController
 
         foreach ($tickets as $ticket) {
             $ticket->op = '<button type="button" class="btn btn-red" id="delete-ticket" 
-            onclick="deleteTicket(' . $ticket->id . ')">删除</button>
-            <button type="button" class="btn btn-orange" id="close-ticket" 
-            onclick="closeTicket(' . $ticket->id . ')">关闭</button>
-            <a class="btn btn-blue" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
+            onclick="deleteTicket(' . $ticket->id . ')">删除</button>';
+
+            if ($ticket->status !== 'closed') {
+                $ticket->op .= '<button type="button" class="btn btn-orange" id="close-ticket" 
+                onclick="closeTicket(' . $ticket->id . ')">关闭</button>';
+            }
+
+            $ticket->op .= '<a class="btn btn-blue" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
             $ticket->status = $ticket->status();
             $ticket->type = $ticket->type();
             $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
