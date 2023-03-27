@@ -113,9 +113,12 @@ final class IpController extends BaseController
 
         $logs = DB::select('
             SELECT
+                online_log.id,
+                online_log.user_id,
                 user.user_name,
-                online_log.ip,
+                online_log.node_id,
                 node.name AS node_name,
+                online_log.ip,
                 online_log.first_time,
                 online_log.last_time
             FROM
@@ -127,9 +130,12 @@ final class IpController extends BaseController
         $count = count($logs);
         $data = array_map(static function ($val) {
             return [
+                'id' => $val->id,
+                'user_id' => $val->user_id,
                 'user_name' => $val->user_name,
-                'ip' => str_replace('::ffff:', '', $val->ip),
+                'node_id' => $val->node_id,
                 'node_name' => $val->node_name,
+                'ip' => str_replace('::ffff:', '', $val->ip),
                 'location' => Tools::getIpLocation($val->ip),
                 'first_time' => Tools::toDateTime($val->first_time),
                 'last_time' => Tools::toDateTime($val->last_time),
