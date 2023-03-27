@@ -96,10 +96,10 @@
                                                 <i class="ti ti-edit"></i>&nbsp;
                                                 资料修改
                                             </a>
-                                            {if $public_setting['enable_ticket']}
-                                            <a class="dropdown-item" href="/user/ticket">
-                                                <i class="ti ti-ticket"></i>&nbsp;
-                                                工单系统
+                                            {if $public_setting['display_subscribe_log'] === true}
+                                            <a class="dropdown-item" href="/user/subscribe/log">
+                                                <i class="ti ti-rss"></i></i>&nbsp;
+                                                订阅日志
                                             </a>
                                             {/if}
                                             <a class="dropdown-item" href="/user/invite">
@@ -140,7 +140,7 @@
                                         <i class="ti ti-dots-circle-horizontal icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        信息
+                                        支援
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
@@ -148,10 +148,10 @@
                                         <i class="ti ti-speakerphone"></i>&nbsp;
                                         站点公告
                                     </a>
-                                    {if $public_setting['display_subscribe_log'] === true}
-                                    <a class="dropdown-item" href="/user/subscribe/log">
-                                        <i class="ti ti-rss"></i></i>&nbsp;
-                                        订阅日志
+                                    {if $public_setting['enable_ticket']}
+                                    <a class="dropdown-item" href="/user/ticket">
+                                        <i class="ti ti-ticket"></i>&nbsp;
+                                        工单系统
                                     </a>
                                     {/if}
                                 </div>
@@ -232,7 +232,7 @@
                                         <i class="ti ti-settings icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        管理
+                                        站点管理
                                     </span>
                                 </a>
                             </li>

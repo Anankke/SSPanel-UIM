@@ -58,7 +58,7 @@ final class InvoiceController extends BaseController
             $paylist = Paylist::where('invoice_id', $invoice->id)->where('status', 1)->first();
         }
 
-        $invoice->status_text = Tools::getInvoiceStatus($invoice);
+        $invoice->status_text = $invoice->status();
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
@@ -115,7 +115,7 @@ final class InvoiceController extends BaseController
 
         foreach ($invoices as $invoice) {
             $invoice->op = '<a class="btn btn-blue" href="/admin/invoice/' . $invoice->id . '/view">查看</a>';
-            $invoice->status = Tools::getInvoiceStatus($invoice);
+            $invoice->status = $invoice->status();
             $invoice->create_time = Tools::toDateTime($invoice->create_time);
             $invoice->update_time = Tools::toDateTime($invoice->update_time);
             $invoice->pay_time = Tools::toDateTime($invoice->pay_time);

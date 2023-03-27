@@ -54,15 +54,15 @@ final class OrderController extends BaseController
         $id = $args['id'];
 
         $order = Order::find($id);
-        $order->product_type = Tools::getOrderProductType($order);
-        $order->status_text = Tools::getOrderStatus($order);
+        $order->product_type = $order->productType();
+        $order->status_text = $order->status();
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
         $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
-        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $invoice->status = $invoice->status();
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
@@ -141,17 +141,19 @@ final class OrderController extends BaseController
         $orders = Order::orderBy('id', 'desc')->get();
 
         foreach ($orders as $order) {
-            $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '" 
-            onclick="deleteOrder(' . $order->id . ')">删除</button>';
+            $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '"
+             onclick="deleteOrder(' . $order->id . ')">删除</button>';
+
             if ($order->status === 'pending_payment') {
                 $order->op .= '
-                <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '" 
-                onclick="cancelOrder(' . $order->id . ')">取消</button>';
+                <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '"
+                 onclick="cancelOrder(' . $order->id . ')">取消</button>';
             }
+
             $order->op .= '
             <a class="btn btn-blue" href="/admin/order/' . $order->id . '/view">查看</a>';
-            $order->product_type = Tools::getOrderProductType($order);
-            $order->status = Tools::getOrderStatus($order);
+            $order->product_type = $order->productType();
+            $order->status = $order->status();
             $order->create_time = Tools::toDateTime($order->create_time);
             $order->update_time = Tools::toDateTime($order->update_time);
         }

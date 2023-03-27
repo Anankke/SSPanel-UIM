@@ -24,13 +24,16 @@ final class ServerController extends BaseController
     {
         $user = $this->user;
         $query = Node::query();
-        $query->where('type', 1)->whereNotIn('sort', [9]);
+        $query->where('type', 1);
+
         if (! $user->is_admin) {
             $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
             $query->whereIn('node_group', $group);
         }
+
         $nodes = $query->orderBy('node_class')->orderBy('name')->get();
         $all_node = [];
+
         foreach ($nodes as $node) {
             $array_node = [];
             $array_node['id'] = $node->id;

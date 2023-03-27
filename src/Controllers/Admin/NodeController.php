@@ -360,8 +360,8 @@ final class NodeController extends BaseController
             <button type="button" class="btn btn-orange" id="copy-node-' . $node->id . '" 
             onclick="copyNode(' . $node->id . ')">复制</button>
             <a class="btn btn-blue" href="/admin/node/' . $node->id . '/edit">编辑</a>';
-            $node->type = Tools::getNodeType($node);
-            $node->sort = Tools::getNodeSort($node);
+            $node->type = $node->type();
+            $node->sort = $node->sort();
             $node->node_bandwidth = round(Tools::flowToGB($node->node_bandwidth), 2);
             $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
         }

@@ -16,7 +16,7 @@ do_update_sspanel_dev(){
     git reset --hard origin/dev
     git fetch --prune --prune-tags
     rm -r storage/framework/smarty/compile/*
-    php composer.phar update
+    php composer.phar install
     php composer.phar selfupdate
     php xcat Update
     php xcat Tool importAllSettings
@@ -29,7 +29,7 @@ do_update_sspanel_release(){
     git pull
     git reset --hard $tag
     rm -r storage/framework/smarty/compile/*
-    php composer.phar update
+    php composer.phar install
     php composer.phar selfupdate
     php xcat Update
     php xcat Tool importAllSettings
