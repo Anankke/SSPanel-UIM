@@ -86,8 +86,8 @@ final class OrderController extends BaseController
             return $response->withRedirect('/user/order');
         }
 
-        $order->product_type = Tools::getOrderProductType($order);
-        $order->status = Tools::getOrderStatus($order);
+        $order->product_type = $order->productType();
+        $order->status = $order->status();
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
 
@@ -138,14 +138,7 @@ final class OrderController extends BaseController
         if ($coupon_raw !== '') {
             $coupon = UserCoupon::where('code', $coupon_raw)->first();
 
-            if ($coupon === null) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '优惠码无效',
-                ]);
-            }
-
-            if ($coupon->expire_time < time()) {
+            if ($coupon === null || $coupon->expire_time < time()) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '优惠码无效',
@@ -203,7 +196,8 @@ final class OrderController extends BaseController
             ]);
         }
 
-        if ($product_limit->node_group_required !== '' && (int) $user->node_group !== (int) $product_limit->node_group_required) {
+        if ($product_limit->node_group_required !== ''
+             && (int) $user->node_group !== (int) $product_limit->node_group_required) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '账户不满足购买条件',
@@ -284,8 +278,8 @@ final class OrderController extends BaseController
                 $order->op .= '
                 <a class="btn btn-red" href="/user/invoice/' . $invoice_id . '/view">支付</a>';
             }
-            $order->product_type = Tools::getOrderProductType($order);
-            $order->status = Tools::getOrderStatus($order);
+            $order->product_type = $order->productType();
+            $order->status = $order->status();
             $order->create_time = Tools::toDateTime($order->create_time);
             $order->update_time = Tools::toDateTime($order->update_time);
         }

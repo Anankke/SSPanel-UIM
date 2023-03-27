@@ -388,7 +388,6 @@ final class ProductController extends BaseController
         $old_product_id = $args['id'];
         $old_product = Product::find($old_product_id);
 
-        $new_product = new Product();
         $new_product = $old_product->replicate([
             'create_time',
             'update_time',
@@ -410,10 +409,10 @@ final class ProductController extends BaseController
         $products = Product::orderBy('id', 'desc')->get();
 
         foreach ($products as $product) {
-            $product->op = '<button type="button" class="btn btn-red" id="delete-product-' . $product->id . '" 
-            onclick="deleteProduct(' . $product->id . ')">删除</button>
-            <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '" 
-            onclick="copyProduct(' . $product->id . ')">复制</button>
+            $product->op = '<button type="button" class="btn btn-red" id="delete-product-' . $product->id . '"
+             onclick="deleteProduct(' . $product->id . ')">删除</button>
+            <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '"
+             onclick="copyProduct(' . $product->id . ')">复制</button>
             <a class="btn btn-blue" href="/admin/product/' . $product->id . '/edit">编辑</a>';
             $product->type = $product->type();
             $product->status = $product->status();

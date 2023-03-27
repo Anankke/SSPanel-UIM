@@ -305,46 +305,6 @@ final class Tools
     }
 
     /**
-     * 订单状态
-     */
-    public static function getOrderStatus($order): string
-    {
-        if ($order->status === 'pending_payment') {
-            return '等待支付';
-        }
-        if ($order->status === 'pending_activation') {
-            return '等待激活';
-        }
-        if ($order->status === 'activated') {
-            return '已激活';
-        }
-        if ($order->status === 'expired') {
-            return '已过期';
-        }
-        if ($order->status === 'cancelled') {
-            return '已取消';
-        }
-        return '未知';
-    }
-
-    /**
-     * 订单商品类型
-     */
-    public static function getOrderProductType($order): string
-    {
-        if ($order->product_type === 'tabp') {
-            return '时间流量包';
-        }
-        if ($order->product_type === 'time') {
-            return '时间包';
-        }
-        if ($order->product_type === 'bandwidth') {
-            return '流量包';
-        }
-        return '其他';
-    }
-
-    /**
      * 账单状态
      */
     public static function getInvoiceStatus($invoice): string

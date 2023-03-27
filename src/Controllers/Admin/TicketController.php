@@ -112,7 +112,7 @@ final class TicketController extends BaseController
         $ticket = Ticket::where('id', '=', $id)->first();
 
         if ($ticket === null) {
-            return $response->withStatus(302)->withHeader('Location', '/admin/ticket');
+            return $response->withRedirect('/admin/ticket');
         }
 
         $comments = json_decode($ticket->content);
