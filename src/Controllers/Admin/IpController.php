@@ -125,6 +125,8 @@ final class IpController extends BaseController
                 online_log
                 LEFT JOIN user ON user.id = online_log.user_id
                 LEFT JOIN node ON node.id = online_log.node_id
+            WHERE
+                last_time > UNIX_TIMESTAMP() - 90
         ');
 
         $count = count($logs);
