@@ -31,22 +31,15 @@ final class TicketController extends BaseController
     public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
         if (! Setting::obtain('enable_ticket')) {
-            return null;
+            return $response->withStatus(302)->withHeader('Location', '/user');
         }
 
         $tickets = Ticket::where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
 
         foreach ($tickets as $ticket) {
-            $ticket->status = Tools::getTicketStatus($ticket);
-            $ticket->type = Tools::getTicketType($ticket);
+            $ticket->status = $ticket->status();
+            $ticket->type = $ticket->type();
             $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
-        }
-
-        if ($request->getParam('json') === 1) {
-            return $response->withJson([
-                'ret' => 1,
-                'tickets' => $tickets,
-            ]);
         }
 
         return $response->write(
@@ -58,13 +51,14 @@ final class TicketController extends BaseController
 
     public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $title = $request->getParam('title');
-        $comment = $request->getParam('comment');
-        $type = $request->getParam('type');
-        if ($title === '' || $comment === '') {
+        $title = $request->getParam('title') ?? '';
+        $comment = $request->getParam('comment') ?? '';
+        $type = $request->getParam('type') ?? '';
+
+        if ($title === '' || $comment === '' || $type === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '非法输入',
+                'msg' => '工单内容不能为空',
             ]);
         }
 
@@ -101,6 +95,7 @@ final class TicketController extends BaseController
                 );
             }
         }
+
         if ($_ENV['useScFtqq'] === true) {
             $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
             $postdata = http_build_query([
@@ -127,19 +122,22 @@ final class TicketController extends BaseController
     public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $comment = $request->getParam('comment');
+        $comment = $request->getParam('comment') ?? '';
 
         if ($comment === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '非法输入',
+                'msg' => '工单回复不能为空',
             ]);
         }
 
         $ticket = Ticket::where('id', $id)->where('userid', $this->user->id)->first();
 
         if ($ticket === null) {
-            return $response->withStatus(302)->withHeader('Location', '/user/ticket');
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '工单不存在',
+            ]);
         }
 
         $antiXss = new AntiXSS();
@@ -201,33 +199,25 @@ final class TicketController extends BaseController
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
-        $comments = json_decode($ticket->content, true);
-
-        $ticket->status = Tools::getTicketStatus($ticket);
-        $ticket->type = Tools::getTicketType($ticket);
-        $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
 
         if ($ticket === null) {
-            if ($request->getParam('json') === 1) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无访问权限',
-                ]);
-            }
             return $response->withStatus(302)->withHeader('Location', '/user/ticket');
         }
-        if ($request->getParam('json') === 1) {
-            return $response->withJson([
-                'ret' => 1,
-                'ticket' => $ticket,
-            ]);
+
+        $comments = json_decode($ticket->content);
+
+        foreach ($comments as $comment) {
+            $comment->datetime = Tools::toDateTime((int) $comment->datetime);
         }
+
+        $ticket->status = $ticket->status();
+        $ticket->type = $ticket->type();
+        $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
 
         return $response->write(
             $this->view()
                 ->assign('ticket', $ticket)
                 ->assign('comments', $comments)
-                ->registerClass('Tools', Tools::class)
                 ->fetch('user/ticket/view.tpl')
         );
     }
