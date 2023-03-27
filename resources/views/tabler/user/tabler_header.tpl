@@ -140,7 +140,7 @@
                                         <i class="ti ti-dots-circle-horizontal icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        信息
+                                        支援
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">

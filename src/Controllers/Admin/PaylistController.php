@@ -50,7 +50,7 @@ final class PaylistController extends BaseController
         $paylists = Paylist::orderBy('id', 'desc')->get();
 
         foreach ($paylists as $paylist) {
-            $paylist->status = Tools::getPaylistStatus($paylist);
+            $paylist->status = $paylist->status();
             $paylist->datetime = Tools::toDateTime((int) $paylist->datetime);
         }
 

@@ -303,41 +303,4 @@ final class Tools
         };
         return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
-
-    /**
-     * 优惠码状态
-     */
-    public static function getCouponStatus($coupon): string
-    {
-        if ($coupon->expire_time < time()) {
-            return '已过期';
-        }
-        return '激活';
-    }
-
-    /**
-     * 优惠码类型
-     */
-    public static function getCouponType($content): string
-    {
-        if ($content->type === 'percentage') {
-            return '百分比';
-        }
-        if ($content->type === 'fixed') {
-            return '固定金额';
-        }
-        return '未知';
-    }
-
-    /**
-     * 优惠码类型
-     */
-    public static function getPaylistStatus($paylist): string
-    {
-        return match ($paylist->status) {
-            0 => '未支付',
-            1 => '已支付',
-            default => '未知',
-        };
-    }
 }
