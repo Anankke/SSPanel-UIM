@@ -94,7 +94,7 @@ final class OrderController extends BaseController
         $product_content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
-        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $invoice->status = $invoice->status();
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
@@ -273,11 +273,13 @@ final class OrderController extends BaseController
 
         foreach ($orders as $order) {
             $order->op = '<a class="btn btn-blue" href="/user/order/' . $order->id . '/view">查看</a>';
+
             if ($order->status === 'pending_payment') {
                 $invoice_id = Invoice::where('order_id', $order->id)->first()->id;
                 $order->op .= '
                 <a class="btn btn-red" href="/user/invoice/' . $invoice_id . '/view">支付</a>';
             }
+
             $order->product_type = $order->productType();
             $order->status = $order->status();
             $order->create_time = Tools::toDateTime($order->create_time);

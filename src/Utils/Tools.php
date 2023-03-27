@@ -305,29 +305,6 @@ final class Tools
     }
 
     /**
-     * 账单状态
-     */
-    public static function getInvoiceStatus($invoice): string
-    {
-        if ($invoice->status === 'unpaid') {
-            return '未支付';
-        }
-        if ($invoice->status === 'paid_gateway') {
-            return '已支付（支付网关）';
-        }
-        if ($invoice->status === 'paid_balance') {
-            return '已支付（账户余额）';
-        }
-        if ($invoice->status === 'paid_admin') {
-            return '已支付（管理员）';
-        }
-        if ($invoice->status === 'cancelled') {
-            return '已取消';
-        }
-        return '未知';
-    }
-
-    /**
      * 优惠码状态
      */
     public static function getCouponStatus($coupon): string
