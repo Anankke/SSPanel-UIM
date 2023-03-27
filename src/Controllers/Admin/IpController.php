@@ -128,7 +128,7 @@ final class IpController extends BaseController
         $data = array_map(static function ($val) {
             return [
                 'user_name' => $val->user_name,
-                'ip' => $val->ip,
+                'ip' => str_replace('::ffff:', '', $val->ip),
                 'node_name' => $val->node_name,
                 'location' => Tools::getIpLocation($val->ip),
                 'first_time' => Tools::toDateTime($val->first_time),

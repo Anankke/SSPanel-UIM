@@ -45,7 +45,7 @@
             ajax: {
                 url: '/admin/online/ajax',
                 type: 'POST',
-                dataSrc: 'onlines.data'
+                dataSrc: 'onlines'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
