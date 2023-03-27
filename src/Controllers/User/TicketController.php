@@ -169,6 +169,7 @@ final class TicketController extends BaseController
                 );
             }
         }
+
         if ($_ENV['useScFtqq'] === true) {
             $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
             $postdata = http_build_query([
