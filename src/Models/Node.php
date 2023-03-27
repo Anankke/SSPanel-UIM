@@ -11,12 +11,10 @@ use function time;
 final class Node extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'node';
 
     protected $casts = [
         'traffic_rate' => 'float',
-        'mu_only' => 'int',
         'node_heartbeat' => 'int',
     ];
 
@@ -35,23 +33,9 @@ final class Node extends Model
     {
         return match ($this->sort) {
             0 => 'Shadowsocks',
-            1 => 'ShadowsocksR',
-            11 => 'V2Ray 节点',
+            11 => 'V2Ray',
             14 => 'Trojan',
-            default => '系统保留',
-        };
-    }
-
-    /**
-     * 单端口多用户启用类型
-     */
-    public function muOnly(): string
-    {
-        return match ($this->mu_only) {
-            -1 => '只启用普通端口',
-            0 => '单端口多用户与普通端口并存',
-            1 => '只启用单端口多用户',
-            default => '错误类型',
+            default => '未知',
         };
     }
 
@@ -111,14 +95,6 @@ final class Node extends Model
     }
 
     /**
-     * 节点是可用的，即流量未耗尽并且在线
-     */
-    public function isNodeAccessable(): bool
-    {
-        return $this->isNodeTrafficOut() === false && $this->isNodeOnline() === true;
-    }
-
-    /**
      * 更新节点 IP
      */
     public function changeNodeIp(string $server_name): void
@@ -136,15 +112,5 @@ final class Node extends Model
             $ip = $server_name;
         }
         $this->node_ip = $ip;
-    }
-
-    /**
-     * 获取节点 IP
-     */
-    public function getNodeIp(): string
-    {
-        $node_ip_str = $this->node_ip;
-        $node_ip_array = explode(',', $node_ip_str);
-        return $node_ip_array[0];
     }
 }

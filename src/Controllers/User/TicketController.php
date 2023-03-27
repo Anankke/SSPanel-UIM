@@ -31,7 +31,7 @@ final class TicketController extends BaseController
     public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
         if (! Setting::obtain('enable_ticket')) {
-            return $response->withStatus(302)->withHeader('Location', '/user');
+            return $response->withRedirect('/user');
         }
 
         $tickets = Ticket::where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
@@ -163,7 +163,9 @@ final class TicketController extends BaseController
                     $_ENV['appName'] . '-工单被回复',
                     'news/warn.tpl',
                     [
-                        'text' => '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket->id . '/view">工</a>，请您及时处理。',
+                        'text' => '管理员，有人回复了 <a href="' .
+                            $_ENV['baseUrl'] . '/admin/ticket/' . $ticket->id . '/view">#' . $ticket->id .
+                            '</a> 工单，请您及时处理。',
                     ],
                     []
                 );
@@ -202,7 +204,7 @@ final class TicketController extends BaseController
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
 
         if ($ticket === null) {
-            return $response->withStatus(302)->withHeader('Location', '/user/ticket');
+            return $response->withRedirect('/user/ticket');
         }
 
         $comments = json_decode($ticket->content);

@@ -112,7 +112,7 @@ final class TicketController extends BaseController
         $ticket = Ticket::where('id', '=', $id)->first();
 
         if ($ticket === null) {
-            return $response->withStatus(302)->withHeader('Location', '/admin/ticket');
+            return $response->withRedirect('/admin/ticket');
         }
 
         $comments = json_decode($ticket->content);
@@ -196,11 +196,13 @@ final class TicketController extends BaseController
             onclick="deleteTicket(' . $ticket->id . ')">删除</button>';
 
             if ($ticket->status !== 'closed') {
-                $ticket->op .= '<button type="button" class="btn btn-orange" id="close-ticket" 
+                $ticket->op .= '
+                <button type="button" class="btn btn-orange" id="close-ticket" 
                 onclick="closeTicket(' . $ticket->id . ')">关闭</button>';
             }
 
-            $ticket->op .= '<a class="btn btn-blue" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
+            $ticket->op .= '
+            <a class="btn btn-blue" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
             $ticket->status = $ticket->status();
             $ticket->type = $ticket->type();
             $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);

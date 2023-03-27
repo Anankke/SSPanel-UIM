@@ -164,7 +164,7 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
     {/if}
     {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-    <script src="http://static.geetest.com/v4/gt4.js"></script>
+    <script src="https://static.geetest.com/v4/gt4.js"></script>
     <script>
         var geetest_result = '';
         initGeetest4({
