@@ -85,7 +85,7 @@ final class UserController extends BaseController
                         AND IF(? = 0, 1, user.node_group = ?)
                     ) OR user.is_admin = 1
                 )
-        ',[$node->node_class, $node->node_group, $node->node_group]);
+        ', [$node->node_class, $node->node_group, $node->node_group]);
 
         $keys_unset = match ($node->sort) {
             11 || 14 => ['u', 'd', 'transfer_enable', 'uuid'],
