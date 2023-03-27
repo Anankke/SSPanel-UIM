@@ -266,7 +266,7 @@
                                         <i class="ti ti-arrow-back-up icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        返回
+                                        返回用户中心
                                     </span>
                                 </a>
                             </li>

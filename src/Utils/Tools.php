@@ -305,14 +305,6 @@ final class Tools
     }
 
     /**
-     * 礼品卡状态
-     */
-    public static function getGiftCardStatus($giftcard): string
-    {
-        return $giftcard->status ? '已使用' : '未使用';
-    }
-
-    /**
      * 商品类型
      */
     public static function getProductType($product): string
