@@ -304,29 +304,6 @@ final class Tools
         return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
-
-    /**
-     * 节点状态
-     */
-    public static function getNodeType($node): string
-    {
-        return $node->type ? '显示' : '隐藏';
-    }
-
-    /**
-     * 节点类型
-     */
-    public static function getNodeSort($node): string
-    {
-        return match ((int) $node->sort) {
-            0 => 'Shadowsocks',
-            9 => 'ShadowsocksR 单端口多用户（旧）',
-            11 => 'V2Ray',
-            14 => 'Trojan',
-            default => '未知',
-        };
-    }
-
     /**
      * 礼品卡状态
      */
