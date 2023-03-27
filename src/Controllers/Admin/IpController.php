@@ -35,14 +35,14 @@ final class IpController extends BaseController
     [
         'field' => [
             'id' => '事件ID',
-            'userid' => '用户ID',
+            'user_id' => '用户ID',
             'user_name' => '用户名',
-            'nodeid' => '节点ID',
+            'node_id' => '节点ID',
             'node_name' => '节点名',
             'ip' => 'IP',
             'location' => 'IP归属地',
             'first_time' => '首次连接',
-            'first_time' => '最后连接',
+            'last_time' => '最后连接',
         ],
     ];
 
