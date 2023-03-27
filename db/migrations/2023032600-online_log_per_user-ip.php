@@ -48,7 +48,7 @@ return new class() implements MigrationInterface {
 
         $pdo->exec('DROP TABLE alive_ip');
 
-        return 2023032500;
+        return 2023032600;
     }
 
     public function down(): int
