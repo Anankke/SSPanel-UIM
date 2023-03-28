@@ -37,25 +37,15 @@ final class LinkController extends BaseController
         $token = $args['token'];
         $params = $request->getQueryParams();
 
-        $Elink = Link::where('token', $token)->first();
-        if ($Elink === null) {
+        $link = Link::where('token', $token)->first();
+
+        if (! $link->isValid()) {
             return $response->withJson([
                 'ret' => 0,
             ]);
         }
 
-        $user = $Elink->user();
-        if ($user === null) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
-
-        if ((int) $user->is_banned === 1) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
+        $user = $link->user();
 
         $sub_type = '';
         $sub_info = [];
@@ -214,7 +204,8 @@ final class LinkController extends BaseController
                 $server = $node_custom_config['server_user'];
             }
             if ((int) $node_raw->sort === 11) {
-                $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
+                    ?? ($node_custom_config['offset_port_node'] ?? 443));
                 //默認值有問題的請懂 V2 怎麽用的人來改一改。
                 $alter_id = $node_custom_config['alter_id'] ?? '0';
                 $security = $node_custom_config['security'] ?? 'none';
@@ -270,22 +261,27 @@ final class LinkController extends BaseController
                 $server = $node_custom_config['server_user'];
             }
             if ((int) $node_raw->sort === 14) {
-                $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
+                    ?? ($node_custom_config['offset_port_node'] ?? 443));
                 $host = $node_custom_config['host'] ?? '';
                 $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
+                $security = $node_custom_config['security']
+                    ?? array_key_exists('enable_xtls', $node_custom_config)
+                    && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
                 $mux = $node_custom_config['mux'] ?? '';
-                $transport = $node_custom_config['transport'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                $transport = $node_custom_config['transport']
+                    ?? array_key_exists('grpc', $node_custom_config)
+                    && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
 
                 $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                 $transport_method = $node_custom_config['transport_method'] ?? '';
                 $servicename = $node_custom_config['servicename'] ?? '';
                 $path = $node_custom_config['path'] ?? '';
 
-                $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni=' . $host .
-                    '&obfs=' . $transport_plugin . '&path=' . $path . '&mux=' . $mux . '&allowInsecure=' . $allow_insecure .
-                    '&obfsParam=' . $transport_method . '&type=' . $transport . '&security=' . $security . '&serviceName=' . $servicename . '#' .
-                    $node_raw->name . PHP_EOL;
+                $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni='
+                    . $host . '&obfs=' . $transport_plugin . '&path=' . $path . '&mux=' . $mux . '&allowInsecure='
+                    . $allow_insecure . '&obfsParam=' . $transport_method . '&type=' . $transport . '&security='
+                    . $security . '&serviceName=' . $servicename . '#' . $node_raw->name . PHP_EOL;
             }
         }
 
