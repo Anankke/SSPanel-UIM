@@ -32,32 +32,23 @@ final class SubController extends BaseController
         $token = $args['token'];
         $subtype = $args['subtype'];
 
-        $sub_token = Link::where('token', $token)->first();
-        if ($sub_token === null) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
-
-        $user = $sub_token->user();
-        if ($user === null) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
-
-        if ((int) $user->is_banned === 1) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
-
         $subtype_list = ['json', 'clash', 'sip008'];
+
         if (! in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
         }
+
+        $link = Link::where('token', $token)->first();
+
+        if (! $link->isValid()) {
+            return $response->withJson([
+                'ret' => 0,
+            ]);
+        }
+
+        $user = $link->user();
 
         match ($subtype) {
             'json' => $sub_info = self::getJson($user),
@@ -122,7 +113,8 @@ final class SubController extends BaseController
                     ];
                     break;
                 case 11:
-                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
                     //默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
@@ -159,12 +151,17 @@ final class SubController extends BaseController
                     ];
                     break;
                 case 14:
-                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                    $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
+                    $security = $node_custom_config['security']
+                        ?? array_key_exists('enable_xtls', $node_custom_config)
+                        && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
                     $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                    $transport = $node_custom_config['transport']
+                        ?? array_key_exists('grpc', $node_custom_config)
+                        && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
 
                     $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                     $transport_method = $node_custom_config['transport_method'] ?? '';
@@ -260,7 +257,8 @@ final class SubController extends BaseController
 
                     break;
                 case 11:
-                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
@@ -296,8 +294,11 @@ final class SubController extends BaseController
 
                     break;
                 case 14:
-                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    $network = $node_custom_config['network'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $network = $node_custom_config['network']
+                        ?? array_key_exists('grpc', $node_custom_config)
+                        && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     // Clash 特定配置
