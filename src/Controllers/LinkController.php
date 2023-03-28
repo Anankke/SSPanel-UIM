@@ -44,7 +44,7 @@ final class LinkController extends BaseController
             ]);
         }
 
-        $user = $Elink->getUser();
+        $user = $Elink->user();
         if ($user === null) {
             return $response->withJson([
                 'ret' => 0,

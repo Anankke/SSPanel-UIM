@@ -22,7 +22,7 @@ use App\Services\MFA;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
-use App\Utils\TelegramSessionManager;
+use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -203,7 +203,7 @@ final class UserController extends BaseController
     public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $bind_token = TelegramSessionManager::addBindSession($this->user);
+        $bind_token = Telegram::addBindSession($this->user);
         $methods = Config::getSupportParam('method');
         $gaurl = MFA::getGAurl($this->user);
 

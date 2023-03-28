@@ -39,7 +39,7 @@ final class SubController extends BaseController
             ]);
         }
 
-        $user = $sub_token->getUser();
+        $user = $sub_token->user();
         if ($user === null) {
             return $response->withJson([
                 'ret' => 0,

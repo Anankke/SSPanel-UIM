@@ -9,16 +9,7 @@ use voku\helper\AntiXSS;
 final class UserSubscribeLog extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'user_subscribe_log';
-
-    /**
-     * [静态方法] 删除不存在的用户的记录
-     */
-    public static function userIsNull(UserSubscribeLog $UserSubscribeLog): void
-    {
-        self::where('user_id', $UserSubscribeLog->user_id)->delete();
-    }
 
     /**
      * 用户
