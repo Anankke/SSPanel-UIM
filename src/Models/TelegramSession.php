@@ -11,9 +11,4 @@ final class TelegramSession extends Model
 {
     protected $connection = 'default';
     protected $table = 'telegram_session';
-
-    public function datetime(): string
-    {
-        return date('Y-m-d H:i:s', $this->attributes['datetime']);
-    }
 }

@@ -12,6 +12,7 @@ use App\Services\Password;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -55,15 +56,14 @@ final class PasswordController extends BaseController
 
         $email = strtolower($request->getParam('email'));
         $user = User::where('email', $email)->first();
+        $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱。';
 
-        if ($user === null) {
-            $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱。';
-        }
-
-        if (Password::sendResetEmail($email)) {
-            $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱。';
-        } else {
-            $msg = '邮件发送失败，请联系网站管理员。';
+        if ($user !== null) {
+            try {
+                Password::sendResetEmail($email);
+            } catch (ClientExceptionInterface $e) {
+                $msg = '邮件发送失败，请联系网站管理员。';
+            }
         }
 
         return ResponseHelper::successfully($response, $msg);
@@ -74,7 +74,8 @@ final class PasswordController extends BaseController
      */
     public function token(ServerRequest $request, Response $response, array $args)
     {
-        $token = PasswordReset::where('token', $args['token'])->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
+        $token = PasswordReset::where('token', $args['token'])
+            ->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
         if ($token === null) {
             return $response->withStatus(302)->withHeader('Location', '/password/reset');
         }
@@ -99,12 +100,13 @@ final class PasswordController extends BaseController
         }
 
         /** @var PasswordReset $token */
-        $token = PasswordReset::where('token', $tokenStr)->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
+        $token = PasswordReset::where('token', $tokenStr)
+            ->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
         if ($token === null) {
             return ResponseHelper::error($response, '链接已经失效，请重新获取');
         }
 
-        $user = $token->getUser();
+        $user = $token->user();
         if ($user === null) {
             return ResponseHelper::error($response, '链接已经失效，请重新获取');
         }
@@ -112,7 +114,6 @@ final class PasswordController extends BaseController
         // reset password
         $hashPassword = Hash::passwordHash($password);
         $user->pass = $hashPassword;
-        $user->ga_enable = 0;
 
         if (! $user->save()) {
             return ResponseHelper::error($response, '重置失败，请重试');

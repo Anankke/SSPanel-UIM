@@ -26,7 +26,6 @@ use function substr;
 final class OnlineLog extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'online_log';
 
     /**

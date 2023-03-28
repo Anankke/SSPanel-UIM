@@ -7,32 +7,7 @@ namespace App\Models;
 final class DetectLog extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'detect_log';
-
-    /**
-     * [静态方法] 删除不存在的节点的记录
-     */
-    public static function nodeIsNull(DetectLog $DetectLog): void
-    {
-        self::where('node_id', $DetectLog->node_id)->delete();
-    }
-
-    /**
-     * [静态方法] 删除不存在的规则的记录
-     */
-    public static function ruleIsNull(DetectLog $DetectLog): void
-    {
-        self::where('list_id', $DetectLog->list_id)->delete();
-    }
-
-    /**
-     * [静态方法] 删除不存在的用户的记录
-     */
-    public static function userIsNull(DetectLog $DetectLog): void
-    {
-        self::where('user_id', $DetectLog->user_id)->delete();
-    }
 
     /**
      * 用户

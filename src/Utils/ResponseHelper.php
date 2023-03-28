@@ -7,7 +7,6 @@ namespace App\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
-use function array_keys;
 use function hash;
 use function json_encode;
 
@@ -29,15 +28,6 @@ final class ResponseHelper
             'ret' => 0,
             'msg' => $msg,
         ]);
-    }
-
-    public static function buildTableConfig(array $data, string $uri): array
-    {
-        return [
-            'total_column' => $data,
-            'default_show_column' => array_keys($data),
-            'ajax_url' => $uri,
-        ];
     }
 
     /**
