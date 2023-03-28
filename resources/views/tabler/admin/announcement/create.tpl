@@ -38,7 +38,7 @@
                     <div class="mb-3">
                         <label class="form-label col-3 col-form-label">公告通知的用户等级，0为不分级</label>
                         <div class="col">
-                            <input id="email_notify_class" type="text" class="form-control" value=""></input>
+                            <input id="email_notify_class" type="text" class="form-control" value="">
                         </div>
                     </div>
                     <div class="mb-3">

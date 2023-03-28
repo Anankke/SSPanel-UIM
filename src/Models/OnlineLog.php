@@ -12,7 +12,7 @@ use function substr;
  * @property int    $id         INT UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY
  * @property int    $user_id    INT UNSIGNED NOT NULL, UNIQUE KEY(A0)
  * @property string $ip         INET6 NOT NULL, UNIQUE KEY(A1) \
- *      Human readable IPv6 address. \
+ *      Human-readable IPv6 address. \
  *      IPv4 Address would be IPv4-mapped IPv6 Address like `::ffff:1.1.1.1`.
  * @property int    $node_id    INT UNSIGNED NOT NULL
  * @property int    $first_time INT UNSIGNED NOT NULL \
@@ -37,7 +37,7 @@ final class OnlineLog extends Model
     public function ip(): string
     {
         $ip = $this->attributes['ip'];
-        if (substr($ip, 0, 7) === '::ffff:') {
+        if (str_starts_with($ip, '::ffff:')) {
             return substr($ip, 6);
         }
         return $ip;
