@@ -18,7 +18,8 @@ return new class() implements MigrationInterface {
                 first_time INT UNSIGNED NOT NULL,
                 last_time INT UNSIGNED NOT NULL,
                 PRIMARY KEY (id),
-                UNIQUE KEY (user_id, ip)
+                UNIQUE KEY (user_id, ip),
+                KEY (last_time)
             )
         ');
 

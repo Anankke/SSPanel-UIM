@@ -9,16 +9,20 @@ use function substr;
 /**
  * Online Log
  *
- * @property int    $id         INT UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY
- * @property int    $user_id    INT UNSIGNED NOT NULL, UNIQUE KEY(A0)
- * @property string $ip         INET6 NOT NULL, UNIQUE KEY(A1) \
+ * PRIMARY KEY (id) \
+ * UNIQUE KEY (user_id, ip) \
+ * KEY (last_time)
+ *
+ * @property int    $id         INT UNSIGNED NOT NULL AUTO_INCREMENT
+ * @property int    $user_id    INT UNSIGNED NOT NULL
+ * @property string $ip         INET6 NOT NULL \
  *      Human-readable IPv6 address. \
  *      IPv4 Address would be IPv4-mapped IPv6 Address like `::ffff:1.1.1.1`.
  * @property int    $node_id    INT UNSIGNED NOT NULL
  * @property int    $first_time INT UNSIGNED NOT NULL \
- *      The time when $ip fisrt time connect.
+ *      The time when $ip fisrt being seen.
  * @property int    $last_time  INT UNSIGNED NOT NULL \
- *      The time when $ip last time connect.
+ *      The time when $ip last being seen.
  *
  * @see https://mariadb.com/kb/en/inet6/ MariaDB INET6 data type
  * @see https://www.rfc-editor.org/rfc/rfc4291.html#section-2.5.5.2 IPv4-mapped IPv6 Address
