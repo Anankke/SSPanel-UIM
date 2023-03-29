@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function inet_pton;
 use function substr;
 
 /**
@@ -35,13 +36,15 @@ final class OnlineLog extends Model
     /**
      * Get human-readable IPv4 or IPv6 address
      *
+     * Unlike `$this->ip`, this method would convert IPv4-mapped IPv6 Address to IPv4 Address.
+     *
      * @return string Example: IPv4 Address: `1.1.1.1`; IPv6 Address: `2606:4700:4700::1111`
      */
     public function ip(): string
     {
         $ip = $this->attributes['ip'];
-        if (str_starts_with($ip, '::ffff:')) {
-            return substr($ip, 6);
+        if (substr(inet_pton($ip), 0, 12) === "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff") {
+            return substr($ip, 7);
         }
         return $ip;
     }
