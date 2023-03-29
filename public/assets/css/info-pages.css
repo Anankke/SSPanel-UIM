@@ -35,21 +35,21 @@ body {
 h1 {
   color: #fff;
   font-size: 24px;
-  letter-spacing: .2px;
+  letter-spacing: 1px;
   margin: 0;
 }
 
 h2 {
     color: #fff;
     font-size: 22px;
-    letter-spacing: .2px;
+    letter-spacing: 1px;
     margin: 0;
 }
 
 p {
   color: #fff;
   font-size: 20px;
-  letter-spacing: .2px;
+  letter-spacing: 1px;
   margin: 0;
 }
 

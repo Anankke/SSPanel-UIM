@@ -11,7 +11,6 @@ use function time;
 final class Node extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'node';
 
     protected $casts = [

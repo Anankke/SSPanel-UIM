@@ -29,7 +29,7 @@
                                             {if $key != 'BilibiliChinaMainland'}
                                                 {if $key == 'BilibiliHKMCTW'}
                                                     <th>Bilibili（港澳台）</th>
-                                                {else if $key == 'BilibiliTW'}
+                                                {elseif $key == 'BilibiliTW'}
                                                     <th>Bilibili（台湾）</th>
                                                 {else}
                                                     <th>{$key}</th>

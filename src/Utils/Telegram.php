@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Models\TelegramSession;
 use Exception;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function time;
 
 final class Telegram
 {
     /**
      * 发送讯息，默认给群组发送
      *
-     * @throws TelegramSDKException
      * @throws TelegramSDKException
      */
     public static function send(string $messageText, int $chat_id = 0): void
@@ -76,5 +77,49 @@ final class Telegram
                 echo $e->getMessage();
             }
         }
+    }
+
+    public static function generateRandomLink(): string
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $token = Tools::genRandomChar(16);
+            $session = TelegramSession::where('session_content', '=', $token)->first();
+
+            if ($session === null) {
+                return $token;
+            }
+        }
+
+        return "couldn't alloc token";
+    }
+
+    public static function verifyBindSession($token): int
+    {
+        $session = TelegramSession::where('type', '=', 0)->where('session_content', $token)
+            ->where('datetime', '>', time() - 600)->orderBy('datetime', 'desc')->first();
+
+        if ($session !== null) {
+            $uid = $session->user_id;
+            $session->delete();
+            return $uid;
+        }
+
+        return 0;
+    }
+
+    public static function addBindSession($user): string
+    {
+        $session = TelegramSession::where('type', '=', 0)->where('user_id', '=', $user->id)->first();
+
+        if ($session === null) {
+            $session = new TelegramSession();
+            $session->type = 0;
+            $session->user_id = $user->id;
+        }
+
+        $session->datetime = time();
+        $session->session_content = self::generateRandomLink();
+        $session->save();
+        return $session->session_content;
     }
 }

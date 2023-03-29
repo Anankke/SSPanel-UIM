@@ -19,60 +19,11 @@ use function time;
 final class Shop extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'shop';
 
     protected $casts = [
         'content' => 'array',
     ];
-
-    public function content(): string
-    {
-        $content_text = '';
-        foreach ($this->content as $key => $value) {
-            switch ($key) {
-                case 'bandwidth':
-                    $content_text .= '添加流量 ' . $value . ' G ';
-                    break;
-                case 'expire':
-                    $content_text .= ', 为账号的有效期添加 ' . $value . ' 天 ';
-                    break;
-                case 'class':
-                    $content_text .= ', 为账号升级为等级 ' . $value . ' , 有效期 ' . $this->content['class_expire'] . ' 天 ';
-                    break;
-                case 'reset':
-                    $content_text .= ', 在 ' . $this->content['reset_exp'] . ' 天内 ，每 ' . $value . ' 天重置流量为 ' . $this->content['reset_value'] . ' G ';
-                    break;
-                case 'speedlimit':
-                    if ($value === 0) {
-                        $content_text .= ', 用户端口不限速 ';
-                    } else {
-                        $content_text .= ', 用户端口限速变为' . $value . ' Mbps ';
-                    }
-                    break;
-                case 'connector':
-                    if ($value === 0) {
-                        $content_text .= ', 用户IP不限制';
-                    } else {
-                        $content_text .= ', 用户IP限制变为 ' . $value . ' 个';
-                    }
-                    break;
-                default:
-            }
-        }
-
-        return rtrim($content_text, ',');
-    }
-
-    public function bandwidth()
-    {
-        return $this->content['bandwidth'] ?? 0;
-    }
-
-    public function expire()
-    {
-        return $this->content['expire'] ?? 0;
-    }
 
     public function reset()
     {
@@ -87,49 +38,6 @@ final class Shop extends Model
     public function resetExp()
     {
         return $this->content['reset_exp'] ?? 0;
-    }
-
-    public function trafficPackage(): bool
-    {
-        return isset($this->content['traffic_package']);
-    }
-
-    public function contentExtra(): array|int
-    {
-        if (isset($this->content['content_extra'])) {
-            $content_extra = explode(';', $this->content['content_extra']);
-            $content_extra_new = [];
-            foreach ($content_extra as $innerContent) {
-                if (! str_contains($innerContent, '-')) {
-                    $innerContent = 'check-' . $innerContent;
-                }
-                $innerContent = explode('-', $innerContent);
-                $content_extra_new[] = $innerContent;
-            }
-            return $content_extra_new;
-        }
-
-        return 0;
-    }
-
-    public function userClass()
-    {
-        return $this->content['class'] ?? 0;
-    }
-
-    public function classExpire()
-    {
-        return $this->content['class_expire'] ?? 0;
-    }
-
-    public function speedlimit()
-    {
-        return $this->content['speedlimit'] ?? 0;
-    }
-
-    public function connector()
-    {
-        return $this->content['connector'] ?? 0;
     }
 
     public function buy($user, $is_renew = 0): void
@@ -201,21 +109,5 @@ final class Shop extends Model
     public function useLoop(): bool
     {
         return $this->reset() !== 0 && $this->resetValue() !== 0 && $this->resetExp() !== 0;
-    }
-
-    /*
-     * 流量是否自动重置
-     */
-    public function autoResetBandwidthString(): string
-    {
-        return $this->auto_reset_bandwidth === 0 ? '不自动重置' : '自动重置';
-    }
-
-    /*
-     * 商品状态
-     */
-    public function status(): string
-    {
-        return $this->status === 1 ? '上架' : '下架';
     }
 }

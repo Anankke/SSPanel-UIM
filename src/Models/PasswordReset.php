@@ -12,7 +12,7 @@ final class PasswordReset extends Model
     /**
      * 获取对应用户
      */
-    public function getUser(): ?User
+    public function user(): ?User
     {
         return User::where('email', $this->email)->first();
     }

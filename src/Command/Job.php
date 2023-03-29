@@ -363,7 +363,8 @@ EOL;
         foreach ($nodes as $node) {
             /** @var Node $node */
             $server = $node->server;
-            if (! Tools::isIPv4($server) && $node->changeNodeIp($server)) {
+            if (! Tools::isIPv4($server) && ! Tools::isIPv6($server)) {
+                $node->changeNodeIp($server);
                 $node->save();
             }
         }

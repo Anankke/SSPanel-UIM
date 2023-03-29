@@ -1,7 +1,7 @@
 <div class="card-inner">
     <h4>
         EPay 在线充值
-    <h4>
+    </h4>
     <p class="card-heading"></p>
     <form class="epay" name="epay" action="/user/payment/purchase/epay" method="post">
         {if $user->use_new_shop}

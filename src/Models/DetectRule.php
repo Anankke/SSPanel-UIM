@@ -10,7 +10,6 @@ namespace App\Models;
 final class DetectRule extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'detect_list';
 
     /**

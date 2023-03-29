@@ -10,16 +10,7 @@ namespace App\Models;
 final class LoginIp extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'login_ip';
-
-    /**
-     * [静态方法] 删除不存在的用户的记录
-     */
-    public static function userIsNull(LoginIp $LoginIp): void
-    {
-        self::where('userid', $LoginIp->userid)->delete();
-    }
 
     /**
      * 登录用户
@@ -38,14 +29,6 @@ final class LoginIp extends Model
             return '用户已不存在';
         }
         return $this->user()->user_name;
-    }
-
-    /**
-     * 登录时间
-     */
-    public function datetime(): string
-    {
-        return date('Y-m-d H:i:s', $this->datetime);
     }
 
     /**

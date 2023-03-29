@@ -7,7 +7,7 @@
 
 ### Pull Requests
 
-1. Fork the this repository
+1. Fork the repository
 2. Create a new branch for each feature or improvement
 3. Send a pull request from each feature branch against the dev branch.
 
@@ -28,13 +28,13 @@ Please try to use **English** in the Commit message and use the following Type t
 - fix: fix bugs (bug fix)
 - docs: documents (documentation)
 - style: formatting    
-        changes that do not affect the operation of the code, e.g. white-space, formatting, missing semi colons
+        changes that do not affect the operation of the code, e.g. white-space, formatting, missing semicolons
 - refactor: refactoring    
         Code changes that do not add features or fix bugs
 - perf: improves performance
 - test: when adding missing tests
 - chore: maintenance    
-        Changes to builders or helpers that do not affect the operation of the code, e.g., changes to config, Grunt Task task management tools
+        Changes to builders or helpers that do not affect the operation of the code, e.g., changes to config, Grunt Task management tools
 - revert: undo a previous commit    
         Example: revert: type(scope):subject
 
