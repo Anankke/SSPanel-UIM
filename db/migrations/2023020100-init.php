@@ -9,16 +9,7 @@ return new class() implements MigrationInterface {
     public function up(): int
     {
         DB::getPdo()->exec(
-            "CREATE TABLE `alive_ip` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                `nodeid` int(11) DEFAULT NULL,
-                `userid` int(11) DEFAULT NULL,
-                `ip` varchar(255) DEFAULT NULL,
-                `datetime` bigint(20) DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `announcement` (
+            "CREATE TABLE `announcement` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `date` datetime DEFAULT NULL,
                 `content` text DEFAULT NULL,
@@ -208,6 +199,18 @@ return new class() implements MigrationInterface {
                 `gfw_block` tinyint(1) DEFAULT 0,
                 `password` varchar(255) DEFAULT NULL,
                 PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            
+            CREATE TABLE `online_log` (
+                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                `user_id` INT UNSIGNED NOT NULL,
+                `ip` INET6 NOT NULL,
+                `node_id` INT UNSIGNED NOT NULL,
+                `first_time` INT UNSIGNED NOT NULL,
+                `last_time` INT UNSIGNED NOT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY (`user_id`, `ip`),
+                KEY (`last_time`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `order` (
