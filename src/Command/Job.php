@@ -73,11 +73,11 @@ EOL;
         UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
         UserHourlyUsage::where('datetime', '<', time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
-        EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
-        EmailQueue::where('time', '<', time() - 86400 * 3)->delete();
-        PasswordReset::where('expire_time', '<', time() - 86400 * 3)->delete();
-        OnlineLog::where('last_time', '<', time() - 86400 * 30)->delete();
-        StreamMedia::where('created_at', '<', time() - 86400 * 3)->delete();
+        EmailVerify::where('expire_in', '<', time() - 86400)->delete();
+        EmailQueue::where('time', '<', time() - 86400)->delete();
+        PasswordReset::where('expire_time', '<', time() - 86400)->delete();
+        OnlineLog::where('last_time', '<', time() - 86400)->delete();
+        StreamMedia::where('created_at', '<', time() - 86400)->delete();
         TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
 
