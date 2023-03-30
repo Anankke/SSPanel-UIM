@@ -4352,16 +4352,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "c02e9e135ea719b91f457a0072748ded0e852e7d"
+                "reference": "e28cb0915b4e3749bf57d4ebae2984e25395cfe5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c02e9e135ea719b91f457a0072748ded0e852e7d",
-                "reference": "c02e9e135ea719b91f457a0072748ded0e852e7d",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/e28cb0915b4e3749bf57d4ebae2984e25395cfe5",
+                "reference": "e28cb0915b4e3749bf57d4ebae2984e25395cfe5",
                 "shasum": ""
             },
             "require": {
@@ -4412,9 +4412,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v4.3.0"
+                "source": "https://github.com/smarty-php/smarty/tree/v4.3.1"
             },
-            "time": "2022-11-22T21:47:32+00:00"
+            "time": "2023-03-28T19:47:03+00:00"
         },
         {
             "name": "starkbank/ecdsa",
