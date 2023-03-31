@@ -34,7 +34,7 @@
                             <a href="#support" class="nav-link active" data-bs-toggle="tab">网页客服</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#ticket" class="nav-link active" data-bs-toggle="tab">工单</a>
+                            <a href="#ticket" class="nav-link" data-bs-toggle="tab">工单</a>
                         </li>
                     </ul>
                 </div>
