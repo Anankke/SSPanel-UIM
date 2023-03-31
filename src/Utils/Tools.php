@@ -25,18 +25,30 @@ final class Tools
     public static function getIpLocation($ip): string
     {
         $geoip = new GeoIP2();
+        $err_msg = '';
+        $city = null;
+        $country = null;
+
+        if ($_ENV['maxmind_license_key'] === '') {
+            $err_msg = 'GeoIP2 服务未配置';
+        }
+
         try {
             $city = $geoip->getCity($ip);
             $country = $geoip->getCountry($ip);
         } catch (AddressNotFoundException|InvalidDatabaseException $e) {
-            return '未知';
+            $err_msg = '未知错误';
         }
 
         if ($city !== null) {
             return $city . ', ' . $country;
         }
 
-        return $country;
+        if ($country !== null) {
+            return $country;
+        }
+
+        return $err_msg;
     }
 
     /**
