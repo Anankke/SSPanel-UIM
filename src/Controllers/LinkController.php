@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
+use App\Utils\ResponseHelper;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function array_key_exists;
@@ -22,16 +23,10 @@ final class LinkController extends BaseController
 {
     public static function getContent(ServerRequest $request, Response $response, array $args)
     {
-        if (! $_ENV['Subscribe']) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
-        //判断是否开启传统订阅
-        if (! Setting::obtain('enable_traditional_sub')) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
+        $err_msg = '订阅链接无效';
+
+        if (! $_ENV['Subscribe'] || ! Setting::obtain('enable_traditional_sub')) {
+            return ResponseHelper::error($response, $err_msg);
         }
 
         $token = $args['token'];
@@ -40,9 +35,7 @@ final class LinkController extends BaseController
         $link = Link::where('token', $token)->first();
 
         if (! $link->isValid()) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
+            return ResponseHelper::error($response, $err_msg);
         }
 
         $user = $link->user();
