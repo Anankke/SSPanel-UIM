@@ -12,17 +12,15 @@ use function json_encode;
 
 final class ResponseHelper
 {
-    public static function successfully(
-        Response $response,
-        string $msg
-    ): ResponseInterface {
+    public static function successfully(Response $response, string $msg): ResponseInterface
+    {
         return $response->withJson([
             'ret' => 1,
             'msg' => $msg,
         ]);
     }
 
-    public static function error(Response $response, mixed $msg): ResponseInterface
+    public static function error(Response $response, string $msg): ResponseInterface
     {
         return $response->withJson([
             'ret' => 0,
@@ -42,7 +40,12 @@ final class ResponseHelper
      *
      * @return ResponseInterface
      */
-    public static function etagJson(RequestInterface $request, ResponseInterface $response, mixed $data, int $flags = 0): ResponseInterface
+    public static function etagJson(
+        RequestInterface $request,
+        ResponseInterface $response,
+        mixed $data,
+        int $flags = 0
+    ): ResponseInterface
     {
         $str = (string) json_encode($data, $flags);
         $etag = hash('crc32c', $str);
