@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.262.2",
+            "version": "3.263.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6359e467b6f099149f93769e014416b5f841bb42"
+                "reference": "a0a528cb8e22dd0113f97ad0df527a6db32fe061"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6359e467b6f099149f93769e014416b5f841bb42",
-                "reference": "6359e467b6f099149f93769e014416b5f841bb42",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a0a528cb8e22dd0113f97ad0df527a6db32fe061",
+                "reference": "a0a528cb8e22dd0113f97ad0df527a6db32fe061",
                 "shasum": ""
             },
             "require": {
@@ -211,9 +211,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.262.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.263.0"
             },
-            "time": "2023-03-27T18:22:32+00:00"
+            "time": "2023-03-30T18:22:31+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -658,16 +658,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "4.8.1",
+            "version": "4.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "652157aee43d919be36cf2100a5a25b0882462f7"
+                "reference": "2436c2333a3931c95e2b96eb82f16f53143d6bba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/652157aee43d919be36cf2100a5a25b0882462f7",
-                "reference": "652157aee43d919be36cf2100a5a25b0882462f7",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/2436c2333a3931c95e2b96eb82f16f53143d6bba",
+                "reference": "2436c2333a3931c95e2b96eb82f16f53143d6bba",
                 "shasum": ""
             },
             "require": {
@@ -721,7 +721,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code/issues",
-                "source": "https://github.com/endroid/qr-code/tree/4.8.1"
+                "source": "https://github.com/endroid/qr-code/tree/4.8.2"
             },
             "funding": [
                 {
@@ -729,7 +729,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-23T08:56:09+00:00"
+            "time": "2023-03-30T18:46:02+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -1118,7 +1118,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1173,7 +1173,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1219,7 +1219,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1270,7 +1270,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1318,16 +1318,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "fc7e9cf5d4c7c4c0a2800c0d345cc9985fb1b040"
+                "reference": "a2d8423c05ef70101b675d4552bd7bb36a6cc890"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/fc7e9cf5d4c7c4c0a2800c0d345cc9985fb1b040",
-                "reference": "fc7e9cf5d4c7c4c0a2800c0d345cc9985fb1b040",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/a2d8423c05ef70101b675d4552bd7bb36a6cc890",
+                "reference": "a2d8423c05ef70101b675d4552bd7bb36a6cc890",
                 "shasum": ""
             },
             "require": {
@@ -1384,11 +1384,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-02-12T20:16:50+00:00"
+            "time": "2023-03-13T03:00:40+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1434,7 +1434,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1484,16 +1484,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v9.52.4",
+            "version": "v9.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "63dcb4523ccdfc01cdf5be17791f07cc20982a1e"
+                "reference": "199e5250735d0c49fe0385360451659690ff71a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/63dcb4523ccdfc01cdf5be17791f07cc20982a1e",
-                "reference": "63dcb4523ccdfc01cdf5be17791f07cc20982a1e",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/199e5250735d0c49fe0385360451659690ff71a3",
+                "reference": "199e5250735d0c49fe0385360451659690ff71a3",
                 "shasum": ""
             },
             "require": {
@@ -1551,7 +1551,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-02-13T16:54:43+00:00"
+            "time": "2023-03-13T01:37:31+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
@@ -5825,16 +5825,16 @@
         },
         {
             "name": "tronovav/geoip2-update",
-            "version": "v2.1.23",
+            "version": "v2.1.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tronovav/geoip2-update.git",
-                "reference": "ce7077b4a84e75aca001c1b324f9807680576bb5"
+                "reference": "6b91582eb11d4c39cfe66b3178ac0a6c67839cf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronovav/geoip2-update/zipball/ce7077b4a84e75aca001c1b324f9807680576bb5",
-                "reference": "ce7077b4a84e75aca001c1b324f9807680576bb5",
+                "url": "https://api.github.com/repos/tronovav/geoip2-update/zipball/6b91582eb11d4c39cfe66b3178ac0a6c67839cf9",
+                "reference": "6b91582eb11d4c39cfe66b3178ac0a6c67839cf9",
                 "shasum": ""
             },
             "require": {
@@ -5871,7 +5871,7 @@
             "support": {
                 "email": "newtronov@gmail.com",
                 "issues": "https://github.com/tronovav/geoip2-update/issues",
-                "source": "https://github.com/tronovav/geoip2-update/tree/v2.1.23"
+                "source": "https://github.com/tronovav/geoip2-update/tree/v2.1.24"
             },
             "funding": [
                 {
@@ -5883,7 +5883,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2022-07-11T13:27:47+00:00"
+            "time": "2023-03-13T11:43:07+00:00"
         },
         {
             "name": "vectorface/googleauthenticator",
