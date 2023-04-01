@@ -10,7 +10,7 @@ use Cloudflare\API\Endpoints\DNS;
 use Cloudflare\API\Endpoints\EndpointException;
 use Cloudflare\API\Endpoints\Zones;
 
-final class CloudflareDriver
+final class Cloudflare
 {
     public static function modifyRecord(DNS $dns, $zoneID, $recordID, $name, $content, $proxied = false): int
     {
