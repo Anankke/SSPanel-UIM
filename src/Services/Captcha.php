@@ -45,7 +45,11 @@ final class Captcha
                         'content' => $postdata,
                     ],
                     ];
-                    $json = file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create($opts));
+                    $json = file_get_contents(
+                        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+                        false,
+                        stream_context_create($opts)
+                    );
                     $result = json_decode($json)->success;
                 }
                 break;

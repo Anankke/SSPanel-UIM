@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -23,29 +24,20 @@ final class SubController extends BaseController
 {
     public static function getContent($request, $response, $args): ResponseInterface
     {
-        if (! $_ENV['Subscribe']) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
+        $err_msg = '订阅链接无效';
 
         $token = $args['token'];
         $subtype = $args['subtype'];
-
         $subtype_list = ['json', 'clash', 'sip008'];
 
-        if (! in_array($subtype, $subtype_list)) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
+        if (! $_ENV['Subscribe'] || ! in_array($subtype, $subtype_list)) {
+            return ResponseHelper::error($response, $err_msg);
         }
 
         $link = Link::where('token', $token)->first();
 
         if (! $link->isValid()) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
+            return ResponseHelper::error($response, $err_msg);
         }
 
         $user = $link->user();

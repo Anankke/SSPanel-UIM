@@ -93,18 +93,11 @@ final class UserController extends BaseController
      */
     public function announcement(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $Anns = Ann::orderBy('date', 'desc')->get();
-
-        if ($request->getParam('json') === 1) {
-            return $response->withJson([
-                'Anns' => $Anns,
-                'ret' => 1,
-            ]);
-        }
+        $anns = Ann::orderBy('date', 'desc')->get();
 
         return $response->write(
             $this->view()
-                ->assign('anns', $Anns)
+                ->assign('anns', $anns)
                 ->fetch('user/announcement.tpl')
         );
     }
@@ -115,13 +108,6 @@ final class UserController extends BaseController
     public function docs(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $docs = Docs::orderBy('id', 'desc')->get();
-
-        if ($request->getParam('json') === 1) {
-            return $response->withJson([
-                'docs' => $docs,
-                'ret' => 1,
-            ]);
-        }
 
         return $response->write(
             $this->view()
@@ -258,9 +244,11 @@ final class UserController extends BaseController
         $pwd = $request->getParam('pwd');
         $repwd = $request->getParam('repwd');
         $user = $this->user;
+
         if (! Hash::checkPassword($user->pass, $oldpwd)) {
             return ResponseHelper::error($response, '旧密码错误');
         }
+
         if ($pwd !== $repwd) {
             return ResponseHelper::error($response, '两次输入不符合');
         }
@@ -268,6 +256,7 @@ final class UserController extends BaseController
         if (strlen($pwd) < 8) {
             return ResponseHelper::error($response, '密码太短啦');
         }
+
         $hashPwd = Hash::passwordHash($pwd);
         $user->pass = $hashPwd;
         $user->save();
@@ -294,7 +283,8 @@ final class UserController extends BaseController
 
         if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
-            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
+            $mailcount = EmailVerify::where('email', '=', $newemail)
+                ->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
@@ -484,7 +474,7 @@ final class UserController extends BaseController
         $checkin = $this->user->checkin();
 
         if (! $checkin['ok']) {
-            return ResponseHelper::error($response, $checkin['msg']);
+            return ResponseHelper::error($response, (string) $checkin['msg']);
         }
 
         return $response->withJson([
