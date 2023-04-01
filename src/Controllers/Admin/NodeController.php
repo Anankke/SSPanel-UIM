@@ -7,7 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Models\Setting;
-use App\Services\CloudflareDriver;
+use App\Services\Cloudflare;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use Cloudflare\API\Endpoints\EndpointException;
@@ -153,7 +153,7 @@ final class NodeController extends BaseController
 
         if ($_ENV['cloudflare_enable']) {
             $domain_name = explode('.' . $_ENV['cloudflare_name'], $node->server);
-            CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
+            Cloudflare::updateRecord($domain_name[0], $node->node_ip);
         }
 
         if (Setting::obtain('telegram_add_node')) {
