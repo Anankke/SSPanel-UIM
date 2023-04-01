@@ -45,8 +45,7 @@ final class ResponseHelper
         ResponseInterface $response,
         mixed $data,
         int $flags = 0
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $str = (string) json_encode($data, $flags);
         $etag = hash('crc32c', $str);
         if ($etag === $request->getHeaderLine('If-None-Match')) {
