@@ -116,10 +116,10 @@ final class ProductController extends BaseController
 
         $product = new Product();
 
-        if ($name === '') {
+        if ($name === '' || $stock === '' || $node_group === '' || $speed_limit === '' || $ip_limit === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '商品名称不能为空',
+                'msg' => '请填写所有必要栏位',
             ]);
         }
 
@@ -127,13 +127,6 @@ final class ProductController extends BaseController
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '无效的商品价格',
-            ]);
-        }
-
-        if ($stock === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '商品库存不能为空',
             ]);
         }
 
@@ -257,10 +250,10 @@ final class ProductController extends BaseController
 
         $product = Product::find($product_id);
 
-        if ($name === '') {
+        if ($name === '' || $stock === '' || $node_group === '' || $speed_limit === '' || $ip_limit === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '商品名称不能为空',
+                'msg' => '请填写所有必要栏位',
             ]);
         }
 
@@ -268,13 +261,6 @@ final class ProductController extends BaseController
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '无效的商品价格',
-            ]);
-        }
-
-        if ($stock === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '商品库存不能为空',
             ]);
         }
 
