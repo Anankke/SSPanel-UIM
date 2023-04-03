@@ -17,12 +17,12 @@ final class UnbindCommand extends Command
     /**
      * @var string Command Name
      */
-    protected $name = 'unbind';
+    protected string $name = 'unbind';
 
     /**
      * @var string Command Description
      */
-    protected $description = '[私聊]     解除账户绑定.';
+    protected string $description = '[私聊]     解除账户绑定.';
 
     public function handle(): void
     {

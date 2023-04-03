@@ -39,6 +39,7 @@ final class Message
      * 触发源信息 ID
      */
     private $MessageID;
+    private $User;
 
     /**
      * @throws TelegramSDKException

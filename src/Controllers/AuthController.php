@@ -235,15 +235,14 @@ final class AuthController extends BaseController
         // do reg user
         $user = new User();
         $antiXss = new AntiXSS();
-        $current_timestamp = time();
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $antiXss->xss_clean($email);
         $user->remark = '';
         $user->pass = Hash::passwordHash($passwd);
         $user->passwd = Tools::genRandomChar(16);
-        $user->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
-        $user->api_token = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->pass . '|' . $current_timestamp);
+        $user->uuid = Uuid::uuid4();
+        $user->api_token = Uuid::uuid4();
         $user->port = Tools::getAvPort();
         $user->t = 0;
         $user->u = 0;
@@ -344,11 +343,16 @@ final class AuthController extends BaseController
 
         $antiXss = new AntiXSS();
 
+        $tos = $request->getParam('tos') === 'true' ? 1 : 0;
         $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
         $name = $antiXss->xss_clean($request->getParam('name'));
         $passwd = $request->getParam('passwd');
         $repasswd = $request->getParam('repasswd');
         $code = $antiXss->xss_clean(trim($request->getParam('code')));
+        // Check TOS agreement
+        if (! $tos) {
+            return ResponseHelper::error($response, '请同意服务条款');
+        }
 
         if (Setting::obtain('enable_reg_im') === true) {
             $imtype = $antiXss->xss_clean($request->getParam('im_type'));

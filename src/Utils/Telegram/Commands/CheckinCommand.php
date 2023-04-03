@@ -17,12 +17,12 @@ final class CheckinCommand extends Command
     /**
      * @var string Command Name
      */
-    protected $name = 'checkin';
+    protected string $name = 'checkin';
 
     /**
      * @var string Command Description
      */
-    protected $description = '[群组/私聊] 每日签到.';
+    protected string $description = '[群组/私聊] 每日签到.';
 
     /**
      * {@inheritdoc}
