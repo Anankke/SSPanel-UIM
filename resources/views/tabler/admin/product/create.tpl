@@ -103,20 +103,20 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">用户分组</label>
+                                <label class="form-label col-3 col-form-label required">用户分组</label>
                                 <div class="col">
                                     <input id="node_group" type="text" class="form-control" value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">速率限制 (Mbps)</label>
+                                <label class="form-label col-3 col-form-label required">速率限制 (Mbps)</label>
                                 <div class="col">
                                     <input id="speed_limit" type="text" class="form-control"
                                         value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">同时连接IP限制</label>
+                                <label class="form-label col-3 col-form-label required">同时连接IP限制</label>
                                 <div class="col">
                                     <input id="ip_limit" type="text" class="form-control"
                                         value="">

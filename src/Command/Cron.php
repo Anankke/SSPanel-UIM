@@ -66,9 +66,6 @@ EOL;
             // 如果用户账户中没有已激活的订单，且有等待激活的订单，则激活最早的等待激活订单
             if ($activated_order === null && count($pending_activation_orders) > 0) {
                 $order = $pending_activation_orders[0];
-                $order->status = 'activated';
-                $order->update_time = time();
-                $order->save();
                 // 获取订单内容准备激活
                 $content = json_decode($order->product_content);
                 // 激活商品
@@ -85,6 +82,9 @@ EOL;
                 $user->node_speedlimit = $content->speed_limit;
                 $user->node_iplimit = $content->ip_limit;
                 $user->save();
+                $order->status = 'activated';
+                $order->update_time = time();
+                $order->save();
                 echo "订单 #{$order->id} 已激活。\n";
                 continue;
             }
