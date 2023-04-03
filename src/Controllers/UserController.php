@@ -414,7 +414,7 @@ final class UserController extends BaseController
         $user->uuid = Uuid::uuid4();
         $user->passwd = Tools::genRandomChar(16);
 
-        if (! $user->save()){
+        if (! $user->save()) {
             return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
         }
 
@@ -426,7 +426,7 @@ final class UserController extends BaseController
         $user = $this->user;
         $user->api_token = Uuid::uuid4();
 
-        if (! $user->save()){
+        if (! $user->save()) {
             return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
         }
 
