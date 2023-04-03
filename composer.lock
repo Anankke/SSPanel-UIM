@@ -1555,16 +1555,16 @@
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
-            "version": "v3.9.1",
+            "version": "v3.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/irazasyed/telegram-bot-sdk.git",
-                "reference": "09b9587500985e321cf90777a3972c4e0dda2106"
+                "reference": "058fa8507e397c19b97f4cb86a269c59c5b5caa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/irazasyed/telegram-bot-sdk/zipball/09b9587500985e321cf90777a3972c4e0dda2106",
-                "reference": "09b9587500985e321cf90777a3972c4e0dda2106",
+                "url": "https://api.github.com/repos/irazasyed/telegram-bot-sdk/zipball/058fa8507e397c19b97f4cb86a269c59c5b5caa2",
+                "reference": "058fa8507e397c19b97f4cb86a269c59c5b5caa2",
                 "shasum": ""
             },
             "require": {
@@ -1572,9 +1572,10 @@
                 "guzzlehttp/guzzle": "^7.4.5",
                 "guzzlehttp/psr7": "^2.4",
                 "illuminate/support": "9 - 10",
-                "league/event": "^3.0",
+                "league/event": "^2.2 || ^3.0",
                 "php": ">=8.0",
-                "psr/container": "^2.0"
+                "psr/container": "^2.0",
+                "psr/event-dispatcher": "^1.0"
             },
             "require-dev": {
                 "irazasyed/docgen": "^0.2",
@@ -1632,9 +1633,9 @@
             ],
             "support": {
                 "issues": "https://github.com/irazasyed/telegram-bot-sdk/issues",
-                "source": "https://github.com/irazasyed/telegram-bot-sdk/tree/v3.9.1"
+                "source": "https://github.com/irazasyed/telegram-bot-sdk/tree/v3.10.0"
             },
-            "time": "2023-03-27T08:39:51+00:00"
+            "time": "2023-04-01T18:21:17+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -6840,16 +6841,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.15.1",
+            "version": "v3.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "d48755372a113bddb99f749e34805d83f3acfe04"
+                "reference": "d40f9436e1c448d309fa995ab9c14c5c7a96f2dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d48755372a113bddb99f749e34805d83f3acfe04",
-                "reference": "d48755372a113bddb99f749e34805d83f3acfe04",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d40f9436e1c448d309fa995ab9c14c5c7a96f2dc",
+                "reference": "d40f9436e1c448d309fa995ab9c14c5c7a96f2dc",
                 "shasum": ""
             },
             "require": {
@@ -6924,7 +6925,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.15.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.16.0"
             },
             "funding": [
                 {
@@ -6932,7 +6933,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-13T23:26:30+00:00"
+            "time": "2023-04-02T19:30:06+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
