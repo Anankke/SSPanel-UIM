@@ -26,7 +26,6 @@ END;
 
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
-
         //将旧config迁移到新config上
         $migrated = [];
         foreach ($_ENV as $key => $value_reserve) {
@@ -44,7 +43,6 @@ END;
             $config_new = str_replace($matches_new[0], $matches_old[0], $config_new);
             $migrated[] = '_ENV[\'' . $key . '\']';
         }
-
         //检查新增了哪些config
         $regex_new = '/_ENV\[\'.*?\'\]/s';
         $matches_new_all = [];
@@ -75,10 +73,9 @@ END;
             echo "新增 .config.php 配置项：" . $difference . ":" . $comment . " \n";
         }
         echo "没有任何新 .config.php 配置项需要添加。\n";
-
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo "迁移完成。\n";
-
+        // 更新 GeoLite2 数据库
         if ($_ENV['maxmind_license_key'] !== '') {
             echo "正在更新 GeoLite2 数据库...\n";
             $client = new Client([

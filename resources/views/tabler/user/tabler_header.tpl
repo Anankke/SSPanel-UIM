@@ -189,7 +189,6 @@
                                         商店
                                     </span>
                                 </a>
-                                {if $user->use_new_shop}
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
@@ -208,22 +207,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {else}
-                                <div class="dropdown-menu">
-                                    <div class="dropdown-menu-columns">
-                                        <div class="dropdown-menu-column">
-                                            <a class="dropdown-item" href="/user/shop">
-                                                <i class="ti ti-shopping-cart"></i>&nbsp;
-                                                套餐购买
-                                            </a>
-                                            <a class="dropdown-item" href="/user/code">
-                                                <i class="ti ti-checklist"></i>&nbsp;
-                                                账户充值
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/if}
                             </li>
                             {if $user->is_admin}
                             <li class="nav-item">

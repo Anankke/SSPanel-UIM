@@ -285,7 +285,6 @@ EOL;
         }
 
         if (strtolower($y) === 'y') {
-            $current_timestamp = time();
             // create admin user
             $configs = Setting::getClass('register');
             // do reg user

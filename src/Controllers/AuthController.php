@@ -235,7 +235,6 @@ final class AuthController extends BaseController
         // do reg user
         $user = new User();
         $antiXss = new AntiXSS();
-        $current_timestamp = time();
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $antiXss->xss_clean($email);
@@ -344,11 +343,16 @@ final class AuthController extends BaseController
 
         $antiXss = new AntiXSS();
 
+        $tos = $request->getParam('tos') === 'true' ? 1 : 0;
         $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
         $name = $antiXss->xss_clean($request->getParam('name'));
         $passwd = $request->getParam('passwd');
         $repasswd = $request->getParam('repasswd');
         $code = $antiXss->xss_clean(trim($request->getParam('code')));
+        // Check TOS agreement
+        if (! $tos) {
+            return ResponseHelper::error($response, '请同意服务条款');
+        }
 
         if (Setting::obtain('enable_reg_im') === true) {
             $imtype = $antiXss->xss_clean($request->getParam('im_type'));

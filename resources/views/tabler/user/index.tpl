@@ -425,7 +425,7 @@
                             </div>
                             <p class="my-3">
                                 {if time() > strtotime($user->class_expire)}
-                                    你的套餐过期了，可以前往 <a href="/user/shop">商店</a> 购买套餐
+                                    你的套餐过期了，可以前往 <a href="/user/product">商店</a> 购买套餐
                                 {else}
                                     {$diff = round((strtotime($user->class_expire) - time()) / 86400)}
                                     你的 LV. {$user->class} 套餐大约还有 {$diff} 天到期（{$user->class_expire}）

@@ -6,7 +6,7 @@ Author: M1Screw
 Github: https://github.com/sspanel-uim/SSPanel-Uim-Dev
 Usage: 
 ./update.sh dev --> Upgrade to the latest development version
-./update.sh release release_version db_version --> Upgrade to the specified release version
+./update.sh release $release_version $db_version --> Upgrade to the release version with the specified database version
 EOF
 
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script!"; exit 1; }
