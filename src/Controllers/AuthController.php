@@ -235,7 +235,6 @@ final class AuthController extends BaseController
         // do reg user
         $user = new User();
         $antiXss = new AntiXSS();
-        $current_timestamp = time();
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $antiXss->xss_clean($email);
