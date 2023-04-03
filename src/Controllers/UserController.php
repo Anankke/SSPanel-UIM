@@ -411,18 +411,24 @@ final class UserController extends BaseController
     public function resetPasswd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $pwd = Tools::genRandomChar(16);
-        $current_timestamp = time();
-        $new_uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->email . '|' . $current_timestamp);
-        $existing_uuid = User::where('uuid', $new_uuid)->first();
+        $user->uuid = Uuid::uuid4();
+        $user->passwd = Tools::genRandomChar(16);
 
-        if ($existing_uuid !== null) {
+        if (! $user->save()){
             return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
         }
 
-        $user->uuid = $new_uuid;
-        $user->passwd = $pwd;
-        $user->save();
+        return ResponseHelper::successfully($response, '修改成功');
+    }
+
+    public function resetApiToken(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $user = $this->user;
+        $user->api_token = Uuid::uuid4();
+
+        if (! $user->save()){
+            return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
+        }
 
         return ResponseHelper::successfully($response, '修改成功');
     }
@@ -432,7 +438,6 @@ final class UserController extends BaseController
         $antiXss = new AntiXSS();
 
         $user = $this->user;
-
         $method = strtolower($antiXss->xss_clean($request->getParam('method')));
 
         if ($method === '') {

@@ -144,24 +144,18 @@ final class User extends Model
     /**
      * 生成新的 UUID
      */
-    public function generateUUID($s): bool
+    public function generateUUID(): bool
     {
-        $this->uuid = Uuid::uuid3(
-            Uuid::NAMESPACE_DNS,
-            $this->email . '|' . $s
-        );
+        $this->uuid = Uuid::uuid4();
         return $this->save();
     }
 
     /**
      * 生成新的 API Token
      */
-    public function generateApiToken($s): bool
+    public function generateApiToken(): bool
     {
-        $this->api_token = Uuid::uuid3(
-            Uuid::NAMESPACE_DNS,
-            $this->pass . '|' . $s
-        );
+        $this->api_token = Uuid::uuid4();
         return $this->save();
     }
 

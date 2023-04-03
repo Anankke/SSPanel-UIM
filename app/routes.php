@@ -55,6 +55,7 @@ return static function (Slim\App $app): void {
         $group->post('/theme', App\Controllers\UserController::class . ':updateTheme');
         $group->post('/mail', App\Controllers\UserController::class . ':updateMail');
         $group->post('/passwd_reset', App\Controllers\UserController::class . ':resetPasswd');
+        $group->post('/apitoken_reset', App\Controllers\UserController::class . ':resetApiToken');
         $group->post('/method', App\Controllers\UserController::class . ':updateMethod');
         $group->get('/kill', App\Controllers\UserController::class . ':kill');
         $group->post('/kill', App\Controllers\UserController::class . ':handleKill');
