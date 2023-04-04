@@ -289,8 +289,8 @@ final class SubController extends BaseController
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $network = $node_custom_config['network']
-                        ?? array_key_exists('grpc', $node_custom_config)
-                        && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                        ?? (array_key_exists('grpc', $node_custom_config)
+                            && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp');
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     // Clash 特定配置
