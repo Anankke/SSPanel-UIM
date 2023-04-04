@@ -106,7 +106,15 @@ final class AnnController extends BaseController
         $converter = new HtmlConverter();
 
         if ($_ENV['enable_telegram']) {
-            Telegram::sendMarkdown('新公告：' . PHP_EOL . $converter->convert($request->getParam('content')));
+            try {
+                Telegram::sendMarkdown('新公告：' . PHP_EOL . $converter
+                    ->convert($content));
+            } catch (TelegramSDKException $e) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功，Telegram发送失败' : '公告添加成功，Telegram发送失败',
+                ]);
+            }
         }
 
         return $response->withJson([
