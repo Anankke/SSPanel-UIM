@@ -256,10 +256,11 @@ EOL;
             DB::commit();
         }
         //节点掉线检测
-        if ($_ENV['enable_detect_offline'] === true) {
+        if ($_ENV['enable_detect_offline']) {
             echo '节点掉线检测开始' . PHP_EOL;
             $adminUser = User::where('is_admin', '=', '1')->get();
             $nodes = Node::all();
+
             foreach ($nodes as $node) {
                 $notice_text = '';
                 if ($node->isNodeOnline() === false && $node->online === true) {
@@ -284,7 +285,7 @@ EOL;
                     }
 
                     foreach ($adminUser as $user) {
-                        echo 'Send offline mail to user: ' . $user->id . PHP_EOL;
+                        echo 'Send Email to admin user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
                             $_ENV['appName'] . '-系统警告',
                             'news/warn.tpl',
@@ -292,7 +293,7 @@ EOL;
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。',
                             ],
                             [],
-                            true
+                            false
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -302,7 +303,11 @@ EOL;
                     }
 
                     if (Setting::obtain('telegram_node_offline')) {
-                        Telegram::send($notice_text);
+                        try {
+                            Telegram::send($notice_text);
+                        } catch (Exception $e) {
+                            echo $e->getMessage() . PHP_EOL;
+                        }
                     }
 
                     $node->online = false;
@@ -330,7 +335,7 @@ EOL;
                     }
 
                     foreach ($adminUser as $user) {
-                        echo 'Send offline mail to user: ' . $user->id . PHP_EOL;
+                        echo 'Send Email to admin user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
                             $_ENV['appName'] . '-系统提示',
                             'news/warn.tpl',
@@ -338,7 +343,7 @@ EOL;
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。',
                             ],
                             [],
-                            true
+                            false
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -348,7 +353,11 @@ EOL;
                     }
 
                     if (Setting::obtain('telegram_node_online')) {
-                        Telegram::send($notice_text);
+                        try {
+                            Telegram::send($notice_text);
+                        } catch (Exception $e) {
+                            echo $e->getMessage() . PHP_EOL;
+                        }
                     }
 
                     $node->online = true;
@@ -357,7 +366,6 @@ EOL;
             }
             echo '节点掉线检测结束' . PHP_EOL;
         }
-
         //更新节点 IP，每分钟
         $nodes = Node::get();
         foreach ($nodes as $node) {
@@ -418,7 +426,6 @@ EOL;
                 $user->expire_notified = false;
                 $user->save();
             }
-
             //余量不足检测
             if ($_ENV['notify_limit_mode'] !== false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
@@ -545,7 +552,6 @@ EOL;
                 );
                 $user->class = 0;
             }
-
             // 审计封禁解封
             if ($user->is_banned === 1) {
                 $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
@@ -556,7 +562,6 @@ EOL;
 
             $user->save();
         }
-
         //自动续费
         $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
