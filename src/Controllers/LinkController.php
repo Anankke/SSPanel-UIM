@@ -34,14 +34,14 @@ final class LinkController extends BaseController
 
         $link = Link::where('token', $token)->first();
 
-        if (! $link->isValid()) {
+        if ($link === null || ! $link->isValid()) {
             return ResponseHelper::error($response, $err_msg);
         }
 
         $user = $link->user();
 
         $sub_type = '';
-        $sub_info = [];
+        $sub_info = '';
 
         if (isset($params['clash']) && $params['clash'] === '1') {
             $sub_type = 'clash';

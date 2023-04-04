@@ -55,7 +55,7 @@ final class Node extends Model
     public function getNodeOnlineStatus(): int
     {
         // 类型 9 或者心跳为 0
-        if ($this->node_heartbeat === 0 || $this->sort === 9) {
+        if ($this->node_heartbeat === 0) {
             return 0;
         }
         return $this->node_heartbeat + 300 > time() ? 1 : -1;
@@ -73,17 +73,6 @@ final class Node extends Model
             return round($this->node_speedlimit / 1024.00, 1) . 'Gbps';
         }
         return $this->node_speedlimit . 'Mbps';
-    }
-
-    /**
-     * 节点是在线的
-     */
-    public function isNodeOnline(): ?bool
-    {
-        if ($this->node_heartbeat === 0) {
-            return false;
-        }
-        return $this->node_heartbeat > time() - 300;
     }
 
     /**
