@@ -263,7 +263,7 @@ EOL;
 
             foreach ($nodes as $node) {
                 $notice_text = '';
-                if ($node->isNodeOnline() === false && $node->online === true) {
+                if ($node->getNodeOnlineStatus() === 0 && $node->online) {
                     if ($_ENV['useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
@@ -312,7 +312,7 @@ EOL;
 
                     $node->online = false;
                     $node->save();
-                } elseif ($node->isNodeOnline() === true && $node->online === false) {
+                } elseif ($node->getNodeOnlineStatus() === 1 && ! $node->online) {
                     if ($_ENV['useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
