@@ -27,7 +27,7 @@
         "postal/postal": "^1.0",
         "ramsey/uuid": "^4",
         "sendgrid/sendgrid": "^8",
-        "sentry/sentry": "^3",
+        "sentry/sdk": "^3.3",
         "slim/http": "^1.3",
         "slim/slim": "^4.11",
         "smarty/smarty": "^4",
