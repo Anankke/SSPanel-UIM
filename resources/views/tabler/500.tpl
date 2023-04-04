@@ -17,25 +17,5 @@
     </div>
 </div>
 
-{if !is_null($exceptionId)}
-<script
-    src="https://browser.sentry-cdn.com/7.18.0/bundle.min.js"
-    integrity="sha384-YC/EVW17onWCzzbxK9vx85T6cQ8zRiMoq2PZZhMjhq1gYKyKrOAj9LuInlcfJgzn"
-    crossorigin="anonymous"
-></script>
-<script>
-    Sentry.init({
-        dsn: "{$config['sentry_dsn']}"
-    });
-    Sentry.showReportDialog({
-        eventId: '{$exceptionId}',
-        user: {
-            name: '{$user->user_name}',
-            email: '{$user->email}'
-        }
-    });
-</script>
-{/if}
-
 </body>
 </html>

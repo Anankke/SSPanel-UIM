@@ -16,6 +16,7 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Throwable;
+use function Sentry\captureException;
 
 final class ErrorHandler implements MiddlewareInterface
 {
@@ -27,7 +28,7 @@ final class ErrorHandler implements MiddlewareInterface
         try {
             $response = $handler->handle($request);
         } catch (HttpNotFoundException | HttpMethodNotAllowedException $e) {
-            // 404 or 405 throwed by router
+            // 404 or 405 thrown by router
             $code = $e->getCode();
             $response_factory = AppFactory::determineResponseFactory();
             $response = $response_factory->createResponse($code);
@@ -36,6 +37,11 @@ final class ErrorHandler implements MiddlewareInterface
             $response = $response->withStatus($code);
         } catch (Throwable $e) {
             $response_factory = AppFactory::determineResponseFactory();
+
+            if ($_ENV['sentry_dsn'] !== '') {
+                captureException($e);
+            }
+
             if ($_ENV['debug'] === true) {
                 $callable_resolver = new CallableResolver(null);
                 $error_handler = new SlimErrorHandler($callable_resolver, $response_factory);
