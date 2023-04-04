@@ -34,7 +34,7 @@ final class LinkController extends BaseController
 
         $link = Link::where('token', $token)->first();
 
-        if (! $link->isValid()) {
+        if ($link === null || ! $link->isValid()) {
             return ResponseHelper::error($response, $err_msg);
         }
 
