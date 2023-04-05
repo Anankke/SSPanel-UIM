@@ -52,12 +52,14 @@ final class HomeController extends BaseController
     public function telegram(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $token = $request->getQueryParam('token');
-        if ($token === $_ENV['telegram_request_token']) {
+
+        if ($_ENV['enable_telegram'] && $token === $_ENV['telegram_request_token']) {
             Process::index();
             $result = '1';
         } else {
             $result = '0';
         }
+
         return $response->write($result);
     }
 }
