@@ -21,7 +21,7 @@ final class Boot
 
     public static function bootSentry(): void
     {
-        if (! isset($_ENV['sentry_dsn'])) {
+        if ($_ENV['sentry_dsn'] !== '') {
             init([
                 'dsn' => $_ENV['sentry_dsn'],
             ]);
