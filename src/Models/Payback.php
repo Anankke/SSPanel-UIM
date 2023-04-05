@@ -16,7 +16,7 @@ final class Payback extends Model
         return User::where('id', $this->userid)->first();
     }
 
-    public function ref_user()
+    public function refUser()
     {
         return User::where('id', $this->ref_by)->first();
     }
