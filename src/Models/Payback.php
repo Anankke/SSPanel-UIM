@@ -13,7 +13,12 @@ final class Payback extends Model
 
     public function user()
     {
-        return User::where('id', $this->attributes['userid'])->first();
+        return User::where('id', $this->userid)->first();
+    }
+
+    public function refUser()
+    {
+        return User::where('id', $this->ref_by)->first();
     }
 
     public static function rebate($user_id, $order_amount): void
