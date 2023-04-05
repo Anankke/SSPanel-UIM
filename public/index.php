@@ -13,7 +13,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/.config.php';
 require_once __DIR__ . '/../config/appprofile.php';
 require_once __DIR__ . '/../app/predefine.php';
-require_once __DIR__ . '/../app/envload.php';
 
 use App\Middleware\ErrorHandler;
 use App\Services\Boot;

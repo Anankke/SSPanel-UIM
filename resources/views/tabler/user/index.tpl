@@ -483,12 +483,14 @@
                                     {if !$user->isAbleToCheckin()}
                                     <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
                                     {else}
-                                    {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-                                    <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                                    {if $public_setting['enable_checkin_captcha']}
+                                        {if $public_setting['captcha_provider'] === 'turnstile'}
+                                            <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                                        {/if}
+                                        {if $public_setting['captcha_provider'] === 'geetest'}
+                                            <div id="geetest"></div>
+                                        {/if}
                                     {/if}
-                                    {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-                                    <div id="geetest"></div>
-                                    {/if} 
                                     <button id="check-in" class="btn btn-primary ms-auto">签到</button>
                                     {/if}
                                 </div>
@@ -509,11 +511,13 @@
         });
 
         const checkin_button = document.querySelector('#check-in');
-        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-        const turnstile_recaptcha = document.querySelector('#cf-turnstile');
-        {/if}
-        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-        const geetest_recaptcha = document.querySelector('#geetest');
+        {if $public_setting['enable_checkin_captcha']}
+            {if $public_setting['captcha_provider'] === 'turnstile'}
+                const turnstile_recaptcha = document.querySelector('#cf-turnstile');
+            {/if}
+            {if $public_setting['captcha_provider'] === 'geetest'}
+            const geetest_recaptcha = document.querySelector('#geetest');
+            {/if}
         {/if}
 
         $("#check-in").click(function() {
@@ -522,21 +526,25 @@
                 url: "/user/checkin",
                 dataType: "json",              
                 data: {
-                    {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-                    turnstile: turnstile.getResponse(),
-                    {/if}
-                    {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-                    geetest: geetest_result,
+                    {if $public_setting['enable_checkin_captcha']}
+                        {if $public_setting['captcha_provider'] === 'turnstile'}
+                            turnstile: $('input[name=cf-turnstile-response]').val(),
+                        {/if}
+                        {if $public_setting['captcha_provider'] === 'geetest'}
+                            geetest: geetest_result,
+                        {/if}
                     {/if}
                 },
                 success: function(data) {
                     if (data.ret == 1) {
                         checkin_button.disabled = true;
-                        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-                        turnstile_recaptcha.remove();
-                        {/if}
-                        {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-                        geetest_recaptcha.remove();
+                        {if $public_setting['enable_checkin_captcha']}
+                            {if $public_setting['captcha_provider'] === 'turnstile'}
+                                turnstile_recaptcha.remove();
+                            {/if}
+                            {if $public_setting['captcha_provider'] === 'geetest'}
+                                geetest_recaptcha.remove();
+                            {/if}
                         {/if}
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -549,24 +557,26 @@
         });
     </script>
 
-    {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
-    {/if}
-    {if $public_setting['enable_checkin_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-    <script src="https://static.geetest.com/v4/gt4.js"></script>
-    <script>
-        var geetest_result = '';
-        initGeetest4({
-            captchaId: '{$captcha['geetest_id']}',
-            product: 'float',
-            language: "zho",
-            riskType:'slide'
-        }, function (geetest) {
-            geetest.appendTo("#geetest");
-            geetest.onSuccess(function() {
-                geetest_result = geetest.getValidate();
-            });
-        });
-    </script>
+    {if $public_setting['enable_checkin_captcha']}
+        {if $public_setting['captcha_provider'] === 'turnstile'}
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        {/if}
+        {if $public_setting['captcha_provider'] === 'geetest'}
+            <script src="https://static.geetest.com/v4/gt4.js"></script>
+            <script>
+                var geetest_result = '';
+                initGeetest4({
+                    captchaId: '{$captcha['geetest_id']}',
+                    product: 'float',
+                    language: "zho",
+                    riskType:'slide'
+                }, function (geetest) {
+                    geetest.appendTo("#geetest");
+                    geetest.onSuccess(function() {
+                        geetest_result = geetest.getValidate();
+                    });
+                });
+            </script>
+        {/if}
     {/if}
 {include file='user/tabler_footer.tpl'}

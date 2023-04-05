@@ -67,19 +67,21 @@
                                 </span>
                             </label>
                         </div>
-                        {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-                        <div class="mb-3">
-                            <div class="input-group mb-2">
-                                <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
-                            </div>
-                        </div>
-                        {/if}
-                        {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-                        <div class="mb-2">
-                            <div class="input-group mb-2">
-                                <div id="geetest"></div>
-                            </div>
-                        </div>
+                        {if $public_setting['enable_reg_captcha']}
+                            {if $public_setting['captcha_provider'] === 'turnstile'}
+                                <div class="mb-3">
+                                    <div class="input-group mb-3">
+                                        <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                                    </div>
+                                </div>
+                            {/if}
+                            {if $public_setting['captcha_provider'] === 'geetest'}
+                                <div class="mb-3">
+                                    <div class="input-group mb-3">
+                                        <div id="geetest"></div>
+                                    </div>
+                                </div>
+                            {/if}
                         {/if}
                         <div class="form-footer">
                             <button id="confirm-register" type="submit" class="btn btn-primary w-100">注册新账户</button>
@@ -139,11 +141,13 @@
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
                     repasswd: $('#repasswd').val(),
-                    {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-                    turnstile: turnstile.getResponse(),
-                    {/if}
-                    {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-                    geetest: geetest_result,
+                    {if $public_setting['enable_reg_captcha']}
+                        {if $public_setting['captcha_provider'] === 'turnstile'}
+                            turnstile: $('input[name=cf-turnstile-response]').val(),
+                        {/if}
+                        {if $public_setting['captcha_provider'] === 'geetest'}
+                            geetest: geetest_result,
+                        {/if}
                     {/if}
                 },
                 success: function(data) {
@@ -160,24 +164,26 @@
         });
     </script>
 
-    {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'turnstile'}
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
-    {/if}
-    {if $public_setting['enable_reg_captcha'] === true && $public_setting['captcha_provider'] === 'geetest'}
-    <script src="https://static.geetest.com/v4/gt4.js"></script>
-    <script>
-        var geetest_result = '';
-        initGeetest4({
-            captchaId: '{$captcha['geetest_id']}',
-            product: 'float',
-            language: "zho",
-            riskType:'slide'
-        }, function (geetest) {
-            geetest.appendTo("#geetest");
-            geetest.onSuccess(function() {
-                geetest_result = geetest.getValidate();
-            });
-        });
-    </script>
+    {if $public_setting['enable_reg_captcha']}
+        {if $public_setting['captcha_provider'] === 'turnstile'}
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        {/if}
+        {if $public_setting['captcha_provider'] === 'geetest'}
+            <script src="https://static.geetest.com/v4/gt4.js"></script>
+            <script>
+                var geetest_result = '';
+                initGeetest4({
+                    captchaId: '{$captcha['geetest_id']}',
+                    product: 'float',
+                    language: "zho",
+                    riskType:'slide'
+                }, function (geetest) {
+                    geetest.appendTo("#geetest");
+                    geetest.onSuccess(function() {
+                        geetest_result = geetest.getValidate();
+                    });
+                });
+            </script>
+        {/if}
     {/if}
 {include file='tabler_footer.tpl'}
