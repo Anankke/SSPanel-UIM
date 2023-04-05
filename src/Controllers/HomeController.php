@@ -59,7 +59,7 @@ final class HomeController extends BaseController
         } else {
             $result = '0';
         }
-        
+
         return $response->write($result);
     }
 }
