@@ -33,7 +33,7 @@ final class Reply
         $text = [
             '当前余额：' . $user->money,
             '在线 IP 数：' . ($user->node_iplimit !== 0 ? $user->onlineIpCount() . ' / ' . $user->node_iplimit : $user->onlineIpCount() . ' / 不限制'),
-            '端口速率：' . ($user->node_speedlimit !== 0 ? $user->node_speedlimit . 'Mbps' : '无限制'),
+            '端口速率：' . ($user->node_speedlimit > 0 ? $user->node_speedlimit . 'Mbps' : '不限制'),
             '上次使用：' . $user->lastSsTime(),
             '过期时间：' . $user->class_expire,
         ];
@@ -54,33 +54,6 @@ final class Reply
     }
 
     /**
-     * [admin]获取用户购买记录
-     */
-    public static function getUserBoughts(User $user): array
-    {
-        $boughts = Bought::where('userid', $user->id)->orderBy('id', 'desc')->get();
-        $data = [];
-        foreach ($boughts as $bought) {
-            $shop = $bought->shop();
-            if ($shop === null) {
-                $bought->delete();
-                continue;
-            }
-            if ($bought->valid()) {
-                $strArray = [];
-                $strArray[] = ' - 商品套餐名称：' . $shop->name;
-                $strArray[] = ' - 套餐购买时间：' . $bought->datetime();
-                $strArray[] = ' - 套餐自动续费：' . $bought->renew();
-                $strArray[] = ' - 下次流量重置：' . $bought->resetTime();
-                $strArray[] = ' - 套餐过期时间：' . $bought->expTime();
-                $strArray[] = '';
-                $data[] = implode(PHP_EOL, $strArray);
-            }
-        }
-        return $data;
-    }
-
-    /**
      * [admin]获取用户信息
      */
     public static function getUserInfoFromAdmin(User $user, int $ChatID): string
@@ -95,14 +68,7 @@ final class Reply
             '剩余流量：' . $user->unusedTraffic(),
             '等级到期：' . $user->class_expire,
             '账户到期：' . $user->expire_in,
-            '套餐详情：',
         ];
-        $boughts = self::getUserBoughts($user);
-        if (count($boughts) !== 0) {
-            $strArray = array_merge($strArray, $boughts);
-        } else {
-            $strArray[] = ' - 该用户无生效套餐.';
-        }
         return implode(PHP_EOL, $strArray);
     }
 }
