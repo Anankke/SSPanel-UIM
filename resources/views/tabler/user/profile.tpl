@@ -63,7 +63,7 @@
                 <div class="col-md-6 com-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">最近登录记录</h3>
+                            <h3 class="card-title">最近10次成功登录记录</h3>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-vcenter text-nowrap card-table">
@@ -71,7 +71,7 @@
                                     <tr>
                                         <th>IP</th>
                                         <th>时间</th>
-                                        <th>归属</th>
+                                        <th>IP归属地</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,6 +82,37 @@
                                         <td>{$login->location}</td>
                                     </tr>
                                     {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-deck my-3">
+                <div class="col-md-6 com-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">当前在线IP</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-vcenter text-nowrap card-table">
+                                <thead>
+                                <tr>
+                                    <th>IP</th>
+                                    <th>IP归属地</th>
+                                    <th>节点名称</th>
+                                    <th>最后在线时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {foreach $ips as $ip}
+                                    <tr>
+                                        <td>{$ip->ip}</td>
+                                        <td>{$ip->location}</td>
+                                        <td>{$ip->node_name}</td>
+                                        <td>{$ip->last_time}</td>
+                                    </tr>
+                                {/foreach}
                                 </tbody>
                             </table>
                         </div>
