@@ -76,6 +76,7 @@ final class PasswordController extends BaseController
     {
         $token = PasswordReset::where('token', $args['token'])
             ->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
+
         if ($token === null) {
             return $response->withStatus(302)->withHeader('Location', '/password/reset');
         }
