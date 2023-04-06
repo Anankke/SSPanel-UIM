@@ -19,7 +19,7 @@ do_install_sspanel() {
     echo "Installing Composer..."
     wget https://getcomposer.org/installer -O composer.phar
     php composer.phar
-    php composer.phar install
+    php composer.phar install --no-dev
     echo "Writing configuration..."
     sed -i -e "s/$_ENV['key']        = 'ChangeMe';/$_ENV['key']        = '$key';/g" \
     -e "s/$_ENV['appName']    = 'SSPanel-UIM';/$_ENV['appName']    = '$app_name';/g" \

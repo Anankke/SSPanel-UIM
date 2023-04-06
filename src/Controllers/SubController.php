@@ -268,7 +268,7 @@ final class SubController extends BaseController
                     $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
                     // Clash.Meta
-                    $type = $node_custom_config['enable_vless'] === '1' ? 'vless' : 'vmess';
+                    $type = ($node_custom_config['enable_vless'] ?? '0') === '1' ? 'vless' : 'vmess';
                     $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
                     $fingerprint = $node_custom_config['fingerprint'] ?? '';
                     $flow = $node_custom_config['flow'] ?? '';
