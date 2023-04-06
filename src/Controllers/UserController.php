@@ -10,6 +10,7 @@ use App\Models\EmailVerify;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\Node;
+use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\StreamMedia;
@@ -74,16 +75,26 @@ final class UserController extends BaseController
     public function profile(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // 登录IP
-        $logins = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+        $logins = LoginIp::where('userid', '=', $this->user->id)
+            ->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+        $ips = OnlineLog::where('user_id', '=', $this->user->id)
+            ->where('last_time', '>', time() - 90)->orderBy('last_time', 'desc')->get();
 
         foreach ($logins as $login) {
             $login->datetime = Tools::toDateTime((int) $login->datetime);
             $login->location = Tools::getIpLocation($login->ip);
         }
 
+        foreach ($ips as $ip) {
+            $ip->location = Tools::getIpLocation($ip->ip);
+            $ip->node_name = Node::where('id', $ip->node_id)->first()->name;
+            $ip->last_time = Tools::toDateTime((int) $ip->last_time);
+        }
+
         return $response->write(
             $this->view()
                 ->assign('logins', $logins)
+                ->assign('ips', $ips)
                 ->fetch('user/profile.tpl')
         );
     }
