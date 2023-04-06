@@ -16,6 +16,7 @@ final class Process
     public static function index(RequestInterface $request): void
     {
         $bot = new Api($_ENV['telegram_token']);
+
         $bot->addCommands([
             new Commands\MyCommand(),
             new Commands\HelpCommand(),
@@ -27,6 +28,14 @@ final class Process
             new Commands\CheckinCommand(),
             new Commands\SetuserCommand(),
         ]);
+
         $bot->commandsHandler(true, $request);
+        $update = $bot->getWebhookUpdate();
+
+        if ($update->has('callback_query')) {
+            new Callback($bot, $update->getCallbackQuery());
+        } elseif ($update->has('message')) {
+            new Message($bot, $update->getMessage());
+        }
     }
 }

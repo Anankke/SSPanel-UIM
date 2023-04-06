@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
-use App\Utils\Telegram\Callbacks\Callback;
+use App\Utils\Telegram\Callback;
 use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;

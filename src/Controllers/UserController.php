@@ -78,7 +78,7 @@ final class UserController extends BaseController
         $logins = LoginIp::where('userid', '=', $this->user->id)
             ->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
         $ips = OnlineLog::where('user_id', '=', $this->user->id)
-            ->where('last_time', '>', time() - 90)->orderBy('last_time', 'desc')->get();
+            ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get();
 
         foreach ($logins as $login) {
             $login->datetime = Tools::toDateTime((int) $login->datetime);
