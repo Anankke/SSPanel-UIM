@@ -65,14 +65,8 @@ final class AuthController extends BaseController
         $email = strtolower(trim($request->getParam('email')));
 
         $user = User::where('email', $email)->first();
-        if ($user === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '邮箱不存在',
-            ]);
-        }
 
-        if (! Hash::checkPassword($user->pass, $passwd)) {
+        if ($user === null || ! Hash::checkPassword($user->pass, $passwd)) {
             // 记录登录失败
             $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
             return $response->withJson([
@@ -87,7 +81,7 @@ final class AuthController extends BaseController
             if (! $rcode) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '两步验证码错误，如果您是丢失了生成器或者错误地设置了这个选项，您可以尝试重置密码，即可取消这个选项。',
+                    'msg' => '两步验证码错误',
                 ]);
             }
         }
