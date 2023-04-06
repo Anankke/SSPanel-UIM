@@ -10,6 +10,7 @@ use App\Models\EmailVerify;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\Node;
+use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\StreamMedia;
@@ -47,7 +48,7 @@ final class UserController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_checkin_captcha') === true) {
+        if (Setting::obtain('enable_checkin_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -74,16 +75,27 @@ final class UserController extends BaseController
     public function profile(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // 登录IP
-        $logins = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+        $logins = LoginIp::where('userid', '=', $this->user->id)
+            ->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+        $ips = OnlineLog::where('user_id', '=', $this->user->id)
+            ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get();
 
         foreach ($logins as $login) {
             $login->datetime = Tools::toDateTime((int) $login->datetime);
             $login->location = Tools::getIpLocation($login->ip);
         }
 
+        foreach ($ips as $ip) {
+            $ip->ip = str_replace('::ffff:', '', $ip->ip);
+            $ip->location = Tools::getIpLocation($ip->ip);
+            $ip->node_name = Node::where('id', $ip->node_id)->first()->name;
+            $ip->last_time = Tools::toDateTime((int) $ip->last_time);
+        }
+
         return $response->write(
             $this->view()
                 ->assign('logins', $logins)
+                ->assign('ips', $ips)
                 ->fetch('user/profile.tpl')
         );
     }
@@ -245,6 +257,10 @@ final class UserController extends BaseController
         $repwd = $request->getParam('repwd');
         $user = $this->user;
 
+        if ($oldpwd === '' || $pwd === '' || $repwd === '') {
+            return ResponseHelper::error($response, '密码不能为空');
+        }
+
         if (! Hash::checkPassword($user->pass, $oldpwd)) {
             return ResponseHelper::error($response, '旧密码错误');
         }
@@ -259,7 +275,10 @@ final class UserController extends BaseController
 
         $hashPwd = Hash::passwordHash($pwd);
         $user->pass = $hashPwd;
-        $user->save();
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
 
         if (Setting::obtain('enable_forced_replacement')) {
             $user->cleanLink();
@@ -271,7 +290,6 @@ final class UserController extends BaseController
     public function updateEmail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
-
         $user = $this->user;
         $newemail = $antiXss->xss_clean($request->getParam('newemail'));
         $oldemail = $user->email;
@@ -308,7 +326,10 @@ final class UserController extends BaseController
         }
 
         $user->email = $newemail;
-        $user->save();
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
 
         return ResponseHelper::successfully($response, '修改成功');
     }
@@ -316,12 +337,13 @@ final class UserController extends BaseController
     public function updateUsername(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $antiXss = new AntiXSS();
-
         $newusername = $antiXss->xss_clean($request->getParam('newusername'));
         $user = $this->user;
-
         $user->user_name = $newusername;
-        $user->save();
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
 
         return ResponseHelper::successfully($response, '修改成功');
     }
@@ -329,83 +351,75 @@ final class UserController extends BaseController
     public function updateContact(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
-
         $type = $antiXss->xss_clean($request->getParam('imtype'));
         $value = $antiXss->xss_clean($request->getParam('imvalue'));
-
         $user = $this->user;
 
         if ($user->telegram_id !== null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '你的账户绑定了 Telegram ，所以此项并不能被修改',
-            ]);
+            return ResponseHelper::error($response, '你的账户绑定了 Telegram ，所以此项并不能被修改');
         }
 
         if ($value === '' || $type === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '联络方式不能为空',
-            ]);
+            return ResponseHelper::error($response, '联络方式不能为空');
         }
 
-        $user_exist = User::where('im_value', $value)->where('im_type', $type)->first();
-        if ($user_exist !== null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '此联络方式已经被注册',
-            ]);
+        if (User::where('im_value', $value)->where('im_type', $type)->first() !== null) {
+            return ResponseHelper::error($response, '此联络方式已经被注册');
         }
 
         $user->im_type = $type;
         $user->im_value = $value;
-        $user->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '修改成功',
-        ]);
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
+
+        return ResponseHelper::successfully($response, '修改成功');
     }
 
     public function updateTheme(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
         $theme = $antiXss->xss_clean($request->getParam('theme'));
-
         $user = $this->user;
 
         if ($theme === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '主题不能为空',
-            ]);
+            return ResponseHelper::error($response, '主题不能为空');
         }
 
         $user->theme = $theme;
-        $user->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '修改成功',
-        ]);
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
+
+        return ResponseHelper::successfully($response, '修改成功');
     }
 
     public function updateMail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $value = (int) $request->getParam('mail');
-        if (in_array($value, [0, 1, 2])) {
-            $user = $this->user;
-            if ($value === 2 && $_ENV['enable_telegram'] === false) {
-                return ResponseHelper::error(
-                    $response,
-                    '修改失败，当前无法使用 Telegram 接收每日报告'
-                );
-            }
-            $user->sendDailyMail = $value;
-            $user->save();
-            return ResponseHelper::successfully($response, '修改成功');
+
+        if (! in_array($value, [0, 1, 2])) {
+            return ResponseHelper::error($response, '参数错误');
         }
-        return ResponseHelper::error($response, '非法输入');
+
+        $user = $this->user;
+
+        if ($value === 2 && ! $_ENV['enable_telegram']) {
+            return ResponseHelper::error(
+                $response,
+                '修改失败，当前无法使用 Telegram 接收每日报告'
+            );
+        }
+
+        $user->sendDailyMail = $value;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
+
+        return ResponseHelper::successfully($response, '修改成功');
     }
 
     public function resetPasswd(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -415,7 +429,7 @@ final class UserController extends BaseController
         $user->passwd = Tools::genRandomChar(16);
 
         if (! $user->save()) {
-            return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
+            return ResponseHelper::error($response, '修改失败');
         }
 
         return ResponseHelper::successfully($response, '修改成功');
@@ -427,7 +441,7 @@ final class UserController extends BaseController
         $user->api_token = Uuid::uuid4();
 
         if (! $user->save()) {
-            return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
+            return ResponseHelper::error($response, '修改失败');
         }
 
         return ResponseHelper::successfully($response, '修改成功');
@@ -448,7 +462,10 @@ final class UserController extends BaseController
         }
 
         $user->method = $method;
-        $user->save();
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
 
         return ResponseHelper::successfully($response, '修改成功');
     }
@@ -461,11 +478,11 @@ final class UserController extends BaseController
 
     public function doCheckIn(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if ($_ENV['enable_checkin'] === false) {
+        if (! $_ENV['enable_checkin']) {
             return ResponseHelper::error($response, '暂时还不能签到');
         }
 
-        if (Setting::obtain('enable_checkin_captcha') === true) {
+        if (Setting::obtain('enable_checkin_captcha')) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
                 return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试');
@@ -506,19 +523,23 @@ final class UserController extends BaseController
     public function handleKill(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-
         $passwd = $request->getParam('passwd');
+
+        if ($passwd === '') {
+            return ResponseHelper::error($response, '密码不能为空');
+        }
 
         if (! Hash::checkPassword($user->pass, $passwd)) {
             return ResponseHelper::error($response, '密码错误');
         }
 
-        if ($_ENV['enable_kill'] === true) {
+        if ($_ENV['enable_kill']) {
             Auth::logout();
             $user->killUser();
             return ResponseHelper::successfully($response, '您的帐号已经从我们的系统中删除。欢迎下次光临');
         }
-        return ResponseHelper::error($response, '管理员不允许删除，如需删除请联系管理员。');
+
+        return ResponseHelper::error($response, '自助账号删除未启用，如需删除账户请联系管理员。');
     }
 
     /**
@@ -600,16 +621,17 @@ final class UserController extends BaseController
     public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $user = $this->user;
+
         if ($user->is_dark_mode === 1) {
             $user->is_dark_mode = 0;
         } else {
             $user->is_dark_mode = 1;
         }
-        $user->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '切换成功',
-        ]);
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '切换失败');
+        }
+
+        return ResponseHelper::successfully($response, '切换成功');
     }
 }

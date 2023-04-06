@@ -234,6 +234,8 @@ final class SubController extends BaseController
                     $plugin_option = $node_custom_config['plugin_option'] ?? null;
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
+                    // Clash.Meta
+                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
 
                     $node = [
                         'name' => $node_raw->name,
@@ -243,6 +245,7 @@ final class SubController extends BaseController
                         'password' => $user->passwd,
                         'cipher' => $user->method,
                         'udp' => $udp,
+                        'client-fingerprint' => $client_fingerprint,
                         'plugin' => $plugin,
                         'plugin-opts' => $plugin_option,
                     ];
@@ -264,10 +267,16 @@ final class SubController extends BaseController
                     $h2_opts = $node_custom_config['h2-opts'] ?? $node_custom_config['h2_opts'] ?? null;
                     $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+                    // Clash.Meta
+                    $type = ($node_custom_config['enable_vless'] ?? '0') === '1' ? 'vless' : 'vmess';
+                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
+                    $fingerprint = $node_custom_config['fingerprint'] ?? '';
+                    $flow = $node_custom_config['flow'] ?? '';
+                    $reality_opts = $node_custom_config['reality-opts'] ?? $node_custom_config['reality_opts'] ?? null;
 
                     $node = [
                         'name' => $node_raw->name,
-                        'type' => 'vmess',
+                        'type' => $type,
                         'server' => $server,
                         'port' => (int) $v2_port,
                         'uuid' => $user->uuid,
@@ -275,6 +284,9 @@ final class SubController extends BaseController
                         'cipher' => $encryption,
                         'udp' => $udp,
                         'tls' => $tls,
+                        'client-fingerprint' => $client_fingerprint,
+                        'fingerprint' => $fingerprint,
+                        'flow' => $flow,
                         'skip-cert-verify' => $allow_insecure,
                         'servername' => $host,
                         'network' => $network,
@@ -282,6 +294,7 @@ final class SubController extends BaseController
                         'h2-opts' => $h2_opts,
                         'http-opts' => $http_opts,
                         'grpc-opts' => $grpc_opts,
+                        'reality-opts' => $reality_opts,
                     ];
 
                     break;
@@ -297,6 +310,11 @@ final class SubController extends BaseController
                     $udp = $node_custom_config['udp'] ?? true;
                     $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+                    // Clash.Meta
+                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
+                    $fingerprint = $node_custom_config['fingerprint'] ?? '';
+                    $flow = $node_custom_config['flow'] ?? '';
+                    $flow_show = $node_custom_config['flow_show'] ?? false;
 
                     $node = [
                         'name' => $node_raw->name,
@@ -307,6 +325,10 @@ final class SubController extends BaseController
                         'password' => $user->uuid,
                         'network' => $network,
                         'udp' => $udp,
+                        'client-fingerprint' => $client_fingerprint,
+                        'fingerprint' => $fingerprint,
+                        'flow' => $flow,
+                        'flow-show' => $flow_show,
                         'skip-cert-verify' => $allow_insecure,
                         'ws-opts' => $ws_opts,
                         'grpc-opts' => $grpc_opts,

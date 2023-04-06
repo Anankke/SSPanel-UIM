@@ -322,20 +322,6 @@
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">更换连接端口</h3>
-                                                    <p>随机分配一个连接端口，这将用于 Shadowsocks 客户端</p>
-                                                    <p>当前端口是：<code>{$user->port}</code></p>
-                                                </div>
-                                                <div class="card-footer">
-                                                    <div class="d-flex">
-                                                        <a id="reset-client-port" class="btn btn-red ms-auto">更换</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="card">
-                                                <div class="card-body">
                                                     <h3 class="card-title">重置连接密码</h3>
                                                     <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
                                                     <p>当前连接密码：<code>{$user->passwd}</code></p>
@@ -665,23 +651,6 @@
                 data: {
                     mail: $('#daily-report').val()
                 },
-                success: function(data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#reset-client-port").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/user/port",
-                dataType: "json",
                 success: function(data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);

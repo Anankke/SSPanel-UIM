@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram\Callbacks;
+namespace App\Utils\Telegram;
 
 use App\Controllers\LinkController;
 use App\Controllers\SubController;
@@ -13,8 +13,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
-use App\Utils\Telegram\Reply;
-use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -352,7 +350,7 @@ final class Callback
                     'callback_data' => 'user.center.login_log',
                 ],
                 [
-                    'text' => '使用记录',
+                    'text' => '在线 IP',
                     'callback_data' => 'user.center.usage_log',
                 ],
             ],
@@ -429,8 +427,9 @@ final class Callback
                 break;
             case 'usage_log':
                 // 使用记录
-                $logs = OnlineLog::where('user_id', '=', $this->User->id)->orderByDesc('last_time')->get('ip');
-                $text = '<strong>以下是您最近 30 天的使用 IP 和地理位置：</strong>' . PHP_EOL;
+                $logs = OnlineLog::where('user_id', '=', $this->User->id)
+                    ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get('ip');
+                $text = '<strong>以下是您账户在线 IP 和地理位置：</strong>' . PHP_EOL;
                 $text .= PHP_EOL;
 
                 foreach ($logs as $log) {
@@ -460,7 +459,7 @@ final class Callback
                 foreach ($paybacks as $payback) {
                     $temp[] = '<code>#' . $payback->id . '：' . ($payback->user() !== null ? $payback->user()->user_name : '已注销') . '：' . $payback->ref_get . ' 元</code>';
                 }
-                $text = '<strong>以下是您最近 10 条返利记录：</strong>';
+                $text = '<strong>以下是您最近 10 次返利记录：</strong>';
                 $text .= PHP_EOL . PHP_EOL;
                 $text .= implode(PHP_EOL, $temp);
                 $sendMessage = [
@@ -483,7 +482,7 @@ final class Callback
                     $location = Tools::getIpLocation($log->request_ip);
                     $temp[] = '<code>' . $log->request_time . ' 在 [' . $log->request_ip . '] ' . $location . ' 访问了 ' . $log->subscribe_type . ' 订阅</code>';
                 }
-                $text = '<strong>以下是您最近 10 条订阅记录：</strong>';
+                $text = '<strong>以下是您最近 10 次订阅记录：</strong>';
                 $text .= PHP_EOL . PHP_EOL;
                 $text .= implode(PHP_EOL . PHP_EOL, $temp);
                 $sendMessage = [
@@ -930,13 +929,13 @@ final class Callback
         if (! is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
-        $invitation = Setting::getClass('invite');
+        $invite = Setting::getClass('invite');
         $text = [
             '<strong>分享计划，您每邀请 1 位用户注册：</strong>',
             '',
-            '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励。',
-            '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金。',
-            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利。',
+            '- 您会获得 <strong>' . $invite['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励。',
+            '- 对方将获得 <strong>' . $invite['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金。',
+            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invite['rebate_ratio'] * 100 . '%</strong> 的返利。',
             '',
             '已获得返利：' . $paybacks_sum . ' 元。',
         ];

@@ -54,7 +54,7 @@ final class HomeController extends BaseController
         $token = $request->getQueryParam('token');
 
         if ($_ENV['enable_telegram'] && $token === $_ENV['telegram_request_token']) {
-            Process::index();
+            Process::index($request);
             $result = '1';
         } else {
             $result = '0';
