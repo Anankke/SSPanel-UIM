@@ -87,8 +87,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row row-deck my-3">
                 <div class="col-md-6 com-sm-12">
                     <div class="card">
                         <div class="card-header">
