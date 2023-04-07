@@ -96,23 +96,6 @@ final class TicketController extends BaseController
             }
         }
 
-        if ($_ENV['useScFtqq'] === true) {
-            $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-            $postdata = http_build_query([
-                'title' => $_ENV['appName'] . '-新工单被开启',
-                'desp' => $title,
-            ]);
-            $opts = [
-                'http' => [
-                    'method' => 'POST',
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => $postdata,
-                ],
-            ];
-            $context = stream_context_create($opts);
-            file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-        }
-
         return $response->withJson([
             'ret' => 1,
             'msg' => '提交成功',
@@ -170,23 +153,6 @@ final class TicketController extends BaseController
                     []
                 );
             }
-        }
-
-        if ($_ENV['useScFtqq'] === true) {
-            $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-            $postdata = http_build_query([
-                'title' => $_ENV['appName'] . '-工单被回复',
-                'desp' => $ticket->title,
-            ]);
-            $opts = [
-                'http' => [
-                    'method' => 'POST',
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => $postdata,
-                ],
-            ];
-            $context = stream_context_create($opts);
-            file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
         }
 
         return $response->withJson([

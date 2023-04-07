@@ -16,29 +16,6 @@ return new class() implements MigrationInterface {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-            CREATE TABLE `bought` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                `userid` bigint(20) DEFAULT NULL,
-                `shopid` bigint(20) DEFAULT NULL,
-                `datetime` bigint(20) DEFAULT NULL,
-                `renew` bigint(20) DEFAULT NULL,
-                `coupon` varchar(255) DEFAULT NULL,
-                `price` decimal(12,2) DEFAULT NULL,
-                `is_notified` tinyint(1) DEFAULT 0,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `code` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                `code` varchar(255) DEFAULT NULL,
-                `type` int(11) DEFAULT NULL,
-                `number` decimal(12,2) DEFAULT NULL,
-                `isused` int(11) DEFAULT 0,
-                `userid` bigint(20) DEFAULT NULL,
-                `usedatetime` datetime DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
             CREATE TABLE `config` (
                 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
                 `item` varchar(255) DEFAULT NULL COMMENT '项',
@@ -48,16 +25,6 @@ return new class() implements MigrationInterface {
                 `type` varchar(255) DEFAULT NULL COMMENT '值类型',
                 `default` varchar(255) DEFAULT NULL COMMENT '默认值',
                 `mark` varchar(255) DEFAULT NULL COMMENT '备注',
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `coupon` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                `code` varchar(255) DEFAULT NULL,
-                `onetime` int(11) DEFAULT NULL,
-                `expire` bigint(20) DEFAULT NULL,
-                `shop` varchar(255) DEFAULT NULL,
-                `credit` int(11) DEFAULT NULL,
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -270,17 +237,6 @@ return new class() implements MigrationInterface {
                 PRIMARY KEY (`id`),
                 KEY `id` (`id`),
                 KEY `type` (`type`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `shop` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                `name` varchar(255) DEFAULT NULL,
-                `price` decimal(12,2) DEFAULT NULL,
-                `content` text DEFAULT NULL,
-                `auto_renew` int(11) DEFAULT NULL,
-                `auto_reset_bandwidth` int(11) DEFAULT 0,
-                `status` int(11) DEFAULT 1,
-                PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `stream_media` (
