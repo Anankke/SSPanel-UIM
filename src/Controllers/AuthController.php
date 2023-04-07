@@ -37,7 +37,7 @@ final class AuthController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_login_captcha') === true) {
+        if (Setting::obtain('enable_login_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -49,7 +49,7 @@ final class AuthController extends BaseController
 
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if (Setting::obtain('enable_login_captcha') === true) {
+        if (Setting::obtain('enable_login_captcha')) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
                 return $response->withJson([
@@ -66,7 +66,14 @@ final class AuthController extends BaseController
 
         $user = User::where('email', $email)->first();
 
-        if ($user === null || ! Hash::checkPassword($user->pass, $passwd)) {
+        if ($user === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '邮箱或者密码错误',
+            ]);
+        }
+
+        if (! Hash::checkPassword($user->pass, $passwd)) {
             // 记录登录失败
             $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
             return $response->withJson([
@@ -76,8 +83,16 @@ final class AuthController extends BaseController
         }
 
         if ($user->ga_enable === 1) {
+            if (strlen($code) !== 6) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '两步验证码错误',
+                ]);
+            }
+
             $ga = new GoogleAuthenticator();
             $rcode = $ga->verifyCode($user->ga_token, $code);
+
             if (! $rcode) {
                 return $response->withJson([
                     'ret' => 0,
@@ -108,7 +123,7 @@ final class AuthController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_reg_captcha') === true) {
+        if (Setting::obtain('enable_reg_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -302,7 +317,7 @@ final class AuthController extends BaseController
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
         }
 
-        if (Setting::obtain('enable_reg_new_shop') === true) {
+        if (Setting::obtain('enable_reg_new_shop')) {
             $user->use_new_shop = 1;
         } else {
             $user->use_new_shop = 0;
@@ -328,7 +343,7 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '注册需要填写邀请码');
         }
 
-        if (Setting::obtain('enable_reg_captcha') === true) {
+        if (Setting::obtain('enable_reg_captcha')) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
                 return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
@@ -348,7 +363,7 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '请同意服务条款');
         }
 
-        if (Setting::obtain('enable_reg_im') === true) {
+        if (Setting::obtain('enable_reg_im')) {
             $imtype = $antiXss->xss_clean($request->getParam('im_type'));
             $imvalue = $antiXss->xss_clean($request->getParam('im_value'));
             if ($imtype === '' || $imvalue === '') {
