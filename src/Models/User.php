@@ -13,7 +13,6 @@ use App\Utils\Tools;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Ramsey\Uuid\Uuid;
-use function count;
 use function in_array;
 use function is_null;
 use function json_encode;
@@ -354,8 +353,6 @@ final class User extends Model
         $uid = $this->id;
         $email = $this->email;
 
-        Bought::where('userid', '=', $uid)->delete();
-        Code::where('userid', '=', $uid)->delete();
         DetectBanLog::where('user_id', '=', $uid)->delete();
         DetectLog::where('user_id', '=', $uid)->delete();
         EmailVerify::where('email', $email)->delete();
@@ -506,28 +503,6 @@ final class User extends Model
             'ok' => true,
             'msg' => $this->port,
         ];
-    }
-
-    /**
-     * 用户下次流量重置时间
-     */
-    public function validUseLoop(): string
-    {
-        $boughts = Bought::where('userid', $this->id)->orderBy('id', 'desc')->get();
-        $data = [];
-        foreach ($boughts as $bought) {
-            $shop = $bought->shop();
-            if ($shop !== null && $bought->valid()) {
-                $data[] = $bought->resetTime();
-            }
-        }
-        if (count($data) === 0) {
-            return '未购买套餐.';
-        }
-        if (count($data) === 1) {
-            return $data[0];
-        }
-        return '多个有效套餐无法显示.';
     }
 
     /**

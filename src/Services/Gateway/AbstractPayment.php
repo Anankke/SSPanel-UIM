@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
-use App\Models\Code;
 use App\Models\Invoice;
 use App\Models\Payback;
 use App\Models\Paylist;
@@ -71,24 +70,11 @@ abstract class AbstractPayment
 
         $user = User::find($paylist->userid);
 
-        if ($paylist->invoice_id !== 0) {
-            $invoice = Invoice::where('id', $paylist->invoice_id)->first();
-            $invoice->status = 'paid_gateway';
-            $invoice->update_time = time();
-            $invoice->pay_time = time();
-            $invoice->save();
-        } else {
-            $user->money += $paylist->total;
-            $user->save();
-            $codeq = new Code();
-            $codeq->code = $method;
-            $codeq->isused = 1;
-            $codeq->type = -1;
-            $codeq->number = $paylist->total;
-            $codeq->usedatetime = date('Y-m-d H:i:s');
-            $codeq->userid = $user->id;
-            $codeq->save();
-        }
+        $invoice = Invoice::where('id', $paylist->invoice_id)->first();
+        $invoice->status = 'paid_gateway';
+        $invoice->update_time = time();
+        $invoice->pay_time = time();
+        $invoice->save();
 
         // 返利
         if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
