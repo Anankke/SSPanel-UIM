@@ -257,8 +257,6 @@ final class Callback
         $text = Reply::getUserTitle($user);
         $text .= PHP_EOL . PHP_EOL;
         $text .= Reply::getUserInfo($user);
-        $text .= PHP_EOL;
-        $text .= '流量重置时间：' . $user->validUseLoop();
         if (Setting::obtain('telegram_show_group_link')) {
             $Keyboard[] = [
                 [
@@ -1031,8 +1029,6 @@ final class Callback
             $temp['text'] = Reply::getUserTitle($this->User);
             $temp['text'] .= PHP_EOL . PHP_EOL;
             $temp['text'] .= Reply::getUserTrafficInfo($this->User);
-            $temp['text'] .= PHP_EOL;
-            $temp['text'] .= '流量重置时间：' . $this->User->validUseLoop();
             $temp['keyboard'] = [
                 [
                     [

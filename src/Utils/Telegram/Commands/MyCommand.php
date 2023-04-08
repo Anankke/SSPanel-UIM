@@ -89,8 +89,6 @@ final class MyCommand extends Command
         $text = Reply::getUserTitle($User);
         $text .= PHP_EOL . PHP_EOL;
         $text .= Reply::getUserTrafficInfo($User);
-        $text .= PHP_EOL;
-        $text .= '流量重置时间：' . $User->validUseLoop();
         // 回送信息
         return $this->replyWithMessage(
             [
