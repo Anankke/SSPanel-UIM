@@ -40,9 +40,6 @@
                             <a href="#vmq" class="nav-link" data-bs-toggle="tab">V免签</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#payjs" class="nav-link" data-bs-toggle="tab">PayJS</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#stripe" class="nav-link" data-bs-toggle="tab">Stripe</a>
                         </li>
                         <li class="nav-item">
@@ -114,28 +111,6 @@
                                     <label class="form-label col-3 col-form-label">密钥</label>
                                     <div class="col">
                                         <input id="vmq_key" type="text" class="form-control" value="{$settings['vmq_key']}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="payjs">
-                            <div class="card-body">
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">网关地址</label>
-                                    <div class="col">
-                                        <input id="payjs_url" type="text" class="form-control" value="{$settings['payjs_url']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">商户ID</label>
-                                    <div class="col">
-                                        <input id="payjs_mchid" type="text" class="form-control" value="{$settings['payjs_mchid']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">密钥</label>
-                                    <div class="col">
-                                        <input id="payjs_key" type="text" class="form-control" value="{$settings['payjs_key']}">
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +243,7 @@
                         <div class="tab-pane" id="paypal">
                             <div class="card-body">
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">网关模式</label>
+                                    <label class="form-label col-3 col-form-label">模式</label>
                                     <div class="col">
                                         <select id="paypal_mode" class="col form-select" value="{$settings['paypal_mode']}">
                                             <option value="sandbox">Sandbox</option>
