@@ -81,36 +81,6 @@
     },
     {
         "id": null,
-        "item": "payjs_url",
-        "value": "",
-        "class": "payjs",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "payjs_url"
-    },
-    {
-        "id": null,
-        "item": "payjs_mchid",
-        "value": "",
-        "class": "payjs",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "payjs_mchid"
-    },
-    {
-        "id": null,
-        "item": "payjs_key",
-        "value": "",
-        "class": "payjs",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "payjs_key"
-    },
-    {
-        "id": null,
         "item": "stripe_currency",
         "value": "USD",
         "class": "stripe",
