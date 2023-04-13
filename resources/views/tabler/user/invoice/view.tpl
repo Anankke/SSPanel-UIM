@@ -109,21 +109,21 @@
                           </div>
                         </div>
                     </div>
+                    {if count($payments) > 0}
                     <div class="card my-3">
                         <div class="card-header">
                             <h3 class="card-title">网关支付</h3>
                         </div>
                         <div class="card-body">
-                            {if count($payments) > 0}
-                                {foreach from=$payments item=payment}
+                            {foreach from=$payments item=payment}
                                 <div class="mb-3">
                                     {$payment_name = $payment::_name()}
                                     {include file="../../gateway/$payment_name.tpl"}
                                 </div>
-                                {/foreach}
-                            {/if}
+                            {/foreach}
                         </div>
                     </div>
+                    {/if}
                 </div>
                 {/if}
             </div>
@@ -140,7 +140,7 @@
                     invoice_id: {$invoice->id},
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         setTimeout(function() {

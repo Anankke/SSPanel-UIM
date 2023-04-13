@@ -56,9 +56,9 @@ abstract class AbstractPayment
 
     abstract public static function getPurchaseHTML(): string;
 
-    public function postPayment($pid, $method): false|int|string
+    public function postPayment($tradeno): false|int|string
     {
-        $paylist = Paylist::where('tradeno', $pid)->first();
+        $paylist = Paylist::where('tradeno', $tradeno)->first();
 
         if ($paylist->status === 1) {
             return json_encode(['errcode' => 0]);
@@ -87,6 +87,19 @@ abstract class AbstractPayment
     public static function generateGuid(): string
     {
         return substr(Uuid::uuid4()->toString(), 0, 8);
+    }
+
+    public static function exchange($currency)
+    {
+        $ch = curl_init();
+        $url = 'https://api.exchangerate.host/latest?symbols=CNY&base=' . strtoupper($currency);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $currency = json_decode(curl_exec($ch));
+        curl_close($ch);
+
+        return $currency->rates->CNY;
     }
 
     protected static function getCallbackUrl(): string

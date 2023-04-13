@@ -111,42 +111,12 @@
     },
     {
         "id": null,
-        "item": "theadpay_url",
-        "value": "",
-        "class": "theadpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "theadpay_url"
-    },
-    {
-        "id": null,
-        "item": "theadpay_mchid",
-        "value": "",
-        "class": "theadpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "theadpay_mchid"
-    },
-    {
-        "id": null,
-        "item": "theadpay_key",
-        "value": "",
-        "class": "theadpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "theadpay_key"
-    },
-    {
-        "id": null,
         "item": "stripe_currency",
-        "value": "HKD",
+        "value": "USD",
         "class": "stripe",
         "is_public": 0,
         "type": "string",
-        "default": "HKD",
+        "default": "USD",
         "mark": "货币代码"
     },
     {
@@ -298,6 +268,56 @@
         "type": "bool",
         "default": "0",
         "mark": "启用USDT"
+    },
+    {
+        "id": null,
+        "item": "paypal_mode",
+        "value": "live",
+        "class": "paypal",
+        "is_public": 0,
+        "type": "string",
+        "default": "live",
+        "mark": "PayPal模式"
+    },
+    {
+        "id": null,
+        "item": "paypal_client_id",
+        "value": "",
+        "class": "paypal",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "PayPal客戶ID"
+    },
+    {
+        "id": null,
+        "item": "paypal_client_secret",
+        "value": "",
+        "class": "paypal",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "PayPal客戶密钥"
+    },
+    {
+        "id": null,
+        "item": "paypal_currency",
+        "value": "USD",
+        "class": "paypal",
+        "is_public": 1,
+        "type": "string",
+        "default": "USD",
+        "mark": "PayPal货币"
+    },
+    {
+        "id": null,
+        "item": "paypal_locale",
+        "value": "en_US",
+        "class": "paypal",
+        "is_public": 0,
+        "type": "string",
+        "default": "en_US",
+        "mark": "PayPal语言"
     },
     {
         "id": null,

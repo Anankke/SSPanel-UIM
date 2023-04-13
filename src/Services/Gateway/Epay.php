@@ -20,6 +20,7 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use voku\helper\AntiXSS;
 
 final class Epay extends AbstractPayment
 {
@@ -52,23 +53,27 @@ final class Epay extends AbstractPayment
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $type = $request->getParam('type');
-        $price = $request->getParam('price');
-        $invoice_id = $request->getParam('invoice_id') ?? 0;
+        $antiXss = new AntiXSS();
+
+        $price = $antiXss->xss_clean($request->getParam('price'));
+        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        // EPay 特定参数
+        $type = $antiXss->xss_clean($request->getParam('type'));
 
         if ($price <= 0) {
-            return $response->withJson(['errcode' => -1, 'errmsg' => '非法的金额.']);
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '非法的金额',
+            ]);
         }
 
         $user = Auth::getUser();
-
         $pl = new Paylist();
 
-        if ($user->use_new_shop) {
-            $pl->invoice_id = $invoice_id;
-        } else {
-            $pl->invoice_id = 0;
-        }
+        $pl->userid = $user->id;
+        $pl->total = $price;
+        $pl->invoice_id = $invoice_id;
+        $pl->tradeno = self::generateGuid();
 
         $type_text = match ($type) {
             'qqpay' => 'QQ',
@@ -78,10 +83,7 @@ final class Epay extends AbstractPayment
         };
 
         $pl->gateway = self::_readableName() . ' ' . $type_text;
-        $pl->userid = $user->id;
-        $pl->total = $price;
-        //订单号
-        $pl->tradeno = self::generateGuid();
+
         $pl->save();
         //请求参数
         $data = [
@@ -117,10 +119,12 @@ final class Epay extends AbstractPayment
                 default => 'Alipay',
             };
             $trade_status = $_GET['trade_status'];
+
             if ($trade_status === 'TRADE_SUCCESS') {
-                $this->postPayment($out_trade_no, $type . ' ' . $out_trade_no);
+                $this->postPayment($out_trade_no);
                 return $response->withJson(['state' => 'success', 'msg' => '支付成功']);
             }
+
             return $response->withJson(['state' => 'fail', 'msg' => '支付失败']);
         }
 

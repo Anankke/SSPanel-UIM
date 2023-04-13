@@ -27,10 +27,6 @@ final class BillingController extends BaseController
         'payjs_url',
         'payjs_mchid',
         'payjs_key',
-        // TheadPay
-        'theadpay_url',
-        'theadpay_mchid',
-        'theadpay_key',
         // Stripe
         'stripe_card',
         'stripe_alipay',
@@ -49,6 +45,12 @@ final class BillingController extends BaseController
         'epay_wechat',
         'epay_qq',
         'epay_usdt',
+        // PayPal
+        'paypal_mode',
+        'paypal_client_id',
+        'paypal_client_secret',
+        'paypal_currency',
+        'paypal_locale',
     ];
 
     /**
