@@ -15,7 +15,6 @@ use Slim\Http\ServerRequest;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 use voku\helper\AntiXSS;
-use function json_decode;
 
 final class PayPal extends AbstractPayment
 {
