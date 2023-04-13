@@ -16,7 +16,6 @@ use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\StripeClient;
-use function json_decode;
 
 final class StripeCard extends AbstractPayment
 {
@@ -27,11 +26,7 @@ final class StripeCard extends AbstractPayment
 
     public static function _enable(): bool
     {
-        if (self::getActiveGateway('stripe_card') && Setting::obtain('stripe_card')) {
-            return true;
-        }
-
-        return false;
+        return self::getActiveGateway('stripe_card');
     }
 
     public static function _readableName(): string
@@ -78,7 +73,7 @@ final class StripeCard extends AbstractPayment
                 ],
                 'mode' => 'payment',
                 'success_url' => self::getUserReturnUrl() . '?session_id={CHECKOUT_SESSION_ID}&' . http_build_query($params),
-                'cancel_url' => $_ENV['baseUrl'] . '/user/code',
+                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice',
             ]);
         } catch (ApiErrorException $e) {
             return $response->withJson([
@@ -100,7 +95,7 @@ final class StripeCard extends AbstractPayment
      */
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('gateway/stripe_card.tpl');
+        return View::getSmarty()->fetch('gateway/stripe.tpl');
     }
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
@@ -130,19 +125,6 @@ final class StripeCard extends AbstractPayment
             $this->postPayment($trade_no, '银行卡支付');
         }
 
-        return $response->withRedirect($_ENV['baseUrl'] . '/user/code');
-    }
-
-    public static function exchange($currency)
-    {
-        $ch = curl_init();
-        $url = 'https://api.exchangerate.host/latest?symbols=CNY&base=' . strtoupper($currency);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $currency = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $currency->rates->CNY;
+        return $response->withRedirect($_ENV['baseUrl'] . '/user/invoice');
     }
 }

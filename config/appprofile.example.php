@@ -6,7 +6,8 @@ $_ENV['Clash_Config'] = [
     'port' => 7890,
     'socks-port' => 7891,
     'allow-lan' => false,
-    'mode' => 'Global',
+    'mode' => 'Rule',
+    'ipv6' => true,
     'log-level' => 'error',
     'external-controller' => '0.0.0.0:9090',
 ];
