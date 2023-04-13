@@ -31,6 +31,7 @@
         "slim/http": "^1.3",
         "slim/slim": "^4.11",
         "smarty/smarty": "^4",
+        "srmklive/paypal": "~3.0",
         "stripe/stripe-php": "^7",
         "symfony/console": "*",
         "symfony/yaml": "^6",

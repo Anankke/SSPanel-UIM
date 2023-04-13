@@ -43,13 +43,13 @@
                             <a href="#payjs" class="nav-link" data-bs-toggle="tab">PayJS</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#theadpay" class="nav-link" data-bs-toggle="tab">TheadPay</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#stripe" class="nav-link" data-bs-toggle="tab">Stripe</a>
                         </li>
                         <li class="nav-item">
                             <a href="#epay" class="nav-link" data-bs-toggle="tab">EPay</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#paypal" class="nav-link" data-bs-toggle="tab">PayPal</a>
                         </li>
                     </ul>
                 </div>
@@ -136,28 +136,6 @@
                                     <label class="form-label col-3 col-form-label">密钥</label>
                                     <div class="col">
                                         <input id="payjs_key" type="text" class="form-control" value="{$settings['payjs_key']}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="theadpay">
-                            <div class="card-body">
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">网关地址</label>
-                                    <div class="col">
-                                        <input id="theadpay_url" type="text" class="form-control" value="{$settings['theadpay_url']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">商户ID</label>
-                                    <div class="col">
-                                        <input id="theadpay_mchid" type="text" class="form-control" value="{$settings['theadpay_mchid']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">密钥</label>
-                                    <div class="col">
-                                        <input id="theadpay_key" type="text" class="form-control" value="{$settings['theadpay_key']}">
                                     </div>
                                 </div>
                             </div>
@@ -283,6 +261,43 @@
                                             <option value="0">停用</option>
                                             <option value="1" {if $settings['epay_usdt'] === true}selected{/if}>启用</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="paypal">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">网关模式</label>
+                                    <div class="col">
+                                        <select id="paypal_mode" class="col form-select" value="{$settings['paypal_mode']}">
+                                            <option value="sandbox">Sandbox</option>
+                                            <option value="live" {if $settings['paypal_mode'] === 'live'}selected{/if}>Live</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">PayPal客戶ID</label>
+                                    <div class="col">
+                                        <input id="paypal_client_id" type="text" class="form-control" value="{$settings['paypal_client_id']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">PayPal客戶密钥</label>
+                                    <div class="col">
+                                        <input id="paypal_client_secret" type="text" class="form-control" value="{$settings['paypal_client_secret']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">PayPal货币</label>
+                                    <div class="col">
+                                        <input id="paypal_currency" type="text" class="form-control" value="{$settings['paypal_currency']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">PayPal语言</label>
+                                    <div class="col">
+                                        <input id="paypal_locale" type="text" class="form-control" value="{$settings['paypal_locale']}">
                                     </div>
                                 </div>
                             </div>

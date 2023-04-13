@@ -16,7 +16,6 @@ use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\StripeClient;
-use function json_decode;
 
 final class StripeCard extends AbstractPayment
 {
@@ -131,18 +130,5 @@ final class StripeCard extends AbstractPayment
         }
 
         return $response->withRedirect($_ENV['baseUrl'] . '/user/code');
-    }
-
-    public static function exchange($currency)
-    {
-        $ch = curl_init();
-        $url = 'https://api.exchangerate.host/latest?symbols=CNY&base=' . strtoupper($currency);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $currency = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $currency->rates->CNY;
     }
 }
