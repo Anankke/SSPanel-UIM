@@ -11,7 +11,9 @@ use const BASE_PATH;
 
 final class GeoIP2
 {
-    private Reader $reader;
+    private Reader $city_reader;
+    private Reader $country_reader;
+
     /**
      * @throws InvalidDatabaseException
      */
