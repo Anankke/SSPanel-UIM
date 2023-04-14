@@ -24,13 +24,14 @@ final class Tools
      */
     public static function getIpLocation($ip): string
     {
-        $geoip = new GeoIP2();
         $err_msg = '';
         $city = null;
         $country = null;
 
         if ($_ENV['maxmind_license_key'] === '') {
             $err_msg = 'GeoIP2 服务未配置';
+        } else {
+            $geoip = new GeoIP2();
         }
 
         try {
