@@ -1,18 +1,16 @@
 <div class="card-inner">
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <p class="card-heading">支付宝在线充值</p>
-            <div class="form-group form-group-label">
-                <label class="floating-label" for="amount-f2fpay">金额</label>
-                <input class="form-control" id="amount-f2fpay" type="text">
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <div class="h5 margin-top-sm text-black-hint" id="qrarea"></div>
-        </div>
-    </div>
+    <h4>
+        支付宝当面付
+    </h4>
+    <p class="card-heading"></p>
+    <input hidden id="amount-f2fpay" name="amount-f2fpay" value="{$invoice->price}">
+    <input hidden id="invoice_id" name="invoice_id" value="{$invoice->id}">
+    <div id="qrarea"></div>
+    <button class="btn btn-flat waves-attach" id="f2fpay" onclick="f2fpay();">
+        生成付款QR Code
+    </button>
 </div>
-<a class="btn btn-flat waves-attach" id="f2fpay" onclick="f2fpay();"><span class="mdi mdi-check"></span>&nbsp;充值</a>
+
 <script>
     var pid = 0; 
     var flag = false;
@@ -23,7 +21,8 @@
             url: "/user/payment/purchase/f2fpay",
             dataType: "json",
             data: {
-                amount: $$getValue('amount-f2fpay')
+                amount: $$getValue('amount-f2fpay'),
+                invoice_id: $$getValue('invoice_id')
             },
             success: (data) => {
                 if (data.ret) {
