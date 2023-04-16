@@ -5,80 +5,44 @@
     <p class="card-heading"></p>
     <input hidden id="amount-f2fpay" name="amount-f2fpay" value="{$invoice->price}">
     <input hidden id="invoice_id" name="invoice_id" value="{$invoice->id}">
-    <div id="qrarea"></div>
-    <button class="btn btn-flat waves-attach" id="f2fpay" onclick="f2fpay();">
+    <div id="f2f-qrcode"></div>
+    <button class="btn btn-flat waves-attach" id="f2fpay-button" type="button" onclick="f2fpay();">
         生成付款QR Code
     </button>
 </div>
 
 <script>
-    var pid = 0; 
-    var flag = false;
+    var pid = 0;
+
     function f2fpay() {
-        $("#readytopay").modal('show');
         $.ajax({
             type: "POST",
-            url: "/user/payment/purchase/f2fpay",
+            url: "/user/payment/purchase/f2f",
             dataType: "json",
             data: {
                 amount: $('#amount-f2fpay').val(),
-                invoice_id: $('#invoice_id').val()
+                invoice_id: $('#invoice_id').val(),
             },
             success: (data) => {
-                if (data.ret) {
-                    //console.log(data);
+                if (data.ret === 1) {
+                    $('#f2fpay-button').remove();
                     pid = data.pid;
-                    $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝支付</p></div>'
-                    $("#readytopay").modal('hide');
-                    new QRCode("qrcode", {
-                        render: "canvas",
+                    $('#f2f-qrcode').append('<div class="text-center"><p>手机支付宝扫描支付</p></div>');
+                    new QRCode("f2f-qrcode", {
+                        text: data.qrcode,
                         width: 200,
                         height: 200,
-                        text: encodeURI(data.qrcode)
+                        colorDark: '#000000',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H,
                     });
-                    $$.getElementById('qrcode').setAttribute('href', data.qrcode);
-                    if(flag == false){
-                        setTimeout(ff2f, 1000);
-                        flag = true;
-                    }else{
-                        return 0;
-                    }
+                    $('#f2f-qrcode').append('<div class="text-center my-3"><p>支付成功后请手动刷新页面</p></div>');
+                    $('#f2f-qrcode').attr('href', data.qrcode);
                 } else {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
                 }
-            },
-            error: (jqXHR) => {
-                //console.log(jqXHR);
-                $("#readytopay").modal('hide');
-                $("#result").modal();
-                $$.getElementById('msg').innerHTML = `${
-                        jqXHR
-                        } 发生错误了`;
             }
         })
-    }
-    function ff2f() {
-        $.ajax({
-            type: "POST",
-            url: "/payment/status/f2fpay",
-            dataType: "json",
-            data: {
-                pid: pid
-            },
-            success: (data) => {
-                if (data.result) {
-                    //console.log(data);
-                    $("#alipay").modal('hide');
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = '充值成功';
-                    window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
-                }
-            },
-            error: (jqXHR) => {
-                //console.log(jqXHR);
-            }
-        });
-        tid = setTimeout(f, 1000); //循环调用触发setTimeout
     }
 </script>

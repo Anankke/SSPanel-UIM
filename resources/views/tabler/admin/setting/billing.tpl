@@ -77,13 +77,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">公钥</label>
+                                    <label class="form-label col-3 col-form-label">支付宝公钥</label>
                                     <div class="col">
                                         <input id="f2f_pay_public_key" type="text" class="form-control" value="{$settings['f2f_pay_public_key']}">
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">私钥</label>
+                                    <label class="form-label col-3 col-form-label">应用私钥</label>
                                     <div class="col">
                                         <input id="f2f_pay_private_key" type="text" class="form-control" value="{$settings['f2f_pay_private_key']}">
                                     </div>
@@ -280,7 +280,7 @@
                 {/foreach}
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {

@@ -36,7 +36,7 @@
             })
                 .then((response) => response.json())
                 .then(() => {
-                    window.location.href = '/user/invoice';
+                    window.setTimeout(location.href = '/user/invoice', {$config['jump_delay']});
                 });
         }
     }).render('#paypal-button-container');
