@@ -21,8 +21,7 @@
                             关闭
                         </button>
                         {/if}
-                        <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                                data-bs-target="#add-ai-reply">
+                        <button id="add_ai_reply" href="#" class="btn btn-primary d-none d-sm-inline-block">
                             <i class="icon ti ti-robot"></i>
                             AI 回复
                         </button>
@@ -141,7 +140,7 @@
             })
         });
 
-        $("#add-ai-reply").click(function() {
+        $("#add_ai_reply").click(function() {
             $.ajax({
                 url: "/admin/ticket/{$ticket->id}/ai",
                 type: 'PUT',

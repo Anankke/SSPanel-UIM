@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use OpenAI\Client;
+use OpenAI;
 
 final class ChatGPT
 {
@@ -18,9 +18,9 @@ final class ChatGPT
             return 'No question provided';
         }
 
-        $client = Client::class($_ENV['openai_api_key']);
+        $client = OpenAI::client($_ENV['openai_api_key']);
         $response = $client->chat()->create([
-            'model' => 'gpt-3.5-turbo',
+            'model' => $_ENV['ai_model'],
             'messages' => [
                 [
                     'role' => 'user',

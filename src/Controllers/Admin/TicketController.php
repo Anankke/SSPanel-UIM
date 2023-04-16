@@ -127,7 +127,7 @@ final class TicketController extends BaseController
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
-                'commenter_name' => 'AI Admin by ChatGPT',
+                'commenter_name' => 'AI Admin by GPT',
                 'comment' => $ai_reply,
                 'datetime' => time(),
             ],

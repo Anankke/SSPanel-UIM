@@ -140,14 +140,6 @@ return static function (Slim\App $app): void {
         $group->put('/ticket/{id}/ai', App\Controllers\Admin\TicketController::class . ':updateAI');
         $group->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
         $group->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
-        // Shop Mange
-        $group->get('/shop', App\Controllers\Admin\ShopController::class . ':index');
-        $group->post('/shop/ajax', App\Controllers\Admin\ShopController::class . ':ajaxShop');
-        $group->get('/shop/create', App\Controllers\Admin\ShopController::class . ':create');
-        $group->post('/shop', App\Controllers\Admin\ShopController::class . ':add');
-        $group->get('/shop/{id}/edit', App\Controllers\Admin\ShopController::class . ':edit');
-        $group->put('/shop/{id}', App\Controllers\Admin\ShopController::class . ':update');
-        $group->delete('/shop', App\Controllers\Admin\ShopController::class . ':deleteGet');
         // Bought Mange
         $group->get('/bought', App\Controllers\Admin\ShopController::class . ':bought');
         $group->delete('/bought', App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
