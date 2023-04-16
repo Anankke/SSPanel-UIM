@@ -20,9 +20,6 @@ final class BillingController extends BaseController
         'f2f_pay_public_key',
         'f2f_pay_private_key',
         'f2f_pay_notify_url',
-        // V免签
-        'vmq_gateway',
-        'vmq_key',
         // PayJS
         'payjs_url',
         'payjs_mchid',

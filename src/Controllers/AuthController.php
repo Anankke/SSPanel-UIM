@@ -222,9 +222,16 @@ final class AuthController extends BaseController
      */
     public static function registerHelper(
         Response $response,
-        $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg
-    ): ResponseInterface
-    {
+        $name,
+        $email,
+        $passwd,
+        $code,
+        $imtype,
+        $imvalue,
+        $telegram_id,
+        $money,
+        $is_admin_reg
+    ): ResponseInterface {
         $user_invite = InviteCode::where('code', $code)->first();
         $gift_user = null;
 
