@@ -9,55 +9,58 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Exception;
-use Omnipay\Alipay\AbstractAopGateway;
-use Omnipay\Alipay\AopF2FGateway;
-use Omnipay\Alipay\Requests\AopCompletePurchaseRequest;
-use Omnipay\Alipay\Requests\AopTradePreCreateRequest;
-use Omnipay\Alipay\Responses\AopCompletePurchaseResponse;
-use Omnipay\Alipay\Responses\AopTradePreCreateResponse;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\GatewayInterface;
 use Omnipay\Omnipay;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use voku\helper\AntiXSS;
 
 final class AopF2F extends AbstractPayment
 {
     public static function _name(): string
     {
-        return 'f2fpay';
+        return 'f2f';
     }
 
     public static function _enable(): bool
     {
-        return self::getActiveGateway('f2fpay');
+        return self::getActiveGateway('f2f');
     }
 
     public static function _readableName(): string
     {
-        return '支付宝在线充值';
+        return 'Alipay F2F';
     }
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $amount = $request->getParam('amount');
-        $user = Auth::getUser();
-        if ($amount === '') {
+        $antiXss = new AntiXSS();
+
+        $price = $antiXss->xss_clean($request->getParam('amount'));
+        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+
+        if ($price <= 0) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '订单金额错误：' . $amount,
+                'msg' => '非法的金额',
             ]);
         }
 
+        $user = Auth::getUser();
         $pl = new Paylist();
+
         $pl->userid = $user->id;
+        $pl->total = $price;
+        $pl->invoice_id = $invoice_id;
         $pl->tradeno = self::generateGuid();
-        $pl->total = $amount;
+        $pl->gateway = self::_readableName();
+
         $pl->save();
 
         $gateway = $this->createGateway();
 
-        /** @var AopTradePreCreateRequest $request */
         $request = $gateway->purchase();
         $request->setBizContent([
             'subject' => $pl->tradeno,
@@ -65,7 +68,6 @@ final class AopF2F extends AbstractPayment
             'total_amount' => $pl->total,
         ]);
 
-        /** @var AopTradePreCreateResponse $aliResponse */
         $aliResponse = $request->send();
 
         // 获取收款二维码内容
@@ -79,31 +81,29 @@ final class AopF2F extends AbstractPayment
         ]);
     }
 
+    /**
+     * @throws InvalidRequestException
+     */
     public function notify($request, $response, $args): ResponseInterface
     {
         $gateway = $this->createGateway();
-        /** @var AopCompletePurchaseRequest $aliRequest */
-        try {
-            $aliRequest = $gateway->completePurchase();
-        } catch (InvalidRequestException $e) {
-            return $response->write('fail');
-        }
-
+        $aliRequest = $gateway->completePurchase();
         $aliRequest->setParams($_POST);
+        $aliResponse = $aliRequest->send();
+        $pid = $aliResponse->data('out_trade_no');
 
-        try {
-            /** @var AopCompletePurchaseResponse $aliResponse */
-            $aliResponse = $aliRequest->send();
-            $pid = $aliResponse->data('out_trade_no');
-            if ($aliResponse->isPaid()) {
-                $this->postPayment($pid, '支付宝当面付 ' . $pid);
-                return $response->write('success');
-            }
-        } catch (Exception $e) {
-            return $response->write('fail');
+        if ($aliResponse->isPaid()) {
+            $this->postPayment($pid);
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '支付成功',
+            ]);
         }
 
-        return $response->write('unknown');
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => '支付失败',
+        ]);
     }
 
     /**
@@ -111,24 +111,26 @@ final class AopF2F extends AbstractPayment
      */
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('gateway/aopf2f.tpl');
+        return View::getSmarty()->fetch('gateway/f2f.tpl');
     }
 
-    private function createGateway(): AbstractAopGateway
+    private function createGateway(): GatewayInterface
     {
         $configs = Setting::getClass('f2f');
-        /** @var AopF2FGateway $gateway */
         $gateway = Omnipay::create('Alipay_AopF2F');
         $gateway->setSignType('RSA2'); //RSA/RSA2
         $gateway->setAppId($configs['f2f_pay_app_id']);
         $gateway->setPrivateKey($configs['f2f_pay_private_key']); // 可以是路径，也可以是密钥内容
         $gateway->setAlipayPublicKey($configs['f2f_pay_public_key']); // 可以是路径，也可以是密钥内容
+
         if ($configs['f2f_pay_notify_url'] === '') {
             $notifyUrl = self::getCallbackUrl();
         } else {
             $notifyUrl = $configs['f2f_pay_notify_url'];
         }
+
         $gateway->setNotifyUrl($notifyUrl);
+
         return $gateway;
     }
 }

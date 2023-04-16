@@ -68,7 +68,6 @@ final class PayPal extends AbstractPayment
 
         $price = $antiXss->xss_clean($request->getParam('price'));
         $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
-
         $trade_no = self::generateGuid();
 
         if ($price <= 0) {

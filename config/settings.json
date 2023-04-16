@@ -61,26 +61,6 @@
     },
     {
         "id": null,
-        "item": "vmq_gateway",
-        "value": "",
-        "class": "vmq",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "V免签网关"
-    },
-    {
-        "id": null,
-        "item": "vmq_key",
-        "value": "",
-        "class": "vmq",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "V免签密钥"
-    },
-    {
-        "id": null,
         "item": "stripe_currency",
         "value": "USD",
         "class": "stripe",

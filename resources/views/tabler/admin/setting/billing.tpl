@@ -37,9 +37,6 @@
                             <a href="#f2f" class="nav-link" data-bs-toggle="tab">支付宝当面付</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#vmq" class="nav-link" data-bs-toggle="tab">V免签</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#stripe" class="nav-link" data-bs-toggle="tab">Stripe</a>
                         </li>
                         <li class="nav-item">
@@ -80,13 +77,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">公钥</label>
+                                    <label class="form-label col-3 col-form-label">支付宝公钥</label>
                                     <div class="col">
                                         <input id="f2f_pay_public_key" type="text" class="form-control" value="{$settings['f2f_pay_public_key']}">
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">私钥</label>
+                                    <label class="form-label col-3 col-form-label">应用私钥</label>
                                     <div class="col">
                                         <input id="f2f_pay_private_key" type="text" class="form-control" value="{$settings['f2f_pay_private_key']}">
                                     </div>
@@ -95,22 +92,6 @@
                                     <label class="form-label col-3 col-form-label">自定义回调地址（可选）</label>
                                     <div class="col">
                                         <input id="f2f_pay_notify_url" type="text" class="form-control" value="{$settings['f2f_pay_notify_url']}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="vmq">
-                            <div class="card-body">
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">网关地址</label>
-                                    <div class="col">
-                                        <input id="vmq_gateway" type="text" class="form-control" value="{$settings['vmq_gateway']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">密钥</label>
-                                    <div class="col">
-                                        <input id="vmq_key" type="text" class="form-control" value="{$settings['vmq_key']}">
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +280,7 @@
                 {/foreach}
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {

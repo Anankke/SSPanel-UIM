@@ -220,16 +220,26 @@ final class AuthController extends BaseController
      *
      * @throws Exception
      */
-    public static function registerHelper(Response $response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg): ResponseInterface
-    {
+    public static function registerHelper(
+        Response $response,
+        $name,
+        $email,
+        $passwd,
+        $code,
+        $imtype,
+        $imvalue,
+        $telegram_id,
+        $money,
+        $is_admin_reg
+    ): ResponseInterface {
         $user_invite = InviteCode::where('code', $code)->first();
         $gift_user = null;
 
-        if ($user_invite === null) {
+        if ($user_invite === null && ! $is_admin_reg) {
             if (Setting::obtain('reg_mode') === 'invite') {
                 return ResponseHelper::error($response, '邀请码无效');
             }
-        } elseif ($user_invite->user_id !== 0) {
+        } elseif ($user_invite->user_id !== 0 && ! $is_admin_reg) {
             $gift_user = User::where('id', $user_invite->user_id)->first();
             if ($gift_user === null) {
                 return ResponseHelper::error($response, '邀请码无效');
@@ -284,7 +294,7 @@ final class AuthController extends BaseController
             $user->money = $invitation['invitation_to_register_balance_reward'];
             // 邀请人添加邀请流量
             $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
-            if ($gift_user->invite_num - 1 >= 0) {
+            if ($gift_user->invite_num > 0) {
                 --$gift_user->invite_num;
                 // 避免设置为不限制邀请次数的值 -1 发生变动
             }
