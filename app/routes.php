@@ -137,6 +137,7 @@ return static function (Slim\App $app): void {
         $group->get('/ticket/{id}/view', App\Controllers\Admin\TicketController::class . ':ticketView');
         $group->put('/ticket/{id}/close', App\Controllers\Admin\TicketController::class . ':close');
         $group->put('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':update');
+        $group->put('/ticket/{id}/ai', App\Controllers\Admin\TicketController::class . ':updateAI');
         $group->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
         $group->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
         // Shop Mange
