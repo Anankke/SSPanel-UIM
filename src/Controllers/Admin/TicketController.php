@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Services\ChatGPT;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -87,6 +88,57 @@ final class TicketController extends BaseController
             'news/warn.tpl',
             [
                 'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。',
+            ],
+            []
+        );
+
+        $ticket->content = json_encode(array_merge($content_old, $content_new));
+        $ticket->status = 'open_wait_user';
+        $ticket->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '提交成功',
+        ]);
+    }
+
+    /**
+     * 喊 ChatGPT 帮忙回复工单
+     */
+    public function updateAI(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
+        $id = $args['id'];
+
+        $ticket = Ticket::where('id', $id)->first();
+
+        if ($ticket === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '工单不存在',
+            ]);
+        }
+
+        $content_old = json_decode($ticket->content, true);
+        // 获取用户的第一个问题，作为 ChatGPT 的输入
+        $user_question = $content_old[0]['comment'];
+        // 这里可能要等4-5秒
+        $ai_reply = ChatGPT::askOnce($user_question);
+
+        $content_new = [
+            [
+                'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
+                'commenter_name' => 'AI Admin by ChatGPT',
+                'comment' => $ai_reply,
+                'datetime' => time(),
+            ],
+        ];
+
+        $user = User::find($ticket->userid);
+        $user->sendMail(
+            $_ENV['appName'] . '-工单被回复',
+            'news/warn.tpl',
+            [
+                'text' => '您好，ChatGPT 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。',
             ],
             []
         );

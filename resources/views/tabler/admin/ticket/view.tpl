@@ -20,19 +20,16 @@
                             <i class="icon ti ti-x"></i>
                             关闭
                         </button>
-                        <button href="#" class="btn btn-red d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#close_ticket_confirm_dialog">
-                            <i class="icon ti ti-x"></i>
-                        </button>
                         {/if}
+                        <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                                data-bs-target="#add-ai-reply">
+                            <i class="icon ti ti-robot"></i>
+                            AI 回复
+                        </button>
                         <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#add-reply">
                             <i class="icon ti ti-plus"></i>
                             回复
-                        </button>
-                        <button href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#add-reply">
-                            <i class="icon ti ti-plus"></i>
                         </button>
                     </div>
                 </div>
@@ -133,7 +130,24 @@
                     comment: $('#reply-comment').val()
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#add-ai-reply").click(function() {
+            $.ajax({
+                url: "/admin/ticket/{$ticket->id}/ai",
+                type: 'PUT',
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {
@@ -150,7 +164,7 @@
                 type: 'PUT',
                 dataType: "json",
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {

@@ -174,6 +174,9 @@ $_ENV['sentry_dsn'] = '';
 $_ENV['maxmind_license_key'] = '';
 $_ENV['geoip_locale'] = 'en';
 
+// OpenAI API Key for GPT-3.5 powered ticket reply and more
+$_ENV['openai_api_key'] = '';
+
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';
 
