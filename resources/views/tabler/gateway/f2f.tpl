@@ -21,8 +21,8 @@
             url: "/user/payment/purchase/f2fpay",
             dataType: "json",
             data: {
-                amount: $$getValue('amount-f2fpay'),
-                invoice_id: $$getValue('invoice_id')
+                amount: $('#amount-f2fpay').val(),
+                invoice_id: $('#invoice_id').val()
             },
             success: (data) => {
                 if (data.ret) {

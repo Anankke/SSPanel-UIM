@@ -2,7 +2,7 @@
 
 <div class="card-inner">
     <h4>
-        PayPal 快速结账
+        PayPal
     </h4>
     <p class="card-heading"></p>
     <div id="paypal-button-container"></div>
