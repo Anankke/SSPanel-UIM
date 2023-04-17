@@ -1612,16 +1612,16 @@
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
-            "version": "v3.10.0",
+            "version": "v3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/irazasyed/telegram-bot-sdk.git",
-                "reference": "058fa8507e397c19b97f4cb86a269c59c5b5caa2"
+                "reference": "e0e399e0452acdd0ba67bfe859737df7a5916f1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/irazasyed/telegram-bot-sdk/zipball/058fa8507e397c19b97f4cb86a269c59c5b5caa2",
-                "reference": "058fa8507e397c19b97f4cb86a269c59c5b5caa2",
+                "url": "https://api.github.com/repos/irazasyed/telegram-bot-sdk/zipball/e0e399e0452acdd0ba67bfe859737df7a5916f1f",
+                "reference": "e0e399e0452acdd0ba67bfe859737df7a5916f1f",
                 "shasum": ""
             },
             "require": {
@@ -1690,9 +1690,9 @@
             ],
             "support": {
                 "issues": "https://github.com/irazasyed/telegram-bot-sdk/issues",
-                "source": "https://github.com/irazasyed/telegram-bot-sdk/tree/v3.10.0"
+                "source": "https://github.com/irazasyed/telegram-bot-sdk/tree/v3.11.0"
             },
-            "time": "2023-04-01T18:21:17+00:00"
+            "time": "2023-04-15T11:23:51+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
