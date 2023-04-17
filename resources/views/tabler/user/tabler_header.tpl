@@ -13,8 +13,8 @@
     <link href="//cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
     <!-- JS files -->
     <script src="/assets/js/fuck.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/qrcode_js@latest/qrcode.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/clipboard@latest/dist/clipboard.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <style>
         .home-subtitle {
