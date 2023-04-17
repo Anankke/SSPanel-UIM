@@ -140,10 +140,6 @@ return static function (Slim\App $app): void {
         $group->put('/ticket/{id}/ai', App\Controllers\Admin\TicketController::class . ':updateAI');
         $group->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
         $group->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
-        // Bought Mange
-        $group->get('/bought', App\Controllers\Admin\ShopController::class . ':bought');
-        $group->delete('/bought', App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
-        $group->post('/bought/ajax', App\Controllers\Admin\ShopController::class . ':ajaxBought');
         // Ann Mange
         $group->get('/announcement', App\Controllers\Admin\AnnController::class . ':index');
         $group->get('/announcement/create', App\Controllers\Admin\AnnController::class . ':create');
@@ -176,10 +172,11 @@ return static function (Slim\App $app): void {
         $group->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
         $group->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
         $group->post('/coupon/{id}/disable', App\Controllers\Admin\CouponController::class . ':disable');
-        // 登录日志 & 在线IP
+        // 登录日志
         $group->get('/login', App\Controllers\Admin\IpController::class . ':login');
-        $group->get('/online', App\Controllers\Admin\IpController::class . ':online');
         $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
+        // 在线IP
+        $group->get('/online', App\Controllers\Admin\IpController::class . ':online');
         $group->post('/online/ajax', App\Controllers\Admin\IpController::class . ':ajaxOnline');
         // 订阅日志
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
@@ -278,6 +275,6 @@ return static function (Slim\App $app): void {
     // 传统订阅（SS/V2Ray/Trojan etc.）
     $app->get('/link/{token}', App\Controllers\LinkController::class . ':getContent');
 
-    // 通用订阅（Json/Clash）
+    // 通用订阅（Json/Clash/SIP008）
     $app->get('/sub/{token}/{subtype}', App\Controllers\SubController::class . ':getContent');
 };
