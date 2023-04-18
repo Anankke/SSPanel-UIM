@@ -60,7 +60,7 @@
                                     <div class="col">
                                         <select id="reg_email_verify" class="col form-select" value="{$settings['reg_email_verify']}">
                                             <option value="0" {if $settings['reg_email_verify'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['reg_email_verify'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['reg_email_verify']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                     <div class="col">
                                         <select id="sign_up_for_daily_report" class="col form-select" value="{$settings['sign_up_for_daily_report']}">
                                             <option value="0" {if $settings['sign_up_for_daily_report'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['sign_up_for_daily_report'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['sign_up_for_daily_report']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                                     <div class="col">
                                         <select id="enable_reg_im" class="col form-select" value="{$settings['enable_reg_im']}">
                                             <option value="0" {if $settings['enable_reg_im'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_reg_im'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_reg_im']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                     <div class="col">
                                         <select id="enable_reg_new_shop" class="col form-select" value="{$settings['enable_reg_new_shop']}">
                                             <option value="0" {if $settings['enable_reg_new_shop'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_reg_new_shop'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_reg_new_shop']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>

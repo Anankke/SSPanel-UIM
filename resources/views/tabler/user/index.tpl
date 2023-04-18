@@ -455,7 +455,7 @@
                         </div>
                     </div>
                 </div>
-                {if $config['enable_checkin'] === true}
+                {if $config['enable_checkin']}
                     <div class="col-lg-6 col-sm-12">
                         <div class="card">
                             <div class="card-stamp">

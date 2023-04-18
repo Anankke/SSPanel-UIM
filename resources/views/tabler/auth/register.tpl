@@ -9,7 +9,7 @@
                 </a>
             </div>
             <div class="card card-md">
-                {if $public_setting['reg_mode'] != 'close'}
+                {if $public_setting['reg_mode'] !== 'close'}
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">注册账户</h2>
                         <div class="mb-3">
@@ -28,7 +28,7 @@
                                 <input id="repasswd" type="password" class="form-control" placeholder="重复登录密码">
                             </div>
                         </div>
-                        {if $public_setting['enable_reg_im'] === true}
+                        {if $public_setting['enable_reg_im']}
                             <div class="mb-3">
                                 <select id="im_type" class="col form-select">
                                     <option value="0">请选择社交软件</option>
@@ -44,14 +44,14 @@
                                 </div>
                             </div>
                         {/if}
-                        {if $public_setting['reg_mode'] != 'close' }
+                        {if $public_setting['reg_mode'] !== 'close' }
                             <div class="mb-3">
                                 <div class="input-group input-group-flat">
                                     <input id="code" type="text" class="form-control" placeholder="注册邀请码{if $public_setting['reg_mode'] === 'open'}（可选）{else}（必填）{/if}" value="{$code}">
                                 </div>
                             </div>
                         {/if}
-                        {if $public_setting['reg_email_verify'] === true}
+                        {if $public_setting['reg_email_verify']}
                             <div class="mb-3">
                                 <div class="input-group mb-2">
                                     <input id="emailcode" type="text" class="form-control" placeholder="邮箱验证码">

@@ -44,7 +44,7 @@
                                     <div class="col">
                                         <select id="enable_traditional_sub" class="col form-select" value="{$settings['enable_traditional_sub']}">
                                             <option value="0" {if $settings['enable_traditional_sub'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_traditional_sub'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_traditional_sub']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                                     <div class="col">
                                         <select id="enable_ss_sub" class="col form-select" value="{$settings['enable_ss_sub']}">
                                             <option value="0" {if $settings['enable_ss_sub'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_ss_sub'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_ss_sub']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                     <div class="col">
                                         <select id="enable_v2_sub" class="col form-select" value="{$settings['enable_v2_sub']}">
                                             <option value="0" {if $settings['enable_v2_sub'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_v2_sub'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_v2_sub']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                     <div class="col">
                                         <select id="enable_trojan_sub" class="col form-select" value="{$settings['enable_trojan_sub']}">
                                             <option value="0" {if $settings['enable_trojan_sub'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_trojan_sub'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_trojan_sub']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                                     <div class="col">
                                         <select id="enable_forced_replacement" class="col form-select" value="{$settings['enable_forced_replacement']}">
                                             <option value="0" {if $settings['enable_forced_replacement'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_forced_replacement'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_forced_replacement']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>

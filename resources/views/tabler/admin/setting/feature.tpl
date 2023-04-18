@@ -44,7 +44,7 @@
                                     <div class="col">
                                         <select id="display_media" class="col form-select" value="{$settings['display_media']}">
                                             <option value="0" {if $settings['display_media'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['display_media'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['display_media']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                                     <div class="col">
                                         <select id="display_subscribe_log" class="col form-select" value="{$settings['display_subscribe_log']}">
                                             <option value="0" {if $settings['display_subscribe_log'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['display_subscribe_log'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['display_subscribe_log']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                     <div class="col">
                                         <select id="display_detect_log" class="col form-select" value="{$settings['display_detect_log']}">
                                             <option value="0" {if $settings['display_detect_log'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['display_detect_log'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['display_detect_log']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>

@@ -54,7 +54,7 @@
                         <div class="card-header">
                             <h3 class="card-title">返利记录</h3>
                         </div>
-                        {if $paybacks->count() != '0'}
+                        {if $paybacks->count() !== '0'}
                             <div class="table-responsive">
                                 <table class="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
