@@ -159,7 +159,7 @@
                                 <div class="row my-3">
                                     <div class="col">
                                         <button id="reset-node-password" class="btn btn-red">重置</button>
-                                        <button id="copy-password" class="btn btn-primary copy-text" data-clipboard-text="{$node->password}">
+                                        <button id="copy-password" class="copy btn btn-primary" data-clipboard-text="{$node->password}">
                                             复制
                                         </button>
                                     </div>
@@ -177,12 +177,10 @@
 </div>
 
 <script>
-    $(function () {
-        new ClipboardJS('.copy-text');
-    });
-    $(".copy-text").click(function () {
-        $('#success-message').text('已复制到您的剪贴板。');
-        $('#success-dialog').modal('show');
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        $('#copy-message').text('已复制到剪切板');
+        $('#copy-dialog').modal('show');
     });
 
     const container = document.getElementById('custom_config');

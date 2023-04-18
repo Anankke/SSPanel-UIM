@@ -506,19 +506,9 @@
     <script>
         var clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function(e) {
-            $('#success-message').text('已复制到剪切板');
-            $('#success-dialog').modal('show');
+            $('#copy-message').text('已复制到剪切板');
+            $('#copy-dialog').modal('show');
         });
-
-        const checkin_button = document.querySelector('#check-in');
-        {if $public_setting['enable_checkin_captcha']}
-            {if $public_setting['captcha_provider'] === 'turnstile'}
-                const turnstile_recaptcha = document.querySelector('#cf-turnstile');
-            {/if}
-            {if $public_setting['captcha_provider'] === 'geetest'}
-            const geetest_recaptcha = document.querySelector('#geetest');
-            {/if}
-        {/if}
 
         $("#check-in").click(function() {
             $.ajax({
@@ -537,15 +527,6 @@
                 },
                 success: function(data) {
                     if (data.ret === 1) {
-                        checkin_button.disabled = true;
-                        {if $public_setting['enable_checkin_captcha']}
-                            {if $public_setting['captcha_provider'] === 'turnstile'}
-                                turnstile_recaptcha.remove();
-                            {/if}
-                            {if $public_setting['captcha_provider'] === 'geetest'}
-                                geetest_recaptcha.remove();
-                            {/if}
-                        {/if}
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {

@@ -518,8 +518,8 @@
 
         var clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function(e) {
-            $('#success-message').text('已复制到剪切板');
-            $('#success-dialog').modal('show');
+            $('#copy-message').text('已复制到剪切板');
+            $('#copy-dialog').modal('show');
         });
 
         $("#modify-email").click(function() {

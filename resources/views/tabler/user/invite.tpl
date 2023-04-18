@@ -95,13 +95,10 @@
     </div>
 
     <script>
-        $("td:contains('通过')").css("color", "green");
-        $("td:contains('欺诈')").css("color", "red");
-
         var clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function(e) {
-            $('#success-message').text('已复制到剪切板');
-            $('#success-dialog').modal('show');
+            $('#copy-message').text('已复制到剪切板');
+            $('#copy-dialog').modal('show');
         });
 
         $("#reset-url").click(function() {
