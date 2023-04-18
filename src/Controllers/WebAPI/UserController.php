@@ -95,7 +95,7 @@ final class UserController extends BaseController
         $users = [];
         foreach ($users_raw as $user_raw) {
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
-                if ($_ENV['keep_connect'] === true) {
+                if ($_ENV['keep_connect']) {
                     // 流量耗尽用户限速至 1Mbps
                     $user_raw->node_speedlimit = 1;
                 } else {

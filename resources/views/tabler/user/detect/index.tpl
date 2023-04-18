@@ -48,10 +48,10 @@
                                         <td>{$rule->name}</td>
                                         <td>{$rule->text}</td>
                                         <td>{$rule->regex}</td>
-                                        {if $rule->type == 1}
+                                        {if $rule->type === 1}
                                             <td>数据包明文匹配</td>
                                         {/if}
-                                        {if $rule->type == 2}
+                                        {if $rule->type === 2}
                                             <td>数据包 hex 匹配</td>
                                         {/if}
                                     </tr>

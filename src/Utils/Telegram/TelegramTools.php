@@ -321,7 +321,7 @@ final class TelegramTools
      */
     public static function getUserEmail(string $email, int $ChatID): string
     {
-        if (Setting::obtain('enable_user_email_group_show') === true || $ChatID > 0) {
+        if (Setting::obtain('enable_user_email_group_show') || $ChatID > 0) {
             return $email;
         }
         $a = strpos($email, '@');

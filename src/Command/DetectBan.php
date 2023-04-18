@@ -51,7 +51,7 @@ final class DetectBan extends Command
                 $user->all_detect_number += $value;
                 $user->save();
 
-                if ($user->is_banned === 1 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin'] === true) || in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
+                if ($user->is_banned === 1 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin']) || in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
                     // 如果用户已被封禁
                     // 如果用户是管理员
                     // 如果属于钦定用户

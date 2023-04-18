@@ -455,7 +455,7 @@
                         </div>
                     </div>
                 </div>
-                {if $config['enable_checkin'] == true}
+                {if $config['enable_checkin'] === true}
                     <div class="col-lg-6 col-sm-12">
                         <div class="card">
                             <div class="card-stamp">
@@ -536,7 +536,7 @@
                     {/if}
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         checkin_button.disabled = true;
                         {if $public_setting['enable_checkin_captcha']}
                             {if $public_setting['captcha_provider'] === 'turnstile'}

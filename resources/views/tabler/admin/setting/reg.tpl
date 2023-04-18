@@ -49,9 +49,9 @@
                                     <label class="form-label col-3 col-form-label">注册模式</label>
                                     <div class="col">
                                         <select id="reg_mode" class="col form-select" value="{$settings['reg_mode']}">
-                                            <option value="close" {if $settings['reg_mode'] == 'close'}selected{/if}>关闭注册</option>
-                                            <option value="open" {if $settings['reg_mode'] == 'open'}selected{/if}>公开注册</option>
-                                            <option value="invite" {if $settings['reg_mode'] == 'invite'}selected{/if}>仅限用户邀请注册</option>
+                                            <option value="close" {if $settings['reg_mode'] === 'close'}selected{/if}>关闭注册</option>
+                                            <option value="open" {if $settings['reg_mode'] === 'open'}selected{/if}>公开注册</option>
+                                            <option value="invite" {if $settings['reg_mode'] === 'invite'}selected{/if}>仅限用户邀请注册</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,8 +59,8 @@
                                     <label class="form-label col-3 col-form-label">邮箱验证</label>
                                     <div class="col">
                                         <select id="reg_email_verify" class="col form-select" value="{$settings['reg_email_verify']}">
-                                            <option value="0" {if $settings['reg_email_verify'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['reg_email_verify'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['reg_email_verify'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['reg_email_verify'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -86,8 +86,8 @@
                                     <label class="form-label col-3 col-form-label">默认接收每日用量邮件推送</label>
                                     <div class="col">
                                         <select id="sign_up_for_daily_report" class="col form-select" value="{$settings['sign_up_for_daily_report']}">
-                                            <option value="0" {if $settings['sign_up_for_daily_report'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['sign_up_for_daily_report'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['sign_up_for_daily_report'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['sign_up_for_daily_report'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -95,8 +95,8 @@
                                     <label class="form-label col-3 col-form-label">是否要求用户输入IM联系方式</label>
                                     <div class="col">
                                         <select id="enable_reg_im" class="col form-select" value="{$settings['enable_reg_im']}">
-                                            <option value="0" {if $settings['enable_reg_im'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_reg_im'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_reg_im'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_reg_im'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -104,8 +104,8 @@
                                     <label class="form-label col-3 col-form-label">默认使用新商店系统</label>
                                     <div class="col">
                                         <select id="enable_reg_new_shop" class="col form-select" value="{$settings['enable_reg_new_shop']}">
-                                            <option value="0" {if $settings['enable_reg_new_shop'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_reg_new_shop'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_reg_new_shop'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_reg_new_shop'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -228,7 +228,7 @@
                 {/foreach}
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {

@@ -85,7 +85,7 @@
                                             <span class="col-auto">
                                                 <label class="form-check form-check-single form-switch">
                                                     <input id="type" class="form-check-input" type="checkbox"
-                                                        {if $node->type == 1}checked="" {/if}>
+                                                        {if $node->type === 1}checked="" {/if}>
                                                 </label>
                                             </span>
                                         </label>
@@ -198,7 +198,7 @@
             type: 'POST',
             dataType: "json",
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {
@@ -222,7 +222,7 @@
                 custom_config: JSON.stringify(editor.get()),
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                     window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});

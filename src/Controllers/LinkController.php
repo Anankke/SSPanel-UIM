@@ -86,7 +86,7 @@ final class LinkController extends BaseController
         }
 
         // 记录订阅日志
-        if ($_ENV['subscribeLog'] === true) {
+        if ($_ENV['subscribeLog']) {
             UserSubscribeLog::addSubscribeLog($user, $sub_type, $request->getHeaderLine('User-Agent'));
         }
 

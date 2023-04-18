@@ -28,7 +28,7 @@
                                 <input id="repasswd" type="password" class="form-control" placeholder="重复登录密码">
                             </div>
                         </div>
-                        {if $public_setting['enable_reg_im'] == true}
+                        {if $public_setting['enable_reg_im'] === true}
                             <div class="mb-3">
                                 <select id="im_type" class="col form-select">
                                     <option value="0">请选择社交软件</option>
@@ -47,11 +47,11 @@
                         {if $public_setting['reg_mode'] != 'close' }
                             <div class="mb-3">
                                 <div class="input-group input-group-flat">
-                                    <input id="code" type="text" class="form-control" placeholder="注册邀请码{if $public_setting['reg_mode'] == 'open'}（可选）{else}（必填）{/if}" value="{$code}">
+                                    <input id="code" type="text" class="form-control" placeholder="注册邀请码{if $public_setting['reg_mode'] === 'open'}（可选）{else}（必填）{/if}" value="{$code}">
                                 </div>
                             </div>
                         {/if}
-                        {if $public_setting['reg_email_verify'] == true}
+                        {if $public_setting['reg_email_verify'] === true}
                             <div class="mb-3">
                                 <div class="input-group mb-2">
                                     <input id="emailcode" type="text" class="form-control" placeholder="邮箱验证码">
@@ -100,7 +100,7 @@
     </div>
 
     <script>
-        {if $public_setting['reg_email_verify'] === true}
+        {if $public_setting['reg_email_verify']}
             $("#email-verify").click(function() {
                 $.ajax({
                     type: 'POST',
@@ -110,7 +110,7 @@
                         email: $('#email').val(),
                     },
                     success: function(data) {
-                        if (data.ret == 1) {
+                        if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
                         } else {
@@ -128,11 +128,11 @@
                 url: '/auth/register',
                 dataType: "json",
                 data: {
-                    {if $public_setting['enable_reg_im'] === true}
+                    {if $public_setting['enable_reg_im']}
                         im_value: $('#im_value').val(),
                         im_type: $('#im_type').val(),
                     {/if}
-                    {if $public_setting['reg_email_verify'] === true}
+                    {if $public_setting['reg_email_verify']}
                         emailcode: $('#emailcode').val(),
                     {/if}
                     tos: $('#tos').prop('checked'), // true / false (string)
@@ -151,7 +151,7 @@
                     {/if}
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         window.setTimeout("location.href='/user'", {$config['jump_delay']});

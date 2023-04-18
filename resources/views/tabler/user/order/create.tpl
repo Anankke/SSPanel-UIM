@@ -142,7 +142,7 @@
                     product_id: {$product->id},
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#coupon-code').text($('#coupon').val());
                         $('#product-buy-discount').text(data.discount);
                         $('#product-buy-total').text(data.buy_price);
@@ -164,7 +164,7 @@
                     product_id: {$product->id},
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         setTimeout(function() {

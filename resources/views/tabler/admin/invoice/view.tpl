@@ -132,7 +132,7 @@
                 type: 'POST',
                 dataType: "json",
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {
@@ -141,10 +141,6 @@
                     }
                 }
             })
-        });
-
-        $("#success-confirm").click(function() {
-            location.reload();
         });
     </script>
 

@@ -25,7 +25,7 @@ final class Telegram
             $chat_id = $_ENV['telegram_chatid'];
         }
 
-        if ($_ENV['enable_telegram'] === true) {
+        if ($_ENV['enable_telegram']) {
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
 
@@ -57,7 +57,7 @@ final class Telegram
             $chat_id = $_ENV['telegram_chatid'];
         }
 
-        if ($_ENV['enable_telegram'] === true) {
+        if ($_ENV['enable_telegram']) {
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
 
