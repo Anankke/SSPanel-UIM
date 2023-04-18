@@ -50,7 +50,7 @@ final class PingCommand extends Command
                 ]
             );
         } else {
-            if (Setting::obtain('telegram_group_quiet') === true) {
+            if (Setting::obtain('telegram_group_quiet')) {
                 // 群组中不回应
                 return;
             }

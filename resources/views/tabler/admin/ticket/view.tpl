@@ -173,10 +173,6 @@
                 }
             })
         });
-
-        $("#success-confirm").click(function() {
-            location.reload();
-        });
     </script>
 
 {include file='admin/tabler_footer.tpl'}

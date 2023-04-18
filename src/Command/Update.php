@@ -18,7 +18,7 @@ END;
         // 迁移配置
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
-        if ($copy_result === true) {
+        if ($copy_result) {
             echo ".config.php 文件备份成功。\n";
         } else {
             echo ".config.php 文件备份失败，迁移终止。\n";

@@ -15,7 +15,7 @@ final class Cloudflare
     public static function modifyRecord(DNS $dns, $zoneID, $recordID, $name, $content, $proxied = false): int
     {
         $details = ['type' => 'A', 'name' => $name, 'content' => $content, 'proxied' => $proxied];
-        if ($dns->updateRecordDetails($zoneID, $recordID, $details)->success === true) {
+        if ($dns->updateRecordDetails($zoneID, $recordID, $details)->success) {
             return 1;
         }
         return 0;
@@ -23,7 +23,7 @@ final class Cloudflare
 
     public static function addRecord(DNS $dns, $zoneID, $type, $name, $content, $ttl = 120, $proxied = false): int
     {
-        if ($dns->addRecord($zoneID, $type, $name, $content, $ttl, $proxied) === true) {
+        if ($dns->addRecord($zoneID, $type, $name, $content, $ttl, $proxied)) {
             return 1;
         }
         return 0;

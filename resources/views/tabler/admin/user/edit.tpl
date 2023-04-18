@@ -110,7 +110,7 @@
                                 <span class="col-auto">
                                     <label class="form-check form-check-single form-switch">
                                         <input id="is_admin" class="form-check-input" type="checkbox"
-                                            {if $edit_user->is_admin == 1}checked="" {/if}>
+                                            {if $edit_user->is_admin === 1}checked="" {/if}>
                                     </label>
                                 </span>
                             </div>
@@ -119,7 +119,7 @@
                                 <span class="col-auto">
                                     <label class="form-check form-check-single form-switch">
                                         <input id="ga_enable" class="form-check-input" type="checkbox"
-                                            {if $edit_user->ga_enable == 1}checked="" {/if}>
+                                            {if $edit_user->ga_enable === 1}checked="" {/if}>
                                     </label>
                                 </span>
                             </div>
@@ -128,7 +128,7 @@
                                 <span class="col-auto">
                                     <label class="form-check form-check-single form-switch">
                                         <input id="use_new_shop" class="form-check-input" type="checkbox"
-                                            {if $edit_user->use_new_shop == 1}checked="" {/if}>
+                                            {if $edit_user->use_new_shop === 1}checked="" {/if}>
                                     </label>
                                 </span>
                             </div>
@@ -137,7 +137,7 @@
                                 <span class="col-auto">
                                     <label class="form-check form-check-single form-switch">
                                         <input id="is_banned" class="form-check-input" type="checkbox"
-                                            {if $edit_user->is_banned == 1} checked=""{/if}>
+                                            {if $edit_user->is_banned === 1} checked=""{/if}>
                                     </label>
                                 </span>
                             </div>
@@ -285,7 +285,7 @@
                 use_new_shop: $("#use_new_shop").is(":checked"),
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                     window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});

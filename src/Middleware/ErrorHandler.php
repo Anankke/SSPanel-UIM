@@ -42,7 +42,7 @@ final class ErrorHandler implements MiddlewareInterface
                 captureException($e);
             }
 
-            if ($_ENV['debug'] === true) {
+            if ($_ENV['debug']) {
                 $callable_resolver = new CallableResolver(null);
                 $error_handler = new SlimErrorHandler($callable_resolver, $response_factory);
                 $response = $error_handler($request, $e, true, true, false);

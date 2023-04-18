@@ -50,7 +50,7 @@ final class InfoCommand extends Command
                 $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
                 if ($AdminUser === null) {
                     // 非管理员回复消息
-                    if (Setting::obtain('enable_not_admin_reply') === true && Setting::obtain('not_admin_reply_msg') !== '') {
+                    if (Setting::obtain('enable_not_admin_reply') && Setting::obtain('not_admin_reply_msg') !== '') {
                         $this->replyWithMessage(
                             [
                                 'text' => Setting::obtain('not_admin_reply_msg'),

@@ -103,7 +103,7 @@
                                     <div class="col">
                                         <select id="stripe_card" class="col form-select" value="{$settings['stripe_card']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['stripe_card'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['stripe_card']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@
                                     <div class="col">
                                         <select id="stripe_alipay" class="col form-select" value="{$settings['stripe_alipay']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['stripe_alipay'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['stripe_alipay']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@
                                     <div class="col">
                                         <select id="stripe_wechat" class="col form-select" value="{$settings['stripe_wechat']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['stripe_wechat'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['stripe_wechat']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
                                     <div class="col">
                                         <select id="epay_alipay" class="col form-select" value="{$settings['epay_alipay']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['epay_alipay'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['epay_alipay']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@
                                     <div class="col">
                                         <select id="epay_wechat" class="col form-select" value="{$settings['epay_wechat']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['epay_wechat'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['epay_wechat']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@
                                     <div class="col">
                                         <select id="epay_qq" class="col form-select" value="{$settings['epay_qq']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['epay_qq'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['epay_qq']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>
@@ -215,7 +215,7 @@
                                     <div class="col">
                                         <select id="epay_usdt" class="col form-select" value="{$settings['epay_usdt']}">
                                             <option value="0">停用</option>
-                                            <option value="1" {if $settings['epay_usdt'] === true}selected{/if}>启用</option>
+                                            <option value="1" {if $settings['epay_usdt']}selected{/if}>启用</option>
                                         </select>
                                     </div>
                                 </div>

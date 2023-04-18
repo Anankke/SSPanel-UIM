@@ -43,9 +43,7 @@ final class EpayTool
     public static function createLinkstringUrlencode($para): string
     {
         $arg = '';
-//        while (list ($key, $val) = each ($para)) {
-//            $arg.=$key."=".urlencode($val)."&";
-//        }
+
         foreach ($para as $key => $val) {
             $arg .= $key.'='.urlencode($val).'&';
         }
@@ -67,10 +65,6 @@ final class EpayTool
             $para_filter[$key] = $val;
         }
 
-//        while (list ($key, $val) = each ($para)) {
-//            if($key == "sign" || $key == "sign_type" || $val == "")continue;
-//            else  $para_filter[$key] = $para[$key];
-//        }
         return $para_filter;
     }
 

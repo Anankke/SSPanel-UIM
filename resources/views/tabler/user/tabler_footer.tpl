@@ -22,6 +22,30 @@
     </div>
 </div>
 
+<div class="modal modal-blur fade" id="copy-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
+                <p id="copy-message" class="text-muted">成功</p>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a id="copy-confirm" href="" class="btn w-100" data-bs-dismiss="modal">
+                                好
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -77,7 +101,7 @@
             url: "/user/switch_theme_mode",
             dataType: "json",
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                     window.setTimeout("location.reload()", {$config['jump_delay']});
@@ -87,6 +111,10 @@
                 }
             }
         })
+    });
+
+    $("#success-confirm").click(function() {
+        location.reload();
     });
 </script>
 <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>

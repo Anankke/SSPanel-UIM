@@ -62,7 +62,7 @@ final class DetectGFW extends Command
                         //被墙了
                         echo $node->id . ':false' . PHP_EOL;
                         //判断有没有发送过邮件
-                        if ($node->gfw_block === true) {
+                        if ($node->gfw_block) {
                             continue;
                         }
 

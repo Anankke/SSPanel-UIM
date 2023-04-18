@@ -1,4 +1,4 @@
-{if $public_setting['live_chat'] == 'tawk'}
+{if $public_setting['live_chat'] === 'tawk'}
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
@@ -12,7 +12,7 @@
 </script>
 {/if}
 
-{if $public_setting['live_chat'] == 'crisp'}
+{if $public_setting['live_chat'] === 'crisp'}
 <script type="text/javascript"> window.$crisp = [];
     window.CRISP_WEBSITE_ID = "{$public_setting["crisp_id"]}";
     (function () {
@@ -40,7 +40,7 @@
 </script>
 {/if}
 
-{if $public_setting['live_chat'] == 'livechat'}
+{if $public_setting['live_chat'] === 'livechat'}
 <script>
 window.__lc = window.__lc || { };
 window.__lc.license = "{$public_setting['livechat_id']}";
@@ -92,7 +92,7 @@ window.__lc.params = [
 </script>
 {/if}
 
-{if $public_setting['live_chat'] == 'mylivechat'}
+{if $public_setting['live_chat'] === 'mylivechat'}
 <script type="text/javascript">
     (() => {
         var hccid = "{$public_setting['mylivechat_id']}";

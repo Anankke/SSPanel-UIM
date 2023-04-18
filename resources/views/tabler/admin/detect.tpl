@@ -55,7 +55,7 @@
                 </div>
                 <div class="modal-body">
                     {foreach $details['add_dialog'] as $from}
-                        {if $from['type'] == 'input'}
+                        {if $from['type'] === 'input'}
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">{$from['info']}</label>
                                 <div class="col">
@@ -64,14 +64,14 @@
                                 </div>
                             </div>
                         {/if}
-                        {if $from['type'] == 'textarea'}
+                        {if $from['type'] === 'textarea'}
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">{$from['info']}</label>
                                 <textarea id="{$from['id']}" class="col form-control" rows="{$from['rows']}"
                                     placeholder="{$from['placeholder']}"></textarea>
                             </div>
                         {/if}
-                        {if $from['type'] == 'select'}
+                        {if $from['type'] === 'select'}
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">{$from['info']}</label>
                                 <div class="col">
@@ -154,7 +154,7 @@
                     {/foreach}
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         reloadTableAjax();
@@ -175,7 +175,7 @@
                     type: 'DELETE',
                     dataType: "json",
                     success: function(data) {
-                        if (data.ret == 1) {
+                        if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
                             reloadTableAjax();

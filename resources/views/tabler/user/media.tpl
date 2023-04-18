@@ -26,10 +26,10 @@
                                     <tr>
                                         <th>节点</th>
                                         {foreach $results['0']['unlock_item'] as $key => $value}
-                                            {if $key != 'BilibiliChinaMainland'}
-                                                {if $key == 'BilibiliHKMCTW'}
+                                            {if $key !== 'BilibiliChinaMainland'}
+                                                {if $key === 'BilibiliHKMCTW'}
                                                     <th>Bilibili（港澳台）</th>
-                                                {elseif $key == 'BilibiliTW'}
+                                                {elseif $key === 'BilibiliTW'}
                                                     <th>Bilibili（台湾）</th>
                                                 {else}
                                                     <th>{$key}</th>

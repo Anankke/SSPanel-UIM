@@ -34,7 +34,7 @@ final class PasswordController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_reset_password_captcha') === true) {
+        if (Setting::obtain('enable_reset_password_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -47,7 +47,7 @@ final class PasswordController extends BaseController
 
     public function handleReset(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        if (Setting::obtain('enable_reset_password_captcha') === true) {
+        if (Setting::obtain('enable_reset_password_captcha')) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
                 return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试');
