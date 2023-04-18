@@ -165,20 +165,28 @@ final class Tools
     public static function getLastPort()
     {
         $user = User::orderBy('id', 'desc')->first();
+
         if ($user === null) {
             return 1024;
         }
+
         return $user->port;
     }
 
     public static function getAvPort()
     {
-        if (Setting::obtain('min_port') > 65535 || Setting::obtain('min_port') <= 0 || Setting::obtain('max_port') > 65535 || Setting::obtain('max_port') <= 0) {
+        if (Setting::obtain('min_port') > 65535
+            || Setting::obtain('min_port') <= 0
+            || Setting::obtain('max_port') > 65535
+            || Setting::obtain('max_port') <= 0
+        ) {
             return 0;
         }
+
         $det = User::pluck('port')->toArray();
         $port = array_diff(range(Setting::obtain('min_port'), Setting::obtain('max_port')), $det);
         shuffle($port);
+
         return $port[0];
     }
 
@@ -186,6 +194,7 @@ final class Tools
     {
         $dirArray = [];
         $handle = opendir($dir);
+
         if ($handle !== false) {
             $i = 0;
             while (($file = readdir($handle)) !== false) {
@@ -196,20 +205,18 @@ final class Tools
             }
             closedir($handle);
         }
-        return $dirArray;
-    }
 
-    public static function isSpecialChars($input): bool
-    {
-        return ! preg_match('/[^A-Za-z0-9\-_\.]/', $input);
+        return $dirArray;
     }
 
     public static function isParamValidate($type, $str): bool
     {
         $list = Config::getSupportParam($type);
+
         if (in_array($str, $list)) {
             return true;
         }
+
         return false;
     }
 
@@ -218,6 +225,7 @@ final class Tools
         if (filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
             return false;
         }
+
         return true;
     }
 
@@ -259,6 +267,7 @@ final class Tools
         if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
             return false;
         }
+
         return true;
     }
 
@@ -267,6 +276,7 @@ final class Tools
         if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
             return false;
         }
+
         return true;
     }
 
@@ -275,6 +285,7 @@ final class Tools
         if (filter_var($input, FILTER_VALIDATE_INT) === false) {
             return false;
         }
+
         return true;
     }
 
@@ -291,17 +302,6 @@ final class Tools
         return "couldn't alloc token";
     }
 
-    public static function searchEnvName($name): int|string|null
-    {
-        global $_ENV;
-        foreach ($_ENV as $configKey => $configValue) {
-            if (strtoupper($configKey) === $name) {
-                return $configKey;
-            }
-        }
-        return null;
-    }
-
     /**
      * 获取累计收入
      */
@@ -309,11 +309,15 @@ final class Tools
     {
         $today = strtotime('00:00:00');
         $number = match ($req) {
-            'today' => Paylist::where('status', 1)->whereBetween('datetime', [$today, time()])->sum('total'),
-            'yesterday' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 day', $today), $today])->sum('total'),
-            'this month' => Paylist::where('status', 1)->whereBetween('datetime', [strtotime('first day of this month 00:00:00'), time()])->sum('total'),
+            'today' => Paylist::where('status', 1)
+                ->whereBetween('datetime', [$today, time()])->sum('total'),
+            'yesterday' => Paylist::where('status', 1)
+                ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->sum('total'),
+            'this month' => Paylist::where('status', 1)
+                ->whereBetween('datetime', [strtotime('first day of this month 00:00:00'), time()])->sum('total'),
             default => Paylist::where('status', 1)->sum('total'),
         };
+
         return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 }
