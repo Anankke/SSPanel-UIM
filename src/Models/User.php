@@ -459,11 +459,11 @@ final class User extends Model
         $this->telegram_id = 0;
         if ($this->save()) {
             if (
-                $_ENV['enable_telegram'] === true
+                $_ENV['enable_telegram']
                 &&
-                Setting::obtain('telegram_group_bound_user') === true
+                Setting::obtain('telegram_group_bound_user')
                 &&
-                Setting::obtain('telegram_unbind_kick_member') === true
+                Setting::obtain('telegram_unbind_kick_member')
                 &&
                 ! $this->is_admin
             ) {
@@ -491,7 +491,7 @@ final class User extends Model
     public function setPort(int $Port): array
     {
         $PortOccupied = User::pluck('port')->toArray();
-        if (in_array($Port, $PortOccupied) === true) {
+        if (in_array($Port, $PortOccupied)) {
             return [
                 'ok' => false,
                 'msg' => '端口已被占用',

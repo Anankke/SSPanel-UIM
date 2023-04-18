@@ -82,7 +82,7 @@ final class Callback
         $this->CallbackData = $Callback->getData();
         $this->AllowEditMessage = time() < $Callback->getMessage()->getDate() + 172800;
 
-        if ($this->ChatID < 0 && Setting::obtain('telegram_group_quiet') === true) {
+        if ($this->ChatID < 0 && Setting::obtain('telegram_group_quiet')) {
             // 群组中不回应
             return;
         }
@@ -643,7 +643,7 @@ final class Callback
                 if (isset($CallbackDataExplode[1])) {
                     if (in_array($CallbackDataExplode[1], Config::getSupportParam('method'))) {
                         $temp = $this->User->setMethod($CallbackDataExplode[1]);
-                        if ($temp['ok'] === true) {
+                        if ($temp['ok']) {
                             $text = '您当前的加密方式为：' . $this->User->method . PHP_EOL . PHP_EOL . $temp['msg'];
                         } else {
                             $text = '发生错误，请重新选择。' . PHP_EOL . PHP_EOL . $temp['msg'];
@@ -724,7 +724,7 @@ final class Callback
                 // Telegram 账户解绑
                 $this->AllowEditMessage = false;
                 $text = '发送 **/unbind 账户邮箱** 进行解绑。';
-                if (Setting::obtain('telegram_unbind_kick_member') === true) {
+                if (Setting::obtain('telegram_unbind_kick_member')) {
                     $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群。';
                 }
                 $sendMessage = [

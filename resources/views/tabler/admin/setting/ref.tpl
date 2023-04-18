@@ -62,11 +62,11 @@
                                     <label class="form-label col-3 col-form-label">邀请模式</label>
                                     <div class="col">
                                         <select id="invitation_mode" class="col form-select" value="{$settings['invitation_mode']}">
-                                            <option value="registration_only" {if $settings['invitation_mode'] == 'registration_only'}selected{/if}>
+                                            <option value="registration_only" {if $settings['invitation_mode'] === 'registration_only'}selected{/if}>
                                             不返利</option>
-                                            <option value="after_recharge" {if $settings['invitation_mode'] == 'after_recharge'}selected{/if}>
+                                            <option value="after_recharge" {if $settings['invitation_mode'] === 'after_recharge'}selected{/if}>
                                             被邀请用户充值时返利</option>
-                                            <option value="after_purchase" {if $settings['invitation_mode'] == 'after_purchase'}selected{/if}>
+                                            <option value="after_purchase" {if $settings['invitation_mode'] === 'after_purchase'}selected{/if}>
                                             被邀请用户购买时返利</option>
                                         </select>
                                     </div>
@@ -75,13 +75,13 @@
                                     <label class="form-label col-3 col-form-label">邀请模式</label>
                                     <div class="col">
                                         <select id="invite_rebate_mode" class="col form-select" value="{$settings['invite_rebate_mode']}">
-                                            <option value="continued" {if $settings['invite_rebate_mode'] == 'continued'}selected{/if}>
+                                            <option value="continued" {if $settings['invite_rebate_mode'] === 'continued'}selected{/if}>
                                             持续返利</option>
-                                            <option value="limit_frequency" {if $settings['invite_rebate_mode'] == 'limit_frequency'}selected{/if}>
+                                            <option value="limit_frequency" {if $settings['invite_rebate_mode'] === 'limit_frequency'}selected{/if}>
                                             限制邀请人能从被邀请人身上获得的返利次数</option>
-                                            <option value="limit_amount" {if $settings['invite_rebate_mode'] == 'limit_amount'}selected{/if}>
+                                            <option value="limit_amount" {if $settings['invite_rebate_mode'] === 'limit_amount'}selected{/if}>
                                             限制邀请人能从被邀请人身上获得的返利金额</option>
-                                            <option value="limit_time_range" {if $settings['invite_rebate_mode'] == 'limit_time_range'}selected{/if}>
+                                            <option value="limit_time_range" {if $settings['invite_rebate_mode'] === 'limit_time_range'}selected{/if}>
                                             限制邀请人能从被邀请人身上获得返利的时间范围</option>
                                         </select>
                                     </div>
@@ -131,7 +131,7 @@
                 {/foreach}
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {

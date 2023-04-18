@@ -49,8 +49,8 @@
                                     <label class="form-label col-3 col-form-label">验证码提供商</label>
                                     <div class="col">
                                         <select id="captcha_provider" class="col form-select" value="{$settings['captcha_provider']}">
-                                            <option value="turnstile" {if $settings['captcha_provider'] == "turnstile"}selected{/if}>Turnstile</option>
-                                            <option value="geetest" {if $settings['captcha_provider'] == "geetest"}selected{/if}>Geetest</option>
+                                            <option value="turnstile" {if $settings['captcha_provider'] === "turnstile"}selected{/if}>Turnstile</option>
+                                            <option value="geetest" {if $settings['captcha_provider'] === "geetest"}selected{/if}>Geetest</option>
                                         </select>
                                     </div>
                                 </div>
@@ -58,8 +58,8 @@
                                     <label class="form-label col-3 col-form-label">注册验证码</label>
                                     <div class="col">
                                         <select id="enable_reg_captcha" class="col form-select" value="{$settings['enable_reg_captcha']}">
-                                            <option value="0" {if $settings['enable_reg_captcha'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_reg_captcha'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_reg_captcha'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_reg_captcha'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -67,8 +67,8 @@
                                     <label class="form-label col-3 col-form-label">登录验证码</label>
                                     <div class="col">
                                         <select id="enable_login_captcha" class="col form-select" value="{$settings['enable_login_captcha']}">
-                                            <option value="0" {if $settings['enable_login_captcha'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_login_captcha'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_login_captcha'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_login_captcha'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -76,8 +76,8 @@
                                     <label class="form-label col-3 col-form-label">签到验证码</label>
                                     <div class="col">
                                         <select id="enable_checkin_captcha" class="col form-select" value="{$settings['enable_checkin_captcha']}">
-                                            <option value="0" {if $settings['enable_checkin_captcha'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_checkin_captcha'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_checkin_captcha'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_checkin_captcha'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -85,8 +85,8 @@
                                     <label class="form-label col-3 col-form-label">重置密码验证码</label>
                                     <div class="col">
                                         <select id="enable_reset_password_captcha" class="col form-select" value="{$settings['enable_reset_password_captcha']}">
-                                            <option value="0" {if $settings['enable_reset_password_captcha'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_reset_password_captcha'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_reset_password_captcha'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_reset_password_captcha'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
                 {/foreach}
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {

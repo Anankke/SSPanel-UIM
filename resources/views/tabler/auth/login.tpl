@@ -84,7 +84,7 @@
                     {/if}
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                         setTimeout("window.location.href = '/user'", 1200);

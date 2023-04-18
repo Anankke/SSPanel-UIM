@@ -46,11 +46,11 @@
                                     <label class="form-label col-3 col-form-label">客服系统提供商</label>
                                     <div class="col">
                                         <select id="live_chat" class="col form-select" value="{$settings['live_chat']}">
-                                            <option value="none" {if $settings['live_chat'] == "none"}selected{/if}>无</option>
-                                            <option value="tawk" {if $settings['live_chat'] == "tawk"}selected{/if}>Tawk</option>
-                                            <option value="crisp" {if $settings['live_chat'] == "crisp"}selected{/if}>Crisp</option>
-                                            <option value="livechat" {if $settings['live_chat'] == "livechat"}selected{/if}>LiveChat</option>
-                                            <option value="mylivechat" {if $settings['live_chat'] == "mylivechat"}selected{/if}>MyLiveChat</option>
+                                            <option value="none" {if $settings['live_chat'] === "none"}selected{/if}>无</option>
+                                            <option value="tawk" {if $settings['live_chat'] === "tawk"}selected{/if}>Tawk</option>
+                                            <option value="crisp" {if $settings['live_chat'] === "crisp"}selected{/if}>Crisp</option>
+                                            <option value="livechat" {if $settings['live_chat'] === "livechat"}selected{/if}>LiveChat</option>
+                                            <option value="mylivechat" {if $settings['live_chat'] === "mylivechat"}selected{/if}>MyLiveChat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -86,8 +86,8 @@
                                     <label class="form-label col-3 col-form-label">启用工单系统</label>
                                     <div class="col">
                                         <select id="enable_ticket" class="col form-select" value="{$settings['enable_ticket']}">
-                                            <option value="0" {if $settings['enable_ticket'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_ticket'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['enable_ticket'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_ticket'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -95,8 +95,8 @@
                                     <label class="form-label col-3 col-form-label">启用工单邮件提醒</label>
                                     <div class="col">
                                         <select id="mail_ticket" class="col form-select" value="{$settings['mail_ticket']}">
-                                            <option value="0" {if $settings['mail_ticket'] == false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['mail_ticket'] == true}selected{/if}>开启</option>
+                                            <option value="0" {if $settings['mail_ticket'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['mail_ticket'] === true}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@
                 {/foreach}
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                 } else {

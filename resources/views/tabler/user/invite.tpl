@@ -110,7 +110,7 @@
                 url: "/user/invite",
                 dataType: "json",
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {

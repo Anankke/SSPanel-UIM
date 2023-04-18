@@ -46,7 +46,7 @@ final class Cookie extends Base
             return $user;
         }
 
-        if ($_ENV['enable_login_bind_ip'] === true) {
+        if ($_ENV['enable_login_bind_ip']) {
             $nodes = Node::where('node_ip', '=', $_SERVER['REMOTE_ADDR'])->first();
             if (($nodes === null) && $ipHash !== Hash::ipHash($_SERVER['REMOTE_ADDR'], $uid, $expire_in)) {
                 return $user;

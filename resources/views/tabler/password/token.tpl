@@ -47,7 +47,7 @@
                     repasswd: $('#repasswd').val(),
                 },
                 success: function(data) {
-                    if (data.ret == 1) {
+                    if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
                     } else {
@@ -56,10 +56,6 @@
                     }
                 }
             })
-        });
-
-        $("#success-confirm").click(function() {
-            window.location.href = '/auth/login';
         });
     </script>
 

@@ -41,7 +41,7 @@ final class MyCommand extends Command
         $ChatID = $Message->getChat()->getId();
 
         if ($ChatID < 0) {
-            if (Setting::obtain('telegram_group_quiet') === true) {
+            if (Setting::obtain('telegram_group_quiet')) {
                 // 群组中不回应
                 return null;
             }

@@ -100,7 +100,7 @@
                     type: 'PUT',
                     dataType: "json",
                     success: function(data) {
-                        if (data.ret == 1) {
+                        if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
                             reloadTableAjax();
@@ -122,7 +122,7 @@
                     type: 'DELETE',
                     dataType: "json",
                     success: function(data) {
-                        if (data.ret == 1) {
+                        if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
                             reloadTableAjax();

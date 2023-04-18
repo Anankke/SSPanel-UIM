@@ -94,7 +94,7 @@
             url: "/user/switch_theme_mode",
             dataType: "json",
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                     window.setTimeout("location.reload()", {$config['jump_delay']});
@@ -104,6 +104,10 @@
                 }
             }
         })
+    });
+
+    $("#success-confirm").click(function() {
+        location.reload();
     });
 </script>
 <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>

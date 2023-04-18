@@ -24,7 +24,7 @@
                             <div class="empty-img">
                                 <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                             </div>
-                            {if $banned_reason == null}
+                            {if $banned_reason === null}
                             <p class="empty-title">账户被系统封禁</p>
                             <p class="empty-subtitle text-muted">你的账户被系统自动封禁了，请联系管理员</p>
                             {else}

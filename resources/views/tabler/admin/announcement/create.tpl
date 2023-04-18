@@ -101,7 +101,7 @@
                 content: tinyMCE.activeEditor.getContent(),
             },
             success: function(data) {
-                if (data.ret == 1) {
+                if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
                     window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});

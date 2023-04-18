@@ -30,7 +30,7 @@ final class Smtp extends Base
         $mail->Password = $configs['smtp_password'];          // SMTP password
         $mail->setFrom($configs['smtp_sender'], $configs['smtp_name']);
 
-        if ($configs['smtp_ssl'] === true) {
+        if ($configs['smtp_ssl']) {
             // Enable TLS encryption, `ssl` also accepted
             $mail->SMTPSecure = ($configs['smtp_port'] === '587' ? 'tls' : 'ssl');
         }
