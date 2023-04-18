@@ -87,7 +87,7 @@
                                     <div class="col">
                                         <select id="enable_ticket" class="col form-select" value="{$settings['enable_ticket']}">
                                             <option value="0" {if $settings['enable_ticket'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_ticket'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_ticket']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                                     <div class="col">
                                         <select id="mail_ticket" class="col form-select" value="{$settings['mail_ticket']}">
                                             <option value="0" {if $settings['mail_ticket'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['mail_ticket'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['mail_ticket']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>

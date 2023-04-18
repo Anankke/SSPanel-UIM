@@ -126,7 +126,7 @@
                                     <label class="form-label col-3 col-form-label">是否使用 TLS/SSL</label>
                                     <div class="col">
                                     <select id="smtp_ssl" class="col form-select" value="{$settings['smtp_ssl']}">
-                                        <option value="1" {if $settings['smtp_ssl'] === true}selected{/if}>开启</option>
+                                        <option value="1" {if $settings['smtp_ssl']}selected{/if}>开启</option>
                                         <option value="0" {if $settings['smtp_ssl'] === false}selected{/if}>关闭</option>
                                     </select>
                                     </div>

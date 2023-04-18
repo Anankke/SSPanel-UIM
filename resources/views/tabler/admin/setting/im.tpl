@@ -47,7 +47,7 @@
                                     <div class="col">
                                         <select id="telegram_add_node" class="col form-select" value="{$settings['telegram_add_node']}">
                                             <option value="0" {if $settings['telegram_add_node'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_add_node'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_add_node']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                     <div class="col">
                                         <select id="telegram_update_node" class="col form-select" value="{$settings['telegram_update_node']}">
                                             <option value="0" {if $settings['telegram_update_node'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_update_node'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_update_node']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                                     <div class="col">
                                         <select id="telegram_delete_node" class="col form-select" value="{$settings['telegram_delete_node']}">
                                             <option value="0" {if $settings['telegram_delete_node'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_delete_node'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_delete_node']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                                     <div class="col">
                                         <select id="telegram_node_gfwed" class="col form-select" value="{$settings['telegram_node_gfwed']}">
                                             <option value="0" {if $settings['telegram_node_gfwed'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_node_gfwed'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_node_gfwed']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                     <div class="col">
                                         <select id="telegram_node_ungfwed" class="col form-select" value="{$settings['telegram_node_ungfwed']}">
                                             <option value="0" {if $settings['telegram_node_ungfwed'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_node_ungfwed'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_node_ungfwed']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                                     <div class="col">
                                         <select id="telegram_node_offline" class="col form-select" value="{$settings['telegram_node_offline']}">
                                             <option value="0" {if $settings['telegram_node_offline'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_node_offline'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_node_offline']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                                     <div class="col">
                                         <select id="telegram_node_online" class="col form-select" value="{$settings['telegram_node_online']}">
                                             <option value="0" {if $settings['telegram_node_online'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_node_online'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_node_online']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -152,7 +152,7 @@
                                     <div class="col">
                                         <select id="telegram_daily_job" class="col form-select" value="{$settings['telegram_daily_job']}">
                                             <option value="0" {if $settings['telegram_daily_job'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_daily_job'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_daily_job']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -167,7 +167,7 @@
                                     <div class="col">
                                         <select id="telegram_diary" class="col form-select" value="{$settings['telegram_diary']}">
                                             <option value="0" {if $settings['telegram_diary'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_diary'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_diary']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@
                                     <div class="col">
                                         <select id="telegram_unbind_kick_member" class="col form-select" value="{$settings['telegram_unbind_kick_member']}">
                                             <option value="0" {if $settings['telegram_unbind_kick_member'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_unbind_kick_member'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_unbind_kick_member']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                     <div class="col">
                                         <select id="telegram_group_bound_user" class="col form-select" value="{$settings['telegram_group_bound_user']}">
                                             <option value="0" {if $settings['telegram_group_bound_user'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_group_bound_user'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_group_bound_user']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -204,7 +204,7 @@
                                     <div class="col">
                                         <select id="telegram_show_group_link" class="col form-select" value="{$settings['telegram_show_group_link']}">
                                             <option value="0" {if $settings['telegram_show_group_link'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_show_group_link'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_show_group_link']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -219,7 +219,7 @@
                                     <div class="col">
                                         <select id="enable_welcome_message" class="col form-select" value="{$settings['enable_welcome_message']}">
                                             <option value="0" {if $settings['enable_welcome_message'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_welcome_message'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_welcome_message']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -228,7 +228,7 @@
                                     <div class="col">
                                         <select id="telegram_group_quiet" class="col form-select" value="{$settings['telegram_group_quiet']}">
                                             <option value="0" {if $settings['telegram_group_quiet'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['telegram_group_quiet'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['telegram_group_quiet']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -237,7 +237,7 @@
                                     <div class="col">
                                         <select id="allow_to_join_new_groups" class="col form-select" value="{$settings['allow_to_join_new_groups']}">
                                             <option value="0" {if $settings['allow_to_join_new_groups'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['allow_to_join_new_groups'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['allow_to_join_new_groups']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -258,7 +258,7 @@
                                     <div class="col">
                                         <select id="enable_not_admin_reply" class="col form-select" value="{$settings['enable_not_admin_reply']}">
                                             <option value="0" {if $settings['enable_not_admin_reply'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_not_admin_reply'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_not_admin_reply']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -285,7 +285,7 @@
                                     <div class="col">
                                         <select id="help_any_command" class="col form-select" value="{$settings['help_any_command']}">
                                             <option value="0" {if $settings['help_any_command'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['help_any_command'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['help_any_command']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
@@ -294,7 +294,7 @@
                                     <div class="col">
                                         <select id="enable_user_email_group_show" class="col form-select" value="{$settings['enable_user_email_group_show']}">
                                             <option value="0" {if $settings['enable_user_email_group_show'] === false}selected{/if}>关闭</option>
-                                            <option value="1" {if $settings['enable_user_email_group_show'] === true}selected{/if}>开启</option>
+                                            <option value="1" {if $settings['enable_user_email_group_show']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>

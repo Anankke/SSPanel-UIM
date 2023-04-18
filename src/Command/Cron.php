@@ -146,7 +146,7 @@ EOL;
 
             foreach ($nodes as $node) {
                 $notice_text = '';
-                if ($node->getNodeOnlineStatus() === 0 && $node->online) {
+                if ($node->getNodeOnlineStatus() === -1 && $node->online === 1) {
                     foreach ($adminUser as $user) {
                         echo 'Send Email to admin user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
@@ -175,7 +175,7 @@ EOL;
 
                     $node->online = false;
                     $node->save();
-                } elseif ($node->getNodeOnlineStatus() === 1 && ! $node->online) {
+                } elseif ($node->getNodeOnlineStatus() === 1 && $node->online === 0) {
                     foreach ($adminUser as $user) {
                         echo 'Send Email to admin user: ' . $user->id . PHP_EOL;
                         $user->sendMail(

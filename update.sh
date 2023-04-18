@@ -12,7 +12,7 @@ EOF
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script!"; exit 1; }
 
 do_update_sspanel_dev(){
-    git pull
+    git pull origin dev
     git reset --hard origin/dev
     git fetch --prune --prune-tags
     rm -r storage/framework/smarty/compile/*
@@ -26,7 +26,7 @@ do_update_sspanel_dev(){
 do_update_sspanel_release(){
     tag=$1
     db_version=$2
-    git pull
+    git pull --tags
     git reset --hard $tag
     rm -r storage/framework/smarty/compile/*
     php composer.phar install --no-dev
