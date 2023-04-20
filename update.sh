@@ -13,6 +13,7 @@ EOF
 
 do_update_sspanel_dev(){
     git pull origin dev
+    git reset --hard origin/dev
     git fetch --prune --prune-tags
     rm -r storage/framework/smarty/compile/*
     php composer.phar install --no-dev
