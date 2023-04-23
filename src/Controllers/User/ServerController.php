@@ -20,7 +20,7 @@ final class ServerController extends BaseController
     /**
      * @throws Exception
      */
-    public function userServerPage(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function server(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $query = Node::query();

@@ -15,7 +15,7 @@
 [![Sonar Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sspanel-uim_SSPanel-Uim-Dev&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sspanel-uim_SSPanel-Uim-Dev)
 [![Sonar Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sspanel-uim_SSPanel-Uim-Dev&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sspanel-uim_SSPanel-Uim-Dev)
 
-[配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 水群](https://t.me/ssunion) | [Telegram 通知频道](https://t.me/sspanel_uim) | [Telegram 开发频道](https://t.me/sspanel_uim_dev) | [Dev Blog](https://blog.sspanel.org)
+[配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 水群](https://t.me/ssunion) | [Telegram 通知频道](https://t.me/sspanel_uim) | [Telegram 开发频道](https://t.me/sspanel_uim_dev) | [Discord Dev Center](https://discord.gg/A7uFKCvf8V) | [Dev Blog](https://blog.sspanel.org)
 
 ## 简介
 

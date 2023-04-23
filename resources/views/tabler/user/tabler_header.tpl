@@ -54,9 +54,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             {if $user->is_dark_mode}
-                            <a id="switch_theme_mode" class="dropdown-item">切换至浅色模式</a>
+                            <a id="switch_theme_mode" class="dropdown-item">浅色模式</a>
                             {else}
-                            <a id="switch_theme_mode" class="dropdown-item">切换至深色模式</a>
+                            <a id="switch_theme_mode" class="dropdown-item">深色模式</a>
                             {/if}
                             <a href="/user/logout" class="dropdown-item">登出</a>
                         </div>
@@ -104,7 +104,7 @@
                                             {/if}
                                             <a class="dropdown-item" href="/user/invite">
                                                 <i class="ti ti-friends"></i>&nbsp;
-                                                邀请注册
+                                                邀请与返利
                                             </a>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/user/server">
                                         <i class="ti ti-server"></i>&nbsp;
-                                        节点列表
+                                        节点
                                     </a>
                                     {if $public_setting['display_media']}
                                     <a class="dropdown-item" href="/user/media">
@@ -146,12 +146,12 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/user/announcement">
                                         <i class="ti ti-speakerphone"></i>&nbsp;
-                                        站点公告
+                                        公告
                                     </a>
                                     {if $public_setting['enable_ticket']}
                                     <a class="dropdown-item" href="/user/ticket">
                                         <i class="ti ti-ticket"></i>&nbsp;
-                                        工单系统
+                                        工单
                                     </a>
                                     {/if}
                                 </div>
@@ -169,12 +169,12 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/user/detect">
                                         <i class="ti ti-barrier-block"></i>&nbsp;
-                                        审计规则
+                                        规则
                                     </a>
                                     {if $public_setting['display_detect_log']}
                                     <a class="dropdown-item" href="/user/detect/log">
                                         <i class="ti ti-notes"></i>&nbsp;
-                                        审计日志
+                                        日志
                                     </a>
                                     {/if}
                                 </div>
@@ -193,16 +193,20 @@
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
                                             <a class="dropdown-item" href="/user/product">
-                                                <i class="ti ti-building-store"></i>&nbsp;
-                                                商品列表
+                                                <i class="ti ti-list"></i>&nbsp;
+                                                商品
                                             </a>
                                             <a class="dropdown-item" href="/user/order">
                                                 <i class="ti ti-file-invoice"></i>&nbsp;
-                                                订单管理
+                                                订单
                                             </a>
                                             <a class="dropdown-item" href="/user/invoice">
-                                                <i class="ti ti-coin"></i>&nbsp;
-                                                账单管理
+                                                <i class="ti ti-file-dollar"></i>&nbsp;
+                                                账单
+                                            </a>
+                                            <a class="dropdown-item" href="/user/money">
+                                                <i class="ti ti-home-dollar"></i>&nbsp;
+                                                账户余额
                                             </a>
                                         </div>
                                     </div>
@@ -215,7 +219,7 @@
                                         <i class="ti ti-settings icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        站点管理
+                                        管理
                                     </span>
                                 </a>
                             </li>

@@ -17,44 +17,48 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-deck">
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">邀请规则</h3>
-                            <ul>
-                                <li>邀请注册的用户在账单确认后，您可获得其账单金额的 <code>{$public_setting['rebate_ratio'] * 100} %</code>
-                                    作为返利</li>
-                                <li>具体邀请返利规则请查看公告，或通过工单系统询问管理员</li>
-                                <li>部分商品的返利比例可能不遵循上面的比例</li>
-                            </ul>
-                            <p>您目前通过邀请好友获得的总返利为 <code>{$paybacks_sum}</code> 元</p>
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="row row-deck row-cards">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">邀请规则</h3>
+                                    <ul>
+                                        <li>邀请注册的用户在账单确认后，您可获得其账单金额的 <code>{$public_setting['rebate_ratio'] * 100} %</code>
+                                            作为返利</li>
+                                        <li>具体邀请返利规则请查看公告，或通过工单系统询问管理员</li>
+                                        <li>部分商品的返利比例可能不遵循上面的比例</li>
+                                    </ul>
+                                    <p>您目前通过邀请好友获得的总返利为 <code>{$paybacks_sum}</code> 元</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">邀请链接</h3>
-                            {if $user->invite_num >= 0}
-                                <p>邀请链接可用次数：<code>{$user->invite_num}</code></p>
-                            {/if}
-                            <input class="form-control" value="{$invite_url}" disabled />
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex">
-                                <a id="reset-url" class="btn text-red btn-link">重置</a>
-                                <a data-clipboard-text="{$invite_url}" class="copy btn btn-primary ms-auto">复制</a>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">邀请链接</h3>
+                                    {if $user->invite_num >= 0}
+                                        <p>邀请链接可用次数：<code>{$user->invite_num}</code></p>
+                                    {/if}
+                                    <input class="form-control" value="{$invite_url}" disabled />
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex">
+                                        <a id="reset-url" class="btn text-red btn-link">重置</a>
+                                        <a data-clipboard-text="{$invite_url}" class="copy btn btn-primary ms-auto">复制</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="card my-3">
+                <div class="col-12 my-3">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">返利记录</h3>
                         </div>
-                        {if $paybacks->count() !== '0'}
+                        {if $paybacks->count() !== 0}
                             <div class="table-responsive">
                                 <table class="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
