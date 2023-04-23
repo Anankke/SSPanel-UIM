@@ -10,7 +10,7 @@
     <title>{$config['appName']}</title>
     <!-- CSS files -->
     <link href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
-    <link href="//cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
+    <link href="//cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.css" rel="stylesheet" />
     <!-- JS files -->
     <script src="//cdn.jsdelivr.net/npm/qrcode_js@latest/qrcode.min.js"></script>
@@ -55,9 +55,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             {if $user->is_dark_mode}
-                            <a id="switch_theme_mode" class="dropdown-item">切换至浅色模式</a>
+                            <a id="switch_theme_mode" class="dropdown-item">浅色模式</a>
                             {else}
-                            <a id="switch_theme_mode" class="dropdown-item">切换至深色模式</a>
+                            <a id="switch_theme_mode" class="dropdown-item">深色模式</a>
                             {/if}
                             <a href="/user/logout" class="dropdown-item">登出</a>
                         </div>

@@ -15,8 +15,8 @@ final class Order extends Model
     public function status(): string
     {
         return match ($this->status) {
-            'pending_payment' => '等待支付',
-            'pending_activation' => '等待激活',
+            'pending_payment' => '等待中',
+            'pending_activation' => '待激活',
             'activated' => '已激活',
             'expired' => '已过期',
             'cancelled' => '已取消',

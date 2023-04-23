@@ -33,7 +33,7 @@ return static function (Slim\App $app): void {
         // 封禁
         $group->get('/banned', App\Controllers\UserController::class . ':banned');
         // 节点
-        $group->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
+        $group->get('/server', App\Controllers\User\ServerController::class . ':server');
         // 审计
         $group->get('/detect', App\Controllers\User\DetectController::class . ':index');
         // 工单
@@ -72,6 +72,10 @@ return static function (Slim\App $app): void {
         // 记录
         $group->get('/subscribe/log', App\Controllers\User\LogController::class . ':subscribe');
         $group->get('/detect/log', App\Controllers\User\LogController::class . ':detect');
+        // 账户余额
+        $group->get('/money', App\Controllers\User\MoneyController::class . ':money');
+        // 礼品卡兑换
+        $group->post('/giftcard', App\Controllers\User\MoneyController::class . ':applyGiftCard');
         // 产品页面
         $group->get('/product', App\Controllers\User\ProductController::class . ':product');
         // 订单页面
