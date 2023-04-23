@@ -1,14 +1,14 @@
 <?php
 
 //基本设置--------------------------------------------------------------------------------------------
-$_ENV['key']        = 'ChangeMe';                     //请务必修改此key为随机字符串
-$_ENV['pwdMethod']  = 'bcrypt';                       //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
+$_ENV['key']        = 'ChangeMe';                     //Cookie加密密钥，请务必修改此key为随机字符串
+$_ENV['pwdMethod']  = 'bcrypt';                       //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id
 $_ENV['salt']       = '';                             //推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
 
 $_ENV['debug']      = false;                          //debug模式开关，生产环境请保持为false
 $_ENV['appName']    = 'SSPanel-UIM';                  //站点名称
 $_ENV['baseUrl']    = 'https://example.com';          //站点地址
-$_ENV['muKey']      = 'ChangeMe';                      //WebAPI密钥，用于节点服务端与面板通信，请务必修改此key为随机字符串
+$_ENV['muKey']      = 'ChangeMe';                     //WebAPI密钥，用于节点服务端与面板通信，请务必修改此key为随机字符串
 
 //数据库设置--------------------------------------------------------------------------------------------
 // db_host|db_socket 二选一，若设置 db_socket 则 db_host 会被忽略，不用请留空。若数据库在本机上推荐用 db_socket。
@@ -26,12 +26,6 @@ $_ENV['db_charset']   = 'utf8mb4';
 $_ENV['db_collation'] = 'utf8mb4_unicode_ci';
 $_ENV['db_prefix']    = '';
 
-//流媒体解锁 如下设置将使397，297号节点复用4号节点的检测结果 使用时去掉注释符 //
-$_ENV['streaming_media_unlock_multiplexing'] = [
-    //'397' => '4',
-    //'297' => '4',
-];
-
 //邮件设置--------------------------------------------------------------------------------------------
 $_ENV['mail_filter']        = 0;            //0: 关闭; 1: 白名单模式; 2; 黑名单模式;
 $_ENV['mail_filter_list']   = array("qq.com", "vip.qq.com", "foxmail.com");
@@ -46,9 +40,6 @@ $_ENV['auto_clean_uncheck_days']    = -1;           //自动清理多少天没�
 $_ENV['auto_clean_unused_days']     = -1;           //自动清理多少天没使用的0级用户，小于等于0时关闭
 $_ENV['auto_clean_min_money']       = 1;            //余额低于多少的0级用户可以被清理
 
-$_ENV['enable_bought_reset']        = true;         //购买时是否重置流量
-$_ENV['enable_bought_extend']       = true;         //购买时是否延长等级期限（同等级配套）
-
 #高级
 $_ENV['class_expire_reset_traffic'] = 0;            //等级到期时重置为的流量值，单位GB，小于0时不重置
 $_ENV['account_expire_delete_days'] = -1;           //账户到期几天之后会删除账户，小于0时不删除
@@ -62,7 +53,7 @@ $_ENV['notify_limit_value']         = 20;           //当上一项为per时，�
 
 //日志设置---------------------------------------------------------------------------------------
 $_ENV['trafficLog']               = false;                          //是否记录用户每小时使用流量
-$_ENV['trafficLog_keep_days']     = 14;                             //每小时使用流量记录保留天数
+$_ENV['trafficLog_keep_days']     = 7;                             //每小时使用流量记录保留天数
 
 $_ENV['subscribeLog']               = false;                        //是否记录用户订阅日志
 $_ENV['subscribeLog_keep_days']     = 7;                            //订阅记录保留天数
@@ -113,14 +104,14 @@ $_ENV['enable_telegram']                    = false;        //是否开启 Teleg
 $_ENV['telegram_token']                     = '';           //Telegram bot,bot 的 token ，跟 father bot 申请
 $_ENV['telegram_chatid']                    = -111;         //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
-$_ENV['telegram_request_token']             = '';           //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat Tool setTelegram
+$_ENV['telegram_request_token']             = '';           //Webhook密钥，更新这个参数之后请 php xcat Tool setTelegram
 
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测，请通过crontab进行【开启/关闭】
-$_ENV['detect_gfw_interval']             = 3600;                                                               //检测间隔，单位：秒，低于推荐值会爆炸
-$_ENV['detect_gfw_port']                 = 22;                                                                 //所有节点服务器都打开的TCP端口，常用的为22（SSH端口）
-$_ENV['detect_gfw_url']                  = 'http://cn-sh-tcping.sspanel.org:8080/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
-$_ENV['detect_gfw_count']                = '3';                                                                //尝试次数
+$_ENV['detect_gfw_interval'] = 3600;                                                 //检测间隔，单位：秒，低于推荐值会爆炸
+$_ENV['detect_gfw_port']     = 443;                                                  //所有节点服务器都打开的TCP端口
+$_ENV['detect_gfw_url']      = 'http://example.com:8080/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
+$_ENV['detect_gfw_count']    = '3';                                                  //尝试次数
 
 #离线检测
 $_ENV['enable_detect_offline']           = true;
@@ -133,7 +124,7 @@ $_ENV['enable_detect_offline']           = true;
 $_ENV['WebAPI']     = true;
 
 #杂项
-$_ENV['authDriver']             = 'cookie';            //不能更改此项
+$_ENV['authDriver']             = 'cookie';            //可选: cookie
 $_ENV['sessionDriver']          = 'cookie';            //可选: cookie
 $_ENV['cacheDriver']            = 'cookie';            //可选: cookie
 $_ENV['tokenDriver']            = 'db';                //可选: db
@@ -141,7 +132,7 @@ $_ENV['tokenDriver']            = 'db';                //可选: db
 $_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑定
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
 
-$_ENV['timeZone']               = 'PRC';                 //PRC 天朝时间  UTC 格林时间
+$_ENV['timeZone']               = 'Asia/Taipei';         //需使用 PHP 兼容的时区格式
 $_ENV['theme']                  = 'tabler';              //默认主题
 $_ENV['jump_delay']             = 1200;                  //跳转延时，单位ms，不建议太长
 

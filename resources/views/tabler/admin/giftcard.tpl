@@ -21,10 +21,6 @@
                             <i class="icon ti ti-plus"></i>
                             创建
                         </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#create-dialog">
-                            <i class="icon ti ti-plus"></i>
-                        </a>
                     </div>
                 </div>
             </div>

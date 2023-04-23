@@ -26,7 +26,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-blue text-white avatar">
-                                                <i class="ti ti-star icon"></i>
+                                                <i class="ti ti-vip icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -34,7 +34,11 @@
                                                 账户等级
                                             </div>
                                             <div class="text-muted">
-                                                LV. {$user->class}
+                                                {if $user->class === 0}
+                                                    免费
+                                                {else}
+                                                    Lv. {$user->class}
+                                                {/if}
                                             </div>
                                         </div>
                                     </div>
@@ -114,276 +118,251 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="row row-cards">
-                        <div class="col-12">
-                            <div class="card">
-                                <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
-                                    <li class="nav-item">
-                                        <a href="#sub" class="nav-link active" data-bs-toggle="tab">
-                                            <i class="ti ti-rss icon"></i>
-                                            &nbsp;通用订阅
-                                        </a>
-                                    </li>
-                                    {if $public_setting['enable_traditional_sub']}
-                                    <li class="nav-item">
-                                        <a href="#traditional-sub" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-rss icon"></i>
-                                            &nbsp;传统订阅
-                                        </a>
-                                    </li>
-                                    {/if}
-                                    <li class="nav-item">
-                                        <a href="#windows" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-windows icon"></i>
-                                            &nbsp;Windows
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#macos" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-finder icon"></i>
-                                            &nbsp;Macos
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#android" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-android icon"></i>
-                                            &nbsp;Android
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#ios" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-apple icon"></i>
-                                            &nbsp;IOS
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#linux" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-redhat icon"></i>
-                                            &nbsp;Linux
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#config" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-file-text icon"></i>
-                                            &nbsp;Config
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="card-body">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active show" id="sub">
-                                            <div>
-                                                <p>
-                                                    通用订阅（json）：<code>{$UniversalSub}/json</code>
-                                                </p>
-                                                <p>
-                                                    通用订阅（clash）：<code>{$UniversalSub}/clash</code>
-                                                </p>
-                                                {if $public_setting['enable_ss_sub']}
-                                                <p>
-                                                    通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
-                                                </p>
-                                                {/if}
-                                                <div class="btn-list justify-content-start">
-                                                    <a data-clipboard-text="{$UniversalSub}/json"
-                                                        class="copy btn btn-primary">
-                                                        复制通用订阅（json）
-                                                    </a>
-                                                    <a data-clipboard-text="{$UniversalSub}/clash"
-                                                        class="copy btn btn-primary">
-                                                        复制通用订阅（clash）
-                                                    </a>
-                                                    {if $public_setting['enable_ss_sub']}
-                                                    <a data-clipboard-text="{$UniversalSub}/sip008"
-                                                       class="copy btn btn-primary">
-                                                        复制通用订阅（sip008）
-                                                    </a>
-                                                    {/if}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {if $public_setting['enable_traditional_sub']}
-                                        <div class="tab-pane show" id="traditional-sub">
-                                            <div>
-                                                {if $public_setting['enable_ss_sub']}
-                                                <p>
-                                                    传统订阅（Shadowsocks）：<code>{$TraditionalSub}?ss=1</code>
-                                                </p>
-                                                <p>
-                                                    传统订阅（Shadowsocks SIP002）：<code>{$TraditionalSub}?sip002=1</code>
-                                                </p>
-                                                {/if}
-                                                {if $public_setting['enable_v2_sub']}
-                                                <p>
-                                                    传统订阅（V2Ray）：<code>{$TraditionalSub}?v2ray=1</code>
-                                                </p>
-                                                {/if}
-                                                {if $public_setting['enable_trojan_sub']}
-                                                <p>
-                                                    传统订阅（Trojan）：<code>{$TraditionalSub}?trojan=1</code>
-                                                </p>
-                                                {/if}
-                                                <div class="btn-list justify-content-start">
-                                                    {if $public_setting['enable_ss_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?ss=1"
-                                                        class="copy btn btn-primary">
-                                                        复制传统订阅（Shadowsocks）
-                                                    </a>
-                                                    <a data-clipboard-text="{$TraditionalSub}?sip002=1"
-                                                        class="copy btn btn-primary">
-                                                        复制传统订阅（Shadowsocks SIP002）
-                                                    </a>
-                                                    {/if}
-                                                    {if $public_setting['enable_v2_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?v2ray=1"
-                                                        class="copy btn btn-primary">
-                                                        复制传统订阅（V2Ray）
-                                                    </a>
-                                                    {/if}
-                                                    {if $public_setting['enable_trojan_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?trojan=1"
-                                                        class="copy btn btn-primary">
-                                                        复制传统订阅（Trojan）
-                                                    </a>
-                                                    {/if}
-                                                    <a href="/clients/v2rayN-Core.zip"
-                                                        class="btn btn-primary">
-                                                        下载 v2rayN（Windows）
-                                                    </a>
-                                                    <a href="/clients/v2rayNG.apk"
-                                                        class="btn btn-primary">
-                                                        下载 v2rayNG（Android）
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card">
+                        <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
+                            <li class="nav-item">
+                                <a href="#sub" class="nav-link active" data-bs-toggle="tab">
+                                    <i class="ti ti-rss icon"></i>
+                                    &nbsp;通用订阅
+                                </a>
+                            </li>
+                            {if $public_setting['enable_traditional_sub']}
+                                <li class="nav-item">
+                                    <a href="#traditional-sub" class="nav-link" data-bs-toggle="tab">
+                                        <i class="ti ti-rss icon"></i>
+                                        &nbsp;传统订阅
+                                    </a>
+                                </li>
+                            {/if}
+                            <li class="nav-item">
+                                <a href="#windows" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-brand-windows icon"></i>
+                                    &nbsp;Windows
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#macos" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-brand-finder icon"></i>
+                                    &nbsp;MacOS
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#android" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-brand-android icon"></i>
+                                    &nbsp;Android
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#ios" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-brand-apple icon"></i>
+                                    &nbsp;iOS
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#linux" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-brand-redhat icon"></i>
+                                    &nbsp;Linux
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#config" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-file-text icon"></i>
+                                    &nbsp;Config
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="sub">
+                                    <div>
+                                        <p>
+                                            通用订阅（json）：<code>{$UniversalSub}/json</code>
+                                        </p>
+                                        <p>
+                                            通用订阅（clash）：<code>{$UniversalSub}/clash</code>
+                                        </p>
+                                        {if $public_setting['enable_ss_sub']}
+                                            <p>
+                                                通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
+                                            </p>
                                         {/if}
-                                        <div class="tab-pane" id="windows">
-                                            <div>
-                                                <p>
-                                                    适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
-                                                </p>
-                                                <div class="btn-list justify-content-start">
-                                                    <a data-clipboard-text="{$UniversalSub}/clash"
-                                                        class="copy btn btn-primary">
-                                                        复制 Clash 订阅链接
-                                                    </a>
-                                                    <a href="/clients/Clash-Windows.exe"
-                                                        class="btn btn-primary">
-                                                        下载 Clash for Windows
-                                                    </a>
-                                                    <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                                        class="btn btn-primary">
-                                                        导入 Clash
-                                                    </a>
-                                                </div>
-                                            </div>
+                                        <div class="btn-list justify-content-start">
+                                            <a data-clipboard-text="{$UniversalSub}/json"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（json）
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/clash"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（clash）
+                                            </a>
+                                            {if $public_setting['enable_ss_sub']}
+                                                <a data-clipboard-text="{$UniversalSub}/sip008"
+                                                   class="copy btn btn-primary">
+                                                    复制通用订阅（sip008）
+                                                </a>
+                                            {/if}
                                         </div>
-                                        <div class="tab-pane" id="macos">
-                                            <p>
-                                                适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                    </div>
+                                </div>
+                                {if $public_setting['enable_traditional_sub']}
+                                    <div class="tab-pane show" id="traditional-sub">
+                                        <div>
+                                            {if $public_setting['enable_ss_sub']}<p>
+                                                传统订阅（Shadowsocks）：<code>{$TraditionalSub}?ss=1</code></p><p>
+                                                传统订阅（Shadowsocks SIP002）：<code>{$TraditionalSub}?sip002=1</code>
                                             </p>
+                                            {/if}
+                                            {if $public_setting['enable_v2_sub']}<p>
+                                                传统订阅（V2Ray）：<code>{$TraditionalSub}?v2ray=1</code></p>
+                                            {/if}
+                                            {if $public_setting['enable_trojan_sub']}<p>
+                                                传统订阅（Trojan）：<code>{$TraditionalSub}?trojan=1</code></p>
+                                            {/if}
                                             <div class="btn-list justify-content-start">
-                                                <a data-clipboard-text="{$UniversalSub}/clash"
-                                                    class="copy btn btn-primary">
-                                                    复制 Clash 订阅链接
+                                                {if $public_setting['enable_ss_sub']}<a data-clipboard-text="{$TraditionalSub}?ss=1"class="copy btn btn-primary">复制传统订阅（Shadowsocks）</a><a data-clipboard-text="{$TraditionalSub}?sip002=1" class="copy btn btn-primary">
+                                                    复制传统订阅（Shadowsocks SIP002）
                                                 </a>
-                                                <a href="/clients/Clash-Windows.dmg"
-                                                    class="btn btn-primary">
-                                                    下载 Clash for Windows
+                                                {/if}
+                                                {if $public_setting['enable_v2_sub']}<a data-clipboard-text="{$TraditionalSub}?v2ray=1"class="copy btn btn-primary">复制传统订阅（V2Ray）</a>
+                                                {/if}
+                                                {if $public_setting['enable_trojan_sub']}<a data-clipboard-text="{$TraditionalSub}?trojan=1"class="copy btn btn-primary">复制传统订阅（Trojan）</a>
+                                                {/if}
+                                                <a href="/clients/v2rayN-Core.zip"
+                                                   class="btn btn-primary">
+                                                    下载 v2rayN（Windows）
                                                 </a>
-                                                <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                                    class="btn btn-primary">
-                                                    导入 Clash
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="android">
-                                            <p>
-                                                适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
-                                            </p>
-                                            <div class="btn-list justify-content-start">
-                                                <a data-clipboard-text="{$UniversalSub}/clash"
-                                                    class="copy btn btn-primary">
-                                                    复制 Clash 订阅链接
-                                                </a>
-                                                <a href="/clients/Clash-Android.apk"
-                                                    class="btn btn-primary">
-                                                    下载 Clash for Android
-                                                </a>
-                                                <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                                    class="btn btn-primary">
-                                                    导入 Clash
+                                                <a href="/clients/v2rayNG.apk"
+                                                   class="btn btn-primary">
+                                                    下载 v2rayNG（Android）
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="ios">
-                                            <p>
-                                                适用于 Clash 兼容客户端的订阅：<code>{$UniversalSub}/clash</code>
-                                            </p>
-                                            <p>
-                                                在购买并安装 Clash 兼容客户端（比如 Stash）之后，点击<code>复制 Clash 订阅链接</code>按钮，然后打开 Clash 兼容客户端导入即可。
-                                            </p>
-                                            <div class="btn-list justify-content-start">
-                                                <a href="https://apps.apple.com/app/stash/id1596063349" target="_blank"
-                                                    class="btn btn-primary">
-                                                    购买 Stash
-                                                </a>
-                                                <a data-clipboard-text="{$UniversalSub}/clash"
-                                                    class="copy btn btn-primary">
-                                                    复制 Clash 订阅链接
-                                                </a>
-                                                <a href="stash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                                    class="btn btn-primary">
-                                                    导入 Stash
-                                                </a>
-                                            </div>
+                                    </div>
+                                {/if}
+                                <div class="tab-pane" id="windows">
+                                    <div>
+                                        <p>
+                                            适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                        </p>
+                                        <div class="btn-list justify-content-start">
+                                            <a data-clipboard-text="{$UniversalSub}/clash"
+                                               class="copy btn btn-primary">
+                                                复制 Clash 订阅链接
+                                            </a>
+                                            <a href="/clients/Clash-Windows.exe"
+                                               class="btn btn-primary">
+                                                下载 Clash for Windows
+                                            </a>
+                                            <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                               class="btn btn-primary">
+                                                导入 Clash
+                                            </a>
                                         </div>
-                                        <div class="tab-pane" id="linux">
-                                            <p>
-                                                适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
-                                            </p>
-                                            <div class="btn-list justify-content-start">
-                                                <a data-clipboard-text="{$UniversalSub}/clash"
-                                                    class="copy btn btn-primary">
-                                                    复制 Clash 订阅链接
-                                                </a>
-                                                <a href="/clients/Clash-Windows.tar.gz"
-                                                    class="btn btn-primary">
-                                                    下载 Clash for Windows
-                                                </a>
-                                                <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                                    class="btn btn-primary">
-                                                    导入 Clash
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="config">
-                                            <p>您的连接信息：</p>
-                                            <div class="table-responsive">
-                                                <table class="table table-vcenter card-table">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><strong>端口</strong></td>
-                                                        <td>{$user->port}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>连接密码</strong></td>
-                                                        <td>{$user->passwd}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>UUID</strong></td>
-                                                        <td>{$user->uuid}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义加密</strong></td>
-                                                        <td>{$user->method}</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="macos">
+                                    <p>
+                                        适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                    </p>
+                                    <div class="btn-list justify-content-start">
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="/clients/Clash-Windows.dmg"
+                                           class="btn btn-primary">
+                                            下载 Clash for Windows
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                           class="btn btn-primary">
+                                            导入 Clash
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="android">
+                                    <p>
+                                        适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                    </p>
+                                    <div class="btn-list justify-content-start">
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="/clients/Clash-Android.apk"
+                                           class="btn btn-primary">
+                                            下载 Clash for Android
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                           class="btn btn-primary">
+                                            导入 Clash
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="ios">
+                                    <p>
+                                        适用于 Clash 兼容客户端的订阅：<code>{$UniversalSub}/clash</code>
+                                    </p>
+                                    <p>
+                                        在购买并安装 Clash 兼容客户端（比如 Stash）之后，点击<code>复制 Clash 订阅链接</code>按钮，然后打开 Clash 兼容客户端导入即可。
+                                    </p>
+                                    <div class="btn-list justify-content-start">
+                                        <a href="https://apps.apple.com/app/stash/id1596063349" target="_blank"
+                                           class="btn btn-primary">
+                                            购买 Stash
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="stash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                           class="btn btn-primary">
+                                            导入 Stash
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="linux">
+                                    <p>
+                                        适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                    </p>
+                                    <div class="btn-list justify-content-start">
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="/clients/Clash-Windows.tar.gz"
+                                           class="btn btn-primary">
+                                            下载 Clash for Windows
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                           class="btn btn-primary">
+                                            导入 Clash
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="config">
+                                    <p>您的连接信息：</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-vcenter card-table">
+                                            <tbody>
+                                            <tr>
+                                                <td><strong>端口</strong></td>
+                                                <td>{$user->port}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>连接密码</strong></td>
+                                                <td>{$user->passwd}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>UUID</strong></td>
+                                                <td>{$user->uuid}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>自定义加密</strong></td>
+                                                <td>{$user->method}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
