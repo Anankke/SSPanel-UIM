@@ -29,7 +29,7 @@ final class MoneyController extends BaseController
         $moneylogs = UserMoneyLog::where('user_id', $user->id)->orderBy('id', 'desc')->get();
 
         foreach ($moneylogs as $moneylog) {
-            $moneylog->datetime = Tools::toDateTime($moneylog->datetime);
+            $moneylog->create_time = Tools::toDateTime($moneylog->create_time);
         }
 
         return $response->write(
