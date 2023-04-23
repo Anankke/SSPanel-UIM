@@ -12,20 +12,20 @@
                         <span class="home-subtitle">你可以在这里查看历史消息并添加回复</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
                         {if $ticket->status !== 'closed'}
-                        <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="#" class="btn btn-red" data-bs-toggle="modal"
                             data-bs-target="#close_ticket_confirm_dialog">
                             <i class="icon ti ti-x"></i>
                             关闭
                         </button>
                         {/if}
-                        <button id="add_ai_reply" href="#" class="btn btn-primary d-none d-sm-inline-block">
+                        <button id="add_ai_reply" href="#" class="btn btn-primary">
                             <i class="icon ti ti-robot"></i>
                             AI 回复
                         </button>
-                        <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="#" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#add-reply">
                             <i class="icon ti ti-plus"></i>
                             回复

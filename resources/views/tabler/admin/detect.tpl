@@ -12,9 +12,9 @@
                         <span class="home-subtitle">查看站点中的审计规则</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="#" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#add-detect-dialog">
                             <i class="icon ti ti-plus"></i>
                             添加审计规则

@@ -12,9 +12,9 @@
                         <span class="home-subtitle">查看账户余额变动记录</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
                            data-bs-target="#apply-giftcard-dialog">
                             <i class="icon ti ti-cash-banknote"></i>
                             兑换礼品卡
@@ -28,7 +28,7 @@
         <div class="container-xl">
             <div class="row row-deck">
                 <div class="col-sm-12 col-lg-12">
-                    <div class="card my-3">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">账户余额记录</h3>
                         </div>
@@ -65,6 +65,29 @@
                             </div>
                         {/if}
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="apply-giftcard-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">兑换礼品卡</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3 row">
+                        <div class="col">
+                            <input id="giftcard" type="text" class="form-control" placeholder="输入礼品卡卡号并点击兑换">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="apply-giftcard"
+                            type="button" class="btn btn-primary" data-bs-dismiss="modal">兑换</button>
                 </div>
             </div>
         </div>

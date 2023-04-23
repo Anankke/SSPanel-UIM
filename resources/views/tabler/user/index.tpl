@@ -62,6 +62,11 @@
                                                 {$user->money}
                                             </div>
                                         </div>
+                                        <div class="col-auto">
+                                            <a href="/user/money" class="btn btn-primary btn-icon">
+                                                <i class="ti ti-plus icon"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

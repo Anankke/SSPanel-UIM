@@ -7,6 +7,7 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\GiftCard;
 use App\Models\UserMoneyLog;
+use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -26,6 +27,10 @@ final class MoneyController extends BaseController
     {
         $user = $this->user;
         $moneylogs = UserMoneyLog::where('user_id', $user->id)->orderBy('id', 'desc')->get();
+
+        foreach ($moneylogs as $moneylog) {
+            $moneylog->create_time = Tools::toDateTime($moneylog->create_time);
+        }
 
         return $response->write(
             $this->view()
