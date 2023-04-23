@@ -79,10 +79,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group mb-3 row">
-                        <label class="form-label col-3 col-form-label">{$detail['info']}</label>
                         <div class="col">
-                            <input id="giftcard" type="text" class="form-control"
-                                   placeholder="输入礼品卡卡号并点击兑换">
+                            <input id="giftcard" type="text" class="form-control" placeholder="输入礼品卡卡号并点击兑换">
                         </div>
                     </div>
                 </div>
