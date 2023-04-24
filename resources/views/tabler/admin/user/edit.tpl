@@ -12,14 +12,11 @@
                         <span class="home-subtitle">用户编辑</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a id="save_changes" href="#" class="btn btn-primary d-none d-sm-inline-block">
+                        <a id="save_changes" href="#" class="btn btn-primary">
                             <i class="icon ti ti-device-floppy"></i>
                             保存
-                        </a>
-                        <a id="save_changes" href="#" class="btn btn-primary d-sm-none btn-icon">
-                            <i class="icon ti ti-device-floppy"></i>
                         </a>
                     </div>
                 </div>

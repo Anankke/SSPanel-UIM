@@ -12,9 +12,9 @@
                         <span class="home-subtitle">订单详情</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a href="/user/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/user/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary">
                             <i class="icon ti ti-file-dollar"></i>
                             查看账单
                         </a>

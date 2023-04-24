@@ -13,16 +13,12 @@
                     </div>
                 </div>
                 {if $ticket->status !== 'closed'}
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#add-reply">
                             <i class="icon ti ti-plus"></i>
                             添加回复
-                        </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#add-reply" aria-label="Create new report">
-                            <i class="icon ti ti-plus"></i>
                         </a>
                     </div>
                 </div>
