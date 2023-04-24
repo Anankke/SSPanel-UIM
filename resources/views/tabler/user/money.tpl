@@ -28,7 +28,7 @@
         <div class="container-xl">
             <div class="row row-deck">
                 <div class="col-sm-12 col-lg-12">
-                    <div class="card my-3">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">账户余额记录</h3>
                         </div>
