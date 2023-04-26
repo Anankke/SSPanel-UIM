@@ -101,8 +101,8 @@
     <script>
         var clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function(e) {
-            $('#copy-message').text('已复制到剪切板');
-            $('#copy-dialog').modal('show');
+            $('#success-noreload-message').text('已复制到剪切板');
+            $('#success-noreload-dialog').modal('show');
         });
 
         $("#reset-url").click(function() {
