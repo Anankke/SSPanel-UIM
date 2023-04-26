@@ -12,18 +12,18 @@
                         <span class="home-subtitle">订单详情</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary">
                             <i class="icon ti ti-user"></i>
                             查看关联用户
                         </a>
-                        <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary">
                             <i class="icon ti ti-file-dollar"></i>
                             查看关联账单
                         </a>
                         {if $order->status === 'pending_payment'}
-                        <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="#" class="btn btn-red" data-bs-toggle="modal"
                             data-bs-target="#cancel_order_confirm_dialog">
                             <i class="icon ti ti-x"></i>
                             取消订单

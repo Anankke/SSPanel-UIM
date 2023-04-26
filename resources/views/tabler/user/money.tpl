@@ -12,9 +12,9 @@
                         <span class="home-subtitle">查看账户余额变动记录</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
                            data-bs-target="#apply-giftcard-dialog">
                             <i class="icon ti ti-cash-banknote"></i>
                             兑换礼品卡
@@ -28,7 +28,7 @@
         <div class="container-xl">
             <div class="row row-deck">
                 <div class="col-sm-12 col-lg-12">
-                    <div class="card my-3">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">账户余额记录</h3>
                         </div>

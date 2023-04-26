@@ -14,9 +14,9 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto">
                     <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#create-dialog">
                             <i class="icon ti ti-plus"></i>
                             创建
@@ -183,8 +183,8 @@
                     dataType: "json",
                     success: function(data) {
                         if (data.ret === 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            $('#success-noreload-message').text(data.msg);
+                            $('#success-noreload-dialog').modal('show');
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
