@@ -430,7 +430,7 @@ final class User extends Model
         ];
         if (! $this->isAbleToCheckin()) {
             $return['ok'] = false;
-            $return['msg'] = '您似乎已经签到过了...';
+            $return['msg'] = '你似乎已经签到过了...';
         } else {
             try {
                 $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);

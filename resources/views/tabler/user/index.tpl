@@ -346,7 +346,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="config">
-                                    <p>您的连接信息：</p>
+                                    <p>你的连接信息：</p>
                                     <div class="table-responsive">
                                         <table class="table table-vcenter card-table">
                                             <tbody>

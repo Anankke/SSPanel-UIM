@@ -113,7 +113,7 @@
                                     <td class="content-block"
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
-                                        您收到此邮件是因为您在{$config['appName']}申请了密码重置,如果不是您申请的,请忽略此邮件.
+                                        你收到此邮件是因为你在{$config['appName']}申请了密码重置,如果不是你申请的,请忽略此邮件.
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">

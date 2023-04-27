@@ -120,7 +120,7 @@ $_ENV['enable_detect_offline']           = true;
 
 // 主站是否提供 WebAPI
 // - 为了安全性，推荐使用 WebAPI 模式对接节点并关闭公网数据库连接。
-// - 如果您全部节点使用数据库连接或者拥有独立的 WebAPI 站点或 gRPC API，则可设为 false。
+// - 如果你全部节点使用数据库连接或者拥有独立的 WebAPI 站点或 gRPC API，则可设为 false。
 $_ENV['WebAPI']     = true;
 
 #杂项
@@ -148,7 +148,7 @@ $_ENV['cloudflare_name']        = '';            //域名
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $_ENV['enable_analytics_code']  = false;
 
-#在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
+#在套了CDN之后获取用户真实ip，如果你不知道这是什么，请不要乱动
 $_ENV['cdn_forwarded_ip'] = array('HTTP_X_FORWARDED_FOR', 'HTTP_ALI_CDN_REAL_IP', 'X-Real-IP', 'True-Client-Ip');
 foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
     if (isset($_SERVER[$cdn_forwarded_ip])) {
