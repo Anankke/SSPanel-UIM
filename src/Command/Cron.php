@@ -153,7 +153,7 @@ EOL;
                             $_ENV['appName'] . '-系统警告',
                             'news/warn.tpl',
                             [
-                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。',
+                                'text' => '管理员你好，系统发现节点 ' . $node->name . ' 掉线了，请你及时处理。',
                             ],
                             [],
                             false
@@ -182,7 +182,7 @@ EOL;
                             $_ENV['appName'] . '-系统提示',
                             'news/warn.tpl',
                             [
-                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。',
+                                'text' => '管理员你好，系统发现节点 ' . $node->name . ' 恢复上线了。',
                             ],
                             [],
                             false

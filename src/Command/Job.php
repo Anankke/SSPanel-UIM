@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Ann;
-use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\EmailQueue;
 use App\Models\EmailVerify;
@@ -32,7 +31,7 @@ final class Job extends Command
     public string $description = <<<EOL
 ├─=: php xcat Job [选项]
 │ ├─ DailyJob                - 每日任务，每天
-│ ├─ UserJob                 - 用户账户相关任务，每小时
+│ ├─ UserJob                 - 账户相关任务，每小时
 EOL;
 
     public function boot(): void
@@ -74,34 +73,35 @@ EOL;
 
         // ------- 用户每日流量报告
         $users = User::all();
-        $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
 
         // 判断是否有公告
+        $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
+
         if ($ann_latest_raw === null) {
             $ann_latest = '<br><br>';
         } else {
             $ann_latest = $ann_latest_raw->content . '<br><br>';
         }
 
-        $lastday_total = 0;
+        if (Setting::obtain('telegram_diary')) {
+            $lastday_total = 0;
+        }
 
         foreach ($users as $user) {
-            // 将用户日流量加到统计中
-            $lastday_total += $user->u + $user->d - $user->last_day_t;
+            // ------- 用户每日流量报告
+            if (Setting::obtain('telegram_diary')) {
+                // 将用户日流量加到统计中
+                $lastday_total += $user->u + $user->d - $user->last_day_t;
+            }
+
             $user->sendDailyNotification($ann_latest);
             // 覆盖用户 last_day_t 值，为下一个周期的流量重置做准备
             $user->last_day_t = $user->u + $user->d;
             $user->save();
-        }
-        // ------- 用户每日流量报告
+            // ------- 用户每日流量报告
 
-        // ------- 免费用户流量重置
-        foreach ($users as $user) {
-            if ($user->class > 0) {
-                continue;
-            }
-
-            if (date('d') === $user->auto_reset_day) {
+            // ------- 免费用户流量重置
+            if ($user->class === 0 && date('d') === $user->auto_reset_day) {
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
@@ -110,10 +110,10 @@ EOL;
 
                 try {
                     $user->sendMail(
-                        $_ENV['appName'] . '-您的免费流量被重置了',
+                        $_ENV['appName'] . '-你的免费流量被重置了',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，您的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB',
+                            'text' => '你好，你的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB',
                         ],
                         [],
                         true
@@ -122,12 +122,12 @@ EOL;
                     echo $e->getMessage();
                 }
             }
+            // ------- 免费用户流量重置
         }
-        // ------- 免费用户流量重置
 
         // ------- 发送系统运行状况通知
-        $sts = new Analytics();
         if (Setting::obtain('telegram_diary')) {
+            $sts = new Analytics();
             try {
                 Telegram::send(
                     str_replace(
@@ -160,7 +160,7 @@ EOL;
     }
 
     /**
-     * 用户账户相关任务，每小时
+     * 账户相关任务，每小时
      */
     public function UserJob(): void
     {
@@ -192,10 +192,10 @@ EOL;
                 $user->last_day_t = 0;
 
                 $user->sendMail(
-                    $_ENV['appName'] . '-您的用户账户已经过期了',
+                    $_ENV['appName'] . '-你的账户已经过期了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经过期了。',
+                        'text' => '你好，系统发现你的账号已经过期了。',
                     ],
                     [],
                     true
@@ -231,10 +231,10 @@ EOL;
 
                 if ($under_limit && ! $user->traffic_notified) {
                     $result = $user->sendMail(
-                        $_ENV['appName'] . '-您的剩余流量过低',
+                        $_ENV['appName'] . '-你的剩余流量过低',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
+                            'text' => '你好，系统发现你剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
                         ],
                         [],
                         true
@@ -255,10 +255,10 @@ EOL;
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
-                    $_ENV['appName'] . '-您的用户账户已经被删除了',
+                    $_ENV['appName'] . '-你的账户因为过期被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
+                        'text' => '你好，系统发现你的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
                     ],
                     [],
                     true
@@ -277,10 +277,10 @@ EOL;
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
-                    $_ENV['appName'] . '-您的用户账户已经被删除了',
+                    $_ENV['appName'] . '-你的账户因为未签到被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
+                        'text' => '你好，系统发现你的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
                     ],
                     [],
                     true
@@ -296,10 +296,10 @@ EOL;
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
-                    $_ENV['appName'] . '-您的用户账户已经被删除了',
+                    $_ENV['appName'] . '-你的账户因为闲置被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
+                        'text' => '你好，系统发现你的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
                     ],
                     [],
                     true
@@ -310,10 +310,9 @@ EOL;
 
             if (
                 $user->class !== 0 &&
-                strtotime($user->class_expire) < time() &&
-                strtotime($user->class_expire) > 1420041600
+                strtotime($user->class_expire) < time()
             ) {
-                $text = '您好，系统发现您的账号等级已经过期了。';
+                $text = '你好，系统发现你的账号等级已经过期了。';
                 $reset_traffic = $_ENV['class_expire_reset_traffic'];
                 if ($reset_traffic >= 0) {
                     $user->transfer_enable = Tools::toGB($reset_traffic);
@@ -323,7 +322,7 @@ EOL;
                     $text .= '流量已经被重置为' . $reset_traffic . 'GB';
                 }
                 $user->sendMail(
-                    $_ENV['appName'] . '-您的账户等级已经过期了',
+                    $_ENV['appName'] . '-你的账户等级已经过期了',
                     'news/warn.tpl',
                     [
                         'text' => $text,
@@ -332,13 +331,6 @@ EOL;
                     true
                 );
                 $user->class = 0;
-            }
-            // 审计封禁解封
-            if ($user->is_banned === 1) {
-                $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
-                if ($logs !== null && ($logs->end_time + $logs->ban_time * 60) <= time()) {
-                    $user->is_banned = 0;
-                }
             }
 
             $user->save();

@@ -280,7 +280,7 @@ final class UserController extends BaseController
             $mailcount = EmailVerify::where('email', '=', $newemail)
                 ->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount === null) {
-                return ResponseHelper::error($response, '您的邮箱验证码不正确');
+                return ResponseHelper::error($response, '你的邮箱验证码不正确');
             }
         }
 
@@ -461,7 +461,7 @@ final class UserController extends BaseController
         if (Setting::obtain('enable_checkin_captcha')) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
-                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试');
+                return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试');
             }
         }
 
@@ -512,7 +512,7 @@ final class UserController extends BaseController
         if ($_ENV['enable_kill']) {
             Auth::logout();
             $user->killUser();
-            return ResponseHelper::successfully($response, '您的帐号已经从我们的系统中删除。欢迎下次光临');
+            return ResponseHelper::successfully($response, '你的帐号已经从我们的系统中删除。欢迎下次光临');
         }
 
         return ResponseHelper::error($response, '自助账号删除未启用，如需删除账户请联系管理员。');

@@ -24,9 +24,9 @@
                             <div class="empty-img">
                                 <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                             </div>
-                            {if $banned_reason === null}
-                            <p class="empty-title">账户被系统封禁</p>
-                            <p class="empty-subtitle text-muted">你的账户被系统自动封禁了，请联系管理员</p>
+                            {if $banned_reason === 'DetectBan'}
+                            <p class="empty-title">审计封禁</p>
+                            <p class="empty-subtitle text-muted">你的账户因为触发审计规则而被系统自动封禁</p>
                             {else}
                             <p class="empty-title">以下是你被封禁的理由</p>
                             <p class="empty-subtitle text-muted">{$banned_reason}</p>

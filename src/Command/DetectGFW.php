@@ -72,7 +72,7 @@ final class DetectGFW extends Command
                                 $_ENV['appName'] . '-系统警告',
                                 'news/warn.tpl',
                                 [
-                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。',
+                                    'text' => '管理员你好，系统发现节点 ' . $node->name . ' 被墙了，请你及时处理。',
                                 ],
                                 []
                             );
@@ -99,7 +99,7 @@ final class DetectGFW extends Command
                                 $_ENV['appName'] . '-系统提示',
                                 'news/warn.tpl',
                                 [
-                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。',
+                                    'text' => '管理员你好，系统发现节点 ' . $node->name . ' 溜出墙了。',
                                 ],
                                 []
                             );

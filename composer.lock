@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.268.18",
+            "version": "3.269.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "086934b1009a8d9a9ae15dc89eafe1a25b1e8b45"
+                "reference": "6d759ef9f24f0c7f271baf8014f41fc0cfdfbf78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/086934b1009a8d9a9ae15dc89eafe1a25b1e8b45",
-                "reference": "086934b1009a8d9a9ae15dc89eafe1a25b1e8b45",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6d759ef9f24f0c7f271baf8014f41fc0cfdfbf78",
+                "reference": "6d759ef9f24f0c7f271baf8014f41fc0cfdfbf78",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.268.18"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.269.0"
             },
-            "time": "2023-04-25T18:20:08+00:00"
+            "time": "2023-04-26T18:21:04+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2796,16 +2796,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.16.0",
+            "version": "1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "d35947fe3f833f8776ed06274173622d36895f49"
+                "reference": "bd810d15957cf165230e65d9e1a130793265e3b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/d35947fe3f833f8776ed06274173622d36895f49",
-                "reference": "d35947fe3f833f8776ed06274173622d36895f49",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/bd810d15957cf165230e65d9e1a130793265e3b7",
+                "reference": "bd810d15957cf165230e65d9e1a130793265e3b7",
                 "shasum": ""
             },
             "require": {
@@ -2839,7 +2839,10 @@
             "autoload": {
                 "psr-4": {
                     "Http\\Discovery\\": "src/"
-                }
+                },
+                "exclude-from-classmap": [
+                    "src/Composer/Plugin.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2865,9 +2868,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.16.0"
+                "source": "https://github.com/php-http/discovery/tree/1.17.0"
             },
-            "time": "2023-04-26T07:54:11+00:00"
+            "time": "2023-04-26T15:39:13+00:00"
         },
         {
             "name": "php-http/guzzle7-adapter",
@@ -4668,16 +4671,16 @@
         },
         {
             "name": "srmklive/paypal",
-            "version": "3.0.20",
+            "version": "3.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/srmklive/laravel-paypal.git",
-                "reference": "e5d5d91b21b38922c8130eedf0ee2d3a64527a4e"
+                "reference": "3a55d463f8d5935627c4eee15da702811a03c5ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/e5d5d91b21b38922c8130eedf0ee2d3a64527a4e",
-                "reference": "e5d5d91b21b38922c8130eedf0ee2d3a64527a4e",
+                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/3a55d463f8d5935627c4eee15da702811a03c5ea",
+                "reference": "3a55d463f8d5935627c4eee15da702811a03c5ea",
                 "shasum": ""
             },
             "require": {
@@ -4688,7 +4691,7 @@
                 "php": ">=7.2|^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0|^9.0",
+                "phpunit/phpunit": "^8.0|^9.0|^10.0",
                 "symfony/var-dumper": "~5.0"
             },
             "type": "library",
@@ -4727,9 +4730,9 @@
             ],
             "support": {
                 "issues": "https://github.com/srmklive/laravel-paypal/issues",
-                "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.20"
+                "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.21"
             },
-            "time": "2023-03-29T18:18:45+00:00"
+            "time": "2023-04-26T16:27:35+00:00"
         },
         {
             "name": "starkbank/ecdsa",
