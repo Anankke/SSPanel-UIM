@@ -87,7 +87,7 @@ final class TicketController extends BaseController
             foreach ($adminUser as $user) {
                 $user->sendMail(
                     $_ENV['appName'] . '-新工单被开启',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => '管理员，有人开启了新的工单，请你及时处理。',
                     ],
@@ -144,7 +144,7 @@ final class TicketController extends BaseController
             foreach ($adminUser as $user) {
                 $user->sendMail(
                     $_ENV['appName'] . '-工单被回复',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => '管理员，有人回复了 <a href="' .
                             $_ENV['baseUrl'] . '/admin/ticket/' . $ticket->id . '/view">#' . $ticket->id .

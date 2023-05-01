@@ -189,7 +189,7 @@ final class AuthController extends BaseController
                 Mail::send(
                     $email,
                     $_ENV['appName'] . '- 验证邮件',
-                    'auth/verify.tpl',
+                    'verify_code.tpl',
                     [
                         'code' => $code,
                         'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),

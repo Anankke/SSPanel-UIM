@@ -70,7 +70,7 @@ final class DetectGFW extends Command
                             echo 'Send gfw mail to user: ' . $user->id . '-';
                             $user->sendMail(
                                 $_ENV['appName'] . '-系统警告',
-                                'news/warn.tpl',
+                                'warn.tpl',
                                 [
                                     'text' => '管理员你好，系统发现节点 ' . $node->name . ' 被墙了，请你及时处理。',
                                 ],
@@ -97,7 +97,7 @@ final class DetectGFW extends Command
                             echo 'Send gfw mail to user: ' . $user->id . '-';
                             $user->sendMail(
                                 $_ENV['appName'] . '-系统提示',
-                                'news/warn.tpl',
+                                'warn.tpl',
                                 [
                                     'text' => '管理员你好，系统发现节点 ' . $node->name . ' 溜出墙了。',
                                 ],

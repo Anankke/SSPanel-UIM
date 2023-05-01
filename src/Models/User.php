@@ -582,7 +582,7 @@ final class User extends Model
                 echo 'Send daily mail to user: ' . $this->id;
                 $this->sendMail(
                     $_ENV['appName'] . '-每日流量报告以及公告',
-                    'news/daily-traffic-report.tpl',
+                    'traffic_report.tpl',
                     [
                         'user' => $this,
                         'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',

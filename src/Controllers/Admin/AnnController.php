@@ -92,7 +92,7 @@ final class AnnController extends BaseController
             foreach ($users as $user) {
                 $user->sendMail(
                     $subject,
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'user' => $user,
                         'text' => $content,

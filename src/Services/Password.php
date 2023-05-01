@@ -29,7 +29,7 @@ final class Password
         Mail::send(
             $email,
             $subject,
-            'password/reset.tpl',
+            'password_reset.tpl',
             [
                 'resetUrl' => $resetUrl,
             ]

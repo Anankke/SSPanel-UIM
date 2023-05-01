@@ -151,7 +151,7 @@ EOL;
                         echo 'Send Email to admin user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
                             $_ENV['appName'] . '-系统警告',
-                            'news/warn.tpl',
+                            'warn.tpl',
                             [
                                 'text' => '管理员你好，系统发现节点 ' . $node->name . ' 掉线了，请你及时处理。',
                             ],
@@ -180,7 +180,7 @@ EOL;
                         echo 'Send Email to admin user: ' . $user->id . PHP_EOL;
                         $user->sendMail(
                             $_ENV['appName'] . '-系统提示',
-                            'news/warn.tpl',
+                            'warn.tpl',
                             [
                                 'text' => '管理员你好，系统发现节点 ' . $node->name . ' 恢复上线了。',
                             ],
