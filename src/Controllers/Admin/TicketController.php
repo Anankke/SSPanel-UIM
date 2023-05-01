@@ -85,9 +85,9 @@ final class TicketController extends BaseController
         $user = User::find($ticket->userid);
         $user->sendMail(
             $_ENV['appName'] . '-工单被回复',
-            'news/warn.tpl',
+            'warn.tpl',
             [
-                'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。',
+                'text' => '你好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
             ],
             []
         );
@@ -136,9 +136,9 @@ final class TicketController extends BaseController
         $user = User::find($ticket->userid);
         $user->sendMail(
             $_ENV['appName'] . '-工单被回复',
-            'news/warn.tpl',
+            'warn.tpl',
             [
-                'text' => '您好，ChatGPT 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。',
+                'text' => '你好，ChatGPT 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
             ],
             []
         );
@@ -206,9 +206,9 @@ final class TicketController extends BaseController
         $user = User::find($ticket->userid);
         $user->sendMail(
             $_ENV['appName'] . '-工单已被关闭',
-            'news/warn.tpl',
+            'warn.tpl',
             [
-                'text' => '您好，您的工单 #'. $ticket->id .' 已被关闭，如果您还有问题，欢迎提交新的工单。',
+                'text' => '你好，你的工单 #'. $ticket->id .' 已被关闭，如果你还有问题，欢迎提交新的工单。',
             ],
             []
         );

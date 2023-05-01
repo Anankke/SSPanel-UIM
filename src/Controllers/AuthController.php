@@ -54,7 +54,7 @@ final class AuthController extends BaseController
             if (! $ret) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '系统无法接受您的验证结果，请刷新页面后重试。',
+                    'msg' => '系统无法接受你的验证结果，请刷新页面后重试。',
                 ]);
             }
         }
@@ -189,7 +189,7 @@ final class AuthController extends BaseController
                 Mail::send(
                     $email,
                     $_ENV['appName'] . '- 验证邮件',
-                    'auth/verify.tpl',
+                    'verify_code.tpl',
                     [
                         'code' => $code,
                         'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
@@ -356,7 +356,7 @@ final class AuthController extends BaseController
         if (Setting::obtain('enable_reg_captcha')) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
-                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
+                return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试。');
             }
         }
 
@@ -406,7 +406,7 @@ final class AuthController extends BaseController
                 ->where('expire_in', '>', time())
                 ->first();
             if ($mailcount === null) {
-                return ResponseHelper::error($response, '您的邮箱验证码不正确');
+                return ResponseHelper::error($response, '你的邮箱验证码不正确');
             }
         }
 

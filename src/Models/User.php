@@ -430,7 +430,7 @@ final class User extends Model
         ];
         if (! $this->isAbleToCheckin()) {
             $return['ok'] = false;
-            $return['msg'] = '您似乎已经签到过了...';
+            $return['msg'] = '你似乎已经签到过了...';
         } else {
             try {
                 $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
@@ -582,7 +582,7 @@ final class User extends Model
                 echo 'Send daily mail to user: ' . $this->id;
                 $this->sendMail(
                     $_ENV['appName'] . '-每日流量报告以及公告',
-                    'news/daily-traffic-report.tpl',
+                    'traffic_report.tpl',
                     [
                         'user' => $this,
                         'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',

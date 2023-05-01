@@ -39,7 +39,7 @@ final class PingCommand extends Command
 
             $text = [
                 'Pong！',
-                '您的 ID 是 ' . $ChatID . '.',
+                '你的 ID 是 ' . $ChatID . '.',
             ];
 
             // 回送信息
@@ -60,7 +60,7 @@ final class PingCommand extends Command
 
             $text = [
                 'Pong！',
-                '您的 ID 是 ' . $Message->getFrom()->getId() . '.',
+                '你的 ID 是 ' . $Message->getFrom()->getId() . '.',
                 '这个群组的 ID 是 ' . $ChatID . '.',
             ];
 

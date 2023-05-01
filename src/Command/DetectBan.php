@@ -9,6 +9,7 @@ use App\Models\DetectLog;
 use App\Models\User;
 use function count;
 use function in_array;
+use function time;
 
 final class DetectBan extends Command
 {
@@ -25,7 +26,8 @@ final class DetectBan extends Command
 
         echo '审计封禁检查开始.' . PHP_EOL;
 
-        $new_logs = DetectLog::where('status', '=', 0)->orderBy('id', 'asc')->take($_ENV['auto_detect_ban_numProcess'])->get();
+        $new_logs = DetectLog::where('status', '=', 0)
+            ->orderBy('id', 'asc')->take($_ENV['auto_detect_ban_numProcess'])->get();
 
         if (count($new_logs) !== 0) {
             $user_logs = [];
@@ -51,7 +53,9 @@ final class DetectBan extends Command
                 $user->all_detect_number += $value;
                 $user->save();
 
-                if ($user->is_banned === 1 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin']) || in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
+                if ($user->is_banned === 1 ||
+                    ($user->is_admin && $_ENV['auto_detect_ban_allow_admin']) ||
+                    in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
                     // 如果用户已被封禁
                     // 如果用户是管理员
                     // 如果属于钦定用户
@@ -68,6 +72,7 @@ final class DetectBan extends Command
                         $last_detect_ban_time = $user->last_detect_ban_time;
                         $end_time = date('Y-m-d H:i:s');
                         $user->is_banned = 1;
+                        $user->banned_reason = 'DetectBan';
                         $user->last_detect_ban_time = $end_time;
                         $user->save();
                         $DetectBanLog = new DetectBanLog();
@@ -98,6 +103,7 @@ final class DetectBan extends Command
                             $last_detect_ban_time = $user->last_detect_ban_time;
                             $end_time = date('Y-m-d H:i:s');
                             $user->is_banned = 1;
+                            $user->banned_reason = 'DetectBan';
                             $user->last_detect_ban_time = $end_time;
                             $user->save();
                             $DetectBanLog = new DetectBanLog();
@@ -118,5 +124,16 @@ final class DetectBan extends Command
             echo '- 暂无新记录.' . PHP_EOL;
         }
         echo '审计封禁检查结束.' . PHP_EOL;
+
+        // 审计封禁解封
+        $banned_users = User::where('is_banned', 1)->where('banned_reason', 'DetectBan')->get();
+        foreach ($banned_users as $user) {
+            $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
+            if ($logs !== null && ($logs->end_time + $logs->ban_time * 60) <= time()) {
+                $user->is_banned = 0;
+                $user->banned_reason = '';
+                $user->save();
+            }
+        }
     }
 }

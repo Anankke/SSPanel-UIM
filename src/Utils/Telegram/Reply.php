@@ -14,7 +14,7 @@ final class Reply
     public static function getUserTrafficInfo(User $user): string
     {
         $text = [
-            '您当前的流量状况：',
+            '你当前的流量状况：',
             '',
             '今日已使用 ' . $user->todayUsedTrafficPercent() . '% ：' . $user->todayUsedTraffic(),
             '之前已使用 ' . $user->lastUsedTrafficPercent() . '% ：' . $user->lastUsedTraffic(),
@@ -44,9 +44,9 @@ final class Reply
     public static function getUserTitle(User $user): string
     {
         if ($user->class > 0) {
-            $text = '尊敬的 VIP ' . $user->class . ' 您好：';
+            $text = '尊敬的 VIP ' . $user->class . ' 你好：';
         } else {
-            $text = '尊敬的用户您好：';
+            $text = '尊敬的用户你好：';
         }
         return $text;
     }
