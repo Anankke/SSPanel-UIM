@@ -111,7 +111,7 @@ EOL;
                 try {
                     $user->sendMail(
                         $_ENV['appName'] . '-你的免费流量被重置了',
-                        'news/warn.tpl',
+                        'warn.tpl',
                         [
                             'text' => '你好，你的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB',
                         ],
@@ -193,7 +193,7 @@ EOL;
 
                 $user->sendMail(
                     $_ENV['appName'] . '-你的账户已经过期了',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => '你好，系统发现你的账号已经过期了。',
                     ],
@@ -232,7 +232,7 @@ EOL;
                 if ($under_limit && ! $user->traffic_notified) {
                     $result = $user->sendMail(
                         $_ENV['appName'] . '-你的剩余流量过低',
-                        'news/warn.tpl',
+                        'warn.tpl',
                         [
                             'text' => '你好，系统发现你剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
                         ],
@@ -256,7 +256,7 @@ EOL;
             ) {
                 $user->sendMail(
                     $_ENV['appName'] . '-你的账户因为过期被删除了',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => '你好，系统发现你的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
                     ],
@@ -278,7 +278,7 @@ EOL;
             ) {
                 $user->sendMail(
                     $_ENV['appName'] . '-你的账户因为未签到被删除了',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => '你好，系统发现你的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
                     ],
@@ -297,7 +297,7 @@ EOL;
             ) {
                 $user->sendMail(
                     $_ENV['appName'] . '-你的账户因为闲置被删除了',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => '你好，系统发现你的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
                     ],
@@ -323,7 +323,7 @@ EOL;
                 }
                 $user->sendMail(
                     $_ENV['appName'] . '-你的账户等级已经过期了',
-                    'news/warn.tpl',
+                    'warn.tpl',
                     [
                         'text' => $text,
                     ],

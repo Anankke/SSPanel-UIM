@@ -104,7 +104,7 @@ final class EmailController extends BaseController
             Mail::send(
                 $to,
                 '测试邮件',
-                'auth/test.tpl'
+                'test.tpl'
             );
         } catch (Throwable $e) {
             return $response->withJson([

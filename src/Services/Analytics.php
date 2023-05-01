@@ -112,10 +112,7 @@ final class Analytics
         return Node::where('node_heartbeat', '>', 0)->where(
             static function ($query): void {
                 $query->Where('sort', '=', 0)
-                    ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)
-                    ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13)
                     ->orWhere('sort', '=', 14);
             }
         )->count();
@@ -126,10 +123,7 @@ final class Analytics
         return Node::where(
             static function ($query): void {
                 $query->Where('sort', '=', 0)
-                    ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)
-                    ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13)
                     ->orWhere('sort', '=', 14);
             }
         )->where('node_heartbeat', '>', time() - 90)->count();
