@@ -104,8 +104,9 @@
                                         <select id="smtp_port" class="col form-select" value="{$settings['smtp_port']}">
                                             <option value="465" {if $settings['smtp_port'] === "465"}selected{/if}>465</option>
                                             <option value="587" {if $settings['smtp_port'] === "587"}selected{/if}>587</option>
-                                            <option value="443" {if $settings['smtp_port'] === "443"}selected{/if}>2525</option>
-                                            <option value="80" {if $settings['smtp_port'] === "80"}selected{/if}>2525</option>
+                                            <option value="443" {if $settings['smtp_port'] === "443"}selected{/if}>443</option>
+                                            <option value="80" {if $settings['smtp_port'] === "80"}selected{/if}>80</option>
+                                            <option value="2525" {if $settings['smtp_port'] === "2525"}selected{/if}>2525</option>
                                             <option value="25" {if $settings['smtp_port'] === "25"}selected{/if}>25</option>
                                         </select>
                                     </div>
