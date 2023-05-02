@@ -175,11 +175,19 @@ final class User extends Model
     }
 
     /*
-     * 已用流量[自动单位]
+     * 当期用量[自动单位]
      */
     public function usedTraffic(): string
     {
         return Tools::flowAutoShow($this->u + $this->d);
+    }
+
+    /*
+     * 累计用量[自动单位]
+     */
+    public function totalTraffic(): string
+    {
+        return Tools::flowAutoShow($this->transfer_total);
     }
 
     /*
@@ -367,19 +375,6 @@ final class User extends Model
         $this->delete();
 
         return true;
-    }
-
-    /**
-     * 获取用户被封禁的理由
-     */
-    public function disableReason(): string
-    {
-        $reason_id = DetectLog::where('user_id', $this->id)->orderBy('id', 'DESC')->first();
-        $reason = DetectRule::find($reason_id->list_id);
-        if (is_null($reason)) {
-            return '特殊原因被禁用，了解详情请联系管理员';
-        }
-        return $reason->text;
     }
 
     /**
