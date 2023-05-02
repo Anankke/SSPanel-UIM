@@ -54,7 +54,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="subheader">账户累计使用流量</div>
                             </div>
-                            <div class="h1 mb-3">{round($user->transfer_total / 1073741824,2)} GB</div>
+                            <div class="h1 mb-3">{$user->totalTraffic()}</div>
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ final class UserController extends BaseController
             'money' => '余额',
             'ref_by' => '邀请人',
             'transfer_enable' => '流量限制',
-            'last_day_t' => '累计用量',
+            'transfer_used' => '当期用量',
             'class' => '等级',
             'reg_date' => '注册时间',
             'expire_in' => '账户过期',
@@ -278,8 +278,8 @@ final class UserController extends BaseController
             $user->op = '<button type="button" class="btn btn-red" id="delete-user-' . $user->id . '" 
             onclick="deleteUser(' . $user->id . ')">删除</button>
             <a class="btn btn-blue" href="/admin/user/' . $user->id . '/edit">编辑</a>';
-            $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
-            $user->last_day_t = round($user->last_day_t / 1073741824, 2);
+            $user->transfer_enable = $user->enableTraffic();
+            $user->transfer_used = $user->usedTraffic();
         }
 
         return $response->withJson([
