@@ -151,8 +151,10 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a href="/user/telegram_reset"
-                                                            class="btn btn-red ms-auto">解绑</a>
+                                                       <button id="unbind-telegram-btn" 
+                                                            class="btn btn-red ms-auto">
+                                                            解绑
+                                                       </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -779,7 +781,26 @@
                 }
             })
         });
-        
+        $("#unbind-telegram-btn").click(function() {
+          $.ajax({
+            type: "POST",
+            url: "/user/telegram_reset",
+            dataType: "json",
+            success: function(data) {
+              if (data.ret === 1) {
+                $('#success-message').text(data.msg);
+                $('#success-dialog').modal('show');
+                setTimeout(function() {
+                  location.reload();
+                }, 1000);
+              } else {
+                $('#fail-message').text(data.msg);
+                $('#fail-dialog').modal('show');
+              }
+            }
+          })
+        });
+
         {if $config['enable_kill']}
         $("#confirm-destroy").click(function() {
             $.ajax({
