@@ -94,7 +94,7 @@
         function deleteOrder(order_id) {
             $('#notice-message').text('确定删除此订单？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/order/" + order_id,
                     type: 'DELETE',
@@ -116,7 +116,7 @@
         function cancelOrder(order_id) {
             $('#notice-message').text('确定取消此订单？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/order/" + order_id + "/cancel",
                     type: 'POST',
