@@ -175,7 +175,7 @@
         function deleteUser(user_id) {
             $('#notice-message').text('确定删除此用户？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/user/" + user_id,
                     type: 'DELETE',

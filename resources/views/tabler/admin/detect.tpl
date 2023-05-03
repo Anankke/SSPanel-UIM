@@ -169,7 +169,7 @@
         function deleteRule(rule_id) {
             $('#notice-message').text('确定删除此审计规则？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/detect/" + rule_id,
                     type: 'DELETE',
