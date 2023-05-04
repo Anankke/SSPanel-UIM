@@ -76,7 +76,7 @@
             <div class="col-lg-auto ms-lg-auto">
                 <ul class="list-inline list-inline-dots mb-0">
                     <li class="list-inline-item">
-                        <a href="/staff" class="link-secondary">Powered by SSPanel-UIM</a>
+                        Powered by <a href="/staff" class="link-secondary">SSPanel-UIM</a>
                         <!-- 删除staff是不尊重每一位开发者的行为 -->
                     </li>
                 </ul>
