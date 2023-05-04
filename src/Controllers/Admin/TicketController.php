@@ -158,7 +158,7 @@ final class TicketController extends BaseController
      *
      * @throws Exception
      */
-    public function ticketView(ServerRequest $request, Response $response, array $args)
+    public function ticketView(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();

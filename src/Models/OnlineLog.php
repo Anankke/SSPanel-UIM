@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use function strpos;
 use function substr;
 
 /**
@@ -43,12 +42,12 @@ final class OnlineLog extends Model
     public function ip(): string
     {
         $ip = $this->attributes['ip'];
-        if (substr($ip, 0, 7) === '::ffff:') {
+        if (str_starts_with($ip, '::ffff:')) {
             $v4 = substr($ip, 7);
             // Mix hexadecimal and dot decimal notations: https://www.rfc-editor.org/rfc/rfc5952#section-5
             //
             // IPv4-translated address: https://www.rfc-editor.org/rfc/rfc2765.html#section-2.1
-            if (strpos($v4, '.') !== false && strpos($v4, ':') === false) {
+            if (str_contains($v4, '.') && ! str_contains($v4, ':')) {
                 return $v4;
             }
         }

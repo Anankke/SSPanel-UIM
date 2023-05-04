@@ -62,12 +62,10 @@
                                     <label class="form-label col-3 col-form-label">邀请模式</label>
                                     <div class="col">
                                         <select id="invitation_mode" class="col form-select" value="{$settings['invitation_mode']}">
-                                            <option value="registration_only" {if $settings['invitation_mode'] === 'registration_only'}selected{/if}>
+                                            <option value="reg_only" {if $settings['invitation_mode'] === 'reg_only'}selected{/if}>
                                             不返利</option>
-                                            <option value="after_recharge" {if $settings['invitation_mode'] === 'after_recharge'}selected{/if}>
-                                            被邀请用户充值时返利</option>
-                                            <option value="after_purchase" {if $settings['invitation_mode'] === 'after_purchase'}selected{/if}>
-                                            被邀请用户购买时返利</option>
+                                            <option value="after_paid" {if $settings['invitation_mode'] === 'after_paid'}selected{/if}>
+                                            被邀请用户支付账单时返利</option>
                                         </select>
                                     </div>
                                 </div>

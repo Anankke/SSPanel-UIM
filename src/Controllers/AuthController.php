@@ -319,18 +319,13 @@ final class AuthController extends BaseController
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
+        $user->use_new_shop = 1;
         $random_group = Setting::obtain('random_group');
 
         if ($random_group === '') {
             $user->node_group = 0;
         } else {
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
-        }
-
-        if (Setting::obtain('enable_reg_new_shop')) {
-            $user->use_new_shop = 1;
-        } else {
-            $user->use_new_shop = 0;
         }
 
         if ($user->save() && ! $is_admin_reg) {

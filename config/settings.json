@@ -731,16 +731,6 @@
     },
     {
         "id": null,
-        "item": "enable_reg_new_shop",
-        "value": "1",
-        "class": "register",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "新用户默认使用新商店系统"
-    },
-    {
-        "id": null,
         "item": "reg_forbidden_ip",
         "value": "127.0.0.0/8,::1/128",
         "class": "register",
@@ -922,11 +912,11 @@
     {
         "id": null,
         "item": "invitation_mode",
-        "value": "after_purchase",
+        "value": "after_paid",
         "class": "invite",
         "is_public": 0,
         "type": "string",
-        "default": "after_purchase",
+        "default": "after_paid",
         "mark": "邀请模式"
     },
     {
