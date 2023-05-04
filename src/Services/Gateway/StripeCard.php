@@ -122,7 +122,7 @@ final class StripeCard extends AbstractPayment
         }
 
         if ($session->payment_status === 'paid') {
-            $this->postPayment($trade_no, '银行卡支付');
+            $this->postPayment($trade_no);
         }
 
         return $response->withRedirect($_ENV['baseUrl'] . '/user/invoice');

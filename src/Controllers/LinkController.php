@@ -9,6 +9,7 @@ use App\Models\Node;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
 use App\Utils\ResponseHelper;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function array_key_exists;
@@ -21,7 +22,7 @@ use function json_encode;
  */
 final class LinkController extends BaseController
 {
-    public static function getContent(ServerRequest $request, Response $response, array $args)
+    public static function getContent(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $err_msg = '订阅链接无效';
 
