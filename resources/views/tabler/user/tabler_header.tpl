@@ -219,7 +219,7 @@
                                         <i class="ti ti-settings icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        管理
+                                        站点管理
                                     </span>
                                 </a>
                             </li>
