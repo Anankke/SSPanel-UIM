@@ -196,7 +196,7 @@
         function deleteCoupon(coupon_id) {
             $('#notice-message').text('确定删除此优惠码？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/coupon/" + coupon_id,
                     type: 'DELETE',
@@ -218,7 +218,7 @@
         function disableCoupon(coupon_id) {
             $('#notice-message').text('确定禁用此优惠码？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/coupon/" + coupon_id + "/disable",
                     type: 'POST',

@@ -94,7 +94,7 @@
         function closeTicket(ticket_id) {
             $('#notice-message').text('确定关闭此工单？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function () {
+            $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/ticket/" + ticket_id + '/close',
                     type: 'PUT',
@@ -116,7 +116,7 @@
         function deleteTicket(ticket_id) {
             $('#notice-message').text('确定删除此工单？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
                     url: "/admin/ticket/" + ticket_id,
                     type: 'DELETE',
