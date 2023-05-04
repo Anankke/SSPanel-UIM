@@ -162,10 +162,17 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">已用流量 (GB)</label>
+                                <label class="form-label col-4 col-form-label">当期用量</label>
                                 <div class="col">
                                     <input id="usedTraffic" type="text" class="form-control"
                                         value="{$edit_user->usedTraffic()}" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">累计用量</label>
+                                <div class="col">
+                                    <input id="usedTraffic" type="text" class="form-control"
+                                           value="{$edit_user->totalTraffic()}" disabled />
                                 </div>
                             </div>
                             <div class="hr-text">
