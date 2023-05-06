@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">邀请模式</label>
+                                    <label class="form-label col-3 col-form-label">返利模式</label>
                                     <div class="col">
                                         <select id="invite_rebate_mode" class="col form-select" value="{$settings['invite_rebate_mode']}">
                                             <option value="continued" {if $settings['invite_rebate_mode'] === 'continued'}selected{/if}>
