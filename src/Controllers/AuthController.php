@@ -325,7 +325,7 @@ final class AuthController extends BaseController
         if ($random_group === '') {
             $user->node_group = 0;
         } else {
-            $user->node_group = $random_group[array_rand(explode(',', $random_group))];
+            $user->node_group = explode(',', $random_group)[array_rand(explode(',', $random_group))];
         }
 
         if ($user->save() && ! $is_admin_reg) {
