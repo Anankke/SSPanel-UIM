@@ -424,7 +424,7 @@ final class AuthController extends BaseController
         } catch (Exception $e) {
             if ($_ENV['debug']) {
                 return ResponseHelper::error($response, $e->getMessage());
-            } 
+            }
             return ResponseHelper::error($response, '系统错误');
         }
     }
