@@ -422,7 +422,11 @@ final class AuthController extends BaseController
         try {
             return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
         } catch (Exception $e) {
-            return ResponseHelper::error($response, $e->getMessage());
+            if ($_ENV['debug']) {
+                return ResponseHelper::error($response, $e->getMessage());
+            } else {
+                return ResponseHelper::error($response, '系统错误');
+            }
         }
     }
 
