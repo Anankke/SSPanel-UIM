@@ -13,6 +13,7 @@ use App\Models\Node;
 use App\Models\OnlineLog;
 use App\Models\Order;
 use App\Models\PasswordReset;
+use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\TelegramSession;
@@ -416,6 +417,83 @@ final class CronJob
                 ],
                 [],
                 true
+            );
+        }
+    }
+
+    public static function sendDailyFinanceMail(): void
+    {
+        $today = strtotime('00:00:00');
+        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 day', $today), $today])->get();
+        $text_html = '<table border=1><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
+
+        foreach ($paylists as $paylist) {
+            $text_html .= '<tr>';
+            $text_html .= '<td>' . $paylist->total . '</td>';
+            $text_html .= '<td>' . $paylist->userid . '</td>';
+            $text_html .= '<td>' . User::find($paylist->userid)->user_name . '</td>';
+            $text_html .= '<td>' . Tools::toDateTime((int) $paylist->datetime) . '</td>';
+            $text_html .= '</tr>';
+        }
+
+        $text_html .= '</table>';
+        $text_html .= '<br>昨日总收入笔数：' . count($paylists) . '<br>昨日总收入金额：' . $paylists->sum('total');
+        $adminUser = User::where('is_admin', '=', '1')->get();
+
+        foreach ($adminUser as $user) {
+            echo 'Sending daily finance email to admin user: ' . $user->id . PHP_EOL;
+            $user->sendMail(
+                $_ENV['appName'] . '-财务日报',
+                'finance.tpl',
+                [
+                    'title' => '财务日报',
+                    'text' => $text_html,
+                ],
+                []
+            );
+        }
+    }
+
+    public static function sendWeeklyFinanceMail(): void
+    {
+        $today = strtotime('00:00:00');
+        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 week', $today), $today])->get();
+
+        $text_html = '<br>上周总收入笔数：' . count($paylists) . '<br>上周总收入金额：' . $paylists->sum('total');
+        $adminUser = User::where('is_admin', '=', '1')->get();
+
+        foreach ($adminUser as $user) {
+            echo 'Sending weekly finance email to admin user: ' . $user->id . PHP_EOL;
+            $user->sendMail(
+                $_ENV['appName'] . '-财务周报',
+                'finance.tpl',
+                [
+                    'title' => '财务周报',
+                    'text' => $text_html,
+                ],
+                []
+            );
+        }
+    }
+
+    public static function sendMonthlyFinanceMail(): void
+    {
+        $today = strtotime('00:00:00');
+        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 month', $today), $today])->get();
+
+        $text_html = '<br>上月总收入笔数：' . count($paylists) . '<br>上月总收入金额：' . $paylists->sum('total');
+        $adminUser = User::where('is_admin', '=', '1')->get();
+
+        foreach ($adminUser as $user) {
+            echo 'Sending monthly finance email to admin user: ' . $user->id . PHP_EOL;
+            $user->sendMail(
+                $_ENV['appName'] . '-财务月报',
+                'finance.tpl',
+                [
+                    'title' => '财务月报',
+                    'text' => $text_html,
+                ],
+                []
             );
         }
     }

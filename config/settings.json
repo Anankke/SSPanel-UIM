@@ -1421,6 +1421,36 @@
     },
     {
         "id": null,
+        "item": "enable_daily_finance_mail",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用每日财务报告"
+    },
+    {
+        "id": null,
+        "item": "enable_weekly_finance_mail",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用每周财务报告"
+    },
+    {
+        "id": null,
+        "item": "enable_monthly_finance_mail",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用每月财务报告"
+    },
+    {
+        "id": null,
         "item": "daily_job_hour",
         "value": "0",
         "class": "cron",

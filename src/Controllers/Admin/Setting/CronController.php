@@ -13,6 +13,9 @@ final class CronController extends BaseController
     public static array $update_field = [
         'daily_job_hour',
         'daily_job_minute',
+        'enable_daily_finance_mail',
+        'enable_weekly_finance_mail',
+        'enable_monthly_finance_mail',
     ];
 
     /**
@@ -43,6 +46,9 @@ final class CronController extends BaseController
     {
         $daily_job_hour = (int) $request->getParam('daily_job_hour');
         $daily_job_minute = (int) $request->getParam('daily_job_minute');
+        $enable_daily_finance_mail = (bool) $request->getParam('enable_daily_finance_mail');
+        $enable_weekly_finance_mail = (bool) $request->getParam('enable_weekly_finance_mail');
+        $enable_monthly_finance_mail = (bool) $request->getParam('enable_monthly_finance_mail');
 
         if ($daily_job_hour < 0 || $daily_job_hour > 23) {
             return $response->withJson([
@@ -64,6 +70,18 @@ final class CronController extends BaseController
 
         Setting::where('item', '=', 'daily_job_minute')->update([
             'value' => $daily_job_minute - ($daily_job_minute % 5),
+        ]);
+
+        Setting::where('item', '=', 'enable_daily_finance_mail')->update([
+            'value' => $enable_daily_finance_mail,
+        ]);
+
+        Setting::where('item', '=', 'enable_weekly_finance_mail')->update([
+            'value' => $enable_weekly_finance_mail,
+        ]);
+
+        Setting::where('item', '=', 'enable_monthly_finance_mail')->update([
+            'value' => $enable_monthly_finance_mail,
         ]);
 
         return $response->withJson([
