@@ -7,9 +7,6 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use Exception;
-use function date;
-use function json_encode;
-use function mktime;
 
 final class CronController extends BaseController
 {
@@ -66,7 +63,7 @@ final class CronController extends BaseController
         ]);
 
         Setting::where('item', '=', 'daily_job_minute')->update([
-            'value' => ($daily_job_minute - ($daily_job_minute % 5)),
+            'value' => $daily_job_minute - ($daily_job_minute % 5),
         ]);
 
         return $response->withJson([
