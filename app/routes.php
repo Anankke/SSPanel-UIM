@@ -204,8 +204,8 @@ return static function (Slim\App $app): void {
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');
         $group->get('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':captcha');
         $group->post('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':saveCaptcha');
-        $group->get('/setting/cron', App\Controllers\Admin\Setting\CaptchaController::class . ':cron');
-        $group->post('/setting/cron', App\Controllers\Admin\Setting\CaptchaController::class . ':saveCron');
+        $group->get('/setting/cron', App\Controllers\Admin\Setting\CronController::class . ':cron');
+        $group->post('/setting/cron', App\Controllers\Admin\Setting\CronController::class . ':saveCron');
         $group->get('/setting/email', App\Controllers\Admin\Setting\EmailController::class . ':email');
         $group->post('/setting/email', App\Controllers\Admin\Setting\EmailController::class . ':saveEmail');
         $group->get('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':feature');

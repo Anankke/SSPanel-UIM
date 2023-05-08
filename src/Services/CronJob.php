@@ -72,6 +72,8 @@ final class CronJob
         OnlineLog::where('last_time', '<', time() - 86400)->delete();
         StreamMedia::where('created_at', '<', time() - 86400)->delete();
         TelegramSession::where('datetime', '<', time() - 900)->delete();
+
+        echo date('Y-m-d H:i:s') . ' 数据库清理完成' . PHP_EOL;
     }
 
     public static function cleanUser(): void
@@ -137,6 +139,8 @@ final class CronJob
                 $user->killUser();
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 免费用户清理完成' . PHP_EOL;
     }
 
     public static function detectNodeOffline(): void
@@ -206,7 +210,8 @@ final class CronJob
                 $node->save();
             }
         }
-        echo '节点掉线检测结束' . PHP_EOL;
+
+        echo date('Y-m-d H:i:s') . ' 节点离线检测完成' . PHP_EOL;
     }
 
     public static function expirePaidUserAccount(): void
@@ -240,6 +245,8 @@ final class CronJob
                 $user->save();
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 付费用户过期检测完成' . PHP_EOL;
     }
 
     // This shit should be removed but kept for compatibility reason, for now. User account should never expire.
@@ -271,6 +278,8 @@ final class CronJob
                 $user->save();
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 免费用户过期检测完成' . PHP_EOL;
     }
 
     public static function processEmailQueue(): void
@@ -280,7 +289,7 @@ final class CronJob
         //邮件队列处理
         while (true) {
             if (time() - $timestamp > 299) {
-                echo '邮件队列处理超时，已跳过' . PHP_EOL;
+                echo date('Y-m-d H:i:s') . '邮件队列处理超时，已跳过' . PHP_EOL;
                 break;
             }
             DB::beginTransaction();
@@ -306,6 +315,8 @@ final class CronJob
             }
             DB::commit();
         }
+
+        echo date('Y-m-d H:i:s') . ' 邮件队列处理完成' . PHP_EOL;
     }
 
     public static function processOrderActivation(): void
@@ -354,6 +365,8 @@ final class CronJob
                 }
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 订单激活处理完成' . PHP_EOL;
     }
 
     public static function processPendingOrder(): void
@@ -387,16 +400,22 @@ final class CronJob
                 echo "已取消超时账单 #{$invoice->id}。\n";
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 等待中订单处理完成' . PHP_EOL;
     }
 
     public static function resetNodeBandwidth(): void
     {
         Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
+
+        echo date('Y-m-d H:i:s') . ' 重设节点流量完成' . PHP_EOL;
     }
 
     public static function resetTodayTraffic(): void
     {
         User::query()->update(['transfer_today' => 0]);
+
+        echo date('Y-m-d H:i:s') . ' 重设用户每日流量完成' . PHP_EOL;
     }
 
     public static function resetFreeUserTraffic(): void
@@ -419,6 +438,8 @@ final class CronJob
                 true
             );
         }
+
+        echo date('Y-m-d H:i:s') . ' 重设免费用户流量完成' . PHP_EOL;
     }
 
     public static function sendDailyFinanceMail(): void
@@ -452,6 +473,8 @@ final class CronJob
                 []
             );
         }
+
+        echo date('Y-m-d H:i:s') . ' 成功发送财务日报' . PHP_EOL;
     }
 
     public static function sendWeeklyFinanceMail(): void
@@ -474,6 +497,8 @@ final class CronJob
                 []
             );
         }
+
+        echo date('Y-m-d H:i:s') . ' 成功发送财务周报' . PHP_EOL;
     }
 
     public static function sendMonthlyFinanceMail(): void
@@ -496,6 +521,8 @@ final class CronJob
                 []
             );
         }
+
+        echo date('Y-m-d H:i:s') . ' 成功发送财务月报' . PHP_EOL;
     }
 
     public static function sendPaidUserUsageLimitNotification(): void
@@ -540,6 +567,8 @@ final class CronJob
                 $user->save();
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 付费用户用量限制提醒完成' . PHP_EOL;
     }
 
     public static function sendDailyTrafficReport(): void
@@ -557,6 +586,8 @@ final class CronJob
         foreach ($users as $user) {
             $user->sendDailyNotification($ann_latest);
         }
+
+        echo date('Y-m-d H:i:s') . ' 成功发送每日邮件' . PHP_EOL;
     }
 
     /**
@@ -565,6 +596,8 @@ final class CronJob
     public static function sendTelegramDailyJob(): void
     {
         Telegram::send(Setting::obtain('telegram_daily_job_text'));
+
+        echo date('Y-m-d H:i:s') . ' 成功发送 Telegram 每日任务提示' . PHP_EOL;
     }
 
     /**
@@ -587,6 +620,8 @@ final class CronJob
                 Setting::obtain('telegram_diary_text')
             )
         );
+
+        echo date('Y-m-d H:i:s') . ' 成功发送 Telegram 系统运行日志' . PHP_EOL;
     }
 
     public static function updateNodeIp(): void
@@ -600,5 +635,7 @@ final class CronJob
                 $node->save();
             }
         }
+
+        echo date('Y-m-d H:i:s') . ' 更新节点 IP 完成' . PHP_EOL;
     }
 }
