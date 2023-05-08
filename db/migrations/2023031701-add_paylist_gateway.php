@@ -15,7 +15,7 @@ return new class() implements MigrationInterface {
 
     public function down(): int
     {
-        DB::getPdo()->exec('DROP TABLE IF EXISTS `gateway`;');
+        DB::getPdo()->exec('ALTER TABLE paylist DROP COLUMN IF EXISTS `gateway`;');
 
         return 2023031700;
     }
