@@ -277,6 +277,7 @@ return new class() implements MigrationInterface {
                 `t` bigint(20) unsigned DEFAULT 0 COMMENT '最后使用时间',
                 `u` bigint(20) unsigned DEFAULT 0 COMMENT '账户当前上传流量',
                 `d` bigint(20) unsigned DEFAULT 0 COMMENT '账户当前下载流量',
+                `transfer_today` bigint(20) unsigned DEFAULT 0 COMMENT '账户今日所用流量'
                 `transfer_total` bigint(20) unsigned DEFAULT 0 COMMENT '账户累计使用流量',
                 `transfer_enable` bigint(20) unsigned DEFAULT 0 COMMENT '账户当前可用流量',
                 `port` smallint(6) unsigned NOT NULL COMMENT '端口',
@@ -295,7 +296,6 @@ return new class() implements MigrationInterface {
                 `is_admin` tinyint(1) DEFAULT 0 COMMENT '是否管理员',
                 `im_type` int(11) DEFAULT 1 COMMENT '联系方式类型',
                 `im_value` varchar(255) DEFAULT '' COMMENT '联系方式',
-                `last_day_t` bigint(20) DEFAULT 0 COMMENT '今天之前已使用的流量',
                 `sendDailyMail` tinyint(1) DEFAULT 0 COMMENT '每日报告开关',
                 `class` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '等级',
                 `class_expire` datetime DEFAULT '1989-06-04 00:05:00' COMMENT '等级过期时间',

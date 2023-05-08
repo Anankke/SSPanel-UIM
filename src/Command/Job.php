@@ -23,6 +23,7 @@ use App\Utils\Tools;
 use Exception;
 use function count;
 use function max;
+use function str_replace;
 use function strtotime;
 use function time;
 
@@ -71,6 +72,29 @@ EOL;
         TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
 
+        // ------- 发送系统运行状况通知
+        if (Setting::obtain('telegram_diary')) {
+            $sts = new Analytics();
+            try {
+                Telegram::send(
+                    str_replace(
+                        [
+                            '%getTodayCheckinUser%',
+                            '%lastday_total%',
+                        ],
+                        [
+                            $sts->getTodayCheckinUser(),
+                            $sts->getTodayTrafficUsage(),
+                        ],
+                        Setting::obtain('telegram_diary_text')
+                    )
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+        // ------- 发送系统运行状况通知
+
         // ------- 用户每日流量报告
         $users = User::all();
 
@@ -83,28 +107,15 @@ EOL;
             $ann_latest = $ann_latest_raw->content . '<br><br>';
         }
 
-        if (Setting::obtain('telegram_diary')) {
-            $lastday_total = 0;
-        }
-
         foreach ($users as $user) {
             // ------- 用户每日流量报告
-            if (Setting::obtain('telegram_diary')) {
-                // 将用户日流量加到统计中
-                $lastday_total += $user->u + $user->d - $user->last_day_t;
-            }
-
             $user->sendDailyNotification($ann_latest);
-            // 覆盖用户 last_day_t 值，为下一个周期的流量重置做准备
-            $user->last_day_t = $user->u + $user->d;
-            $user->save();
             // ------- 用户每日流量报告
 
             // ------- 免费用户流量重置
             if ($user->class === 0 && date('d') === $user->auto_reset_day) {
                 $user->u = 0;
                 $user->d = 0;
-                $user->last_day_t = 0;
                 $user->transfer_enable = $user->auto_reset_bandwidth * 1024 * 1024 * 1024;
                 $user->save();
 
@@ -125,28 +136,8 @@ EOL;
             // ------- 免费用户流量重置
         }
 
-        // ------- 发送系统运行状况通知
-        if (Setting::obtain('telegram_diary')) {
-            $sts = new Analytics();
-            try {
-                Telegram::send(
-                    str_replace(
-                        [
-                            '%getTodayCheckinUser%',
-                            '%lastday_total%',
-                        ],
-                        [
-                            $sts->getTodayCheckinUser(),
-                            Tools::flowAutoShow($lastday_total),
-                        ],
-                        Setting::obtain('telegram_diary_text')
-                    )
-                );
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        }
-        // ------- 发送系统运行状况通知
+        // 清空用户的当日使用流量
+        User::query()->update(['transfer_today' => 0]);
 
         // ------- 发送每日任务运行报告
         if (Setting::obtain('telegram_daily_job')) {
@@ -189,7 +180,7 @@ EOL;
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
-                $user->last_day_t = 0;
+                $user->transfer_today = 0;
 
                 $user->sendMail(
                     $_ENV['appName'] . '-你的账户已经过期了',
@@ -318,7 +309,7 @@ EOL;
                     $user->transfer_enable = Tools::toGB($reset_traffic);
                     $user->u = 0;
                     $user->d = 0;
-                    $user->last_day_t = 0;
+                    $user->transfer_today = 0;
                     $text .= '流量已经被重置为' . $reset_traffic . 'GB';
                 }
                 $user->sendMail(

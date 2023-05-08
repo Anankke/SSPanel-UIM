@@ -144,7 +144,11 @@ final class UserController extends BaseController
         }
 
         $pdo = DB::getPdo();
-        $stat = $pdo->prepare('UPDATE user SET t = UNIX_TIMESTAMP(), u = u + ?, d = d + ?, transfer_total = transfer_total + ? WHERE id = ?');
+        $stat = $pdo->prepare('UPDATE user SET t = UNIX_TIMESTAMP(),
+                u = u + ?,
+                d = d + ?,
+                transfer_total = transfer_total + ?,
+                transfer_today = transfer_today + ? WHERE id = ?');
 
         $rate = (float) $node->traffic_rate;
         $sum = 0;
@@ -153,7 +157,7 @@ final class UserController extends BaseController
             $d = $log?->d;
             $user_id = $log?->user_id;
             if ($user_id) {
-                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), (int) ($u + $d), $user_id]);
+                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), (int) ($u + $d), (int) ($u + $d), $user_id]);
             }
             $sum += $u + $d;
         }

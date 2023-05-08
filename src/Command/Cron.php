@@ -78,7 +78,7 @@ EOL;
                 // 激活商品
                 $user->u = 0;
                 $user->d = 0;
-                $user->last_day_t = 0;
+                $user->transfer_today = 0;
                 $user->transfer_enable = Tools::toGB($content->bandwidth);
                 $user->class = $content->class;
                 $old_expire_in = new DateTime();

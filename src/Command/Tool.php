@@ -201,7 +201,7 @@ EOL;
             ModelsUser::where('enable', 1)->update([
                 'd' => 0,
                 'u' => 0,
-                'last_day_t' => 0,
+                'transfer_today' => 0,
             ]);
         } catch (Exception $e) {
             echo $e->getMessage();
