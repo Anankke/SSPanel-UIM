@@ -122,6 +122,9 @@
                                                     <a href="/admin/setting/feature" class="dropdown-item">
                                                       功能
                                                     </a>
+                                                    <a href="/admin/setting/cron" class="dropdown-item">
+                                                      定时任务
+                                                    </a>
                                                 </div>
                                             </div>
                                             <a class="dropdown-item" href="/admin/user">

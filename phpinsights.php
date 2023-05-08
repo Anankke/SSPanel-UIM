@@ -31,13 +31,7 @@ return [
         SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff::class,
         SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff::class,
     ],
-    'config' => [
-        PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff::class => [
-            'exclude' => [
-                'src/Command/Job.php',
-            ],
-        ],
-    ],
+    'config' => [],
 
     'exclude' => [
         'storage',
