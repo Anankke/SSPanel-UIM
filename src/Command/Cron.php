@@ -83,6 +83,32 @@ EOL;
             ]);
         }
 
+        // Daily finance report
+        if (Setting::obtain('enable_daily_finance_mail')
+            && $hour === 0
+            && $minute === 0
+        ) {
+            $jobs->sendDailyFinanceMail();
+        }
+
+        // Weekly finance report
+        if (Setting::obtain('enable_weekly_finance_mail')
+            && $hour === 0
+            && $minute === 0
+            && date('w') === '1'
+        ) {
+            $jobs->sendWeeklyFinanceMail();
+        }
+
+        // Monthly finance report
+        if (Setting::obtain('enable_monthly_finance_mail')
+            && $hour === 0
+            && $minute === 0
+            && date('d') === '01'
+        ) {
+            $jobs->sendMonthlyFinanceMail();
+        }
+
         // Run email queue
         $jobs->processEmailQueue();
     }

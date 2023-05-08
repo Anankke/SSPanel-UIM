@@ -31,13 +31,16 @@
                     <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                         <li class="nav-item">
-                            <a href="#cron" class="nav-link active" data-bs-toggle="tab">任务设置</a>
+                            <a href="#daily_job" class="nav-link active" data-bs-toggle="tab">每日任务</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#finance_mail" class="nav-link" data-bs-toggle="tab">财务报告</a>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane active show" id="display">
+                        <div class="tab-pane active show" id="daily_job">
                             <div class="card-body">
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">每日任务执行时间(小时)</label>
@@ -49,6 +52,37 @@
                                     <label class="form-label col-3 col-form-label">每日任务执行时间(分钟)</label>
                                     <div class="col">
                                         <input id="daily_job_minute" type="text" class="form-control" value="{$settings['daily_job_minute']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane show" id="finance_mail">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">是否启用每日财务报告</label>
+                                    <div class="col">
+                                        <select id="enable_daily_finance_mail" class="col form-select" value="{$settings['enable_daily_finance_mail']}">
+                                            <option value="0" {if $settings['enable_daily_finance_mail'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_daily_finance_mail']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">是否启用每周财务报告</label>
+                                    <div class="col">
+                                        <select id="enable_weekly_finance_mail" class="col form-select" value="{$settings['enable_weekly_finance_mail']}">
+                                            <option value="0" {if $settings['enable_weekly_finance_mail'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_weekly_finance_mail']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">是否启用每月财务报告</label>
+                                    <div class="col">
+                                        <select id="enable_monthly_finance_mail" class="col form-select" value="{$settings['enable_monthly_finance_mail']}">
+                                            <option value="0" {if $settings['enable_monthly_finance_mail'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_monthly_finance_mail']}selected{/if}>开启</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
