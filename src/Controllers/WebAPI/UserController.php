@@ -79,6 +79,7 @@ final class UserController extends BaseController
             WHERE
                 user.is_banned = 0
                 AND user.expire_in > CURRENT_TIMESTAMP()
+                AND user.class_expire > CURRENT_TIMESTAMP()
                 AND (
                     (
                         user.class >= ?

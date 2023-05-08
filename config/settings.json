@@ -1421,13 +1421,23 @@
     },
     {
         "id": null,
-        "item": "last_user_job_time",
+        "item": "daily_job_hour",
         "value": "0",
         "class": "cron",
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "上次执行用户任务的时间"
+        "mark": "每日任务执行时间(小时)"
+    },
+    {
+        "id": null,
+        "item": "daily_job_minute",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "每日任务执行时间(分钟)"
     },
     {
         "id": null,
