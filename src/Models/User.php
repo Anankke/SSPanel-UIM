@@ -230,7 +230,7 @@ final class User extends Model
      */
     public function todayUsedTraffic(): string
     {
-        return Tools::flowAutoShow($this->u + $this->d - $this->last_day_t);
+        return Tools::flowAutoShow($this->transfer_today);
     }
 
     /*
@@ -241,8 +241,7 @@ final class User extends Model
         if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
             return 0;
         }
-        $Todayused = $this->u + $this->d - $this->last_day_t;
-        $percent = $Todayused / $this->transfer_enable;
+        $percent = $this->transfer_today / $this->transfer_enable;
         $percent = round($percent, 4);
         return $percent * 100;
     }
@@ -252,7 +251,7 @@ final class User extends Model
      */
     public function lastUsedTraffic(): string
     {
-        return Tools::flowAutoShow($this->last_day_t);
+        return Tools::flowAutoShow($this->u + $this->d - $this->transfer_today);
     }
 
     /*
@@ -263,8 +262,7 @@ final class User extends Model
         if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
             return 0;
         }
-        $Lastused = $this->last_day_t;
-        $percent = $Lastused / $this->transfer_enable;
+        $percent = ($this->u + $this->d - $this->transfer_today) / $this->transfer_enable;
         $percent = round($percent, 4);
         return $percent * 100;
     }

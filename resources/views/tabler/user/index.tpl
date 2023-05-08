@@ -453,7 +453,7 @@
                                     签到可领取
                                     {if $config['checkinMin'] !== $config['checkinMax']}
                                         &nbsp;<code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
-                                        范围内的流量，
+                                        范围内的流量
                                     {else}
                                         <code>{$config['checkinMin']} MB</code>
                                     {/if}
@@ -469,7 +469,13 @@
                                     {else}
                                     {if $public_setting['enable_checkin_captcha']}
                                         {if $public_setting['captcha_provider'] === 'turnstile'}
-                                            <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                                            <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}"
+                                            {if $user->is_dark_mode}
+                                                 data-theme="dark"
+                                            {else}
+                                                 data-theme="light"
+                                            {/if}
+                                            ></div>
                                         {/if}
                                         {if $public_setting['captcha_provider'] === 'geetest'}
                                             <div id="geetest"></div>

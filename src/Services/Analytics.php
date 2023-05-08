@@ -33,32 +33,32 @@ final class Analytics
 
     public function getTodayTrafficUsage(): string
     {
-        return Tools::flowAutoShow(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
+        return Tools::flowAutoShow(User::sum('transfer_today'));
     }
 
     public function getRawTodayTrafficUsage()
     {
-        return User::sum('u') + User::sum('d') - User::sum('last_day_t');
+        return User::sum('transfer_today');
     }
 
     public function getRawGbTodayTrafficUsage(): float
     {
-        return Tools::flowToGB(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
+        return Tools::flowToGB(User::sum('transfer_today'));
     }
 
     public function getLastTrafficUsage(): string
     {
-        return Tools::flowAutoShow(User::sum('last_day_t'));
+        return Tools::flowAutoShow(User::sum('u') + User::sum('d') - User::sum('transfer_today'));
     }
 
     public function getRawLastTrafficUsage()
     {
-        return User::sum('last_day_t');
+        return User::sum('u') + User::sum('d') - User::sum('transfer_today');
     }
 
     public function getRawGbLastTrafficUsage(): float
     {
-        return Tools::flowToGB(User::sum('last_day_t'));
+        return Tools::flowToGB(User::sum('u') + User::sum('d') - User::sum('transfer_today'));
     }
 
     public function getUnusedTrafficUsage(): string
