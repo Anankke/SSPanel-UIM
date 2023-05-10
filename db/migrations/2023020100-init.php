@@ -277,7 +277,7 @@ return new class() implements MigrationInterface {
                 `t` bigint(20) unsigned DEFAULT 0 COMMENT '最后使用时间',
                 `u` bigint(20) unsigned DEFAULT 0 COMMENT '账户当前上传流量',
                 `d` bigint(20) unsigned DEFAULT 0 COMMENT '账户当前下载流量',
-                `transfer_today` bigint(20) unsigned DEFAULT 0 COMMENT '账户今日所用流量'
+                `transfer_today` bigint(20) unsigned DEFAULT 0 COMMENT '账户今日所用流量',
                 `transfer_total` bigint(20) unsigned DEFAULT 0 COMMENT '账户累计使用流量',
                 `transfer_enable` bigint(20) unsigned DEFAULT 0 COMMENT '账户当前可用流量',
                 `port` smallint(6) unsigned NOT NULL COMMENT '端口',
