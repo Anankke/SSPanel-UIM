@@ -7,6 +7,7 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use Exception;
+use function json_encode;
 
 final class CronController extends BaseController
 {
@@ -16,6 +17,8 @@ final class CronController extends BaseController
         'enable_daily_finance_mail',
         'enable_weekly_finance_mail',
         'enable_monthly_finance_mail',
+        'enable_detect_gfw',
+        'enable_detect_ban',
     ];
 
     /**
@@ -46,9 +49,6 @@ final class CronController extends BaseController
     {
         $daily_job_hour = (int) $request->getParam('daily_job_hour');
         $daily_job_minute = (int) $request->getParam('daily_job_minute');
-        $enable_daily_finance_mail = (bool) $request->getParam('enable_daily_finance_mail');
-        $enable_weekly_finance_mail = (bool) $request->getParam('enable_weekly_finance_mail');
-        $enable_monthly_finance_mail = (bool) $request->getParam('enable_monthly_finance_mail');
 
         if ($daily_job_hour < 0 || $daily_job_hour > 23) {
             return $response->withJson([
@@ -64,25 +64,26 @@ final class CronController extends BaseController
             ]);
         }
 
-        Setting::where('item', '=', 'daily_job_hour')->update([
-            'value' => $daily_job_hour,
-        ]);
+        $list = self::$update_field;
 
-        Setting::where('item', '=', 'daily_job_minute')->update([
-            'value' => $daily_job_minute - ($daily_job_minute % 5),
-        ]);
+        foreach ($list as $item) {
+            $setting = Setting::where('item', '=', $item)->first();
 
-        Setting::where('item', '=', 'enable_daily_finance_mail')->update([
-            'value' => $enable_daily_finance_mail,
-        ]);
+            if ($setting->type === 'array') {
+                $setting->value = json_encode($request->getParam($item));
+            } elseif ($setting->item === 'daily_job_minute') {
+                $setting->value = $daily_job_minute - ($daily_job_minute % 5);
+            } else {
+                $setting->value = $request->getParam($item);
+            }
 
-        Setting::where('item', '=', 'enable_weekly_finance_mail')->update([
-            'value' => $enable_weekly_finance_mail,
-        ]);
-
-        Setting::where('item', '=', 'enable_monthly_finance_mail')->update([
-            'value' => $enable_monthly_finance_mail,
-        ]);
+            if (! $setting->save()) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => "保存 {$item} 时出错",
+                ]);
+            }
+        }
 
         return $response->withJson([
             'ret' => 1,
