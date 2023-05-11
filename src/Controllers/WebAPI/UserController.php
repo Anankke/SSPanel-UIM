@@ -36,6 +36,7 @@ final class UserController extends BaseController
     {
         $node_id = $request->getQueryParam('node_id');
         $node = Node::find($node_id);
+
         if ($node === null) {
             return $response->withJson([
                 'ret' => 0,
@@ -94,6 +95,7 @@ final class UserController extends BaseController
         };
 
         $users = [];
+
         foreach ($users_raw as $user_raw) {
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect']) {
@@ -128,13 +130,14 @@ final class UserController extends BaseController
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
+
         if (! $data || ! is_array($data->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
         }
-        $data = $data->data;
 
+        $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
         $node = Node::find($node_id);
 
@@ -186,13 +189,14 @@ final class UserController extends BaseController
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
+
         if (! $data || ! is_array($data->data)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
         }
-        $data = $data->data;
 
+        $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
 
         if ($node_id === null || ! Node::where('id', $node_id)->exists()) {
