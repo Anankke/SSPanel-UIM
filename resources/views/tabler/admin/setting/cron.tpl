@@ -36,6 +36,9 @@
                         <li class="nav-item">
                             <a href="#finance_mail" class="nav-link" data-bs-toggle="tab">财务报告</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="#detect" class="nav-link" data-bs-toggle="tab">检测任务</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body">
@@ -82,6 +85,28 @@
                                         <select id="enable_monthly_finance_mail" class="col form-select" value="{$settings['enable_monthly_finance_mail']}">
                                             <option value="0" {if $settings['enable_monthly_finance_mail'] === false}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_monthly_finance_mail']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane show" id="detect">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">是否启用节点被墙检测</label>
+                                    <div class="col">
+                                        <select id="enable_detect_gfw" class="col form-select" value="{$settings['enable_detect_gfw']}">
+                                            <option value="0" {if $settings['enable_detect_gfw'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_detect_gfw']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">是否启用审计封禁</label>
+                                    <div class="col">
+                                        <select id="enable_detect_ban" class="col form-select" value="{$settings['enable_detect_ban']}">
+                                            <option value="0" {if $settings['enable_detect_ban'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['enable_detect_ban']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>
