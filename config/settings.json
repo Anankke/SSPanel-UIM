@@ -1451,6 +1451,26 @@
     },
     {
         "id": null,
+        "item": "enable_detect_gfw",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用节点被墙检测"
+    },
+    {
+        "id": null,
+        "item": "enable_detect_ban",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用审计封禁"
+    },
+    {
+        "id": null,
         "item": "daily_job_hour",
         "value": "0",
         "class": "cron",

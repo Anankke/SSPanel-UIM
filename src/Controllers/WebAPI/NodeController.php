@@ -14,6 +14,7 @@ use Slim\Http\ServerRequest;
 use function json_decode;
 use function json_encode;
 use function time;
+use const VERSION;
 
 final class NodeController extends BaseController
 {
@@ -28,14 +29,6 @@ final class NodeController extends BaseController
         $report->created_at = time();
         $report->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'data' => 'ok',
-        ]);
-    }
-
-    public function info(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
         return $response->withJson([
             'ret' => 1,
             'data' => 'ok',
@@ -74,14 +67,6 @@ final class NodeController extends BaseController
         return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $data,
-        ]);
-    }
-
-    public function getAllInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        return $response->withJson([
-            'ret' => 1,
-            'data' => [],
         ]);
     }
 }

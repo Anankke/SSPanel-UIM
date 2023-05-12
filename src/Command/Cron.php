@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Setting;
+use App\Services\CronDetect;
 use App\Services\CronJob;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function mktime;
@@ -46,7 +47,7 @@ EOL;
         }
 
         // Run traffic log job
-        if ($minute === 00 && $_ENV['trafficLog']) {
+        if ($minute === 0 && $_ENV['trafficLog']) {
             $jobs->addTrafficLog();
         }
 
@@ -107,6 +108,24 @@ EOL;
             && date('d') === '01'
         ) {
             $jobs->sendMonthlyFinanceMail();
+        }
+
+        // Detect GFW
+        if (Setting::obtain('enable_detect_gfw')
+            && $hour === 0
+            && $minute === 0
+        ) {
+            $detect = new CronDetect();
+            $detect->gfw();
+        }
+
+        // Detect ban
+        if (Setting::obtain('enable_detect_ban')
+            && $hour === 0
+            && $minute === 0
+        ) {
+            $detect = new CronDetect();
+            $detect->ban();
         }
 
         // Run email queue

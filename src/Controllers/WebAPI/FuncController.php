@@ -30,29 +30,4 @@ final class FuncController extends BaseController
             'data' => $rules,
         ]);
     }
-
-    // Dummy function
-    public function getBlockip(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        return ResponseHelper::etagJson($request, $response, [
-            'ret' => 1,
-            'data' => [],
-        ]);
-    }
-
-    public function getUnblockip(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        return ResponseHelper::etagJson($request, $response, [
-            'ret' => 1,
-            'data' => [],
-        ]);
-    }
-
-    public function addBlockIp(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        return $response->withJson([
-            'ret' => 1,
-            'data' => 'ok',
-        ]);
-    }
 }
