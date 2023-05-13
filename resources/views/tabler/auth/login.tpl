@@ -119,4 +119,5 @@
             </script>
         {/if}
     {/if}
+
 {include file='tabler_footer.tpl'}

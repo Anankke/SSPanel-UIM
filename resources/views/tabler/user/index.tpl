@@ -464,7 +464,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex">
-                                    {if !$user->isAbleToCheckin()}
+                                    {if ! $user->isAbleToCheckin()}
                                     <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
                                     {else}
                                     {if $public_setting['enable_checkin_captcha']}
@@ -506,7 +506,7 @@
                 url: "/user/checkin",
                 dataType: "json",              
                 data: {
-                    {if $public_setting['enable_checkin_captcha']}
+                    {if $public_setting['enable_checkin_captcha'] && $user->isAbleToCheckin()}
                         {if $public_setting['captcha_provider'] === 'turnstile'}
                             turnstile: $('input[name=cf-turnstile-response]').val(),
                         {/if}
@@ -528,7 +528,7 @@
         });
     </script>
 
-    {if $public_setting['enable_checkin_captcha']}
+    {if $public_setting['enable_checkin_captcha'] && $user->isAbleToCheckin()}
         {if $public_setting['captcha_provider'] === 'turnstile'}
             <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
         {/if}
