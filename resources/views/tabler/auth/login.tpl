@@ -79,7 +79,7 @@
                             turnstile: $('input[name=cf-turnstile-response]').val(),
                         {/if}
                         {if $public_setting['captcha_provider'] === 'geetest'}
-                            geetest: geetest.getValidate(),
+                            geetest: geetest_result,
                         {/if}
                     {/if}
                 },
