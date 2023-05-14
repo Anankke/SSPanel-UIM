@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.269.10",
+            "version": "3.269.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8b571e9caf4f6f984d95149f4be73275ff86bb55"
+                "reference": "b187de784f668f976345a9f11d5cae4af0c7be25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8b571e9caf4f6f984d95149f4be73275ff86bb55",
-                "reference": "8b571e9caf4f6f984d95149f4be73275ff86bb55",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b187de784f668f976345a9f11d5cae4af0c7be25",
+                "reference": "b187de784f668f976345a9f11d5cae4af0c7be25",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.269.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.269.11"
             },
-            "time": "2023-05-10T18:20:01+00:00"
+            "time": "2023-05-11T18:20:50+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -3112,6 +3112,7 @@
                 "issues": "https://github.com/php-http/message-factory/issues",
                 "source": "https://github.com/php-http/message-factory/tree/1.1.0"
             },
+            "abandoned": "psr/http-factory",
             "time": "2023-04-14T14:16:17+00:00"
         },
         {
@@ -4773,16 +4774,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v10.12.1",
+            "version": "v10.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "9e8055d55e8212ad844f48d7cf525b630689be35"
+                "reference": "4ad20dd0a95b2761aecea3d2b2354cc3a99abf9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/9e8055d55e8212ad844f48d7cf525b630689be35",
-                "reference": "9e8055d55e8212ad844f48d7cf525b630689be35",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/4ad20dd0a95b2761aecea3d2b2354cc3a99abf9b",
+                "reference": "4ad20dd0a95b2761aecea3d2b2354cc3a99abf9b",
                 "shasum": ""
             },
             "require": {
@@ -4828,9 +4829,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v10.12.1"
+                "source": "https://github.com/stripe/stripe-php/tree/v10.13.0"
             },
-            "time": "2023-04-04T19:13:21+00:00"
+            "time": "2023-05-11T19:07:49+00:00"
         },
         {
             "name": "symfony/console",
