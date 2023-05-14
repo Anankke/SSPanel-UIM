@@ -2,10 +2,10 @@
 
 <body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
-        <div class="container-tight py-4">
+        <div class="container-tight my-auto">
             <div class="text-center mb-4">
                 <a href="#" class="navbar-brand navbar-brand-autodark">
-                    <img src="/images/uim-logo-round_96x96.png" height="64" alt="">
+                    <img src="/images/uim-logo-round_96x96.png" height="64" alt="SSPanel-UIM Logo">
                 </a>
             </div>
             <div class="card card-md">
