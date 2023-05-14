@@ -1,8 +1,8 @@
 ---
 name: Bug report
 about: Create a bug report
-title: "[BUG]"
-labels: bug
+title: "[BUG] 在这里填入你所遇到问题的概述"
+labels: bug-user-report
 
 ---
 
