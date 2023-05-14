@@ -143,13 +143,19 @@ final class CronJob
         echo date('Y-m-d H:i:s') . ' 免费用户清理完成' . PHP_EOL;
     }
 
+    /**
+     * @throws TelegramSDKException
+     */
     public static function detectNodeOffline(): void
     {
         $nodes = Node::where('type', 1)->get();
         $adminUsers = User::where('is_admin', '=', '1')->get();
 
         foreach ($nodes as $node) {
-            $notice_text = '';
+            if ($node->getNodeOnlineStatus() >= 0 && $node->online === 1) {
+                continue;
+            }
+
             if ($node->getNodeOnlineStatus() === -1 && $node->online === 1) {
                 foreach ($adminUsers as $user) {
                     echo 'Send Node Offline Email to admin user: ' . $user->id . PHP_EOL;
@@ -170,45 +176,39 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_offline')) {
-                    try {
-                        Telegram::send($notice_text);
-                    } catch (Exception $e) {
-                        echo $e->getMessage() . PHP_EOL;
-                    }
+                    Telegram::send($notice_text);
                 }
 
                 $node->online = false;
                 $node->save();
-            } elseif ($node->getNodeOnlineStatus() === 1 && $node->online === 0) {
-                foreach ($adminUsers as $user) {
-                    echo 'Send Node Online Email to admin user: ' . $user->id . PHP_EOL;
-                    $user->sendMail(
-                        $_ENV['appName'] . '-系统提示',
-                        'warn.tpl',
-                        [
-                            'text' => '管理员你好，系统发现节点 ' . $node->name . ' 恢复上线了。',
-                        ],
-                        [],
-                        false
-                    );
-                    $notice_text = str_replace(
-                        '%node_name%',
-                        $node->name,
-                        Setting::obtain('telegram_node_online_text')
-                    );
-                }
 
-                if (Setting::obtain('telegram_node_online')) {
-                    try {
-                        Telegram::send($notice_text);
-                    } catch (Exception $e) {
-                        echo $e->getMessage() . PHP_EOL;
-                    }
-                }
-
-                $node->online = true;
-                $node->save();
+                continue;
             }
+
+            foreach ($adminUsers as $user) {
+                echo 'Send Node Online Email to admin user: ' . $user->id . PHP_EOL;
+                $user->sendMail(
+                    $_ENV['appName'] . '-系统提示',
+                    'warn.tpl',
+                    [
+                        'text' => '管理员你好，系统发现节点 ' . $node->name . ' 恢复上线了。',
+                    ],
+                    [],
+                    false
+                );
+                $notice_text = str_replace(
+                    '%node_name%',
+                    $node->name,
+                    Setting::obtain('telegram_node_online_text')
+                );
+            }
+
+            if (Setting::obtain('telegram_node_online')) {
+                Telegram::send($notice_text);
+            }
+
+            $node->online = true;
+            $node->save();
         }
 
         echo date('Y-m-d H:i:s') . ' 节点离线检测完成' . PHP_EOL;
@@ -605,7 +605,7 @@ final class CronJob
      */
     public static function sendTelegramDiary(): void
     {
-        $Analytics = new Analytics();
+        $analytics = new Analytics();
 
         Telegram::send(
             str_replace(
@@ -614,8 +614,8 @@ final class CronJob
                     '%lastday_total%',
                 ],
                 [
-                    $Analytics->getTodayCheckinUser(),
-                    $Analytics->getTodayTrafficUsage(),
+                    $analytics->getTodayCheckinUser(),
+                    $analytics->getTodayTrafficUsage(),
                 ],
                 Setting::obtain('telegram_diary_text')
             )
