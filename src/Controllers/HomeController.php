@@ -47,6 +47,30 @@ final class HomeController extends BaseController
     }
 
     /**
+     * @throws Exception
+     */
+    public function notFound(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        return $response->write($this->view()->fetch('404.tpl'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function methodNotAllowed(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        return $response->write($this->view()->fetch('405.tpl'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function internalServerError(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        return $response->write($this->view()->fetch('500.tpl'));
+    }
+
+    /**
      * @throws TelegramSDKException
      */
     public function telegram(ServerRequest $request, Response $response, array $args): ResponseInterface
