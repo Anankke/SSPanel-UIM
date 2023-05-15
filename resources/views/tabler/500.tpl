@@ -6,7 +6,7 @@
         <div class="empty">
             <div class="empty-header">500</div>
             <p class="empty-title">服务器内部错误</p>
-            <p class="empty-subtitle text-muted">
+            <p class="empty-subtitle text-secondary">
                 Take me home, country roads, to the place, I belong... Oh wait the server is down.
             </p>
             <div class="empty-action">
