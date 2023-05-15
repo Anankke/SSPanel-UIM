@@ -1,4 +1,4 @@
-{include file='user/tabler_header.tpl'}
+{include file='user/header.tpl'}
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -162,4 +162,4 @@
         </div>
     </div>
 
-{include file='user/tabler_footer.tpl'}
+{include file='user/footer.tpl'}

@@ -1,4 +1,4 @@
-{include file='tabler_header.tpl'}
+{include file='header.tpl'}
 
 <body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
@@ -59,4 +59,4 @@
         });
     </script>
 
-{include file='tabler_footer.tpl'}
+{include file='footer.tpl'}
