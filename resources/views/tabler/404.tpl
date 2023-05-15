@@ -6,7 +6,7 @@
         <div class="empty">
             <div class="empty-header">404</div>
             <p class="empty-title">你所尝试访问的页面不存在</p>
-            <p class="empty-subtitle text-muted">
+            <p class="empty-subtitle text-secondary">
                 Take me home, country roads, to the place, I belong...
             </p>
             <div class="empty-action">
