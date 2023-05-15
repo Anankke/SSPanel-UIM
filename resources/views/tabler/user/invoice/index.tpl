@@ -1,4 +1,4 @@
-{include file='user/tabler_header.tpl'}
+{include file='user/header.tpl'}
 
 <link href="//cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
@@ -101,4 +101,4 @@
         loadTable();
     </script>
 
-{include file='user/tabler_footer.tpl'}
+{include file='user/footer.tpl'}
