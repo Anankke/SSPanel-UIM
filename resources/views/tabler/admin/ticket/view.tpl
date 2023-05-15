@@ -1,4 +1,4 @@
-{include file='admin/tabler_header.tpl'}
+{include file='admin/header.tpl'}
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -58,7 +58,7 @@
                                         <div>
                                             {nl2br($comment->comment)}
                                         </div>
-                                        <div class="text-muted my-1">{$comment->commenter_name} 回复于 {$comment->datetime}
+                                        <div class="text-secondary my-1">{$comment->commenter_name} 回复于 {$comment->datetime}
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -175,4 +175,4 @@
         });
     </script>
 
-{include file='admin/tabler_footer.tpl'}
+{include file='admin/footer.tpl'}

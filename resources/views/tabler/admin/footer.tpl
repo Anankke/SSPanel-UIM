@@ -5,7 +5,7 @@
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
-                <p id="success-message" class="text-muted">成功</p>
+                <p id="success-message" class="text-secondary">成功</p>
             </div>
             <div class="modal-footer">
                 <div class="w-100">
@@ -29,7 +29,7 @@
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
-                <p id="success-noreload-message" class="text-muted">成功</p>
+                <p id="success-noreload-message" class="text-secondary">成功</p>
             </div>
             <div class="modal-footer">
                 <div class="w-100">
@@ -53,7 +53,7 @@
             <div class="modal-status bg-danger"></div>
             <div class="modal-body text-center py-4">
                 <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
-                <p id="fail-message" class="text-muted">失败</p>
+                <p id="fail-message" class="text-secondary">失败</p>
             </div>
             <div class="modal-footer">
                 <div class="w-100">
@@ -77,7 +77,7 @@
             <div class="modal-status bg-yellow"></div>
             <div class="modal-body text-center py-4">
                 <i class="ti ti-alert-circle icon mb-2 text-yellow icon-lg" style="font-size:3.5rem;"></i>
-                <p id="notice-message" class="text-muted">注意</p>
+                <p id="notice-message" class="text-secondary">注意</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>

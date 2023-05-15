@@ -1,4 +1,4 @@
-{include file='user/tabler_header.tpl'}
+{include file='user/header.tpl'}
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -347,15 +347,14 @@
                                                     <h3 class="card-title">每日用量推送</h3>
                                                     <div class="mb-3">
                                                         <select id="daily-report" class="form-select">
-                                                            <option value="0"
-                                                                {if $user->sendDailyMail === '0'}selected{/if}>不发送
+                                                            <option value="0" {if $user->sendDailyMail === 0}selected{/if}>
+                                                                不发送
                                                             </option>
-                                                            <option value="1"
-                                                                {if $user->sendDailyMail === '1'}selected{/if}>邮件接收
+                                                            <option value="1" {if $user->sendDailyMail === 1}selected{/if}>
+                                                                邮件接收
                                                             </option>
-                                                            <option value="2"
-                                                                {if $user->sendDailyMail === '2'}selected{/if}>Telegram
-                                                                Bot 接收
+                                                            <option value="2" {if $user->sendDailyMail === 2}selected{/if}>
+                                                                Telegram Bot 接收
                                                             </option>
                                                         </select>
                                                     </div>
@@ -429,7 +428,7 @@
                 <div class="modal-body text-center py-4">
                     <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                     <h3>删除确认</h3>
-                    <div class="text-muted">请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除</div>
+                    <div class="text-secondary">请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除</div>
                     <div class="py-3">
                         <form>
                             <input id="confirm-passwd" type="password" class="form-control" placeholder="输入登录密码"
@@ -465,7 +464,7 @@
                 <div class="modal-body text-center py-4">
                     <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
                     <h3>删除成功</h3>
-                    <p id="success-message" class="text-muted">删除成功</p>
+                    <p id="success-message" class="text-secondary">删除成功</p>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
@@ -490,7 +489,7 @@
                 <div class="modal-body text-center py-4">
                     <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                     <h3>删除失败</h3>
-                    <p id="error-message" class="text-muted">删除失败</p>
+                    <p id="error-message" class="text-secondary">删除失败</p>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
@@ -824,4 +823,4 @@
         {/if}
     </script>
     
-{include file='user/tabler_footer.tpl'}
+{include file='user/footer.tpl'}

@@ -36,11 +36,14 @@ final class ClientDownload extends Command
         $this->client = new Client();
         $this->version = $this->getLocalVersions();
         $clientsPath = BASE_PATH . '/config/clients.json';
+
         if (! is_file($clientsPath)) {
             echo 'clients.json 不存在，脚本中止.' . PHP_EOL;
             exit(0);
         }
+
         $clients = json_decode(file_get_contents($clientsPath), true);
+
         foreach ($clients['clients'] as $client) {
             $this->getSoft($client);
         }
@@ -66,10 +69,12 @@ final class ClientDownload extends Command
                 echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 成功.' . PHP_EOL;
                 system('chown ' . $_ENV['php_user_group'] . ' ' . $savePath . $fileName);
             }
+
             return true;
         } catch (Exception $e) {
             echo '- 下载 ' . $fileName . ' 失败...' . PHP_EOL;
             echo $e->getMessage() . PHP_EOL;
+
             return false;
         }
     }
@@ -81,6 +86,7 @@ final class ClientDownload extends Command
     {
         $url = 'https://api.github.com/repos/' . $repo . '/releases/latest' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
+
         return (string) json_decode(
             $request->getBody()->getContents(),
             true
@@ -98,18 +104,8 @@ final class ClientDownload extends Command
             $request->getBody()->getContents(),
             true
         )[0];
-        return (string) $latest['tag_name'];
-    }
 
-    /**
-     * 获取 Apkpure TagName
-     */
-    private function getApkpureTagName(string $url): string
-    {
-        $request = $this->client->get($url);
-        preg_match('#(?<=\<span\sitemprop="version">)[^<]+#', $request->getBody()->getContents(), $tagName);
-        preg_match('#[\d\.]+#', $tagName[0], $tagNum);
-        return $tagNum[0];
+        return (string) $latest['tag_name'];
     }
 
     /**
@@ -129,6 +125,7 @@ final class ClientDownload extends Command
     {
         $fileName = 'LocalClientVersion.json';
         $filePath = BASE_PATH . '/storage/' . $fileName;
+
         if (! is_file($filePath)) {
             echo '本地软体版本库 LocalClientVersion.json 不存在，创建文件中...' . PHP_EOL;
             $result = file_put_contents(
@@ -144,11 +141,14 @@ final class ClientDownload extends Command
                 exit(0);
             }
         }
+
         $fileContent = file_get_contents($filePath);
+
         if (! $this->isJson($fileContent)) {
             echo 'LocalClientVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
             exit(0);
         }
+
         return json_decode($fileContent, true);
     }
 
@@ -171,12 +171,14 @@ final class ClientDownload extends Command
     {
         $savePath = $this->basePath . $task['savePath'];
         echo '====== ' . $task['name'] . ' 开始 ======' . PHP_EOL;
+
         $tagMethod = match ($task['tagMethod']) {
             'github_pre_release' => 'getLatestPreReleaseTagName',
-            'apkpure' => 'getApkpureTagName',
             default => 'getLatestReleaseTagName',
         };
+
         $tagName = $this->$tagMethod($task['gitRepo']);
+
         if (! isset($this->version[$task['name']])) {
             echo '- 本地不存在 ' . $task['name'] . '，检测到当前最新版本为 ' . $tagName . PHP_EOL;
         } else {
@@ -187,6 +189,7 @@ final class ClientDownload extends Command
             }
             echo '- 检测到当前 ' . $task['name'] . ' 最新版本为 ' . $tagName . '，本地最新版本为 ' . $this->version[$task['name']] . PHP_EOL;
         }
+
         $this->version[$task['name']] = $tagName;
         $nameFunction = static function ($name) use ($task, $tagName) {
             return str_replace(
@@ -203,28 +206,27 @@ final class ClientDownload extends Command
                 $name
             );
         };
+
         foreach ($task['downloads'] as $download) {
             $fileName = $nameFunction(($download['saveName'] !== '' ? $download['saveName'] : $download['sourceName']));
             $sourceName = $nameFunction($download['sourceName']);
             $filePath = $savePath . $fileName;
+
             if (is_file($filePath)) {
                 echo '- 正在删除旧版本文件...' . PHP_EOL;
                 if (! unlink($filePath)) {
-                    echo '- 删除旧版本文件失败，此任务跳过，请检查权限等...' . PHP_EOL;
+                    echo '- 删除旧版本文件失败，此任务跳过，请检查权限' . PHP_EOL;
                     continue;
                 }
             }
-            if ($task['tagMethod'] === 'apkpure') {
-                $request = $this->client->get($download['apkpureUrl']);
-                preg_match('#(?<=href=")https:\/\/download\.apkpure\.com\/b\/APK[^"]+#', $request->getBody()->getContents(), $downloadUrl);
-                $downloadUrl = $downloadUrl[0];
-            } else {
-                $downloadUrl = 'https://github.com/' . $task['gitRepo'] . '/releases/download/' . $tagName . '/' . $sourceName;
-            }
+
+            $downloadUrl = 'https://github.com/' . $task['gitRepo'] . '/releases/download/' . $tagName . '/' . $sourceName;
+
             if ($this->getSourceFile($fileName, $savePath, $downloadUrl)) {
                 $this->setLocalVersions($this->version);
             }
         }
+
         echo '====== ' . $task['name'] . ' 结束 ======' . PHP_EOL;
     }
 }

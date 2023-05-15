@@ -1,4 +1,4 @@
-{include file='user/tabler_header.tpl'}
+{include file='user/header.tpl'}
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -59,7 +59,7 @@
                                             {/if}
                                             <div class="card-body text-center">
                                                 <div id="product-{$product->id}-name"
-                                                    class="text-uppercase text-muted font-weight-medium">
+                                                    class="text-uppercase text-secondary font-weight-medium">
                                                     {$product->name}</div>
                                                 <div id="product-{$product->id}-price"
                                                     class="display-6 my-3"><p class="fw-bold">{$product->price}</p> <i class="ti ti-currency-yuan"></i>
@@ -69,7 +69,7 @@
                                                         <div class="row align-items-center">
                                                             <div class="col text-truncate">
                                                                 <div class="text-reset d-block">Lv. {$product->content->class}</div>
-                                                                <div class="d-block text-muted text-truncate mt-n1">等级</div>
+                                                                <div class="d-block text-secondary text-truncate mt-n1">等级</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -77,7 +77,7 @@
                                                         <div class="row align-items-center">
                                                             <div class="col text-truncate">
                                                                 <div class="text-reset d-block">{$product->content->class_time} 天</div>
-                                                                <div class="d-block text-muted text-truncate mt-n1">等级时长</div>
+                                                                <div class="d-block text-secondary text-truncate mt-n1">等级时长</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -85,7 +85,7 @@
                                                         <div class="row align-items-center">
                                                             <div class="col text-truncate">
                                                                 <div class="text-reset d-block">{$product->content->bandwidth} GB</div>
-                                                                <div class="d-block text-muted text-truncate mt-n1">可用流量</div>
+                                                                <div class="d-block text-secondary text-truncate mt-n1">可用流量</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -97,7 +97,7 @@
                                                                 {else}
                                                                 <div class="text-reset d-block">{$product->content->speed_limit} Mbps</div>
                                                                 {/if}
-                                                                <div class="d-block text-muted text-truncate mt-n1">连接速度</div>
+                                                                <div class="d-block text-secondary text-truncate mt-n1">连接速度</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -109,7 +109,7 @@
                                                                 {else}
                                                                 <div class="text-reset d-block">{$product->content->ip_limit}</div>
                                                                 {/if}
-                                                                <div class="d-block text-muted text-truncate mt-n1">同时连接 IP 数</div>
+                                                                <div class="d-block text-secondary text-truncate mt-n1">同时连接 IP 数</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -140,4 +140,4 @@
         </div>
     </div>
     
-{include file='user/tabler_footer.tpl'}
+{include file='user/footer.tpl'}

@@ -1,17 +1,17 @@
-{include file='tabler_header.tpl'}
+{include file='header.tpl'}
 
 <body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
-        <div class="container-tight py-4">
+        <div class="container-tight my-auto">
             <div class="text-center mb-4">
                 <a href="#" class="navbar-brand navbar-brand-autodark">
-                    <img src="/images/uim-logo-round_96x96.png" height="64" alt="">
+                    <img src="/images/uim-logo-round_96x96.png" height="64" alt="SSPanel-UIM Logo">
                 </a>
             </div>
             <div class="card card-md">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">设置新密码</h2>
-                    <p class="text-muted mb-4">
+                    <p class="text-secondary mb-4">
                         请在下方设置账户新的登录密码
                     </p>
                     <div class="mb-3">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center text-muted mt-3">
+        <div class="text-center text-secondary mt-3">
             已有账户？ <a href="/auth/login" tabindex="-1">点击登录</a>
         </div>
     </div>
@@ -59,4 +59,4 @@
         });
     </script>
 
-{include file='tabler_footer.tpl'}
+{include file='footer.tpl'}

@@ -111,18 +111,14 @@ EOL;
         }
 
         // Detect GFW
-        if (Setting::obtain('enable_detect_gfw')
-            && $hour === 0
-            && $minute === 0
+        if (Setting::obtain('enable_detect_gfw') && $minute === 0
         ) {
             $detect = new CronDetect();
             $detect->gfw();
         }
 
         // Detect ban
-        if (Setting::obtain('enable_detect_ban')
-            && $hour === 0
-            && $minute === 0
+        if (Setting::obtain('enable_detect_ban') && $minute === 0
         ) {
             $detect = new CronDetect();
             $detect->ban();

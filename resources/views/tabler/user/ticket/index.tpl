@@ -1,4 +1,4 @@
-{include file='user/tabler_header.tpl'}
+{include file='user/header.tpl'}
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -48,7 +48,7 @@
                                             <h3 class="card-title" style="font-size: 20px;">
                                                 #{$ticket->id}
                                             </h3>
-                                            <p class="text-muted text-truncate" style="height: 100px;">
+                                            <p class="text-secondary text-truncate" style="height: 100px;">
                                                 {$ticket->title}
                                             </p>
                                         </div>
@@ -136,4 +136,4 @@
         });
     </script>
 
-{include file='user/tabler_footer.tpl'}
+{include file='user/footer.tpl'}

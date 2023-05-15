@@ -32,14 +32,6 @@ final class Config
 
             'subscribeLog' => $_ENV['subscribeLog'],
             'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],
-
-            'enable_auto_detect_ban' => $_ENV['enable_auto_detect_ban'],
-            'auto_detect_ban_type' => $_ENV['auto_detect_ban_type'],
-            'auto_detect_ban_number' => $_ENV['auto_detect_ban_number'],
-            'auto_detect_ban_time' => $_ENV['auto_detect_ban_time'],
-            'auto_detect_ban' => $_ENV['auto_detect_ban'],
-
-            'sentry_dsn' => ! isset($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : '',
         ];
     }
 

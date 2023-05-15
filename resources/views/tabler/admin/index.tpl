@@ -1,4 +1,4 @@
-{include file='admin/tabler_header.tpl'}
+{include file='admin/header.tpl'}
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -33,7 +33,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$today_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 今日流水
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$yesterday_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 昨日流水
                                             </div>
                                         </div>
@@ -75,7 +75,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$this_month_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 这月流水
                                             </div>
                                         </div>
@@ -96,7 +96,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$total_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 累计流水
                                             </div>
                                         </div>
@@ -332,4 +332,4 @@
 
     <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
 
-{include file='admin/tabler_footer.tpl'}
+{include file='admin/footer.tpl'}
