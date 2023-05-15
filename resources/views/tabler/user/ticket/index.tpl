@@ -48,7 +48,7 @@
                                             <h3 class="card-title" style="font-size: 20px;">
                                                 #{$ticket->id}
                                             </h3>
-                                            <p class="text-muted text-truncate" style="height: 100px;">
+                                            <p class="text-secondary text-truncate" style="height: 100px;">
                                                 {$ticket->title}
                                             </p>
                                         </div>

@@ -33,7 +33,7 @@
                                             <div class="font-weight-medium">
                                                 账户等级
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 {if $user->class === 0}
                                                     免费
                                                 {else}
@@ -58,7 +58,7 @@
                                             <div class="font-weight-medium">
                                                 账户余额
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 {$user->money}
                                             </div>
                                         </div>
@@ -84,7 +84,7 @@
                                             <div class="font-weight-medium">
                                                 同时连接IP限制
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 {if $user->node_iplimit !== 0}
                                                     {$user->node_iplimit}
                                                 {else}
@@ -109,7 +109,7 @@
                                             <div class="font-weight-medium">
                                                 速度限制
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 {if $user->node_speedlimit !== 0.0}
                                                     <code>{$user->node_speedlimit}</code> Mbps
                                                 {else}
@@ -429,7 +429,7 @@
                             <span class="card-subtitle">{$ann->date}</span>
                             {/if}
                             </h3>
-                            <p class="text-muted">
+                            <p class="text-secondary">
                             {if $ann !== null}
                                 {$ann->content}
                             {else}
@@ -449,7 +449,7 @@
                             </div>
                             <div class="card-body">
                                 <h3 class="card-title">每日签到</h3>
-                                <p class="text-muted">
+                                <p>
                                     签到可领取
                                     {if $config['checkinMin'] !== $config['checkinMax']}
                                         &nbsp;<code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
@@ -458,7 +458,7 @@
                                         <code>{$config['checkinMin']} MB</code>
                                     {/if}
                                 </p>
-                                <p class="text-muted">
+                                <p>
                                     上次签到时间：<code>{$user->lastCheckInTime()}</code>
                                 </p>
                             </div>

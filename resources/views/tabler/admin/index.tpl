@@ -33,7 +33,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$today_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 今日流水
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$yesterday_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 昨日流水
                                             </div>
                                         </div>
@@ -75,7 +75,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$this_month_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 这月流水
                                             </div>
                                         </div>
@@ -96,7 +96,7 @@
                                             <div class="font-weight-medium">
                                                 ￥{$total_income}
                                             </div>
-                                            <div class="text-muted">
+                                            <div class="text-secondary">
                                                 累计流水
                                             </div>
                                         </div>

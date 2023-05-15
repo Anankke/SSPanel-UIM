@@ -75,7 +75,7 @@
                                                                     {/if}
                                                                 </span>
                                                             </h2>
-                                                            <div class="text-muted">
+                                                            <div class="text-secondary">
                                                                 <ul class="list-inline list-inline-dots mb-0">
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-users"></i>&nbsp;
@@ -104,7 +104,7 @@
                                             {if $user->class < $server["class"]}
                                             <div class="card bg-primary-lt">
                                                 <div class="card-body">
-                                                    <p class="text-muted">
+                                                    <p class="text-secondary">
                                                         <i class="ti ti-info-circle icon text-blue"></i>
                                                         你当前的账户等级小于节点等级，因此无法使用。可前往 <a
                                                             href="/user/product">商品页面</a> 订购时间流量包

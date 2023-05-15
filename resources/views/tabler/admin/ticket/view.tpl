@@ -58,7 +58,7 @@
                                         <div>
                                             {nl2br($comment->comment)}
                                         </div>
-                                        <div class="text-muted my-1">{$comment->commenter_name} 回复于 {$comment->datetime}
+                                        <div class="text-secondary my-1">{$comment->commenter_name} 回复于 {$comment->datetime}
                                         </div>
                                     </div>
                                     <div class="col-auto">

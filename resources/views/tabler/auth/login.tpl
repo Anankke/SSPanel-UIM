@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center text-muted mt-3">
+            <div class="text-center text-secondary mt-3">
                 还没有账户？ <a href="/auth/register" tabindex="-1">点击注册</a>
             </div>
         </div>
