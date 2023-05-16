@@ -21,12 +21,12 @@ final class StripeCard extends AbstractPayment
 {
     public static function _name(): string
     {
-        return 'stripe_card';
+        return 'stripe';
     }
 
     public static function _enable(): bool
     {
-        return self::getActiveGateway('stripe_card');
+        return self::getActiveGateway('stripe');
     }
 
     public static function _readableName(): string
