@@ -88,7 +88,7 @@ final class Tools
             return '∞';
         }
 
-        $base = log($size, 1024);
+        $base = log((float) $size, 1024);
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
         return round(pow(1024, $base - floor($base)), $precision) . $units[floor($base)];
