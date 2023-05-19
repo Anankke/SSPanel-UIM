@@ -255,9 +255,9 @@
                                                class="copy btn btn-primary">
                                                 复制 Clash 订阅链接
                                             </a>
-                                            <a href="/clients/Clash-Windows.exe"
+                                            <a href="/clients/Clash.Verge.msi"
                                                class="btn btn-primary">
-                                                下载 Clash for Windows
+                                                下载 Clash Verge
                                             </a>
                                             <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
                                                class="btn btn-primary">
@@ -275,9 +275,13 @@
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
                                         </a>
-                                        <a href="/clients/Clash-Windows.dmg"
+                                        <a href="/clients/Clash.Verge_aarch64.dmg"
                                            class="btn btn-primary">
-                                            下载 Clash for Windows
+                                            下载 Clash Verge (aarch64)
+                                        </a>
+                                        <a href="/clients/Clash.Verge_x64.dmg"
+                                           class="btn btn-primary">
+                                            下载 Clash Verge (x86_64)
                                         </a>
                                         <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
                                            class="btn btn-primary">
@@ -335,9 +339,9 @@
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
                                         </a>
-                                        <a href="/clients/Clash-Windows.tar.gz"
+                                        <a href="/clients/Clash.Verge.AppImage.tar.gz"
                                            class="btn btn-primary">
-                                            下载 Clash for Windows
+                                            下载 Clash Verge
                                         </a>
                                         <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
                                            class="btn btn-primary">
