@@ -11,16 +11,44 @@ use App\Models\User;
 use App\Services\Config;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use function array_diff;
+use function array_flip;
+use function bin2hex;
+use function closedir;
+use function date;
+use function explode;
+use function filter_var;
 use function floatval;
+use function floor;
 use function in_array;
-use function intval;
 use function is_null;
+use function is_numeric;
+use function log;
+use function opendir;
+use function openssl_random_pseudo_bytes;
+use function pow;
+use function range;
+use function readdir;
+use function round;
+use function shuffle;
+use function strlen;
+use function strpos;
+use function strtotime;
+use function substr;
 use function time;
+use const FILTER_FLAG_IPV4;
+use const FILTER_FLAG_IPV6;
+use const FILTER_VALIDATE_EMAIL;
+use const FILTER_VALIDATE_INT;
+use const FILTER_VALIDATE_IP;
 
 final class Tools
 {
     /**
      * 查询IP归属
+     *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      */
     public static function getIpLocation($ip): string
     {
@@ -32,13 +60,8 @@ final class Tools
             $err_msg = 'GeoIP2 服务未配置';
         } else {
             $geoip = new GeoIP2();
-        }
-
-        try {
             $city = $geoip->getCity($ip);
             $country = $geoip->getCountry($ip);
-        } catch (AddressNotFoundException|InvalidDatabaseException $e) {
-            $err_msg = '未知错误';
         }
 
         if ($city !== null) {
@@ -55,75 +78,40 @@ final class Tools
     /**
      * 根据流量值自动转换单位输出
      */
-    public static function flowAutoShow($value = 0): string
+    public static function autoBytes($size, $precision = 2): string
     {
-        $kb = 1024;
-        $mb = 1048576;
-        $gb = 1073741824;
-        $tb = $gb * 1024;
-        $pb = $tb * 1024;
-        if (abs((float) $value) > $pb) {
-            return round((float) $value / $pb, 2) . 'PB';
+        if ($size <= 0) {
+            return '0B';
         }
 
-        if (abs((float) $value) > $tb) {
-            return round((float) $value / $tb, 2) . 'TB';
+        if ($size > 1208925819614629174706176) {
+            return '∞';
         }
 
-        if (abs((float) $value) > $gb) {
-            return round((float) $value / $gb, 2) . 'GB';
-        }
+        $base = log((float) $size, 1024);
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        if (abs((float) $value) > $mb) {
-            return round((float) $value / $mb, 2) . 'MB';
-        }
-
-        if (abs((float) $value) > $kb) {
-            return round((float) $value / $kb, 2) . 'KB';
-        }
-
-        return round((float) $value, 2) . 'B';
+        return round(pow(1024, $base - floor($base)), $precision) . $units[floor($base)];
     }
 
     /**
      * 根据含单位的流量值转换 B 输出
      */
-    public static function flowAutoShowZ($Value): ?float
+    public static function autoBytesR($size): ?int
     {
-        $number = substr($Value, 0, -2);
-        if (! is_numeric($number)) {
-            return null;
+        if (is_numeric(substr($size, 0, -1))) {
+            return (int) substr($size, 0, -1);
         }
-        $number = intval($number);
-        $unit = strtoupper(substr($Value, -2));
-        $kb = 1024;
-        $mb = 1048576;
-        $gb = 1073741824;
-        $tb = $gb * 1024;
-        $pb = $tb * 1024;
-        switch ($unit) {
-            case 'B':
-                $number = round($number, 2);
-                break;
-            case 'KB':
-                $number = round($number * $kb, 2);
-                break;
-            case 'MB':
-                $number = round($number * $mb, 2);
-                break;
-            case 'GB':
-                $number = round($number * $gb, 2);
-                break;
-            case 'TB':
-                $number = round($number * $tb, 2);
-                break;
-            case 'PB':
-                $number = round($number * $pb, 2);
-                break;
-            default:
-                return null;
+
+        $suffix = substr($size, -2);
+        $base = substr($size, 0, strlen($size) - 2);
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'];
+
+        if ($base > 999 && $suffix === 'EB') {
+            return -1;
         }
-        return $number;
+
+        return (int) ($base * pow(1024, array_flip($units)[$suffix]));
     }
 
     //虽然名字是toMB，但是实际上功能是from MB to B

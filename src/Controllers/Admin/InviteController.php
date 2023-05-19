@@ -12,50 +12,51 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function is_numeric;
 
 final class InviteController extends BaseController
 {
     public static array $details =
-    [
-        'field' => [
-            'id' => '事件ID',
-            'total' => '原始金额',
-            'userid' => '发起用户ID',
-            'user_name' => '发起用户名',
-            'ref_by' => '获利用户ID',
-            'ref_user_name' => '获利用户名',
-            'ref_get' => '获利金额',
-            'datetime' => '时间',
-        ],
-        'update_dialog' => [
-            [
-                'id' => 'userid',
-                'info' => '修改的用户',
-                'type' => 'input',
-                'placeholder' => '需要修改邀请者的用户 ID 或 Email',
+        [
+            'field' => [
+                'id' => '事件ID',
+                'total' => '原始金额',
+                'userid' => '发起用户ID',
+                'user_name' => '发起用户名',
+                'ref_by' => '获利用户ID',
+                'ref_user_name' => '获利用户名',
+                'ref_get' => '获利金额',
+                'datetime' => '时间',
             ],
-            [
-                'id' => 'refid',
-                'info' => '邀请者 ID',
-                'type' => 'input',
-                'placeholder' => '目标邀请者的用户 ID',
+            'update_dialog' => [
+                [
+                    'id' => 'userid',
+                    'info' => '修改的用户',
+                    'type' => 'input',
+                    'placeholder' => '需要修改邀请者的用户 ID 或 Email',
+                ],
+                [
+                    'id' => 'refid',
+                    'info' => '邀请者 ID',
+                    'type' => 'input',
+                    'placeholder' => '目标邀请者的用户 ID',
+                ],
             ],
-        ],
-        'add_dialog' => [
-            [
-                'id' => 'userid',
-                'info' => '修改的用户',
-                'type' => 'input',
-                'placeholder' => '需要邀请数量的用户 ID 或 Email',
+            'add_dialog' => [
+                [
+                    'id' => 'userid',
+                    'info' => '修改的用户',
+                    'type' => 'input',
+                    'placeholder' => '需要邀请数量的用户 ID 或 Email',
+                ],
+                [
+                    'id' => 'invite_num',
+                    'info' => '邀请数量',
+                    'type' => 'input',
+                    'placeholder' => '需要添加的邀请数量',
+                ],
             ],
-            [
-                'id' => 'invite_num',
-                'info' => '邀请数量',
-                'type' => 'input',
-                'placeholder' => '需要添加的邀请数量',
-            ],
-        ],
-    ];
+        ];
 
     /**
      * 后台邀请记录页面
@@ -112,12 +113,12 @@ final class InviteController extends BaseController
      */
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $invite_num = $request->getParam('invite_num');
+        $invite_num = (int) $request->getParam('invite_num');
 
-        if (Tools::isInt($invite_num) === false) {
+        if (! is_numeric($invite_num)) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '参数错误',
+                'msg' => '邀请次数错误',
             ]);
         }
 
@@ -134,7 +135,7 @@ final class InviteController extends BaseController
             ]);
         }
 
-        $user->addInviteNum((int) $invite_num);
+        $user->addInviteNum($invite_num);
 
         return $response->withJson([
             'ret' => 1,
