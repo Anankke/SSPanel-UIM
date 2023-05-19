@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Mail;
+use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
@@ -22,8 +23,13 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
+use function array_rand;
+use function date;
+use function explode;
 use function strlen;
+use function strtolower;
 use function time;
+use function trim;
 
 /**
  *  AuthController
@@ -63,6 +69,7 @@ final class AuthController extends BaseController
         $passwd = $request->getParam('passwd');
         $rememberMe = $request->getParam('remember_me');
         $email = strtolower(trim($request->getParam('email')));
+        $redir = Cookie::get('redir') ?? '/user';
 
         $user = User::where('email', $email)->first();
 
@@ -113,6 +120,7 @@ final class AuthController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '登录成功',
+            'redir' => $redir,
         ]);
     }
 
@@ -234,6 +242,7 @@ final class AuthController extends BaseController
     ): ResponseInterface {
         $user_invite = InviteCode::where('code', $code)->first();
         $gift_user = null;
+        $redir = Cookie::get('redir') ?? '/user';
 
         if ($user_invite === null && ! $is_admin_reg) {
             if (Setting::obtain('reg_mode') === 'invite') {
@@ -332,7 +341,11 @@ final class AuthController extends BaseController
             Auth::login($user->id, 3600);
             $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
-            return ResponseHelper::successfully($response, '注册成功！正在进入登录界面');
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '注册成功！正在进入登录界面',
+                'redir' => $redir,
+            ]);
         }
 
         return ResponseHelper::error($response, '未知错误');

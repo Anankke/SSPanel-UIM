@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserCoupon;
+use App\Utils\Cookie;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -56,13 +57,17 @@ final class OrderController extends BaseController
     {
         $antiXss = new AntiXSS();
         $product_id = $antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
+        $redir = Cookie::get('redir');
+
+        if ($redir !== null) {
+            Cookie::set(['redir' => ''], time() - 1);
+        }
 
         if ($product_id === null || $product_id === '') {
             return $response->withRedirect('/user/product');
         }
 
         $product = Product::where('id', $product_id)->first();
-
         $product->content = json_decode($product->content);
 
         return $response->write(
