@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Services\Auth as AuthService;
+use App\Utils\Cookie;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,7 +23,7 @@ final class Auth implements MiddlewareInterface
 
         if (! $user->isLogin) {
             if (str_contains($path, '/user/order/create')) {
-                Utils\Cookie::set(['redir' => $path], 3600);
+                Cookie::set(['redir' => $path . '?' . $request->getUri()->getQuery()], time() + 3600);
             }
             return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/auth/login');
         }
