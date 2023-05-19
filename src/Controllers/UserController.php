@@ -20,7 +20,6 @@ use App\Services\Captcha;
 use App\Services\Config;
 use App\Services\DB;
 use App\Services\MFA;
-use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
@@ -552,46 +551,6 @@ final class UserController extends BaseController
         $user->clearInviteCodes();
 
         return ResponseHelper::successfully($response, '重置成功');
-    }
-
-    public function backtoadmin(ServerRequest $request, Response $response, array $args): Response
-    {
-        $userid = Cookie::get('uid');
-        $adminid = Cookie::get('old_uid');
-        $user = User::find($userid);
-        $admin = User::find($adminid);
-
-        if (! $admin->is_admin || ! $user) {
-            Cookie::set([
-                'uid' => null,
-                'email' => null,
-                'key' => null,
-                'ip' => null,
-                'expire_in' => null,
-                'old_uid' => null,
-                'old_email' => null,
-                'old_key' => null,
-                'old_ip' => null,
-                'old_expire_in' => null,
-                'old_local' => null,
-            ], time() - 1000);
-        }
-        $expire_in = Cookie::get('old_expire_in');
-        $local = Cookie::get('old_local');
-        Cookie::set([
-            'uid' => Cookie::get('old_uid'),
-            'email' => Cookie::get('old_email'),
-            'key' => Cookie::get('old_key'),
-            'ip' => Cookie::get('old_ip'),
-            'expire_in' => $expire_in,
-            'old_uid' => null,
-            'old_email' => null,
-            'old_key' => null,
-            'old_ip' => null,
-            'old_expire_in' => null,
-            'old_local' => null,
-        ], $expire_in);
-        return $response->withStatus(302)->withHeader('Location', $local);
     }
 
     public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface

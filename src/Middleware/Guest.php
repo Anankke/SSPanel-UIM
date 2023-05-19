@@ -16,10 +16,12 @@ final class Guest implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = AuthService::getUser();
+
         if ($user->isLogin) {
             $response = AppFactory::determineResponseFactory()->createResponse(302);
             return $response->withHeader('Location', '/user');
         }
+
         return $handler->handle($request);
     }
 }
