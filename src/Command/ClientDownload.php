@@ -84,7 +84,8 @@ final class ClientDownload extends Command
      */
     private function getLatestReleaseTagName(string $repo): string
     {
-        $url = 'https://api.github.com/repos/' . $repo . '/releases/latest' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
+        $url = 'https://api.github.com/repos/' . $repo . '/releases/latest' .
+            ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
 
         return (string) json_decode(
@@ -98,7 +99,8 @@ final class ClientDownload extends Command
      */
     private function getLatestPreReleaseTagName(string $repo): string
     {
-        $url = 'https://api.github.com/repos/' . $repo . '/releases' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
+        $url = 'https://api.github.com/repos/' . $repo . '/releases' .
+            ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
         $latest = json_decode(
             $request->getBody()->getContents(),
@@ -187,7 +189,8 @@ final class ClientDownload extends Command
                 echo '====== ' . $task['name'] . ' 结束 ======' . PHP_EOL;
                 return;
             }
-            echo '- 检测到当前 ' . $task['name'] . ' 最新版本为 ' . $tagName . '，本地最新版本为 ' . $this->version[$task['name']] . PHP_EOL;
+            echo '- 检测到当前 ' . $task['name'] . ' 最新版本为 ' .
+                $tagName . '，本地最新版本为 ' . $this->version[$task['name']] . PHP_EOL;
         }
 
         $this->version[$task['name']] = $tagName;
@@ -220,7 +223,8 @@ final class ClientDownload extends Command
                 }
             }
 
-            $downloadUrl = 'https://github.com/' . $task['gitRepo'] . '/releases/download/' . $tagName . '/' . $sourceName;
+            $downloadUrl = 'https://github.com/' . $task['gitRepo'] .
+                '/releases/download/' . $tagName . '/' . $sourceName;
 
             if ($this->getSourceFile($fileName, $savePath, $downloadUrl)) {
                 $this->setLocalVersions($this->version);

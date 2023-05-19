@@ -31,10 +31,17 @@ use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function array_column;
+use function array_multisort;
 use function in_array;
 use function json_decode;
+use function str_replace;
 use function strlen;
+use function strtolower;
+use function strtotime;
 use function time;
+use const BASE_PATH;
+use const SORT_ASC;
 
 /**
  *  HomeController
@@ -475,7 +482,7 @@ final class UserController extends BaseController
                 'lastUsedTraffic' => $this->user->lastUsedTraffic(),
                 'unUsedTraffic' => $this->user->unusedTraffic(),
             ],
-            'traffic' => Tools::flowAutoShow($this->user->transfer_enable),
+            'traffic' => Tools::autoBytes($this->user->transfer_enable),
             'unflowtraffic' => $this->user->transfer_enable,
             'msg' => $checkin['msg'],
         ]);

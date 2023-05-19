@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\Node;
 use App\Models\User;
 use App\Utils\Tools;
+use function strtotime;
 use function time;
 
 final class Analytics
@@ -28,12 +29,12 @@ final class Analytics
 
     public function getTrafficUsage(): string
     {
-        return Tools::flowAutoShow(User::sum('u') + User::sum('d'));
+        return Tools::autoBytes(User::sum('u') + User::sum('d'));
     }
 
     public function getTodayTrafficUsage(): string
     {
-        return Tools::flowAutoShow(User::sum('transfer_today'));
+        return Tools::autoBytes(User::sum('transfer_today'));
     }
 
     public function getRawTodayTrafficUsage()
@@ -48,7 +49,7 @@ final class Analytics
 
     public function getLastTrafficUsage(): string
     {
-        return Tools::flowAutoShow(User::sum('u') + User::sum('d') - User::sum('transfer_today'));
+        return Tools::autoBytes(User::sum('u') + User::sum('d') - User::sum('transfer_today'));
     }
 
     public function getRawLastTrafficUsage()
@@ -63,7 +64,7 @@ final class Analytics
 
     public function getUnusedTrafficUsage(): string
     {
-        return Tools::flowAutoShow(User::sum('transfer_enable') - User::sum('u') - User::sum('d'));
+        return Tools::autoBytes(User::sum('transfer_enable') - User::sum('u') - User::sum('d'));
     }
 
     public function getRawUnusedTrafficUsage()
@@ -78,7 +79,7 @@ final class Analytics
 
     public function getTotalTraffic(): string
     {
-        return Tools::flowAutoShow(User::sum('transfer_enable'));
+        return Tools::autoBytes(User::sum('transfer_enable'));
     }
 
     public function getRawTotalTraffic()
