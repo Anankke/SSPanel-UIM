@@ -1,8 +1,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-payments.min.css">
 
 <div class="card-inner">
-    <p class="card-heading">银行卡充值</p>
-    <p>可以使用带有 <span class="payment payment-provider-unionpay me-3"></span> / <span class="payment payment-provider-mastercard me-3"></span> / <span class="payment payment-provider-visa me-3"></span> 等标识的信用卡或借记卡</p>
+    <h4>
+        Stripe 银行卡
+    </h4>
+    <p class="card-heading"></p>
+    <p>可以使用带有
+        <span class="payment payment-xs payment-provider-unionpay me-auto"></span>
+        <span class="payment payment-xs payment-provider-mastercard me-auto"></span>
+        <span class="payment payment-xs payment-provider-visa me-auto"></span>
+        等标识的信用卡或借记卡</p>
     <form action="/user/payment/purchase/stripe" method="post">
         <div class="form-group form-group-label">    
             <label class="floating-label" for="amount-stripe-card">金额</label>
