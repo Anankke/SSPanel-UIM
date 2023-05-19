@@ -13,10 +13,19 @@ use App\Utils\Tools;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Ramsey\Uuid\Uuid;
+use function array_merge;
+use function date;
 use function in_array;
 use function is_null;
 use function json_encode;
+use function md5;
+use function random_int;
+use function round;
+use function str_replace;
+use function strtolower;
 use function time;
+use function trim;
+use const PHP_EOL;
 
 final class User extends Model
 {
@@ -163,7 +172,7 @@ final class User extends Model
      */
     public function enableTraffic(): string
     {
-        return Tools::flowAutoShow($this->transfer_enable);
+        return Tools::autoBytes($this->transfer_enable);
     }
 
     /*
@@ -179,7 +188,7 @@ final class User extends Model
      */
     public function usedTraffic(): string
     {
-        return Tools::flowAutoShow($this->u + $this->d);
+        return Tools::autoBytes($this->u + $this->d);
     }
 
     /*
@@ -187,7 +196,7 @@ final class User extends Model
      */
     public function totalTraffic(): string
     {
-        return Tools::flowAutoShow($this->transfer_total);
+        return Tools::autoBytes($this->transfer_total);
     }
 
     /*
@@ -208,7 +217,7 @@ final class User extends Model
      */
     public function unusedTraffic(): string
     {
-        return Tools::flowAutoShow($this->transfer_enable - ($this->u + $this->d));
+        return Tools::autoBytes($this->transfer_enable - ($this->u + $this->d));
     }
 
     /*
@@ -230,7 +239,7 @@ final class User extends Model
      */
     public function todayUsedTraffic(): string
     {
-        return Tools::flowAutoShow($this->transfer_today);
+        return Tools::autoBytes($this->transfer_today);
     }
 
     /*
@@ -251,7 +260,7 @@ final class User extends Model
      */
     public function lastUsedTraffic(): string
     {
-        return Tools::flowAutoShow($this->u + $this->d - $this->transfer_today);
+        return Tools::autoBytes($this->u + $this->d - $this->transfer_today);
     }
 
     /*

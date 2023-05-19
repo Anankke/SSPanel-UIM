@@ -8,11 +8,33 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserMoneyLog;
 use App\Utils\Tools;
+use function array_map;
 use function count;
+use function curl_close;
+use function curl_exec;
+use function curl_init;
+use function curl_setopt;
+use function date;
+use function explode;
+use function implode;
 use function in_array;
+use function is_numeric;
 use function json_encode;
+use function number_format;
+use function str_pad;
+use function stripos;
 use function strlen;
+use function strpos;
+use function strtotime;
+use function substr;
 use function time;
+use function trim;
+use const CURLOPT_HTTPHEADER;
+use const CURLOPT_POST;
+use const CURLOPT_POSTFIELDS;
+use const CURLOPT_TIMEOUT;
+use const CURLOPT_URL;
+use const PHP_EOL;
 
 final class TelegramTools
 {
@@ -185,8 +207,8 @@ final class TelegramTools
                     ];
                 }
                 $User->$useOptionMethod = $new;
-                $old = Tools::flowAutoShow($old);
-                $new = Tools::flowAutoShow($new);
+                $old = Tools::autoBytes($old);
+                $new = Tools::autoBytes($new);
                 break;
                 // ##############
             case 'expire_in':
@@ -448,7 +470,7 @@ final class TelegramTools
         ) {
             $operator = substr($Value, 0, 1);
             if (! in_array($operator, ['*', '/'])) {
-                $number = Tools::flowAutoShowZ(substr($Value, 1));
+                $number = Tools::autoBytesR(substr($Value, 1));
             } else {
                 $number = substr($Value, 1, strlen($Value) - 1);
                 if (! is_numeric($number)) {
@@ -471,10 +493,10 @@ final class TelegramTools
                 if ((int) $Value === 0) {
                     $Source = 0;
                 } else {
-                    $Source = Tools::flowAutoShowZ($Value . 'KB');
+                    $Source = Tools::autoBytesR($Value . 'KB');
                 }
             } else {
-                $Source = Tools::flowAutoShowZ($Value);
+                $Source = Tools::autoBytesR($Value);
             }
         }
         return $Source;
