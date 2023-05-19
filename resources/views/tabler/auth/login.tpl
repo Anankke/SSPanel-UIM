@@ -87,7 +87,7 @@
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
-                        window.setTimeout("location.href='data.redir'", {$config['jump_delay']});
+                        window.setTimeout(location.href=data.redir, {$config['jump_delay']});
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
