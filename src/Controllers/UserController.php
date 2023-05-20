@@ -266,41 +266,46 @@ final class UserController extends BaseController
     {
         $antiXss = new AntiXSS();
         $user = $this->user;
-        $newemail = $antiXss->xss_clean($request->getParam('newemail'));
-        $oldemail = $user->email;
-        $otheruser = User::where('email', $newemail)->first();
+        $new_email = $antiXss->xss_clean($request->getParam('newemail'));
+        $old_email = $user->email;
 
         if (! $_ENV['enable_change_email']) {
             return ResponseHelper::error($response, '此项不允许自行修改，请联系管理员操作');
         }
 
-        if (Setting::obtain('reg_email_verify')) {
-            $emailcode = $request->getParam('emailcode');
-            $mailcount = EmailVerify::where('email', '=', $newemail)
-                ->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
-            if ($mailcount === null) {
-                return ResponseHelper::error($response, '你的邮箱验证码不正确');
-            }
-        }
-
-        if ($newemail === '') {
+        if ($new_email === '') {
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        $check_res = Tools::isEmailLegal($newemail);
-        if ($check_res['ret'] === 0) {
+        if (! Tools::isEmailLegal($new_email)) {
             return $response->withJson($check_res);
         }
 
-        if ($otheruser !== null) {
+        $exist_user = User::where('email', $new_email)->first();
+
+        if ($exist_user !== null) {
             return ResponseHelper::error($response, '邮箱已经被使用了');
         }
 
-        if ($newemail === $oldemail) {
+        if ($new_email === $old_email) {
             return ResponseHelper::error($response, '新邮箱不能和旧邮箱一样');
         }
 
-        $user->email = $newemail;
+        if (Setting::obtain('reg_email_verify')) {
+            $email_code = $request->getParam('emailcode');
+            $email_verify = EmailVerify::where('email', '=', $new_email)
+                ->where('code', '=', $email_code)
+                ->where('expire_in', '>', time())
+                ->first();
+
+            if ($email_verify === null) {
+                return ResponseHelper::error($response, '你的邮箱验证码不正确');
+            }
+
+            EmailVerify::where('email', $email)->delete();
+        }
+
+        $user->email = $new_email;
 
         if (! $user->save()) {
             return ResponseHelper::error($response, '修改失败');
