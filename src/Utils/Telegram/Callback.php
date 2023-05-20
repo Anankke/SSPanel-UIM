@@ -14,6 +14,8 @@ use App\Models\Setting;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
 use App\Utils\Tools;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\CallbackQuery;
@@ -274,6 +276,8 @@ final class Callback
     /**
      * 用户相关回调数据处理
      *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      * @throws TelegramSDKException
      */
     public function userCallback(): void
@@ -379,6 +383,8 @@ final class Callback
      * 用户中心
      *
      * @throws TelegramSDKException
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      */
     public function userCenter(): void
     {

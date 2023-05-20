@@ -40,7 +40,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        if ($coupon->expire_time < time()) {
+        if ($coupon->expire_time !== 0 && $coupon->expire_time < time()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码无效',
@@ -52,7 +52,7 @@ final class CouponController extends BaseController
         if ($product === null) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '优惠码无效',
+                'msg' => '商品ID无效',
             ]);
         }
 

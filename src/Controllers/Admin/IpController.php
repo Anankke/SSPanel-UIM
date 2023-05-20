@@ -9,6 +9,8 @@ use App\Models\LoginIp;
 use App\Services\DB;
 use App\Utils\Tools;
 use Exception;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -62,6 +64,9 @@ final class IpController extends BaseController
 
     /**
      * 后台登录记录页面 AJAX
+     *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      */
     public function ajaxLogin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
