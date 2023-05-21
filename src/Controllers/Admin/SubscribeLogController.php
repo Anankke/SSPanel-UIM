@@ -8,6 +8,8 @@ use App\Controllers\BaseController;
 use App\Models\UserSubscribeLog;
 use App\Utils\Tools;
 use Exception;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -45,6 +47,9 @@ final class SubscribeLogController extends BaseController
 
     /**
      * 后台订阅记录页面 AJAX
+     *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      */
     public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

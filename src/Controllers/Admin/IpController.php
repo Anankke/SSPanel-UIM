@@ -9,42 +9,45 @@ use App\Models\LoginIp;
 use App\Services\DB;
 use App\Utils\Tools;
 use Exception;
+use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function array_map;
 use function array_slice;
 use function count;
+use function str_replace;
 
 final class IpController extends BaseController
 {
     public static array $login_details =
-    [
-        'field' => [
-            'id' => '事件ID',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'ip' => 'IP',
-            'location' => 'IP归属地',
-            'datetime' => '时间',
-            'type' => '类型',
-        ],
-    ];
+        [
+            'field' => [
+                'id' => '事件ID',
+                'userid' => '用户ID',
+                'user_name' => '用户名',
+                'ip' => 'IP',
+                'location' => 'IP归属地',
+                'datetime' => '时间',
+                'type' => '类型',
+            ],
+        ];
 
     public static array $ip_details =
-    [
-        'field' => [
-            'id' => '事件ID',
-            'user_id' => '用户ID',
-            'user_name' => '用户名',
-            'node_id' => '节点ID',
-            'node_name' => '节点名',
-            'ip' => 'IP',
-            'location' => 'IP归属地',
-            'first_time' => '首次连接',
-            'last_time' => '最后连接',
-        ],
-    ];
+        [
+            'field' => [
+                'id' => '事件ID',
+                'user_id' => '用户ID',
+                'user_name' => '用户名',
+                'node_id' => '节点ID',
+                'node_name' => '节点名',
+                'ip' => 'IP',
+                'location' => 'IP归属地',
+                'first_time' => '首次连接',
+                'last_time' => '最后连接',
+            ],
+        ];
 
     /**
      * 后台登录记录页面
@@ -62,6 +65,9 @@ final class IpController extends BaseController
 
     /**
      * 后台登录记录页面 AJAX
+     *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      */
     public function ajaxLogin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

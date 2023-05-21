@@ -240,32 +240,13 @@ final class AuthController extends BaseController
         $money,
         $is_admin_reg
     ): ResponseInterface {
-        $user_invite = InviteCode::where('code', $code)->first();
-        $gift_user = null;
         $redir = Cookie::get('redir') ?? '/user';
-
-        if ($user_invite === null && ! $is_admin_reg) {
-            if (Setting::obtain('reg_mode') === 'invite') {
-                return ResponseHelper::error($response, '邀请码无效');
-            }
-        } elseif ($user_invite->user_id !== 0 && ! $is_admin_reg) {
-            $gift_user = User::where('id', $user_invite->user_id)->first();
-            if ($gift_user === null) {
-                return ResponseHelper::error($response, '邀请码无效');
-            }
-
-            if ($gift_user->invite_num === 0) {
-                return ResponseHelper::error($response, '邀请码无效');
-            }
-        }
-
         $configs = Setting::getClass('register');
         // do reg user
         $user = new User();
-        $antiXss = new AntiXSS();
 
-        $user->user_name = $antiXss->xss_clean($name);
-        $user->email = $antiXss->xss_clean($email);
+        $user->user_name = $name;
+        $user->email = $email;
         $user->remark = '';
         $user->pass = Hash::passwordHash($passwd);
         $user->passwd = Tools::genRandomChar(16);
@@ -278,8 +259,9 @@ final class AuthController extends BaseController
         $user->method = $configs['sign_up_for_method'];
         $user->forbidden_ip = Setting::obtain('reg_forbidden_ip');
         $user->forbidden_port = Setting::obtain('reg_forbidden_port');
-        $user->im_type = $antiXss->xss_clean($imtype);
-        $user->im_value = $antiXss->xss_clean($imvalue);
+        $user->im_type = $imtype;
+        $user->im_value = $imvalue;
+        $user->telegram_id = $telegram_id;
 
         $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
@@ -293,25 +275,13 @@ final class AuthController extends BaseController
             $user->money = 0;
         }
 
-        //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
 
-        if ($user_invite !== null && $user_invite->user_id !== 0) {
-            $invitation = Setting::getClass('invite');
-            // 设置新用户
-            $user->ref_by = $user_invite->user_id;
-            $user->money = $invitation['invitation_to_register_balance_reward'];
-            // 邀请人添加邀请流量
-            $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
-            if ($gift_user->invite_num > 0) {
-                --$gift_user->invite_num;
-                // 避免设置为不限制邀请次数的值 -1 发生变动
-            }
-            $gift_user->save();
-        }
-
-        if ($telegram_id) {
-            $user->telegram_id = $telegram_id;
+        if ($code !== '') {
+            $invite = InviteCode::where('code', $code)->first();
+            $invite->reward();
+            $user->ref_by = $invite->user_id;
+            $user->money = Setting::obtain('invitation_to_register_balance_reward');
         }
 
         $ga = new GoogleAuthenticator();
@@ -351,14 +321,13 @@ final class AuthController extends BaseController
         return ResponseHelper::error($response, '未知错误');
     }
 
+    /**
+     * @throws Exception
+     */
     public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '未开放注册。');
-        }
-
-        if (Setting::obtain('reg_mode') === 'invite' && $request->getParam('code') === '') {
-            return ResponseHelper::error($response, '注册需要填写邀请码');
         }
 
         if (Setting::obtain('enable_reg_captcha')) {
@@ -380,14 +349,36 @@ final class AuthController extends BaseController
         if (! $tos) {
             return ResponseHelper::error($response, '请同意服务条款');
         }
+        // Check Invite Code
+        if ($code === '' && Setting::obtain('reg_mode') === 'invite') {
+            return ResponseHelper::error($response, '邀请码不能为空');
+        }
 
+        if ($code !== '') {
+            $user_invite = InviteCode::where('code', $code)->first();
+
+            if ($user_invite === null) {
+                return ResponseHelper::error($response, '邀请码无效');
+            }
+
+            $gift_user = User::where('id', $user_invite->user_id)->first();
+
+            if ($gift_user === null || $gift_user->invite_num === 0) {
+                return ResponseHelper::error($response, '邀请码无效');
+            }
+        }
+
+        // Check IM
         if (Setting::obtain('enable_reg_im')) {
             $imtype = $antiXss->xss_clean($request->getParam('im_type'));
             $imvalue = $antiXss->xss_clean($request->getParam('im_value'));
+
             if ($imtype === '' || $imvalue === '') {
                 return ResponseHelper::error($response, '请填上你的联络方式');
             }
+
             $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
+
             if ($user !== null) {
                 return ResponseHelper::error($response, '此联络方式已注册');
             }
@@ -406,37 +397,30 @@ final class AuthController extends BaseController
         if ($user !== null) {
             return ResponseHelper::error($response, '邮箱已经被注册了');
         }
-
-        if (Setting::obtain('reg_email_verify')) {
-            $email_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
-            $mailcount = EmailVerify::where('email', '=', $email)
-                ->where('code', '=', $email_code)
-                ->where('expire_in', '>', time())
-                ->first();
-            if ($mailcount === null) {
-                return ResponseHelper::error($response, '你的邮箱验证码不正确');
-            }
-        }
-
         // check pwd length
         if (strlen($passwd) < 8) {
             return ResponseHelper::error($response, '密码请大于8位');
         }
-
         // check pwd re
         if ($passwd !== $repasswd) {
             return ResponseHelper::error($response, '两次密码输入不符');
         }
 
         if (Setting::obtain('reg_email_verify')) {
+            $email_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
+            $email_verify = EmailVerify::where('email', '=', $email)
+                ->where('code', '=', $email_code)
+                ->where('expire_in', '>', time())
+                ->first();
+
+            if ($email_verify === null) {
+                return ResponseHelper::error($response, '你的邮箱验证码不正确');
+            }
+
             EmailVerify::where('email', $email)->delete();
         }
 
-        try {
-            return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
-        } catch (Exception $e) {
-            return ResponseHelper::error($response, $e->getMessage());
-        }
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
     }
 
     public function logout(ServerRequest $request, Response $response, $next): Response
