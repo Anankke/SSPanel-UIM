@@ -562,11 +562,7 @@ final class UserController extends BaseController
     {
         $user = $this->user;
 
-        if ($user->is_dark_mode === 1) {
-            $user->is_dark_mode = 0;
-        } else {
-            $user->is_dark_mode = 1;
-        }
+        $user->is_dark_mode = $user->is_dark_mode === 1 ? 0 : 1;
 
         if (! $user->save()) {
             return ResponseHelper::error($response, '切换失败');

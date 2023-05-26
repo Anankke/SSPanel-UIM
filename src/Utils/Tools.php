@@ -150,17 +150,6 @@ final class Tools
         return date('Y-m-d H:i:s', $time);
     }
 
-    public static function getLastPort()
-    {
-        $user = User::orderBy('id', 'desc')->first();
-
-        if ($user === null) {
-            return 1024;
-        }
-
-        return $user->port;
-    }
-
     public static function getAvPort()
     {
         if (Setting::obtain('min_port') > 65535
