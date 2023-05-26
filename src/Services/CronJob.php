@@ -177,38 +177,39 @@ final class CronJob
                     Telegram::send($notice_text);
                 }
 
-                $node->online = false;
+                $node->online = 0;
                 $node->save();
 
                 continue;
             }
 
-            foreach ($adminUsers as $user) {
-                echo 'Send Node Online Email to admin user: ' . $user->id . PHP_EOL;
-                $user->sendMail(
-                    $_ENV['appName'] . '-系统提示',
-                    'warn.tpl',
-                    [
-                        'text' => '管理员你好，系统发现节点 ' . $node->name . ' 恢复上线了。',
-                    ],
-                    [],
-                    false
-                );
-                $notice_text = str_replace(
-                    '%node_name%',
-                    $node->name,
-                    Setting::obtain('telegram_node_online_text')
-                );
-            }
+            if ($node->getNodeOnlineStatus() === 1 && $node->online === 0) {
+                foreach ($adminUsers as $user) {
+                    echo 'Send Node Online Email to admin user: ' . $user->id . PHP_EOL;
+                    $user->sendMail(
+                        $_ENV['appName'] . '-系统提示',
+                        'warn.tpl',
+                        [
+                            'text' => '管理员你好，系统发现节点 ' . $node->name . ' 恢复上线了。',
+                        ],
+                        [],
+                        false
+                    );
+                    $notice_text = str_replace(
+                        '%node_name%',
+                        $node->name,
+                        Setting::obtain('telegram_node_online_text')
+                    );
+                }
 
-            if (Setting::obtain('telegram_node_online')) {
-                Telegram::send($notice_text);
-            }
+                if (Setting::obtain('telegram_node_online')) {
+                    Telegram::send($notice_text);
+                }
 
-            $node->online = true;
-            $node->save();
+                $node->online = 1;
+                $node->save();
+            }
         }
-
         echo date('Y-m-d H:i:s') . ' 节点离线检测完成' . PHP_EOL;
     }
 

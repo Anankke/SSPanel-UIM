@@ -59,7 +59,7 @@ final class Node extends Model
             return 0;
         }
 
-        return $this->node_heartbeat + 300 > time() ? 1 : -1;
+        return $this->node_heartbeat + 600 > time() ? 1 : -1;
     }
 
     /**
