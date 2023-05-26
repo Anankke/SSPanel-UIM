@@ -22,7 +22,7 @@
         "league/html-to-markdown": "^5.1",
         "league/omnipay": "^3.2.1",
         "mailgun/mailgun-php": "^3",
-        "openai-php/client": "^0.4.2",
+        "openai-php/client": "^0.5.1",
         "ozdemir/datatables": "^2",
         "phpmailer/phpmailer": "^6",
         "postal/postal": "^1.0",
