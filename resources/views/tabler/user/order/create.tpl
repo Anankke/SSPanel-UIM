@@ -165,8 +165,8 @@
                 },
                 success: function(data) {
                     if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
+                        $('#success-noreload-message').text(data.msg);
+                        $('#success-noreload-dialog').modal('show');
                         setTimeout(function() {
                             $(location).attr('href', '/user/invoice/' + data.invoice_id + '/view');
                         }, 1500);

@@ -44,7 +44,7 @@ final class ResponseHelper
         ResponseInterface $response,
         mixed $data
     ): ResponseInterface {
-        $etag = 'W/' . '"' . hash('xxh64', (string) json_encode($data)) . '"';
+        $etag = 'W/"' . hash('xxh64', (string) json_encode($data)) . '"';
 
         if ($etag === $request->getHeaderLine('If-None-Match')) {
             return $response->withStatus(304);
