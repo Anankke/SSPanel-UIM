@@ -2584,16 +2584,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.5.1",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "34e732f07eec089eb5791730f9f06e6d1669d968"
+                "reference": "ad6ec1e23dce42431df32a1cee7a6985ac22c853"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/34e732f07eec089eb5791730f9f06e6d1669d968",
-                "reference": "34e732f07eec089eb5791730f9f06e6d1669d968",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/ad6ec1e23dce42431df32a1cee7a6985ac22c853",
+                "reference": "ad6ec1e23dce42431df32a1cee7a6985ac22c853",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2603,7 @@
                 "psr/http-client": "^1.0.2",
                 "psr/http-client-implementation": "^1.0.1",
                 "psr/http-factory-implementation": "*",
-                "psr/http-message": "^1.1.0"
+                "psr/http-message": "^1.1.0|^2.0.0"
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.6.1",
@@ -2655,7 +2655,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.5.1"
+                "source": "https://github.com/openai-php/client/tree/v0.5.2"
             },
             "funding": [
                 {
@@ -2671,7 +2671,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-24T15:57:04+00:00"
+            "time": "2023-05-27T08:25:54+00:00"
         },
         {
             "name": "ozdemir/datatables",
