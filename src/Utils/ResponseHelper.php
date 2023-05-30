@@ -36,22 +36,20 @@ final class ResponseHelper
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @param mixed $data
-     * @param int $flags
      *
      * @return ResponseInterface
      */
     public static function etagJson(
         RequestInterface $request,
         ResponseInterface $response,
-        mixed $data,
-        int $flags = 0
+        mixed $data
     ): ResponseInterface {
-        $str = (string) json_encode($data, $flags);
-        $etag = hash('crc32c', $str);
+        $etag = 'W/"' . hash('xxh64', (string) json_encode($data)) . '"';
+
         if ($etag === $request->getHeaderLine('If-None-Match')) {
             return $response->withStatus(304);
         }
-        $response->getBody()->write($str);
-        return $response->withHeader('ETag', $etag)->withHeader('Content-Type', 'application/json');
+
+        return $response->withHeader('ETag', $etag)->withJson($data);
     }
 }

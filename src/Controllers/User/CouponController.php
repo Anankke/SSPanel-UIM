@@ -80,13 +80,22 @@ final class CouponController extends BaseController
         $use_limit = $limit->use_time;
 
         if ($use_limit > 0) {
-            $use_count = Order::where('user_id', $user->id)->where('coupon', $coupon->code)->count();
-            if ($use_count >= $use_limit) {
+            $user_use_count = Order::where('user_id', $user->id)->where('coupon', $coupon->code)->count();
+            if ($user_use_count >= $use_limit) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '优惠码无效',
                 ]);
             }
+        }
+
+        $total_use_limit = $limit->total_use_time;
+
+        if ($total_use_limit > 0 && $coupon->use_count >= $total_use_limit) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '优惠码无效',
+            ]);
         }
 
         $content = json_decode($coupon->content);

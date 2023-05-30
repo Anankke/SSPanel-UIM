@@ -16,6 +16,7 @@ final class NodeToken implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $key = $request->getQueryParams()['key'] ?? null;
+
         if ($key === null) {
             // 未提供 key
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([

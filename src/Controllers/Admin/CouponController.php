@@ -29,9 +29,11 @@ final class CouponController extends BaseController
             'type' => '优惠码类型',
             'value' => '优惠码额度',
             'product_id' => '可用商品ID',
-            'use_time' => '每个用户可使用次数',
+            'use_time' => '每个用户可使用次数限制',
+            'total_use_time' => '累计可使用次数限制',
             'new_user' => '仅限新用户使用',
             'disabled' => '已禁用',
+            'use_count' => '累计使用次数',
             'create_time' => '创建时间',
             'expire_time' => '过期时间',
         ],
@@ -65,9 +67,15 @@ final class CouponController extends BaseController
             ],
             [
                 'id' => 'use_time',
-                'info' => '每个用户可使用次数（小于0为不限）',
+                'info' => '每个用户可使用次数限制（小于0为不限）',
                 'type' => 'input',
-                'placeholder' => '',
+                'placeholder' => '-1',
+            ],
+            [
+                'id' => 'total_use_time',
+                'info' => '累计可使用次数限制（小于0为不限）',
+                'type' => 'input',
+                'placeholder' => '-1',
             ],
             [
                 'id' => 'new_user',
@@ -115,6 +123,7 @@ final class CouponController extends BaseController
         $value = $request->getParam('value');
         $product_id = $request->getParam('product_id');
         $use_time = $request->getParam('use_time');
+        $total_use_time = $request->getParam('total_use_time');
         $new_user = $request->getParam('new_user');
         $generate_method = $request->getParam('generate_method');
         $expire_time = $request->getParam('expire_time');
@@ -184,6 +193,7 @@ final class CouponController extends BaseController
         $limit = [
             'product_id' => $product_id,
             'use_time' => $use_time,
+            'total_use_time' => $total_use_time,
             'new_user' => $new_user,
             'disabled' => 0,
         ];
@@ -256,6 +266,12 @@ final class CouponController extends BaseController
                 $coupon->use_time = '不限次数';
             } else {
                 $coupon->use_time = $limit->use_time;
+            }
+
+            if ((int) $limit->total_use_time < 0) {
+                $coupon->total_use_time = '不限次数';
+            } else {
+                $coupon->total_use_time = $limit->total_use_time;
             }
 
             if ($limit->new_user === 1) {
