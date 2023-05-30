@@ -2675,16 +2675,16 @@
         },
         {
             "name": "ozdemir/datatables",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/n1crack/datatables.git",
-                "reference": "94f050f9e29ed3f9a7b6718c535523209c4fdf20"
+                "reference": "7d8d51dccc1647fc68d3b6f90453e3f8b8b8bf9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/n1crack/datatables/zipball/94f050f9e29ed3f9a7b6718c535523209c4fdf20",
-                "reference": "94f050f9e29ed3f9a7b6718c535523209c4fdf20",
+                "url": "https://api.github.com/repos/n1crack/datatables/zipball/7d8d51dccc1647fc68d3b6f90453e3f8b8b8bf9d",
+                "reference": "7d8d51dccc1647fc68d3b6f90453e3f8b8b8bf9d",
                 "shasum": ""
             },
             "require": {
@@ -2712,9 +2712,9 @@
             "description": "PHP Library to handle server-side processing for Datatables, in a fast and simple way.",
             "support": {
                 "issues": "https://github.com/n1crack/datatables/issues",
-                "source": "https://github.com/n1crack/datatables/tree/2.3.6"
+                "source": "https://github.com/n1crack/datatables/tree/2.3.7"
             },
-            "time": "2022-01-16T12:22:19+00:00"
+            "time": "2023-05-29T10:42:49+00:00"
         },
         {
             "name": "php-http/client-common",
