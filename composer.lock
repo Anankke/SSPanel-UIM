@@ -2014,16 +2014,16 @@
         },
         {
             "name": "mailgun/mailgun-php",
-            "version": "v3.5.6",
+            "version": "v3.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailgun/mailgun-php.git",
-                "reference": "897e799e48497c8fecc5d3142b32684a02c8aee5"
+                "reference": "92a5f54573f7594f927aaba2715fa0ecdf8d9f3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/897e799e48497c8fecc5d3142b32684a02c8aee5",
-                "reference": "897e799e48497c8fecc5d3142b32684a02c8aee5",
+                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/92a5f54573f7594f927aaba2715fa0ecdf8d9f3e",
+                "reference": "92a5f54573f7594f927aaba2715fa0ecdf8d9f3e",
                 "shasum": ""
             },
             "require": {
@@ -2068,9 +2068,9 @@
             "description": "The Mailgun SDK provides methods for all API functions.",
             "support": {
                 "issues": "https://github.com/mailgun/mailgun-php/issues",
-                "source": "https://github.com/mailgun/mailgun-php/tree/v3.5.6"
+                "source": "https://github.com/mailgun/mailgun-php/tree/v3.5.7"
             },
-            "time": "2023-04-08T16:43:42+00:00"
+            "time": "2023-05-26T16:51:09+00:00"
         },
         {
             "name": "maxmind-db/reader",
