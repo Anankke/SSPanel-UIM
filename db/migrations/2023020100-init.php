@@ -329,6 +329,7 @@ return new class() implements MigrationInterface {
                 `code` varchar(255) DEFAULT NULL COMMENT '优惠码',
                 `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '优惠码内容' CHECK (json_valid(`content`)),
                 `limit` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '优惠码限制' CHECK (json_valid(`limit`)),
+                `use_count` int(11) NOT NULL DEFAULT 0 COMMENT '累计使用次数',
                 `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
                 `expire_time` int(11) DEFAULT NULL COMMENT '过期时间',
                 PRIMARY KEY (`id`),
@@ -388,16 +389,6 @@ return new class() implements MigrationInterface {
                 `request_ip` varchar(255) DEFAULT NULL COMMENT '请求 IP',
                 `request_time` datetime DEFAULT NULL COMMENT '请求时间',
                 `request_user_agent` text DEFAULT NULL COMMENT '请求 UA 信息',
-                PRIMARY KEY (`id`),
-                KEY `user_id` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `user_token` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `token` varchar(255) DEFAULT NULL,
-                `user_id` bigint(20) unsigned DEFAULT NULL,
-                `create_time` bigint(20) unsigned DEFAULT NULL,
-                `expire_time` bigint(20) DEFAULT NULL,
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
