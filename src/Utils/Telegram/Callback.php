@@ -698,12 +698,12 @@ final class Callback
                 $OpEnd = end($Operate);
 
                 if ($OpEnd === 'update') {
-                    $this->User->sendDailyMail = ($this->User->sendDailyMail === 0 ? 1 : 0);
+                    $this->User->daily_mail_enable = ($this->User->daily_mail_enable === 0 ? 1 : 0);
 
                     if ($this->User->save()) {
                         $text = '设置更改成功，每日邮件接收当前设置为：';
                         $text .= '<strong>';
-                        $text .= ($this->User->sendDailyMail === 0 ? '不发送' : '发送');
+                        $text .= ($this->User->daily_mail_enable === 0 ? '不发送' : '发送');
                         $text .= '</strong>';
                     } else {
                         $text = '发生错误。';
@@ -711,7 +711,7 @@ final class Callback
                 } else {
                     $text = '每日邮件接收当前设置为：';
                     $text .= '<strong>';
-                    $text .= ($this->User->sendDailyMail === 0 ? '不发送' : '发送');
+                    $text .= ($this->User->daily_mail_enable === 0 ? '不发送' : '发送');
                     $text .= '</strong>';
                 }
 

@@ -48,7 +48,7 @@ final class User extends Model
         'port' => 'int',
         'is_admin' => 'boolean',
         'node_speedlimit' => 'float',
-        'sendDailyMail' => 'int',
+        'daily_mail_enable' => 'int',
         'ref_by' => 'int',
     ];
 
@@ -579,7 +579,7 @@ final class User extends Model
         $enable_traffic = $this->enableTraffic();
         $used_traffic = $this->usedTraffic();
         $unused_traffic = $this->unusedTraffic();
-        switch ($this->sendDailyMail) {
+        switch ($this->daily_mail_enable) {
             case 1:
                 echo 'Send daily mail to user: ' . $this->id;
                 $this->sendMail(
