@@ -32,6 +32,7 @@ return new class() implements MigrationInterface {
         ALTER TABLE user MODIFY COLUMN `node_connector` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '同时可使用连接数';
         ALTER TABLE user MODIFY COLUMN `is_admin` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否管理员';
         ALTER TABLE user MODIFY COLUMN `im_type` smallint(6) unsigned NOT NULL DEFAULT 1 COMMENT '联系方式类型';
+        UPDATE user SET im_value = '' WHERE im_value IS NULL;
         ALTER TABLE user MODIFY COLUMN `im_value` varchar(255) NOT NULL DEFAULT '' COMMENT '联系方式';
         ALTER TABLE user MODIFY COLUMN `class` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '等级';
         ALTER TABLE user MODIFY COLUMN `class_expire` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '等级过期时间';
@@ -43,6 +44,7 @@ return new class() implements MigrationInterface {
         ALTER TABLE user MODIFY COLUMN `node_group` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '节点分组';
         ALTER TABLE user MODIFY COLUMN `is_banned` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否封禁';
         ALTER TABLE user MODIFY COLUMN `banned_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '封禁理由';
+        UPDATE user SET telegram_id = 0 WHERE telegram_id IS NULL;
         ALTER TABLE user MODIFY COLUMN `telegram_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT 'Telegram ID';
         ALTER TABLE user MODIFY COLUMN `expire_notified` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '过期提醒';
         ALTER TABLE user MODIFY COLUMN `traffic_notified` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '流量提醒';
