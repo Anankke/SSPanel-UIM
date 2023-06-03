@@ -198,7 +198,7 @@ EOL;
     public function resetTraffic(): void
     {
         try {
-            ModelsUser::where('enable', 1)->update([
+            ModelsUser::where('is_banned', 0)->update([
                 'd' => 0,
                 'u' => 0,
                 'transfer_today' => 0,
