@@ -198,7 +198,7 @@ EOL;
     public function resetTraffic(): void
     {
         try {
-            ModelsUser::where('enable', 1)->update([
+            ModelsUser::where('is_banned', 0)->update([
                 'd' => 0,
                 'u' => 0,
                 'transfer_today' => 0,
@@ -285,8 +285,6 @@ EOL;
         }
 
         if (strtolower($y) === 'y') {
-            // create admin user
-            $configs = Setting::getClass('register');
             // do reg user
             $user = new ModelsUser();
             $user->user_name = 'Admin';
@@ -300,16 +298,17 @@ EOL;
             $user->t = 0;
             $user->u = 0;
             $user->d = 0;
-            $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
-            $user->invite_num = $configs['sign_up_for_invitation_codes'];
+            $user->transfer_enable = 0;
+            $user->invite_num = 0;
             $user->ref_by = 0;
             $user->is_admin = 1;
-            $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
+            $user->expire_in = date('Y-m-d H:i:s');
             $user->reg_date = date('Y-m-d H:i:s');
             $user->money = 0;
             $user->im_type = 1;
             $user->im_value = '';
             $user->class = 0;
+            $user->node_iplimit = 0;
             $user->node_speedlimit = 0;
             $user->theme = $_ENV['theme'];
 

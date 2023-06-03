@@ -115,9 +115,9 @@ final class SubController extends BaseController
                     $network = $node_custom_config['network'] ?? '';
                     $header = $node_custom_config['header'] ?? ['type' => 'none'];
                     $header_type = $header['type'] ?? '';
-                    $host = $node_custom_config['host'] ?? '';
+                    $host = $node_custom_config['header']['request']['headers']['Host'][0] ?? $node_custom_config['host'] ?? '';
                     $servicename = $node_custom_config['servicename'] ?? '';
-                    $path = $node_custom_config['path'] ?? '/';
+                    $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
                     $tls = in_array($security, ['tls', 'xtls']) ? '1' : '0';
                     $enable_vless = $node_custom_config['enable_vless'] ?? '0';
                     $node = [
@@ -257,8 +257,8 @@ final class SubController extends BaseController
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
-                    $network = $node_custom_config['network'] ?? '';
-                    $host = $node_custom_config['host'] ?? '';
+                    $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? '';
+                    $host = $node_custom_config['header']['request']['headers']['Host'][0] ?? $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $tls = in_array($security, ['tls', 'xtls']);
                     // Clash 特定配置

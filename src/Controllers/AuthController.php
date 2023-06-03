@@ -267,7 +267,7 @@ final class AuthController extends BaseController
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
         $user->auto_reset_day = Setting::obtain('free_user_reset_day');
         $user->auto_reset_bandwidth = Setting::obtain('free_user_reset_bandwidth');
-        $user->sendDailyMail = $configs['sign_up_for_daily_report'];
+        $user->daily_mail_enable = $configs['sign_up_for_daily_report'];
 
         if ($money > 0) {
             $user->money = $money;

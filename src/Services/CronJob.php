@@ -572,7 +572,7 @@ final class CronJob
 
     public static function sendDailyTrafficReport(): void
     {
-        $users = User::where('sendDailyMail', 1)->get();
+        $users = User::where('daily_mail_enable', 1)->get();
 
         $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
 

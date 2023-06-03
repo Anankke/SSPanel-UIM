@@ -126,7 +126,7 @@ final class TelegramTools
         $useOptionMethodName = self::getUserActionOption()[$useOptionMethod][0];
         switch ($useOptionMethod) {
             // ##############
-            case 'enable':
+            case 'is_banned':
             case 'is_admin':
                 $strArray = [
                     '// 支持的写法',
