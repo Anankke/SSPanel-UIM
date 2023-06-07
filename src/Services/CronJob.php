@@ -328,6 +328,21 @@ final class CronJob
             $pending_activation_orders = Order::where('user_id', $user_id)->where('status', 'pending_activation')->orderBy('id', 'asc')->get();
             // 获取用户账户已激活的订单，一个用户同时只能有一个已激活的订单
             $activated_order = Order::where('user_id', $user_id)->where('status', 'activated')->orderBy('id', 'asc')->first();
+            
+            // 如果用户账户中有已激活的订单，则判断是否过期
+            if ($activated_order !== null) {
+                $content = json_decode($activated_order->product_content);
+                if (strtotime($user->class_expire) < time() || $user->transfer_enable < 1024) {
+                    $activated_order->status = 'expired';
+                    $activated_order->update_time = time();
+                    $activated_order->save();
+                    echo "订单 #{$activated_order->id} 已过期。\n";
+                }
+            }
+            
+            // 获取用户账户已激活的订单，一个用户同时只能有一个已激活的订单
+            $activated_order = Order::where('user_id', $user_id)->where('status', 'activated')->orderBy('id', 'asc')->first();
+            
             // 如果用户账户中没有已激活的订单，且有等待激活的订单，则激活最早的等待激活订单
             if ($activated_order === null && count($pending_activation_orders) > 0) {
                 $order = $pending_activation_orders[0];
@@ -352,16 +367,6 @@ final class CronJob
                 $order->save();
                 echo "订单 #{$order->id} 已激活。\n";
                 continue;
-            }
-            // 如果用户账户中有已激活的订单，则判断是否过期
-            if ($activated_order !== null) {
-                $content = json_decode($activated_order->product_content);
-                if ($activated_order->update_time + $content->time * 86400 < time()) {
-                    $activated_order->status = 'expired';
-                    $activated_order->update_time = time();
-                    $activated_order->save();
-                    echo "订单 #{$activated_order->id} 已过期。\n";
-                }
             }
         }
 
