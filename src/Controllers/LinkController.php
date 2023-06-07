@@ -206,8 +206,8 @@ final class LinkController extends BaseController
                 $network = $node_custom_config['network'] ?? '';
                 $header = $node_custom_config['header'] ?? ['type' => 'none'];
                 $header_type = $header['type'] ?? '';
-                $host = $node_custom_config['host'] ?? '';
-                $path = $node_custom_config['path'] ?? '/';
+                $host = $node_custom_config['header']['request']['headers']['Host'][0] ?? $node_custom_config['host'] ?? '';
+                $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
 
                 $v2rayn_array = [
                     'v' => '2',
