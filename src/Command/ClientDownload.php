@@ -6,15 +6,13 @@ namespace App\Command;
 
 use Exception;
 use GuzzleHttp\Client;
+use function get_current_user;
 use function json_decode;
 use function json_encode;
+use function posix_geteuid;
+use function posix_getpwuid;
 use function time;
 
-/**
- * 世界这么大，何必要让它更艰难呢？
- *
- * By GeekQuerxy
- */
 final class ClientDownload extends Command
 {
     public string $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
@@ -38,7 +36,15 @@ final class ClientDownload extends Command
         $clientsPath = BASE_PATH . '/config/clients.json';
 
         if (! is_file($clientsPath)) {
-            echo 'clients.json 不存在，脚本中止.' . PHP_EOL;
+            echo 'clients.json 不存在，脚本中止。' . PHP_EOL;
+            exit(0);
+        }
+
+        $runningUser = posix_getpwuid(posix_geteuid())['name'];
+        $fileOwner = get_current_user();
+
+        if ($runningUser !== $fileOwner) {
+            echo '当前用户为 ' . $runningUser . '，与文件所有者 ' . $fileOwner . ' 不符，脚本中止。' . PHP_EOL;
             exit(0);
         }
 
@@ -56,18 +62,19 @@ final class ClientDownload extends Command
     {
         try {
             if (! file_exists($savePath)) {
-                echo '目标文件夹 ' . $savePath . ' 不存在，创建中...' . PHP_EOL;
-                system('mkdir ' . $savePath);
+                echo '目标文件夹 ' . $savePath . ' 不存在，下載失败。' . PHP_EOL;
+                return false;
             }
+
             echo '- 开始下载 ' . $fileName . '...' . PHP_EOL;
             $request = $this->client->get($url);
             echo '- 下载 ' . $fileName . ' 成功，正在保存...' . PHP_EOL;
             $result = file_put_contents($savePath . $fileName, $request->getBody()->getContents());
+
             if ($result === false) {
-                echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 失败.' . PHP_EOL;
+                echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 失败。' . PHP_EOL;
             } else {
-                echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 成功.' . PHP_EOL;
-                system('chown ' . $_ENV['php_user_group'] . ' ' . $savePath . $fileName);
+                echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 成功。' . PHP_EOL;
             }
 
             return true;
@@ -139,7 +146,7 @@ final class ClientDownload extends Command
                 )
             );
             if ($result === false) {
-                echo 'LocalClientVersion.json 创建失败，脚本中止.' . PHP_EOL;
+                echo 'LocalClientVersion.json 创建失败，脚本中止。' . PHP_EOL;
                 exit(0);
             }
         }
@@ -147,7 +154,7 @@ final class ClientDownload extends Command
         $fileContent = file_get_contents($filePath);
 
         if (! $this->isJson($fileContent)) {
-            echo 'LocalClientVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
+            echo 'LocalClientVersion.json 文件格式异常，脚本中止。' . PHP_EOL;
             exit(0);
         }
 
@@ -185,7 +192,7 @@ final class ClientDownload extends Command
             echo '- 本地不存在 ' . $task['name'] . '，检测到当前最新版本为 ' . $tagName . PHP_EOL;
         } else {
             if ($tagName === $this->version[$task['name']]) {
-                echo '- 检测到当前 ' . $task['name'] . ' 最新版本与本地版本一致，跳过此任务.' . PHP_EOL;
+                echo '- 检测到当前 ' . $task['name'] . ' 最新版本与本地版本一致，跳过此任务。' . PHP_EOL;
                 echo '====== ' . $task['name'] . ' 结束 ======' . PHP_EOL;
                 return;
             }
