@@ -55,7 +55,7 @@ return new class() implements MigrationInterface {
         ALTER TABLE user MODIFY COLUMN `use_new_shop` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否启用新商店';
         ALTER TABLE user MODIFY COLUMN `is_dark_mode` tinyint(1) NOT NULL DEFAULT 0;
         ALTER TABLE user DROP KEY IF EXISTS `user_name`;
-        ALTER TABLE user ADD UNIQUE KEY `api_token` (`api_token`);
+        ALTER TABLE user ADD UNIQUE KEY IF NOT EXISTS `api_token` (`api_token`);
         ALTER TABLE user ADD KEY IF NOT EXISTS `is_admin` (`is_admin`);
         ALTER TABLE user ADD KEY IF NOT EXISTS `is_banned` (`is_banned`);
         ALTER TABLE user CHANGE COLUMN IF EXISTS `sendDailyMail` `daily_mail_enable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '每日报告开关';
