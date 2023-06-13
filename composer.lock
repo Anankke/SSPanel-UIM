@@ -1166,7 +1166,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1221,7 +1221,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1267,7 +1267,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1318,7 +1318,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1366,7 +1366,7 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1436,7 +1436,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1532,16 +1532,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v9.52.8",
+            "version": "v9.52.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "5c38d755c5fa767d5b689867888ee4e5f53fc8a6"
+                "reference": "3fc1d9deb1dc8c256c3394e1547dccdd386bb2f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/5c38d755c5fa767d5b689867888ee4e5f53fc8a6",
-                "reference": "5c38d755c5fa767d5b689867888ee4e5f53fc8a6",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/3fc1d9deb1dc8c256c3394e1547dccdd386bb2f5",
+                "reference": "3fc1d9deb1dc8c256c3394e1547dccdd386bb2f5",
                 "shasum": ""
             },
             "require": {
@@ -1599,7 +1599,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-04-04T18:35:58+00:00"
+            "time": "2023-06-01T16:10:43+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
