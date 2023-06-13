@@ -2584,16 +2584,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.5.2",
+            "version": "v0.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "ad6ec1e23dce42431df32a1cee7a6985ac22c853"
+                "reference": "a0ca38da78f7420a0b381e4274e416abbf6e563d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/ad6ec1e23dce42431df32a1cee7a6985ac22c853",
-                "reference": "ad6ec1e23dce42431df32a1cee7a6985ac22c853",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/a0ca38da78f7420a0b381e4274e416abbf6e563d",
+                "reference": "a0ca38da78f7420a0b381e4274e416abbf6e563d",
                 "shasum": ""
             },
             "require": {
@@ -2606,16 +2606,17 @@
                 "psr/http-message": "^1.1.0|^2.0.0"
             },
             "require-dev": {
-                "guzzlehttp/guzzle": "^7.6.1",
+                "guzzlehttp/guzzle": "^7.7.0",
                 "guzzlehttp/psr7": "^2.5.0",
                 "laravel/pint": "^1.10.0",
                 "nunomaduro/collision": "^7.5.2",
-                "pestphp/pest": "^2.6.1",
-                "pestphp/pest-plugin-arch": "^2.1.2",
+                "pestphp/pest": "dev-develop as 2.6.2",
+                "pestphp/pest-plugin-arch": "^2.2.0",
                 "pestphp/pest-plugin-mock": "^2.0.0",
+                "pestphp/pest-plugin-type-coverage": "^2.0.0",
                 "phpstan/phpstan": "^1.10.15",
-                "rector/rector": "^0.14.8",
-                "symfony/var-dumper": "^6.2.10"
+                "rector/rector": "^0.16.0",
+                "symfony/var-dumper": "^6.3.0"
             },
             "type": "library",
             "autoload": {
@@ -2655,7 +2656,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.5.2"
+                "source": "https://github.com/openai-php/client/tree/v0.5.3"
             },
             "funding": [
                 {
@@ -2671,7 +2672,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-27T08:25:54+00:00"
+            "time": "2023-06-07T16:17:31+00:00"
         },
         {
             "name": "ozdemir/datatables",
