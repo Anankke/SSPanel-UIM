@@ -323,7 +323,7 @@ return new class() implements MigrationInterface {
                 UNIQUE KEY `email` (`email`),
                 UNIQUE KEY `ga_token` (`ga_token`),
                 UNIQUE KEY `api_token` (`api_token`),
-                KEY `is_admin` (`is_admin`)
+                KEY `is_admin` (`is_admin`),
                 KEY `is_banned` (`is_banned`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
