@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "deb7ddb5861ad7d8871e34356e41b030",
+    "content-hash": "f06e99c90dc29efd2947c37630c51a33",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -2584,16 +2584,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.5.3",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "a0ca38da78f7420a0b381e4274e416abbf6e563d"
+                "reference": "67937756931af848c03112e52706aa6ad175aa7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/a0ca38da78f7420a0b381e4274e416abbf6e563d",
-                "reference": "a0ca38da78f7420a0b381e4274e416abbf6e563d",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/67937756931af848c03112e52706aa6ad175aa7a",
+                "reference": "67937756931af848c03112e52706aa6ad175aa7a",
                 "shasum": ""
             },
             "require": {
@@ -2608,7 +2608,7 @@
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.7.0",
                 "guzzlehttp/psr7": "^2.5.0",
-                "laravel/pint": "^1.10.0",
+                "laravel/pint": "^1.10.2",
                 "nunomaduro/collision": "^7.5.2",
                 "pestphp/pest": "dev-develop as 2.6.2",
                 "pestphp/pest-plugin-arch": "^2.2.0",
@@ -2656,7 +2656,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.5.3"
+                "source": "https://github.com/openai-php/client/tree/v0.6.1"
             },
             "funding": [
                 {
@@ -2672,7 +2672,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-07T16:17:31+00:00"
+            "time": "2023-06-15T04:11:23+00:00"
         },
         {
             "name": "ozdemir/datatables",
