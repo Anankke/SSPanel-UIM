@@ -3,6 +3,7 @@ ALTER TABLE detect_ban_log DROP FOREIGN KEY detect_ban_log_ibfk_1;
 ALTER TABLE detect_log DROP FOREIGN KEY detect_log_ibfk_1;
 ALTER TABLE detect_log DROP FOREIGN KEY detect_log_ibfk_2;
 ALTER TABLE detect_log DROP FOREIGN KEY detect_log_ibfk_3;
+ALTER TABLE detect_log DROP FOREIGN KEY detect_log_ibfk_5;
 ALTER TABLE link DROP FOREIGN KEY link_ibfk_1;
 ALTER TABLE login_ip DROP FOREIGN KEY login_ip_ibfk_1;
 ALTER TABLE paylist DROP FOREIGN KEY paylist_ibfk_1;

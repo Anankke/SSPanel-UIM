@@ -15,6 +15,7 @@ use Slim\Http\ServerRequest;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 use voku\helper\AntiXSS;
+use function round;
 
 final class PayPal extends AbstractPayment
 {
@@ -125,7 +126,7 @@ final class PayPal extends AbstractPayment
 
         $result = $pp->capturePaymentOrder($order_id);
 
-        if ($result['status'] === 'COMPLETED') {
+        if (isset($result['status']) && $result['status'] === 'COMPLETED') {
             $trade_no = $result['purchase_units'][0]['reference_id'];
             $this->postPayment($trade_no);
 
