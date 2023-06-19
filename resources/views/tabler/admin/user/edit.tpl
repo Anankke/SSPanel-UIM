@@ -284,7 +284,7 @@
                 {$key}: $('#{$key}').val(),
                 {/foreach}
                 is_admin: $("#is_admin").is(":checked"),
-                is_banned: $("#enable").is(":checked"),
+                is_banned: $("#is_banned").is(":checked"),
                 ga_enable: $("#ga_enable").is(":checked"),
                 use_new_shop: $("#use_new_shop").is(":checked"),
             },
