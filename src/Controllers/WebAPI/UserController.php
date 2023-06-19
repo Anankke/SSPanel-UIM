@@ -58,7 +58,6 @@ final class UserController extends BaseController
                 user.u,
                 user.d,
                 user.transfer_enable,
-                user.node_connector,
                 user.node_speedlimit,
                 user.node_iplimit,
                 user.method,
@@ -106,9 +105,12 @@ final class UserController extends BaseController
                 }
             }
 
+            $user_raw->node_connector = 0;
+
             foreach ($keys_unset as $key) {
                 unset($user_raw->$key);
             }
+
             $users[] = $user_raw;
         }
 
