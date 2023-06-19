@@ -56,7 +56,7 @@ final class NodeController extends BaseController
             'node_class' => $node->node_class,
             'node_speedlimit' => $node->node_speedlimit,
             'traffic_rate' => $node->traffic_rate,
-            'mu_only' => $node->mu_only,
+            'mu_only' => 0,
             'sort' => $node->sort,
             'server' => $node_server,
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),

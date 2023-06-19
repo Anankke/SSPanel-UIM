@@ -14,6 +14,7 @@ use Slim\Http\ServerRequest;
 use function in_array;
 use function json_decode;
 use function json_encode;
+use function property_exists;
 use function time;
 
 /*
@@ -268,7 +269,7 @@ final class CouponController extends BaseController
                 $coupon->use_time = $limit->use_time;
             }
 
-            if ((int) $limit->total_use_time < 0) {
+            if (! property_exists($limit, 'total_use_time') || (int) $limit->total_use_time < 0) {
                 $coupon->total_use_time = '不限次数';
             } else {
                 $coupon->total_use_time = $limit->total_use_time;

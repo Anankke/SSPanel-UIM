@@ -39,7 +39,6 @@ final class NodeController extends BaseController
     public static array $update_field = [
         'name',
         'server',
-        'mu_only',
         'traffic_rate',
         'info',
         'node_group',

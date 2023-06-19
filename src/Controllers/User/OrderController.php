@@ -20,6 +20,7 @@ use function explode;
 use function in_array;
 use function json_decode;
 use function json_encode;
+use function property_exists;
 use function time;
 
 final class OrderController extends BaseController
@@ -182,7 +183,11 @@ final class OrderController extends BaseController
                 }
             }
 
-            $coupon_total_use_limit = $coupon_limit->total_use_time;
+            if (property_exists($coupon_limit, 'total_use_time')) {
+                $coupon_total_use_limit = $coupon_limit->total_use_time;
+            } else {
+                $coupon_total_use_limit = -1;
+            }
 
             if ($coupon_total_use_limit > 0 && $coupon->use_count >= $coupon_total_use_limit) {
                 return $response->withJson([

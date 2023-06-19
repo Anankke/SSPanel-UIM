@@ -29,7 +29,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE user MODIFY COLUMN `ref_by` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '邀请人ID';
         ALTER TABLE user MODIFY COLUMN `method` varchar(255) NOT NULL DEFAULT 'aes-128-gcm' COMMENT 'Shadowsocks加密方式';
         ALTER TABLE user MODIFY COLUMN `reg_ip` varchar(255) NOT NULL DEFAULT '127.0.0.1' COMMENT '注册IP';
-        ALTER TABLE user MODIFY COLUMN `node_connector` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '同时可使用连接数';
         ALTER TABLE user MODIFY COLUMN `is_admin` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否管理员';
         ALTER TABLE user MODIFY COLUMN `im_type` smallint(6) unsigned NOT NULL DEFAULT 1 COMMENT '联系方式类型';
         UPDATE user SET im_value = '' WHERE im_value IS NULL;
