@@ -19,18 +19,38 @@ final class ProductController extends BaseController
      */
     public function product(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $products = Product::where('status', '1')
+        $tabps = Product::where('status', '1')
             ->where('type', 'tabp')
             ->orderBy('id', 'asc')
             ->get();
 
-        foreach ($products as $product) {
-            $product->content = json_decode($product->content);
+        $bandwidths = Product::where('status', '1')
+            ->where('type', 'bandwidth')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $times = Product::where('status', '1')
+            ->where('type', 'time')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        foreach ($tabps as $tabp) {
+            $tabp->content = json_decode($tabp->content);
+        }
+
+        foreach ($bandwidths as $bandwidth) {
+            $bandwidth->content = json_decode($bandwidth->content);
+        }
+
+        foreach ($times as $time) {
+            $time->content = json_decode($time->content);
         }
 
         return $response->write(
             $this->view()
-                ->assign('products', $products)
+                ->assign('tabps', $tabps)
+                ->assign('bandwidths', $bandwidths)
+                ->assign('times', $times)
                 ->fetch('user/product.tpl')
         );
     }

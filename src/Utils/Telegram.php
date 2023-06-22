@@ -8,6 +8,7 @@ use App\Models\TelegramSession;
 use Exception;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function strip_tags;
 use function time;
 
 final class Telegram
@@ -28,9 +29,7 @@ final class Telegram
         if ($_ENV['enable_telegram']) {
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
-
             $bot = new Api($_ENV['telegram_token'], $async);
-
             $sendMessage = [
                 'chat_id' => $chat_id,
                 'text' => $messageText,
@@ -41,6 +40,45 @@ final class Telegram
             ];
 
             $bot->sendMessage($sendMessage);
+        }
+    }
+
+    /**
+     * 以 HTML 格式发送讯息，默认给群组发送
+     *
+     * @throws TelegramSDKException
+     */
+    public static function sendHtml(string $messageText, int $chat_id = 0): void
+    {
+        $bot = null;
+
+        if ($chat_id === 0) {
+            $chat_id = $_ENV['telegram_chatid'];
+        }
+
+        if ($_ENV['enable_telegram']) {
+            // 发送给非群组时使用异步
+            $async = ($chat_id !== $_ENV['telegram_chatid']);
+            $bot = new Api($_ENV['telegram_token'], $async);
+            $sendMessage = [
+                'chat_id' => $chat_id,
+                'text' => strip_tags(
+                    $messageText,
+                    ['b', 'strong', 'i', 'em', 'u', 'ins', 's', 'strike','del', 'span','tg-spoiler', 'a', 'tg-emoji',
+                        'code', 'pre',
+                    ]
+                ),
+                'parse_mode' => 'HTML',
+                'disable_web_page_preview' => false,
+                'reply_to_message_id' => null,
+                'reply_markup' => null,
+            ];
+
+            try {
+                $bot->sendMessage($sendMessage);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
         }
     }
 
@@ -60,9 +98,7 @@ final class Telegram
         if ($_ENV['enable_telegram']) {
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
-
             $bot = new Api($_ENV['telegram_token'], $async);
-
             $sendMessage = [
                 'chat_id' => $chat_id,
                 'text' => $messageText,
@@ -71,6 +107,41 @@ final class Telegram
                 'reply_to_message_id' => null,
                 'reply_markup' => null,
             ];
+
+            try {
+                $bot->sendMessage($sendMessage);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+    }
+
+    /**
+     * 以 MarkdownV2 格式发送讯息，默认给群组发送
+     *
+     * @throws TelegramSDKException
+     */
+    public static function sendMarkdownV2(string $messageText, int $chat_id = 0): void
+    {
+        $bot = null;
+
+        if ($chat_id === 0) {
+            $chat_id = $_ENV['telegram_chatid'];
+        }
+
+        if ($_ENV['enable_telegram']) {
+            // 发送给非群组时使用异步
+            $async = ($chat_id !== $_ENV['telegram_chatid']);
+            $bot = new Api($_ENV['telegram_token'], $async);
+            $sendMessage = [
+                'chat_id' => $chat_id,
+                'text' => $messageText,
+                'parse_mode' => 'MarkdownV2',
+                'disable_web_page_preview' => false,
+                'reply_to_message_id' => null,
+                'reply_markup' => null,
+            ];
+
             try {
                 $bot->sendMessage($sendMessage);
             } catch (Exception $e) {

@@ -110,8 +110,8 @@ return new class() implements MigrationInterface {
         ALTER TABLE `order` MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID';
         ALTER TABLE `order` MODIFY COLUMN `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '提交用户';
         ALTER TABLE `order` MODIFY COLUMN `product_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '商品ID';
-        ALTER TABLE `order` MODIFY COLUMN `product_type` varchar(255) NOT NULL DEFAULT 0 COMMENT '商品类型';
-        ALTER TABLE `order` MODIFY COLUMN `product_name` varchar(255) NOT NULL DEFAULT 0 COMMENT '商品名称';
+        ALTER TABLE `order` MODIFY COLUMN `product_type` varchar(255) NOT NULL DEFAULT '' COMMENT '商品类型';
+        ALTER TABLE `order` MODIFY COLUMN `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '商品名称';
         ALTER TABLE `order` MODIFY COLUMN `product_content` longtext NOT NULL DEFAULT '{}' COMMENT '商品内容' CHECK (json_valid(`product_content`));
         ALTER TABLE `order` MODIFY COLUMN `coupon` varchar(255) NOT NULL DEFAULT '' COMMENT '订单优惠码';
         ALTER TABLE `order` MODIFY COLUMN `price` double unsigned NOT NULL DEFAULT 0 COMMENT '订单金额';
