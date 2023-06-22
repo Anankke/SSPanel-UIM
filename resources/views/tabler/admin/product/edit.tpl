@@ -33,23 +33,23 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">名称</label>
+                                <label class="form-label col-3 col-form-label required">名称</label>
                                 <div class="col">
-                                    <input id="name" type="text" class="form-control" 
+                                    <input id="name" type="text" class="form-control"
                                         value="{$product->name}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">价格</label>
+                                <label class="form-label col-3 col-form-label required">价格</label>
                                 <div class="col">
-                                    <input id="price" type="text" class="form-control" 
+                                    <input id="price" type="text" class="form-control"
                                         value="{$product->price}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">库存（小于0时不限制）</label>
+                                <label class="form-label col-3 col-form-label required">库存（小于0时不限制）</label>
                                 <div class="col">
-                                    <input id="stock" type="text" class="form-control" 
+                                    <input id="stock" type="text" class="form-control"
                                         value="{$product->stock}">
                                 </div>
                             </div>
@@ -81,50 +81,50 @@
                             <h3 class="card-title">商品内容</h3>
                         </div>
                         <div class="card-body">
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">商品时长 (天)</label>
+                            <div id="time_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">商品时长 (天)</label>
                                 <div class="col">
-                                    <input id="time" type="text" class="form-control" 
+                                    <input id="time" type="text" class="form-control"
                                         value="{$content->time}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">等级</label>
+                            <div id="class_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">等级</label>
                                 <div class="col">
-                                    <input id="class" type="text" class="form-control" 
+                                    <input id="class" type="text" class="form-control"
                                         value="{$content->class}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">等级时长 (天)</label>
+                            <div id="class_time_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">等级时长 (天)</label>
                                 <div class="col">
-                                    <input id="class_time" type="text" class="form-control" 
+                                    <input id="class_time" type="text" class="form-control"
                                         value="{$content->class_time}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">可用流量 (GB)</label>
+                            <div id="bandwidth_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">可用流量 (GB)</label>
                                 <div class="col">
-                                    <input id="bandwidth" type="text" class="form-control" 
+                                    <input id="bandwidth" type="text" class="form-control"
                                         value="{$content->bandwidth}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">用户分组</label>
+                            <div id="node_group_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">用户分组</label>
                                 <div class="col">
-                                    <input id="node_group" type="text" class="form-control" 
+                                    <input id="node_group" type="text" class="form-control"
                                         value="{$content->node_group}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">速率限制 (Mbps)</label>
+                            <div id="speed_limit_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">速率限制 (Mbps)</label>
                                 <div class="col">
                                     <input id="speed_limit" type="text" class="form-control"
                                         value="{$content->speed_limit}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">同时连接IP限制</label>
+                            <div id="ip_limit_option" class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label required">同时连接IP限制</label>
                                 <div class="col">
                                     <input id="ip_limit" type="text" class="form-control"
                                         value="{$content->ip_limit}">
@@ -152,7 +152,7 @@
                                     <span class="col">仅限新用户购买</span>
                                     <span class="col-auto">
                                         <label class="form-check form-check-single form-switch">
-                                            <input id="new_user_requried" class="form-check-input" type="checkbox" 
+                                            <input id="new_user_requried" class="form-check-input" type="checkbox"
                                                 {if $limit->new_user_required === 1}checked="" {/if}>
                                         </label>
                                     </span>
@@ -167,28 +167,95 @@
 </div>
 
 <script>
+    $(function () {
+        $("#type").change();
+    });
+
+    $("#type").on("change", function() {
+        if (this.value === "bandwidth")
+        {
+            $("#time_option").hide();
+            $("#class_option").hide();
+            $("#class_time_option").hide();
+            $("#bandwidth_option").show();
+            $("#node_group_option").hide();
+            $("#speed_limit_option").hide();
+            $("#ip_limit_option").hide();
+            $("#time").prop("required",false);
+            $("#class").prop("required",false);
+            $("#class_time").prop("required",false);
+            $("#bandwidth").prop("required",true);
+            $("#node_group").prop("required",false);
+            $("#speed_limit").prop("required",false);
+            $("#ip_limit").prop("required",false);
+        }
+        else if (this.value === "time")
+        {
+            $("#time_option").show();
+            $("#class_option").show();
+            $("#class_time_option").show();
+            $("#bandwidth_option").hide();
+            $("#node_group_option").show();
+            $("#speed_limit_option").show();
+            $("#ip_limit_option").show();
+            $("#time").prop("required",true);
+            $("#class").prop("required",true);
+            $("#class_time").prop("required",true);
+            $("#bandwidth").prop("required",false);
+            $("#node_group").prop("required",true);
+            $("#speed_limit").prop("required",true);
+            $("#ip_limit").prop("required",true);
+        }
+        else
+        {
+            $("#time_option").show();
+            $("#class_option").show();
+            $("#class_time_option").show();
+            $("#bandwidth_option").show();
+            $("#node_group_option").show();
+            $("#speed_limit_option").show();
+            $("#ip_limit_option").show();
+            $("#time").prop("required",true);
+            $("#class").prop("required",true);
+            $("#class_time").prop("required",true);
+            $("#bandwidth").prop("required",true);
+            $("#node_group").prop("required",true);
+            $("#speed_limit").prop("required",true);
+            $("#ip_limit").prop("required",true);
+        }
+    });
+
     $("#save-product").click(function() {
-        $.ajax({
-            url: '/admin/product/{$product->id}',
-            type: 'PUT',
-            dataType: "json",
-            data: {
-                {foreach $update_field as $key}
-                {$key}: $('#{$key}').val(),
-                {/foreach}
-                new_user_required: $("#new_user_required").is(":checked"),
-            },
-            success: function(data) {
-                if (data.ret === 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                    window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        var emptyFields = $('input[required]').filter(function() {
+            return $(this).val() === '';
+        });
+
+        if (emptyFields.length > 0) {
+            $("#fail-message").text("请填写所有必要栏位");
+            $("#fail-dialog").modal("show");
+        } else {
+            $.ajax({
+                url: '/admin/product/{$product->id}',
+                type: 'PUT',
+                dataType: "json",
+                data: {
+                    {foreach $update_field as $key}
+                    {$key}: $('#{$key}').val(),
+                    {/foreach}
+                    new_user_required: $("#new_user_required").is(":checked"),
+                },
+                success: function (data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
+            })
+        }
     });
 </script>
 
