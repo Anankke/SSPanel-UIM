@@ -338,6 +338,7 @@ final class CronJob
             // 获取用户账户已激活的TABP订单，一个用户同时只能有一个已激活的TABP订单
             $activated_order = Order::where('user_id', $user_id)
                 ->where('status', 'activated')
+                ->where('product_type', 'tabp')
                 ->orderBy('id', 'asc')
                 ->first();
             // 如果用户账户中没有已激活的TABP订单，且有等待激活的TABP订单，则激活最早的等待激活TABP订单
