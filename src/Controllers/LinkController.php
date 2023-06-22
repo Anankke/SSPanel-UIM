@@ -208,22 +208,62 @@ final class LinkController extends BaseController
                 $header_type = $header['type'] ?? '';
                 $host = $node_custom_config['header']['request']['headers']['Host'][0] ?? $node_custom_config['host'] ?? '';
                 $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
+                $enable_vless = $node_custom_config['enable_vless'] ?? '0';
+                $sni = $node_custom_config['sni'] ?? $host;
+                $servicename = $node_custom_config['servicename'] ?? $path;
+                $shortid = $node_custom_config['shortid'] ?? '';
 
-                $v2rayn_array = [
-                    'v' => '2',
-                    'ps' => $node_raw->name,
-                    'add' => $server,
-                    'port' => $v2_port,
-                    'id' => $user->uuid,
-                    'aid' => $alter_id,
-                    'net' => $network,
-                    'type' => $header_type,
-                    'host' => $host,
-                    'path' => $path,
-                    'tls' => $security,
-                ];
+                if ((string) $enable_vless === "1") {
+                    $links = 'vless://' . $user->uuid .'@'.(string) $server.':'.$v2_port.'?encryption=none&type='.$network;
+                    if ($security !== "none") {
+                        $links .= "&fp=firefox&security=".$security."&sni=".$sni;
+                        if (isset($node_custom_config['flow'])) {
+                            $links .= "&flow=".$node_custom_config['flow'];
+                        }
+                        //publicKey是REALITY 的公钥
+                        if ($security === "reality" && isset($node_custom_config['publicKey'])) {
+                            $links .= "&pbk=".$node_custom_config['publicKey'];
+                        }
+                        if ($shortid !== "") {
+                            $links .= "&sid=".$shortid;
+                        }
+                    } else {
+                        $links .= "&security=none";
+                    }
+                    if ($host !== "") {
+                        $links .= "&host=". rawurlencode($host);
+                    }
+                    $links .= "&path=".rawurlencode($path);
+                    if ($network === "grpc") {
+                        $links .= "&mode=multi&serviceName=".$servicename;
+                    } else {
+                        if ($header_type !== "") {
+                            $links .= "&headerType=".$header_type;
+                        }
+                    }
+                    if ($node_raw->name !== "") {
+                        $links .= "#". rawurlencode($node_raw->name) . PHP_EOL;
+                    }
+                } else {
+                    $v2rayn_array = [
+                        'v' => '2',
+                        'ps' => $node_raw->name,
+                        'add' => $server,
+                        'port' => $v2_port,
+                        'id' => $user->uuid,
+                        'aid' => $alter_id,
+                        'net' => $network,
+                        'type' => $header_type,
+                        'host' => $host,
+                        'path' => $path,
+                        'tls' => $security,
+                    ];
+                    if ($network === "grpc" && $servicename !== "/") {
+                        $v2rayn_array[path] = $servicename;
+                    }
 
-                $links .= 'vmess://' . base64_encode(json_encode($v2rayn_array)) . PHP_EOL;
+                    $links .= 'vmess://' . base64_encode(json_encode($v2rayn_array)) . PHP_EOL;
+                }
             }
         }
 
