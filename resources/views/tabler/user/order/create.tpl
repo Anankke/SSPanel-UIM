@@ -1,10 +1,10 @@
 {include file='user/header.tpl'}
 
 <div class="page-wrapper">
-    <div class="container-xl">        
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
-                <div class="col">                   
+                <div class="col">
                     <h2 class="page-title">
                         <span class="home-title">创建订单</span>
                     </h2>
@@ -39,10 +39,11 @@
                                         <td class="text-end">时间流量包</td>
                                     {elseif $product->type === 'time'}
                                         <td class="text-end">时间包</td>
-                                    {else}
+                                    {elseif $product->type === 'bandwidth'}
                                         <td class="text-end">流量包</td>
                                     {/if}
                                 </tr>
+                                {if $product->type === 'tabp' || $product->type === 'time'}
                                 <tr>
                                     <td>商品时长</td>
                                     <td class="text-end">{$product->content->time} 天</td>
@@ -55,18 +56,21 @@
                                     <td>等级</td>
                                     <td class="text-end">Lv. {$product->content->class}</td>
                                 </tr>
+                                {/if}
+                                {if $product->type === 'tabp' || $product->type === 'bandwidth'}
                                 <tr>
                                     <td>可用流量</td>
                                     <td class="text-end">{$product->content->bandwidth} GB</td>
                                 </tr>
+                                {/if}
+                                {if $product->type === 'tabp' || $product->type === 'time'}
                                 <tr>
                                     <td>速率限制</td>
                                     {if $product->content->speed_limit === '0'}
-                                    <td class="text-end">不限制</td>  
+                                    <td class="text-end">不限制</td>
                                     {else}
                                     <td class="text-end">{$product->content->speed_limit} Mbps</td>
                                     {/if}
-                                    
                                 </tr>
                                 <tr>
                                     <td>同时连接 IP 限制</td>
@@ -75,8 +79,8 @@
                                     {else}
                                     <td class="text-end">{$product->content->ip_limit}</td>
                                     {/if}
-                                    
                                 </tr>
+                                {/if}
                             </table>
                         </div>
                     </div>
@@ -178,5 +182,5 @@
             })
         });
     </script>
-    
+
 {include file='user/footer.tpl'}

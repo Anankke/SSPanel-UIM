@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Models\Setting;
 use App\Services\CronDetect;
 use App\Services\CronJob;
+use Exception;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function mktime;
 use function time;
@@ -19,6 +20,7 @@ EOL;
 
     /**
      * @throws TelegramSDKException
+     * @throws Exception
      */
     public function boot(): void
     {
@@ -32,7 +34,9 @@ EOL;
 
         // Run new shop related jobs
         $jobs->processPendingOrder();
-        $jobs->processOrderActivation();
+        $jobs->processTabpOrderActivation();
+        $jobs->processBandwidthOrderActivation();
+        $jobs->processTimeOrderActivation();
 
         // Run user related jobs
         $jobs->expirePaidUserAccount();
