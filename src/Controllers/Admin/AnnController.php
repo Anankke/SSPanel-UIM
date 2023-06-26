@@ -9,23 +9,24 @@ use App\Models\Ann;
 use App\Models\User;
 use App\Utils\Telegram;
 use Exception;
-use League\HTMLToMarkdown\HtmlConverter;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function date;
+use const PHP_EOL;
 
 final class AnnController extends BaseController
 {
     public static array $details =
-    [
-        'field' => [
-            'op' => '操作',
-            'id' => '公告ID',
-            'date' => '日期',
-            'content' => '公告内容',
-        ],
-    ];
+        [
+            'field' => [
+                'op' => '操作',
+                'id' => '公告ID',
+                'date' => '日期',
+                'content' => '公告内容',
+            ],
+        ];
 
     public static array $update_field = [
         'email_notify_class',
@@ -103,12 +104,9 @@ final class AnnController extends BaseController
             }
         }
 
-        $converter = new HtmlConverter();
-
         if ($_ENV['enable_telegram']) {
             try {
-                Telegram::sendMarkdown('新公告：' . PHP_EOL . $converter
-                    ->convert($content));
+                Telegram::sendHtml('新公告：' . PHP_EOL . $content);
             } catch (TelegramSDKException $e) {
                 return $response->withJson([
                     'ret' => 0,
@@ -146,18 +144,30 @@ final class AnnController extends BaseController
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $ann = Ann::find($args['id']);
-        $ann->content = $request->getParam('content');
+        $ann->content = (string) $request->getParam('content');
         $ann->date = date('Y-m-d H:i:s');
+
         if (! $ann->save()) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '修改失败',
+                'msg' => '公告更新失败',
             ]);
         }
-        Telegram::sendMarkdown('公告更新：' . PHP_EOL . $request->getParam('markdown'));
+
+        if ($_ENV['enable_telegram']) {
+            try {
+                Telegram::sendHtml('公告更新：' . PHP_EOL . $request->getParam('content'));
+            } catch (TelegramSDKException $e) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '公告更新成功，Telegram发送失败',
+                ]);
+            }
+        }
+
         return $response->withJson([
             'ret' => 1,
-            'msg' => '修改成功',
+            'msg' => '公告更新成功',
         ]);
     }
 

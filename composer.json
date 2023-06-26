@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-json": "*",
@@ -20,7 +20,6 @@
         "illuminate/pagination": "^9.0",
         "irazasyed/telegram-bot-sdk": "^3",
         "khanamiryan/qrcode-detector-decoder": "*",
-        "league/html-to-markdown": "^5.1",
         "league/omnipay": "^3.2.1",
         "mailgun/mailgun-php": "^3",
         "openai-php/client": "^0.6.1",
