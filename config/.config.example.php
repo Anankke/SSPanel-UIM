@@ -36,20 +36,14 @@ $_ENV['enable_checkin']             = true;         //是否啓用簽到功能
 $_ENV['checkinMin']                 = 1;            //用户签到最少流量 单位MB
 $_ENV['checkinMax']                 = 50;           //用户签到最多流量
 
-$_ENV['auto_clean_uncheck_days']    = -1;           //自动清理多少天没签到的0级用户，小于等于0时关闭
-$_ENV['auto_clean_unused_days']     = -1;           //自动清理多少天没使用的0级用户，小于等于0时关闭
-$_ENV['auto_clean_min_money']       = 1;            //余额低于多少的0级用户可以被清理
-
 #高级
 $_ENV['class_expire_reset_traffic'] = 0;            //等级到期时重置为的流量值，单位GB，小于0时不重置
-$_ENV['account_expire_delete_days'] = -1;           //账户到期几天之后会删除账户，小于0时不删除
-
 $_ENV['enable_kill']                = true;         //是否允许用户注销账户
 $_ENV['enable_change_email']        = true;         //是否允许用户更改賬戶郵箱
 
 #用户流量余量不足邮件提醒
 $_ENV['notify_limit_mode']          = false;         //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
-$_ENV['notify_limit_value']         = 20;           //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
+$_ENV['notify_limit_value']         = 500;           //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 //日志设置---------------------------------------------------------------------------------------
 $_ENV['trafficLog']               = false;                          //是否记录用户每小时使用流量
