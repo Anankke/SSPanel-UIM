@@ -295,7 +295,6 @@ EOL;
             $user->uuid = Uuid::uuid4();
             $user->api_token = Uuid::uuid4();
             $user->port = Tools::getAvPort();
-            $user->t = 0;
             $user->u = 0;
             $user->d = 0;
             $user->transfer_enable = 0;

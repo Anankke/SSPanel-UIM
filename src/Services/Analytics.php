@@ -95,12 +95,12 @@ final class Analytics
     public function getOnlineUser($time)
     {
         $time = time() - $time;
-        return User::where('t', '>', $time)->count();
+        return User::where('last_use_time', '>', $time)->count();
     }
 
     public function getUnusedUser()
     {
-        return User::where('t', '=', 0)->count();
+        return User::where('last_use_time', '=', 0)->count();
     }
 
     public function getTotalNode()

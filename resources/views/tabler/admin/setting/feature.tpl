@@ -6,10 +6,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title">功能设置</span>
+                        <span class="home-title">其他设置</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">设置站点的功能开关与显示</span>
+                        <span class="home-subtitle">设置站点的其他设置</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">

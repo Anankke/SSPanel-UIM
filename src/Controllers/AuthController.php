@@ -83,6 +83,7 @@ final class AuthController extends BaseController
         if (! Hash::checkPassword($user->pass, $passwd)) {
             // 记录登录失败
             $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '邮箱或者密码错误',
@@ -91,6 +92,9 @@ final class AuthController extends BaseController
 
         if ($user->ga_enable === 1) {
             if (strlen($code) !== 6) {
+                // 记录登录失败
+                $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '两步验证码错误',
@@ -101,6 +105,9 @@ final class AuthController extends BaseController
             $rcode = $ga->verifyCode($user->ga_token, $code);
 
             if (! $rcode) {
+                // 记录登录失败
+                $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '两步验证码错误',
@@ -253,7 +260,6 @@ final class AuthController extends BaseController
         $user->uuid = Uuid::uuid4();
         $user->api_token = Uuid::uuid4();
         $user->port = Tools::getAvPort();
-        $user->t = 0;
         $user->u = 0;
         $user->d = 0;
         $user->method = $configs['sign_up_for_method'];

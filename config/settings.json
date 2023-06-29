@@ -1471,6 +1471,46 @@
     },
     {
         "id": null,
+        "item": "enable_detect_inactive_user",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用闲置用户检测"
+    },
+    {
+        "id": null,
+        "item": "detect_inactive_user_checkin_days",
+        "value": "90",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "90",
+        "mark": "未签到时长(天)"
+    },
+    {
+        "id": null,
+        "item": "detect_inactive_user_login_days",
+        "value": "90",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "90",
+        "mark": "未登录时长(天)"
+    },
+    {
+        "id": null,
+        "item": "detect_inactive_user_use_days",
+        "value": "90",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "90",
+        "mark": "未使用时长(天)"
+    },
+    {
+        "id": null,
         "item": "daily_job_hour",
         "value": "0",
         "class": "cron",

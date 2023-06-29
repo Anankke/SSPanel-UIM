@@ -8,8 +8,6 @@ use App\Controllers\AuthController;
 use App\Controllers\BaseController;
 use App\Models\User;
 use App\Models\UserMoneyLog;
-use App\Services\Auth;
-use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
@@ -17,7 +15,6 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function str_replace;
-use function time;
 use const PHP_EOL;
 
 final class UserController extends BaseController
@@ -33,8 +30,10 @@ final class UserController extends BaseController
             'transfer_enable' => '流量限制',
             'transfer_used' => '当期用量',
             'class' => '等级',
+            'is_admin' => '是否管理员',
+            'is_banned' => '是否封禁',
+            'is_inactive' => '是否闲置',
             'reg_date' => '注册时间',
-            'expire_in' => '账户过期',
             'class_expire' => '等级过期',
         ],
         'create_dialog' => [
@@ -241,41 +240,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function changetouser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $userid = $request->getParam('userid');
-        $adminid = $request->getParam('adminid');
-        $user = User::find($userid);
-        $admin = User::find($adminid);
-        $expire_in = time() + 60 * 60;
-
-        if (! $admin->is_admin || ! $user || ! Auth::getUser()->isLogin) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '非法请求',
-            ]);
-        }
-
-        Cookie::set([
-            'uid' => $user->id,
-            'email' => $user->email,
-            'key' => Hash::cookieHash($user->pass, $expire_in),
-            'ip' => Hash::ipHash($_SERVER['REMOTE_ADDR'], $user->id, $expire_in),
-            'expire_in' => $expire_in,
-            'old_uid' => Cookie::get('uid'),
-            'old_email' => Cookie::get('email'),
-            'old_key' => Cookie::get('key'),
-            'old_ip' => Cookie::get('ip'),
-            'old_expire_in' => Cookie::get('expire_in'),
-            'old_local' => $request->getParam('local'),
-        ], $expire_in);
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '切换成功',
-        ]);
-    }
-
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $users = User::orderBy('id', 'desc')->get();
@@ -286,6 +250,9 @@ final class UserController extends BaseController
             <a class="btn btn-blue" href="/admin/user/' . $user->id . '/edit">编辑</a>';
             $user->transfer_enable = $user->enableTraffic();
             $user->transfer_used = $user->usedTraffic();
+            $user->is_admin = $user->is_admin === 1 ? '是' : '否';
+            $user->is_banned = $user->is_banned === 1 ? '是' : '否';
+            $user->is_inactive = $user->is_inactive === 1 ? '是' : '否';
         }
 
         return $response->withJson([
