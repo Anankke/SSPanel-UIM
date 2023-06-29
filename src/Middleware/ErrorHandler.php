@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
+use App\Services\Auth as AuthService;
 use App\Services\View;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +26,20 @@ final class ErrorHandler implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $user = AuthService::getUser();
+        $path = $request->getUri()->getPath();
+
+        if (str_contains($path, '/admin') && ! $user->is_admin) {
+            $response_factory = AppFactory::determineResponseFactory();
+            $response = $response_factory->createResponse(302);
+
+            if ($user->isLogin) {
+                return $response->withHeader('Location', '/user');
+            }
+
+            return $response->withHeader('Location', '/auth/login');
+        }
+
         try {
             $response = $handler->handle($request);
         } catch (HttpNotFoundException | HttpMethodNotAllowedException $e) {
@@ -52,6 +67,7 @@ final class ErrorHandler implements MiddlewareInterface
                 $response->getBody()->write($smarty->fetch('500.tpl'));
             }
         }
+
         return $response;
     }
 }

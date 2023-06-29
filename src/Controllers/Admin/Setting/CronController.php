@@ -19,6 +19,10 @@ final class CronController extends BaseController
         'enable_monthly_finance_mail',
         'enable_detect_gfw',
         'enable_detect_ban',
+        'enable_detect_inactive_user',
+        'detect_inactive_user_checkin_days',
+        'detect_inactive_user_login_days',
+        'detect_inactive_user_use_days',
     ];
 
     /**

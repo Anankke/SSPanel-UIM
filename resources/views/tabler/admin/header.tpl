@@ -96,34 +96,34 @@
                                                 </a>
                                                 <div class="dropdown-menu">
                                                     <a href="/admin/setting/billing" class="dropdown-item">
-                                                      财务
+                                                        财务
                                                     </a>
                                                     <a href="/admin/setting/email" class="dropdown-item">
-                                                      邮件
+                                                        邮件
                                                     </a>
                                                     <a href="/admin/setting/support" class="dropdown-item">
-                                                      客服
+                                                        客服
                                                     </a>
                                                     <a href="/admin/setting/captcha" class="dropdown-item">
-                                                      验证
+                                                        验证
                                                     </a>
                                                     <a href="/admin/setting/reg" class="dropdown-item">
-                                                      注册
+                                                        注册
                                                     </a>
                                                     <a href="/admin/setting/ref" class="dropdown-item">
-                                                      邀请
+                                                        邀请
                                                     </a>
                                                     <a href="/admin/setting/im" class="dropdown-item">
-                                                      IM
+                                                        IM
                                                     </a>
                                                     <a href="/admin/setting/sub" class="dropdown-item">
-                                                      订阅
-                                                    </a>
-                                                    <a href="/admin/setting/feature" class="dropdown-item">
-                                                      功能
+                                                        订阅
                                                     </a>
                                                     <a href="/admin/setting/cron" class="dropdown-item">
-                                                      定时任务
+                                                        定时任务
+                                                    </a>
+                                                    <a href="/admin/setting/feature" class="dropdown-item">
+                                                        其他设置
                                                     </a>
                                                 </div>
                                             </div>

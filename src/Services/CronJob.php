@@ -29,7 +29,6 @@ use function array_map;
 use function date;
 use function in_array;
 use function json_decode;
-use function max;
 use function str_replace;
 use function strtotime;
 use function time;
@@ -62,7 +61,11 @@ final class CronJob
 
     public static function cleanDb(): void
     {
-        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
+        UserSubscribeLog::where(
+            'request_time',
+            '<',
+            date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days'])
+        )->delete();
         UserHourlyUsage::where('datetime', '<', time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', time() - 86400)->delete();
@@ -74,71 +77,27 @@ final class CronJob
         echo date('Y-m-d H:i:s') . ' 数据库清理完成' . PHP_EOL;
     }
 
-    public static function cleanUser(): void
+    public static function detectInactiveUser(): void
     {
-        $freeUsers = User::where('class', 0)->get();
+        $checkin_days = Setting::obtain('detect_inactive_user_checkin_days');
+        $login_days = Setting::obtain('detect_inactive_user_login_days');
+        $use_days = Setting::obtain('detect_inactive_user_use_days');
 
-        foreach ($freeUsers as $user) {
-            if (
-                $_ENV['account_expire_delete_days'] >= 0 &&
-                strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
-                $user->money <= $_ENV['auto_clean_min_money']
-            ) {
-                $user->sendMail(
-                    $_ENV['appName'] . '-你的账户因为过期被删除了',
-                    'warn.tpl',
-                    [
-                        'text' => '你好，系统发现你的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
-                    ],
-                    [],
-                    true
-                );
-                $user->killUser();
-                continue;
-            }
+        User::where('is_admin', '=', '0')
+            ->where('is_inactive', '=', '0')
+            ->where('last_check_in_time', '<', time() - 86400 * $checkin_days)
+            ->where('last_login_time', '<', time() - 86400 * $login_days)
+            ->where('last_use_time', '<', time() - 86400 * $use_days)
+            ->update(['is_inactive' => 1]);
 
-            if (
-                $_ENV['auto_clean_uncheck_days'] > 0 &&
-                max(
-                    $user->last_check_in_time,
-                    strtotime($user->reg_date)
-                ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < time() &&
-                $user->class === 0 &&
-                $user->money <= $_ENV['auto_clean_min_money']
-            ) {
-                $user->sendMail(
-                    $_ENV['appName'] . '-你的账户因为未签到被删除了',
-                    'warn.tpl',
-                    [
-                        'text' => '你好，系统发现你的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
-                    ],
-                    [],
-                    true
-                );
-                $user->killUser();
-                continue;
-            }
+        User::where('is_admin', '=', '0')
+            ->where('is_inactive', '=', '1')
+            ->where('last_check_in_time', '>', time() - 86400 * $checkin_days)
+            ->where('last_login_time', '>', time() - 86400 * $login_days)
+            ->where('last_use_time', '>', time() - 86400 * $use_days)
+            ->update(['is_inactive' => 0]);
 
-            if (
-                $_ENV['auto_clean_unused_days'] > 0 &&
-                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
-                $user->class === 0 &&
-                $user->money <= $_ENV['auto_clean_min_money']
-            ) {
-                $user->sendMail(
-                    $_ENV['appName'] . '-你的账户因为闲置被删除了',
-                    'warn.tpl',
-                    [
-                        'text' => '你好，系统发现你的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
-                    ],
-                    [],
-                    true
-                );
-                $user->killUser();
-            }
-        }
-
-        echo date('Y-m-d H:i:s') . ' 免费用户清理完成' . PHP_EOL;
+        echo date('Y-m-d H:i:s') . ' 检测到 ' . User::where('is_inactive', '=', '1')->count() . ' 个账户处于闲置状态' . PHP_EOL;
     }
 
     /**
@@ -246,39 +205,6 @@ final class CronJob
         }
 
         echo date('Y-m-d H:i:s') . ' 付费用户过期检测完成' . PHP_EOL;
-    }
-
-    // This shit should be removed but kept for compatibility reason, for now. User account should never expire.
-    public static function expireFreeUserAccount(): void
-    {
-        $freeUsers = User::where('class', 0)->get();
-
-        foreach ($freeUsers as $user) {
-            if (strtotime($user->expire_in) < time() && ! $user->expire_notified) {
-                $user->transfer_enable = 0;
-                $user->u = 0;
-                $user->d = 0;
-                $user->transfer_today = 0;
-
-                $user->sendMail(
-                    $_ENV['appName'] . '-你的账户已经过期了',
-                    'warn.tpl',
-                    [
-                        'text' => '你好，系统发现你的账号已经过期了。',
-                    ],
-                    [],
-                    true
-                );
-
-                $user->expire_notified = true;
-                $user->save();
-            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified) {
-                $user->expire_notified = false;
-                $user->save();
-            }
-        }
-
-        echo date('Y-m-d H:i:s') . ' 免费用户过期检测完成' . PHP_EOL;
     }
 
     public static function processEmailQueue(): void

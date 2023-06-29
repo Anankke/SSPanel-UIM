@@ -40,7 +40,6 @@ EOL;
 
         // Run user related jobs
         $jobs->expirePaidUserAccount();
-        $jobs->expireFreeUserAccount();
         $jobs->sendPaidUserUsageLimitNotification();
 
         // Run node related jobs
@@ -61,10 +60,13 @@ EOL;
             time() - Setting::obtain('last_daily_job_time') > 86399
         ) {
             $jobs->cleanDb();
-            $jobs->cleanUser();
             $jobs->resetNodeBandwidth();
             $jobs->resetFreeUserTraffic();
             $jobs->sendDailyTrafficReport();
+
+            if (Setting::obtain('enable_detect_inactive_user')) {
+                $jobs->detectInactiveUser();
+            }
 
             if (Setting::obtain('telegram_diary')) {
                 $jobs->sendTelegramDiary();
