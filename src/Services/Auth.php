@@ -21,9 +21,11 @@ final class Auth
     public static function getUser(): User
     {
         global $user;
+
         if ($user === null) {
             $user = self::getDriver()->getUser();
         }
+
         return $user;
     }
 
