@@ -96,7 +96,7 @@ final class StartCommand extends Command
                 $BinsUser->im_value = $SendUser['username'];
             }
             $BinsUser->save();
-            if ($BinsUser->is_admin >= 1) {
+            if ($BinsUser->is_admin === 1) {
                 $text = '尊敬的 **管理员** 你好，恭喜绑定成功。' . PHP_EOL . '当前绑定邮箱为： ' . $BinsUser->email;
             } else {
                 if ($BinsUser->class >= 1) {

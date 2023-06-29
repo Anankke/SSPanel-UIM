@@ -61,7 +61,11 @@ final class CronJob
 
     public static function cleanDb(): void
     {
-        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
+        UserSubscribeLog::where(
+            'request_time',
+            '<',
+            date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days'])
+        )->delete();
         UserHourlyUsage::where('datetime', '<', time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', time() - 86400)->delete();
@@ -71,6 +75,29 @@ final class CronJob
         TelegramSession::where('datetime', '<', time() - 900)->delete();
 
         echo date('Y-m-d H:i:s') . ' 数据库清理完成' . PHP_EOL;
+    }
+
+    public static function detectInactiveUser(): void
+    {
+        $checkin_days = Setting::obtain('detect_inactive_user_checkin_days');
+        $login_days = Setting::obtain('detect_inactive_user_login_days');
+        $use_days = Setting::obtain('detect_inactive_user_use_days');
+
+        User::where('is_admin', '=', '0')
+            ->where('is_inactive', '=', '0')
+            ->where('last_check_in_time', '<', time() - 86400 * $checkin_days)
+            ->where('last_login_time', '<', time() - 86400 * $login_days)
+            ->where('last_use_time', '<', time() - 86400 * $use_days)
+            ->update(['is_inactive' => 1]);
+
+        User::where('is_admin', '=', '0')
+            ->where('is_inactive', '=', '1')
+            ->where('last_check_in_time', '>', time() - 86400 * $checkin_days)
+            ->where('last_login_time', '>', time() - 86400 * $login_days)
+            ->where('last_use_time', '>', time() - 86400 * $use_days)
+            ->update(['is_inactive' => 0]);
+
+        echo date('Y-m-d H:i:s') . ' 检测到 ' . User::where('is_inactive', '=', '1')->count() . ' 个账户处于闲置状态' . PHP_EOL;
     }
 
     /**

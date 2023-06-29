@@ -64,6 +64,10 @@ EOL;
             $jobs->resetFreeUserTraffic();
             $jobs->sendDailyTrafficReport();
 
+            if (Setting::obtain('enable_detect_inactive_user')) {
+                $jobs->detectInactiveUser();
+            }
+
             if (Setting::obtain('telegram_diary')) {
                 $jobs->sendTelegramDiary();
             }

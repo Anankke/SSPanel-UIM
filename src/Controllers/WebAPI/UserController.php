@@ -150,14 +150,16 @@ final class UserController extends BaseController
         }
 
         $pdo = DB::getPdo();
-        $stat = $pdo->prepare('UPDATE user SET t = UNIX_TIMESTAMP(),
+        $stat = $pdo->prepare('
+                UPDATE user SET last_use_time = UNIX_TIMESTAMP(),
                 u = u + ?,
                 d = d + ?,
                 transfer_total = transfer_total + ?,
-                transfer_today = transfer_today + ? WHERE id = ?');
-
+                transfer_today = transfer_today + ? WHERE id = ?
+        ');
         $rate = (float) $node->traffic_rate;
         $sum = 0;
+
         foreach ($data as $log) {
             $u = $log?->u;
             $d = $log?->d;
@@ -169,8 +171,7 @@ final class UserController extends BaseController
         }
 
         $node->increment('node_bandwidth', $sum);
-
-        $node->online_user = count($data);
+        $node->online_user = count($data) - 1;
         $node->save();
 
         return $response->withJson([

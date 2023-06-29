@@ -280,7 +280,6 @@ return new class() implements MigrationInterface {
                 `pass` varchar(255) NOT NULL COMMENT '登录密码',
                 `passwd` varchar(255) NOT NULL COMMENT '节点密码',
                 `uuid` char(36) NOT NULL COMMENT 'UUID',
-                `t` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '最后使用时间',
                 `u` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户当前上传流量',
                 `d` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户当前下载流量',
                 `transfer_today` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户今日所用流量',
@@ -289,7 +288,9 @@ return new class() implements MigrationInterface {
                 `port` smallint(6) unsigned NOT NULL COMMENT '端口',
                 `last_detect_ban_time` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '最后一次被封禁的时间',
                 `all_detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '累计违规次数',
+                `last_use_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '最后使用时间',
                 `last_check_in_time` int(11) unsigned DEFAULT 0 COMMENT '最后签到时间',
+                `last_login_time` int(11) unsigned DEFAULT 0 COMMENT '最后登录时间',
                 `reg_date` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '注册时间',
                 `invite_num` int(11) NOT NULL DEFAULT 0 COMMENT '可用邀请次数',
                 `money` decimal(10,2) NOT NULL DEFAULT 0.00 COMMENT '账户余额',
@@ -321,7 +322,8 @@ return new class() implements MigrationInterface {
                 `auto_reset_bandwidth` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '自动重置流量',
                 `api_token` char(36) NOT NULL DEFAULT '' COMMENT 'API 密钥',
                 `use_new_shop` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用新商店',
-                `is_dark_mode` tinyint(1) NOT NULL DEFAULT 0,
+                `is_dark_mode` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否启用暗黑模式',
+                `is_inactive` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否处于闲置状态',
                 `locale` varchar(16) NOT NULL DEFAULT 'zh-TW' COMMENT '显示语言',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `uuid` (`uuid`),
@@ -329,7 +331,8 @@ return new class() implements MigrationInterface {
                 UNIQUE KEY `ga_token` (`ga_token`),
                 UNIQUE KEY `api_token` (`api_token`),
                 KEY `is_admin` (`is_admin`),
-                KEY `is_banned` (`is_banned`)
+                KEY `is_banned` (`is_banned`),
+                KEY `is_inactive` (`is_inactive`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `user_coupon` (
