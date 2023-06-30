@@ -92,41 +92,23 @@ final class Analytics
         return Tools::flowToGB(User::sum('transfer_enable'));
     }
 
-    public function getOnlineUser($time)
-    {
-        $time = time() - $time;
-        return User::where('last_use_time', '>', $time)->count();
-    }
-
-    public function getUnusedUser()
-    {
-        return User::where('last_use_time', '=', 0)->count();
-    }
-
-    public function getTotalNode()
-    {
-        return Node::count();
-    }
-
     public function getTotalNodes()
     {
-        return Node::where('node_heartbeat', '>', 0)->where(
-            static function ($query): void {
-                $query->Where('sort', '=', 0)
-                    ->orWhere('sort', '=', 11)
-                    ->orWhere('sort', '=', 14);
-            }
-        )->count();
+        return Node::where('node_heartbeat', '>', 0)->count();
     }
 
     public function getAliveNodes()
     {
-        return Node::where(
-            static function ($query): void {
-                $query->Where('sort', '=', 0)
-                    ->orWhere('sort', '=', 11)
-                    ->orWhere('sort', '=', 14);
-            }
-        )->where('node_heartbeat', '>', time() - 90)->count();
+        return Node::where('node_heartbeat', '>', time() - 90)->count();
+    }
+
+    public function getInactiveUser()
+    {
+        return User::where('is_inactive', '=', 1)->count();
+    }
+
+    public function getActiveUser()
+    {
+        return User::where('is_inactive', '=', 0)->count();
     }
 }
