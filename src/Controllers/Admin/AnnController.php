@@ -14,6 +14,8 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function date;
+use function str_replace;
+use function strip_tags;
 use const PHP_EOL;
 
 final class AnnController extends BaseController
@@ -70,8 +72,15 @@ final class AnnController extends BaseController
         $email_notify_class = (int) $request->getParam('email_notify_class');
         $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;
 
-        $content = (string) $request->getParam('content');
-        $subject = $_ENV['appName'] . ' - 公告';
+        $content = strip_tags(
+            str_replace(
+                ['<p>','</p>'],
+                ['','<br><br>'],
+                $request->getParam('content')
+            ),
+            ['br', 'a', 'strong']
+        );
+        $subject = $_ENV['appName'] . ' - 新公告发布';
 
         if ($content !== '') {
             $ann = new Ann();
@@ -86,7 +95,7 @@ final class AnnController extends BaseController
             }
         }
 
-        if ($email_notify === 1) {
+        if ($email_notify) {
             $users = User::where('class', '>=', $email_notify_class)
                 ->get();
 

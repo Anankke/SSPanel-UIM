@@ -509,8 +509,13 @@ final class User extends Model
     /**
      * 发送邮件
      */
-    public function sendMail(string $subject, string $template, array $array = [], array $files = [], $is_queue = false): bool
-    {
+    public function sendMail(
+        string $subject,
+        string $template,
+        array $array = [],
+        array $files = [],
+        $is_queue = false
+    ): bool {
         if ($is_queue) {
             $emailqueue = new EmailQueue();
             $emailqueue->to_email = $this->email;
