@@ -32,6 +32,8 @@ final class Config
 
             'subscribeLog' => $_ENV['subscribeLog'],
             'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],
+
+            'enable_r2_client_download' => $_ENV['enable_r2_client_download'],
         ];
     }
 

@@ -133,3 +133,11 @@ $_ENV['ai_model'] = 'gpt-3.5-turbo';
 
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';
+
+// use Cloudflare R2 for clients download
+$_ENV['enable_r2_client_download'] = false;
+$_ENV['r2_bucket_name'] = '';
+$_ENV['r2_account_id'] = '';
+$_ENV['r2_access_key_id'] = '';
+$_ENV['r2_access_key_secret'] = '';
+$_ENV['r2_client_download_timeout'] = 10;
