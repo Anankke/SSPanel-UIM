@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Services\Cloudflare;
 use Exception;
 use GuzzleHttp\Client;
+use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
 use function get_current_user;
+use function is_file;
 use function json_decode;
 use function json_encode;
 use function posix_geteuid;
 use function posix_getpwuid;
+use function str_replace;
+use function substr;
 use function time;
+use function unlink;
+use const BASE_PATH;
+use const PHP_EOL;
 
 final class ClientDownload extends Command
 {
@@ -235,6 +245,11 @@ final class ClientDownload extends Command
 
             if ($this->getSourceFile($fileName, $savePath, $downloadUrl)) {
                 $this->setLocalVersions($this->version);
+            }
+
+            if ($_ENV['enable_r2_client_download']) {
+                Cloudflare::uploadR2($fileName, file_get_contents($filePath));
+                unlink($filePath);
             }
         }
 

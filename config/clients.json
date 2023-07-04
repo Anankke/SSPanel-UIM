@@ -7,8 +7,8 @@
             "savePath": "public/clients/",
             "downloads": [
                 {
-                    "sourceName": "Clash.Verge_%tagName1%_x64_zh-CN.msi",
-                    "saveName": "Clash.Verge.msi"
+                    "sourceName": "Clash.Verge_%tagName1%_x64-setup.exe",
+                    "saveName": "Clash.Verge.exe"
                 },
                 {
                     "sourceName": "Clash.Verge_%tagName1%_aarch64.dmg",
