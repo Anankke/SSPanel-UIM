@@ -57,20 +57,19 @@
                         </div>
                     </div>
                 </div>
-            </div>              
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // @formatter:off
     document.addEventListener("DOMContentLoaded", function () {
         let options = {
             selector: '#tinymce',
             height: 300,
             menubar: false,
             statusbar: false,
-            plugins: 
+            plugins:
               'advlist autolink lists link image charmap preview anchor ' +
               'searchreplace visualblocks code fullscreen ' +
               'insertdatetime media table code help wordcount',
@@ -86,7 +85,6 @@
         }
         tinyMCE.init(options);
     })
-    // @formatter:on
 
     $("#create-ann").click(function() {
         $.ajax({

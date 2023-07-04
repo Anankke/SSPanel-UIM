@@ -98,6 +98,8 @@ return static function (Slim\App $app): void {
         $group->post('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
         $group->get('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
         $group->get('/payment/return/{type}', App\Services\Payment::class . ':returnHTML');
+        // Get Clients
+        $group->get('/clients/{name}', App\Controllers\User\ClientController::class . ':getClients');
     })->add(new Auth());
 
     $app->group('/payment', static function (RouteCollectorProxy $group): void {
