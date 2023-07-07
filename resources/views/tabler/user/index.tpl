@@ -213,7 +213,8 @@
                                 {if $public_setting['enable_traditional_sub']}
                                     <div class="tab-pane show" id="traditional-sub">
                                         <div>
-                                            {if $public_setting['enable_ss_sub']}<p>
+                                            {if $public_setting['enable_ss_sub']}
+                                            <p>
                                                 传统订阅（Shadowsocks）：<code>{$TraditionalSub}?ss=1</code></p><p>
                                                 传统订阅（Shadowsocks SIP002）：<code>{$TraditionalSub}?sip002=1</code>
                                             </p>
@@ -225,13 +226,19 @@
                                                 传统订阅（Trojan）：<code>{$TraditionalSub}?trojan=1</code></p>
                                             {/if}
                                             <div class="btn-list justify-content-start">
-                                                {if $public_setting['enable_ss_sub']}<a data-clipboard-text="{$TraditionalSub}?ss=1"class="copy btn btn-primary">复制传统订阅（Shadowsocks）</a><a data-clipboard-text="{$TraditionalSub}?sip002=1" class="copy btn btn-primary">
+                                                {if $public_setting['enable_ss_sub']}
+                                                <a data-clipboard-text="{$TraditionalSub}?ss=1"class="copy btn btn-primary">
+                                                    复制传统订阅（Shadowsocks）
+                                                </a>
+                                                <a data-clipboard-text="{$TraditionalSub}?sip002=1" class="copy btn btn-primary">
                                                     复制传统订阅（Shadowsocks SIP002）
                                                 </a>
                                                 {/if}
-                                                {if $public_setting['enable_v2_sub']}<a data-clipboard-text="{$TraditionalSub}?v2ray=1"class="copy btn btn-primary">复制传统订阅（V2Ray）</a>
+                                                {if $public_setting['enable_v2_sub']}
+                                                    <a data-clipboard-text="{$TraditionalSub}?v2ray=1"class="copy btn btn-primary">复制传统订阅（V2Ray）</a>
                                                 {/if}
-                                                {if $public_setting['enable_trojan_sub']}<a data-clipboard-text="{$TraditionalSub}?trojan=1"class="copy btn btn-primary">复制传统订阅（Trojan）</a>
+                                                {if $public_setting['enable_trojan_sub']}
+                                                    <a data-clipboard-text="{$TraditionalSub}?trojan=1"class="copy btn btn-primary">复制传统订阅（Trojan）</a>
                                                 {/if}
                                                 <a {if $config['enable_r2_client_download']}
                                                         href="/user/clients/v2rayN-Core.zip"

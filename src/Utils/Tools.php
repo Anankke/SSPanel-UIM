@@ -269,8 +269,9 @@ final class Tools
     public static function genSubToken(): string
     {
         for ($i = 0; $i < 10; $i++) {
-            $token = self::genRandomChar(16);
+            $token = self::genRandomChar($_ENV['sub_token_len']);
             $is_token_used = Link::where('token', $token)->first();
+
             if ($is_token_used === null) {
                 return $token;
             }

@@ -8,10 +8,12 @@ use App\Models\Link;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Models\UserSubscribeLog;
+use App\Services\RateLimit;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Yaml\Yaml;
+use voku\helper\AntiXSS;
 use function array_key_exists;
 use function array_merge;
 use function in_array;
@@ -26,11 +28,20 @@ final class SubController extends BaseController
     {
         $err_msg = '订阅链接无效';
 
-        $token = $args['token'];
         $subtype = $args['subtype'];
         $subtype_list = ['json', 'clash', 'sip008'];
 
-        if (! $_ENV['Subscribe'] || ! in_array($subtype, $subtype_list)) {
+        if (! $_ENV['Subscribe'] ||
+            ! in_array($subtype, $subtype_list) ||
+            'https://' . $request->getHeaderLine('Host') !== $_ENV['subUrl']
+        ) {
+            return ResponseHelper::error($response, $err_msg);
+        }
+
+        $antiXss = new AntiXSS();
+        $token = $antiXss->xss_clean($args['token']);
+
+        if ($_ENV['enable_rate_limit'] && ! RateLimit::checkSubLimit($token)) {
             return ResponseHelper::error($response, $err_msg);
         }
 
@@ -428,12 +439,14 @@ final class SubController extends BaseController
     {
         $userid = $user->id;
         $token = Link::where('userid', $userid)->first();
+
         if ($token === null) {
             $token = new Link();
             $token->userid = $userid;
             $token->token = Tools::genSubToken();
             $token->save();
         }
+
         return $_ENV['subUrl'] . '/sub/' . $token->token;
     }
 }
