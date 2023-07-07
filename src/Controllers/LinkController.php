@@ -11,6 +11,7 @@ use App\Models\UserSubscribeLog;
 use App\Services\RateLimit;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -24,6 +25,9 @@ use function json_encode;
  */
 final class LinkController extends BaseController
 {
+    /**
+     * @throws RedisException
+     */
     public static function getContent(
         ServerRequest $request,
         Response $response,
@@ -41,7 +45,10 @@ final class LinkController extends BaseController
         $antiXss = new AntiXSS();
         $token = $antiXss->xss_clean($args['token']);
 
-        if ($_ENV['enable_rate_limit'] && ! RateLimit::checkSubLimit($token)) {
+        if ($_ENV['enable_rate_limit'] &&
+            (! RateLimit::checkIPLimit($request->getServerParam('REMOTE_ADDR')) ||
+            ! RateLimit::checkSubLimit($token))
+        ) {
             return ResponseHelper::error($response, $err_msg);
         }
 
