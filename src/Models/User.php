@@ -650,6 +650,7 @@ final class User extends Model
 
         if ($type === 0) {
             $this->last_login_time = time();
+            $this->save();
         }
 
         return $loginip->save();
