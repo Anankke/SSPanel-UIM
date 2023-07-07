@@ -153,8 +153,17 @@ final class User extends Model
      */
     public function generateUUID(): bool
     {
-        $this->uuid = Uuid::uuid4();
-        return $this->save();
+        for ($i = 0; $i < 10; $i++) {
+            $uuid = Uuid::uuid4();
+            $is_uuid_used = User::where('uuid', $uuid)->first();
+
+            if ($is_uuid_used === null) {
+                $this->uuid = Uuid::uuid4();
+                return $this->save();
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -162,8 +171,17 @@ final class User extends Model
      */
     public function generateApiToken(): bool
     {
-        $this->api_token = Uuid::uuid4();
-        return $this->save();
+        for ($i = 0; $i < 10; $i++) {
+            $api_token = Uuid::uuid4();
+            $is_api_token_used = User::where('api_token', $api_token)->first();
+
+            if ($is_api_token_used === null) {
+                $this->api_token = Uuid::uuid4();
+                return $this->save();
+            }
+        }
+
+        return false;
     }
 
     /*
