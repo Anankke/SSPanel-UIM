@@ -12,6 +12,7 @@ use App\Services\RateLimit;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Symfony\Component\Yaml\Yaml;
 use voku\helper\AntiXSS;
 use function array_key_exists;
@@ -24,6 +25,9 @@ use function json_decode;
  */
 final class SubController extends BaseController
 {
+    /**
+     * @throws RedisException
+     */
     public static function getContent($request, $response, $args): ResponseInterface
     {
         $err_msg = '订阅链接无效';
@@ -41,7 +45,10 @@ final class SubController extends BaseController
         $antiXss = new AntiXSS();
         $token = $antiXss->xss_clean($args['token']);
 
-        if ($_ENV['enable_rate_limit'] && ! RateLimit::checkSubLimit($token)) {
+        if ($_ENV['enable_rate_limit'] &&
+            (! RateLimit::checkIPLimit($request->getServerParam('REMOTE_ADDR')) ||
+            ! RateLimit::checkSubLimit($token))
+        ) {
             return ResponseHelper::error($response, $err_msg);
         }
 

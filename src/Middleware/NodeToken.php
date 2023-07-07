@@ -10,11 +10,15 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use RedisException;
 use Slim\Factory\AppFactory;
 use voku\helper\AntiXSS;
 
 final class NodeToken implements MiddlewareInterface
 {
+    /**
+     * @throws RedisException
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $key = $request->getQueryParams()['key'] ?? null;
@@ -28,7 +32,10 @@ final class NodeToken implements MiddlewareInterface
 
         $antiXss = new AntiXSS();
 
-        if ($_ENV['enable_rate_limit'] && ! RateLimit::checkWebAPILimit($antiXss->xss_clean($key))) {
+        if ($_ENV['enable_rate_limit'] &&
+            (! RateLimit::checkIPLimit($request->getServerParam('REMOTE_ADDR')) ||
+            ! RateLimit::checkWebAPILimit($antiXss->xss_clean($key)))
+        ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',

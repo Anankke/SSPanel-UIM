@@ -14,6 +14,25 @@ final class RateLimit
     /**
      * @throws RedisException
      */
+    public static function checkIPLimit(string $request_ip): bool
+    {
+        $ip_limiter = new RedisRateLimiter(
+            Rate::perMinute($_ENV['rate_limit_ip']),
+            Cache::initRedis()
+        );
+
+        try {
+            $ip_limiter->limit($request_ip);
+        } catch (LimitExceeded $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @throws RedisException
+     */
     public static function checkSubLimit(string $sub_token): bool
     {
         $sub_limiter = new RedisRateLimiter(
