@@ -102,6 +102,7 @@ final class DB extends Manager
     public static function init(): void
     {
         $db = new DB();
+
         try {
             $db->addConnection(Config::getDbConfig());
             $db->getConnection()->getPdo();

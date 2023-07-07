@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Models\Node;
+use App\Services\RateLimit;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
+use voku\helper\AntiXSS;
 
 final class NodeToken implements MiddlewareInterface
 {
@@ -18,23 +20,22 @@ final class NodeToken implements MiddlewareInterface
         $key = $request->getQueryParams()['key'] ?? null;
 
         if ($key === null) {
-            // 未提供 key
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',
             ]);
         }
 
-        if ($key !== $_ENV['muKey']) {
-            // key 不存在
+        $antiXss = new AntiXSS();
+
+        if ($_ENV['enable_rate_limit'] && ! RateLimit::checkWebAPILimit($antiXss->xss_clean($key))) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',
             ]);
         }
 
-        if ($_ENV['WebAPI'] === false) {
-            // 主站不提供 WebAPI
+        if (! $_ENV['WebAPI'] || $key !== $_ENV['muKey']) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',
