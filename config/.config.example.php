@@ -36,7 +36,7 @@ $_ENV['redis_ssl']      = false;              //是否使用SSL连接Redis，如
 
 //Rate Limit设置--------------------------------------------------------------------------------------------
 $_ENV['enable_rate_limit']    = true;            //是否开启请求限制
-$_ENV['rate_limit_ip']        = 120;              //每分钟每个IP的请求限制
+$_ENV['rate_limit_ip']        = 120;             //每分钟每个IP的全局请求限制
 $_ENV['rate_limit_sub']       = 30;              //每分钟每个用户的订阅链接请求限制
 $_ENV['rate_limit_webapi']    = 600;             //每分钟每个节点WebAPI密钥请求限制
 $_ENV['rate_limit_user_api']  = 60;              //每分钟每个用户的API请求限制
