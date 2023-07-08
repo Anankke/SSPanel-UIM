@@ -87,9 +87,9 @@ final class User extends Model
     /**
      * 最后使用时间
      */
-    public function lastSsTime(): string
+    public function lastUseTime(): string
     {
-        return $this->t === 0 || $this->t === null ? '从未使用喵' : Tools::toDateTime($this->t);
+        return $this->last_use_time === 0 ? '从未使用' : Tools::toDateTime($this->last_use_time);
     }
 
     /**

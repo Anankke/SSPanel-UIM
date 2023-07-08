@@ -32,7 +32,7 @@ final class Reply
             '当前余额：' . $user->money,
             '在线 IP 数：' . ($user->node_iplimit !== 0 ? $user->onlineIpCount() . ' / ' . $user->node_iplimit : $user->onlineIpCount() . ' / 不限制'),
             '端口速率：' . ($user->node_speedlimit > 0 ? $user->node_speedlimit . 'Mbps' : '不限制'),
-            '上次使用：' . $user->lastSsTime(),
+            '上次使用：' . $user->lastUseTime(),
             '过期时间：' . $user->class_expire,
         ];
         return implode(PHP_EOL, $text);
