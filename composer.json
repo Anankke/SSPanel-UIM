@@ -56,7 +56,8 @@
         }
     },
     "require-dev": {
-        "nunomaduro/phpinsights": "*"
+        "nunomaduro/phpinsights": "*",
+        "phpunit/phpunit": "^10.2"
     },
     "scripts": {
         "update-dev-windows": [
