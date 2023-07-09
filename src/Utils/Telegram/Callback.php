@@ -67,6 +67,11 @@ final class Callback
     private bool $AllowEditMessage;
 
     /**
+     * @param Api $bot
+     * @param CallbackQuery $Callback
+     *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      * @throws TelegramSDKException
      */
     public function __construct(Api $bot, CallbackQuery $Callback)

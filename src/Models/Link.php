@@ -19,6 +19,7 @@ final class Link extends Model
         if ($this !== null && $this->user() !== null && $this->user()->is_banned === 0) {
             return true;
         }
+
         return false;
     }
 }

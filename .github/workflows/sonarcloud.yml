@@ -13,15 +13,29 @@ permissions:
 jobs:
   Analysis:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup PHP with Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: xdebug
+      - name: Install dependencies with composer
+        run: composer update --no-ansi --no-interaction --no-progress
+      - name: Run tests with phpunit/phpunit
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+      - name: Fix code coverage paths
+        run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace@g' coverage.xml
       - name: Analyze with SonarCloud
-
-        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args:
             -Dsonar.projectKey=sspanel-uim_SSPanel-Uim-Dev
             -Dsonar.organization=sspanel-uim
+            -Dsonar.php.coverage.reportPaths=coverage.xml
