@@ -1,0 +1,20 @@
+name: PHP Unit Tests
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+  workflow_dispatch:
+
+jobs:
+  unit-test-php82:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+    - run: |
+        composer install --no-interaction --no-progress --no-suggest
+        php vendor/bin/phpunit

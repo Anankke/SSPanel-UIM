@@ -109,6 +109,9 @@ final class IpController extends BaseController
 
     /**
      * 后台在线 IP 页面 AJAX
+     *
+     * @throws AddressNotFoundException
+     * @throws InvalidDatabaseException
      */
     public function ajaxOnline(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -136,19 +139,22 @@ final class IpController extends BaseController
         ');
 
         $count = count($logs);
-        $data = array_map(static function ($val) {
-            return [
-                'id' => $val->id,
-                'user_id' => $val->user_id,
-                'user_name' => $val->user_name,
-                'node_id' => $val->node_id,
-                'node_name' => $val->node_name,
-                'ip' => str_replace('::ffff:', '', $val->ip),
-                'location' => Tools::getIpLocation($val->ip),
-                'first_time' => Tools::toDateTime($val->first_time),
-                'last_time' => Tools::toDateTime($val->last_time),
-            ];
-        }, array_slice($logs, $start, $length));
+        $data = array_map(
+            static function ($val) {
+                return [
+                    'id' => $val->id,
+                    'user_id' => $val->user_id,
+                    'user_name' => $val->user_name,
+                    'node_id' => $val->node_id,
+                    'node_name' => $val->node_name,
+                    'ip' => str_replace('::ffff:', '', $val->ip),
+                    'location' => Tools::getIpLocation($val->ip),
+                    'first_time' => Tools::toDateTime($val->first_time),
+                    'last_time' => Tools::toDateTime($val->last_time),
+                ];
+            },
+            array_slice($logs, $start, $length)
+        );
 
         return $response->withJson([
             'draw' => $draw,

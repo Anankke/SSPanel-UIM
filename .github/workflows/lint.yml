@@ -5,12 +5,12 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  changes:
+  php-file-changed:
     runs-on: ubuntu-latest
     outputs:
       php: ${{ steps.filter.outputs.php }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - uses: dorny/paths-filter@v2
@@ -20,19 +20,17 @@ jobs:
           php:
             - '**/*.php'
   lint:
-    needs: changes
-    if: ${{ needs.changes.outputs.php == 'true' }}
+    needs: php-file-changed
+    if: ${{ needs.php-file-changed.outputs.php == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
       - run: |
-          composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer require nunomaduro/phpinsights --dev
-          php vendor/bin/phpinsights --version
+          composer install --no-interaction --no-progress --no-suggest
           php vendor/bin/phpinsights analyse --no-interaction --format=github-action \
           --min-style=100 --min-architecture=100 --min-quality=100
