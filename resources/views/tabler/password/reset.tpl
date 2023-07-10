@@ -42,9 +42,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="text-center text-secondary mt-3">
-            已有账户？ <a href="/auth/login" tabindex="-1">点击登录</a>
+            <div class="text-center text-secondary mt-3">
+                已有账户？ <a href="/auth/login" tabindex="-1">点击登录</a>
+            </div>
         </div>
     </div>
 

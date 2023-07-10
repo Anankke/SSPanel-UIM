@@ -6,7 +6,6 @@ namespace App\Controllers;
 
 use App\Models\Ann;
 use App\Models\Docs;
-use App\Models\EmailVerify;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\Node;
@@ -16,6 +15,7 @@ use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\User;
 use App\Services\Auth;
+use App\Services\Cache;
 use App\Services\Captcha;
 use App\Services\Config;
 use App\Services\DB;
@@ -27,6 +27,7 @@ use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -262,6 +263,9 @@ final class UserController extends BaseController
         return ResponseHelper::successfully($response, '修改成功');
     }
 
+    /**
+     * @throws RedisException
+     */
     public function updateEmail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
@@ -292,17 +296,15 @@ final class UserController extends BaseController
         }
 
         if (Setting::obtain('reg_email_verify')) {
-            $email_code = $request->getParam('emailcode');
-            $email_verify = EmailVerify::where('email', '=', $new_email)
-                ->where('code', '=', $email_code)
-                ->where('expire_in', '>', time())
-                ->first();
+            $redis = Cache::initRedis();
+            $email_verify_code = $request->getParam('emailcode');
+            $email_verify = $redis->get($email_verify_code);
 
-            if ($email_verify === null) {
+            if (! $email_verify) {
                 return ResponseHelper::error($response, '你的邮箱验证码不正确');
             }
 
-            EmailVerify::where('email', $email)->delete();
+            $redis->del($email_verify_code);
         }
 
         $user->email = $new_email;

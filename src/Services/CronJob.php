@@ -11,11 +11,9 @@ use App\Models\Invoice;
 use App\Models\Node;
 use App\Models\OnlineLog;
 use App\Models\Order;
-use App\Models\PasswordReset;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\StreamMedia;
-use App\Models\TelegramSession;
 use App\Models\User;
 use App\Models\UserHourlyUsage;
 use App\Models\UserSubscribeLog;
@@ -69,10 +67,8 @@ final class CronJob
         UserHourlyUsage::where('datetime', '<', time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', time() - 86400)->delete();
-        PasswordReset::where('expire_time', '<', time() - 86400)->delete();
         OnlineLog::where('last_time', '<', time() - 86400)->delete();
         StreamMedia::where('created_at', '<', time() - 86400)->delete();
-        TelegramSession::where('datetime', '<', time() - 900)->delete();
 
         echo date('Y-m-d H:i:s') . ' 数据库清理完成' . PHP_EOL;
     }

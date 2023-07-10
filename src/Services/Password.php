@@ -4,27 +4,26 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\PasswordReset;
+use App\Models\Setting;
 use App\Utils\Tools;
 use Psr\Http\Client\ClientExceptionInterface;
-use function time;
+use RedisException;
 
 final class Password
 {
     /**
      * @throws ClientExceptionInterface
+     * @throws RedisException
      */
     public static function sendResetEmail($email): void
     {
-        $pwdRst = new PasswordReset();
-        $pwdRst->email = $email;
-        $pwdRst->init_time = time();
-        $pwdRst->expire_time = time() + 3600 * 24;
-        $pwdRst->token = Tools::genRandomChar(64);
-        $pwdRst->save();
+        $redis = Cache::initRedis();
+        $token = Tools::genRandomChar(64);
+
+        $redis->setex($token, Setting::obtain('email_password_reset_ttl'), $email);
 
         $subject = $_ENV['appName'] . '-重置密码';
-        $resetUrl = $_ENV['baseUrl'] . '/password/token/' . $pwdRst->token;
+        $resetUrl = $_ENV['baseUrl'] . '/password/token/' . $token;
 
         Mail::send(
             $email,

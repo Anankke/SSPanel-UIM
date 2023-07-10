@@ -16,7 +16,7 @@ return new class() implements MigrationInterface {
     public function down(): int
     {
         DB::getPdo()->exec(
-            "CREATE TABLE `user_token` (
+            "CREATE TABLE IF NOT EXISTS `user_token` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `token` varchar(255) DEFAULT NULL,
                 `user_id` bigint(20) unsigned DEFAULT NULL,

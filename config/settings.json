@@ -351,13 +351,53 @@
     },
     {
         "id": null,
-        "item": "mail_driver",
+        "item": "email_driver",
         "value": "none",
-        "class": "mail",
+        "class": "email",
         "is_public": 0,
         "type": "string",
         "default": "none",
         "mark": "邮件服务提供商"
+    },
+    {
+        "id": null,
+        "item": "email_verify_code_ttl",
+        "value": "3600",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3600",
+        "mark": "邮箱验证码有效期"
+    },
+    {
+        "id": null,
+        "item": "email_password_reset_ttl",
+        "value": "3600",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3600",
+        "mark": "邮箱重设密码链接有效期"
+    },
+    {
+        "id": null,
+        "item": "email_request_ip_limit",
+        "value": "3",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3",
+        "mark": "单个IP每小时可请求的发信次数"
+    },
+    {
+        "id": null,
+        "item": "email_request_address_limit",
+        "value": "3",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3",
+        "mark": "单个邮箱地址每小时可请求的发信次数"
     },
     {
         "id": null,
@@ -688,36 +728,6 @@
         "type": "bool",
         "default": "0",
         "mark": "邮箱验证"
-    },
-    {
-        "id": null,
-        "item": "email_verify_ttl",
-        "value": "3600",
-        "class": "register",
-        "is_public": 0,
-        "type": "int",
-        "default": "3600",
-        "mark": "邮箱验证码有效期"
-    },
-    {
-        "id": null,
-        "item": "email_verify_ip_limit",
-        "value": "5",
-        "class": "register",
-        "is_public": 0,
-        "type": "int",
-        "default": "5",
-        "mark": "验证码有效期内单个ip可请求的发信次数"
-    },
-    {
-        "id": null,
-        "item": "email_verify_email_limit",
-        "value": "5",
-        "class": "register",
-        "is_public": 0,
-        "type": "int",
-        "default": "5",
-        "mark": "验证码有效期内单个邮箱可请求的发信次数"
     },
     {
         "id": null,

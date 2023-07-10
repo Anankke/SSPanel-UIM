@@ -14,7 +14,11 @@ use function json_encode;
 final class EmailController extends BaseController
 {
     public static array $update_field = [
-        'mail_driver',
+        'email_driver',
+        'email_verify_code_ttl',
+        'email_password_reset_ttl',
+        'email_request_ip_limit',
+        'email_request_address_limit',
         // SMTP
         'smtp_host',
         'smtp_username',

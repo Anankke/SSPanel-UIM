@@ -14,9 +14,6 @@ final class RegController extends BaseController
     public static array $update_field = [
         'reg_mode',
         'reg_email_verify',
-        'email_verify_ttl',
-        'email_verify_ip_limit',
-        'email_verify_email_limit',
         'sign_up_for_daily_report',
         'enable_reg_im',
         'random_group',

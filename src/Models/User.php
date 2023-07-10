@@ -384,13 +384,10 @@ final class User extends Model
 
         DetectBanLog::where('user_id', '=', $uid)->delete();
         DetectLog::where('user_id', '=', $uid)->delete();
-        EmailVerify::where('email', $email)->delete();
         InviteCode::where('user_id', '=', $uid)->delete();
         OnlineLog::where('user_id', '=', $uid)->delete();
         Link::where('userid', '=', $uid)->delete();
         LoginIp::where('userid', '=', $uid)->delete();
-        PasswordReset::where('email', '=', $email)->delete();
-        TelegramSession::where('user_id', '=', $uid)->delete();
         UserSubscribeLog::where('user_id', '=', $uid)->delete();
 
         $this->delete();
