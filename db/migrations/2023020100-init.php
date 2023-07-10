@@ -82,15 +82,6 @@ return new class() implements MigrationInterface {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-            CREATE TABLE `email_verify` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-                `email` varchar(255) NOT NULL DEFAULT '' COMMENT '邮箱',
-                `ip` varchar(255) NOT NULL DEFAULT '' COMMENT 'IP',
-                `code` varchar(255) NOT NULL DEFAULT '' COMMENT '验证码',
-                `expire_in` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '过期时间',
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
             CREATE TABLE `gift_card` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '礼品卡ID',
                 `card` text NOT NULL DEFAULT '' COMMENT '卡号',
@@ -251,15 +242,6 @@ return new class() implements MigrationInterface {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-            CREATE TABLE `telegram_session` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                `user_id` bigint(20) DEFAULT NULL,
-                `type` int(11) DEFAULT NULL,
-                `session_content` varchar(255) DEFAULT NULL,
-                `datetime` bigint(20) DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
             CREATE TABLE `ticket` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工单ID',
                 `title` varchar(255) NOT NULL DEFAULT '' COMMENT '工单标题',
@@ -380,17 +362,6 @@ return new class() implements MigrationInterface {
                 `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `user_password_reset` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-                `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱',
-                `token` varchar(255) NOT NULL DEFAULT '' COMMENT '重置密码的 token',
-                `init_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
-                `expire_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '过期时间',
-                PRIMARY KEY (`id`),
-                KEY `email` (`email`),
-                KEY `token` (`token`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `user_subscribe_log` (

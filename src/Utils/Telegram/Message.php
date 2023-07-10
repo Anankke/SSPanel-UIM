@@ -6,6 +6,7 @@ namespace App\Utils\Telegram;
 
 use App\Models\Setting;
 use App\Utils\Telegram;
+use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function count;
@@ -43,6 +44,7 @@ final class Message
 
     /**
      * @throws TelegramSDKException
+     * @throws RedisException
      */
     public function __construct(Api $bot, \Telegram\Bot\Objects\Message $Message)
     {
@@ -70,7 +72,11 @@ final class Message
                     $BinsUser = TelegramTools::getUser($Uid, 'id');
                     $BinsUser->telegram_id = $this->triggerUser['id'];
                     $BinsUser->im_type = 4;
-                    $BinsUser->im_value = $this->triggerUser['username'];
+                    if ($this->triggerUser['username'] === null) {
+                        $BinsUser->im_value = '用戶名未设置';
+                    } else {
+                        $BinsUser->im_value = $this->triggerUser['username'];
+                    }
                     $BinsUser->save();
                     if ($BinsUser->is_admin === 1) {
                         $text = '尊敬的**管理员**你好，恭喜绑定成功。' . PHP_EOL . '当前绑定邮箱为：' . $BinsUser->email;

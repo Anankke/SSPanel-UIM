@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Setting;
 use RateLimit\Exception\LimitExceeded;
 use RateLimit\Rate;
 use RateLimit\RedisRateLimiter;
@@ -99,6 +100,44 @@ final class RateLimit
 
         try {
             $admin_api_limiter->limit($admin_api_token);
+        } catch (LimitExceeded $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @throws RedisException
+     */
+    public static function checkEmailIpLimit(string $request_ip): bool
+    {
+        $email_ip_limiter = new RedisRateLimiter(
+            Rate::perHour(Setting::obtain('email_request_ip_limit')),
+            Cache::initRedis()
+        );
+
+        try {
+            $email_ip_limiter->limit($request_ip);
+        } catch (LimitExceeded $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @throws RedisException
+     */
+    public static function checkEmailAddressLimit(string $request_address): bool
+    {
+        $email_address_limiter = new RedisRateLimiter(
+            Rate::perHour(Setting::obtain('email_request_address_limit')),
+            Cache::initRedis()
+        );
+
+        try {
+            $email_address_limiter->limit($request_address);
         } catch (LimitExceeded $e) {
             return false;
         }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 /**
- * EmailVerify Model
+ * EmailQueue Model
  */
 final class EmailQueue extends Model
 {

@@ -34,6 +34,9 @@
                             <a href="#email" class="nav-link active" data-bs-toggle="tab">邮件设置</a>
                         </li>
                         <li class="nav-item">
+                            <a href="#limit" class="nav-link" data-bs-toggle="tab">发送限制</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#smtp" class="nav-link" data-bs-toggle="tab">SMTP</a>
                         </li>
                         <li class="nav-item">
@@ -57,13 +60,13 @@
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">邮件服务提供商</label>
                                     <div class="col">
-                                        <select id="mail_driver" class="col form-select" value="{$settings['mail_driver']}">
-                                            <option value="none" {if $settings['mail_driver'] === "none"}selected{/if}>none</option>
-                                            <option value="smtp" {if $settings['mail_driver'] === "smtp"}selected{/if}>smtp</option>
-                                            <option value="sendgrid" {if $settings['mail_driver'] === "sendgrid"}selected{/if}>sendgrid</option>
-                                            <option value="mailgun" {if $settings['mail_driver'] === "mailgun"}selected{/if}>mailgun</option>
-                                            <option value="postal" {if $settings['mail_driver'] === "postal"}selected{/if}>postal</option>
-                                            <option value="ses" {if $settings['mail_driver'] === "ses"}selected{/if}>ses</option>
+                                        <select id="email_driver" class="col form-select" value="{$settings['email_driver']}">
+                                            <option value="none" {if $settings['email_driver'] === "none"}selected{/if}>none</option>
+                                            <option value="smtp" {if $settings['email_driver'] === "smtp"}selected{/if}>smtp</option>
+                                            <option value="sendgrid" {if $settings['email_driver'] === "sendgrid"}selected{/if}>sendgrid</option>
+                                            <option value="mailgun" {if $settings['email_driver'] === "mailgun"}selected{/if}>mailgun</option>
+                                            <option value="postal" {if $settings['email_driver'] === "postal"}selected{/if}>postal</option>
+                                            <option value="ses" {if $settings['email_driver'] === "ses"}selected{/if}>ses</option>
                                         </select>
                                     </div>
                                 </div>
@@ -74,6 +77,38 @@
                                         <div class="col">
                                             <button id="test-email" class="btn btn-primary">发送测试邮件</button>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="limit">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">邮箱验证码有效期（秒）</label>
+                                    <div class="col">
+                                        <input id="email_verify_code_ttl" type="text" class="form-control"
+                                               value="{$settings['email_verify_code_ttl']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">邮箱重设密码链接有效期（秒）</label>
+                                    <div class="col">
+                                        <input id="email_password_reset_ttl" type="text" class="form-control"
+                                               value="{$settings['email_password_reset_ttl']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">单个IP每小时可请求的发信次数</label>
+                                    <div class="col">
+                                        <input id="email_request_ip_limit" type="text" class="form-control"
+                                               value="{$settings['email_request_ip_limit']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">单个邮箱地址每小时可请求的发信次数</label>
+                                    <div class="col">
+                                        <input id="email_request_address_limit" type="text" class="form-control"
+                                               value="{$settings['email_request_address_limit']}">
                                     </div>
                                 </div>
                             </div>

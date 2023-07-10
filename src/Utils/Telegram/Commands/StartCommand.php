@@ -8,6 +8,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
 use App\Utils\Telegram\TelegramTools;
+use RedisException;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function strlen;
@@ -81,6 +82,9 @@ final class StartCommand extends Command
         }
     }
 
+    /**
+     * @throws RedisException
+     */
     public function bindingAccount($SendUser, $MessageText): void
     {
         $Uid = Telegram::verifyBindSession($MessageText);

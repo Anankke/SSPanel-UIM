@@ -23,7 +23,7 @@ final class Mail
 {
     public static function getClient(): Mailgun|Smtp|SendGrid|NullMail|Ses|Postal
     {
-        $driver = Setting::obtain('mail_driver');
+        $driver = Setting::obtain('email_driver');
         return match ($driver) {
             'mailgun' => new Mailgun(),
             'ses' => new Ses(),

@@ -65,24 +65,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">邮箱验证码有效期（秒）</label>
-                                    <div class="col">
-                                        <input id="email_verify_ttl" type="text" class="form-control" value="{$settings['email_verify_ttl']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">验证码有效期内单个 IP 可请求次数</label>
-                                    <div class="col">
-                                        <input id="email_verify_ip_limit" type="text" class="form-control" value="{$settings['email_verify_ip_limit']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">验证码有效期内单个邮箱地址可请求次数</label>
-                                    <div class="col">
-                                        <input id="email_verify_email_limit" type="text" class="form-control" value="{$settings['email_verify_email_limit']}">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">默认接收每日用量邮件推送</label>
                                     <div class="col">
                                         <select id="sign_up_for_daily_report" class="col form-select" value="{$settings['sign_up_for_daily_report']}">
