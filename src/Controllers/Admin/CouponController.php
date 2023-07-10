@@ -7,16 +7,22 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\UserCoupon;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
+use function in_array;
+use function json_decode;
+use function json_encode;
+use function property_exists;
+use function time;
 
 /*
  *  Coupon Controller
  */
 final class CouponController extends BaseController
 {
-    public static $details = [
+    public static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '优惠码ID',
@@ -97,9 +103,9 @@ final class CouponController extends BaseController
     /**
      * 后台优惠码页面
      *
-     * @param array     $args
+     * @throws Exception
      */
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -110,10 +116,8 @@ final class CouponController extends BaseController
 
     /**
      * 添加优惠码
-     *
-     * @param array     $args
      */
-    public function add(Request $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $code = $request->getParam('code');
         $type = $request->getParam('type');
@@ -125,7 +129,7 @@ final class CouponController extends BaseController
         $generate_method = $request->getParam('generate_method');
         $expire_time = $request->getParam('expire_time');
 
-        if ($code === '' && \in_array($generate_method, ['char', 'char_ramdom'])) {
+        if ($code === '' && in_array($generate_method, ['char', 'char_ramdom'])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码不能为空',
@@ -146,7 +150,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        if ($expire_time !== '' && $expire_time < \time()) {
+        if ($expire_time !== '' && $expire_time < time()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '到期时间不能小于当前时间',
@@ -161,7 +165,7 @@ final class CouponController extends BaseController
         }
 
         if ($generate_method === 'char_random') {
-            $code .= Tools::genRandomChar(8);
+            $code .= Tools::genRandomChar();
 
             if (UserCoupon::where('code', $code)->count() !== 0) {
                 return $response->withJson([
@@ -172,7 +176,7 @@ final class CouponController extends BaseController
         }
 
         if ($generate_method === 'random') {
-            $code = Tools::genRandomChar(8);
+            $code = Tools::genRandomChar();
 
             if (UserCoupon::where('code', $code)->count() !== 0) {
                 return $response->withJson([
@@ -197,9 +201,9 @@ final class CouponController extends BaseController
 
         $coupon = new UserCoupon();
         $coupon->code = $code;
-        $coupon->content = \json_encode($content);
-        $coupon->limit = \json_encode($limit);
-        $coupon->create_time = \time();
+        $coupon->content = json_encode($content);
+        $coupon->limit = json_encode($limit);
+        $coupon->create_time = time();
         if ($expire_time !== '') {
             $coupon->expire_time = $expire_time;
         } else {
@@ -213,7 +217,7 @@ final class CouponController extends BaseController
         ]);
     }
 
-    public function delete(Request $request, Response $response, array $args): ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $coupon_id = $args['id'];
         UserCoupon::find($coupon_id)->delete();
@@ -223,13 +227,13 @@ final class CouponController extends BaseController
         ]);
     }
 
-    public function disable(ServerRequest $request, Response $response, array $args)
+    public function disable(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $coupon_id = $args['id'];
         $coupon = UserCoupon::find($coupon_id)->first();
-        $limit = \json_decode($coupon->limit);
+        $limit = json_decode($coupon->limit);
         $limit->disabled = 1;
-        $coupon->limit = \json_encode($limit);
+        $coupon->limit = json_encode($limit);
         $coupon->save();
         return $response->withJson([
             'ret' => 1,
@@ -239,15 +243,13 @@ final class CouponController extends BaseController
 
     /**
      * 后台商品优惠码页面 AJAX
-     *
-     * @param array     $args
      */
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $coupons = UserCoupon::orderBy('id', 'desc')->get();
         foreach ($coupons as $coupon) {
-            $content = \json_decode($coupon->content);
-            $limit = \json_decode($coupon->limit);
+            $content = json_decode($coupon->content);
+            $limit = json_decode($coupon->limit);
             if ($limit->disabled === 1) {
                 $coupon->op = '<button type="button" class="btn btn-red" id="delete-coupon-' . $coupon->id . '" 
                 onclick="deleteCoupon(' . $coupon->id . ')">删除</button>';
@@ -267,7 +269,7 @@ final class CouponController extends BaseController
                 $coupon->use_time = $limit->use_time;
             }
 
-            if ((int) $limit->total_use_time < 0) {
+            if (! property_exists($limit, 'total_use_time') || (int) $limit->total_use_time < 0) {
                 $coupon->total_use_time = '不限次数';
             } else {
                 $coupon->total_use_time = $limit->total_use_time;

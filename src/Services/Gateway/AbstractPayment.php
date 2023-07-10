@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
-use App\Models\Code;
 use App\Models\Invoice;
 use App\Models\Payback;
 use App\Models\Paylist;
@@ -14,18 +13,17 @@ use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function get_called_class;
+use function in_array;
+use function json_decode;
+use function json_encode;
+use function time;
 
 abstract class AbstractPayment
 {
-    /**
-     * @param array     $args
-     */
-    abstract public function purchase(Request $request, Response $response, array $args): ResponseInterface;
+    abstract public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
-    /**
-     * @param array     $args
-     */
-    abstract public function notify(Request $request, Response $response, array $args): ResponseInterface;
+    abstract public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
     /**
      * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
@@ -42,18 +40,12 @@ abstract class AbstractPayment
      */
     abstract public static function _readableName(): string;
 
-    /**
-     * @param array     $args
-     */
-    public function getReturnHTML(Request $request, Response $response, array $args): ResponseInterface
+    public function getReturnHTML(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write('ok');
     }
 
-    /**
-     * @param array     $args
-     */
-    public function getStatus(Request $request, Response $response, array $args): ResponseInterface
+    public function getStatus(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $p = Paylist::where('tradeno', $_POST['pid'])->first();
         return $response->withJson([
@@ -69,33 +61,20 @@ abstract class AbstractPayment
         $paylist = Paylist::where('tradeno', $tradeno)->first();
 
         if ($paylist->status === 1) {
-            return \json_encode(['errcode' => 0]);
+            return json_encode(['errcode' => 0]);
         }
 
-        $paylist->datetime = \time();
+        $paylist->datetime = time();
         $paylist->status = 1;
         $paylist->save();
 
         $user = User::find($paylist->userid);
 
-        if ($paylist->invoice_id !== 0) {
-            $invoice = Invoice::where('id', $paylist->invoice_id)->first();
-            $invoice->status = 'paid_gateway';
-            $invoice->update_time = \time();
-            $invoice->pay_time = \time();
-            $invoice->save();
-        } else {
-            $user->money += $paylist->total;
-            $user->save();
-            $codeq = new Code();
-            $codeq->code = $method;
-            $codeq->isused = 1;
-            $codeq->type = -1;
-            $codeq->number = $paylist->total;
-            $codeq->usedatetime = date('Y-m-d H:i:s');
-            $codeq->userid = $user->id;
-            $codeq->save();
-        }
+        $invoice = Invoice::where('id', $paylist->invoice_id)->first();
+        $invoice->status = 'paid_gateway';
+        $invoice->update_time = time();
+        $invoice->pay_time = time();
+        $invoice->save();
 
         // 返利
         if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_paid') {
@@ -136,8 +115,8 @@ abstract class AbstractPayment
     protected static function getActiveGateway($key): bool
     {
         $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
-        $active_gateways = \json_decode($payment_gateways->value);
-        if (\in_array($key, $active_gateways)) {
+        $active_gateways = json_decode($payment_gateways->value);
+        if (in_array($key, $active_gateways)) {
             return true;
         }
         return false;

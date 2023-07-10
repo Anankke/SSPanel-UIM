@@ -34,7 +34,7 @@ final class AopF2F extends AbstractPayment
         return 'Alipay F2F';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $antiXss = new AntiXSS();
 

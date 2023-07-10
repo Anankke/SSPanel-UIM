@@ -35,7 +35,7 @@ final class TrafficLogController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->fetch('admin/trafficlog.tpl')
+                ->fetch('admin/log/traffic.tpl')
         );
     }
 

@@ -9,9 +9,13 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Paylist;
 use App\Utils\Tools;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
+use function in_array;
+use function json_decode;
+use function time;
 
 final class InvoiceController extends BaseController
 {
@@ -29,7 +33,10 @@ final class InvoiceController extends BaseController
         ],
     ];
 
-    public function index(Request $request, Response $response, array $args): ResponseInterface
+    /**
+     * @throws Exception
+     */
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -38,7 +45,10 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function detail(Request $request, Response $response, array $args): ResponseInterface
+    /**
+     * @throws Exception
+     */
+    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
         $invoice = Invoice::find($id);
@@ -52,7 +62,7 @@ final class InvoiceController extends BaseController
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = \json_decode($invoice->content);
+        $invoice_content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
@@ -63,12 +73,12 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function markPaid(Request $request, Response $response, array $args): ResponseInterface
+    public function markPaid(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $invoice_id = $args['id'];
         $invoice = Invoice::find($invoice_id);
 
-        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
+        if (in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '不能标记已经支付的账单',
@@ -84,12 +94,12 @@ final class InvoiceController extends BaseController
             ]);
         }
 
-        $order->update_time = \time();
+        $order->update_time = time();
         $order->status = 'pending_activation';
         $order->save();
 
-        $invoice->update_time = \time();
-        $invoice->pay_time = \time();
+        $invoice->update_time = time();
+        $invoice->pay_time = time();
         $invoice->status = 'paid_admin';
         $invoice->save();
 
@@ -99,7 +109,7 @@ final class InvoiceController extends BaseController
         ]);
     }
 
-    public function ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $invoices = Invoice::orderBy('id', 'desc')->get();
 

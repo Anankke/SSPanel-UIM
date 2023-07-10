@@ -51,7 +51,7 @@ final class Epay extends AbstractPayment
         return 'EPay';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $antiXss = new AntiXSS();
 

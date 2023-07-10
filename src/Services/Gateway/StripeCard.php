@@ -34,7 +34,7 @@ final class StripeCard extends AbstractPayment
         return 'Stripe';
     }
 
-    public function purchase(Request $request, Response $response, array $args): ResponseInterface
+    public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $trade_no = uniqid();
         $user = Auth::getUser();
