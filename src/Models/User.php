@@ -22,9 +22,7 @@ use function md5;
 use function random_int;
 use function round;
 use function str_replace;
-use function strtolower;
 use function time;
-use function trim;
 use const PHP_EOL;
 
 final class User extends Model
@@ -52,12 +50,11 @@ final class User extends Model
     ];
 
     /**
-     * Gravatar 头像地址
+     * DiceBear 头像
      */
-    public function getGravatarAttribute(): string
+    public function getDiceBearAttribute(): string
     {
-        $hash = md5(strtolower(trim($this->email)));
-        return 'https://www.gravatar.com/avatar/' . $hash . '?&d=identicon';
+        return 'https://api.dicebear.com/6.x/identicon/svg?seed=' . md5($this->email);
     }
 
     /**

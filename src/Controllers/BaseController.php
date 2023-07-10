@@ -39,7 +39,12 @@ abstract class BaseController
     public function view(): Smarty
     {
         if (View::$connection) {
-            $this->view->assign('queryLog', View::$connection->connection('default')->getQueryLog())->assign('optTime', (microtime(true) - View::$beginTime) * 1000);
+            $this->view->assign(
+                'queryLog',
+                View::$connection
+                    ->connection('default')
+                    ->getQueryLog()
+            )->assign('optTime', (microtime(true) - View::$beginTime) * 1000);
         }
         return $this->view;
     }
