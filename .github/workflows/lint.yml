@@ -1,4 +1,4 @@
-name: Lint php code
+name: Lint PHP Code
 on:
   push:
   pull_request:
