@@ -43,11 +43,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE email_queue MODIFY COLUMN `template` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件模板';
         ALTER TABLE email_queue MODIFY COLUMN `array` longtext NOT NULL DEFAULT '{}' COMMENT '模板参数' CHECK (json_valid(`array`));
         ALTER TABLE email_queue MODIFY COLUMN `time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '添加时间';
-        ALTER TABLE email_verify MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE email_verify MODIFY COLUMN `email` varchar(255) NOT NULL DEFAULT '' COMMENT '邮箱';
-        ALTER TABLE email_verify MODIFY COLUMN `ip` varchar(255) NOT NULL DEFAULT '' COMMENT 'IP';
-        ALTER TABLE email_verify MODIFY COLUMN `code` varchar(255) NOT NULL DEFAULT '' COMMENT '验证码';
-        ALTER TABLE email_verify MODIFY COLUMN `expire_in` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '过期时间';
         ALTER TABLE gift_card MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '礼品卡ID';
         ALTER TABLE gift_card MODIFY COLUMN `card` text NOT NULL DEFAULT '' COMMENT '卡号';
         ALTER TABLE gift_card MODIFY COLUMN `balance` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '余额';
@@ -177,13 +172,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE user_invite_code MODIFY COLUMN `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '创建时间';
         ALTER TABLE user_invite_code MODIFY COLUMN `updated_at` timestamp NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '更新时间';
         ALTER TABLE user_money_log MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE user_password_reset MODIFY COLUMN `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE user_password_reset MODIFY COLUMN `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱';
-        ALTER TABLE user_password_reset MODIFY COLUMN `token` varchar(255) NOT NULL DEFAULT '' COMMENT '重置密码的 token';
-        ALTER TABLE user_password_reset MODIFY COLUMN `init_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间';
-        ALTER TABLE user_password_reset MODIFY COLUMN `expire_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '过期时间';
-        ALTER TABLE user_password_reset ADD KEY IF NOT EXISTS `email` (`email`);
-        ALTER TABLE user_password_reset ADD KEY IF NOT EXISTS `token` (`token`);
         ALTER TABLE user_subscribe_log MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
         ALTER TABLE user_subscribe_log MODIFY COLUMN `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名';
         ALTER TABLE user_subscribe_log MODIFY COLUMN `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID';
