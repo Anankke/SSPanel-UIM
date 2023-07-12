@@ -14,7 +14,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE user MODIFY COLUMN `email` varchar(255) NOT NULL COMMENT 'Email';
         ALTER TABLE user MODIFY COLUMN `pass` varchar(255) NOT NULL COMMENT '登录密码';
         ALTER TABLE user MODIFY COLUMN `passwd` varchar(255) NOT NULL COMMENT '节点密码';
-        ALTER TABLE user MODIFY COLUMN `t` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '最后使用时间';
         ALTER TABLE user MODIFY COLUMN `u` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户当前上传流量';
         ALTER TABLE user MODIFY COLUMN `d` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户当前下载流量';
         ALTER TABLE user MODIFY COLUMN `transfer_today` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户今日所用流量';
