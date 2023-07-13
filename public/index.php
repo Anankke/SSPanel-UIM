@@ -36,4 +36,5 @@ $routes($app);
 
 $request = ServerRequest::fromGlobals();
 $request = new Slim\Http\ServerRequest($request);
+
 $app->run($request);

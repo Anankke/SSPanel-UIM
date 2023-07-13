@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "544143e8d800119b070bee10560449b4",
+    "content-hash": "ecc7da4619d8760e9d1240cb2099a50c",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",

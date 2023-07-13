@@ -36,7 +36,6 @@
         "smarty/smarty": "^4",
         "srmklive/paypal": "~3.0",
         "stripe/stripe-php": "^10",
-        "symfony/console": "*",
         "symfony/yaml": "^6",
         "tronovav/geoip2-update": "^2.1",
         "vectorface/googleauthenticator": "^3.0",

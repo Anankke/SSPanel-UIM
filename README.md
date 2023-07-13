@@ -1,4 +1,4 @@
-<img src="public/images/uim-logo-round_192x192.png" alt="logo" width="192" height="192" align="left" />
+<img src="public/images/uim-logo-round_192x192.png" alt="logo" width="150" height="150" align="left" />
 
 <h1>SSPanel UIM</h1>
 
@@ -41,7 +41,7 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 - MariaDB 10.6+（关闭严格模式，不兼容 MySQL/Disable strict mode, DO NOT USE MYSQL）
 - Redis 7.0+
 
-我们推荐用户在开始使用之前至少有一定程度的 PHP 和 Linux 使用知识，能够至少正确识别使用中所出现的问题并在 issue 中提供所需的信息。
+我们推荐用户在开始使用之前有一定程度的 PHP 和 Linux 使用知识，能够至少正确识别使用中所出现的问题并在 issue 中提供所需的信息。
 
 对于拒绝阅读文档且拒绝提供任何反馈的，我们建议其使用其他非开源的方案。
 

@@ -75,10 +75,12 @@ final class SubController extends BaseController
                 $sub_info,
             ]);
         }
+
         $sub_details = ' upload=' . $user->u
         . '; download=' . $user->d
         . '; total=' . $user->transfer_enable
         . '; expire=' . strtotime($user->class_expire);
+
         return $response->withHeader('Subscription-Userinfo', $sub_details)->write(
             $sub_info
         );
