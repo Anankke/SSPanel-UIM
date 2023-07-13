@@ -59,50 +59,23 @@ final class LinkController extends BaseController
         }
 
         $user = $link->user();
-
         $params = $request->getQueryParams();
+
+        $subTypes = [
+            'sip002' => ['method' => 'getSIP002'],
+            'ss' => ['method' => 'getSS'],
+            'v2ray' => ['method' => 'getV2Ray'],
+            'trojan' => ['method' => 'getTrojan'],
+        ];
+
         $sub_type = '';
         $sub_info = '';
 
-        if (isset($params['clash']) && $params['clash'] === '1') {
-            $sub_type = 'clash';
-            $sub_info = SubController::getClash($user);
-        }
-
-        if (isset($params['sip002']) && $params['sip002'] === '1') {
-            $sub_type = 'sip002';
-            $sub_info = self::getSIP002($user);
-        }
-
-        if (isset($params['ss']) && $params['ss'] === '1') {
-            $sub_type = 'ss';
-            $sub_info = self::getSS($user);
-        }
-
-        if (isset($params['v2ray']) && $params['v2ray'] === '1') {
-            $sub_type = 'v2ray';
-            $sub_info = self::getV2Ray($user);
-        }
-
-        if (isset($params['trojan']) && $params['trojan'] === '1') {
-            $sub_type = 'trojan';
-            $sub_info = self::getTrojan($user);
-        }
-
-        if (isset($params['sub'])) {
-            switch ($params['sub']) {
-                case '3':
-                    $sub_type = 'v2ray';
-                    $sub_info = self::getV2Ray($user);
-                    break;
-                case '4':
-                    $sub_type = 'trojan';
-                    $sub_info = self::getTrojan($user);
-                    break;
-                default:
-                    $sub_type = 'ss';
-                    $sub_info = self::getSS($user);
-                    break;
+        foreach ($params as $key => $value) {
+            if (isset($subTypes[$key]) && $value === '1') {
+                $sub_type = $key;
+                $sub_info = self::{$subTypes[$key]['method']}($user);
+                break;
             }
         }
 
