@@ -125,17 +125,10 @@ final class OrderController extends BaseController
 
         $product = Product::find($product_id);
 
-        if ($product === null) {
+        if ($product === null || $product->stock === 0) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '商品不存在',
-            ]);
-        }
-
-        if ($product->stock === 0) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '商品库存不足',
+                'msg' => '商品无效',
             ]);
         }
 
@@ -145,7 +138,7 @@ final class OrderController extends BaseController
         if ($coupon_raw !== '') {
             $coupon = UserCoupon::where('code', $coupon_raw)->first();
 
-            if ($coupon === null || $coupon->expire_time < time()) {
+            if ($coupon === null || ($coupon->expire_time !== 0 && $coupon->expire_time < time())) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '优惠码无效',
@@ -154,21 +147,18 @@ final class OrderController extends BaseController
 
             $coupon_limit = json_decode($coupon->limit);
 
-            if ((int) $coupon_limit->disabled === 1) {
+            if ($coupon_limit->disabled) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '优惠码无效',
                 ]);
             }
 
-            if ($coupon_limit->product_id !== '') {
-                $product_limit = explode(',', $coupon_limit->product_id);
-                if (! in_array($product_id, $product_limit)) {
-                    return $response->withJson([
-                        'ret' => 0,
-                        'msg' => '优惠码无效',
-                    ]);
-                }
+            if ($coupon_limit->product_id !== '' && ! in_array($product_id, explode(',', $coupon_limit->product_id))) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '优惠码无效',
+                ]);
             }
 
             $coupon_use_limit = $coupon_limit->use_time;
