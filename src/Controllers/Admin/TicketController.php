@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\ChatGPT;
+use App\Services\PaLM;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -103,7 +104,7 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 喊 ChatGPT 帮忙回复工单
+     * 喊 LLM 帮忙回复工单
      */
     public function updateAI(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -119,15 +120,24 @@ final class TicketController extends BaseController
         }
 
         $content_old = json_decode($ticket->content, true);
-        // 获取用户的第一个问题，作为 ChatGPT 的输入
+        // 获取用户的第一个问题，作为 LLM 的输入
         $user_question = $content_old[0]['comment'];
         // 这里可能要等4-5秒
-        $ai_reply = ChatGPT::askOnce($user_question);
+        if ($_ENV['llm_backend'] === 'openai') {
+            $ai_reply = ChatGPT::askOnce($user_question);
+        } elseif ($_ENV['llm_backend'] === 'palm') {
+            $ai_reply = PaLM::textPrompt($user_question);
+        } else {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'LLM 后端配置错误',
+            ]);
+        }
 
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
-                'commenter_name' => 'AI Admin by GPT',
+                'commenter_name' => 'AI Admin',
                 'comment' => $ai_reply,
                 'datetime' => time(),
             ],
@@ -138,7 +148,7 @@ final class TicketController extends BaseController
             $_ENV['appName'] . '-工单被回复',
             'warn.tpl',
             [
-                'text' => '你好，ChatGPT 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
+                'text' => '你好，AI 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
             ],
             []
         );

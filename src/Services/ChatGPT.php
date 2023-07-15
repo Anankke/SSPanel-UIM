@@ -20,7 +20,7 @@ final class ChatGPT
 
         $client = OpenAI::client($_ENV['openai_api_key']);
         $response = $client->chat()->create([
-            'model' => $_ENV['ai_model'],
+            'model' => $_ENV['openai_model'],
             'messages' => [
                 [
                     'role' => 'user',
