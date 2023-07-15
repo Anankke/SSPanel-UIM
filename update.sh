@@ -9,8 +9,6 @@ Usage:
 ./update.sh release $release_version $db_version --> Upgrade to the release version with the specified database version
 EOF
 
-[ $(id -u) != "0" ] && { echo "Error: You must be root to run this script!"; exit 1; }
-
 do_update_sspanel_dev(){
     git pull origin dev
     git reset --hard origin/dev
@@ -46,10 +44,12 @@ if [[ $1 == "release" ]]; then
         echo "Error: The release version cannot be empty!"
         exit 1
     fi
+
     if [[ $3 == "" ]]; then
         echo "Error: The database version cannot be empty!"
         exit 1
     fi
+
     do_update_sspanel_release $2 $3
     exit 0
 fi

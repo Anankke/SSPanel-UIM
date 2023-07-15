@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "544143e8d800119b070bee10560449b4",
+    "content-hash": "ecc7da4619d8760e9d1240cb2099a50c",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.275.6",
+            "version": "3.275.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a048b1d7110f62fb67cc69b93efc24e62ea8b64b"
+                "reference": "54dcef3349c81b46c0f5f6e54b5f9bfb5db19903"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a048b1d7110f62fb67cc69b93efc24e62ea8b64b",
-                "reference": "a048b1d7110f62fb67cc69b93efc24e62ea8b64b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/54dcef3349c81b46c0f5f6e54b5f9bfb5db19903",
+                "reference": "54dcef3349c81b46c0f5f6e54b5f9bfb5db19903",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.275.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.275.7"
             },
-            "time": "2023-07-11T04:45:11+00:00"
+            "time": "2023-07-13T18:21:04+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -4813,16 +4813,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v10.16.0",
+            "version": "v10.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "ea863a92102a8e8dbdeddf79b4535c355ec62d91"
+                "reference": "73383b44de153f4d602b90dad3ef075259bcecef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ea863a92102a8e8dbdeddf79b4535c355ec62d91",
-                "reference": "ea863a92102a8e8dbdeddf79b4535c355ec62d91",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/73383b44de153f4d602b90dad3ef075259bcecef",
+                "reference": "73383b44de153f4d602b90dad3ef075259bcecef",
                 "shasum": ""
             },
             "require": {
@@ -4868,9 +4868,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v10.16.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v10.17.0"
             },
-            "time": "2023-06-29T23:40:49+00:00"
+            "time": "2023-07-13T22:12:18+00:00"
         },
         {
             "name": "symfony/console",
@@ -8363,16 +8363,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.2.4",
+            "version": "10.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "68484779b5a2ed711fbdeba6ca01910d87acdff2"
+                "reference": "15a89f123d8ca9c1e1598d6d87a56a8bf28c72cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/68484779b5a2ed711fbdeba6ca01910d87acdff2",
-                "reference": "68484779b5a2ed711fbdeba6ca01910d87acdff2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/15a89f123d8ca9c1e1598d6d87a56a8bf28c72cd",
+                "reference": "15a89f123d8ca9c1e1598d6d87a56a8bf28c72cd",
                 "shasum": ""
             },
             "require": {
@@ -8444,7 +8444,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.2.4"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.2.5"
             },
             "funding": [
                 {
@@ -8460,7 +8460,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-10T04:06:08+00:00"
+            "time": "2023-07-14T04:18:47+00:00"
         },
         {
             "name": "psr/cache",
