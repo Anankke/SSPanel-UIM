@@ -234,14 +234,6 @@ return new class() implements MigrationInterface {
                 KEY `status` (`status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-            CREATE TABLE `stream_media` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-                `node_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '节点ID',
-                `result` text NOT NULL DEFAULT '' COMMENT '检测结果',
-                `created_at` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
             CREATE TABLE `ticket` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工单ID',
                 `title` varchar(255) NOT NULL DEFAULT '' COMMENT '工单标题',

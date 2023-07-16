@@ -139,10 +139,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE product MODIFY COLUMN `sale_count` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '累计销售数';
         ALTER TABLE product MODIFY COLUMN `stock` int(11) NOT NULL DEFAULT -1 COMMENT '库存';
         ALTER TABLE product ADD KEY IF NOT EXISTS `status` (`status`);
-        ALTER TABLE stream_media MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE stream_media MODIFY COLUMN `node_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '节点ID';
-        ALTER TABLE stream_media MODIFY COLUMN `result` text NOT NULL DEFAULT '' COMMENT '检测结果';
-        ALTER TABLE stream_media MODIFY COLUMN `created_at` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间';
         ALTER TABLE ticket MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工单ID';
         ALTER TABLE ticket MODIFY COLUMN `title` varchar(255) NOT NULL DEFAULT '' COMMENT '工单标题';
         ALTER TABLE ticket MODIFY COLUMN `content` longtext NOT NULL DEFAULT '{}' COMMENT '工单内容' CHECK (json_valid(`content`));
