@@ -144,9 +144,14 @@ $_ENV['sentry_dsn'] = '';
 $_ENV['maxmind_license_key'] = '';
 $_ENV['geoip_locale'] = 'en';
 
-// OpenAI API Key for GPT powered ticket reply and more
+// Large language model powered ticket reply and more
+$_ENV['llm_backend'] = 'openai'; // openai or palm
+// OpenAI ChatGPT
 $_ENV['openai_api_key'] = '';
-$_ENV['ai_model'] = 'gpt-3.5-turbo';
+$_ENV['openai_model'] = 'gpt-3.5-turbo-16k-0613';
+// Google PaLM API
+$_ENV['palm_api_key'] = '';
+$_ENV['palm_text_model'] = 'text-bison-001';
 
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';

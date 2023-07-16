@@ -28,9 +28,8 @@ return static function (Slim\App $app): void {
         // 公告
         $group->get('/announcement', App\Controllers\UserController::class . ':announcement');
         // 文档
-        $group->get('/docs', App\Controllers\UserController::class . ':docs');
-        // 流媒体解锁
-        $group->get('/media', App\Controllers\UserController::class . ':media');
+        $group->get('/docs', App\Controllers\User\DocsController::class . ':index');
+        $group->get('/docs/{id}/view', App\Controllers\User\DocsController::class . ':detail');
         // 个人资料
         $group->get('/profile', App\Controllers\UserController::class . ':profile');
         $group->get('/invite', App\Controllers\UserController::class . ':invite');
@@ -130,7 +129,7 @@ return static function (Slim\App $app): void {
     $app->group('/admin', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\AdminController::class . ':index');
         $group->get('/', App\Controllers\AdminController::class . ':index');
-        // Node Mange
+        // Node
         $group->get('/node', App\Controllers\Admin\NodeController::class . ':index');
         $group->get('/node/create', App\Controllers\Admin\NodeController::class . ':create');
         $group->post('/node', App\Controllers\Admin\NodeController::class . ':add');
@@ -140,7 +139,7 @@ return static function (Slim\App $app): void {
         $group->put('/node/{id}', App\Controllers\Admin\NodeController::class . ':update');
         $group->delete('/node/{id}', App\Controllers\Admin\NodeController::class . ':delete');
         $group->post('/node/ajax', App\Controllers\Admin\NodeController::class . ':ajax');
-        // Ticket Mange
+        // Ticket
         $group->get('/ticket', App\Controllers\Admin\TicketController::class . ':index');
         $group->post('/ticket', App\Controllers\Admin\TicketController::class . ':add');
         $group->get('/ticket/{id}/view', App\Controllers\Admin\TicketController::class . ':ticketView');
@@ -149,7 +148,7 @@ return static function (Slim\App $app): void {
         $group->put('/ticket/{id}/ai', App\Controllers\Admin\TicketController::class . ':updateAI');
         $group->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
         $group->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
-        // Ann Mange
+        // Ann
         $group->get('/announcement', App\Controllers\Admin\AnnController::class . ':index');
         $group->get('/announcement/create', App\Controllers\Admin\AnnController::class . ':create');
         $group->post('/announcement', App\Controllers\Admin\AnnController::class . ':add');
@@ -157,6 +156,15 @@ return static function (Slim\App $app): void {
         $group->put('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':update');
         $group->delete('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':delete');
         $group->post('/announcement/ajax', App\Controllers\Admin\AnnController::class . ':ajax');
+        // Docs
+        $group->get('/docs', App\Controllers\Admin\DocsController::class . ':index');
+        $group->get('/docs/create', App\Controllers\Admin\DocsController::class . ':create');
+        $group->post('/docs', App\Controllers\Admin\DocsController::class . ':add');
+        $group->post('/docs/generate', App\Controllers\Admin\DocsController::class . ':generate');
+        $group->get('/docs/{id}/edit', App\Controllers\Admin\DocsController::class . ':edit');
+        $group->put('/docs/{id}', App\Controllers\Admin\DocsController::class . ':update');
+        $group->delete('/docs/{id}', App\Controllers\Admin\DocsController::class . ':delete');
+        $group->post('/docs/ajax', App\Controllers\Admin\DocsController::class . ':ajax');
         // 审计
         $group->get('/detect', App\Controllers\Admin\DetectController::class . ':detect');
         $group->get('/detect/create', App\Controllers\Admin\DetectController::class . ':create');
@@ -167,14 +175,14 @@ return static function (Slim\App $app): void {
         $group->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
         $group->get('/detect/ban', App\Controllers\Admin\DetectController::class . ':ban');
         $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectController::class . ':ajaxBan');
-        // User Mange
+        // User
         $group->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $group->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
         $group->put('/user/{id}', App\Controllers\Admin\UserController::class . ':update');
         $group->post('/user/create', App\Controllers\Admin\UserController::class . ':createNewUser');
         $group->delete('/user/{id}', App\Controllers\Admin\UserController::class . ':delete');
         $group->post('/user/ajax', App\Controllers\Admin\UserController::class . ':ajax');
-        // Coupon Mange
+        // Coupon
         $group->get('/coupon', App\Controllers\Admin\CouponController::class . ':index');
         $group->post('/coupon', App\Controllers\Admin\CouponController::class . ':add');
         $group->post('/coupon/ajax', App\Controllers\Admin\CouponController::class . ':ajax');
@@ -262,8 +270,6 @@ return static function (Slim\App $app): void {
 
     // WebAPI
     $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
-        // 流媒体检测
-        $group->post('/media/save_report', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点
         $group->get('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户

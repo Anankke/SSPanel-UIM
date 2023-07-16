@@ -125,12 +125,6 @@
                                         <i class="ti ti-server"></i>&nbsp;
                                         节点
                                     </a>
-                                    {if $public_setting['display_media']}
-                                    <a class="dropdown-item" href="/user/media">
-                                        <i class="ti ti-key"></i>&nbsp;
-                                        流媒体解锁
-                                    </a>
-                                    {/if}
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -152,6 +146,12 @@
                                     <a class="dropdown-item" href="/user/ticket">
                                         <i class="ti ti-ticket"></i>&nbsp;
                                         工单
+                                    </a>
+                                    {/if}
+                                    {if $public_setting['display_docs']}
+                                    <a class="dropdown-item" href="/user/docs">
+                                        <i class="ti ti-notes"></i>&nbsp;
+                                        文档
                                     </a>
                                     {/if}
                                 </div>

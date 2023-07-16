@@ -6,15 +6,15 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title">公告管理</span>
+                        <span class="home-title">文档管理</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">查看并管理站点中的公告</span>
+                        <span class="home-subtitle">查看并管理站点中的文档</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="/admin/announcement/create" class="btn btn-primary">
+                        <a href="/admin/docs/create" class="btn btn-primary">
                             <i class="icon ti ti-plus"></i>
                             创建
                         </a>
@@ -48,9 +48,9 @@
     <script>
         let table = $('#data_table').DataTable({
             ajax: {
-                url: '/admin/announcement/ajax',
+                url: '/admin/docs/ajax',
                 type: 'POST',
-                dataSrc: 'anns'
+                dataSrc: 'docs'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
@@ -99,12 +99,12 @@
             table;
         }
 
-        function deleteAnn(ann_id) {
-            $('#notice-message').text('确定删除此公告？');
+        function deleteDoc(doc_id) {
+            $('#notice-message').text('确定删除此文档？');
             $('#notice-dialog').modal('show');
             $('#notice-confirm').off('click').on('click', function() {
                 $.ajax({
-                    url: "/admin/announcement/" + ann_id,
+                    url: "/admin/docs/" + doc_id,
                     type: 'DELETE',
                     dataType: "json",
                     success: function(data) {

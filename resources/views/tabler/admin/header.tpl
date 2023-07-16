@@ -158,6 +158,10 @@
                                         <i class="ti ti-messages"></i>&nbsp;
                                         工单
                                     </a>
+                                    <a class="dropdown-item" href="/admin/docs">
+                                        <i class="ti ti-notes"></i>&nbsp;
+                                        文档
+                                    </a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">

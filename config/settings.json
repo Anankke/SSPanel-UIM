@@ -1381,6 +1381,16 @@
     },
     {
         "id": null,
+        "item": "display_docs",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示文档"
+    },
+    {
+        "id": null,
         "item": "enable_forced_replacement",
         "value": "1",
         "class": "subscribe",

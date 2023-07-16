@@ -7,6 +7,7 @@ Github: https://github.com/sspanel-uim/SSPanel-Uim-Dev
 Usage: 
 ./update.sh dev --> Upgrade to the latest development version
 ./update.sh release $release_version $db_version --> Upgrade to the release version with the specified database version
+./update.sh release-nogit --> Upgrade to the current release version without git(You will need to manually download the latest release version)
 EOF
 
 do_update_sspanel_dev(){
@@ -34,6 +35,15 @@ do_update_sspanel_release(){
     php xcat Migration $db_version
 }
 
+do_update_sspanel_release_nogit(){
+    rm -r storage/framework/smarty/compile/*
+    php composer.phar install --no-dev
+    php composer.phar selfupdate
+    php xcat Update
+    php xcat Tool importAllSettings
+    php xcat Migration latest
+}
+
 if [[ $1 == "dev" ]]; then
     do_update_sspanel_dev
     exit 0
@@ -51,5 +61,10 @@ if [[ $1 == "release" ]]; then
     fi
 
     do_update_sspanel_release $2 $3
+    exit 0
+fi
+
+if [[ $1 == "release-nogit" ]]; then
+    do_update_sspanel_release_nogit
     exit 0
 fi

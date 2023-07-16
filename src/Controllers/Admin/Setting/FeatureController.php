@@ -15,6 +15,7 @@ final class FeatureController extends BaseController
         'display_media',
         'display_subscribe_log',
         'display_detect_log',
+        'display_docs',
     ];
 
     /**
