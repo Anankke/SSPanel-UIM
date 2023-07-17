@@ -55,6 +55,13 @@ final class TicketController extends BaseController
         $comment = $request->getParam('comment') ?? '';
         $type = $request->getParam('type') ?? '';
 
+        if ($this->user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法开启工单，请稍后再试',
+            ]);
+        }
+
         if ($title === '' || $comment === '' || $type === '') {
             return $response->withJson([
                 'ret' => 0,
@@ -84,6 +91,7 @@ final class TicketController extends BaseController
 
         if (Setting::obtain('mail_ticket')) {
             $adminUser = User::where('is_admin', 1)->get();
+
             foreach ($adminUser as $user) {
                 $user->sendMail(
                     $_ENV['appName'] . '-新工单被开启',
@@ -106,6 +114,13 @@ final class TicketController extends BaseController
     {
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
+
+        if ($this->user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法回复工单，请稍后再试',
+            ]);
+        }
 
         if ($comment === '') {
             return $response->withJson([

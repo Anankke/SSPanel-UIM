@@ -97,6 +97,13 @@ final class InvoiceController extends BaseController
 
         $user = $this->user;
 
+        if ($user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '支付失败，请稍后再试',
+            ]);
+        }
+
         if ($user->money < $invoice->price) {
             return $response->withJson([
                 'ret' => 0,

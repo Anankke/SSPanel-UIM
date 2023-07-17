@@ -213,16 +213,6 @@ final class TicketController extends BaseController
             ]);
         }
 
-        $user = User::find($ticket->userid);
-        $user->sendMail(
-            $_ENV['appName'] . '-工单已被关闭',
-            'warn.tpl',
-            [
-                'text' => '你好，你的工单 #'. $ticket->id .' 已被关闭，如果你还有问题，欢迎提交新的工单。',
-            ],
-            []
-        );
-
         $ticket->status = 'closed';
         $ticket->save();
 

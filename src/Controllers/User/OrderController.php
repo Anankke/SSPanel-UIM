@@ -135,6 +135,13 @@ final class OrderController extends BaseController
         $buy_price = $product->price;
         $user = $this->user;
 
+        if ($user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '商品无效',
+            ]);
+        }
+
         if ($coupon_raw !== '') {
             $coupon = UserCoupon::where('code', $coupon_raw)->first();
 
