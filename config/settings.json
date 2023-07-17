@@ -1391,6 +1391,16 @@
     },
     {
         "id": null,
+        "item": "display_docs_only_for_paid_user",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "文档仅付费用户可见"
+    },
+    {
+        "id": null,
         "item": "enable_forced_replacement",
         "value": "1",
         "class": "subscribe",

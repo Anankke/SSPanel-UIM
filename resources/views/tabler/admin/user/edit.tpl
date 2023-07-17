@@ -121,12 +121,10 @@
                                 </span>
                             </div>
                             <div class="form-group mb-3 row">
-                                <span class="col">使用新的商店系统</span>
-                                <span class="col-auto">
-                                    <label class="form-check form-check-single form-switch">
-                                        <input id="use_new_shop" class="form-check-input" type="checkbox"
-                                            {if $edit_user->use_new_shop}checked="" {/if}>
-                                    </label>
+                                <span class="col">账户异常状态</span>
+                                <span class="col-auto form-check-single form-switch">
+                                    <input id="is_shadow_banned" class="form-check-input" type="checkbox"
+                                            {if $edit_user->is_shadow_banned}checked=""{/if}>
                                 </span>
                             </div>
                             <div class="form-group mb-3 row">
@@ -286,7 +284,7 @@
                 is_admin: $("#is_admin").is(":checked"),
                 is_banned: $("#is_banned").is(":checked"),
                 ga_enable: $("#ga_enable").is(":checked"),
-                use_new_shop: $("#use_new_shop").is(":checked"),
+                is_shadow_banned: $("#is_shadow_banned").is(":checked"),
             },
             success: function(data) {
                 if (data.ret === 1) {

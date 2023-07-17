@@ -148,11 +148,12 @@
                                         工单
                                     </a>
                                     {/if}
-                                    {if $public_setting['display_docs']}
-                                    <a class="dropdown-item" href="/user/docs">
-                                        <i class="ti ti-notes"></i>&nbsp;
-                                        文档
-                                    </a>
+                                    {if $public_setting['display_docs'] &&
+                                    (! $public_setting['display_docs_only_for_paid_user'] || $user->class !== 0)}
+                                        <a class="dropdown-item" href="/user/docs">
+                                            <i class="ti ti-notes"></i>&nbsp;
+                                            文档
+                                        </a>
                                     {/if}
                                 </div>
                             </li>

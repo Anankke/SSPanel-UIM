@@ -50,7 +50,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE user MODIFY COLUMN `forbidden_port` varchar(255) NOT NULL DEFAULT '' COMMENT '禁止访问端口';
         ALTER TABLE user MODIFY COLUMN `auto_reset_day` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '自动重置流量日';
         ALTER TABLE user MODIFY COLUMN `auto_reset_bandwidth` decimal(12,2) unsigned NOT NULL DEFAULT 0.00 COMMENT '自动重置流量';
-        ALTER TABLE user MODIFY COLUMN `use_new_shop` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否启用新商店';
         ALTER TABLE user MODIFY COLUMN `is_dark_mode` tinyint(1) NOT NULL DEFAULT 0;
         ALTER TABLE user DROP KEY IF EXISTS `user_name`;
         ALTER TABLE user ADD UNIQUE KEY IF NOT EXISTS `api_token` (`api_token`);

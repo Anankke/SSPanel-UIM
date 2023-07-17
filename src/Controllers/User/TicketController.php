@@ -51,9 +51,23 @@ final class TicketController extends BaseController
 
     public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        if (! Setting::obtain('enable_ticket')) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法开启工单，请稍后再试',
+            ]);
+        }
+
         $title = $request->getParam('title') ?? '';
         $comment = $request->getParam('comment') ?? '';
         $type = $request->getParam('type') ?? '';
+
+        if ($this->user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法开启工单，请稍后再试',
+            ]);
+        }
 
         if ($title === '' || $comment === '' || $type === '') {
             return $response->withJson([
@@ -84,6 +98,7 @@ final class TicketController extends BaseController
 
         if (Setting::obtain('mail_ticket')) {
             $adminUser = User::where('is_admin', 1)->get();
+
             foreach ($adminUser as $user) {
                 $user->sendMail(
                     $_ENV['appName'] . '-新工单被开启',
@@ -104,8 +119,22 @@ final class TicketController extends BaseController
 
     public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        if (! Setting::obtain('enable_ticket')) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法回复工单，请稍后再试',
+            ]);
+        }
+
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
+
+        if ($this->user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法回复工单，请稍后再试',
+            ]);
+        }
 
         if ($comment === '') {
             return $response->withJson([
@@ -166,6 +195,10 @@ final class TicketController extends BaseController
      */
     public function ticketView(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        if (! Setting::obtain('enable_ticket')) {
+            return $response->withRedirect('/user');
+        }
+
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
 

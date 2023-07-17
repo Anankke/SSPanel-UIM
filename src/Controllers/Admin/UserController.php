@@ -72,9 +72,9 @@ final class UserController extends BaseController
         'money',
         'is_admin',
         'ga_enable',
-        'use_new_shop',
         'is_banned',
         'banned_reason',
+        'is_shadow_banned',
         'transfer_enable',
         'invite_num',
         'ref_by',
@@ -190,9 +190,9 @@ final class UserController extends BaseController
         $user->remark = $request->getParam('remark');
         $user->is_admin = $request->getParam('is_admin') === 'true' ? 1 : 0;
         $user->ga_enable = $request->getParam('ga_enable') === 'true' ? 1 : 0;
-        $user->use_new_shop = $request->getParam('use_new_shop') === 'true' ? 1 : 0;
         $user->is_banned = $request->getParam('is_banned') === 'true' ? 1 : 0;
         $user->banned_reason = $request->getParam('banned_reason');
+        $user->is_shadow_banned = $request->getParam('is_shadow_banned') === 'true' ? 1 : 0;
         $user->transfer_enable = Tools::toGB($request->getParam('transfer_enable'));
         $user->invite_num = $request->getParam('invite_num');
         $user->ref_by = $request->getParam('ref_by');

@@ -43,7 +43,6 @@ final class MoneyController extends BaseController
     {
         $antiXss = new AntiXSS();
         $giftcard_raw = $antiXss->xss_clean($request->getParam('giftcard'));
-
         $giftcard = GiftCard::where('card', $giftcard_raw)->first();
 
         if ($giftcard === null || $giftcard->status !== 0) {
@@ -54,6 +53,13 @@ final class MoneyController extends BaseController
         }
 
         $user = $this->user;
+
+        if ($user->is_shadow_banned) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '礼品卡无效',
+            ]);
+        }
 
         $giftcard->status = 1;
         $giftcard->use_time = time();

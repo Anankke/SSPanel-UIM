@@ -297,7 +297,6 @@ final class AuthController extends BaseController
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
-        $user->use_new_shop = 1;
         $random_group = Setting::obtain('random_group');
 
         if ($random_group === '') {

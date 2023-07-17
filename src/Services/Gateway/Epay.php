@@ -141,12 +141,9 @@ final class Epay extends AbstractPayment
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
     {
-        $user = Auth::getUser();
-
         $money = $_GET['money'];
 
-        if ($user->use_new_shop) {
-            $html = <<<HTML
+        $html = <<<HTML
             你已成功充值 {$money} 元，正在跳转..
             <script>
                 setTimeout(function() {
@@ -154,16 +151,6 @@ final class Epay extends AbstractPayment
                 },500)
             </script>
             HTML;
-        } else {
-            $html = <<<HTML
-            你已成功充值 {$money} 元，正在跳转..
-            <script>
-                setTimeout(function() {
-                    location.href="/user/code";
-                },500)
-            </script>
-            HTML;
-        }
 
         return $response->write($html);
     }

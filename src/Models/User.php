@@ -380,7 +380,6 @@ final class User extends Model
     public function killUser(): bool
     {
         $uid = $this->id;
-        $email = $this->email;
 
         DetectBanLog::where('user_id', '=', $uid)->delete();
         DetectLog::where('user_id', '=', $uid)->delete();
@@ -441,9 +440,10 @@ final class User extends Model
         $return = [
             'ok' => true,
         ];
-        if (! $this->isAbleToCheckin()) {
+
+        if (! $this->isAbleToCheckin() || $this->is_shadow_banned) {
             $return['ok'] = false;
-            $return['msg'] = '你似乎已经签到过了...';
+            $return['msg'] = '签到失败，请稍后再试';
         } else {
             try {
                 $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
@@ -470,6 +470,7 @@ final class User extends Model
         ];
         $telegram_id = $this->telegram_id;
         $this->telegram_id = 0;
+
         if ($this->save()) {
             if (
                 $_ENV['enable_telegram']
