@@ -75,6 +75,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">文档仅付费用户可见</label>
+                                    <div class="col">
+                                        <select id="display_docs_only_for_paid_user" class="col form-select" value="{$settings['display_docs_only_for_paid_user']}">
+                                            <option value="0" {if $settings['display_docs_only_for_paid_user'] === false}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['display_docs_only_for_paid_user']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

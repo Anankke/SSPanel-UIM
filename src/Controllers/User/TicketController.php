@@ -51,6 +51,13 @@ final class TicketController extends BaseController
 
     public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        if (! Setting::obtain('enable_ticket')) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法开启工单，请稍后再试',
+            ]);
+        }
+
         $title = $request->getParam('title') ?? '';
         $comment = $request->getParam('comment') ?? '';
         $type = $request->getParam('type') ?? '';
@@ -112,6 +119,13 @@ final class TicketController extends BaseController
 
     public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        if (! Setting::obtain('enable_ticket')) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '暂时无法回复工单，请稍后再试',
+            ]);
+        }
+
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
 
@@ -181,6 +195,10 @@ final class TicketController extends BaseController
      */
     public function ticketView(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        if (! Setting::obtain('enable_ticket')) {
+            return $response->withRedirect('/user');
+        }
+
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
 
