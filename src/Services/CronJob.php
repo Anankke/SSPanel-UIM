@@ -13,7 +13,6 @@ use App\Models\OnlineLog;
 use App\Models\Order;
 use App\Models\Paylist;
 use App\Models\Setting;
-use App\Models\StreamMedia;
 use App\Models\User;
 use App\Models\UserHourlyUsage;
 use App\Models\UserSubscribeLog;
@@ -68,7 +67,6 @@ final class CronJob
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', time() - 86400)->delete();
         OnlineLog::where('last_time', '<', time() - 86400)->delete();
-        StreamMedia::where('created_at', '<', time() - 86400)->delete();
 
         echo date('Y-m-d H:i:s') . ' 数据库清理完成' . PHP_EOL;
     }
