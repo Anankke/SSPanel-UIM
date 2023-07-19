@@ -711,6 +711,16 @@
     },
     {
         "id": null,
+        "item": "ticket_limit",
+        "value": "3",
+        "class": "support",
+        "is_public": 0,
+        "type": "int",
+        "default": "3",
+        "mark": "用戶工单配額（每月）"
+    },
+    {
+        "id": null,
         "item": "reg_mode",
         "value": "open",
         "class": "register",
