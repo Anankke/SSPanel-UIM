@@ -88,7 +88,7 @@ final class InfoController extends BaseController
         if (Setting::obtain('reg_email_verify')) {
             $redis = Cache::initRedis();
             $email_verify_code = $request->getParam('emailcode');
-            $email_verify = $redis->get($email_verify_code);
+            $email_verify = $redis->get('email_verify:' . $email_verify_code);
 
             if (! $email_verify) {
                 return ResponseHelper::error($response, '你的邮箱验证码不正确');

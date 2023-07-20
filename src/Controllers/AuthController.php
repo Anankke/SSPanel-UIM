@@ -191,7 +191,7 @@ final class AuthController extends BaseController
 
             $code = Tools::genRandomChar(6);
             $redis = Cache::initRedis();
-            $redis->setex($code, Setting::obtain('email_verify_code_ttl'), $email);
+            $redis->setex('email_verify:' . $code, Setting::obtain('email_verify_code_ttl'), $email);
 
             try {
                 Mail::send(
@@ -407,7 +407,7 @@ final class AuthController extends BaseController
         if (Setting::obtain('reg_email_verify')) {
             $redis = Cache::initRedis();
             $email_verify_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
-            $email_verify = $redis->get($email_verify_code);
+            $email_verify = $redis->get('email_verify:' . $email_verify_code);
 
             if (! $email_verify) {
                 return ResponseHelper::error($response, '你的邮箱验证码不正确');

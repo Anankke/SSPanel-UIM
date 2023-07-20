@@ -163,7 +163,7 @@ final class Telegram
     {
         $antiXss = new AntiXSS();
         $redis = Cache::initRedis();
-        $uid = $redis->get($antiXss->xss_clean($token));
+        $uid = $redis->get('telegram_bind:' . $antiXss->xss_clean($token));
 
         if (! $uid) {
             return 0;
@@ -183,7 +183,7 @@ final class Telegram
         $token = self::generateRandomLink();
 
         $redis->setex(
-            $token,
+            'telegram_bind:' . $token,
             600,
             $user->id
         );
