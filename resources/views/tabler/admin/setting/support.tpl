@@ -100,6 +100,12 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">用戶工单配額（每月）</label>
+                                    <div class="col">
+                                        <input id="ticket_limit" type="text" class="form-control" value="{$settings['ticket_limit']}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

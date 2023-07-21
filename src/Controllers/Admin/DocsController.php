@@ -8,12 +8,12 @@ use App\Controllers\BaseController;
 use App\Models\Docs;
 use App\Services\ChatGPT;
 use App\Services\PaLM;
+use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function date;
 
 final class DocsController extends BaseController
 {
@@ -70,7 +70,7 @@ final class DocsController extends BaseController
         }
 
         $doc = new Docs();
-        $doc->date = date('Y-m-d H:i:s');
+        $doc->date = Tools::toDateTime(time());
         $doc->title = $title;
         $doc->content = $content;
 
@@ -139,7 +139,7 @@ final class DocsController extends BaseController
         $doc = Docs::find($args['id']);
         $doc->title = $request->getParam('title');
         $doc->content = $request->getParam('content');
-        $doc->date = date('Y-m-d H:i:s');
+        $doc->date = Tools::toDateTime(time());
 
         if (! $doc->save()) {
             return $response->withJson([

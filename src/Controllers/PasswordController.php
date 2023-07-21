@@ -94,7 +94,7 @@ final class PasswordController extends BaseController
         $antiXss = new AntiXSS();
         $token = $antiXss->xss_clean($args['token']);
         $redis = Cache::initRedis();
-        $email = $redis->get($token);
+        $email = $redis->get('password_reset:' . $token);
 
         if (! $email) {
             return $response->withStatus(302)->withHeader('Location', '/password/reset');
@@ -124,13 +124,14 @@ final class PasswordController extends BaseController
         }
 
         $redis = Cache::initRedis();
-        $email = $redis->get($token);
+        $email = $redis->get('password_reset:' . $token);
 
         if (! $email) {
             return ResponseHelper::error($response, '链接无效');
         }
 
         $user = User::where('email', $email)->first();
+
         if ($user === null) {
             return ResponseHelper::error($response, '链接无效');
         }

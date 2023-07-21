@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\UserSubscribeLog;
+use App\Models\SubscribeLog;
 use App\Utils\Tools;
 use Exception;
 use GeoIp2\Exception\AddressNotFoundException;
@@ -20,10 +20,8 @@ final class SubscribeLogController extends BaseController
     [
         'field' => [
             'id' => '事件ID',
-            'user_name' => '用户名',
             'user_id' => '用户ID',
-            'email' => '用户邮箱',
-            'subscribe_type' => '获取的订阅类型',
+            'type' => '获取的订阅类型',
             'request_ip' => '请求IP',
             'location' => 'IP归属地',
             'request_time' => '请求时间',
@@ -41,7 +39,7 @@ final class SubscribeLogController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->fetch('admin/subscribe.tpl')
+                ->fetch('admin/log/subscribe.tpl')
         );
     }
 
@@ -57,11 +55,11 @@ final class SubscribeLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $subscribes = UserSubscribeLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = UserSubscribeLog::count();
+        $subscribes = SubscribeLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = SubscribeLog::count();
 
         foreach ($subscribes as $subscribe) {
-            $subscribe->location = Tools::getIpLocation($subscribe->request_ip);
+            $subscribe->request_time = Tools::toDateTime($subscribe->request_time);
         }
 
         return $response->withJson([

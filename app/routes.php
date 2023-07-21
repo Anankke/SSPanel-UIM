@@ -46,19 +46,22 @@ return static function (Slim\App $app): void {
         $group->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticketView');
         $group->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticketUpdate');
         // 资料编辑
-        $group->get('/edit', App\Controllers\UserController::class . ':edit');
-        $group->post('/email', App\Controllers\UserController::class . ':updateEmail');
-        $group->post('/username', App\Controllers\UserController::class . ':updateUsername');
-        $group->post('/password', App\Controllers\UserController::class . ':updatePassword');
+        $group->get('/edit', App\Controllers\User\InfoController::class . ':index');
+        $group->post('/email', App\Controllers\User\InfoController::class . ':updateEmail');
+        $group->post('/username', App\Controllers\User\InfoController::class . ':updateUsername');
+        $group->post('/password', App\Controllers\User\InfoController::class . ':updatePassword');
+        $group->post('/contact_update', App\Controllers\User\InfoController::class . ':updateContact');
+        $group->post('/theme', App\Controllers\User\InfoController::class . ':updateTheme');
+        $group->post('/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
+        $group->post('/passwd_reset', App\Controllers\User\InfoController::class . ':resetPasswd');
+        $group->post('/apitoken_reset', App\Controllers\User\InfoController::class . ':resetApiToken');
+        $group->post('/method', App\Controllers\User\InfoController::class . ':updateMethod');
+        $group->post('/url_reset', App\Controllers\User\InfoController::class . ':resetURL');
+        $group->put('/invite', App\Controllers\User\InfoController::class . ':resetInviteURL');
+        $group->post('/kill', App\Controllers\User\InfoController::class . ':sendToGulag');
+        // 发送验证邮件
         $group->post('/send', App\Controllers\AuthController::class . ':sendVerify');
-        $group->post('/contact_update', App\Controllers\UserController::class . ':updateContact');
-        $group->post('/theme', App\Controllers\UserController::class . ':updateTheme');
-        $group->post('/mail', App\Controllers\UserController::class . ':updateMail');
-        $group->post('/passwd_reset', App\Controllers\UserController::class . ':resetPasswd');
-        $group->post('/apitoken_reset', App\Controllers\UserController::class . ':resetApiToken');
-        $group->post('/method', App\Controllers\UserController::class . ':updateMethod');
-        $group->get('/kill', App\Controllers\UserController::class . ':kill');
-        $group->post('/kill', App\Controllers\UserController::class . ':handleKill');
+        // 登出
         $group->get('/logout', App\Controllers\UserController::class . ':logout');
         // MFA
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
@@ -66,9 +69,6 @@ return static function (Slim\App $app): void {
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
         // Telegram
         $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
-        // URL
-        $group->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
-        $group->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
         // 深色模式切换
         $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
         // 记录

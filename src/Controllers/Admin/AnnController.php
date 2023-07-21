@@ -8,12 +8,12 @@ use App\Controllers\BaseController;
 use App\Models\Ann;
 use App\Models\User;
 use App\Utils\Telegram;
+use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function date;
 use function str_replace;
 use function strip_tags;
 use const PHP_EOL;
@@ -84,7 +84,7 @@ final class AnnController extends BaseController
 
         if ($content !== '') {
             $ann = new Ann();
-            $ann->date = date('Y-m-d H:i:s');
+            $ann->date = Tools::toDateTime(time());
             $ann->content = $content;
 
             if (! $ann->save()) {
@@ -154,7 +154,7 @@ final class AnnController extends BaseController
     {
         $ann = Ann::find($args['id']);
         $ann->content = (string) $request->getParam('content');
-        $ann->date = date('Y-m-d H:i:s');
+        $ann->date = Tools::toDateTime(time());
 
         if (! $ann->save()) {
             return $response->withJson([

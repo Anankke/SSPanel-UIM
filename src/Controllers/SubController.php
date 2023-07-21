@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Models\Link;
 use App\Models\Node;
 use App\Models\Setting;
-use App\Models\UserSubscribeLog;
+use App\Models\SubscribeLog;
 use App\Services\RateLimit;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
@@ -67,7 +67,7 @@ final class SubController extends BaseController
         };
 
         if ($_ENV['subscribeLog']) {
-            UserSubscribeLog::addSubscribeLog($user, $subtype, $request->getHeaderLine('User-Agent'));
+            SubscribeLog::add($user, $subtype, $request->getHeaderLine('User-Agent'));
         }
 
         if (in_array($subtype, ['json', 'sip008'])) {

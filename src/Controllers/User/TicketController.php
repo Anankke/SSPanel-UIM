@@ -8,9 +8,11 @@ use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Services\RateLimit;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
@@ -49,23 +51,22 @@ final class TicketController extends BaseController
         );
     }
 
+    /**
+     * @throws RedisException
+     */
     public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        if (! Setting::obtain('enable_ticket')) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '暂时无法开启工单，请稍后再试',
-            ]);
-        }
-
         $title = $request->getParam('title') ?? '';
         $comment = $request->getParam('comment') ?? '';
         $type = $request->getParam('type') ?? '';
 
-        if ($this->user->is_shadow_banned) {
+        if (! Setting::obtain('enable_ticket') ||
+            $this->user->is_shadow_banned ||
+            ! RateLimit::checkTicketLimit($this->user->id)
+        ) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '暂时无法开启工单，请稍后再试',
+                'msg' => '暂时无法开启新工单，请稍后再试',
             ]);
         }
 

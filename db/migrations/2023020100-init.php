@@ -233,6 +233,17 @@ return new class() implements MigrationInterface {
                 KEY `type` (`type`),
                 KEY `status` (`status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            
+            CREATE TABLE `subscribe_log` (
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
+                `type` varchar(255) NOT NULL DEFAULT '' COMMENT '获取的订阅类型',
+                `request_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '请求IP',
+                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA信息',
+                `request_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '请求时间',
+                PRIMARY KEY (`id`),
+                KEY `user_id` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `ticket` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工单ID',
@@ -352,19 +363,6 @@ return new class() implements MigrationInterface {
                 `amount` decimal(10,2) NOT NULL DEFAULT 0 COMMENT '变动总额',
                 `remark` text NOT NULL DEFAULT '' COMMENT '备注',
                 `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
-                PRIMARY KEY (`id`),
-                KEY `user_id` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `user_subscribe_log` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-                `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
-                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱',
-                `subscribe_type` varchar(255) NOT NULL DEFAULT '' COMMENT '获取的订阅类型',
-                `request_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '请求IP',
-                `request_time` timestamp NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '请求时间',
-                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA信息',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"

@@ -647,7 +647,7 @@
         $("#modify-daily-report").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/user/mail",
+                url: "/user/daily_mail",
                 dataType: "json",
                 data: {
                     mail: $('#daily-report').val()
@@ -780,6 +780,7 @@
                 }
             })
         });
+
         $("#unbind-telegram-btn").click(function() {
           $.ajax({
             type: "POST",

@@ -6,7 +6,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\DetectLog;
-use App\Models\UserSubscribeLog;
+use App\Models\SubscribeLog;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -22,10 +22,10 @@ final class LogController extends BaseController
      */
     public function subscribe(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
+        $logs = SubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($logs as $log) {
-            $log->location = Tools::getIpLocation($log->request_ip);
+            $log->request_time = Tools::toDateTime($log->request_time);
         }
 
         return $response->write($this->view()

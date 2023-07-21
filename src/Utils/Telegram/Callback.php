@@ -11,7 +11,7 @@ use App\Models\LoginIp;
 use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\Setting;
-use App\Models\UserSubscribeLog;
+use App\Models\SubscribeLog;
 use App\Services\Config;
 use App\Utils\Tools;
 use GeoIp2\Exception\AddressNotFoundException;
@@ -411,7 +411,11 @@ final class Callback
         switch ($OpEnd) {
             case 'login_log':
                 // 登录记录
-                $total = LoginIp::where('userid', '=', $this->User->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
+                $total = LoginIp::where('userid', '=', $this->User->id)
+                    ->where('type', '=', 0)
+                    ->orderBy('datetime', 'desc')
+                    ->take(10)
+                    ->get();
                 $text = '<strong>以下是你最近 10 次的登录 IP 和地理位置：</strong>' . PHP_EOL;
                 $text .= PHP_EOL;
 
@@ -466,7 +470,9 @@ final class Callback
                 $paybacks = Payback::where('ref_by', $this->User->id)->orderBy('datetime', 'desc')->take(10)->get();
                 $temp = [];
                 foreach ($paybacks as $payback) {
-                    $temp[] = '<code>#' . $payback->id . '：' . ($payback->user() !== null ? $payback->user()->user_name : '已注销') . '：' . $payback->ref_get . ' 元</code>';
+                    $temp[] = '<code>#' . $payback->id .
+                        '：' . ($payback->user() !== null ? $payback->user()->user_name : '已注销') . '：' .
+                        $payback->ref_get . ' 元</code>';
                 }
                 $text = '<strong>以下是你最近 10 次返利记录：</strong>';
                 $text .= PHP_EOL . PHP_EOL;
@@ -485,11 +491,13 @@ final class Callback
                 break;
             case 'subscribe_log':
                 // 订阅记录
-                $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->User->id)->take(10)->get();
+                $logs = SubscribeLog::orderBy('id', 'desc')->where('user_id', $this->User->id)->take(10)->get();
                 $temp = [];
                 foreach ($logs as $log) {
                     $location = Tools::getIpLocation($log->request_ip);
-                    $temp[] = '<code>' . $log->request_time . ' 在 [' . $log->request_ip . '] ' . $location . ' 访问了 ' . $log->subscribe_type . ' 订阅</code>';
+                    $temp[] = '<code>' . Tools::toDateTime($log->request_time) .
+                        ' 在 [' . $log->request_ip . '] ' . $location .
+                        ' 访问了 ' . $log->type . ' 订阅</code>';
                 }
                 $text = '<strong>以下是你最近 10 次订阅记录：</strong>';
                 $text .= PHP_EOL . PHP_EOL;
@@ -888,13 +896,20 @@ final class Callback
             $UniversalSub_Url = SubController::getUniversalSub($this->User);
             $TraditionalSub_Url = LinkController::getTraditionalSub($this->User);
             $text = match ($CallbackDataExplode[1]) {
-                'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
-                'json' => 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL,
-                'sip008' => 'Shadowsocks SIP008 通用订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $UniversalSub_Url . '/sip008</code>' . PHP_EOL . PHP_EOL,
-                'ss' => 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL,
-                'sip002' => 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL,
-                'v2' => 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL,
-                'trojan' => 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL . '<code>' . $TraditionalSub_Url . '?trojan=1</code>' . PHP_EOL . PHP_EOL,
+                'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
+                'json' => 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL,
+                'sip008' => 'Shadowsocks SIP008 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/sip008</code>' . PHP_EOL . PHP_EOL,
+                'ss' => 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL,
+                'sip002' => 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL,
+                'v2' => 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL,
+                'trojan' => 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $TraditionalSub_Url . '?trojan=1</code>' . PHP_EOL . PHP_EOL,
                 default => '未知参数' . PHP_EOL . PHP_EOL,
             };
             $sendMessage = [

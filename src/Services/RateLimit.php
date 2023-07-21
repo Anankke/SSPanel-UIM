@@ -144,4 +144,23 @@ final class RateLimit
 
         return true;
     }
+
+    /**
+     * @throws RedisException
+     */
+    public static function checkTicketLimit(string $user_id): bool
+    {
+        $ticket_limiter = new RedisRateLimiter(
+            Rate::custom(Setting::obtain('ticket_limit'), 2592000),
+            Cache::initRedis()
+        );
+
+        try {
+            $ticket_limiter->limit($user_id);
+        } catch (LimitExceeded $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

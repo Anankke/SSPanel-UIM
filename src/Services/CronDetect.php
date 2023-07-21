@@ -10,8 +10,8 @@ use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
+use App\Utils\Tools;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function date;
 use function file_get_contents;
 use function in_array;
 use function json_decode;
@@ -139,10 +139,9 @@ final class CronDetect
 
             if ($detect_number >= $_ENV['auto_detect_ban_number']) {
                 $last_detect_ban_time = $user->last_detect_ban_time;
-                $end_time = date('Y-m-d H:i:s');
                 $user->is_banned = 1;
                 $user->banned_reason = 'DetectBan';
-                $user->last_detect_ban_time = $end_time;
+                $user->last_detect_ban_time = Tools::toDateTime(time());
                 $user->save();
                 $DetectBanLog = new DetectBanLog();
                 $DetectBanLog->user_name = $user->user_name;
@@ -151,13 +150,13 @@ final class CronDetect
                 $DetectBanLog->detect_number = $detect_number;
                 $DetectBanLog->ban_time = $_ENV['auto_detect_ban_time'];
                 $DetectBanLog->start_time = strtotime($last_detect_ban_time);
-                $DetectBanLog->end_time = strtotime($end_time);
+                $DetectBanLog->end_time = time();
                 $DetectBanLog->all_detect_number = $user->all_detect_number;
                 $DetectBanLog->save();
             }
         }
 
-        echo date('Y-m-d H:i:s') . ' 审计封禁检查结束' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' 审计封禁检查结束' . PHP_EOL;
 
         // 审计封禁解封
         $banned_users = User::where('is_banned', 1)->where('banned_reason', 'DetectBan')->get();
@@ -171,6 +170,6 @@ final class CronDetect
             }
         }
 
-        echo date('Y-m-d H:i:s') . ' 审计解封检查结束' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' 审计解封检查结束' . PHP_EOL;
     }
 }
