@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Models\Link;
 use App\Models\Node;
 use App\Models\Setting;
-use App\Models\UserSubscribeLog;
+use App\Models\SubscribeLog;
 use App\Services\RateLimit;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
@@ -81,7 +81,7 @@ final class LinkController extends BaseController
 
         // 记录订阅日志
         if ($_ENV['subscribeLog']) {
-            UserSubscribeLog::addSubscribeLog($user, $sub_type, $request->getHeaderLine('User-Agent'));
+            SubscribeLog::add($user, $sub_type, $request->getHeaderLine('User-Agent'));
         }
 
         $sub_details = ' upload=' . $user->u

@@ -36,7 +36,7 @@
                                     {foreach $logs as $log}
                                     <tr>
                                         <td>#{$log->id}</td>
-                                        <td>{$log->subscribe_type}</td>
+                                        <td>{$log->type}</td>
                                         <td>{$log->request_ip}</td>
                                         <td>{$log->location}</td>
                                         <td>{$log->request_time}</td>

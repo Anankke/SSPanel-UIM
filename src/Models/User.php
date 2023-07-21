@@ -387,7 +387,7 @@ final class User extends Model
         OnlineLog::where('user_id', '=', $uid)->delete();
         Link::where('userid', '=', $uid)->delete();
         LoginIp::where('userid', '=', $uid)->delete();
-        UserSubscribeLog::where('user_id', '=', $uid)->delete();
+        SubscribeLog::where('user_id', '=', $uid)->delete();
 
         $this->delete();
 
