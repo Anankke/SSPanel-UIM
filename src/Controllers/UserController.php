@@ -189,7 +189,7 @@ final class UserController extends BaseController
         $user = $this->user;
         $user->telegramReset();
 
-        return ResponseHelper::successfully($response, '重置成功');
+        return ResponseHelper::success($response, '重置成功');
     }
 
     public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -201,6 +201,6 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, '切换失败');
         }
 
-        return ResponseHelper::successfully($response, '切换成功');
+        return ResponseHelper::success($response, '切换成功');
     }
 }

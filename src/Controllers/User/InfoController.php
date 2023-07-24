@@ -103,7 +103,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function updateUsername(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -122,7 +122,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function updatePassword(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -159,7 +159,7 @@ final class InfoController extends BaseController
             $user->cleanLink();
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function updateContact(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -188,7 +188,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function updateTheme(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -207,7 +207,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function updateDailyMail(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -233,7 +233,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function resetPasswd(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -246,7 +246,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function resetApiToken(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -258,7 +258,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function updateMethod(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -281,7 +281,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::successfully($response, '修改成功');
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function resetURL(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -289,7 +289,7 @@ final class InfoController extends BaseController
         $user = $this->user;
         $user->cleanLink();
 
-        return ResponseHelper::successfully($response, '重置成功');
+        return ResponseHelper::success($response, '重置成功');
     }
 
     public function resetInviteURL(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -297,7 +297,7 @@ final class InfoController extends BaseController
         $user = $this->user;
         $user->clearInviteCodes();
 
-        return ResponseHelper::successfully($response, '重置成功');
+        return ResponseHelper::success($response, '重置成功');
     }
 
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -316,7 +316,7 @@ final class InfoController extends BaseController
         if ($_ENV['enable_kill']) {
             Auth::logout();
             $user->killUser();
-            return ResponseHelper::successfully($response, '你的帐号已被送去古拉格劳动改造，再见');
+            return ResponseHelper::success($response, '你的帐号已被送去古拉格劳动改造，再见');
         }
 
         return ResponseHelper::error($response, '自助账号删除未启用');

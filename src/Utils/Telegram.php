@@ -21,13 +21,12 @@ final class Telegram
      */
     public static function send(string $messageText, int $chat_id = 0): void
     {
-        $bot = null;
-
-        if ($chat_id === 0) {
-            $chat_id = $_ENV['telegram_chatid'];
-        }
-
         if ($_ENV['enable_telegram']) {
+            $bot = null;
+
+            if ($chat_id === 0) {
+                $chat_id = $_ENV['telegram_chatid'];
+            }
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
             $bot = new Api($_ENV['telegram_token'], $async);
@@ -51,13 +50,12 @@ final class Telegram
      */
     public static function sendHtml(string $messageText, int $chat_id = 0): void
     {
-        $bot = null;
-
-        if ($chat_id === 0) {
-            $chat_id = $_ENV['telegram_chatid'];
-        }
-
         if ($_ENV['enable_telegram']) {
+            $bot = null;
+
+            if ($chat_id === 0) {
+                $chat_id = $_ENV['telegram_chatid'];
+            }
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
             $bot = new Api($_ENV['telegram_token'], $async);
@@ -90,13 +88,12 @@ final class Telegram
      */
     public static function sendMarkdown(string $messageText, int $chat_id = 0): void
     {
-        $bot = null;
-
-        if ($chat_id === 0) {
-            $chat_id = $_ENV['telegram_chatid'];
-        }
-
         if ($_ENV['enable_telegram']) {
+            $bot = null;
+
+            if ($chat_id === 0) {
+                $chat_id = $_ENV['telegram_chatid'];
+            }
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
             $bot = new Api($_ENV['telegram_token'], $async);
@@ -124,13 +121,12 @@ final class Telegram
      */
     public static function sendMarkdownV2(string $messageText, int $chat_id = 0): void
     {
-        $bot = null;
-
-        if ($chat_id === 0) {
-            $chat_id = $_ENV['telegram_chatid'];
-        }
-
         if ($_ENV['enable_telegram']) {
+            $bot = null;
+
+            if ($chat_id === 0) {
+                $chat_id = $_ENV['telegram_chatid'];
+            }
             // 发送给非群组时使用异步
             $async = ($chat_id !== $_ENV['telegram_chatid']);
             $bot = new Api($_ENV['telegram_token'], $async);
@@ -149,11 +145,6 @@ final class Telegram
                 echo $e->getMessage();
             }
         }
-    }
-
-    public static function generateRandomLink(): string
-    {
-        return Tools::genRandomChar(16);
     }
 
     /**
@@ -180,7 +171,7 @@ final class Telegram
     public static function addBindSession($user): string
     {
         $redis = Cache::initRedis();
-        $token = self::generateRandomLink();
+        $token = Tools::genRandomChar(16);
 
         $redis->setex(
             'telegram_bind:' . $token,

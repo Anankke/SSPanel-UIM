@@ -12,11 +12,20 @@ use function json_encode;
 
 final class ResponseHelper
 {
-    public static function successfully(Response $response, string $msg): ResponseInterface
+    public static function success(Response $response, string $msg): ResponseInterface
     {
         return $response->withJson([
             'ret' => 1,
             'msg' => $msg,
+        ]);
+    }
+
+    public static function successWithData(Response $response, string $msg, array $data): ResponseInterface
+    {
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => $msg,
+            'data' => $data,
         ]);
     }
 
@@ -25,6 +34,15 @@ final class ResponseHelper
         return $response->withJson([
             'ret' => 0,
             'msg' => $msg,
+        ]);
+    }
+
+    public static function errorWithData(Response $response, string $msg, array $data): ResponseInterface
+    {
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => $msg,
+            'data' => $data,
         ]);
     }
 

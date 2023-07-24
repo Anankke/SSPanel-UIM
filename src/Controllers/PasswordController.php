@@ -83,7 +83,7 @@ final class PasswordController extends BaseController
             }
         }
 
-        return ResponseHelper::successfully($response, $msg);
+        return ResponseHelper::success($response, $msg);
     }
 
     /**
@@ -150,6 +150,6 @@ final class PasswordController extends BaseController
 
         $redis->del($token);
 
-        return ResponseHelper::successfully($response, '重置成功');
+        return ResponseHelper::success($response, '重置成功');
     }
 }
