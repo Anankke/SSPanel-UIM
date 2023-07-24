@@ -8,7 +8,7 @@ use App\Models\Setting;
 use Exception;
 use Mailgun\Mailgun as MailgunService;
 use Psr\Http\Client\ClientExceptionInterface;
-use function count;
+use function basename;
 
 final class Mailgun extends Base
 {
@@ -41,29 +41,22 @@ final class Mailgun extends Base
      * @throws Exception
      * @throws ClientExceptionInterface
      */
-    public function send($to, $subject, $text, $file): void
+    public function send($to, $subject, $text, $files): void
     {
         $inline = [];
 
-        foreach ($file as $file_raw) {
-            $inline[] = ['filePath' => $file_raw, 'filename' => basename($file_raw)];
+        if ($files !== []) {
+            foreach ($files as $file_raw) {
+                $inline[] = ['filePath' => $file_raw, 'filename' => basename($file_raw)];
+            }
         }
 
-        if (count($inline) === 0) {
-            $this->mg->messages()->send($this->domain, [
-                'from' => $this->sender,
-                'to' => $to,
-                'subject' => $subject,
-                'html' => $text,
-            ]);
-        } else {
-            $this->mg->messages()->send($this->domain, [
-                'from' => $this->sender,
-                'to' => $to,
-                'subject' => $subject,
-                'html' => $text,
-                'inline' => $inline,
-            ]);
-        }
+        $this->mg->messages()->send($this->domain, [
+            'from' => $this->sender,
+            'to' => $to,
+            'subject' => $subject,
+            'html' => $text,
+            'inline' => $inline,
+        ]);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ecc7da4619d8760e9d1240cb2099a50c",
+    "content-hash": "c05251652e26cdaf74157b4db89dfb87",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -3348,21 +3348,26 @@
         },
         {
             "name": "postal/postal",
-            "version": "v1.0.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/postalserver/postal-php.git",
-                "reference": "7656516590fe1a409b94833000e14fcf87c61c72"
+                "reference": "027a34055ff10d1cacfad0c37f96313efd7ba5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/postalserver/postal-php/zipball/7656516590fe1a409b94833000e14fcf87c61c72",
-                "reference": "7656516590fe1a409b94833000e14fcf87c61c72",
+                "url": "https://api.github.com/repos/postalserver/postal-php/zipball/027a34055ff10d1cacfad0c37f96313efd7ba5ab",
+                "reference": "027a34055ff10d1cacfad0c37f96313efd7ba5ab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4",
-                "rmccue/requests": "^1.0"
+                "guzzlehttp/guzzle": "^6 || ^7",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^9.6",
+                "symplify/easy-coding-standard": "^11.3"
             },
             "type": "library",
             "autoload": {
@@ -3378,6 +3383,14 @@
                 {
                     "name": "Adam Cooke",
                     "email": "me@adamcooke.io"
+                },
+                {
+                    "name": "Josh Grant",
+                    "email": "josh@grantj.io"
+                },
+                {
+                    "name": "William Hall",
+                    "email": "william.hall@synergitech.co.uk"
                 }
             ],
             "description": "Postal for PHP library.",
@@ -3388,9 +3401,9 @@
             ],
             "support": {
                 "issues": "https://github.com/postalserver/postal-php/issues",
-                "source": "https://github.com/postalserver/postal-php/tree/v1.0.1"
+                "source": "https://github.com/postalserver/postal-php/tree/v2.0.0"
             },
-            "time": "2022-01-27T10:58:08+00:00"
+            "time": "2023-07-24T11:37:11+00:00"
         },
         {
             "name": "psr/container",
@@ -4093,66 +4106,6 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
-        },
-        {
-            "name": "rmccue/requests",
-            "version": "v1.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/WordPress/Requests.git",
-                "reference": "82e6936366eac3af4d836c18b9d8c31028fe4cd5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/Requests/zipball/82e6936366eac3af4d836c18b9d8c31028fe4cd5",
-                "reference": "82e6936366eac3af4d836c18b9d8c31028fe4cd5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-                "php-parallel-lint/php-console-highlighter": "^0.5.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3",
-                "phpcompatibility/php-compatibility": "^9.0",
-                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5",
-                "requests/test-server": "dev-master",
-                "squizlabs/php_codesniffer": "^3.5",
-                "wp-coding-standards/wpcs": "^2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Requests": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "ISC"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan McCue",
-                    "homepage": "http://ryanmccue.info"
-                }
-            ],
-            "description": "A HTTP library written in PHP, for human beings.",
-            "homepage": "http://github.com/WordPress/Requests",
-            "keywords": [
-                "curl",
-                "fsockopen",
-                "http",
-                "idna",
-                "ipv6",
-                "iri",
-                "sockets"
-            ],
-            "support": {
-                "issues": "https://github.com/WordPress/Requests/issues",
-                "source": "https://github.com/WordPress/Requests/tree/v1.8.1"
-            },
-            "time": "2021-06-04T09:56:25+00:00"
         },
         {
             "name": "sendgrid/php-http-client",
@@ -10336,6 +10289,7 @@
         "php": "^8.1",
         "ext-bcmath": "*",
         "ext-curl": "*",
+        "ext-fileinfo": "*",
         "ext-json": "*",
         "ext-mysqli": "*",
         "ext-openssl": "*",

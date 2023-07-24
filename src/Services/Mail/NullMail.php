@@ -16,7 +16,7 @@ final class NullMail extends Base
         ];
     }
 
-    public function send($to, $subject, $text, $file): void
+    public function send($to, $subject, $text, $files): void
     {
         echo '';
     }
