@@ -32,9 +32,12 @@ final class MoneyController extends BaseController
             $moneylog->create_time = Tools::toDateTime($moneylog->create_time);
         }
 
+        $moneylog_count = $moneylogs->count();
+
         return $response->write(
             $this->view()
                 ->assign('moneylogs', $moneylogs)
+                ->assign('moneylog_count', $moneylog_count)
                 ->fetch('user/money.tpl')
         );
     }

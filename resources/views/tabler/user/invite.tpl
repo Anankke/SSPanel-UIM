@@ -25,7 +25,7 @@
                                 <div class="card-body">
                                     <h3 class="card-title">邀请规则</h3>
                                     <ul>
-                                        <li>邀请注册的用户在账单确认后，你可获得其账单金额的 <code>{$public_setting['rebate_ratio'] * 100} %</code>
+                                        <li>邀请注册的用户在账单确认后，你可获得其账单金额的 <code>{$rebate_ratio_per} %</code>
                                             作为返利</li>
                                         <li>具体邀请返利规则请查看公告，或通过工单系统询问管理员</li>
                                         <li>部分商品的返利比例可能不遵循上面的比例</li>
@@ -58,7 +58,7 @@
                         <div class="card-header">
                             <h3 class="card-title">返利记录</h3>
                         </div>
-                        {if $paybacks->count() !== 0}
+                        {if $payback_count !== 0}
                             <div class="table-responsive">
                                 <table class="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
@@ -75,11 +75,7 @@
                                             <tr>
                                                 <td>{$payback->id}</td>
                                                 <td>{$payback->userid}</td>
-                                                {if $payback->user()!=null}
-                                                    <td>{$payback->user()->user_name}</td>
-                                                {else}
-                                                    <td>已注销</td>
-                                                {/if}
+                                                <td>{$payback->user_name}</td>
                                                 <td>{$payback->ref_get} 元</td>
                                                 <td>{$payback->datetime}</td>
                                             </tr>

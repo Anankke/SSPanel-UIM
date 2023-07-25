@@ -86,7 +86,7 @@
                                     <label class="form-label col-3 col-form-label">启用工单系统</label>
                                     <div class="col">
                                         <select id="enable_ticket" class="col form-select" value="{$settings['enable_ticket']}">
-                                            <option value="0" {if $settings['enable_ticket'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_ticket']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_ticket']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -95,7 +95,7 @@
                                     <label class="form-label col-3 col-form-label">启用工单邮件提醒</label>
                                     <div class="col">
                                         <select id="mail_ticket" class="col form-select" value="{$settings['mail_ticket']}">
-                                            <option value="0" {if $settings['mail_ticket'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['mail_ticket']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['mail_ticket']}selected{/if}>开启</option>
                                         </select>
                                     </div>

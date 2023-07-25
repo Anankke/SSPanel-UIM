@@ -16,9 +16,21 @@ final class Payback extends Model
         return User::where('id', $this->userid)->first();
     }
 
+    public function getUserNameAttribute(): string
+    {
+        return User::where('id', $this->userid)->first() === null ? '已注销' :
+            User::where('id', $this->userid)->first()->user_name;
+    }
+
     public function refUser()
     {
         return User::where('id', $this->ref_by)->first();
+    }
+
+    public function getRefUserNameAttribute(): string
+    {
+        return User::where('id', $this->ref_by)->first() === null ? '已注销' :
+            User::where('id', $this->ref_by)->first()->user_name;
     }
 
     public static function rebate($user_id, $order_amount): void

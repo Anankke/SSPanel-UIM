@@ -9,7 +9,6 @@ use App\Models\LoginIp;
 use App\Services\DB;
 use App\Utils\Tools;
 use Exception;
-use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -66,7 +65,6 @@ final class IpController extends BaseController
     /**
      * 后台登录记录页面 AJAX
      *
-     * @throws AddressNotFoundException
      * @throws InvalidDatabaseException
      */
     public function ajaxLogin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -110,7 +108,6 @@ final class IpController extends BaseController
     /**
      * 后台在线 IP 页面 AJAX
      *
-     * @throws AddressNotFoundException
      * @throws InvalidDatabaseException
      */
     public function ajaxOnline(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -148,7 +145,7 @@ final class IpController extends BaseController
                     'node_id' => $val->node_id,
                     'node_name' => $val->node_name,
                     'ip' => str_replace('::ffff:', '', $val->ip),
-                    'location' => Tools::getIpLocation($val->ip),
+                    'location' => Tools::getIpLocation(str_replace('::ffff:', '', $val->ip)),
                     'first_time' => Tools::toDateTime($val->first_time),
                     'last_time' => Tools::toDateTime($val->last_time),
                 ];

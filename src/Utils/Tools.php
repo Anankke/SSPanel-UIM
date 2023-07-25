@@ -47,7 +47,6 @@ final class Tools
     /**
      * 查询IP归属
      *
-     * @throws AddressNotFoundException
      * @throws InvalidDatabaseException
      */
     public static function getIpLocation($ip): string
@@ -60,8 +59,18 @@ final class Tools
             $err_msg = 'GeoIP2 服务未配置';
         } else {
             $geoip = new GeoIP2();
-            $city = $geoip->getCity($ip);
-            $country = $geoip->getCountry($ip);
+
+            try {
+                $city = $geoip->getCity($ip);
+            } catch (AddressNotFoundException $e) {
+                $city = '未知城市';
+            }
+
+            try {
+                $country = $geoip->getCountry($ip);
+            } catch (AddressNotFoundException $e) {
+                $country = '未知国家';
+            }
         }
 
         if ($city !== null) {

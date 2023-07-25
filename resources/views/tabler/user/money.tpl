@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <h3 class="card-title">账户余额记录</h3>
                         </div>
-                        {if $moneylogs->count() !== 0}
+                        {if $moneylog_count !== 0}
                             <div class="table-responsive">
                                 <table class="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
