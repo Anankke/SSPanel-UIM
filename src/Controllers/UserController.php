@@ -34,6 +34,8 @@ final class UserController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $captcha = [];
+        $class_expire_days = $this->user->class > 0 ?
+            round((strtotime($this->user->class_expire) - time()) / 86400) : 0;
 
         if (Setting::obtain('enable_checkin_captcha')) {
             $captcha = Captcha::generate();
@@ -42,9 +44,10 @@ final class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
+                ->assign('captcha', $captcha)
+                ->assign('class_expire_days', $class_expire_days)
                 ->assign('UniversalSub', SubController::getUniversalSub($this->user))
                 ->assign('TraditionalSub', LinkController::getTraditionalSub($this->user))
-                ->assign('captcha', $captcha)
                 ->fetch('user/index.tpl')
         );
     }
@@ -121,12 +124,16 @@ final class UserController extends BaseController
         }
 
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
+        $rebate_ratio_per = Setting::obtain('rebate_ratio') * 100;
+        $payback_count = $paybacks->count();
 
         return $response->write($this->view()
             ->assign('code', $code)
             ->assign('paybacks', $paybacks)
             ->assign('invite_url', $invite_url)
             ->assign('paybacks_sum', $paybacks_sum)
+            ->assign('rebate_ratio_per', $rebate_ratio_per)
+            ->assign('payback_count', $payback_count)
             ->fetch('user/invite.tpl'));
     }
 
@@ -189,7 +196,7 @@ final class UserController extends BaseController
         $user = $this->user;
         $user->telegramReset();
 
-        return ResponseHelper::successfully($response, '重置成功');
+        return ResponseHelper::success($response, '重置成功');
     }
 
     public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -201,6 +208,6 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, '切换失败');
         }
 
-        return ResponseHelper::successfully($response, '切换成功');
+        return ResponseHelper::success($response, '切换成功');
     }
 }

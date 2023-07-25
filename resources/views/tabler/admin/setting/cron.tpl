@@ -71,7 +71,7 @@
                                     <div class="col">
                                         <select id="enable_daily_finance_mail" class="col form-select"
                                                 value="{$settings['enable_daily_finance_mail']}">
-                                            <option value="0" {if $settings['enable_daily_finance_mail'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_daily_finance_mail']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_daily_finance_mail']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -81,7 +81,7 @@
                                     <div class="col">
                                         <select id="enable_weekly_finance_mail" class="col form-select"
                                                 value="{$settings['enable_weekly_finance_mail']}">
-                                            <option value="0" {if $settings['enable_weekly_finance_mail'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_weekly_finance_mail']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_weekly_finance_mail']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -91,7 +91,7 @@
                                     <div class="col">
                                         <select id="enable_monthly_finance_mail" class="col form-select"
                                                 value="{$settings['enable_monthly_finance_mail']}">
-                                            <option value="0" {if $settings['enable_monthly_finance_mail'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_monthly_finance_mail']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_monthly_finance_mail']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -104,7 +104,7 @@
                                     <label class="form-label col-3 col-form-label">是否启用节点被墙检测</label>
                                     <div class="col">
                                         <select id="enable_detect_gfw" class="col form-select" value="{$settings['enable_detect_gfw']}">
-                                            <option value="0" {if $settings['enable_detect_gfw'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_detect_gfw']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_detect_gfw']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -113,7 +113,7 @@
                                     <label class="form-label col-3 col-form-label">是否启用审计封禁</label>
                                     <div class="col">
                                         <select id="enable_detect_ban" class="col form-select" value="{$settings['enable_detect_ban']}">
-                                            <option value="0" {if $settings['enable_detect_ban'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_detect_ban']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_detect_ban']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="col">
                                         <select id="enable_detect_inactive_user" class="col form-select"
                                                 value="{$settings['enable_detect_inactive_user']}">
-                                            <option value="0" {if $settings['enable_detect_inactive_user'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_detect_inactive_user']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_detect_inactive_user']}selected{/if}>开启</option>
                                         </select>
                                     </div>

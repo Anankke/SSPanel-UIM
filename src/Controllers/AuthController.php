@@ -207,7 +207,7 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
 
-            return ResponseHelper::successfully($response, '验证码发送成功，请查收邮件。');
+            return ResponseHelper::success($response, '验证码发送成功，请查收邮件。');
         }
 
         return ResponseHelper::error($response, '站点未启用邮件验证');

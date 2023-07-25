@@ -6,8 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Docs;
-use App\Services\ChatGPT;
-use App\Services\PaLM;
+use App\Services\LLM;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -92,19 +91,7 @@ final class DocsController extends BaseController
      */
     public function generate(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $question = $request->getParam('question');
-
-        // 这里可能要等4-5秒
-        if ($_ENV['llm_backend'] === 'openai') {
-            $content = ChatGPT::askOnce($question);
-        } elseif ($_ENV['llm_backend'] === 'palm') {
-            $content = PaLM::textPrompt($question);
-        } else {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'LLM 后端配置错误',
-            ]);
-        }
+        $content = LLM::genTextResponse($request->getParam('question'));
 
         return $response->withJson([
             'ret' => 1,

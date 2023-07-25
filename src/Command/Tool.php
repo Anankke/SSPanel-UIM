@@ -16,10 +16,21 @@ use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Vectorface\GoogleAuthenticator;
 use function count;
+use function date;
+use function fgets;
+use function file_get_contents;
+use function file_put_contents;
+use function fwrite;
 use function in_array;
 use function json_decode;
 use function json_encode;
-use function time;
+use function method_exists;
+use function strtolower;
+use function trim;
+use const JSON_PRETTY_PRINT;
+use const JSON_UNESCAPED_UNICODE;
+use const PHP_EOL;
+use const STDIN;
 
 final class Tool extends Command
 {
@@ -30,7 +41,6 @@ final class Tool extends Command
 │ ├─ exportAllSettings       - 导出所有设置
 │ ├─ importAllSettings       - 导入所有设置
 │ ├─ resetNodePassword       - 重置所有节点通讯密钥
-│ ├─ getCookie               - 获取指定用户的 Cookie
 │ ├─ resetPort               - 重置单个用户端口
 │ ├─ createAdmin             - 创建管理员帐号
 │ ├─ resetAllPort            - 重置所有用户端口
@@ -255,12 +265,11 @@ EOL;
 
             try {
                 $secret = $ga->createSecret();
+                $user->ga_token = $secret;
+                $user->save();
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
-
-            $user->ga_token = $secret;
-            $user->save();
         }
 
         echo 'generate Ga Secret successful';
@@ -352,18 +361,6 @@ EOL;
             }
         } else {
             echo '已取消创建' . PHP_EOL;
-        }
-    }
-
-    /**
-     * 获取 USERID 的 Cookie
-     */
-    public function getCookie(): void
-    {
-        if (count($this->argv) === 4) {
-            $user = ModelsUser::find($this->argv[3]);
-            $expire_in = 86400 + time();
-            echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
         }
     }
 

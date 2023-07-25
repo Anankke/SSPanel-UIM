@@ -59,7 +59,7 @@
                                     <label class="form-label col-3 col-form-label">邮箱验证</label>
                                     <div class="col">
                                         <select id="reg_email_verify" class="col form-select" value="{$settings['reg_email_verify']}">
-                                            <option value="0" {if $settings['reg_email_verify'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['reg_email_verify']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['reg_email_verify']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -68,7 +68,7 @@
                                     <label class="form-label col-3 col-form-label">默认接收每日用量邮件推送</label>
                                     <div class="col">
                                         <select id="sign_up_for_daily_report" class="col form-select" value="{$settings['sign_up_for_daily_report']}">
-                                            <option value="0" {if $settings['sign_up_for_daily_report'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['sign_up_for_daily_report']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['sign_up_for_daily_report']}selected{/if}>开启</option>
                                         </select>
                                     </div>
@@ -77,7 +77,7 @@
                                     <label class="form-label col-3 col-form-label">是否要求用户输入IM联系方式</label>
                                     <div class="col">
                                         <select id="enable_reg_im" class="col form-select" value="{$settings['enable_reg_im']}">
-                                            <option value="0" {if $settings['enable_reg_im'] === false}selected{/if}>关闭</option>
+                                            <option value="0" {if ! $settings['enable_reg_im']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['enable_reg_im']}selected{/if}>开启</option>
                                         </select>
                                     </div>

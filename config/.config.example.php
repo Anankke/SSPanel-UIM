@@ -95,11 +95,7 @@ $_ENV['detect_gfw_url']      = 'http://example.com:8080/tcping?ip={ip}&port={por
 #离线检测
 $_ENV['enable_detect_offline']           = true;
 
-//以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
-
 // 主站是否提供 WebAPI
-// - 为了安全性，推荐使用 WebAPI 模式对接节点并关闭公网数据库连接。
-// - 如果你全部节点使用数据库连接或者拥有独立的 WebAPI 站点或 gRPC API，则可设为 false。
 $_ENV['WebAPI']     = true;
 
 #杂项

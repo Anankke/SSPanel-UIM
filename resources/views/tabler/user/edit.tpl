@@ -61,7 +61,7 @@
                                                     <p>当前邮箱：<code>{$user->email}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-email" type="email" class="form-control"
-                                                            placeholder="新邮箱" {if $config['enable_change_email'] === false}disabled=""{/if}>
+                                                            placeholder="新邮箱" {if ! $config['enable_change_email']}disabled=""{/if}>
                                                     </div>
                                                     {if $public_setting['reg_email_verify'] && $config['enable_change_email']}
                                                     <div class="mb-3">

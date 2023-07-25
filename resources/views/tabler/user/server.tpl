@@ -122,13 +122,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        var clipboard = new ClipboardJS(".ti-copy");
-        clipboard.on("success", function(e) {
-            $("#success-message").text("已复制到剪切板");
-            $("#success-dialog").modal("show");
-        });
-    </script>
     
 {include file="user/footer.tpl"}

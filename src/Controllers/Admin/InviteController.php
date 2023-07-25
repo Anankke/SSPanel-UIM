@@ -152,8 +152,8 @@ final class InviteController extends BaseController
 
         foreach ($paybacks as $payback) {
             $payback->datetime = Tools::toDateTime((int) $payback->datetime);
-            $payback->user_name = $payback->user() === null ? '已注销' : $payback->user()->user_name;
-            $payback->ref_user_name = $payback->refUser() === null ? '已注销' : $payback->refUser()->user_name;
+            $payback->user_name = $payback->getAttributes();
+            $payback->ref_user_name = $payback->getAttributes();
         }
 
         return $response->withJson([
