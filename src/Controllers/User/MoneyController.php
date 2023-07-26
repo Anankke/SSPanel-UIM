@@ -73,7 +73,7 @@ final class MoneyController extends BaseController
         $user->money += $giftcard->balance;
         $user->save();
 
-        (new UserMoneyLog())->addMoneyLog(
+        (new UserMoneyLog())->add(
             $user->id,
             (float) $money_before,
             (float) $user->money,

@@ -41,6 +41,7 @@ final class Payback extends Model
 
         // 判断
         $invite_rebate_mode = (string) $configs['invite_rebate_mode'];
+
         if ($invite_rebate_mode === 'continued') {
             // 不设限制
             self::executeRebate($user_id, $gift_user_id, $order_amount);
@@ -76,6 +77,7 @@ final class Payback extends Model
     public static function executeRebate($user_id, $gift_user_id, $order_amount, $adjust_rebate = null): void
     {
         $gift_user = User::where('id', $gift_user_id)->first();
+
         if ($gift_user !== null) {
             $rebate_amount = $order_amount * Setting::obtain('rebate_ratio');
             // 返利
@@ -83,7 +85,7 @@ final class Payback extends Model
             $gift_user->money += $adjust_rebate ?? $rebate_amount;
             $gift_user->save();
             // 余额变动记录
-            (new UserMoneyLog())->addMoneyLog(
+            (new UserMoneyLog())->add(
                 $gift_user->id,
                 (float) $money_before,
                 (float) $gift_user->money,

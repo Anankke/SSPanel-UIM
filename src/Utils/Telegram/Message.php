@@ -182,8 +182,7 @@ final class Message
             // 新成员加入群组
             $NewUser = TelegramTools::getUser($Member['id']);
 
-            if (
-                Setting::obtain('telegram_group_bound_user')
+            if (Setting::obtain('telegram_group_bound_user')
                 &&
                 $this->ChatID === $_ENV['telegram_chatid']
                 &&

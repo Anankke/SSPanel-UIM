@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Utils\Tools;
+
 final class DetectBanLog extends Model
 {
     protected $connection = 'default';
@@ -22,6 +24,6 @@ final class DetectBanLog extends Model
      */
     public function banEndTime(): string
     {
-        return date('Y-m-d H:i:s', $this->end_time + $this->ban_time * 60);
+        return Tools::toDateTime($this->end_time + $this->ban_time * 60);
     }
 }

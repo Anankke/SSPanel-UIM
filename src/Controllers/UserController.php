@@ -105,8 +105,7 @@ final class UserController extends BaseController
         $code = InviteCode::where('user_id', $this->user->id)->first();
 
         if ($code === null) {
-            $this->user->addInviteCode();
-            $code = InviteCode::where('user_id', $this->user->id)->first();
+            $code = $this->user->addInviteCode();
         }
 
         $paybacks = Payback::where('ref_by', $this->user->id)

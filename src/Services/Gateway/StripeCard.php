@@ -72,7 +72,8 @@ final class StripeCard extends AbstractPayment
                 ],
                 ],
                 'mode' => 'payment',
-                'success_url' => self::getUserReturnUrl() . '?session_id={CHECKOUT_SESSION_ID}&' . http_build_query($params),
+                'success_url' => self::getUserReturnUrl() .
+                    '?session_id={CHECKOUT_SESSION_ID}&' . http_build_query($params),
                 'cancel_url' => $_ENV['baseUrl'] . '/user/invoice',
             ]);
         } catch (ApiErrorException $e) {

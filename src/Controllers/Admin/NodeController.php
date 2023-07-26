@@ -266,8 +266,11 @@ final class NodeController extends BaseController
         ]);
     }
 
-    public function resetNodePassword(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
+    public function resetNodePassword(
+        ServerRequest $request,
+        Response $response,
+        array $args
+    ): Response|ResponseInterface {
         $id = $args['id'];
         $node = Node::find($id);
         $password = Tools::genRandomChar(32);

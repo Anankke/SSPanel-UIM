@@ -123,30 +123,45 @@ final class Tools
         return (int) ($base * pow(1024, array_flip($units)[$suffix]));
     }
 
+    /**
+     * 根据速率值自动转换单位输出
+     */
+    public static function autoMbps($size, $precision = 2): string
+    {
+        if ($size <= 0) {
+            return '0Bbps';
+        }
+
+        if ($size > 1000000000) {
+            return '∞';
+        }
+
+        $base = log((float) $size, 1000);
+        $units = ['Mbps', 'Gbps', 'Tbps'];
+
+        return round(pow(1000, $base - floor($base)), $precision) . $units[floor($base)];
+    }
+
     //虽然名字是toMB，但是实际上功能是from MB to B
     public static function toMB($traffic): float|int
     {
-        $mb = 1048576;
-        return $traffic * $mb;
+        return $traffic * 1048576;
     }
 
     //虽然名字是toGB，但是实际上功能是from GB to B
     public static function toGB($traffic): float|int
     {
-        $gb = 1048576 * 1024;
-        return $traffic * $gb;
+        return $traffic * 1073741824;
     }
 
     public static function flowToGB($traffic): float
     {
-        $gb = 1048576 * 1024;
-        return $traffic / $gb;
+        return $traffic / 1073741824;
     }
 
     public static function flowToMB($traffic): float
     {
-        $gb = 1048576;
-        return $traffic / $gb;
+        return $traffic / 1048576;
     }
 
     public static function genRandomChar($length = 8): string

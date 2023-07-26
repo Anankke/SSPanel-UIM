@@ -42,6 +42,7 @@ final class OnlineLog extends Model
     public function ip(): string
     {
         $ip = $this->attributes['ip'];
+
         if (str_starts_with($ip, '::ffff:')) {
             $v4 = substr($ip, 7);
             // Mix hexadecimal and dot decimal notations: https://www.rfc-editor.org/rfc/rfc5952#section-5
@@ -51,6 +52,7 @@ final class OnlineLog extends Model
                 return $v4;
             }
         }
+
         return $ip;
     }
 }

@@ -11,7 +11,7 @@ final class UserMoneyLog extends Model
     protected $connection = 'default';
     protected $table = 'user_money_log';
 
-    public function addMoneyLog(int $user_id, float $before, float $after, float $amount, string $remark): void
+    public function add(int $user_id, float $before, float $after, float $amount, string $remark): void
     {
         $this->user_id = $user_id;
         $this->before = $before;

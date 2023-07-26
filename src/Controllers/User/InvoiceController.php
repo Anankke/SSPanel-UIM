@@ -115,7 +115,7 @@ final class InvoiceController extends BaseController
         $user->money -= $invoice->price;
         $user->save();
 
-        (new UserMoneyLog())->addMoneyLog(
+        (new UserMoneyLog())->add(
             $user->id,
             (float) $money_before,
             (float) $user->money,

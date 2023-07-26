@@ -181,7 +181,7 @@ final class UserController extends BaseController
             $money = (float) $request->getParam('money');
             $diff = $money - $user->money;
             $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-            (new UserMoneyLog())->addMoneyLog($id, (float) $user->money, $money, $diff, $remark);
+            (new UserMoneyLog())->add($id, (float) $user->money, $money, $diff, $remark);
             $user->money = $money;
         }
 
@@ -227,7 +227,7 @@ final class UserController extends BaseController
         $id = $args['id'];
         $user = User::find((int) $id);
 
-        if (! $user->killUser()) {
+        if (! $user->kill()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '删除失败',

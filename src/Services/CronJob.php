@@ -491,7 +491,9 @@ final class CronJob
     public static function sendWeeklyFinanceMail(): void
     {
         $today = strtotime('00:00:00');
-        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 week', $today), $today])->get();
+        $paylists = Paylist::where('status', 1)
+            ->whereBetween('datetime', [strtotime('-1 week', $today), $today])
+            ->get();
 
         $text_html = '<br>上周总收入笔数：' . count($paylists) . '<br>上周总收入金额：' . $paylists->sum('total');
         $adminUser = User::where('is_admin', '=', '1')->get();
@@ -515,7 +517,9 @@ final class CronJob
     public static function sendMonthlyFinanceMail(): void
     {
         $today = strtotime('00:00:00');
-        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 month', $today), $today])->get();
+        $paylists = Paylist::where('status', 1)
+            ->whereBetween('datetime', [strtotime('-1 month', $today), $today])
+            ->get();
 
         $text_html = '<br>上月总收入笔数：' . count($paylists) . '<br>上月总收入金额：' . $paylists->sum('total');
         $adminUser = User::where('is_admin', '=', '1')->get();
@@ -545,14 +549,12 @@ final class CronJob
             $under_limit = false;
             $unit_text = '';
 
-            if (
-                $_ENV['notify_limit_mode'] === 'per' &&
+            if ($_ENV['notify_limit_mode'] === 'per' &&
                 $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
             ) {
                 $under_limit = true;
                 $unit_text = '%';
-            } elseif (
-                $_ENV['notify_limit_mode'] === 'mb' &&
+            } elseif ($_ENV['notify_limit_mode'] === 'mb' &&
                 Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
             ) {
                 $under_limit = true;

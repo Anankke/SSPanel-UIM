@@ -158,4 +158,3 @@ class ConfigTest extends TestCase
         $this->assertContains('xchacha20-ietf-poly1305', $params);
     }
 }
-

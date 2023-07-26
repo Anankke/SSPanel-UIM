@@ -105,7 +105,8 @@ END;
         }
 
         $sql = match ($target) {
-            'new' => 'INSERT INTO `config` (`item`, `value`, `type`, `default`) VALUES("db_version", ?, "int", "2023020100")',
+            'new' => 'INSERT INTO `config` (`item`, `value`, `type`, `default`)
+                        VALUES("db_version", ?, "int", "2023020100")',
             default => 'UPDATE `config` SET `value` = ? WHERE `item` = "db_version"'
         };
         $stat = DB::getPdo()->prepare($sql);

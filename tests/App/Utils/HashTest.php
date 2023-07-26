@@ -55,4 +55,3 @@ class HashTest extends TestCase
         $this->assertIsString(Hash::sha256WithSalt($password));
     }
 }
-
