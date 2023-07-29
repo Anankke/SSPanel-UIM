@@ -298,13 +298,13 @@ final class User extends Model
     {
         $uid = $this->id;
 
-        DetectBanLog::where('user_id', '=', $uid)->delete();
-        DetectLog::where('user_id', '=', $uid)->delete();
-        InviteCode::where('user_id', '=', $uid)->delete();
-        OnlineLog::where('user_id', '=', $uid)->delete();
-        Link::where('userid', '=', $uid)->delete();
-        LoginIp::where('userid', '=', $uid)->delete();
-        SubscribeLog::where('user_id', '=', $uid)->delete();
+        DetectBanLog::where('user_id', $uid)->delete();
+        DetectLog::where('user_id', $uid)->delete();
+        InviteCode::where('user_id', $uid)->delete();
+        OnlineLog::where('user_id', $uid)->delete();
+        Link::where('userid', $uid)->delete();
+        LoginIp::where('userid', $uid)->delete();
+        SubscribeLog::where('user_id', $uid)->delete();
 
         return $this->delete();
     }

@@ -148,7 +148,7 @@ final class PasswordController extends BaseController
             $user->cleanLink();
         }
 
-        $redis->del($token);
+        $redis->del('password_reset:' . $token);
 
         return ResponseHelper::success($response, '重置成功');
     }

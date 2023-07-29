@@ -94,7 +94,7 @@ final class InfoController extends BaseController
                 return ResponseHelper::error($response, '你的邮箱验证码不正确');
             }
 
-            $redis->del($email_verify_code);
+            $redis->del('email_verify:' . $email_verify_code);
         }
 
         $user->email = $new_email;

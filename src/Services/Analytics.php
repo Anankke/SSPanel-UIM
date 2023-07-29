@@ -104,11 +104,11 @@ final class Analytics
 
     public function getInactiveUser()
     {
-        return User::where('is_inactive', '=', 1)->count();
+        return User::where('is_inactive', 1)->count();
     }
 
     public function getActiveUser()
     {
-        return User::where('is_inactive', '=', 0)->count();
+        return User::where('is_inactive', 0)->count();
     }
 }

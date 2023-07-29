@@ -73,7 +73,7 @@
                     code: $('#code').val(),
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
-                    remember_me: $('#remember_me').val(),
+                    remember_me: $('#remember_me').is(":checked"),
                     {if $public_setting['enable_login_captcha']}
                         {if $public_setting['captcha_provider'] === 'turnstile'}
                             turnstile: $('input[name=cf-turnstile-response]').val(),

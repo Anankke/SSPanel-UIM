@@ -160,7 +160,7 @@ final class Telegram
             return 0;
         }
 
-        $redis->del($token);
+        $redis->del('telegram_bind:' . $token);
 
         return (int) $uid;
     }

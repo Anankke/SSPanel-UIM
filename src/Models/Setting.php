@@ -11,7 +11,7 @@ final class Setting extends Model
 
     public static function obtain($item): bool|int|string
     {
-        $config = self::where('item', '=', $item)->first();
+        $config = self::where('item', $item)->first();
 
         return match ($config->type) {
             'bool' => (bool) $config->value,

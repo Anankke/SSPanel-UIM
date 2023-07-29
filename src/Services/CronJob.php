@@ -79,22 +79,22 @@ final class CronJob
         $login_days = Setting::obtain('detect_inactive_user_login_days');
         $use_days = Setting::obtain('detect_inactive_user_use_days');
 
-        User::where('is_admin', '=', '0')
-            ->where('is_inactive', '=', '0')
+        User::where('is_admin', 0)
+            ->where('is_inactive', 0)
             ->where('last_check_in_time', '<', time() - 86400 * $checkin_days)
             ->where('last_login_time', '<', time() - 86400 * $login_days)
             ->where('last_use_time', '<', time() - 86400 * $use_days)
             ->update(['is_inactive' => 1]);
 
-        User::where('is_admin', '=', '0')
-            ->where('is_inactive', '=', '1')
+        User::where('is_admin', 0)
+            ->where('is_inactive', 1)
             ->where('last_check_in_time', '>', time() - 86400 * $checkin_days)
             ->where('last_login_time', '>', time() - 86400 * $login_days)
             ->where('last_use_time', '>', time() - 86400 * $use_days)
             ->update(['is_inactive' => 0]);
 
         echo Tools::toDateTime(time()) .
-            ' 检测到 ' . User::where('is_inactive', '=', '1')->count() . ' 个账户处于闲置状态' . PHP_EOL;
+            ' 检测到 ' . User::where('is_inactive', 1)->count() . ' 个账户处于闲置状态' . PHP_EOL;
     }
 
     /**
@@ -103,7 +103,7 @@ final class CronJob
     public static function detectNodeOffline(): void
     {
         $nodes = Node::where('type', 1)->get();
-        $adminUsers = User::where('is_admin', '=', '1')->get();
+        $adminUsers = User::where('is_admin', 1)->get();
 
         foreach ($nodes as $node) {
             if ($node->getNodeOnlineStatus() >= 0 && $node->online === 1) {
