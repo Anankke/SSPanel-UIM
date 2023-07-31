@@ -8,13 +8,13 @@ use App\Models\Link;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User as ModelsUser;
+use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Vectorface\GoogleAuthenticator;
 use function count;
 use function date;
 use function fgets;
@@ -260,12 +260,8 @@ EOL;
         $users = ModelsUser::all();
 
         foreach ($users as $user) {
-            $secret = '';
-            $ga = new GoogleAuthenticator();
-
             try {
-                $secret = $ga->createSecret();
-                $user->ga_token = $secret;
+                $user->ga_token = MFA::generateGaToken();
                 $user->save();
             } catch (Exception $e) {
                 echo $e->getMessage();
@@ -291,6 +287,8 @@ EOL;
 
     /**
      * 创建 Admin 账户
+     *
+     * @throws Exception
      */
     public function createAdmin(): void
     {
@@ -342,16 +340,7 @@ EOL;
             $user->node_speedlimit = 0;
             $user->theme = $_ENV['theme'];
 
-            $ga = new GoogleAuthenticator();
-            $secret = '';
-
-            try {
-                $secret = $ga->createSecret();
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-
-            $user->ga_token = $secret;
+            $user->ga_token = MFA::generateGaToken();
             $user->ga_enable = 0;
 
             if ($user->save()) {
