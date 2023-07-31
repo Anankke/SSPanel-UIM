@@ -6,7 +6,7 @@ namespace App\Services\Auth;
 
 use App\Models\Node;
 use App\Models\User;
-use App\Utils;
+use App\Utils\Cookie as CookieUtils;
 use App\Utils\Hash;
 use function strval;
 use function time;
@@ -17,11 +17,11 @@ final class Cookie extends Base
     {
         $user = User::find($uid);
         $expire_in = $time + time();
-        $key = Hash::cookieHash($user->pass, $expire_in);
-        Utils\Cookie::set([
+
+        CookieUtils::set([
             'uid' => strval($uid),
             'email' => $user->email,
-            'key' => $key,
+            'key' => Hash::cookieHash($user->pass, $expire_in),
             'ip' => Hash::ipHash($_SERVER['REMOTE_ADDR'], $uid, $expire_in),
             'expire_in' => strval($expire_in),
         ], $expire_in);
@@ -29,11 +29,11 @@ final class Cookie extends Base
 
     public function getUser(): User
     {
-        $uid = Utils\Cookie::get('uid');
-        $email = Utils\Cookie::get('email');
-        $key = Utils\Cookie::get('key');
-        $ipHash = Utils\Cookie::get('ip');
-        $expire_in = Utils\Cookie::get('expire_in');
+        $uid = CookieUtils::get('uid');
+        $email = CookieUtils::get('email');
+        $key = CookieUtils::get('key');
+        $ipHash = CookieUtils::get('ip');
+        $expire_in = CookieUtils::get('expire_in');
 
         $user = new User();
         $user->isLogin = false;
@@ -47,13 +47,15 @@ final class Cookie extends Base
         }
 
         if ($_ENV['enable_login_bind_ip']) {
-            $nodes = Node::where('node_ip', '=', $_SERVER['REMOTE_ADDR'])->first();
+            $nodes = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
+
             if (($nodes === null) && $ipHash !== Hash::ipHash($_SERVER['REMOTE_ADDR'], $uid, $expire_in)) {
                 return $user;
             }
         }
 
         $user = User::find($uid);
+
         if ($user === null) {
             $user = new User();
             $user->isLogin = false;
@@ -72,16 +74,20 @@ final class Cookie extends Base
         }
 
         $user->isLogin = true;
+
         return $user;
     }
 
     public function logout(): void
     {
         $time = time() - 1000;
-        Utils\Cookie::set([
+
+        CookieUtils::set([
             'uid' => '',
             'email' => '',
             'key' => '',
+            'ip' => '',
+            'expire_in' => '',
         ], $time);
     }
 }

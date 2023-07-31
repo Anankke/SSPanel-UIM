@@ -154,35 +154,6 @@ final class TelegramTools
                 $old = ($old ? '启用' : '禁用');
                 break;
                 // ##############
-            case 'port':
-                // 支持正整数或 0 随机选择
-                if (! is_numeric($value) || str_starts_with((string) $value, '-')) {
-                    return [
-                        'ok' => false,
-                        'msg' => '提供的端口非数值，如要随机重置请指定为 0.',
-                    ];
-                }
-                if ((int) $value === 0) {
-                    $value = Tools::getAvPort();
-                }
-                $temp = $User->setPort($value);
-                if ($temp['ok'] === false) {
-                    $strArray = [
-                        '目标用户：' . $Email,
-                        '欲修改项：' . $useOptionMethodName . '[' . $useOptionMethod . ']',
-                        '当前值为：' . $old,
-                        '欲修改为：' . $value,
-                        '错误详情：' . $temp['msg'],
-                    ];
-                    return [
-                        'ok' => false,
-                        'msg' => self::strArrayToCode($strArray),
-                    ];
-                }
-                $new = $User->$useOptionMethod;
-                $User->$useOptionMethod = $new;
-                break;
-                // ##############
             case 'transfer_enable':
                 $strArray = [
                     '// 支持的写法，不支持单位 b，不区分大小写',
@@ -223,8 +194,7 @@ final class TelegramTools
                     '// 2020-02-30 —— 指定日期',
                     '// 2020-02-30 08:00:00 —— 指定日期精确到秒',
                 ];
-                if (
-                    str_starts_with($value, '+')
+                if (str_starts_with($value, '+')
                     ||
                     str_starts_with($value, '-')
                 ) {
@@ -319,7 +289,7 @@ final class TelegramTools
             if ($useOptionMethod === 'money') {
                 $diff = $new - $old;
                 $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-                (new UserMoneyLog())->addMoneyLog($User->id, (float) $old, (float) $new, (float) $diff, $remark);
+                (new UserMoneyLog())->add($User->id, (float) $old, (float) $new, (float) $diff, $remark);
             }
             $strArray = [
                 '目标用户：' . $Email,
@@ -418,8 +388,7 @@ final class TelegramTools
      */
     public static function computingMethod(string $Source, string $Value, bool $FloatingNumber = false): ?string
     {
-        if (
-            (str_starts_with($Value, '+')
+        if ((str_starts_with($Value, '+')
                 ||
                 str_starts_with($Value, '-')
                 ||
@@ -459,8 +428,7 @@ final class TelegramTools
      */
     public static function trafficMethod(string $Source, string $Value): ?int
     {
-        if (
-            str_starts_with($Value, '+')
+        if (str_starts_with($Value, '+')
             ||
             str_starts_with($Value, '-')
             ||

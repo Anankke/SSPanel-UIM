@@ -87,7 +87,8 @@ final class TicketController extends BaseController
             $_ENV['appName'] . '-工单被回复',
             'warn.tpl',
             [
-                'text' => '你好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
+                'text' => '你好，有人回复了<a href="' .
+                    $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
             ],
             []
         );
@@ -136,7 +137,8 @@ final class TicketController extends BaseController
             $_ENV['appName'] . '-工单被回复',
             'warn.tpl',
             [
-                'text' => '你好，AI 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
+                'text' => '你好，AI 回复了<a href="' .
+                    $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
             ],
             []
         );

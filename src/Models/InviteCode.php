@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Utils\Tools;
+
 /**
  * InviteCode Model
  */
@@ -15,7 +17,7 @@ final class InviteCode extends Model
     public function reward(): void
     {
         $user = User::where('id', $this->user_id)->first();
-        $user->transfer_enable += Setting::obtain('invitation_to_register_traffic_reward') * 1024 * 1024 * 1024;
+        $user->transfer_enable += Tools::toGB(Setting::obtain('invitation_to_register_traffic_reward'));
 
         if ($user->invite_num > 0) {
             --$user->invite_num;

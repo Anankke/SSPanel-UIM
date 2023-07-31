@@ -58,9 +58,9 @@ final class UserController extends BaseController
     public function profile(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         // 登录IP
-        $logins = LoginIp::where('userid', '=', $this->user->id)
+        $logins = LoginIp::where('userid', $this->user->id)
             ->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-        $ips = OnlineLog::where('user_id', '=', $this->user->id)
+        $ips = OnlineLog::where('user_id', $this->user->id)
             ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get();
 
         foreach ($logins as $login) {
@@ -105,8 +105,7 @@ final class UserController extends BaseController
         $code = InviteCode::where('user_id', $this->user->id)->first();
 
         if ($code === null) {
-            $this->user->addInviteCode();
-            $code = InviteCode::where('user_id', $this->user->id)->first();
+            $code = $this->user->addInviteCode();
         }
 
         $paybacks = Payback::where('ref_by', $this->user->id)
@@ -123,7 +122,7 @@ final class UserController extends BaseController
             $paybacks_sum = 0;
         }
 
-        $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
+        $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code;
         $rebate_ratio_per = Setting::obtain('rebate_ratio') * 100;
         $payback_count = $paybacks->count();
 

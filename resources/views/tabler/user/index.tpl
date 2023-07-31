@@ -463,10 +463,11 @@
                             <i class="ti ti-bell-ringing icon"></i>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">最新公告
-                            {if $ann !== null}
-                            <span class="card-subtitle">{$ann->date}</span>
-                            {/if}
+                            <h3 class="card-title">
+                                最新公告
+                                {if $ann !== null}
+                                <span class="card-subtitle">{$ann->date}</span>
+                                {/if}
                             </h3>
                             <p class="text-secondary">
                             {if $ann !== null}
@@ -479,55 +480,54 @@
                     </div>
                 </div>
                 {if $config['enable_checkin']}
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="card">
-                            <div class="card-stamp">
-                                <div class="card-stamp-icon bg-green">
-                                    <i class="ti ti-check"></i>
-                                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-stamp">
+                            <div class="card-stamp-icon bg-green">
+                                <i class="ti ti-check"></i>
                             </div>
-                            <div class="card-body">
-                                <h3 class="card-title">每日签到</h3>
-                                <p>
-                                    签到可领取
-                                    {if $config['checkinMin'] !== $config['checkinMax']}
-                                        &nbsp;<code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
-                                        范围内的流量
-                                    {else}
-                                        <code>{$config['checkinMin']} MB</code>
-                                    {/if}
-                                </p>
-                                <p>
-                                    上次签到时间：<code>{$user->lastCheckInTime()}</code>
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex">
-                                    {if ! $user->isAbleToCheckin()}
-                                    <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
-                                    {else}
-                                    {if $public_setting['enable_checkin_captcha']}
-                                        {if $public_setting['captcha_provider'] === 'turnstile'}
-                                            <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}"
-                                            {if $user->is_dark_mode}
-                                                 data-theme="dark"
-                                            {else}
-                                                 data-theme="light"
-                                            {/if}
-                                            ></div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">每日签到</h3>
+                            <p>
+                                签到可领取
+                                {if $config['checkinMin'] !== $config['checkinMax']}
+                                    &nbsp;<code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
+                                    范围内的流量
+                                {else}
+                                    <code>{$config['checkinMin']} MB</code>
+                                {/if}
+                            </p>
+                            <p>
+                                上次签到时间：<code>{$user->lastCheckInTime()}</code>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                {if ! $user->isAbleToCheckin()}
+                                <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
+                                {else}
+                                {if $public_setting['enable_checkin_captcha']}
+                                    {if $public_setting['captcha_provider'] === 'turnstile'}
+                                        <div id="cf-turnstile" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}"
+                                        {if $user->is_dark_mode}
+                                             data-theme="dark"
+                                        {else}
+                                             data-theme="light"
                                         {/if}
-                                        {if $public_setting['captcha_provider'] === 'geetest'}
-                                            <div id="geetest"></div>
-                                        {/if}
+                                        ></div>
                                     {/if}
-                                    <button id="check-in" class="btn btn-primary ms-auto">签到</button>
+                                    {if $public_setting['captcha_provider'] === 'geetest'}
+                                        <div id="geetest"></div>
                                     {/if}
-                                </div>
+                                {/if}
+                                <button id="check-in" class="btn btn-primary ms-auto">签到</button>
+                                {/if}
                             </div>
                         </div>
                     </div>
+                </div>
                 {/if}
-
             </div>
         </div>
     </div>

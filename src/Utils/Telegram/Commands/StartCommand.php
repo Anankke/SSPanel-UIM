@@ -28,6 +28,9 @@ final class StartCommand extends Command
      */
     protected string $description = '[群组/私聊] Bot 初始命令.';
 
+    /**
+     * @throws RedisException
+     */
     public function handle(): void
     {
         $Update = $this->getUpdate();
@@ -51,8 +54,7 @@ final class StartCommand extends Command
             // 消息内容
             $MessageText = explode(' ', trim($Message->getText()));
             $MessageKey = array_splice($MessageText, -1)[0];
-            if (
-                $MessageKey !== ''
+            if ($MessageKey !== ''
                 && TelegramTools::getUser($SendUser['id']) === null
                 && strlen($MessageKey) === 16
             ) {
@@ -104,7 +106,8 @@ final class StartCommand extends Command
                 $text = '尊敬的 **管理员** 你好，恭喜绑定成功。' . PHP_EOL . '当前绑定邮箱为： ' . $BinsUser->email;
             } else {
                 if ($BinsUser->class >= 1) {
-                    $text = '尊敬的 **VIP ' . $BinsUser->class . '** 用户你好.' . PHP_EOL . '恭喜你绑定成功，当前绑定邮箱为： ' . $BinsUser->email;
+                    $text = '尊敬的 **VIP ' . $BinsUser->class . '** 用户你好.' .
+                        PHP_EOL . '恭喜你绑定成功，当前绑定邮箱为： ' . $BinsUser->email;
                 } else {
                     $text = '绑定成功了，你的邮箱为：' . $BinsUser->email;
                 }

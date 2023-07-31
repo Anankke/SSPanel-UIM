@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Utils\Tools;
+use Exception;
 use function array_key_exists;
 use function count;
+use function dns_get_record;
 use function time;
+use const DNS_A;
+use const DNS_AAAA;
 
 final class Node extends Model
 {
@@ -44,7 +49,7 @@ final class Node extends Model
      */
     public function nodeHeartbeat(): string
     {
-        return date('Y-m-d H:i:s', $this->node_heartbeat);
+        return Tools::toDateTime($this->node_heartbeat);
     }
 
     /**
@@ -54,12 +59,7 @@ final class Node extends Model
      */
     public function getNodeOnlineStatus(): int
     {
-        // 类型 9 或者心跳为 0
-        if ($this->node_heartbeat === 0) {
-            return 0;
-        }
-
-        return $this->node_heartbeat + 600 > time() ? 1 : -1;
+        return $this->node_heartbeat === 0 ? 0 : ($this->node_heartbeat + 600 > time() ? 1 : -1);
     }
 
     /**
@@ -67,14 +67,7 @@ final class Node extends Model
      */
     public function getNodeSpeedlimit(): string
     {
-        if ($this->node_speedlimit === 0.0) {
-            return '0';
-        }
-        if ($this->node_speedlimit >= 1024.00) {
-            return round($this->node_speedlimit / 1024.00, 1) . 'Gbps';
-        }
-
-        return $this->node_speedlimit . 'Mbps';
+        return Tools::autoMbps($this->node_speedlimit);
     }
 
     /**
@@ -90,7 +83,12 @@ final class Node extends Model
      */
     public function changeNodeIp(string $server_name): void
     {
-        $result = dns_get_record($server_name, DNS_A + DNS_AAAA);
+        try {
+            $result = dns_get_record($server_name, DNS_A + DNS_AAAA);
+        } catch (Exception $e) {
+            $result = false;
+        }
+
         $dns = [];
 
         if ($result !== false && count($result) > 0) {

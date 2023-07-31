@@ -94,7 +94,7 @@ final class InfoController extends BaseController
                 return ResponseHelper::error($response, '你的邮箱验证码不正确');
             }
 
-            $redis->del($email_verify_code);
+            $redis->del('email_verify:' . $email_verify_code);
         }
 
         $user->email = $new_email;
@@ -148,10 +148,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '密码太短啦');
         }
 
-        $hashPwd = Hash::passwordHash($pwd);
-        $user->pass = $hashPwd;
-
-        if (! $user->save()) {
+        if (! $user->updatePassword($pwd)) {
             return ResponseHelper::error($response, '修改失败');
         }
 
@@ -315,7 +312,8 @@ final class InfoController extends BaseController
 
         if ($_ENV['enable_kill']) {
             Auth::logout();
-            $user->killUser();
+            $user->kill();
+
             return ResponseHelper::success($response, '你的帐号已被送去古拉格劳动改造，再见');
         }
 

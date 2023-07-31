@@ -25,10 +25,7 @@ final class LoginIp extends Model
      */
     public function userName(): string
     {
-        if ($this->user() === null) {
-            return '用户已不存在';
-        }
-        return $this->user()->user_name;
+        return $this->user() === null ? '用户不存在' : $this->user()->user_name;
     }
 
     /**

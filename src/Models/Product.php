@@ -35,9 +35,6 @@ final class Product extends Model
      */
     public function stock(): string|int
     {
-        if ($this->stock < 0) {
-            return '无限制';
-        }
-        return $this->stock;
+        return $this->stock < 0 ? '无限制' : $this->stock;
     }
 }

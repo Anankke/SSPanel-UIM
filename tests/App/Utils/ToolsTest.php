@@ -147,4 +147,3 @@ class ToolsTest extends TestCase
         $this->assertFalse(Tools::isInt('abc'));
     }
 }
-

@@ -79,22 +79,22 @@ final class CronJob
         $login_days = Setting::obtain('detect_inactive_user_login_days');
         $use_days = Setting::obtain('detect_inactive_user_use_days');
 
-        User::where('is_admin', '=', '0')
-            ->where('is_inactive', '=', '0')
+        User::where('is_admin', 0)
+            ->where('is_inactive', 0)
             ->where('last_check_in_time', '<', time() - 86400 * $checkin_days)
             ->where('last_login_time', '<', time() - 86400 * $login_days)
             ->where('last_use_time', '<', time() - 86400 * $use_days)
             ->update(['is_inactive' => 1]);
 
-        User::where('is_admin', '=', '0')
-            ->where('is_inactive', '=', '1')
+        User::where('is_admin', 0)
+            ->where('is_inactive', 1)
             ->where('last_check_in_time', '>', time() - 86400 * $checkin_days)
             ->where('last_login_time', '>', time() - 86400 * $login_days)
             ->where('last_use_time', '>', time() - 86400 * $use_days)
             ->update(['is_inactive' => 0]);
 
         echo Tools::toDateTime(time()) .
-            ' 检测到 ' . User::where('is_inactive', '=', '1')->count() . ' 个账户处于闲置状态' . PHP_EOL;
+            ' 检测到 ' . User::where('is_inactive', 1)->count() . ' 个账户处于闲置状态' . PHP_EOL;
     }
 
     /**
@@ -103,7 +103,7 @@ final class CronJob
     public static function detectNodeOffline(): void
     {
         $nodes = Node::where('type', 1)->get();
-        $adminUsers = User::where('is_admin', '=', '1')->get();
+        $adminUsers = User::where('is_admin', 1)->get();
 
         foreach ($nodes as $node) {
             if ($node->getNodeOnlineStatus() >= 0 && $node->online === 1) {
@@ -491,7 +491,9 @@ final class CronJob
     public static function sendWeeklyFinanceMail(): void
     {
         $today = strtotime('00:00:00');
-        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 week', $today), $today])->get();
+        $paylists = Paylist::where('status', 1)
+            ->whereBetween('datetime', [strtotime('-1 week', $today), $today])
+            ->get();
 
         $text_html = '<br>上周总收入笔数：' . count($paylists) . '<br>上周总收入金额：' . $paylists->sum('total');
         $adminUser = User::where('is_admin', '=', '1')->get();
@@ -515,7 +517,9 @@ final class CronJob
     public static function sendMonthlyFinanceMail(): void
     {
         $today = strtotime('00:00:00');
-        $paylists = Paylist::where('status', 1)->whereBetween('datetime', [strtotime('-1 month', $today), $today])->get();
+        $paylists = Paylist::where('status', 1)
+            ->whereBetween('datetime', [strtotime('-1 month', $today), $today])
+            ->get();
 
         $text_html = '<br>上月总收入笔数：' . count($paylists) . '<br>上月总收入金额：' . $paylists->sum('total');
         $adminUser = User::where('is_admin', '=', '1')->get();
@@ -545,14 +549,12 @@ final class CronJob
             $under_limit = false;
             $unit_text = '';
 
-            if (
-                $_ENV['notify_limit_mode'] === 'per' &&
+            if ($_ENV['notify_limit_mode'] === 'per' &&
                 $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
             ) {
                 $under_limit = true;
                 $unit_text = '%';
-            } elseif (
-                $_ENV['notify_limit_mode'] === 'mb' &&
+            } elseif ($_ENV['notify_limit_mode'] === 'mb' &&
                 Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
             ) {
                 $under_limit = true;

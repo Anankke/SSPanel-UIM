@@ -32,7 +32,7 @@ final class MoneyLogController extends BaseController
      *
      * @throws Exception
      */
-    public function log(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()

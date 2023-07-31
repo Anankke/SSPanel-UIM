@@ -407,7 +407,7 @@ final class Callback
         switch ($OpEnd) {
             case 'login_log':
                 // 登录记录
-                $total = LoginIp::where('userid', '=', $this->User->id)
+                $total = LoginIp::where('userid', $this->User->id)
                     ->where('type', '=', 0)
                     ->orderBy('datetime', 'desc')
                     ->take(10)
@@ -436,7 +436,7 @@ final class Callback
                 break;
             case 'usage_log':
                 // 使用记录
-                $logs = OnlineLog::where('user_id', '=', $this->User->id)
+                $logs = OnlineLog::where('user_id', $this->User->id)
                     ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get('ip');
                 $text = '<strong>以下是你账户在线 IP 和地理位置：</strong>' . PHP_EOL;
                 $text .= PHP_EOL;

@@ -17,7 +17,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-cards">
+            <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card">
                         <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
@@ -53,7 +53,7 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="tab-pane active show" id="personal_information" role="tabpanel">
-                                    <div class="row row-cards">
+                                    <div class="row row-deck row-cards">
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
@@ -194,7 +194,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="login_security" role="tabpanel">
-                                    <div class="row row-cards">
+                                    <div class="row row-deck row-cards">
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
@@ -283,7 +283,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="use_safety" role="tabpanel">
-                                    <div class="row row-cards">
+                                    <div class="row row-deck row-cards">
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
@@ -340,15 +340,15 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="other_settings" role="tabpanel">
-                                    <div class="row row-cards">
+                                    <div class="row row-deck row-cards">
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">每日用量推送</h3>
+                                                    <h3 class="card-title">每日流量报告</h3>
                                                     <div class="mb-3">
                                                         <select id="daily-report" class="form-select">
                                                             <option value="0" {if $user->daily_mail_enable === 0}selected{/if}>
-                                                                不发送
+                                                                不接收
                                                             </option>
                                                             <option value="1" {if $user->daily_mail_enable === 1}selected{/if}>
                                                                 邮件接收

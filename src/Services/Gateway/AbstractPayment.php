@@ -114,7 +114,7 @@ abstract class AbstractPayment
 
     protected static function getActiveGateway($key): bool
     {
-        $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
+        $payment_gateways = Setting::where('item', 'payment_gateway')->first();
         $active_gateways = json_decode($payment_gateways->value);
         if (in_array($key, $active_gateways)) {
             return true;

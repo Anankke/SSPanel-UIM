@@ -55,7 +55,8 @@ final class EpaySubmit
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->alipay_gateway_new."' method='".$method."'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".
+            $this->alipay_gateway_new . "' method='" . $method . "'>";
         foreach ($para as $key => $val) {
             $sHtml .= "<input type='hidden' name='".$key."' value='".$val."'/>";
         }

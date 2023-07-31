@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use function json_decode;
+use function time;
 
 final class UserCoupon extends Model
 {
@@ -16,9 +17,7 @@ final class UserCoupon extends Model
      */
     public function type(): string
     {
-        $content = json_decode($this->content);
-
-        return match ($content->type) {
+        return match (json_decode($this->content)) {
             'percentage' => '百分比',
             'fixed' => '固定金额',
             default => '未知',
@@ -30,9 +29,6 @@ final class UserCoupon extends Model
      */
     public function status(): string
     {
-        if ($this->expire_time < time()) {
-            return '已过期';
-        }
-        return '激活';
+        return $this->expire_time < time() ? '已过期' : '激活';
     }
 }

@@ -83,7 +83,7 @@ final class BillingController extends BaseController
             }
         }
 
-        $gateway = Setting::where('item', '=', 'payment_gateway')->first();
+        $gateway = Setting::where('item', 'payment_gateway')->first();
         $gateway->value = json_encode($gateway_in_use);
 
         if (! $gateway->save()) {
@@ -96,7 +96,7 @@ final class BillingController extends BaseController
         $list = self::$update_field;
 
         foreach ($list as $item) {
-            $setting = Setting::where('item', '=', $item)->first();
+            $setting = Setting::where('item', $item)->first();
 
             if ($setting->type === 'array') {
                 $setting->value = json_encode($request->getParam($item));
@@ -131,7 +131,7 @@ final class BillingController extends BaseController
 
     public function returnActiveGateways()
     {
-        $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
+        $payment_gateways = Setting::where('item', 'payment_gateway')->first();
         return json_decode($payment_gateways->value);
     }
 }

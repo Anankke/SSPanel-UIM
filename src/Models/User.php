@@ -15,13 +15,11 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Ramsey\Uuid\Uuid;
 use function array_merge;
 use function date;
-use function in_array;
 use function is_null;
 use function json_encode;
 use function md5;
 use function random_int;
 use function round;
-use function str_replace;
 use function time;
 use const PHP_EOL;
 
@@ -103,17 +101,8 @@ final class User extends Model
     public function updatePassword(string $pwd): bool
     {
         $this->pass = Hash::passwordHash($pwd);
+
         return $this->save();
-    }
-
-    public function getForbiddenIp(): array|string
-    {
-        return str_replace(',', PHP_EOL, $this->forbidden_ip);
-    }
-
-    public function getForbiddenPort(): array|string
-    {
-        return str_replace(',', PHP_EOL, $this->forbidden_port);
     }
 
     /**
@@ -121,19 +110,12 @@ final class User extends Model
      */
     public function addInviteCode(): string
     {
-        while (true) {
-            $temp_code = Tools::genRandomChar(10);
-            if (InviteCode::where('code', $temp_code)->first() === null) {
-                if (InviteCode::where('user_id', $this->id)->count() === 0) {
-                    $code = new InviteCode();
-                    $code->code = $temp_code;
-                    $code->user_id = $this->id;
-                    $code->save();
-                    return $temp_code;
-                }
-                return InviteCode::where('user_id', $this->id)->first()->code;
-            }
-        }
+        $code = new InviteCode();
+        $code->code = Tools::genRandomChar(10);
+        $code->user_id = $this->id;
+        $code->save();
+
+        return $code->code;
     }
 
     /**
@@ -142,6 +124,7 @@ final class User extends Model
     public function addInviteNum(int $num): bool
     {
         $this->invite_num += $num;
+
         return $this->save();
     }
 
@@ -150,17 +133,9 @@ final class User extends Model
      */
     public function generateUUID(): bool
     {
-        for ($i = 0; $i < 10; $i++) {
-            $uuid = Uuid::uuid4();
-            $is_uuid_used = User::where('uuid', $uuid)->first();
+        $this->uuid = Uuid::uuid4();
 
-            if ($is_uuid_used === null) {
-                $this->uuid = Uuid::uuid4();
-                return $this->save();
-            }
-        }
-
-        return false;
+        return $this->save();
     }
 
     /**
@@ -168,17 +143,9 @@ final class User extends Model
      */
     public function generateApiToken(): bool
     {
-        for ($i = 0; $i < 10; $i++) {
-            $api_token = Uuid::uuid4();
-            $is_api_token_used = User::where('api_token', $api_token)->first();
+        $this->api_token = Uuid::uuid4();
 
-            if ($is_api_token_used === null) {
-                $this->api_token = Uuid::uuid4();
-                return $this->save();
-            }
-        }
-
-        return false;
+        return $this->save();
     }
 
     /*
@@ -187,14 +154,6 @@ final class User extends Model
     public function enableTraffic(): string
     {
         return Tools::autoBytes($this->transfer_enable);
-    }
-
-    /*
-     * 总流量[GB]，不含单位
-     */
-    public function enableTrafficInGB(): float
-    {
-        return Tools::flowToGB($this->transfer_enable);
     }
 
     /*
@@ -216,14 +175,12 @@ final class User extends Model
     /*
      * 已用流量占总流量的百分比
      */
-    public function trafficUsagePercent(): int
+    public function trafficUsagePercent(): float
     {
-        if ($this->transfer_enable === 0) {
-            return 0;
-        }
-        $percent = ($this->u + $this->d) / $this->transfer_enable;
-        $percent = round($percent, 2);
-        return (int) $percent * 100;
+        return $this->transfer_enable === 0 ?
+            0
+            :
+            round(($this->u + $this->d) / $this->transfer_enable, 2) * 100;
     }
 
     /*
@@ -239,13 +196,10 @@ final class User extends Model
      */
     public function unusedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0) {
-            return 0;
-        }
-        $unused = $this->transfer_enable - ($this->u + $this->d);
-        $percent = $unused / $this->transfer_enable;
-        $percent = round($percent, 4);
-        return $percent * 100;
+        return $this->transfer_enable === 0 ?
+            0
+            :
+            round(($this->transfer_enable - ($this->u + $this->d)) / $this->transfer_enable, 2) * 100;
     }
 
     /*
@@ -261,12 +215,10 @@ final class User extends Model
      */
     public function todayUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
-            return 0;
-        }
-        $percent = $this->transfer_today / $this->transfer_enable;
-        $percent = round($percent, 4);
-        return $percent * 100;
+        return $this->transfer_enable === 0 ?
+            0
+            :
+            round($this->transfer_today / $this->transfer_enable, 2) * 100;
     }
 
     /*
@@ -282,12 +234,10 @@ final class User extends Model
      */
     public function lastUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0 || $this->transfer_enable === null) {
-            return 0;
-        }
-        $percent = ($this->u + $this->d - $this->transfer_today) / $this->transfer_enable;
-        $percent = round($percent, 4);
-        return $percent * 100;
+        return $this->transfer_enable === 0 ?
+            0
+            :
+            round(($this->u + $this->d - $this->transfer_today) / $this->transfer_enable, 2) * 100;
     }
 
     /*
@@ -296,39 +246,6 @@ final class User extends Model
     public function isAbleToCheckin(): bool
     {
         return date('Ymd') !== date('Ymd', $this->last_check_in_time);
-    }
-
-    /**
-     * 获取用户的邀请码
-     */
-    public function getInviteCodes(): ?InviteCode
-    {
-        return InviteCode::where('user_id', $this->id)->first();
-    }
-
-    /**
-     * 用户的邀请人
-     */
-    public function refByUser(): ?User
-    {
-        return self::find($this->ref_by);
-    }
-
-    /**
-     * 用户邀请人的用户名
-     */
-    public function refByUserName(): string
-    {
-        if ($this->ref_by === 0) {
-            return '系统邀请';
-        }
-
-        $refUser = $this->refByUser();
-
-        if ($refUser === null) {
-            return '邀请人已经被删除';
-        }
-        return $refUser->user_name;
     }
 
     /**
@@ -377,59 +294,19 @@ final class User extends Model
     /**
      * 销户
      */
-    public function killUser(): bool
+    public function kill(): bool
     {
         $uid = $this->id;
 
-        DetectBanLog::where('user_id', '=', $uid)->delete();
-        DetectLog::where('user_id', '=', $uid)->delete();
-        InviteCode::where('user_id', '=', $uid)->delete();
-        OnlineLog::where('user_id', '=', $uid)->delete();
-        Link::where('userid', '=', $uid)->delete();
-        LoginIp::where('userid', '=', $uid)->delete();
-        SubscribeLog::where('user_id', '=', $uid)->delete();
+        DetectBanLog::where('user_id', $uid)->delete();
+        DetectLog::where('user_id', $uid)->delete();
+        InviteCode::where('user_id', $uid)->delete();
+        OnlineLog::where('user_id', $uid)->delete();
+        Link::where('userid', $uid)->delete();
+        LoginIp::where('userid', $uid)->delete();
+        SubscribeLog::where('user_id', $uid)->delete();
 
-        $this->delete();
-
-        return true;
-    }
-
-    /**
-     * 最后一次被封禁的时间
-     */
-    public function lastDetectBanTime(): string
-    {
-        return $this->last_detect_ban_time === '1989-06-04 00:05:00' ? '未被封禁过' : $this->last_detect_ban_time;
-    }
-
-    /**
-     * 当前解封时间
-     */
-    public function relieveTime(): string
-    {
-        $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
-        if ($this->enable === 0 && $logs !== null) {
-            $time = $logs->end_time + $logs->ban_time * 60;
-            return date('Y-m-d H:i:s', $time);
-        }
-        return '当前未被封禁';
-    }
-
-    /**
-     * 累计被封禁的次数
-     */
-    public function detectBanNumber(): int
-    {
-        return DetectBanLog::where('user_id', $this->id)->count();
-    }
-
-    /**
-     * 最后一次封禁的违规次数
-     */
-    public function userDetectBanNumber(): int
-    {
-        $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
-        return $logs->detect_number;
+        return $this->delete();
     }
 
     /**
@@ -472,8 +349,7 @@ final class User extends Model
         $this->telegram_id = 0;
 
         if ($this->save()) {
-            if (
-                $_ENV['enable_telegram']
+            if ($_ENV['enable_telegram']
                 &&
                 Setting::obtain('telegram_group_bound_user')
                 &&
@@ -497,26 +373,6 @@ final class User extends Model
         }
 
         return $return;
-    }
-
-    /**
-     * 更新端口
-     */
-    public function setPort(int $Port): array
-    {
-        $PortOccupied = User::pluck('port')->toArray();
-        if (in_array($Port, $PortOccupied)) {
-            return [
-                'ok' => false,
-                'msg' => '端口已被占用',
-            ];
-        }
-        $this->port = $Port;
-        $this->save();
-        return [
-            'ok' => true,
-            'msg' => $this->port,
-        ];
     }
 
     /**

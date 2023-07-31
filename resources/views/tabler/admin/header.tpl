@@ -135,6 +135,10 @@
                                                 <i class="ti ti-server-2"></i>&nbsp;
                                                 节点
                                             </a>
+                                            <a class="dropdown-item" href="/admin/system">
+                                                <i class="ti ti-tool"></i>&nbsp;
+                                                系统
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

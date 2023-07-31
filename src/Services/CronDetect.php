@@ -27,8 +27,8 @@ final class CronDetect
      */
     public static function gfw(): void
     {
-        $nodes = Node::where('type', '=', 1)->where('node_ip', '!=', '')->where('online', '=', 1)->get();
-        $adminUser = User::where('is_admin', '=', '1')->get();
+        $nodes = Node::where('type', 1)->where('node_ip', '!=', '')->where('online', 1)->get();
+        $adminUser = User::where('is_admin', '1')->get();
 
         foreach ($nodes as $node) {
             $api_url = str_replace(

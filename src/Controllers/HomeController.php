@@ -7,7 +7,9 @@ namespace App\Controllers;
 use App\Services\Auth;
 use App\Utils\Telegram\Process;
 use Exception;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -72,6 +74,8 @@ final class HomeController extends BaseController
 
     /**
      * @throws TelegramSDKException
+     * @throws RedisException
+     * @throws InvalidDatabaseException
      */
     public function telegram(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

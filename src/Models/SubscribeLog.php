@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Utils\Tools;
-use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use voku\helper\AntiXSS;
 use function time;
@@ -30,7 +29,7 @@ final class SubscribeLog extends Model
     {
         try {
             return Tools::getIpLocation($this->request_ip);
-        } catch (AddressNotFoundException | InvalidDatabaseException $e) {
+        } catch (InvalidDatabaseException $e) {
             return '未知';
         }
     }

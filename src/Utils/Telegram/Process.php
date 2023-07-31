@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram;
 
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\RequestInterface;
+use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
@@ -12,6 +14,8 @@ final class Process
 {
     /**
      * @throws TelegramSDKException
+     * @throws InvalidDatabaseException
+     * @throws RedisException
      */
     public static function index(RequestInterface $request): void
     {

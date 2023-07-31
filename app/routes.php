@@ -189,11 +189,11 @@ return static function (Slim\App $app): void {
         $group->delete('/coupon/{id}', App\Controllers\Admin\CouponController::class . ':delete');
         $group->post('/coupon/{id}/disable', App\Controllers\Admin\CouponController::class . ':disable');
         // 登录日志
-        $group->get('/login', App\Controllers\Admin\IpController::class . ':login');
-        $group->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
+        $group->get('/login', App\Controllers\Admin\LoginLogController::class . ':index');
+        $group->post('/login/ajax', App\Controllers\Admin\LoginLogController::class . ':ajax');
         // 在线IP
-        $group->get('/online', App\Controllers\Admin\IpController::class . ':online');
-        $group->post('/online/ajax', App\Controllers\Admin\IpController::class . ':ajaxOnline');
+        $group->get('/online', App\Controllers\Admin\OnlineIpController::class . ':index');
+        $group->post('/online/ajax', App\Controllers\Admin\OnlineIpController::class . ':ajax');
         // 订阅日志
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
         $group->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajax');
@@ -206,11 +206,14 @@ return static function (Slim\App $app): void {
         $group->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
         $group->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajax');
         // 用户余额日志
-        $group->get('/moneylog', App\Controllers\Admin\MoneyLogController::class . ':log');
+        $group->get('/moneylog', App\Controllers\Admin\MoneyLogController::class . ':index');
         $group->post('/moneylog/ajax', App\Controllers\Admin\MoneyLogController::class . ':ajax');
         // 支付网关日志
-        $group->get('/gateway', App\Controllers\Admin\PaylistController::class . ':gateway');
+        $group->get('/gateway', App\Controllers\Admin\PaylistController::class . ':index');
         $group->post('/gateway/ajax', App\Controllers\Admin\PaylistController::class . ':ajax');
+        // 系统状态
+        $group->get('/system', App\Controllers\Admin\SystemController::class . ':index');
+        $group->post('/system/check_update', App\Controllers\Admin\SystemController::class . ':checkUpdate');
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':billing');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':saveBilling');

@@ -125,7 +125,7 @@ EOL;
         foreach ($settings as $item) {
             $config[] = $item['item'];
             $item_name = $item['item'];
-            $query = Setting::where('item', '=', $item['item'])->first();
+            $query = Setting::where('item', $item['item'])->first();
 
             if ($query === null) {
                 $new_item = new Setting();

@@ -59,6 +59,7 @@ final class AuthController extends BaseController
     {
         if (Setting::obtain('enable_login_captcha')) {
             $ret = Captcha::verify($request->getParams());
+
             if (! $ret) {
                 return $response->withJson([
                     'ret' => 0,
@@ -67,11 +68,13 @@ final class AuthController extends BaseController
             }
         }
 
-        $code = $request->getParam('code');
+        $antiXss = new AntiXSS();
+
+        $code = $antiXss->xss_clean($request->getParam('code'));
         $passwd = $request->getParam('passwd');
-        $rememberMe = $request->getParam('remember_me');
-        $email = strtolower(trim($request->getParam('email')));
-        $redir = Cookie::get('redir') ?? '/user';
+        $rememberMe = $request->getParam('remember_me') === 'true' ? 1 : 0;
+        $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
+        $redir = Cookie::get('redir') === '' ? $antiXss->xss_clean(Cookie::get('redir')) : '/user';
 
         $user = User::where('email', $email)->first();
 
@@ -92,7 +95,7 @@ final class AuthController extends BaseController
             ]);
         }
 
-        if ($user->ga_enable === 1) {
+        if ($user->ga_enable) {
             if (strlen($code) !== 6) {
                 // 记录登录失败
                 $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
@@ -117,9 +120,10 @@ final class AuthController extends BaseController
             }
         }
 
-        $time = 3600 * 24;
+        $time = 3600;
+
         if ($rememberMe) {
-            $time = 3600 * 24 * ($_ENV['rememberMeDuration'] ?: 7);
+            $time = 86400 * ($_ENV['rememberMeDuration'] ?: 7);
         }
 
         Auth::login($user->id, $time);
@@ -144,18 +148,16 @@ final class AuthController extends BaseController
             $captcha = Captcha::generate();
         }
 
-        $ary = $request->getQueryParams();
-        $code = '';
-        if (isset($ary['code'])) {
-            $antiXss = new AntiXSS();
-            $code = $antiXss->xss_clean($ary['code']);
-        }
+        $antiXss = new AntiXSS();
+        $code = $antiXss->xss_clean($request->getParam('code'));
 
-        return $response->write($this->view()
-            ->assign('code', $code)
-            ->assign('base_url', $_ENV['baseUrl'])
-            ->assign('captcha', $captcha)
-            ->fetch('auth/register.tpl'));
+        return $response->write(
+            $this->view()
+                ->assign('code', $code)
+                ->assign('base_url', $_ENV['baseUrl'])
+                ->assign('captcha', $captcha)
+                ->fetch('auth/register.tpl')
+        );
     }
 
     /**
@@ -413,7 +415,7 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '你的邮箱验证码不正确');
             }
 
-            $redis->del($email_verify_code);
+            $redis->del('email_verify:' . $email_verify_code);
         }
 
         return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
