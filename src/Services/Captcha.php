@@ -40,18 +40,22 @@ final class Captcha
                             'response' => $turnstile,
                         ]
                     );
-                    $opts = ['http' => [
-                        'method' => 'POST',
-                        'header' => 'Content-Type: application/x-www-form-urlencoded',
-                        'content' => $postdata,
-                    ],
+
+                    $opts = [
+                        'http' => [
+                            'method' => 'POST',
+                            'header' => 'Content-Type: application/x-www-form-urlencoded',
+                            'content' => $postdata,
+                        ],
                     ];
-                    $json = file_get_contents(
+
+                    $json = json_decode(file_get_contents(
                         'https://challenges.cloudflare.com/turnstile/v0/siteverify',
                         false,
                         stream_context_create($opts)
-                    );
-                    $result = json_decode($json)->success;
+                    ));
+
+                    $result = $json->success;
                 }
                 break;
             case 'geetest':
@@ -64,6 +68,7 @@ final class Captcha
                     $pass_token = $geetest['pass_token'];
                     $gen_time = $geetest['gen_time'];
                     $sign_token = hash_hmac('sha256', $lot_number, $captcha_key);
+
                     $postdata = http_build_query(
                         [
                             'lot_number' => $lot_number,
@@ -73,6 +78,7 @@ final class Captcha
                             'sign_token' => $sign_token,
                         ]
                     );
+
                     $opts = [
                         'http' => [
                             'method' => 'POST',
@@ -81,12 +87,14 @@ final class Captcha
                             'timeout' => 5,
                         ],
                     ];
-                    $json = file_get_contents(
+
+                    $json = json_decode(file_get_contents(
                         'https://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id,
                         false,
                         stream_context_create($opts)
-                    );
-                    if (json_decode($json)->result === 'success') {
+                    ));
+
+                    if ($json->result === 'success') {
                         $result = true;
                     }
                 }

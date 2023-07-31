@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\LoginIp;
 use App\Services\DB;
 use App\Utils\Tools;
 use Exception;
@@ -18,22 +17,9 @@ use function array_slice;
 use function count;
 use function str_replace;
 
-final class IpController extends BaseController
+final class OnlineIpController extends BaseController
 {
-    public static array $login_details =
-        [
-            'field' => [
-                'id' => '事件ID',
-                'userid' => '用户ID',
-                'user_name' => '用户名',
-                'ip' => 'IP',
-                'location' => 'IP归属地',
-                'datetime' => '时间',
-                'type' => '类型',
-            ],
-        ];
-
-    public static array $ip_details =
+    public static array $details =
         [
             'field' => [
                 'id' => '事件ID',
@@ -49,58 +35,15 @@ final class IpController extends BaseController
         ];
 
     /**
-     * 后台登录记录页面
-     *
-     * @throws Exception
-     */
-    public function login(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        return $response->write(
-            $this->view()
-                ->assign('details', self::$login_details)
-                ->fetch('admin/log/login.tpl')
-        );
-    }
-
-    /**
-     * 后台登录记录页面 AJAX
-     *
-     * @throws InvalidDatabaseException
-     */
-    public function ajaxLogin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $length = $request->getParam('length');
-        $page = $request->getParam('start') / $length + 1;
-        $draw = $request->getParam('draw');
-
-        $logins = LoginIp::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = LoginIp::count();
-
-        foreach ($logins as $login) {
-            $login->user_name = $login->userName();
-            $login->location = Tools::getIpLocation($login->ip);
-            $login->datetime = Tools::toDateTime((int) $login->datetime);
-            $login->type = $login->type();
-        }
-
-        return $response->withJson([
-            'draw' => $draw,
-            'recordsTotal' => $total,
-            'recordsFiltered' => $total,
-            'logins' => $logins,
-        ]);
-    }
-
-    /**
      * 后台在线 IP 页面
      *
      * @throws Exception
      */
-    public function online(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         return $response->write(
             $this->view()
-                ->assign('details', self::$ip_details)
+                ->assign('details', self::$details)
                 ->fetch('admin/log/online.tpl')
         );
     }
@@ -110,7 +53,7 @@ final class IpController extends BaseController
      *
      * @throws InvalidDatabaseException
      */
-    public function ajaxOnline(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $data = $request->getParsedBody();
         $length = (int) ($data['length'] ?? 0);

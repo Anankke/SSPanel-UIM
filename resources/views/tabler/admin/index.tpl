@@ -6,10 +6,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title">系统概况</span>
+                        <span class="home-title">站点概况</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">在这里查看系统的的各项运营指标</span>
+                        <span class="home-subtitle">站点运营状态总览</span>
                     </div>
                 </div>
             </div>
@@ -191,10 +191,7 @@
                     fillSeriesColor: false
                 },
             })).render();
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+
             window.ApexCharts && (new ApexCharts(document.getElementById('node-online'), {
                 chart: {
                     type: "donut",
@@ -234,10 +231,7 @@
                     fillSeriesColor: false
                 },
             })).render();
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+
             window.ApexCharts && (new ApexCharts(document.getElementById('user-inactive'), {
                 chart: {
                     type: "donut",
@@ -277,10 +271,7 @@
                     fillSeriesColor: false
                 },
             })).render();
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+
             window.ApexCharts && (new ApexCharts(document.getElementById('traffic-usage'), {
                 chart: {
                     type: "donut",
