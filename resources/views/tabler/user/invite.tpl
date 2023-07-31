@@ -17,7 +17,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-cards">
+            <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="row row-deck row-cards">
                         <div class="col-sm-12 col-lg-6">

@@ -18,13 +18,13 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
-                <div class="col-12">
+                <div class="col-sm-12 col-lg-12">
                     <div class="card">
                         <div class="table-responsive">
                             <table class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>公告ID</th>
                                         <th>发布日期</th>
                                         <th>公告内容</th>
                                     </tr>

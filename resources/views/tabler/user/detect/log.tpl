@@ -37,17 +37,17 @@
                                 </thead>
                                 <tbody>
                                 {foreach $logs as $log}
-                                <tr>
-                                    <td>#{$log->id}</td>
-                                    <td>{$log->node_id}</td>
-                                    <td>{$log->node_name}</td>
-                                    <td>{$log->list_id}</td>
-                                    <td>{$log->rule->name}</td>
-                                    <td>{$log->rule->text}</td>
-                                    <td>{$log->rule->regex}</td>
-                                    <td>{$log->rule->type}</td>
-                                    <td>{$log->datetime}</td>
-                                </tr>
+                                    <tr>
+                                        <td>#{$log->id}</td>
+                                        <td>{$log->node_id}</td>
+                                        <td>{$log->node_name}</td>
+                                        <td>{$log->list_id}</td>
+                                        <td>{$log->rule->name}</td>
+                                        <td>{$log->rule->text}</td>
+                                        <td>{$log->rule->regex}</td>
+                                        <td>{$log->rule->type}</td>
+                                        <td>{$log->datetime}</td>
+                                    </tr>
                                 {/foreach}
                                 </tbody>
                             </table>

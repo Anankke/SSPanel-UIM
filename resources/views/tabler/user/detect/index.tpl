@@ -21,15 +21,6 @@
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="m-0 my-2">
-                                <p>为了防止滥用与确保站点可以稳定运行，特制定了如下过滤规则，当你使用节点执行这些动作时，你的通信就会被截断。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="card">
                         <div class="table-responsive">
                             <table class="table table-vcenter card-table">
                                 <thead>
