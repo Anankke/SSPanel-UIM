@@ -102,11 +102,35 @@
     <script>
         {if $public_setting['reg_email_verify']}
             $("#email-verify").click(function() {
+                {if $public_setting['enable_reg_captcha']}
+                    {if $public_setting['captcha_provider'] === 'turnstile'}
+                        if ($('input[name=cf-turnstile-response]').val() === '') {
+                            $('#fail-message').text('请先完成人机验证');
+                            $('#fail-dialog').modal('show');
+                            return;
+                        }
+                    {/if}
+                    {if $public_setting['captcha_provider'] === 'geetest'}
+                        if (geetest_result === '') {
+                            $('#fail-message').text('请先完成人机验证');
+                            $('#fail-dialog').modal('show');
+                            return;
+                        }
+                    {/if}
+                {/if}
                 $.ajax({
                     type: 'POST',
                     url: '/auth/send',
                     dataType: "json",
                     data: {
+                        {if $public_setting['enable_reg_captcha']}
+                            {if $public_setting['captcha_provider'] === 'turnstile'}
+                                turnstile: $('input[name=cf-turnstile-response]').val(),
+                            {/if}
+                            {if $public_setting['captcha_provider'] === 'geetest'}
+                                geetest: geetest_result,
+                            {/if}
+                        {/if}
                         email: $('#email').val(),
                     },
                     success: function(data) {

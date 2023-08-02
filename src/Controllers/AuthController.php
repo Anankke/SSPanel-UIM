@@ -166,6 +166,13 @@ final class AuthController extends BaseController
     public function sendVerify(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
         if (Setting::obtain('reg_email_verify')) {
+            if (Setting::obtain('enable_reg_captcha')) {
+                $ret = Captcha::verify($request->getParams());
+                if (! $ret) {
+                    return ResponseHelper::error($response, '请先完成人机验证，再请求邮件验证码');
+                }
+            }
+
             $antiXss = new AntiXSS();
             $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
 
