@@ -129,7 +129,7 @@ final class Tools
     public static function autoMbps($size, $precision = 2): string
     {
         if ($size <= 0) {
-            return '0Bbps';
+            return '0Bps';
         }
 
         if ($size > 1000000000) {

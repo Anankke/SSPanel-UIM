@@ -35,17 +35,8 @@
                                                     <div class="row g-3 align-items-center">
                                                         <div class="col-auto">
                                                             <span
-                                                                class="status-indicator
-                                                                {if $server["traffic_limit"] !== 0 && $server["traffic_used"] >= $server["traffic_limit"]}
-                                                                status-yellow 
-                                                                {elseif $server["online"] === 1}
-                                                                status-green 
-                                                                {elseif $server["online"] === 0}
-                                                                status-orange 
-                                                                {else}
-                                                                status-red 
-                                                                {/if}
-                                                                status-indicator-animated">
+                                                                class="status-indicator status-{$server["color"]}
+                                                                 status-indicator-animated">
                                                                 <span class="status-indicator-circle"></span>
                                                                 <span class="status-indicator-circle"></span>
                                                                 <span class="status-indicator-circle"></span>
@@ -56,13 +47,8 @@
                                                                 {$server["name"]}&nbsp;
                                                                 <span class="card-subtitle my-2"
                                                                     style="font-size: 10px;">
-                                                                    {if $server["traffic_limit"] === 0}
-                                                                        {round($server["traffic_used"])} GB /
-                                                                        不限
-                                                                    {else}
-                                                                        {round($server["traffic_used"])} GB /
-                                                                        {round($server["traffic_limit"])} GB
-                                                                    {/if}
+                                                                    {$server["node_bandwidth"]} /
+                                                                    {$server["node_bandwidth_limit"]}
                                                                 </span>
                                                             </h2>
                                                             <div class="text-secondary">
@@ -77,13 +63,7 @@
                                                                     </li>
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-server-2"></i>&nbsp;
-                                                                        {if $server['sort'] === 0}
-                                                                        Shadowsocks
-                                                                        {elseif $server['sort'] === 11}
-                                                                        V2Ray
-                                                                        {elseif $server['sort'] === 14}
-                                                                        Trojan
-                                                                        {/if}
+                                                                        {$server['sort']}
                                                                     </li>
                                                                 </ul>
                                                             </div>
