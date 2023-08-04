@@ -17,28 +17,6 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-deck row-cards">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="m-0 my-2">
-                                <div>
-                                    <p>账户当前余额 <code>{$user->money}</code> 元，剩余流量 <code>{$user->unusedTraffic()}</code>
-                                        {if time() > strtotime($user->expire_in)}
-                                            ，你的账户已经过期了
-                                        {else}
-                                            {$diff = round((strtotime($user->expire_in) - time()) / 86400)}
-                                            ，等级 Lv.{$user->class}，有效期剩余 <code>{$diff}</code> 天
-                                        {/if}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-xl my-4">
             <div class="row row-cards">
                 <div class="col-12">
                     <div class="card">

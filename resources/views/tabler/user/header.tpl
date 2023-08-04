@@ -90,21 +90,21 @@
                                         <div class="dropdown-menu-column">
                                             <a class="dropdown-item" href="/user/profile">
                                                 <i class="ti ti-info-square"></i>&nbsp;
-                                                账户信息
+                                                账户
                                             </a>
                                             <a class="dropdown-item" href="/user/edit">
                                                 <i class="ti ti-edit"></i>&nbsp;
-                                                资料修改
+                                                资料
                                             </a>
                                             {if $public_setting['display_subscribe_log']}
                                             <a class="dropdown-item" href="/user/subscribe/log">
                                                 <i class="ti ti-rss"></i></i>&nbsp;
-                                                订阅日志
+                                                订阅
                                             </a>
                                             {/if}
                                             <a class="dropdown-item" href="/user/invite">
                                                 <i class="ti ti-friends"></i>&nbsp;
-                                                邀请与返利
+                                                邀请
                                             </a>
                                         </div>
                                     </div>
@@ -207,7 +207,7 @@
                                             </a>
                                             <a class="dropdown-item" href="/user/money">
                                                 <i class="ti ti-home-dollar"></i>&nbsp;
-                                                账户余额
+                                                余额
                                             </a>
                                         </div>
                                     </div>
