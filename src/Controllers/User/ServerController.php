@@ -39,15 +39,14 @@ final class ServerController extends BaseController
             $array_node['id'] = $node->id;
             $array_node['name'] = $node->name;
             $array_node['class'] = (int) $node->node_class;
-            $array_node['sort'] = (int) $node->sort;
-            $array_node['info'] = $node->info;
+            $array_node['color'] = $node->color;
+            $array_node['sort'] = $node->sort();
             $array_node['online_user'] = $node->online_user;
             $array_node['online'] = $node->getNodeOnlineStatus();
             $array_node['traffic_rate'] = $node->traffic_rate;
-            $array_node['status'] = $node->status;
-            $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
-            $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
-            $array_node['bandwidth'] = $node->getNodeSpeedlimit();
+            $array_node['node_bandwidth'] = Tools::autoBytes($node->node_bandwidth);
+            $array_node['node_bandwidth_limit'] = $node->node_bandwidth_limit === 0 ? '无限制' :
+                Tools::autoBytes($node->node_bandwidth_limit);
 
             $all_node[] = $array_node;
         }

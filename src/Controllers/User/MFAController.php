@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Services\MFA;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Vectorface\GoogleAuthenticator;
 
 /**
  *  MFAController
@@ -27,11 +27,7 @@ final class MFAController extends BaseController
             ]);
         }
 
-        $user = $this->user;
-        $ga = new GoogleAuthenticator();
-        $rcode = $ga->verifyCode($user->ga_token, $code);
-
-        if (! $rcode) {
+        if (! MFA::verifyGa($this->user, $code)) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '测试错误',
@@ -58,28 +54,27 @@ final class MFAController extends BaseController
         $user = $this->user;
         $user->ga_enable = $enable;
         $user->save();
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '设置成功',
-        ]);
-    }
 
-    public function resetGa(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $ga = new GoogleAuthenticator();
-        $secret = '';
-
-        try {
-            $secret = $ga->createSecret();
-        } catch (Exception $e) {
+        if ($user->save()) {
             return $response->withJson([
-                'ret' => 0,
-                'msg' => '重置失败',
+                'ret' => 1,
+                'msg' => '设置成功',
             ]);
         }
 
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => '设置失败',
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function resetGa(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
         $user = $this->user;
-        $user->ga_token = $secret;
+        $user->ga_token = MFA::generateGaToken();
 
         if ($user->save()) {
             return $response->withJson([

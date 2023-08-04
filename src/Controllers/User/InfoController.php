@@ -40,7 +40,7 @@ final class InfoController extends BaseController
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
         $bind_token = Telegram::addBindSession($this->user);
         $methods = Config::getSupportParam('method');
-        $gaurl = MFA::getGAurl($this->user);
+        $gaurl = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()
             ->assign('user', $this->user)

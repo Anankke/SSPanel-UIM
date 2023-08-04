@@ -37,7 +37,7 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 
 - Git
 - Nginx（必须使用 HTTPS/HTTPS is REQUIRED）
-- PHP 8.1+ （推荐开启 OPcache/OPcache is recommended）
+- PHP 8.1+ （推荐开启 OPcache & JIT /OPcache & JIT is highly recommended）
 - MariaDB 10.6+（关闭严格模式，不兼容 MySQL/Disable strict mode, DO NOT USE MYSQL）
 - Redis 7.0+
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Utils\Tools;
 use Exception;
 use function array_key_exists;
 use function count;
@@ -22,6 +21,22 @@ final class Node extends Model
         'traffic_rate' => 'float',
         'node_heartbeat' => 'int',
     ];
+
+    /**
+     * 节点状态颜色
+     */
+    public function getColorAttribute(): string
+    {
+        if ($this->node_bandwidth_limit !== 0 && $this->node_bandwidth_limit <= $this->node_bandwidth) {
+            return 'yellow';
+        }
+
+        return match ($this->getNodeOnlineStatus()) {
+            0 => 'orange',
+            1 => 'green',
+            default => 'red',
+        };
+    }
 
     /**
      * 节点是否显示和隐藏
@@ -45,14 +60,6 @@ final class Node extends Model
     }
 
     /**
-     * 节点最后活跃时间
-     */
-    public function nodeHeartbeat(): string
-    {
-        return Tools::toDateTime($this->node_heartbeat);
-    }
-
-    /**
      * 获取节点在线状态
      *
      * @return int 0 = new node OR -1 = offline OR 1 = online
@@ -60,22 +67,6 @@ final class Node extends Model
     public function getNodeOnlineStatus(): int
     {
         return $this->node_heartbeat === 0 ? 0 : ($this->node_heartbeat + 600 > time() ? 1 : -1);
-    }
-
-    /**
-     * 获取节点速率文本信息
-     */
-    public function getNodeSpeedlimit(): string
-    {
-        return Tools::autoMbps($this->node_speedlimit);
-    }
-
-    /**
-     * 节点流量已耗尽
-     */
-    public function isNodeTrafficOut(): bool
-    {
-        return ! ($this->node_bandwidth_limit === 0 || $this->node_bandwidth < $this->node_bandwidth_limit);
     }
 
     /**

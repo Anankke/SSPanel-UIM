@@ -11,6 +11,7 @@ use App\Services\Auth;
 use App\Services\Cache;
 use App\Services\Captcha;
 use App\Services\Mail;
+use App\Services\MFA;
 use App\Services\RateLimit;
 use App\Utils\Cookie;
 use App\Utils\Hash;
@@ -23,7 +24,6 @@ use Ramsey\Uuid\Uuid;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Vectorface\GoogleAuthenticator;
 use voku\helper\AntiXSS;
 use function array_rand;
 use function date;
@@ -106,10 +106,7 @@ final class AuthController extends BaseController
                 ]);
             }
 
-            $ga = new GoogleAuthenticator();
-            $rcode = $ga->verifyCode($user->ga_token, $code);
-
-            if (! $rcode) {
+            if (! MFA::verifyGa($user, $code)) {
                 // 记录登录失败
                 $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
 
@@ -286,9 +283,7 @@ final class AuthController extends BaseController
             $user->money = Setting::obtain('invitation_to_register_balance_reward');
         }
 
-        $ga = new GoogleAuthenticator();
-        $secret = $ga->createSecret();
-        $user->ga_token = $secret;
+        $user->ga_token = MFA::generateGaToken();
         $user->ga_enable = 0;
 
         $user->class_expire = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_class_time'] * 86400);

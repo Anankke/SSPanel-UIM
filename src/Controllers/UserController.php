@@ -102,7 +102,7 @@ final class UserController extends BaseController
      */
     public function invite(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $code = InviteCode::where('user_id', $this->user->id)->first();
+        $code = InviteCode::where('user_id', $this->user->id)->first()?->code;
 
         if ($code === null) {
             $code = $this->user->addInviteCode();
@@ -124,15 +124,12 @@ final class UserController extends BaseController
 
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code;
         $rebate_ratio_per = Setting::obtain('rebate_ratio') * 100;
-        $payback_count = $paybacks->count();
 
         return $response->write($this->view()
-            ->assign('code', $code)
             ->assign('paybacks', $paybacks)
             ->assign('invite_url', $invite_url)
             ->assign('paybacks_sum', $paybacks_sum)
             ->assign('rebate_ratio_per', $rebate_ratio_per)
-            ->assign('payback_count', $payback_count)
             ->fetch('user/invite.tpl'));
     }
 

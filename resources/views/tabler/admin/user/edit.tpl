@@ -153,10 +153,10 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">流量限制 (GB)</label>
+                                <label class="form-label col-4 col-form-label">流量限制</label>
                                 <div class="col">
                                     <input id="transfer_enable" type="text" class="form-control"
-                                        value="{$edit_user->enableTrafficInGB()}">
+                                        value="{$edit_user->enableTraffic()}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
