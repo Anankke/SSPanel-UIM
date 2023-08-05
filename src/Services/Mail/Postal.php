@@ -12,30 +12,18 @@ use function mime_content_type;
 
 final class Postal extends Base
 {
-    private array $config;
     private Client $client;
     private Message $message;
 
     public function __construct()
     {
-        $this->config = $this->getConfig();
-        $this->client = new Client($this->config['host'], $this->config['key']);
-        $this->message = new Message();
-        $this->message->sender($this->config['sender']); # 发件邮箱
-        $this->message->from($this->config['name']. ' <' . $this->config['sender'] . '>'); # 发件人
-        $this->message->replyTo($this->config['sender']);
-    }
-
-    public function getConfig(): array
-    {
         $configs = Setting::getClass('postal');
 
-        return [
-            'host' => $configs['postal_host'],
-            'key' => $configs['postal_key'],
-            'sender' => $configs['postal_sender'],
-            'name' => $configs['postal_name'],
-        ];
+        $this->client = new Client($configs['postal_host'], $configs['postal_key']);
+        $this->message = new Message();
+        $this->message->sender($configs['postal_sender']); # 发件邮箱
+        $this->message->from($configs['postal_name'] . ' <' . $configs['postal_sender'] . '>'); # 发件人
+        $this->message->replyTo($configs['postal_sender']);
     }
 
     public function send($to, $subject, $text, $files): void

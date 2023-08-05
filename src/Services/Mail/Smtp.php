@@ -13,7 +13,7 @@ final class Smtp extends Base
     private PHPMailer $mail;
 
     /**
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function __construct()
     {
@@ -43,7 +43,6 @@ final class Smtp extends Base
     }
 
     /**
-     * @throws \PHPMailer\PHPMailer\Exception
      * @throws Exception
      */
     public function send($to, $subject, $text, $files): void
