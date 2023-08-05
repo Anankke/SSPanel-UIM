@@ -426,19 +426,19 @@ final class User extends Model
      */
     public function sendTelegram(string $text): bool
     {
-        $result = false;
         try {
             if ($this->telegram_id > 0) {
                 Telegram::send(
                     $text,
                     $this->telegram_id
                 );
-                $result = true;
+                return true;
             }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-        return $result;
+
+        return false;
     }
 
     /**
@@ -452,9 +452,10 @@ final class User extends Model
         $enable_traffic = $this->enableTraffic();
         $used_traffic = $this->usedTraffic();
         $unused_traffic = $this->unusedTraffic();
+
         switch ($this->daily_mail_enable) {
             case 1:
-                echo 'Send daily mail to user: ' . $this->id;
+                echo 'Send daily mail to user: ' . $this->id . PHP_EOL;
                 $this->sendMail(
                     $_ENV['appName'] . '-每日流量报告以及公告',
                     'traffic_report.tpl',
@@ -471,7 +472,7 @@ final class User extends Model
                 );
                 break;
             case 2:
-                echo 'Send daily Telegram message to user: ' . $this->id;
+                echo 'Send daily Telegram message to user: ' . $this->id . PHP_EOL;
                 $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
                 $text .= '流量总计：' . $enable_traffic . PHP_EOL;
                 $text .= '已用流量：' . $used_traffic . PHP_EOL;

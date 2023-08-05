@@ -214,18 +214,22 @@ final class CronJob
                 echo Tools::toDateTime(time()) . '邮件队列处理超时，已跳过' . PHP_EOL;
                 break;
             }
+
             DB::beginTransaction();
             $email_queues_raw = DB::select('SELECT * FROM email_queue LIMIT 1 FOR UPDATE SKIP LOCKED');
+
             if (count($email_queues_raw) === 0) {
                 DB::commit();
                 break;
             }
+
             $email_queues = array_map(static function ($value) {
                 return (array) $value;
             }, $email_queues_raw);
             $email_queue = $email_queues[0];
             echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
             DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
+
             if (Tools::isEmail($email_queue['to_email'])) {
                 try {
                     Mail::send(
@@ -240,6 +244,7 @@ final class CronJob
             } else {
                 echo $email_queue['to_email'] . ' 邮箱格式错误，已跳过' . PHP_EOL;
             }
+
             DB::commit();
         }
 
@@ -586,8 +591,7 @@ final class CronJob
 
     public static function sendDailyTrafficReport(): void
     {
-        $users = User::where('daily_mail_enable', 1)->get();
-
+        $users = User::whereIn('daily_mail_enable', [1, 2])->get();
         $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
 
         if ($ann_latest_raw === null) {
@@ -600,7 +604,7 @@ final class CronJob
             $user->sendDailyNotification($ann_latest);
         }
 
-        echo Tools::toDateTime(time()) . ' 成功发送每日邮件' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' 成功发送每日流量报告' . PHP_EOL;
     }
 
     /**
