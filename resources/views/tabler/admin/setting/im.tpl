@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a href="#discord_bot" class="nav-link" data-bs-toggle="tab">Discord Bot</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="#slack_bot" class="nav-link" data-bs-toggle="tab">Slack Bot</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body">
@@ -340,6 +343,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane" id="slack_bot">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">App Token</label>
+                                    <div class="col">
+                                        <input id="slack_token" type="text" class="form-control" value="{$settings['slack_token']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Discord 用户 ID</label>
+                                    <input type="text" class="form-control" id="slack_user_id" value="">
+                                    <div class="row my-3">
+                                        <div class="col">
+                                            <button id="test-slack" class="btn btn-primary">发送测试信息</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -377,6 +399,26 @@
             dataType: "json",
             data: {
                 discord_user_id: $('#discord_user_id').val(),
+            },
+            success: function(data) {
+                if (data.ret === 1) {
+                    $('#success-noreload-message').text(data.msg);
+                    $('#success-noreload-dialog').modal('show');
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
+
+    $("#test-slack").click(function() {
+        $.ajax({
+            url: '/admin/setting/test_slack',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                slack_user_id: $('#slack_user_id').val(),
             },
             success: function(data) {
                 if (data.ret === 1) {

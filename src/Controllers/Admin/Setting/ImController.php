@@ -7,6 +7,7 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\IM\Discord;
+use App\Services\IM\Slack;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_encode;
@@ -51,6 +52,7 @@ final class ImController extends BaseController
         'telegram_general_pricing',
         'telegram_general_terms',
         'discord_bot_token',
+        'slack_token',
     ];
 
     /**
@@ -106,11 +108,29 @@ final class ImController extends BaseController
 
     public function testDiscord($request, $response, $args)
     {
-        $to = $request->getParam('discord_user_id');
-
         try {
             (new Discord())->send(
-                $to,
+                $request->getParam('discord_user_id'),
+                '这是一条测试消息',
+            );
+        } catch (GuzzleException|Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '测试信息发送失败 ' . $e->getMessage(),
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '测试信息发送成功',
+        ]);
+    }
+
+    public function testSlack($request, $response, $args)
+    {
+        try {
+            (new Slack())->send(
+                $request->getParam('slack_user_id'),
                 '这是一条测试消息',
             );
         } catch (GuzzleException|Exception $e) {

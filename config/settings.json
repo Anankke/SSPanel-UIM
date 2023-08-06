@@ -651,6 +651,16 @@
     },
     {
         "id": null,
+        "item": "slack_token",
+        "value": "",
+        "class": "slack",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack App Token"
+    },
+    {
+        "id": null,
         "item": "tawk_id",
         "value": "",
         "class": "support",
