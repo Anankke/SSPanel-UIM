@@ -10,7 +10,7 @@ use App\Services\Config;
 class ConfigTest extends TestCase
 {
     /**
-     * @covers App\Services\Config::getPublicConfig
+     * @covers App\Services\Config::getViewConfig
      */
     public function testGetPublicConfig(): void
     {
@@ -29,6 +29,7 @@ class ConfigTest extends TestCase
             'subscribeLog' => true,
             'subscribeLog_keep_days' => 30,
             'enable_r2_client_download' => true,
+            'jsdelivr_url' => 'cdn.jsdelivr.net',
         ];
 
         $mockEnv = [
@@ -46,9 +47,10 @@ class ConfigTest extends TestCase
             'subscribeLog' => true,
             'subscribeLog_keep_days' => 30,
             'enable_r2_client_download' => true,
+            'jsdelivr_url' => 'cdn.jsdelivr.net',
         ];
 
-        $config = Config::getPublicConfig();
+        $config = Config::getViewConfig();
 
         $this->assertSame($mockEnv['appName'], $config['appName']);
         $this->assertSame($mockEnv['baseUrl'], $config['baseUrl']);
@@ -64,6 +66,7 @@ class ConfigTest extends TestCase
         $this->assertSame($mockEnv['subscribeLog'], $config['subscribeLog']);
         $this->assertSame($mockEnv['subscribeLog_keep_days'], $config['subscribeLog_keep_days']);
         $this->assertSame($mockEnv['enable_r2_client_download'], $config['enable_r2_client_download']);
+        $this->assertSame($mockEnv['jsdelivr_url'], $config['jsdelivr_url']);
     }
 
     /**

@@ -641,6 +641,16 @@
     },
     {
         "id": null,
+        "item": "discord_bot_token",
+        "value": "",
+        "class": "discord",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Discord Bot Token"
+    },
+    {
+        "id": null,
         "item": "tawk_id",
         "value": "",
         "class": "support",

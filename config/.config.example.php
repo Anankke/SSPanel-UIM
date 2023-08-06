@@ -133,6 +133,8 @@ foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
     }
 }
 
+$_ENV['jsdelivr_url'] = 'fastly.jsdelivr.net'; // cdn.jsdelivr.net / fastly.jsdelivr.net / gcore.jsdelivr.net / testingcf.jsdelivr.net
+
 // https://sentry.io for production debugging
 $_ENV['sentry_dsn'] = '';
 

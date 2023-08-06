@@ -6,7 +6,9 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
+use App\Services\IM\Discord;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use function json_encode;
 
 final class ImController extends BaseController
@@ -48,6 +50,7 @@ final class ImController extends BaseController
         'user_not_bind_reply',
         'telegram_general_pricing',
         'telegram_general_terms',
+        'discord_bot_token',
     ];
 
     /**
@@ -98,6 +101,28 @@ final class ImController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '保存成功',
+        ]);
+    }
+
+    public function testDiscord($request, $response, $args)
+    {
+        $to = $request->getParam('discord_user_id');
+
+        try {
+            (new Discord())->send(
+                $to,
+                '这是一条测试消息',
+            );
+        } catch (GuzzleException|Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '测试信息发送失败 ' . $e->getMessage(),
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '测试信息发送成功',
         ]);
     }
 }

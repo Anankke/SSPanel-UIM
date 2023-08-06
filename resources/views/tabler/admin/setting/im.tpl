@@ -34,7 +34,10 @@
                             <a href="#telegram_notification" class="nav-link active" data-bs-toggle="tab">Telegram 通知设定</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#telegram_bot" class="nav-link" data-bs-toggle="tab">Telegram Bot 设定</a>
+                            <a href="#telegram_bot" class="nav-link" data-bs-toggle="tab">Telegram Bot</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#discord_bot" class="nav-link" data-bs-toggle="tab">Discord Bot</a>
                         </li>
                     </ul>
                 </div>
@@ -318,6 +321,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane" id="discord_bot">
+                            <div class="card-body">
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Bot Token</label>
+                                    <div class="col">
+                                        <input id="discord_bot_token" type="text" class="form-control" value="{$settings['discord_bot_token']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Discord 用户 ID</label>
+                                    <input type="text" class="form-control" id="discord_user_id" value="">
+                                    <div class="row my-3">
+                                        <div class="col">
+                                            <button id="test-discord" class="btn btn-primary">发送测试信息</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -340,6 +362,26 @@
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
+
+    $("#test-discord").click(function() {
+        $.ajax({
+            url: '/admin/setting/test_discord',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                discord_user_id: $('#discord_user_id').val(),
+            },
+            success: function(data) {
+                if (data.ret === 1) {
+                    $('#success-noreload-message').text(data.msg);
+                    $('#success-noreload-dialog').modal('show');
                 } else {
                     $('#fail-message').text(data.msg);
                     $('#fail-dialog').modal('show');

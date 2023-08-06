@@ -113,9 +113,10 @@ final class EmailController extends BaseController
         } catch (Throwable $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '测试邮件发送失败',
+                'msg' => '测试邮件发送失败 ' . $e->getMessage(),
             ]);
         }
+
         return $response->withJson([
             'ret' => 1,
             'msg' => '测试邮件发送成功',
