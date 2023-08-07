@@ -103,8 +103,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <input id="imvalue" type="text" class="form-control" 
-                                                            {if $user->im_type === 4} disabled="" {/if}
-                                                            value="{$user->im_value}" placeholder="社交账户">
+                                                            disabled="" value="{$user->im_value}" placeholder="社交账户">
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
@@ -131,7 +130,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {if $config['enable_telegram']}
+                                        {if $public_setting['enable_telegram']}
                                         <div class="col-sm-12 col-md-6">
                                             {if $user->telegram_id !== 0}
                                             <div class="card">
@@ -163,7 +162,7 @@
                                                             手机电脑平板等如已安装 Telegram 可点击
                                                         </div>
                                                         <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
-                                                            <a href="https://t.me/{$telegram_bot}?start={$bind_token}"
+                                                            <a href="https://t.me/{$public_setting['telegram_bot']}?start={$bind_token}"
                                                                 class="btn btn-primary w-100">
                                                                 一键绑定
                                                             </a>
@@ -172,7 +171,7 @@
                                                     <div class="row">
                                                         <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
                                                             向机器人 <a
-                                                                href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
+                                                                href="https://t.me/{$public_setting['telegram_bot']}">@{$public_setting['telegram_bot']}</a>
                                                             发送验证码绑定
                                                         </div>
                                                         <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
@@ -194,18 +193,18 @@
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">两步认证</h3>
+                                                    <h3 class="card-title">多因素认证</h3>
                                                     <div class="col-md-12">
                                                         <div class="col-sm-6 col-md-6">
                                                             <p>
                                                                 <i class="ti ti-brand-apple"></i>
                                                                 <a target="view_window"
-                                                                    href="https://apps.apple.com/us/app/google-authenticator/id388497605">苹果客户端
+                                                                    href="https://apps.apple.com/us/app/google-authenticator/id388497605">iOS 客户端
                                                                 </a>
                                                                 &nbsp;&nbsp;&nbsp;
                                                                 <i class="ti ti-brand-android"></i>
                                                                 <a target="view_window"
-                                                                    href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=zh&gl=US">安卓客户端
+                                                                    href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android 客户端
                                                                 </a>
                                                             </p>
                                                         </div>

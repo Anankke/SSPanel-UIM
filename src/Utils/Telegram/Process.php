@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram;
 
+use App\Models\Setting;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\RequestInterface;
 use RedisException;
@@ -19,12 +20,11 @@ final class Process
      */
     public static function index(RequestInterface $request): void
     {
-        $bot = new Api($_ENV['telegram_token']);
+        $bot = new Api(Setting::obtain('telegram_token'));
 
         $bot->addCommands([
             new Commands\MyCommand(),
             new Commands\HelpCommand(),
-            new Commands\InfoCommand(),
             new Commands\MenuCommand(),
             new Commands\PingCommand(),
             new Commands\StartCommand(),

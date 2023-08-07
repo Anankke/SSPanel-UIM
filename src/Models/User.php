@@ -348,7 +348,7 @@ final class User extends Model
         $this->telegram_id = 0;
 
         if ($this->save()) {
-            if ($_ENV['enable_telegram']
+            if (Setting::obtain('enable_telegram')
                 &&
                 Setting::obtain('telegram_group_bound_user')
                 &&
@@ -359,7 +359,7 @@ final class User extends Model
                 TelegramTools::SendPost(
                     'kickChatMember',
                     [
-                        'chat_id' => $_ENV['telegram_chatid'],
+                        'chat_id' => Setting::obtain('telegram_chatid'),
                         'user_id' => $telegram_id,
                     ]
                 );

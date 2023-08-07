@@ -95,36 +95,7 @@ final class Callback
         if (str_starts_with($this->CallbackData, 'user.')) {
             // 用户相关
             $this->userCallback();
-            return;
         }
-        //游客回调数据处理
-        $this->guestCallback();
-    }
-
-    /**
-     * 游客的回复
-     *
-     * @return array
-     */
-    public static function getGuestIndexKeyboard(): array
-    {
-        $Keyboard = [
-            [
-                [
-                    'text' => '产品介绍',
-                    'callback_data' => 'general.pricing',
-                ],
-                [
-                    'text' => '服务条款',
-                    'callback_data' => 'general.terms',
-                ],
-            ],
-        ];
-        $text = '游客你好，以下是 BOT 菜单：' . PHP_EOL . PHP_EOL . '本站用户请前往用户中心进行 Telegram 绑定操作。';
-        return [
-            'text' => $text,
-            'keyboard' => $Keyboard,
-        ];
     }
 
     /**
@@ -174,60 +145,6 @@ final class Callback
         TelegramTools::sendPost('answerCallbackQuery', $sendMessage);
     }
 
-    /**
-     * 回调数据处理
-     *
-     * @throws TelegramSDKException
-     */
-    public function guestCallback(): void
-    {
-        $CallbackDataExplode = explode('|', $this->CallbackData);
-        switch ($CallbackDataExplode[0]) {
-            case 'general.pricing':
-                // 产品介绍
-                $sendMessage = [
-                    'text' => Setting::obtain('telegram_general_pricing'),
-                    'disable_web_page_preview' => false,
-                    'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
-                        [
-                            'inline_keyboard' => self::getGuestIndexKeyboard()['keyboard'],
-                        ]
-                    ),
-                ];
-                break;
-            case 'general.terms':
-                // 服务条款
-                $sendMessage = [
-                    'text' => Setting::obtain('telegram_general_terms'),
-                    'disable_web_page_preview' => false,
-                    'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
-                        [
-                            'inline_keyboard' => self::getGuestIndexKeyboard()['keyboard'],
-                        ]
-                    ),
-                ];
-                break;
-            default:
-                // 主菜单
-                $temp = self::getGuestIndexKeyboard();
-                $sendMessage = [
-                    'text' => $temp['text'],
-                    'disable_web_page_preview' => false,
-                    'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
-                        [
-                            'inline_keyboard' => $temp['keyboard'],
-                        ]
-                    ),
-                ];
-                break;
-        }
-
-        $this->replyWithMessage($sendMessage);
-    }
-
     public static function getUserIndexKeyboard($user): array
     {
         $checkin = (! $user->isAbleToCheckin() ? '已签到' : '签到');
@@ -262,14 +179,7 @@ final class Callback
         $text = Reply::getUserTitle($user);
         $text .= PHP_EOL . PHP_EOL;
         $text .= Reply::getUserInfo($user);
-        if (Setting::obtain('telegram_show_group_link')) {
-            $Keyboard[] = [
-                [
-                    'text' => '加入用户群',
-                    'url' => Setting::obtain('telegram_group_link'),
-                ],
-            ];
-        }
+
         return [
             'text' => $text,
             'keyboard' => $Keyboard,
@@ -292,7 +202,6 @@ final class Callback
                     'show_alert' => true,
                 ]);
             }
-            $this->guestCallback();
         }
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
@@ -776,7 +685,7 @@ final class Callback
                 TelegramTools::sendPost(
                     'unbanChatMember',
                     [
-                        'chat_id' => $_ENV['telegram_chatid'],
+                        'chat_id' => Setting::obtain('telegram_chatid'),
                         'user_id' => $this->triggerUser['id'],
                     ]
                 );

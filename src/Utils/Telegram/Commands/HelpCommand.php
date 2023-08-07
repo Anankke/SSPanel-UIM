@@ -27,20 +27,25 @@ final class HelpCommand extends Command
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
+
         if ($Message->getChat()->getId() < 0 && Setting::obtain('telegram_group_quiet')) {
             return;
         }
-        if (! preg_match('/^\/help\s?(@' . $_ENV['telegram_bot'] . ')?.*/i', $Message->getText()) &&
-            Setting::obtain('help_any_command') === false) {
+
+        if (! preg_match('/^\/help\s?(@' . Setting::obtain('telegram_bot') . ')?.*/i', $Message->getText()) &&
+            ! Setting::obtain('help_any_command')) {
             return;
         }
+
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $commands = $this->telegram->getCommands();
         $text = '系统中可用的所有命令.';
         $text .= PHP_EOL . PHP_EOL;
+
         foreach ($commands as $name => $handler) {
             $text .= '/' . $name . PHP_EOL . '`    - ' . $handler->getDescription() . '`' . PHP_EOL;
         }
+
         $this->replyWithMessage(
             [
                 'text' => $text,

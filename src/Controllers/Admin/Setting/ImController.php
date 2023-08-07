@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\IM\Discord;
 use App\Services\IM\Slack;
+use App\Services\IM\Telegram;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_encode;
@@ -15,6 +16,11 @@ use function json_encode;
 final class ImController extends BaseController
 {
     public static array $update_field = [
+        'enable_telegram',
+        'telegram_token',
+        'telegram_chatid',
+        'telegram_bot',
+        'telegram_request_token',
         'telegram_add_node',
         'telegram_add_node_text',
         'telegram_update_node',
@@ -35,22 +41,12 @@ final class ImController extends BaseController
         'telegram_diary_text',
         'telegram_unbind_kick_member',
         'telegram_group_bound_user',
-        'telegram_show_group_link',
-        'telegram_group_link',
         'enable_welcome_message',
         'telegram_group_quiet',
         'allow_to_join_new_groups',
         'group_id_allowed_to_join',
-        'telegram_admins',
-        'enable_not_admin_reply',
-        'not_admin_reply_msg',
-        'no_user_found',
-        'data_method_not_found',
         'help_any_command',
-        'enable_user_email_group_show',
         'user_not_bind_reply',
-        'telegram_general_pricing',
-        'telegram_general_terms',
         'discord_bot_token',
         'slack_token',
     ];
@@ -103,6 +99,26 @@ final class ImController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '保存成功',
+        ]);
+    }
+
+    public function testTelegram($request, $response, $args)
+    {
+        try {
+            (new Telegram())->send(
+                $request->getParam('telegram_user_id'),
+                '这是一条测试消息',
+            );
+        } catch (GuzzleException|Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '测试信息发送失败 ' . $e->getMessage(),
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '测试信息发送成功',
         ]);
     }
 

@@ -6,6 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Ann;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
@@ -113,7 +114,7 @@ final class AnnController extends BaseController
             }
         }
 
-        if ($_ENV['enable_telegram']) {
+        if (Setting::obtain('enable_telegram')) {
             try {
                 (new Telegram())->sendHtml('新公告：' . PHP_EOL . $content);
             } catch (TelegramSDKException $e) {
@@ -163,7 +164,7 @@ final class AnnController extends BaseController
             ]);
         }
 
-        if ($_ENV['enable_telegram']) {
+        if (Setting::obtain('enable_telegram')) {
             try {
                 (new Telegram())->sendHtml('公告更新：' . PHP_EOL . $request->getParam('content'));
             } catch (TelegramSDKException $e) {

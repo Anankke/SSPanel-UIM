@@ -38,7 +38,7 @@ final class InfoController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $bind_token = TelegramTools::addBindSession($this->user);
+        $bind_token = $this->user->telegram_id === 0 ? TelegramTools::addBindSession($this->user) : '';
         $methods = Config::getSupportParam('method');
         $gaurl = MFA::getGaUrl($this->user);
 
@@ -48,7 +48,6 @@ final class InfoController extends BaseController
             ->assign('bind_token', $bind_token)
             ->assign('methods', $methods)
             ->assign('gaurl', $gaurl)
-            ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
             ->fetch('user/edit.tpl'));
     }
@@ -217,7 +216,7 @@ final class InfoController extends BaseController
 
         $user = $this->user;
 
-        if ($value === 2 && ! $_ENV['enable_telegram']) {
+        if ($value === 2 && ! Setting::obtain('enable_telegram')) {
             return ResponseHelper::error(
                 $response,
                 '修改失败，当前无法使用 Telegram 接收每日报告'

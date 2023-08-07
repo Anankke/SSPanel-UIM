@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\IM;
 
+use App\Models\Setting;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function strip_tags;
@@ -17,7 +18,7 @@ final class Telegram extends Base
      */
     public function __construct()
     {
-        $this->bot = new Api($_ENV['telegram_token'], $async);
+        $this->bot = new Api(Setting::obtain('telegram_token'), $async);
     }
 
     /**
@@ -28,7 +29,7 @@ final class Telegram extends Base
     public function send($to = 0, $msg = ''): void
     {
         if ($to === 0) {
-            $to = $_ENV['telegram_chatid'];
+            $to = Setting::obtain('telegram_chatid');
         }
 
         $sendMessage = [
@@ -51,7 +52,7 @@ final class Telegram extends Base
     public function sendHtml($to = 0, $msg = ''): void
     {
         if ($to === 0) {
-            $to = $_ENV['telegram_chatid'];
+            $to = Setting::obtain('telegram_chatid');
         }
 
         $sendMessage = [
@@ -79,7 +80,7 @@ final class Telegram extends Base
     public function sendMarkdown($to = 0, $msg = ''): void
     {
         if ($to === 0) {
-            $to = $_ENV['telegram_chatid'];
+            $to = Setting::obtain('telegram_chatid');
         }
 
         $sendMessage = [
@@ -102,7 +103,7 @@ final class Telegram extends Base
     public function sendMarkdownV2($to = 0, $msg = ''): void
     {
         if ($to === 0) {
-            $to = $_ENV['telegram_chatid'];
+            $to = Setting::obtain('telegram_chatid');
         }
 
         $sendMessage = [

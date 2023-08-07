@@ -8,7 +8,6 @@ use App\Models\Setting;
 use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function count;
 use function in_array;
 use function json_decode;
 use function strlen;
@@ -138,7 +137,7 @@ final class Message
             'name' => $NewChatMember->getFirstName() . ' ' . $NewChatMember->getLastName(),
         ];
 
-        if ($NewChatMember->getUsername() === $_ENV['telegram_bot']) {
+        if ($NewChatMember->getUsername() === Setting::obtain('telegram_bot')) {
             // 机器人加入新群组
             if (! Setting::obtain('allow_to_join_new_groups')
                 &&
@@ -158,18 +157,6 @@ final class Message
                         'user_id' => $Member['id'],
                     ]
                 );
-
-                if (count(json_decode(Setting::obtain('telegram_admins'))) >= 1) {
-                    foreach (json_decode(Setting::obtain('telegram_admins')) as $id) {
-                        $this->bot->sendMessage(
-                            [
-                                'text' => '根据你的设定，Bot 退出了一个群组.' . PHP_EOL .
-                                    '群组名称：' . $this->Message->getChat()->getTitle(),
-                                'chat_id' => $id,
-                            ]
-                        );
-                    }
-                }
             } else {
                 $this->replyWithMessage(
                     [
@@ -183,7 +170,7 @@ final class Message
 
             if (Setting::obtain('telegram_group_bound_user')
                 &&
-                $this->ChatID === $_ENV['telegram_chatid']
+                $this->ChatID === Setting::obtain('telegram_chatid')
                 &&
                 $NewUser === null
                 &&

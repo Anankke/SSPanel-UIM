@@ -15,9 +15,6 @@ use function curl_exec;
 use function curl_init;
 use function curl_setopt;
 use function json_encode;
-use function str_pad;
-use function strpos;
-use function substr;
 use const CURLOPT_HTTPHEADER;
 use const CURLOPT_POST;
 use const CURLOPT_POSTFIELDS;
@@ -46,7 +43,7 @@ final class TelegramTools
      */
     public static function sendPost($Method, $Params): void
     {
-        $URL = 'https://api.telegram.org/bot' . $_ENV['telegram_token'] . '/' . $Method;
+        $URL = 'https://api.telegram.org/bot' . Setting::obtain('telegram_token') . '/' . $Method;
         $POSTData = json_encode($Params);
         $C = curl_init();
         curl_setopt($C, CURLOPT_URL, $URL);
@@ -56,25 +53,6 @@ final class TelegramTools
         curl_setopt($C, CURLOPT_TIMEOUT, 1);
         curl_exec($C);
         curl_close($C);
-    }
-
-    /**
-     * 获取用户邮箱
-     *
-     * @param string $email  邮箱
-     * @param int    $ChatID 会话 ID
-     */
-    public static function getUserEmail(string $email, int $ChatID): string
-    {
-        if (Setting::obtain('enable_user_email_group_show') || $ChatID > 0) {
-            return $email;
-        }
-        $a = strpos($email, '@');
-        if ($a === false) {
-            return $email;
-        }
-        $string = substr($email, $a);
-        return $a === 1 ? '*' . $string : substr($email, 0, 1) . str_pad('', $a - 1, '*') . $string;
     }
 
     /**
