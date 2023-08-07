@@ -428,8 +428,8 @@ final class User extends Model
         try {
             if ($this->telegram_id > 0) {
                 (new Telegram())->send(
+                    $this->telegram_id,
                     $text,
-                    $this->telegram_id
                 );
                 return true;
             }

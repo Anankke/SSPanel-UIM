@@ -11,6 +11,7 @@ use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function json_encode;
 
 final class ImController extends BaseController
@@ -109,7 +110,7 @@ final class ImController extends BaseController
                 $request->getParam('telegram_user_id'),
                 '这是一条测试消息',
             );
-        } catch (GuzzleException|Exception $e) {
+        } catch (TelegramSDKException|Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '测试信息发送失败 ' . $e->getMessage(),

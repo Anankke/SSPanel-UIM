@@ -66,7 +66,7 @@ final class CronDetect
                 }
 
                 if (Setting::obtain('telegram_node_gfwed')) {
-                    (new Telegram())->send($notice_text);
+                    (new Telegram())->send(0, $notice_text);
                 }
 
                 $node->gfw_block = true;
@@ -95,7 +95,7 @@ final class CronDetect
             }
 
             if (Setting::obtain('telegram_node_ungfwed')) {
-                (new Telegram())->send($notice_text);
+                (new Telegram())->send(0, $notice_text);
             }
 
             $node->gfw_block = false;

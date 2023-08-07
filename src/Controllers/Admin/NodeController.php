@@ -158,6 +158,7 @@ final class NodeController extends BaseController
         if (Setting::obtain('telegram_add_node')) {
             try {
                 (new Telegram())->send(
+                    0,
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -246,6 +247,7 @@ final class NodeController extends BaseController
         if (Setting::obtain('telegram_update_node')) {
             try {
                 (new Telegram())->send(
+                    0,
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -303,6 +305,7 @@ final class NodeController extends BaseController
         if (Setting::obtain('telegram_delete_node')) {
             try {
                 (new Telegram())->send(
+                    0,
                     str_replace(
                         '%node_name%',
                         $node->name,

@@ -130,7 +130,7 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_offline')) {
-                    (new Telegram())->send($notice_text);
+                    (new Telegram())->send(0, $notice_text);
                 }
 
                 $node->online = 0;
@@ -159,7 +159,7 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_online')) {
-                    (new Telegram())->send($notice_text);
+                    (new Telegram())->send(0, $notice_text);
                 }
 
                 $node->online = 1;
@@ -612,7 +612,7 @@ final class CronJob
      */
     public static function sendTelegramDailyJob(): void
     {
-        (new Telegram())->send(Setting::obtain('telegram_daily_job_text'));
+        (new Telegram())->send(0, Setting::obtain('telegram_daily_job_text'));
 
         echo Tools::toDateTime(time()) . ' 成功发送 Telegram 每日任务提示' . PHP_EOL;
     }
@@ -625,6 +625,7 @@ final class CronJob
         $analytics = new Analytics();
 
         (new Telegram())->send(
+            0,
             str_replace(
                 [
                     '%getTodayCheckinUser%',

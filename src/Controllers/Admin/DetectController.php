@@ -122,7 +122,7 @@ final class DetectController extends BaseController
             ]);
         }
 
-        (new Telegram())->sendMarkdown('有新的审计规则：' . $rule->name);
+        (new Telegram())->sendMarkdown(0, '有新的审计规则：' . $rule->name);
         return $response->withJson([
             'ret' => 1,
             'msg' => '添加成功',

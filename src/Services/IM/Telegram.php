@@ -18,7 +18,7 @@ final class Telegram extends Base
      */
     public function __construct()
     {
-        $this->bot = new Api(Setting::obtain('telegram_token'), $async);
+        $this->bot = new Api(Setting::obtain('telegram_token'));
     }
 
     /**
