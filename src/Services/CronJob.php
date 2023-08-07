@@ -16,7 +16,7 @@ use App\Models\Setting;
 use App\Models\SubscribeLog;
 use App\Models\User;
 use App\Models\UserHourlyUsage;
-use App\Utils\Telegram;
+use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use DateTime;
 use Exception;
@@ -130,7 +130,7 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_offline')) {
-                    Telegram::send($notice_text);
+                    (new Telegram())->send($notice_text);
                 }
 
                 $node->online = 0;
@@ -159,7 +159,7 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_online')) {
-                    Telegram::send($notice_text);
+                    (new Telegram())->send($notice_text);
                 }
 
                 $node->online = 1;
@@ -612,7 +612,7 @@ final class CronJob
      */
     public static function sendTelegramDailyJob(): void
     {
-        Telegram::send(Setting::obtain('telegram_daily_job_text'));
+        (new Telegram())->send(Setting::obtain('telegram_daily_job_text'));
 
         echo Tools::toDateTime(time()) . ' 成功发送 Telegram 每日任务提示' . PHP_EOL;
     }
@@ -624,7 +624,7 @@ final class CronJob
     {
         $analytics = new Analytics();
 
-        Telegram::send(
+        (new Telegram())->send(
             str_replace(
                 [
                     '%getTodayCheckinUser%',

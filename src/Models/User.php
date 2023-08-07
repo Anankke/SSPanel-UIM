@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\DB;
+use App\Services\IM\Telegram;
 use App\Services\Mail;
 use App\Utils\Hash;
-use App\Utils\Telegram;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Exception;
@@ -61,9 +61,8 @@ final class User extends Model
     public function imType(): string
     {
         return match ($this->im_type) {
-            1 => '微信',
-            2 => 'QQ',
-            5 => 'Discord',
+            1 => 'Slack',
+            2 => 'Discord',
             default => 'Telegram',
         };
     }
@@ -428,7 +427,7 @@ final class User extends Model
     {
         try {
             if ($this->telegram_id > 0) {
-                Telegram::send(
+                (new Telegram())->send(
                     $text,
                     $this->telegram_id
                 );

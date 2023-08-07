@@ -9,7 +9,7 @@ use App\Models\DetectLog;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User;
-use App\Utils\Telegram;
+use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function file_get_contents;
@@ -66,7 +66,7 @@ final class CronDetect
                 }
 
                 if (Setting::obtain('telegram_node_gfwed')) {
-                    Telegram::send($notice_text);
+                    (new Telegram())->send($notice_text);
                 }
 
                 $node->gfw_block = true;
@@ -95,7 +95,7 @@ final class CronDetect
             }
 
             if (Setting::obtain('telegram_node_ungfwed')) {
-                Telegram::send($notice_text);
+                (new Telegram())->send($notice_text);
             }
 
             $node->gfw_block = false;

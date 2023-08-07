@@ -352,7 +352,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
-                                    <label class="form-label col-3 col-form-label">Discord 用户 ID</label>
+                                    <label class="form-label col-3 col-form-label">Slack 用户 ID</label>
                                     <input type="text" class="form-control" id="slack_user_id" value="">
                                     <div class="row my-3">
                                         <div class="col">

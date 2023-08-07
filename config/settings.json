@@ -761,16 +761,6 @@
     },
     {
         "id": null,
-        "item": "enable_reg_im",
-        "value": "0",
-        "class": "register",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "注册时是否要求用户输入IM联系方式"
-    },
-    {
-        "id": null,
         "item": "reg_forbidden_ip",
         "value": "127.0.0.0/8,::1/128",
         "class": "register",

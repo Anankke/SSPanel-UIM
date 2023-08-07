@@ -90,19 +90,15 @@
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">联系方式</h3>
+                                                    <h3 class="card-title">IM 账号</h3>
                                                     <div class="mb-3">
                                                         <select id="imtype" class="form-select">
                                                             <option value="1" {if $user->im_type === 1}selected{/if}>
-                                                                WeChat</option>
+                                                                Slack</option>
                                                             <option value="2" {if $user->im_type === 2}selected{/if}>
-                                                                QQ</option>
-                                                            <option value="3" {if $user->im_type === 3}selected{/if}>
-                                                                Facebook</option>
+                                                                Discord</option>
                                                             <option value="4" {if $user->im_type === 4}selected{/if}>
                                                                 Telegram</option>
-                                                            <option value="5" {if $user->im_type === 5}selected{/if}>
-                                                                Discord</option>
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">

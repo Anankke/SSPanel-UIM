@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils\Telegram;
 
 use App\Models\Setting;
-use App\Utils\Telegram;
 use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -64,7 +63,7 @@ final class Message
             $MessageData = trim($this->Message->getText());
             if ($this->ChatID > 0 && strlen($MessageData) === 16) {
                 // 私聊
-                $Uid = Telegram::verifyBindSession($MessageData);
+                $Uid = TelegramTools::verifyBindSession($MessageData);
                 if ($Uid === 0) {
                     $text = '绑定失败了呢，经检查发现：【' .
                         $MessageData . '】的有效期为 10 分钟，你可以在我们网站上的 **资料编辑** 页面刷新后重试.';

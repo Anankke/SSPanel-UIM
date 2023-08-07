@@ -363,24 +363,8 @@ final class AuthController extends BaseController
             }
         }
 
-        // Check IM
-        if (Setting::obtain('enable_reg_im')) {
-            $imtype = $antiXss->xss_clean($request->getParam('im_type'));
-            $imvalue = $antiXss->xss_clean($request->getParam('im_value'));
-
-            if ($imtype === '' || $imvalue === '') {
-                return ResponseHelper::error($response, '请填上你的联络方式');
-            }
-
-            $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
-
-            if ($user !== null) {
-                return ResponseHelper::error($response, '此联络方式已注册');
-            }
-        } else {
-            $imtype = 1;
-            $imvalue = '';
-        }
+        $imtype = 1;
+        $imvalue = '';
 
         // check email format
         $check_res = Tools::isEmailLegal($email);
