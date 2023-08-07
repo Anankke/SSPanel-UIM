@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-payments.min.css">
+<link rel="stylesheet" href="https://{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/css/tabler-payments.min.css">
 
 <div class="card-inner">
     <h4>

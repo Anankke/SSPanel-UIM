@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+<script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 
 {include file='live_chat.tpl'}
 

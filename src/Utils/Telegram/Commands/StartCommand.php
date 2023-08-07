@@ -6,7 +6,6 @@ namespace App\Utils\Telegram\Commands;
 
 use App\Models\Setting;
 use App\Models\User;
-use App\Utils\Telegram;
 use App\Utils\Telegram\TelegramTools;
 use RedisException;
 use Telegram\Bot\Actions;
@@ -89,7 +88,7 @@ final class StartCommand extends Command
      */
     public function bindingAccount($SendUser, $MessageText): void
     {
-        $Uid = Telegram::verifyBindSession($MessageText);
+        $Uid = TelegramTools::verifyBindSession($MessageText);
         if ($Uid === 0) {
             $text = '绑定失败了呢，经检查发现：【' . $MessageText . '】的有效期为 10 分钟，你可以在我们网站上的 **资料编辑** 页面刷新后重试.';
         } else {

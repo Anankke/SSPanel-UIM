@@ -30,14 +30,13 @@ final class Ses extends Base
     public function send($to, $subject, $text, $files): void
     {
         $ses = $this->ses;
-        $configs = Setting::getClass('aws_ses');
         $char_set = 'UTF-8';
 
         $ses->sendEmail([
             'Destination' => [
                 'ToAddresses' => [$to],
             ],
-            'Source' => $configs['aws_ses_sender'],
+            'Source' => Setting::obtain('aws_ses_sender'),
             'Message' => [
                 'Body' => [
                     'Html' => [

@@ -79,14 +79,6 @@ $_ENV['auto_detect_ban_allow_users'] = [];          // 审计封禁的例外用�
 $_ENV['auto_detect_ban_number']      = 30;             // 每次执行封禁所需的触发次数
 $_ENV['auto_detect_ban_time']        = 60;             // 每次封禁的时长 (分钟)
 
-//Bot 设置--------------------------------------------------------------------------------------------
-# Telegram bot
-$_ENV['enable_telegram']                    = false;        //是否开启 Telegram bot
-$_ENV['telegram_token']                     = '';           //Telegram bot,bot 的 token ，跟 father bot 申请
-$_ENV['telegram_chatid']                    = -111;         //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
-$_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
-$_ENV['telegram_request_token']             = '';           //Webhook密钥，更新这个参数之后请 php xcat Tool setTelegram
-
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测
 $_ENV['detect_gfw_port']     = 443;                                                  //所有节点服务器都打开的TCP端口
@@ -132,6 +124,8 @@ foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
         break;
     }
 }
+
+$_ENV['jsdelivr_url'] = 'fastly.jsdelivr.net'; // cdn.jsdelivr.net / fastly.jsdelivr.net / gcore.jsdelivr.net / testingcf.jsdelivr.net
 
 // https://sentry.io for production debugging
 $_ENV['sentry_dsn'] = '';

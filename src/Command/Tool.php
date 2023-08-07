@@ -72,8 +72,8 @@ EOL;
      */
     public function setTelegram(): void
     {
-        $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
-        $telegram = new Api($_ENV['telegram_token']);
+        $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . Setting::obtain('telegram_request_token');
+        $telegram = new Api(Setting::obtain('telegram_token'));
         $telegram->removeWebhook();
 
         if ($telegram->setWebhook(['url' => $WebhookUrl])) {

@@ -49,7 +49,7 @@ final class MenuCommand extends Command
 
             $user = TelegramTools::getUser($SendUser['id']);
             if ($user === null) {
-                $reply = Callback::getGuestIndexKeyboard();
+                $reply = null;
             } else {
                 $reply = Callback::getUserIndexKeyboard($user);
             }

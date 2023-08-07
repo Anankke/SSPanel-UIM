@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Mail;
 
 use App\Models\Setting;
+use SendGrid as SG;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\TypeException;
 use function base64_encode;
@@ -13,30 +14,19 @@ use function file_get_contents;
 
 final class SendGrid extends Base
 {
-    private array $config;
-    private \SendGrid $sg;
-    private mixed $sender;
-    private mixed $name;
+    private SG $sg;
     private Mail $email;
 
+    /**
+     * @throws TypeException
+     */
     public function __construct()
-    {
-        $this->config = $this->getConfig();
-        $this->sg = new \SendGrid($this->config['key']);
-        $this->sender = $this->config['sender'];
-        $this->name = $this->config['name'];
-        $this->email = new Mail();
-    }
-
-    public function getConfig(): array
     {
         $configs = Setting::getClass('sendgrid');
 
-        return [
-            'key' => $configs['sendgrid_key'],
-            'sender' => $configs['sendgrid_sender'],
-            'name' => $configs['sendgrid_name'],
-        ];
+        $this->sg = new SG($configs['sendgrid_key']);
+        $this->email = new Mail();
+        $this->email->setFrom($configs['sendgrid_sender'], $configs['sendgrid_name']);
     }
 
     /**
@@ -44,7 +34,6 @@ final class SendGrid extends Base
      */
     public function send($to, $subject, $text, $files): void
     {
-        $this->email->setFrom($this->sender, $this->name);
         $this->email->setSubject($subject);
         $this->email->addTo($to);
         $this->email->addContent('text/html', $text);

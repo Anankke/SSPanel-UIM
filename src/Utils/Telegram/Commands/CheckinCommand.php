@@ -40,7 +40,7 @@ final class CheckinCommand extends Command
                 // 群组中不回应
                 return null;
             }
-            if ($ChatID !== $_ENV['telegram_chatid']) {
+            if ($ChatID !== Setting::obtain('telegram_chatid')) {
                 // 非我方群组
                 return null;
             }

@@ -641,6 +641,336 @@
     },
     {
         "id": null,
+        "item": "enable_telegram",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用Telegram机器人"
+    },
+    {
+        "id": null,
+        "item": "telegram_token",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Telegram Bot Token"
+    },
+    {
+        "id": null,
+        "item": "telegram_chatid",
+        "value": "-1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "int",
+        "default": "-1",
+        "mark": "Telegram 群组会话 ID"
+    },
+    {
+        "id": null,
+        "item": "telegram_bot",
+        "value": "_bot",
+        "class": "telegram",
+        "is_public": 1,
+        "type": "string",
+        "default": "_bot",
+        "mark": "Telegram 机器人账号"
+    },
+    {
+        "id": null,
+        "item": "telegram_request_token",
+        "value": "",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Telegram Webhook 密钥"
+    },
+    {
+        "id": null,
+        "item": "telegram_add_node",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人添加节点通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_add_node_text",
+        "value": "%node_name% 已被添加",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 已被添加",
+        "mark": "Telegram机器人添加节点通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_update_node",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人修改节点通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_update_node_text",
+        "value": "%node_name% 已被修改",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 已被修改",
+        "mark": "Telegram机器人修改节点通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_delete_node",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人删除节点通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_delete_node_text",
+        "value": "%node_name% 被刪除了",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 被刪除了",
+        "mark": "Telegram机器人删除节点通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_gfwed",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点被墙通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_gfwed_text",
+        "value": "喵喵喵~ %node_name% 节点被墙了喵~",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "喵喵喵~ %node_name% 节点被墙了喵~",
+        "mark": "Telegram机器人节点被墙通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_ungfwed",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点被墙恢复通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_ungfwed_text",
+        "value": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
+        "mark": "Telegram机器人节点被墙恢复文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_online",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点恢复上线通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_online_text",
+        "value": "%node_name% 被修好了",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 被修好了",
+        "mark": "Telegram机器人节点恢复上线通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_offline",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点离线通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_node_offline_text",
+        "value": "%node_name% 出现了一些故障",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 出现了一些故障",
+        "mark": "Telegram机器人节点离线通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_daily_job",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人每日任务通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_daily_job_text",
+        "value": "成功执行每日任务",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "成功执行每日任务",
+        "mark": "Telegram机器人每日任务通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_diary",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人系统运行状况通知"
+    },
+    {
+        "id": null,
+        "item": "telegram_diary_text",
+        "value": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
+        "mark": "Telegram机器人系统运行状况通知文本"
+    },
+    {
+        "id": null,
+        "item": "telegram_unbind_kick_member",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "解绑Telegram账户后自动踢出群组"
+    },
+    {
+        "id": null,
+        "item": "telegram_group_bound_user",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否仅允许已绑定Telegram账户的用户加入群组"
+    },
+    {
+        "id": null,
+        "item": "enable_welcome_message",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Telegram 机器人发送欢迎消息"
+    },
+    {
+        "id": null,
+        "item": "telegram_group_quiet",
+        "value": "1",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Telegram 机器人在群组中不回应"
+    },
+    {
+        "id": null,
+        "item": "allow_to_join_new_groups",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "允许 Bot 加入下方配置之外的群组"
+    },
+    {
+        "id": null,
+        "item": "group_id_allowed_to_join",
+        "value": "[]",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "array",
+        "default": "[]",
+        "mark": "允许加入的群组 ID"
+    },
+    {
+        "id": null,
+        "item": "help_any_command",
+        "value": "0",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "允许任意未知的命令触发 /help 的回复"
+    },
+    {
+        "id": null,
+        "item": "user_not_bind_reply",
+        "value": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "class": "telegram",
+        "is_public": 0,
+        "type": "string",
+        "default": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "mark": "未绑定账户的回复"
+    },
+    {
+        "id": null,
+        "item": "discord_bot_token",
+        "value": "",
+        "class": "discord",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Discord Bot Token"
+    },
+    {
+        "id": null,
+        "item": "slack_token",
+        "value": "",
+        "class": "slack",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack App Token"
+    },
+    {
+        "id": null,
         "item": "tawk_id",
         "value": "",
         "class": "support",
@@ -738,16 +1068,6 @@
         "type": "bool",
         "default": "0",
         "mark": "邮箱验证"
-    },
-    {
-        "id": null,
-        "item": "enable_reg_im",
-        "value": "0",
-        "class": "register",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "注册时是否要求用户输入IM联系方式"
     },
     {
         "id": null,
@@ -988,376 +1308,6 @@
         "type": "int",
         "default": "180",
         "mark": "返利时间范围限制（天）"
-    },
-    {
-        "id": null,
-        "item": "telegram_enable",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否启用Telegram机器人"
-    },
-    {
-        "id": null,
-        "item": "telegram_add_node",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人添加节点通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_add_node_text",
-        "value": "%node_name% 已被添加",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 已被添加",
-        "mark": "Telegram机器人添加节点通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_update_node",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人修改节点通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_update_node_text",
-        "value": "%node_name% 已被修改",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 已被修改",
-        "mark": "Telegram机器人修改节点通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_delete_node",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人删除节点通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_delete_node_text",
-        "value": "%node_name% 被刪除了",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 被刪除了",
-        "mark": "Telegram机器人删除节点通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_gfwed",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点被墙通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_gfwed_text",
-        "value": "喵喵喵~ %node_name% 节点被墙了喵~",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "喵喵喵~ %node_name% 节点被墙了喵~",
-        "mark": "Telegram机器人节点被墙通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_ungfwed",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点被墙恢复通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_ungfwed_text",
-        "value": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
-        "mark": "Telegram机器人节点被墙恢复文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_online",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点恢复上线通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_online_text",
-        "value": "%node_name% 被修好了",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 被修好了",
-        "mark": "Telegram机器人节点恢复上线通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_offline",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点离线通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_node_offline_text",
-        "value": "%node_name% 出现了一些故障",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 出现了一些故障",
-        "mark": "Telegram机器人节点离线通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_daily_job",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人每日任务通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_daily_job_text",
-        "value": "成功执行每日任务",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "成功执行每日任务",
-        "mark": "Telegram机器人每日任务通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_diary",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人系统运行状况通知"
-    },
-    {
-        "id": null,
-        "item": "telegram_diary_text",
-        "value": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
-        "mark": "Telegram机器人系统运行状况通知文本"
-    },
-    {
-        "id": null,
-        "item": "telegram_unbind_kick_member",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "解绑Telegram账户后自动踢出群组"
-    },
-    {
-        "id": null,
-        "item": "telegram_group_bound_user",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否仅允许已绑定Telegram账户的用户加入群组"
-    },
-    {
-        "id": null,
-        "item": "telegram_show_group_link",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否启用Telegram机器人显示用户群组链接"
-    },
-    {
-        "id": null,
-        "item": "telegram_group_link",
-        "value": "https://t.me/joinchat/XXXXX",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "https://t.me/joinchat/XXXXX",
-        "mark": "用户群组链接"
-    },
-    {
-        "id": null,
-        "item": "enable_welcome_message",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "Telegram 机器人发送欢迎消息"
-    },
-    {
-        "id": null,
-        "item": "telegram_group_quiet",
-        "value": "1",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "Telegram 机器人在群组中不回应"
-    },
-    {
-        "id": null,
-        "item": "allow_to_join_new_groups",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "允许 Bot 加入下方配置之外的群组"
-    },
-    {
-        "id": null,
-        "item": "group_id_allowed_to_join",
-        "value": "[]",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "array",
-        "default": "[]",
-        "mark": "允许加入的群组 ID"
-    },
-    {
-        "id": null,
-        "item": "telegram_admins",
-        "value": "[]",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "array",
-        "default": "[]",
-        "mark": "额外的 Telegram 管理员 ID"
-    },
-    {
-        "id": null,
-        "item": "enable_not_admin_reply",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "非管理员操作管理员功能是否回复"
-    },
-    {
-        "id": null,
-        "item": "not_admin_reply_msg",
-        "value": "",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "非管理员操作管理员功能的回复内容"
-    },
-    {
-        "id": null,
-        "item": "no_user_found",
-        "value": "",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "管理员操作时，找不到用户的回复"
-    },
-    {
-        "id": null,
-        "item": "data_method_not_found",
-        "value": "",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "管理员操作时，修改数据的字段没有找到的回复"
-    },
-    {
-        "id": null,
-        "item": "help_any_command",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "允许任意未知的命令触发 /help 的回复"
-    },
-    {
-        "id": null,
-        "item": "enable_user_email_group_show",
-        "value": "0",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "开启在群组搜寻用户信息时显示用户完整邮箱，关闭则会对邮箱中间内容打码"
-    },
-    {
-        "id": null,
-        "item": "user_not_bind_reply",
-        "value": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
-        "mark": "未绑定账户的回复"
-    },
-    {
-        "id": null,
-        "item": "telegram_general_pricing",
-        "value": "",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "面向游客的产品介绍"
-    },
-    {
-        "id": null,
-        "item": "telegram_general_terms",
-        "value": "",
-        "class": "telegram",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "面向游客的服务条款"
     },
     {
         "id": null,

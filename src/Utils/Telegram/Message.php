@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Utils\Telegram;
 
 use App\Models\Setting;
-use App\Utils\Telegram;
 use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function count;
 use function in_array;
 use function json_decode;
 use function strlen;
@@ -64,7 +62,7 @@ final class Message
             $MessageData = trim($this->Message->getText());
             if ($this->ChatID > 0 && strlen($MessageData) === 16) {
                 // 私聊
-                $Uid = Telegram::verifyBindSession($MessageData);
+                $Uid = TelegramTools::verifyBindSession($MessageData);
                 if ($Uid === 0) {
                     $text = '绑定失败了呢，经检查发现：【' .
                         $MessageData . '】的有效期为 10 分钟，你可以在我们网站上的 **资料编辑** 页面刷新后重试.';
@@ -139,7 +137,7 @@ final class Message
             'name' => $NewChatMember->getFirstName() . ' ' . $NewChatMember->getLastName(),
         ];
 
-        if ($NewChatMember->getUsername() === $_ENV['telegram_bot']) {
+        if ($NewChatMember->getUsername() === Setting::obtain('telegram_bot')) {
             // 机器人加入新群组
             if (! Setting::obtain('allow_to_join_new_groups')
                 &&
@@ -159,18 +157,6 @@ final class Message
                         'user_id' => $Member['id'],
                     ]
                 );
-
-                if (count(json_decode(Setting::obtain('telegram_admins'))) >= 1) {
-                    foreach (json_decode(Setting::obtain('telegram_admins')) as $id) {
-                        $this->bot->sendMessage(
-                            [
-                                'text' => '根据你的设定，Bot 退出了一个群组.' . PHP_EOL .
-                                    '群组名称：' . $this->Message->getChat()->getTitle(),
-                                'chat_id' => $id,
-                            ]
-                        );
-                    }
-                }
             } else {
                 $this->replyWithMessage(
                     [
@@ -184,7 +170,7 @@ final class Message
 
             if (Setting::obtain('telegram_group_bound_user')
                 &&
-                $this->ChatID === $_ENV['telegram_chatid']
+                $this->ChatID === Setting::obtain('telegram_chatid')
                 &&
                 $NewUser === null
                 &&

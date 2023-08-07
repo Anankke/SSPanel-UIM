@@ -28,7 +28,7 @@ final class View
         $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/'); //设置生成文件存放目录
         $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/'); //设置缓存文件存放目录
         // add config
-        $smarty->assign('config', Config::getPublicConfig());
+        $smarty->assign('config', Config::getViewConfig());
         $smarty->assign('public_setting', Setting::getPublicConfig());
         $smarty->assign('user', $user);
 

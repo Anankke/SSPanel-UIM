@@ -10,7 +10,7 @@ use App\Services\Config;
 class ConfigTest extends TestCase
 {
     /**
-     * @covers App\Services\Config::getPublicConfig
+     * @covers App\Services\Config::getViewConfig
      */
     public function testGetPublicConfig(): void
     {
@@ -24,11 +24,10 @@ class ConfigTest extends TestCase
             'enable_analytics_code' => false,
             'enable_kill' => true,
             'enable_change_email' => false,
-            'enable_telegram' => true,
-            'telegram_bot' => 'my_bot',
             'subscribeLog' => true,
             'subscribeLog_keep_days' => 30,
             'enable_r2_client_download' => true,
+            'jsdelivr_url' => 'cdn.jsdelivr.net',
         ];
 
         $mockEnv = [
@@ -41,14 +40,13 @@ class ConfigTest extends TestCase
             'enable_analytics_code' => false,
             'enable_kill' => true,
             'enable_change_email' => false,
-            'enable_telegram' => true,
-            'telegram_bot' => 'my_bot',
             'subscribeLog' => true,
             'subscribeLog_keep_days' => 30,
             'enable_r2_client_download' => true,
+            'jsdelivr_url' => 'cdn.jsdelivr.net',
         ];
 
-        $config = Config::getPublicConfig();
+        $config = Config::getViewConfig();
 
         $this->assertSame($mockEnv['appName'], $config['appName']);
         $this->assertSame($mockEnv['baseUrl'], $config['baseUrl']);
@@ -59,11 +57,10 @@ class ConfigTest extends TestCase
         $this->assertSame($mockEnv['enable_analytics_code'], $config['enable_analytics_code']);
         $this->assertSame($mockEnv['enable_kill'], $config['enable_kill']);
         $this->assertSame($mockEnv['enable_change_email'], $config['enable_change_email']);
-        $this->assertSame($mockEnv['enable_telegram'], $config['enable_telegram']);
-        $this->assertSame($mockEnv['telegram_bot'], $config['telegram_bot']);
         $this->assertSame($mockEnv['subscribeLog'], $config['subscribeLog']);
         $this->assertSame($mockEnv['subscribeLog_keep_days'], $config['subscribeLog_keep_days']);
         $this->assertSame($mockEnv['enable_r2_client_download'], $config['enable_r2_client_download']);
+        $this->assertSame($mockEnv['jsdelivr_url'], $config['jsdelivr_url']);
     }
 
     /**

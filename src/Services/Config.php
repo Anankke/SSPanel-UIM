@@ -7,11 +7,7 @@ namespace App\Services;
 // Config is singleton instance store all config
 final class Config
 {
-    private function __construct()
-    {
-    }
-
-    public static function getPublicConfig(): array
+    public static function getViewConfig(): array
     {
         return [
             'appName' => $_ENV['appName'],
@@ -27,13 +23,12 @@ final class Config
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],
 
-            'enable_telegram' => $_ENV['enable_telegram'],
-            'telegram_bot' => $_ENV['telegram_bot'],
-
             'subscribeLog' => $_ENV['subscribeLog'],
             'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],
 
             'enable_r2_client_download' => $_ENV['enable_r2_client_download'],
+
+            'jsdelivr_url' => $_ENV['jsdelivr_url'],
         ];
     }
 

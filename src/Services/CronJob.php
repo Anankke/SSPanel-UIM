@@ -16,7 +16,7 @@ use App\Models\Setting;
 use App\Models\SubscribeLog;
 use App\Models\User;
 use App\Models\UserHourlyUsage;
-use App\Utils\Telegram;
+use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use DateTime;
 use Exception;
@@ -130,7 +130,7 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_offline')) {
-                    Telegram::send($notice_text);
+                    (new Telegram())->send(0, $notice_text);
                 }
 
                 $node->online = 0;
@@ -159,7 +159,7 @@ final class CronJob
                 }
 
                 if (Setting::obtain('telegram_node_online')) {
-                    Telegram::send($notice_text);
+                    (new Telegram())->send(0, $notice_text);
                 }
 
                 $node->online = 1;
@@ -214,18 +214,22 @@ final class CronJob
                 echo Tools::toDateTime(time()) . '邮件队列处理超时，已跳过' . PHP_EOL;
                 break;
             }
+
             DB::beginTransaction();
             $email_queues_raw = DB::select('SELECT * FROM email_queue LIMIT 1 FOR UPDATE SKIP LOCKED');
+
             if (count($email_queues_raw) === 0) {
                 DB::commit();
                 break;
             }
+
             $email_queues = array_map(static function ($value) {
                 return (array) $value;
             }, $email_queues_raw);
             $email_queue = $email_queues[0];
             echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
             DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
+
             if (Tools::isEmail($email_queue['to_email'])) {
                 try {
                     Mail::send(
@@ -240,6 +244,7 @@ final class CronJob
             } else {
                 echo $email_queue['to_email'] . ' 邮箱格式错误，已跳过' . PHP_EOL;
             }
+
             DB::commit();
         }
 
@@ -586,8 +591,7 @@ final class CronJob
 
     public static function sendDailyTrafficReport(): void
     {
-        $users = User::where('daily_mail_enable', 1)->get();
-
+        $users = User::whereIn('daily_mail_enable', [1, 2])->get();
         $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
 
         if ($ann_latest_raw === null) {
@@ -600,7 +604,7 @@ final class CronJob
             $user->sendDailyNotification($ann_latest);
         }
 
-        echo Tools::toDateTime(time()) . ' 成功发送每日邮件' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' 成功发送每日流量报告' . PHP_EOL;
     }
 
     /**
@@ -608,7 +612,7 @@ final class CronJob
      */
     public static function sendTelegramDailyJob(): void
     {
-        Telegram::send(Setting::obtain('telegram_daily_job_text'));
+        (new Telegram())->send(0, Setting::obtain('telegram_daily_job_text'));
 
         echo Tools::toDateTime(time()) . ' 成功发送 Telegram 每日任务提示' . PHP_EOL;
     }
@@ -620,7 +624,8 @@ final class CronJob
     {
         $analytics = new Analytics();
 
-        Telegram::send(
+        (new Telegram())->send(
+            0,
             str_replace(
                 [
                     '%getTodayCheckinUser%',

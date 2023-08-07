@@ -15,7 +15,6 @@ final class RegController extends BaseController
         'reg_mode',
         'reg_email_verify',
         'sign_up_for_daily_report',
-        'enable_reg_im',
         'random_group',
         'min_port',
         'max_port',

@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Models\Setting;
 use App\Services\Cloudflare;
-use App\Utils\Telegram;
+use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use Cloudflare\API\Endpoints\EndpointException;
 use Exception;
@@ -157,7 +157,8 @@ final class NodeController extends BaseController
 
         if (Setting::obtain('telegram_add_node')) {
             try {
-                Telegram::send(
+                (new Telegram())->send(
+                    0,
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -245,7 +246,8 @@ final class NodeController extends BaseController
 
         if (Setting::obtain('telegram_update_node')) {
             try {
-                Telegram::send(
+                (new Telegram())->send(
+                    0,
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -302,7 +304,8 @@ final class NodeController extends BaseController
 
         if (Setting::obtain('telegram_delete_node')) {
             try {
-                Telegram::send(
+                (new Telegram())->send(
+                    0,
                     str_replace(
                         '%node_name%',
                         $node->name,

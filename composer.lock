@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.277.8",
+            "version": "3.277.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "dc082f3a3e7bed6f453e839472baeb5b5dd433ec"
+                "reference": "f2437a755b70756425bf8f1bd588a7c583891900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dc082f3a3e7bed6f453e839472baeb5b5dd433ec",
-                "reference": "dc082f3a3e7bed6f453e839472baeb5b5dd433ec",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f2437a755b70756425bf8f1bd588a7c583891900",
+                "reference": "f2437a755b70756425bf8f1bd588a7c583891900",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.277.8"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.277.9"
             },
-            "time": "2023-08-03T18:09:45+00:00"
+            "time": "2023-08-04T18:16:19+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -6617,16 +6617,16 @@
     "packages-dev": [
         {
             "name": "cmgmyr/phploc",
-            "version": "8.0.2",
+            "version": "8.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cmgmyr/phploc.git",
-                "reference": "35e308033e02264a59cb1b56cc2abb1a22483ca8"
+                "reference": "e61d4729df46c5920ab61973bfa3f70f81a70b5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cmgmyr/phploc/zipball/35e308033e02264a59cb1b56cc2abb1a22483ca8",
-                "reference": "35e308033e02264a59cb1b56cc2abb1a22483ca8",
+                "url": "https://api.github.com/repos/cmgmyr/phploc/zipball/e61d4729df46c5920ab61973bfa3f70f81a70b5f",
+                "reference": "e61d4729df46c5920ab61973bfa3f70f81a70b5f",
                 "shasum": ""
             },
             "require": {
@@ -6634,8 +6634,7 @@
                 "ext-json": "*",
                 "php": "^7.4 || ^8.0",
                 "phpunit/php-file-iterator": "^3.0|^4.0",
-                "sebastian/cli-parser": "^1.0|^2.0",
-                "sebastian/version": "^3.0|^4.0"
+                "sebastian/cli-parser": "^1.0|^2.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.2",
@@ -6671,7 +6670,7 @@
             "homepage": "https://github.com/cmgmyr/phploc",
             "support": {
                 "issues": "https://github.com/cmgmyr/phploc/issues",
-                "source": "https://github.com/cmgmyr/phploc/tree/8.0.2"
+                "source": "https://github.com/cmgmyr/phploc/tree/8.0.3"
             },
             "funding": [
                 {
@@ -6679,7 +6678,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-19T10:37:20+00:00"
+            "time": "2023-08-05T16:49:39+00:00"
         },
         {
             "name": "composer/pcre",
@@ -8137,16 +8136,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.3.0",
+            "version": "10.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c87ae282d17b256d09cfef0eb4f5db2d09cfd36a"
+                "reference": "d442ce7c4104d5683c12e67e4dcb5058159e9804"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c87ae282d17b256d09cfef0eb4f5db2d09cfd36a",
-                "reference": "c87ae282d17b256d09cfef0eb4f5db2d09cfd36a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d442ce7c4104d5683c12e67e4dcb5058159e9804",
+                "reference": "d442ce7c4104d5683c12e67e4dcb5058159e9804",
                 "shasum": ""
             },
             "require": {
@@ -8218,7 +8217,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.3.0"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.3.1"
             },
             "funding": [
                 {
@@ -8234,7 +8233,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-04T03:56:35+00:00"
+            "time": "2023-08-04T06:48:08+00:00"
         },
         {
             "name": "psr/cache",
