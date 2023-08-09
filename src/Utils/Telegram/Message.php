@@ -10,7 +10,6 @@ use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function in_array;
 use function json_decode;
-use function strlen;
 
 final class Message
 {
@@ -56,48 +55,6 @@ final class Message
         $this->ChatID = $Message->getChat()->getId();
         $this->Message = $Message;
         $this->MessageID = $Message->getMessageId();
-
-        if ($this->Message->getText() !== null) {
-            // 消息内容
-            $MessageData = trim($this->Message->getText());
-            if ($this->ChatID > 0 && strlen($MessageData) === 16) {
-                // 私聊
-                $Uid = TelegramTools::verifyBindSession($MessageData);
-                if ($Uid === 0) {
-                    $text = '绑定失败了呢，经检查发现：【' .
-                        $MessageData . '】的有效期为 10 分钟，你可以在我们网站上的 **资料编辑** 页面刷新后重试.';
-                } else {
-                    $BinsUser = TelegramTools::getUser($Uid, 'id');
-                    $BinsUser->telegram_id = $this->triggerUser['id'];
-                    $BinsUser->im_type = 4;
-                    if ($this->triggerUser['username'] === null) {
-                        $BinsUser->im_value = '用戶名未设置';
-                    } else {
-                        $BinsUser->im_value = $this->triggerUser['username'];
-                    }
-                    $BinsUser->save();
-                    if ($BinsUser->is_admin === 1) {
-                        $text = '尊敬的**管理员**你好，恭喜绑定成功。' . PHP_EOL . '当前绑定邮箱为：' . $BinsUser->email;
-                    } else {
-                        if ($BinsUser->class >= 1) {
-                            $text = '尊敬的 **VIP ' . $BinsUser->class .
-                                '** 用户你好.' . PHP_EOL . '恭喜你绑定成功，当前绑定邮箱为：' . $BinsUser->email;
-                        } else {
-                            $text = '绑定成功了，你的邮箱为：' . $BinsUser->email;
-                        }
-                    }
-                }
-
-                $this->bot->sendMessage(
-                    [
-                        'chat_id' => $this->ChatID,
-                        'text' => $text,
-                        'parse_mode' => 'Markdown',
-                    ]
-                );
-            }
-            return;
-        }
 
         if ($this->Message->getNewChatParticipant() !== null) {
             $this->newChatParticipant();

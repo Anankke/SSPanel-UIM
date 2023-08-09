@@ -187,14 +187,6 @@ final class UserController extends BaseController
             ->fetch('user/banned.tpl'));
     }
 
-    public function resetTelegram(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $user = $this->user;
-        $user->telegramReset();
-
-        return ResponseHelper::success($response, '重置成功');
-    }
-
     public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $user = $this->user;

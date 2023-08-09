@@ -81,34 +81,8 @@
                                                             class="btn btn-primary ms-auto">修改</button>
                                                         {else}
                                                         <button id="modify-email" class="btn btn-primary ms-auto"
-                                                            disabled>暂不允许修改</button>
+                                                            disabled>不允许修改</button>
                                                         {/if}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h3 class="card-title">IM 账号</h3>
-                                                    <div class="mb-3">
-                                                        <select id="imtype" class="form-select">
-                                                            <option value="1" {if $user->im_type === 1}selected{/if}>
-                                                                Slack</option>
-                                                            <option value="2" {if $user->im_type === 2}selected{/if}>
-                                                                Discord</option>
-                                                            <option value="4" {if $user->im_type === 4}selected{/if}>
-                                                                Telegram</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <input id="imvalue" type="text" class="form-control" 
-                                                            disabled="" value="{$user->im_value}" placeholder="社交账户">
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer">
-                                                    <div class="d-flex">
-                                                        <a id="modify-im" class="btn btn-primary ms-auto">修改</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -120,7 +94,7 @@
                                                     <p>当前用戶名：<code>{$user->user_name}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-nickname" type="text" class="form-control"
-                                                        placeholder="新用戶名" autocomplete="off">
+                                                               placeholder="新用戶名" autocomplete="off">
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
@@ -130,62 +104,58 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {if $public_setting['enable_telegram']}
                                         <div class="col-sm-12 col-md-6">
-                                            {if $user->telegram_id !== 0}
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">解绑 Telegram</h3>
-                                                    <p>当前绑定的 Telegram 账户：
-                                                        {if $user->im_value === "用戶名未设置"}
-                                                        <code>{$user->telegram_id}</code>
-                                                        {else}
-                                                        <a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
-                                                        {/if}
-                                                    </p>
+                                                    <h3 class="card-title">IM 账号绑定</h3>
+                                                    <div class="mb-3">
+                                                        <select id="imtype" class="form-select"
+                                                                {if $user->im_type !== 0 && $user->im_value !== ''}disabled=""{/if}>
+                                                            <option value="0" {if $user->im_type === 0}selected{/if}>
+                                                                未绑定</option>
+                                                            <option value="1" {if $user->im_type === 1}selected{/if}>
+                                                                Slack</option>
+                                                            <option value="2" {if $user->im_type === 2}selected{/if}>
+                                                                Discord</option>
+                                                            <option value="4" {if $user->im_type === 4}selected{/if}>
+                                                                Telegram</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input id="imvalue" type="text" class="form-control"
+                                                            disabled="" value="{$user->im_value}">
+                                                    </div>
                                                 </div>
                                                 <div class="card-footer">
-                                                    <div class="d-flex">
-                                                       <button id="unbind-telegram-btn" 
-                                                            class="btn btn-red ms-auto">
-                                                            解绑
-                                                       </button>
-                                                    </div>
+                                                    <div class="d-flex" id="oauth-provider"></div>
                                                 </div>
                                             </div>
-                                            {else}
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">绑定 Telegram</h3>
-                                                    <div class="row">
-                                                        <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
-                                                            手机电脑平板等如已安装 Telegram 可点击
-                                                        </div>
-                                                        <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
-                                                            <a href="https://t.me/{$public_setting['telegram_bot']}?start={$bind_token}"
-                                                                class="btn btn-primary w-100">
-                                                                一键绑定
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
-                                                            向机器人 <a
-                                                                href="https://t.me/{$public_setting['telegram_bot']}">@{$public_setting['telegram_bot']}</a>
-                                                            发送验证码绑定
-                                                        </div>
-                                                        <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
-                                                            <button data-clipboard-text="{$bind_token}"
-                                                                class="copy btn btn-primary w-100">
-                                                                复制验证码
-                                                            </button>
-                                                        </div>
+                                                    <h3 class="card-title">解绑 IM 账户</h3>
+                                                    {if $user->im_type === 0}
+                                                    <p>你的账户当前没有绑定任何 IM 服务</p>
+                                                    {else}
+                                                    <p>
+                                                        当前绑定的 IM 服务：{$user->imType()}
+                                                        <br>
+                                                        IM 账户 ID：<code>{$user->im_value}</code>
+                                                    </p>
+                                                    {/if}
+                                                </div>
+                                                {if $user->im_type !== 0}
+                                                <div class="card-footer">
+                                                    <div class="d-flex">
+                                                        <button id="unbind-im" class="btn btn-red ms-auto">
+                                                            解绑
+                                                        </button>
                                                     </div>
                                                 </div>
+                                                {/if}
                                             </div>
-                                            {/if}
                                         </div>
-                                        {/if}
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="login_security" role="tabpanel">
@@ -288,8 +258,8 @@
                                                         <select id="user-method" class="form-select">
                                                             {foreach $methods as $method}
                                                             <option value="{$method}"
-                                                                {if $user->method === $method}selected{/if}
-                                                            >{$method}
+                                                                {if $user->method === $method}selected{/if}>
+                                                                {$method}
                                                             </option>
                                                             {/foreach}
                                                         </select>
@@ -381,7 +351,7 @@
                                                         <a id="modify-user-theme" class="btn btn-primary ms-auto">修改</a>
                                                     </div>
                                                 </div>
-                                            </div>   
+                                            </div>
                                         </div>
                                         {if $config['enable_kill']}
                                         <div class="col-sm-12 col-md-6">
@@ -393,7 +363,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <h3 class="card-title">删除账户数据</h3>
-                                                </div>    
+                                                </div>
                                                 <div class="card-footer">
                                                     <a href="#" class="btn btn-red" data-bs-toggle="modal"
                                                         data-bs-target="#destroy-account">
@@ -401,7 +371,7 @@
                                                         确认删除
                                                     </a>
                                                 </div>
-                                            </div>  
+                                            </div>
                                         </div>
                                         {/if}
                                     </div>
@@ -698,15 +668,11 @@
             })
         });
 
-        $("#modify-im").click(function() {
+        $("#unbind-im").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/user/contact_update",
+                url: "/user/unbind_im",
                 dataType: "json",
-                data: {
-                    imtype: $('#imtype').val(),
-                    imvalue: $('#imvalue').val()
-                },
                 success: function(data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
@@ -776,26 +742,6 @@
             })
         });
 
-        $("#unbind-telegram-btn").click(function() {
-          $.ajax({
-            type: "POST",
-            url: "/user/telegram_reset",
-            dataType: "json",
-            success: function(data) {
-              if (data.ret === 1) {
-                $('#success-message').text(data.msg);
-                $('#success-dialog').modal('show');
-                setTimeout(function() {
-                  location.reload();
-                }, 1000);
-              } else {
-                $('#fail-message').text(data.msg);
-                $('#fail-dialog').modal('show');
-              }
-            }
-          })
-        });
-
         {if $config['enable_kill']}
         $("#confirm-destroy").click(function() {
             $.ajax({
@@ -817,6 +763,49 @@
             })
         });
         {/if}
+
+        $("#imtype").on('change', function() {
+            if ($(this).val() === '0') {
+                $('#oauth-provider').empty();
+            } else if ($(this).val() === '1') {
+                $('#oauth-provider').empty();
+                $('#oauth-provider').append(
+                    ""
+                );
+            } else if ($(this).val() === '2') {
+                $('#oauth-provider').empty();
+                $('#oauth-provider').append(
+                    ""
+                );
+            } else if ($(this).val() === '4'){
+                $('#oauth-provider').empty();
+                $('#oauth-provider').append(
+                    '<script async src=\"https://telegram.org/js/telegram-widget.js?22\"' +
+                    ' data-telegram-login=\"nodecat_bot\" data-size=\"large" data-onauth=\"onTelegramAuth(user)\"' +
+                    ' data-request-access=\"write\"><\/script>'
+                );
+            }
+        });
+
+        function onTelegramAuth(user) {
+            $.ajax({
+                type: "POST",
+                url: "/oauth/telegram",
+                dataType: "json",
+                data: {
+                    user: JSON.stringify(user),
+                },
+                success: function(data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#error-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        }
     </script>
-    
+
 {include file='user/footer.tpl'}

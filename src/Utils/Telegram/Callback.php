@@ -172,7 +172,7 @@ final class Callback
             [
                 [
                     'text' => $checkin,
-                    'callback_data' => 'user.checkin.' . $user->telegram_id,
+                    'callback_data' => 'user.checkin.' . $user->im_value,
                 ],
             ],
         ];

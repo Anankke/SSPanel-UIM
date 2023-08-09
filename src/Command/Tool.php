@@ -72,7 +72,7 @@ EOL;
      */
     public function setTelegram(): void
     {
-        $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . Setting::obtain('telegram_request_token');
+        $WebhookUrl = $_ENV['baseUrl'] . '/callback/telegram?token=' . Setting::obtain('telegram_request_token');
         $telegram = new Api(Setting::obtain('telegram_token'));
         $telegram->removeWebhook();
 
@@ -333,7 +333,7 @@ EOL;
             $user->expire_in = date('Y-m-d H:i:s');
             $user->reg_date = date('Y-m-d H:i:s');
             $user->money = 0;
-            $user->im_type = 1;
+            $user->im_type = 0;
             $user->im_value = '';
             $user->class = 0;
             $user->node_iplimit = 0;
