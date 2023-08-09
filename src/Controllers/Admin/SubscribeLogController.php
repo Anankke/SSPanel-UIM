@@ -58,6 +58,7 @@ final class SubscribeLogController extends BaseController
 
         foreach ($subscribes as $subscribe) {
             $subscribe->request_time = Tools::toDateTime($subscribe->request_time);
+            $subscribe->location = $subscribe->getAttributes();
         }
 
         return $response->withJson([
