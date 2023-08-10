@@ -21,6 +21,7 @@ return static function (Slim\App $app): void {
     $app->post('/callback/{type}', App\Controllers\CallbackController::class . ':index');
     // OAuth
     $app->post('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
+    $app->get('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
     // User Center
     $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');

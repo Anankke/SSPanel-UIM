@@ -127,7 +127,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
-                                                    <div class="d-flex" id="oauth-provider"></div>
+                                                    <div class="d-flex btn-list justify-content-end" id="oauth-provider"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                                     <p>
                                                         当前绑定的 IM 服务：{$user->imType()}
                                                         <br>
-                                                        IM 账户 ID：<code>{$user->im_value}</code>
+                                                        账户 ID：<code>{$user->im_value}</code>
                                                     </p>
                                                     {/if}
                                                 </div>
@@ -166,19 +166,18 @@
                                                     <h3 class="card-title">多因素认证</h3>
                                                     <div class="col-md-12">
                                                         <div class="col-sm-6 col-md-6">
-                                                            <p>
-                                                                <i class="ti ti-brand-apple"></i>
-                                                                <a target="view_window"
-                                                                    href="https://apps.apple.com/us/app/google-authenticator/id388497605">iOS 客户端
-                                                                </a>
-                                                                &nbsp;&nbsp;&nbsp;
-                                                                <i class="ti ti-brand-android"></i>
-                                                                <a target="view_window"
-                                                                    href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android 客户端
-                                                                </a>
-                                                            </p>
+                                                            <i class="ti ti-brand-apple"></i>
+                                                            <a target="view_window"
+                                                                href="https://apps.apple.com/us/app/google-authenticator/id388497605">iOS 客户端
+                                                            </a>
+                                                            &nbsp;&nbsp;&nbsp;
+                                                            <i class="ti ti-brand-android"></i>
+                                                            <a target="view_window"
+                                                                href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android 客户端
+                                                            </a>
                                                         </div>
                                                     </div>
+                                                    <br>
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <p id="qrcode"></p>
@@ -276,7 +275,8 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">更换订阅地址</h3>
-                                                    <p>更换订阅地址后，旧的订阅地址将无法获取配置，但节点配置仍能使用。如果希望旧的节点配置不能使用，请配合修改连接密码操作</p>
+                                                    <p>更换订阅地址后，旧的订阅地址将无法获取配置，但节点配置仍能使用。
+                                                        如果希望旧的节点配置不能使用，请配合修改连接密码操作</p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
@@ -296,8 +296,7 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="reset-passwd"
-                                                            class="btn btn-primary ms-auto bg-red">重置</a>
+                                                        <a id="reset-passwd" class="btn btn-primary ms-auto bg-red">重置</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -764,18 +763,19 @@
         });
         {/if}
 
+        {if $user->im_type === 0 && $user->im_value === ''}
         $("#imtype").on('change', function() {
             if ($(this).val() === '0') {
                 $('#oauth-provider').empty();
             } else if ($(this).val() === '1') {
                 $('#oauth-provider').empty();
                 $('#oauth-provider').append(
-                    ""
+                    '<a id=\"bind-slack\" class=\"btn btn-azure ms-auto\">绑定 Slack<\/a>'
                 );
             } else if ($(this).val() === '2') {
                 $('#oauth-provider').empty();
                 $('#oauth-provider').append(
-                    ""
+                    '<a id=\"bind-discord\" class=\"btn btn-indigo ms-auto\">绑定 Discord<\/a>'
                 );
             } else if ($(this).val() === '4'){
                 $('#oauth-provider').empty();
@@ -785,6 +785,39 @@
                     ' data-request-access=\"write\"><\/script>'
                 );
             }
+        });
+
+        $('#oauth-provider').on('click', '#bind-slack', function() {
+            $.ajax({
+                type: "POST",
+                url: "/oauth/slack",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $('#oauth-provider').on('click', '#bind-discord', function() {
+            $.ajax({
+                type: "POST",
+                url: "/oauth/discord",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret === 1) {
+                        window.setTimeout(location.href=data.redir, 0);
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
         });
 
         function onTelegramAuth(user) {
@@ -806,6 +839,7 @@
                 }
             })
         }
+        {/if}
     </script>
 
 {include file='user/footer.tpl'}

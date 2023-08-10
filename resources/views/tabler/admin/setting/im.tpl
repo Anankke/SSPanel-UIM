@@ -306,6 +306,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Client ID</label>
+                                    <div class="col">
+                                        <input id="discord_client_id" type="text" class="form-control" value="{$settings['discord_client_id']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Client Secret</label>
+                                    <div class="col">
+                                        <input id="discord_client_secret" type="text" class="form-control" value="{$settings['discord_client_secret']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Guild ID</label>
+                                    <div class="col">
+                                        <input id="discord_guild_id" type="text" class="form-control" value="{$settings['discord_guild_id']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">Discord 用户 ID</label>
                                     <input type="text" class="form-control" id="discord_user_id" value="">
                                     <div class="row my-3">
