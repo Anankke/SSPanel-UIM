@@ -13,7 +13,6 @@ use App\Services\Config;
 use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
-use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -38,14 +37,12 @@ final class InfoController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $bind_token = $this->user->telegram_id === 0 ? TelegramTools::addBindSession($this->user) : '';
         $methods = Config::getSupportParam('method');
         $gaurl = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
-            ->assign('bind_token', $bind_token)
             ->assign('methods', $methods)
             ->assign('gaurl', $gaurl)
             ->registerClass('Config', Config::class)
@@ -124,6 +121,17 @@ final class InfoController extends BaseController
         return ResponseHelper::success($response, '修改成功');
     }
 
+    public function unbindIM(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $user = $this->user;
+
+        if (! $user->unbindIM()) {
+            return ResponseHelper::error($response, '解绑失败');
+        }
+
+        return ResponseHelper::success($response, '解绑成功');
+    }
+
     public function updatePassword(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $oldpwd = $request->getParam('oldpwd');
@@ -153,35 +161,6 @@ final class InfoController extends BaseController
 
         if (Setting::obtain('enable_forced_replacement')) {
             $user->cleanLink();
-        }
-
-        return ResponseHelper::success($response, '修改成功');
-    }
-
-    public function updateContact(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $antiXss = new AntiXSS();
-        $type = $antiXss->xss_clean($request->getParam('imtype'));
-        $value = $antiXss->xss_clean($request->getParam('imvalue'));
-        $user = $this->user;
-
-        if ($user->telegram_id !== null || $user->is_shadow_banned) {
-            return ResponseHelper::error($response, '修改失败');
-        }
-
-        if ($value === '' || $type === '') {
-            return ResponseHelper::error($response, '联络方式不能为空');
-        }
-
-        if (User::where('im_value', $value)->where('im_type', $type)->first() !== null) {
-            return ResponseHelper::error($response, '此联络方式已经被注册');
-        }
-
-        $user->im_type = $type;
-        $user->im_value = $value;
-
-        if (! $user->save()) {
-            return ResponseHelper::error($response, '修改失败');
         }
 
         return ResponseHelper::success($response, '修改成功');

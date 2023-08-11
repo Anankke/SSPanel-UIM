@@ -961,6 +961,36 @@
     },
     {
         "id": null,
+        "item": "discord_client_id",
+        "value": "0",
+        "class": "discord",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Discord Client ID"
+    },
+    {
+        "id": null,
+        "item": "discord_client_secret",
+        "value": "",
+        "class": "discord",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Discord Client Secret"
+    },
+    {
+        "id": null,
+        "item": "discord_guild_id",
+        "value": "0",
+        "class": "discord",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Discord Guild ID"
+    },
+    {
+        "id": null,
         "item": "slack_token",
         "value": "",
         "class": "slack",

@@ -17,8 +17,11 @@ return static function (Slim\App $app): void {
     $app->get('/404', App\Controllers\HomeController::class . ':notFound');
     $app->get('/405', App\Controllers\HomeController::class . ':methodNotAllowed');
     $app->get('/500', App\Controllers\HomeController::class . ':internalServerError');
-    // Telegram
-    $app->post('/telegram_callback', App\Controllers\HomeController::class . ':telegram');
+    // Bot Callback
+    $app->post('/callback/{type}', App\Controllers\CallbackController::class . ':index');
+    // OAuth
+    $app->post('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
+    $app->get('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
     // User Center
     $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');
@@ -49,15 +52,15 @@ return static function (Slim\App $app): void {
         $group->get('/edit', App\Controllers\User\InfoController::class . ':index');
         $group->post('/email', App\Controllers\User\InfoController::class . ':updateEmail');
         $group->post('/username', App\Controllers\User\InfoController::class . ':updateUsername');
+        $group->post('/unbind_im', App\Controllers\User\InfoController::class . ':unbindIM');
         $group->post('/password', App\Controllers\User\InfoController::class . ':updatePassword');
-        $group->post('/contact_update', App\Controllers\User\InfoController::class . ':updateContact');
         $group->post('/theme', App\Controllers\User\InfoController::class . ':updateTheme');
         $group->post('/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
         $group->post('/passwd_reset', App\Controllers\User\InfoController::class . ':resetPasswd');
         $group->post('/apitoken_reset', App\Controllers\User\InfoController::class . ':resetApiToken');
         $group->post('/method', App\Controllers\User\InfoController::class . ':updateMethod');
         $group->post('/url_reset', App\Controllers\User\InfoController::class . ':resetURL');
-        $group->put('/invite', App\Controllers\User\InfoController::class . ':resetInviteURL');
+        $group->post('/invite_reset', App\Controllers\User\InfoController::class . ':resetInviteURL');
         $group->post('/kill', App\Controllers\User\InfoController::class . ':sendToGulag');
         // 发送验证邮件
         $group->post('/send', App\Controllers\AuthController::class . ':sendVerify');
@@ -67,8 +70,6 @@ return static function (Slim\App $app): void {
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
         $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
-        // Telegram
-        $group->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
         // 深色模式切换
         $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
         // 记录

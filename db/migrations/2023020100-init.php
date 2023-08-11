@@ -285,7 +285,7 @@ return new class() implements MigrationInterface {
                 `node_speedlimit` double NOT NULL DEFAULT 0 COMMENT '用户限速',
                 `node_iplimit` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '同时可连接IP数',
                 `is_admin` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否管理员',
-                `im_type` smallint(6) unsigned NOT NULL DEFAULT 1 COMMENT '联系方式类型',
+                `im_type` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '联系方式类型',
                 `im_value` varchar(255) NOT NULL DEFAULT '' COMMENT '联系方式',
                 `daily_mail_enable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '每日报告开关',
                 `class` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '等级',

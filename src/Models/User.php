@@ -8,7 +8,6 @@ use App\Services\DB;
 use App\Services\IM\Telegram;
 use App\Services\Mail;
 use App\Utils\Hash;
-use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -335,43 +334,11 @@ final class User extends Model
         return $return;
     }
 
-    /**
-     * 解绑 Telegram
-     */
-    public function telegramReset(): array
+    public function unbindIM(): bool
     {
-        $return = [
-            'ok' => true,
-            'msg' => '解绑成功.',
-        ];
-        $telegram_id = $this->telegram_id;
-        $this->telegram_id = 0;
-
-        if ($this->save()) {
-            if (Setting::obtain('enable_telegram')
-                &&
-                Setting::obtain('telegram_group_bound_user')
-                &&
-                Setting::obtain('telegram_unbind_kick_member')
-                &&
-                ! $this->is_admin
-            ) {
-                TelegramTools::SendPost(
-                    'kickChatMember',
-                    [
-                        'chat_id' => Setting::obtain('telegram_chatid'),
-                        'user_id' => $telegram_id,
-                    ]
-                );
-            }
-        } else {
-            $return = [
-                'ok' => false,
-                'msg' => '解绑失败.',
-            ];
-        }
-
-        return $return;
+        $this->im_type = 0;
+        $this->im_value = '';
+        return $this->save();
     }
 
     /**
@@ -426,9 +393,9 @@ final class User extends Model
     public function sendTelegram(string $text): bool
     {
         try {
-            if ($this->telegram_id > 0) {
+            if ($this->im_type === 4 && $this->im_value !== '') {
                 (new Telegram())->send(
-                    $this->telegram_id,
+                    (int) $this->im_value,
                     $text,
                 );
                 return true;

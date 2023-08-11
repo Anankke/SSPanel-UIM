@@ -49,6 +49,9 @@ final class ImController extends BaseController
         'help_any_command',
         'user_not_bind_reply',
         'discord_bot_token',
+        'discord_client_id',
+        'discord_client_secret',
+        'discord_guild_id',
         'slack_token',
     ];
 

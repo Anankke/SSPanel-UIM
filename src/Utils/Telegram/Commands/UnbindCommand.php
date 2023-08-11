@@ -61,7 +61,7 @@ final class UnbindCommand extends Command
             $text = '';
 
             if ($MessageKey === $User->email) {
-                $temp = $User->telegramReset();
+                $temp = $User->unbindIM();
                 $text = $temp['msg'];
                 // 回送信息
                 $this->replyWithMessage(

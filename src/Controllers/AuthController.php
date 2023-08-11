@@ -220,7 +220,6 @@ final class AuthController extends BaseController
      * @param $code
      * @param $imtype
      * @param $imvalue
-     * @param $telegram_id
      * @param $money
      * @param $is_admin_reg
      *
@@ -236,7 +235,6 @@ final class AuthController extends BaseController
         $code,
         $imtype,
         $imvalue,
-        $telegram_id,
         $money,
         $is_admin_reg
     ): ResponseInterface {
@@ -260,7 +258,6 @@ final class AuthController extends BaseController
         $user->forbidden_port = Setting::obtain('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
-        $user->telegram_id = $telegram_id;
 
         $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
@@ -363,7 +360,7 @@ final class AuthController extends BaseController
             }
         }
 
-        $imtype = 1;
+        $imtype = 0;
         $imvalue = '';
 
         // check email format
@@ -397,7 +394,7 @@ final class AuthController extends BaseController
             $redis->del('email_verify:' . $email_verify_code);
         }
 
-        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0);
     }
 
     public function logout(ServerRequest $request, Response $response, $next): Response

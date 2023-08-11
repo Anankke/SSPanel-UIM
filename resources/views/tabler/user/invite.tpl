@@ -1,7 +1,7 @@
 {include file='user/header.tpl'}
 
 <div class="page-wrapper">
-    <div class="container-xl">       
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
@@ -93,8 +93,8 @@
 
         $("#reset-url").click(function() {
             $.ajax({
-                type: "PUT",
-                url: "/user/invite",
+                type: "POST",
+                url: "/user/invite_reset",
                 dataType: "json",
                 success: function(data) {
                     if (data.ret === 1) {

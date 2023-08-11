@@ -135,7 +135,7 @@ final class UserController extends BaseController
             $password = Tools::genRandomChar(16);
         }
 
-        AuthController::registerHelper($response, 'user', $email, $password, '', 1, '', 0, $balance, 1);
+        AuthController::registerHelper($response, 'user', $email, $password, '', 0, '', $balance, 1);
         $user = User::where('email', $email)->first();
 
         if ($ref_by !== '') {

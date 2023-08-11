@@ -61,7 +61,7 @@ final class MyCommand extends Command
             'username' => $Message->getFrom()->getUsername(),
         ];
 
-        $User = User::where('telegram_id', $SendUser['id'])->first();
+        $User = User::where('im_type', 4)->where('im_value', $SendUser['id'])->first();
         if ($User === null) {
             // 回送信息
             $response = $this->replyWithMessage(
