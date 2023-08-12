@@ -1001,6 +1001,36 @@
     },
     {
         "id": null,
+        "item": "slack_client_id",
+        "value": "",
+        "class": "slack",
+        "is_public": 0,
+        "type": "",
+        "default": "string",
+        "mark": "Slack Client ID"
+    },
+    {
+        "id": null,
+        "item": "slack_client_secret",
+        "value": "",
+        "class": "slack",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack Client Secret"
+    },
+    {
+        "id": null,
+        "item": "slack_team_id",
+        "value": "",
+        "class": "slack",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack Team ID"
+    },
+    {
+        "id": null,
         "item": "tawk_id",
         "value": "",
         "class": "support",
