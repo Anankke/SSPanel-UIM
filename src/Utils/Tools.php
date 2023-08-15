@@ -270,7 +270,7 @@ final class Tools
 
     public static function isIPv4($input): bool
     {
-        if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+        if (! filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             return false;
         }
 
@@ -279,7 +279,7 @@ final class Tools
 
     public static function isIPv6($input): bool
     {
-        if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+        if (! filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
             return false;
         }
 
@@ -288,7 +288,7 @@ final class Tools
 
     public static function isInt($input): bool
     {
-        if (filter_var($input, FILTER_VALIDATE_INT) === false) {
+        if (! filter_var($input, FILTER_VALIDATE_INT)) {
             return false;
         }
 
@@ -297,13 +297,11 @@ final class Tools
 
     public static function genSubToken(): string
     {
-        for ($i = 0; $i < 10; $i++) {
-            $token = self::genRandomChar($_ENV['sub_token_len']);
-            $is_token_used = Link::where('token', $token)->first();
+        $token = self::genRandomChar($_ENV['sub_token_len']);
+        $is_token_used = Link::where('token', $token)->first();
 
-            if ($is_token_used === null) {
-                return $token;
-            }
+        if ($is_token_used === null) {
+            return $token;
         }
 
         return "couldn't alloc token";
