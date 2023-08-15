@@ -298,7 +298,7 @@ return new class() implements MigrationInterface {
                 `node_group` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '节点分组',
                 `is_banned` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否封禁',
                 `banned_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '封禁理由',
-                `is_shadow_banned` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否处于账户异常状态'
+                `is_shadow_banned` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否处于账户异常状态',
                 `telegram_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT 'Telegram ID',
                 `expire_notified` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '过期提醒',
                 `traffic_notified` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '流量提醒',
