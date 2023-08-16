@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram\Commands;
+namespace App\Services\Bot\Telegram\Commands;
 
 use App\Models\Setting;
 use App\Models\User;
-use App\Utils\Telegram\Reply;
+use App\Services\Bot\Telegram\Message;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function json_encode;
@@ -57,7 +57,7 @@ final class MyCommand extends Command
         // 触发用户
         $SendUser = [
             'id' => $Message->getFrom()->getId(),
-            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'name' => $Message->getFrom()->getFirstName() . ' MyCommand.php' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
@@ -86,9 +86,9 @@ final class MyCommand extends Command
 
     public function group($User, $SendUser, $ChatID, $Message, $MessageID)
     {
-        $text = Reply::getUserTitle($User);
+        $text = Message::getUserTitle($User);
         $text .= PHP_EOL . PHP_EOL;
-        $text .= Reply::getUserTrafficInfo($User);
+        $text .= Message::getUserTrafficInfo($User);
         // 回送信息
         return $this->replyWithMessage(
             [

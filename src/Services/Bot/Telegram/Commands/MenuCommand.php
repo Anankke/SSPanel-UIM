@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram\Commands;
+namespace App\Services\Bot\Telegram\Commands;
 
-use App\Utils\Telegram\Callback;
-use App\Utils\Telegram\TelegramTools;
+use App\Services\Bot\Telegram\Callback;
+use App\Services\Bot\Telegram\Tool;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function json_encode;
@@ -47,7 +47,7 @@ final class MenuCommand extends Command
                 'id' => $Message->getFrom()->getId(),
             ];
 
-            $user = TelegramTools::getUser($SendUser['id']);
+            $user = Tool::getUser($SendUser['id']);
             if ($user === null) {
                 $reply = null;
             } else {

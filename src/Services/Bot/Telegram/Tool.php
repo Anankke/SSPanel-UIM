@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram;
+namespace App\Services\Bot\Telegram;
 
 use App\Models\Setting;
 use App\Models\User;
@@ -17,7 +17,7 @@ use const CURLOPT_POSTFIELDS;
 use const CURLOPT_TIMEOUT;
 use const CURLOPT_URL;
 
-final class TelegramTools
+final class Tool
 {
     /**
      * 搜索用户

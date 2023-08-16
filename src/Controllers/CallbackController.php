@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\Setting;
-use App\Utils\Telegram\Process;
+use App\Services\Bot\Telegram\Process;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;

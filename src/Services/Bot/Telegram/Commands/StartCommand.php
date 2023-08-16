@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram\Commands;
+namespace App\Services\Bot\Telegram\Commands;
 
 use App\Models\Setting;
 use RedisException;
@@ -41,7 +41,7 @@ final class StartCommand extends Command
             // 触发用户
             $SendUser = [
                 'id' => $Message->getFrom()->getId(),
-                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+                'name' => $Message->getFrom()->getFirstName() . ' StartCommand.php' . $Message->getFrom()->getLastName(),
                 'username' => $Message->getFrom()->getUsername(),
             ];
             // 消息内容

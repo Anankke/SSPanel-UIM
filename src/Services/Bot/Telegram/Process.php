@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram;
+namespace App\Services\Bot\Telegram;
 
 use App\Models\Setting;
 use MaxMind\Db\Reader\InvalidDatabaseException;
