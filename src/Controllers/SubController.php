@@ -110,7 +110,7 @@ final class SubController extends BaseController
             switch ((int) $node_raw->sort) {
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin-opts = $node_custom_config['plugin-opts'] ?? '';
+                    $plugin_opts = $node_custom_config['plugin-opts'] ?? '';
                     $ss_port = $node_custom_config['offset_port_user'];
                     $ss_encryption = $node_custom_config['mu_encryption'];
                     $node = [
@@ -122,7 +122,7 @@ final class SubController extends BaseController
                         'password' => $user->passwd,
                         'encryption' => $ss_encryption,
                         'plugin' => $plugin,
-                        'plugin-opts' => $plugin-opts,
+                        'plugin-opts' => $plugin_opts,
                         'remark' => $node_raw->info,
                     ];
                     break;
@@ -254,7 +254,7 @@ final class SubController extends BaseController
             switch ((int) $node_raw->sort) {
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin-opts = $node_custom_config['plugin-opts'] ?? null;
+                    $plugin_opts = $node_custom_config['plugin-opts'] ?? null;
                     $ss_port = $node_custom_config['offset_port_user'];
                     $ss_encryption = $node_custom_config['mu_encryption'];
                     // Clash 特定配置
@@ -272,7 +272,7 @@ final class SubController extends BaseController
                         'udp' => $udp,
                         'client-fingerprint' => $client_fingerprint,
                         'plugin' => $plugin,
-                        'plugin-opts' => $plugin-opts,
+                        'plugin-opts' => $plugin_opts,
                     ];
 
                     break;
@@ -418,7 +418,7 @@ final class SubController extends BaseController
             switch ((int) $node_raw->sort) {
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin-opts = $node_custom_config['plugin-opts'] ?? '';
+                    $plugin_opts = $node_custom_config['plugin-opts'] ?? '';
                     $ss_port = $node_custom_config['offset_port_user'];
                     $ss_encryption = $node_custom_config['mu_encryption'];
                     $node = [
@@ -429,7 +429,7 @@ final class SubController extends BaseController
                         'password' => $user->passwd,
                         'method' => $ss_encryption,
                         'plugin' => $plugin,
-                        'plugin-opts' => $plugin-opts,
+                        'plugin-opts' => $plugin_opts,
                     ];
                     break;
                 default:
