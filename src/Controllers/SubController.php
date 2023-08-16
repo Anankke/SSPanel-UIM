@@ -255,6 +255,8 @@ final class SubController extends BaseController
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? null;
+                    $ss_port = $node_custom_config['offset_port_user'];
+                    $ss_encryption = $node_custom_config['mu_encryption'];
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
                     // Clash.Meta
@@ -264,9 +266,9 @@ final class SubController extends BaseController
                         'name' => $node_raw->name,
                         'type' => 'ss',
                         'server' => $server,
-                        'port' => (int) $user->port,
+                        'port' => (int) $ss_port,
                         'password' => $user->passwd,
-                        'cipher' => $user->method,
+                        'cipher' => $ss_encryption,
                         'udp' => $udp,
                         'client-fingerprint' => $client_fingerprint,
                         'plugin' => $plugin,
@@ -417,13 +419,15 @@ final class SubController extends BaseController
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? '';
+                    $ss_port = $node_custom_config['offset_port_user'];
+                    $ss_encryption = $node_custom_config['mu_encryption'];
                     $node = [
                         'id' => $node_raw->id,
                         'remarks' => $node_raw->name,
                         'server' => $server,
-                        'server_port' => (int) $user->port,
+                        'server_port' => (int) $ss_port,
                         'password' => $user->passwd,
-                        'method' => $user->method,
+                        'method' => $ss_encryption,
                         'plugin' => $plugin,
                         'plugin_opts' => $plugin_option,
                     ];
