@@ -343,6 +343,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Client ID</label>
+                                    <div class="col">
+                                        <input id="slack_client_id" type="text" class="form-control" value="{$settings['slack_client_id']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Client Secret</label>
+                                    <div class="col">
+                                        <input id="slack_client_secret" type="text" class="form-control" value="{$settings['slack_client_secret']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">Team ID</label>
+                                    <div class="col">
+                                        <input id="slack_team_id" type="text" class="form-control" value="{$settings['slack_team_id']}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">Slack 用户 ID</label>
                                     <input type="text" class="form-control" id="slack_user_id" value="">
                                     <div class="row my-3">

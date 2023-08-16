@@ -22,6 +22,7 @@
         "illuminate/pagination": "^10.0",
         "irazasyed/telegram-bot-sdk": "^3",
         "khanamiryan/qrcode-detector-decoder": "*",
+        "lcobucci/jwt": "^5.0",
         "league/omnipay": "^3.2.1",
         "mailgun/mailgun-php": "^3",
         "nikolaposa/rate-limit": "^3.0",

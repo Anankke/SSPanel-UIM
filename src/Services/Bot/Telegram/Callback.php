@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram;
+namespace App\Services\Bot\Telegram;
 
 use App\Controllers\LinkController;
 use App\Controllers\SubController;
@@ -77,10 +77,10 @@ final class Callback
         $this->bot = $bot;
         $this->triggerUser = [
             'id' => $Callback->getFrom()->getId(),
-            'name' => $Callback->getFrom()->getFirstName() . ' ' . $Callback->getFrom()->getLastName(),
+            'name' => $Callback->getFrom()->getFirstName() . ' Callback.php' . $Callback->getFrom()->getLastName(),
             'username' => $Callback->getFrom()->getUsername(),
         ];
-        $this->User = TelegramTools::getUser($this->triggerUser['id']);
+        $this->User = Tool::getUser($this->triggerUser['id']);
         $this->ChatID = $Callback->getMessage()->getChat()->getId();
         $this->Callback = $Callback;
         $this->MessageID = $Callback->getMessage()->getMessageId();
@@ -115,7 +115,7 @@ final class Callback
             $sendMessage
         );
         if ($this->AllowEditMessage) {
-            TelegramTools::sendPost('editMessageText', $sendMessage);
+            Tool::sendPost('editMessageText', $sendMessage);
         } else {
             $this->bot->sendMessage($sendMessage);
         }
@@ -142,7 +142,7 @@ final class Callback
             ],
             $sendMessage
         );
-        TelegramTools::sendPost('answerCallbackQuery', $sendMessage);
+        Tool::sendPost('answerCallbackQuery', $sendMessage);
     }
 
     public static function getUserIndexKeyboard($user): array
@@ -176,9 +176,9 @@ final class Callback
                 ],
             ],
         ];
-        $text = Reply::getUserTitle($user);
+        $text = Message::getUserTitle($user);
         $text .= PHP_EOL . PHP_EOL;
-        $text .= Reply::getUserInfo($user);
+        $text .= Message::getUserInfo($user);
 
         return [
             'text' => $text,
@@ -253,9 +253,9 @@ final class Callback
 
     public function getUserCenterKeyboard(): array
     {
-        $text = Reply::getUserTitle($this->User);
+        $text = Message::getUserTitle($this->User);
         $text .= PHP_EOL . PHP_EOL;
-        $text .= Reply::getUserTrafficInfo($this->User);
+        $text .= Message::getUserTrafficInfo($this->User);
         $keyboard = [
             [
                 [
@@ -439,7 +439,7 @@ final class Callback
 
     public function getUserEditKeyboard(): array
     {
-        $text = Reply::getUserTitle($this->User);
+        $text = Message::getUserTitle($this->User);
         $keyboard = [
             [
                 [
@@ -682,7 +682,7 @@ final class Callback
                 break;
             case 'unban_update':
                 // 提交群组解封
-                TelegramTools::sendPost(
+                Tool::sendPost(
                     'unbanChatMember',
                     [
                         'chat_id' => Setting::obtain('telegram_chatid'),
@@ -957,9 +957,9 @@ final class Callback
         if ($this->ChatID > 0) {
             $temp = self::getUserIndexKeyboard($this->User);
         } else {
-            $temp['text'] = Reply::getUserTitle($this->User);
+            $temp['text'] = Message::getUserTitle($this->User);
             $temp['text'] .= PHP_EOL . PHP_EOL;
-            $temp['text'] .= Reply::getUserTrafficInfo($this->User);
+            $temp['text'] .= Message::getUserTrafficInfo($this->User);
             $temp['keyboard'] = [
                 [
                     [

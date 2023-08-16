@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Utils\Telegram;
+namespace App\Services\Bot\Telegram;
 
 use App\Models\Setting;
+use App\Models\User;
 use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -48,10 +49,10 @@ final class Message
         $this->bot = $bot;
         $this->triggerUser = [
             'id' => $Message->getFrom()->getId(),
-            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'name' => $Message->getFrom()->getFirstName() . ' Message.php' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
-        $this->User = TelegramTools::getUser($this->triggerUser['id']);
+        $this->User = Tool::getUser($this->triggerUser['id']);
         $this->ChatID = $Message->getChat()->getId();
         $this->Message = $Message;
         $this->MessageID = $Message->getMessageId();
@@ -77,6 +78,7 @@ final class Message
             ],
             $sendMessage
         );
+
         $this->bot->sendMessage($sendMessage);
     }
 
@@ -91,7 +93,7 @@ final class Message
 
         $Member = [
             'id' => $NewChatMember->getId(),
-            'name' => $NewChatMember->getFirstName() . ' ' . $NewChatMember->getLastName(),
+            'name' => $NewChatMember->getFirstName() . ' Message.php' . $NewChatMember->getLastName(),
         ];
 
         if ($NewChatMember->getUsername() === Setting::obtain('telegram_bot')) {
@@ -107,7 +109,7 @@ final class Message
                     ]
                 );
 
-                TelegramTools::sendPost(
+                Tool::sendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $this->ChatID,
@@ -123,7 +125,7 @@ final class Message
             }
         } else {
             // 新成员加入群组
-            $NewUser = TelegramTools::getUser($Member['id']);
+            $NewUser = Tool::getUser($Member['id']);
 
             if (Setting::obtain('telegram_group_bound_user')
                 &&
@@ -139,7 +141,7 @@ final class Message
                     ]
                 );
 
-                TelegramTools::sendPost(
+                Tool::sendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $this->ChatID,
@@ -160,5 +162,52 @@ final class Message
                 );
             }
         }
+    }
+
+    /**
+     * 用户的流量使用讯息
+     */
+    public static function getUserTrafficInfo(User $user): string
+    {
+        $text = [
+            '你当前的流量状况：',
+            '',
+            '今日已使用 ' . $user->todayUsedTrafficPercent() . '% ：' . $user->todayUsedTraffic(),
+            '之前已使用 ' . $user->lastUsedTrafficPercent() . '% ：' . $user->lastUsedTraffic(),
+            '流量约剩余 ' . $user->unusedTrafficPercent() . '% ：' . $user->unusedTraffic(),
+        ];
+
+        return implode(PHP_EOL, $text);
+    }
+
+    /**
+     * 用户基本讯息
+     */
+    public static function getUserInfo(User $user): string
+    {
+        $text = [
+            '当前余额：' . $user->money,
+            '在线 IP 数：' . ($user->node_iplimit !== 0 ? $user->onlineIpCount() .
+                ' / ' . $user->node_iplimit : $user->onlineIpCount() . ' / 不限制'),
+            '端口速率：' . ($user->node_speedlimit > 0 ? $user->node_speedlimit . 'Mbps' : '不限制'),
+            '上次使用：' . $user->lastUseTime(),
+            '过期时间：' . $user->class_expire,
+        ];
+
+        return implode(PHP_EOL, $text);
+    }
+
+    /**
+     * 获取用户或管理的尊称
+     */
+    public static function getUserTitle(User $user): string
+    {
+        if ($user->class > 0) {
+            $text = '尊敬的 VIP ' . $user->class . ' 你好：';
+        } else {
+            $text = '尊敬的用户你好：';
+        }
+
+        return $text;
     }
 }

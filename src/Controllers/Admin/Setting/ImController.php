@@ -53,6 +53,9 @@ final class ImController extends BaseController
         'discord_client_secret',
         'discord_guild_id',
         'slack_token',
+        'slack_client_id',
+        'slack_client_secret',
+        'slack_team_id',
     ];
 
     /**

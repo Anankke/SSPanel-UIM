@@ -9,8 +9,11 @@ use App\Models\User;
 use App\Services\Cache;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Slim\Http\Response;
@@ -44,9 +47,70 @@ final class OAuthController extends BaseController
         };
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws RedisException
+     * @throws Exception
+     */
     public function slack(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        return ResponseHelper::error($response, '暂不支持');
+        $user = $this->user;
+        $redis = Cache::initRedis();
+
+        if ($request->getParam('code') === null) {
+            $state = Tools::genRandomChar(16);
+            $redis->setex('slack_state:' . $user->id, 300, $state);
+            $client_id = Setting::obtain('slack_client_id');
+            $team_id = Setting::obtain('slack_team_id');
+            $redirect_uri = $_ENV['baseUrl'] . '/oauth/slack';
+
+            return $response->withJson([
+                'ret' => 1,
+                'redir' => 'https://slack.com/openid/connect/authorize?response_type=code&scope=openid profile&client_id='
+                    . $client_id . '&state=' . $state . '&team=' . $team_id .
+                    '&nonce=' . $state . '&redirect_uri=' . $redirect_uri,
+            ]);
+        }
+
+        $code = $request->getParam('code');
+        $state = $request->getParam('state');
+
+        if ($state !== $redis->get('slack_state:' . $user->id)) {
+            return ResponseHelper::error($response, '参数错误');
+        }
+
+        $client = new Client();
+        $slack_api_url = 'https://slack.com/api/openid.connect.token';
+
+        $code_headers = [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+        ];
+
+        $code_body = [
+            'client_id' => Setting::obtain('slack_client_id'),
+            'client_secret' => Setting::obtain('slack_client_secret'),
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => $_ENV['baseUrl'] . '/oauth/slack',
+        ];
+
+        $code_response = $client->post($slack_api_url, [
+            'headers' => $code_headers,
+            'form_params' => $code_body,
+        ]);
+
+        if (! json_decode($code_response->getBody()->__toString())->ok) {
+            return ResponseHelper::error($response, 'OAuth 请求失败');
+        }
+
+        $parser = new Parser(new JoseEncoder());
+        $id_token = $parser->parse(json_decode($code_response->getBody()->__toString())->id_token);
+
+        $user->im_type = 1;
+        $user->im_value = $id_token->claims()->get('https://slack.com/user_id');
+        $user->save();
+
+        return $response->withRedirect($_ENV['baseUrl'] . '/user/edit');
     }
 
     /**
@@ -120,7 +184,7 @@ final class OAuthController extends BaseController
         }
 
         $user->im_type = 2;
-        $user->im_value = json_decode($user_response->getBody()->getContents())->id;
+        $user->im_value = json_decode($user_response->getBody()->getContents(), true)['id'];
         $user->save();
 
         if (Setting::obtain('discord_guild_id') !== 0) {

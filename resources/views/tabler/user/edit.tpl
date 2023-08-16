@@ -770,12 +770,12 @@
             } else if ($(this).val() === '1') {
                 $('#oauth-provider').empty();
                 $('#oauth-provider').append(
-                    '<a id=\"bind-slack\" class=\"btn btn-azure ms-auto\">绑定 Slack<\/a>'
+                    "<a id='bind-slack' class='btn btn-azure ms-auto'>绑定 Slack</a>"
                 );
             } else if ($(this).val() === '2') {
                 $('#oauth-provider').empty();
                 $('#oauth-provider').append(
-                    '<a id=\"bind-discord\" class=\"btn btn-indigo ms-auto\">绑定 Discord<\/a>'
+                    "<a id='bind-discord' class='btn btn-indigo ms-auto'>绑定 Discord</a>"
                 );
             } else if ($(this).val() === '4'){
                 $('#oauth-provider').empty();
@@ -795,8 +795,7 @@
                 dataType: "json",
                 success: function(data) {
                     if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
+                        window.location.replace(data.redir);
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
@@ -812,7 +811,7 @@
                 dataType: "json",
                 success: function(data) {
                     if (data.ret === 1) {
-                        window.setTimeout(location.href=data.redir, 0);
+                        window.location.replace(data.redir);
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
