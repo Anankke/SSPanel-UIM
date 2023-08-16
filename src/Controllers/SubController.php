@@ -111,14 +111,16 @@ final class SubController extends BaseController
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? '';
+                    $ss_port = $node_custom_config['offset_port_user'];
+                    $ss_encryption = $node_custom_config['mu_encryption'];
                     $node = [
                         'name' => $node_raw->name,
                         'id' => $node_raw->id,
                         'type' => 'ss',
                         'address' => $server,
-                        'port' => (int) $user->port,
+                        'port' => (int) $ss_port,
                         'password' => $user->passwd,
-                        'encryption' => $user->method,
+                        'encryption' => $ss_encryption,
                         'plugin' => $plugin,
                         'plugin_option' => $plugin_option,
                         'remark' => $node_raw->info,
