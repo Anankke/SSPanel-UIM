@@ -110,7 +110,7 @@ final class SubController extends BaseController
             switch ((int) $node_raw->sort) {
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin_opts = $node_custom_config['plugin-opts'] ?? '';
+                    $plugin_opts = $node_custom_config['plugin_option'] ?? '';
                     $ss_port = $node_custom_config['offset_port_user'];
                     $ss_encryption = $node_custom_config['mu_encryption'];
                     $node = [
@@ -254,7 +254,7 @@ final class SubController extends BaseController
             switch ((int) $node_raw->sort) {
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin_opts = $node_custom_config['plugin-opts'] ?? null;
+                    $plugin_opts = $node_custom_config['plugin_option'] ?? null;
                     $ss_port = $node_custom_config['offset_port_user'];
                     $ss_encryption = $node_custom_config['mu_encryption'];
                     // Clash 特定配置
@@ -418,7 +418,7 @@ final class SubController extends BaseController
             switch ((int) $node_raw->sort) {
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin_opts = $node_custom_config['plugin-opts'] ?? '';
+                    $plugin_opts = $node_custom_config['plugin_option'] ?? '';
                     $ss_port = $node_custom_config['offset_port_user'];
                     $ss_encryption = $node_custom_config['mu_encryption'];
                     $node = [
