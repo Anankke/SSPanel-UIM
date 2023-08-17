@@ -27,10 +27,6 @@ final class Node extends Model
      */
     public function getColorAttribute(): string
     {
-        if ($this->node_bandwidth_limit !== 0 && $this->node_bandwidth_limit <= $this->node_bandwidth) {
-            return 'yellow';
-        }
-
         return match ($this->getNodeOnlineStatus()) {
             0 => 'orange',
             1 => 'green',
