@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\DB;
-use App\Services\IM\Telegram;
-use App\Services\Mail;
+use App\Services\IM;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
-use Psr\Http\Client\ClientExceptionInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use Ramsey\Uuid\Uuid;
-use function array_merge;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function date;
 use function is_null;
-use function json_encode;
 use function md5;
 use function random_int;
 use function round;
@@ -63,17 +61,6 @@ final class User extends Model
             1 => 'Slack',
             2 => 'Discord',
             default => 'Telegram',
-        };
-    }
-
-    /**
-     * 联系方式
-     */
-    public function imValue(): string
-    {
-        return match ($this->im_type) {
-            1, 2, 5 => $this->im_value,
-            default => '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>',
         };
     }
 
@@ -342,72 +329,6 @@ final class User extends Model
     }
 
     /**
-     * 发送邮件
-     */
-    public function sendMail(
-        string $subject,
-        string $template,
-        array $array = [],
-        array $files = [],
-        $is_queue = false
-    ): bool {
-        if ($is_queue) {
-            $emailqueue = new EmailQueue();
-            $emailqueue->to_email = $this->email;
-            $emailqueue->subject = $subject;
-            $emailqueue->template = $template;
-            $emailqueue->time = time();
-            $array = array_merge(['user' => $this], $array);
-            $emailqueue->array = json_encode($array);
-            $emailqueue->save();
-            return true;
-        }
-        // 验证邮箱地址是否正确
-        if (Tools::isEmail($this->email)) {
-            // 发送邮件
-            try {
-                Mail::send(
-                    $this->email,
-                    $subject,
-                    $template,
-                    array_merge(
-                        [
-                            'user' => $this,
-                        ],
-                        $array
-                    ),
-                    $files
-                );
-                return true;
-            } catch (Exception | ClientExceptionInterface $e) {
-                echo $e->getMessage();
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * 发送 Telegram 讯息
-     */
-    public function sendTelegram(string $text): bool
-    {
-        try {
-            if ($this->im_type === 4 && $this->im_value !== '') {
-                (new Telegram())->send(
-                    (int) $this->im_value,
-                    $text,
-                );
-                return true;
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
-
-        return false;
-    }
-
-    /**
      * 发送每日流量报告
      *
      * @param string $ann 公告
@@ -419,37 +340,35 @@ final class User extends Model
         $used_traffic = $this->usedTraffic();
         $unused_traffic = $this->unusedTraffic();
 
-        switch ($this->daily_mail_enable) {
-            case 1:
-                echo 'Send daily mail to user: ' . $this->id . PHP_EOL;
-                $this->sendMail(
-                    $_ENV['appName'] . '-每日流量报告以及公告',
-                    'traffic_report.tpl',
-                    [
-                        'user' => $this,
-                        'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
-                        'lastday_traffic' => $lastday_traffic,
-                        'enable_traffic' => $enable_traffic,
-                        'used_traffic' => $used_traffic,
-                        'unused_traffic' => $unused_traffic,
-                    ],
-                    [],
-                    true
-                );
-                break;
-            case 2:
-                echo 'Send daily Telegram message to user: ' . $this->id . PHP_EOL;
-                $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
-                $text .= '流量总计：' . $enable_traffic . PHP_EOL;
-                $text .= '已用流量：' . $used_traffic . PHP_EOL;
-                $text .= '剩余流量：' . $unused_traffic . PHP_EOL;
-                $text .= '今日使用：' . $lastday_traffic;
-                $this->sendTelegram(
-                    $text
-                );
-                break;
-            case 0:
-            default:
+        if ($this->daily_mail_enable === 1) {
+            echo 'Send daily mail to user: ' . $this->id . PHP_EOL;
+
+            (new EmailQueue())->add(
+                $this->email,
+                $_ENV['appName'] . '-每日流量报告以及公告',
+                'traffic_report.tpl',
+                [
+                    'user' => $this,
+                    'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
+                    'lastday_traffic' => $lastday_traffic,
+                    'enable_traffic' => $enable_traffic,
+                    'used_traffic' => $used_traffic,
+                    'unused_traffic' => $unused_traffic,
+                ]
+            );
+        } else {
+            echo 'Send daily IM message to user: ' . $this->id . PHP_EOL;
+            $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
+            $text .= '流量总计：' . $enable_traffic . PHP_EOL;
+            $text .= '已用流量：' . $used_traffic . PHP_EOL;
+            $text .= '剩余流量：' . $unused_traffic . PHP_EOL;
+            $text .= '今日使用：' . $lastday_traffic;
+
+            try {
+                IM::send($this->im_value, $text, $this->im_type);
+            } catch (GuzzleException|TelegramSDKException $e) {
+                echo $e->getMessage() . PHP_EOL;
+            }
         }
     }
 

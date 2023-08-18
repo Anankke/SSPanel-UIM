@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-/*
- * IM Service
- */
-
 use App\Services\IM\Discord;
 use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
 use GuzzleHttp\Exception\GuzzleException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
+/*
+ * IM Service
+ */
 final class IM
 {
     public static function getClient($type): Discord|Slack|Telegram

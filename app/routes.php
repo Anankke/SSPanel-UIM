@@ -54,13 +54,14 @@ return static function (Slim\App $app): void {
         $group->post('/username', App\Controllers\User\InfoController::class . ':updateUsername');
         $group->post('/unbind_im', App\Controllers\User\InfoController::class . ':unbindIM');
         $group->post('/password', App\Controllers\User\InfoController::class . ':updatePassword');
-        $group->post('/theme', App\Controllers\User\InfoController::class . ':updateTheme');
-        $group->post('/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
         $group->post('/passwd_reset', App\Controllers\User\InfoController::class . ':resetPasswd');
         $group->post('/apitoken_reset', App\Controllers\User\InfoController::class . ':resetApiToken');
         $group->post('/method', App\Controllers\User\InfoController::class . ':updateMethod');
         $group->post('/url_reset', App\Controllers\User\InfoController::class . ':resetURL');
         $group->post('/invite_reset', App\Controllers\User\InfoController::class . ':resetInviteURL');
+        $group->post('/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
+        $group->post('/contact_method', App\Controllers\User\InfoController::class . ':updateContactMethod');
+        $group->post('/theme', App\Controllers\User\InfoController::class . ':updateTheme');
         $group->post('/kill', App\Controllers\User\InfoController::class . ':sendToGulag');
         // 发送验证邮件
         $group->post('/send', App\Controllers\AuthController::class . ':sendVerify');

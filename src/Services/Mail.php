@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-/*
- * Mail Service
- */
-
 use App\Models\Setting;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\NullMail;
@@ -19,6 +15,9 @@ use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Smarty;
 
+/*
+ * Mail Service
+ */
 final class Mail
 {
     public static function getClient(): Mailgun|Smtp|SendGrid|NullMail|Ses|Postal
@@ -45,6 +44,7 @@ final class Mail
         $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/');
         // add config
         $smarty->assign('config', Config::getViewConfig());
+
         foreach ($ary as $key => $value) {
             $smarty->assign($key, $value);
         }

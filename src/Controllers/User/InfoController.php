@@ -166,51 +166,6 @@ final class InfoController extends BaseController
         return ResponseHelper::success($response, '修改成功');
     }
 
-    public function updateTheme(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $antiXss = new AntiXSS();
-        $theme = $antiXss->xss_clean($request->getParam('theme'));
-        $user = $this->user;
-
-        if ($theme === '') {
-            return ResponseHelper::error($response, '主题不能为空');
-        }
-
-        $user->theme = $theme;
-
-        if (! $user->save()) {
-            return ResponseHelper::error($response, '修改失败');
-        }
-
-        return ResponseHelper::success($response, '修改成功');
-    }
-
-    public function updateDailyMail(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $value = (int) $request->getParam('mail');
-
-        if (! in_array($value, [0, 1, 2])) {
-            return ResponseHelper::error($response, '参数错误');
-        }
-
-        $user = $this->user;
-
-        if ($value === 2 && ! Setting::obtain('enable_telegram')) {
-            return ResponseHelper::error(
-                $response,
-                '修改失败，当前无法使用 Telegram 接收每日报告'
-            );
-        }
-
-        $user->daily_mail_enable = $value;
-
-        if (! $user->save()) {
-            return ResponseHelper::error($response, '修改失败');
-        }
-
-        return ResponseHelper::success($response, '修改成功');
-    }
-
     public function resetPasswd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
@@ -273,6 +228,61 @@ final class InfoController extends BaseController
         $user->clearInviteCodes();
 
         return ResponseHelper::success($response, '重置成功');
+    }
+
+    public function updateDailyMail(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $value = (int) $request->getParam('mail');
+
+        if (! in_array($value, [0, 1, 2])) {
+            return ResponseHelper::error($response, '参数错误');
+        }
+
+        $user = $this->user;
+        $user->daily_mail_enable = $value;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
+
+        return ResponseHelper::success($response, '修改成功');
+    }
+
+    public function updateContactMethod(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $value = (int) $request->getParam('contact');
+
+        if (! in_array($value, [1, 2])) {
+            return ResponseHelper::error($response, '参数错误');
+        }
+
+        $user = $this->user;
+        $user->contact_method = $value;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
+
+        return ResponseHelper::success($response, '修改成功');
+    }
+
+    public function updateTheme(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
+        $antiXss = new AntiXSS();
+        $theme = $antiXss->xss_clean($request->getParam('theme'));
+        $user = $this->user;
+
+        if ($theme === '') {
+            return ResponseHelper::error($response, '主题不能为空');
+        }
+
+        $user->theme = $theme;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '修改失败');
+        }
+
+        return ResponseHelper::success($response, '修改成功');
     }
 
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface

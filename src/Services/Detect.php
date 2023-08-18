@@ -11,6 +11,8 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function file_get_contents;
 use function in_array;
@@ -20,7 +22,7 @@ use function strtotime;
 use function time;
 use const PHP_EOL;
 
-final class CronDetect
+final class Detect
 {
     /**
      * @throws TelegramSDKException
@@ -28,7 +30,6 @@ final class CronDetect
     public static function gfw(): void
     {
         $nodes = Node::where('type', 1)->where('node_ip', '!=', '')->where('online', 1)->get();
-        $adminUser = User::where('is_admin', '1')->get();
 
         foreach ($nodes as $node) {
             $api_url = str_replace(
@@ -46,26 +47,25 @@ final class CronDetect
 
             if (! $result_tcping && ! $node->gfw_block) {
                 //被墙了
-                echo $node->id . ':false' . PHP_EOL;
+                echo '检测到节点 #' . $node->id . ' 被 GFW 封锁' . PHP_EOL;
+                echo 'Send gfw mail to admin' . PHP_EOL;
 
-                foreach ($adminUser as $user) {
-                    echo 'Send gfw mail to user: ' . $user->id . '-';
-                    $user->sendMail(
+                try {
+                    Notification::notifyAdmin(
                         $_ENV['appName'] . '-系统警告',
-                        'warn.tpl',
-                        [
-                            'text' => '管理员你好，系统发现节点 ' . $node->name . ' 被墙了，请你及时处理。',
-                        ],
-                        []
+                        '管理员你好，系统发现节点 ' . $node->name . ' 被墙了。'
                     );
+                } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
+                    echo $e->getMessage() . PHP_EOL;
+                }
+
+                if (Setting::obtain('telegram_node_gfwed')) {
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
                         Setting::obtain('telegram_node_gfwed_text')
                     );
-                }
 
-                if (Setting::obtain('telegram_node_gfwed')) {
                     (new Telegram())->send(0, $notice_text);
                 }
 
@@ -75,31 +75,32 @@ final class CronDetect
                 continue;
             }
 
-            echo $node->id . ':true' . PHP_EOL;
+            if ($result_tcping && $node->gfw_block) {
+                echo '检测到节点 #' . $node->id . ' 被 GFW 解除封锁' . PHP_EOL;
+                echo 'Send gfw mail to admin' . PHP_EOL;
 
-            foreach ($adminUser as $user) {
-                echo 'Send gfw mail to user: ' . $user->id . '-';
-                $user->sendMail(
-                    $_ENV['appName'] . '-系统提示',
-                    'warn.tpl',
-                    [
-                        'text' => '管理员你好，系统发现节点 ' . $node->name . ' 溜出墙了。',
-                    ],
-                    []
-                );
-                $notice_text = str_replace(
-                    '%node_name%',
-                    $node->name,
-                    Setting::obtain('telegram_node_ungfwed_text')
-                );
+                try {
+                    Notification::notifyAdmin(
+                        $_ENV['appName'] . '-系统提示',
+                        '管理员你好，系统发现节点 ' . $node->name . ' 溜出墙了。'
+                    );
+                } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
+                    echo $e->getMessage() . PHP_EOL;
+                }
+
+                if (Setting::obtain('telegram_node_ungfwed')) {
+                    $notice_text = str_replace(
+                        '%node_name%',
+                        $node->name,
+                        Setting::obtain('telegram_node_ungfwed_text')
+                    );
+
+                    (new Telegram())->send(0, $notice_text);
+                }
+
+                $node->gfw_block = false;
+                $node->save();
             }
-
-            if (Setting::obtain('telegram_node_ungfwed')) {
-                (new Telegram())->send(0, $notice_text);
-            }
-
-            $node->gfw_block = false;
-            $node->save();
         }
     }
 

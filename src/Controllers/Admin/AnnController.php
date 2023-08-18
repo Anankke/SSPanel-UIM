@@ -6,6 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Ann;
+use App\Models\EmailQueue;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\IM\Telegram;
@@ -101,15 +102,14 @@ final class AnnController extends BaseController
                 ->get();
 
             foreach ($users as $user) {
-                $user->sendMail(
+                (new EmailQueue())->add(
+                    $user->email,
                     $subject,
                     'warn.tpl',
                     [
                         'user' => $user,
                         'text' => $content,
-                    ],
-                    [],
-                    true
+                    ]
                 );
             }
         }

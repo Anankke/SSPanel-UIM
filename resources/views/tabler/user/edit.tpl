@@ -318,7 +318,7 @@
                                                                 邮件接收
                                                             </option>
                                                             <option value="2" {if $user->daily_mail_enable === 2}selected{/if}>
-                                                                Telegram Bot 接收
+                                                                IM 接收
                                                             </option>
                                                         </select>
                                                     </div>
@@ -327,6 +327,30 @@
                                                     <div class="d-flex">
                                                         <a id="modify-daily-report"
                                                             class="btn btn-primary ms-auto">修改</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">偏好的联系方式</h3>
+                                                    <p>当 IM 未绑定时站点依然会向账户邮箱发送通知信息</p>
+                                                    <div class="mb-3">
+                                                        <select id="contact-method" class="form-select">
+                                                            <option value="1" {if $user->contact_method === 1}selected{/if}>
+                                                                邮件
+                                                            </option>
+                                                            <option value="2" {if $user->contact_method === 2}selected{/if}>
+                                                                IM
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="d-flex">
+                                                        <a id="modify-contact-method"
+                                                           class="btn btn-primary ms-auto">修改</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -587,47 +611,6 @@
             })
         });
 
-        $("#modify-user-theme").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/user/theme",
-                dataType: "json",
-                data: {
-                    theme: $('#user-theme').val()
-                },
-                success: function(data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                        window.setTimeout("location.reload()", {$config['jump_delay']});
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-daily-report").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/user/daily_mail",
-                dataType: "json",
-                data: {
-                    mail: $('#daily-report').val()
-                },
-                success: function(data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
         $("#reset-passwd").click(function() {
             $.ajax({
                 type: "POST",
@@ -733,6 +716,67 @@
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#modify-daily-report").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/daily_mail",
+                dataType: "json",
+                data: {
+                    mail: $('#daily-report').val()
+                },
+                success: function(data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#modify-contact-method").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/contact_method",
+                dataType: "json",
+                data: {
+                    contact: $('#contact-method').val()
+                },
+                success: function(data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#modify-user-theme").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/theme",
+                dataType: "json",
+                data: {
+                    theme: $('#user-theme').val()
+                },
+                success: function(data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                        window.setTimeout("location.reload()", {$config['jump_delay']});
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
