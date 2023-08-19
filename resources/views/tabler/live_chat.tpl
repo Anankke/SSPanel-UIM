@@ -30,7 +30,6 @@
                   ["user_id","{$user->id}"],
                   ["user_class","{$user->class}"],
                   ["reg_email","{$user->email}"],
-                  ["expire_in","{$user->expire_in}"],
                   ["class_expire_time","{$user->class_expire}"],
                   ["available_traffic","{$user->unusedTraffic()}"],
                   ["balance","{$user->money}"]
@@ -47,7 +46,6 @@ window.__lc.params = [
     { name: '用户编号', value: '{$user->id}' },
     { name: '用户类别', value: '{$user->class}' },
     { name: '注册邮箱', value: '{$user->email}' },
-    { name: '到期时间', value: '{$user->expire_in}' },
     { name: '等级时间', value: '{$user->class_expire}' },
     { name: '剩余流量', value: '{$user->unusedTraffic()}' },
     { name: '账户余额', value: '{$user->money}' }

@@ -1202,22 +1202,12 @@
     {
         "id": null,
         "item": "sign_up_for_free_traffic",
-        "value": "20",
+        "value": "0",
         "class": "register",
         "is_public": 0,
         "type": "int",
-        "default": "20",
+        "default": "0",
         "mark": "注册时赠送的流量（GB）"
-    },
-    {
-        "id": null,
-        "item": "sign_up_for_free_time",
-        "value": "365",
-        "class": "register",
-        "is_public": 0,
-        "type": "int",
-        "default": "365",
-        "mark": "注册时设定的账户有效期（天）"
     },
     {
         "id": null,

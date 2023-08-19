@@ -280,10 +280,7 @@ final class Cron
                 $user->transfer_today = 0;
                 $user->transfer_enable = Tools::toGB($content->bandwidth);
                 $user->class = $content->class;
-                $old_expire_in = new DateTime();
                 $old_class_expire = new DateTime();
-                $user->expire_in = $old_expire_in
-                    ->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
                 $user->class_expire = $old_class_expire
                     ->modify('+' . $content->class_time . ' days')->format('Y-m-d H:i:s');
                 $user->node_group = $content->node_group;
@@ -365,10 +362,7 @@ final class Cron
                 }
                 // 激活时间包
                 $user->class = $content->class;
-                $old_expire_in = new DateTime($user->expire_in);
                 $old_class_expire = new DateTime($user->class_expire);
-                $user->expire_in = $old_expire_in
-                    ->modify('+' . $content->time . ' days')->format('Y-m-d H:i:s');
                 $user->class_expire = $old_class_expire
                     ->modify('+' . $content->class_time . ' days')->format('Y-m-d H:i:s');
                 $user->node_group = $content->node_group;
