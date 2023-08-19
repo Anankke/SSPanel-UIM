@@ -330,7 +330,6 @@ EOL;
             $user->invite_num = 0;
             $user->ref_by = 0;
             $user->is_admin = 1;
-            $user->expire_in = date('Y-m-d H:i:s');
             $user->reg_date = date('Y-m-d H:i:s');
             $user->money = 0;
             $user->im_type = 0;

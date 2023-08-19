@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Setting;
-use App\Services\CronDetect;
-use App\Services\CronJob;
+use App\Services\Cron as CronService;
+use App\Services\Detect;
 use Exception;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function mktime;
@@ -30,7 +30,7 @@ EOL;
         $hour = (int) date('H');
         $minute = (int) date('i');
 
-        $jobs = new CronJob();
+        $jobs = new CronService();
 
         // Run new shop related jobs
         $jobs->processPendingOrder();
@@ -119,14 +119,14 @@ EOL;
         // Detect GFW
         if (Setting::obtain('enable_detect_gfw') && $minute === 0
         ) {
-            $detect = new CronDetect();
+            $detect = new Detect();
             $detect->gfw();
         }
 
         // Detect ban
         if (Setting::obtain('enable_detect_ban') && $minute === 0
         ) {
-            $detect = new CronDetect();
+            $detect = new Detect();
             $detect->ban();
         }
 

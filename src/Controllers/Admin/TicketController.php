@@ -8,11 +8,15 @@ use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\LLM;
+use App\Services\Notification;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function array_merge;
 use function count;
 use function json_decode;
@@ -49,7 +53,9 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 后台更新工单内容
+     * @throws TelegramSDKException
+     * @throws GuzzleException
+     * @throws ClientExceptionInterface
      */
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -83,14 +89,11 @@ final class TicketController extends BaseController
         ];
 
         $user = User::find($ticket->userid);
-        $user->sendMail(
+
+        Notification::notifyUser(
+            $user,
             $_ENV['appName'] . '-工单被回复',
-            'warn.tpl',
-            [
-                'text' => '你好，有人回复了<a href="' .
-                    $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
-            ],
-            []
+            '你好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
         );
 
         $ticket->content = json_encode(array_merge($content_old, $content_new));
@@ -104,7 +107,9 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 喊 LLM 帮忙回复工单
+     * @throws GuzzleException
+     * @throws TelegramSDKException
+     * @throws ClientExceptionInterface
      */
     public function updateAI(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -122,7 +127,6 @@ final class TicketController extends BaseController
         $content_old = json_decode($ticket->content, true);
         // 获取用户的第一个问题，作为 LLM 的输入
         $ai_reply = LLM::genTextResponse($content_old[0]['comment']);
-
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
@@ -133,14 +137,11 @@ final class TicketController extends BaseController
         ];
 
         $user = User::find($ticket->userid);
-        $user->sendMail(
+
+        Notification::notifyUser(
+            $user,
             $_ENV['appName'] . '-工单被回复',
-            'warn.tpl',
-            [
-                'text' => '你好，AI 回复了<a href="' .
-                    $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。',
-            ],
-            []
+            '你好，AI 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
         );
 
         $ticket->content = json_encode(array_merge($content_old, $content_new));

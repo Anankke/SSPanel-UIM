@@ -77,13 +77,6 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">账户过期时间</label>
-                                <div class="col">
-                                    <input id="expire_in" type="text" class="form-control"
-                                        value="{$edit_user->expire_in}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
                                 <label class="form-label col-4 col-form-label">免费用户流量重置日</label>
                                 <div class="col">
                                     <input id="auto_reset_day" type="text" class="form-control"

@@ -79,7 +79,6 @@ final class UserController extends BaseController
         'invite_num',
         'ref_by',
         'class_expire',
-        'expire_in',
         'node_group',
         'class',
         'auto_reset_day',
@@ -197,7 +196,6 @@ final class UserController extends BaseController
         $user->invite_num = $request->getParam('invite_num');
         $user->ref_by = $request->getParam('ref_by');
         $user->class_expire = $request->getParam('class_expire');
-        $user->expire_in = $request->getParam('expire_in');
         $user->node_group = $request->getParam('node_group');
         $user->class = $request->getParam('class');
         $user->auto_reset_day = $request->getParam('auto_reset_day');

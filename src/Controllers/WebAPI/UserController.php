@@ -76,7 +76,6 @@ final class UserController extends BaseController
                 ) AS online_log ON online_log.user_id = user.id
             WHERE
                 user.is_banned = 0
-                AND user.expire_in > CURRENT_TIMESTAMP()
                 AND user.class_expire > CURRENT_TIMESTAMP()
                 AND (
                     (

@@ -7,14 +7,17 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Models\Ticket;
-use App\Models\User;
+use App\Services\Notification;
 use App\Services\RateLimit;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use voku\helper\AntiXSS;
 use function array_merge;
 use function count;
@@ -53,6 +56,9 @@ final class TicketController extends BaseController
 
     /**
      * @throws RedisException
+     * @throws ClientExceptionInterface
+     * @throws TelegramSDKException
+     * @throws GuzzleException
      */
     public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -98,18 +104,10 @@ final class TicketController extends BaseController
         $ticket->save();
 
         if (Setting::obtain('mail_ticket')) {
-            $adminUser = User::where('is_admin', 1)->get();
-
-            foreach ($adminUser as $user) {
-                $user->sendMail(
-                    $_ENV['appName'] . '-新工单被开启',
-                    'warn.tpl',
-                    [
-                        'text' => '管理员，有人开启了新的工单，请你及时处理。',
-                    ],
-                    []
-                );
-            }
+            Notification::notifyAdmin(
+                $_ENV['appName'] . '-新工单被开启',
+                '管理员，有人开启了新的工单，请你及时处理。'
+            );
         }
 
         return $response->withJson([
@@ -118,6 +116,11 @@ final class TicketController extends BaseController
         ]);
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws TelegramSDKException
+     * @throws ClientExceptionInterface
+     */
     public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! Setting::obtain('enable_ticket')) {
@@ -170,19 +173,12 @@ final class TicketController extends BaseController
         $ticket->save();
 
         if (Setting::obtain('mail_ticket')) {
-            $adminUser = User::where('is_admin', 1)->get();
-            foreach ($adminUser as $user) {
-                $user->sendMail(
-                    $_ENV['appName'] . '-工单被回复',
-                    'warn.tpl',
-                    [
-                        'text' => '管理员，有人回复了 <a href="' .
-                            $_ENV['baseUrl'] . '/admin/ticket/' . $ticket->id . '/view">#' . $ticket->id .
-                            '</a> 工单，请你及时处理。',
-                    ],
-                    []
-                );
-            }
+            Notification::notifyAdmin(
+                $_ENV['appName'] . '-工单被回复',
+                '管理员，有人回复了 <a href="' .
+                $_ENV['baseUrl'] . '/admin/ticket/' . $ticket->id . '/view">#' . $ticket->id .
+                '</a> 工单，请你及时处理。'
+            );
         }
 
         return $response->withJson([

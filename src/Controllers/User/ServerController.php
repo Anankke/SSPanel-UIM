@@ -35,6 +35,10 @@ final class ServerController extends BaseController
         $all_node = [];
 
         foreach ($nodes as $node) {
+            if ($node->node_bandwidth_limit !== 0 && $node->node_bandwidth_limit <= $node->node_bandwidth) {
+                continue;
+            }
+
             $array_node = [];
             $array_node['id'] = $node->id;
             $array_node['name'] = $node->name;

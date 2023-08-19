@@ -21,7 +21,6 @@ final class RegController extends BaseController
         'sign_up_for_free_traffic',
         'free_user_reset_day',
         'free_user_reset_bandwidth',
-        'sign_up_for_free_time',
         'sign_up_for_class',
         'sign_up_for_class_time',
         'sign_up_for_method',

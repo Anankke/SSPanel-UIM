@@ -152,10 +152,6 @@ final class UserController extends BaseController
             }
         }
 
-        if (strtotime($this->user->expire_in) < time()) {
-            return ResponseHelper::error($response, '没有过期的账户才可以签到');
-        }
-
         $checkin = $this->user->checkin();
 
         if (! $checkin['ok']) {
