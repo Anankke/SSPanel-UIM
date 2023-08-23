@@ -67,7 +67,9 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        if (! Tools::isEmailLegal($new_email)) {
+        $check_res = Tools::isEmailLegal($new_email);
+
+        if ($check_res['ret'] !== 1) {
             return $response->withJson($check_res);
         }
 

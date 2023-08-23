@@ -249,7 +249,7 @@ final class Tools
                 if (in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 } else {
-                    $res['msg'] = '我们无法将邮件投递至域 ' . $mail_suffix . ' ，请更换邮件地址';
+                    $res['msg'] = '邮箱域名 ' . $mail_suffix . ' 无效，请更换邮件地址';
                 }
 
                 return $res;
@@ -258,7 +258,7 @@ final class Tools
                 if (! in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 } else {
-                    $res['msg'] = '我们无法将邮件投递至域 ' . $mail_suffix . ' ，请更换邮件地址';
+                    $res['msg'] = '邮箱域名 ' . $mail_suffix . ' 无效，请更换邮件地址';
                 }
 
                 return $res;
