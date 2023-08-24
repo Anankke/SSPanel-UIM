@@ -30,3 +30,5 @@ php:
 
 #Specify Qodana linter for analysis (Applied in CI/CD pipeline)
 linter: jetbrains/qodana-php:latest
+include:
+  - name: CheckDependencyLicenses

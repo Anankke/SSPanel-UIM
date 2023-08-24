@@ -49,6 +49,8 @@ final class Node extends Model
     {
         return match ($this->sort) {
             0 => 'Shadowsocks',
+            1 => 'WireGuard',
+            2 => 'TUIC',
             11 => 'V2Ray',
             14 => 'Trojan',
             default => '未知',
