@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Bot\Telegram;
 
-use App\Controllers\LinkController;
 use App\Controllers\SubController;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
@@ -798,8 +797,8 @@ final class Callback
 
             $sendMessage = [];
 
-            $UniversalSub_Url = SubController::getUniversalSub($this->User);
-            $TraditionalSub_Url = LinkController::getTraditionalSub($this->User);
+            $UniversalSub_Url = SubController::getUniversalSubLink($this->User);
+            $TraditionalSub_Url = SubController::getTraditionalSubLink($this->User);
             $text = match ($CallbackDataExplode[1]) {
                 'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL .
                     '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,

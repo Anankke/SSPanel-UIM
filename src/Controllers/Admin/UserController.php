@@ -114,10 +114,10 @@ final class UserController extends BaseController
         $password = $request->getParam('password');
         $balance = $request->getParam('balance');
 
-        if ($email === '' || ! Tools::isEmailLegal($email)) {
+        if ($email === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '邮箱格式错误',
+                'msg' => '邮箱不能为空',
             ]);
         }
 

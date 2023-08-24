@@ -46,8 +46,8 @@ final class UserController extends BaseController
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('captcha', $captcha)
                 ->assign('class_expire_days', $class_expire_days)
-                ->assign('UniversalSub', SubController::getUniversalSub($this->user))
-                ->assign('TraditionalSub', LinkController::getTraditionalSub($this->user))
+                ->assign('UniversalSub', SubController::getUniversalSubLink($this->user))
+                ->assign('TraditionalSub', SubController::getTraditionalSubLink($this->user))
                 ->fetch('user/index.tpl')
         );
     }
