@@ -34,13 +34,13 @@ final class Tool
      * Sends a POST request to Telegram Bot API.
      * 伪异步，无结果返回.
      *
-     * @param $Method
-     * @param $Params
+     * @param $method
+     * @param $params
      */
-    public static function sendPost($Method, $Params): void
+    public static function sendPost($method, $params): void
     {
-        $URL = 'https://api.telegram.org/bot' . Setting::obtain('telegram_token') . '/' . $Method;
-        $POSTData = json_encode($Params);
+        $URL = 'https://api.telegram.org/bot' . Setting::obtain('telegram_token') . '/' . $method;
+        $POSTData = json_encode($params);
         $C = curl_init();
         curl_setopt($C, CURLOPT_URL, $URL);
         curl_setopt($C, CURLOPT_POST, 1);

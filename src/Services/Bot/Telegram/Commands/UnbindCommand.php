@@ -26,25 +26,21 @@ final class UnbindCommand extends Command
 
     public function handle(): void
     {
-        $Update = $this->getUpdate();
-        $Message = $Update->getMessage();
+        $update = $this->getUpdate();
+        $message = $update->getMessage();
         // 消息会话 ID
-        $ChatID = $Message->getChat()->getId();
-
+        $chat_id = $message->getChat()->getId();
         // 触发用户
-        $SendUser = [
-            'id' => $Message->getFrom()->getId(),
+        $send_user = [
+            'id' => $message->getFrom()->getId(),
         ];
+        $user = Tool::getUser($send_user['id']);
 
-        $User = Tool::getUser($SendUser['id']);
-
-        if ($ChatID > 0) {
-            // 私人
-
+        if ($chat_id > 0) {
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-            if ($User === null) {
+            if ($user === null) {
                 // 回送信息
                 $this->replyWithMessage(
                     [
@@ -56,12 +52,12 @@ final class UnbindCommand extends Command
             }
 
             // 消息内容
-            $MessageText = explode(' ', trim($Message->getText()));
-            $MessageKey = array_splice($MessageText, -1)[0];
+            $message_text = explode(' ', trim($message->getText()));
+            $message_key = array_splice($message_text, -1)[0];
             $text = '';
 
-            if ($MessageKey === $User->email) {
-                $temp = $User->unbindIM();
+            if ($message_key === $user->email) {
+                $temp = $user->unbindIM();
                 $text = $temp['msg'];
                 // 回送信息
                 $this->replyWithMessage(
@@ -72,11 +68,13 @@ final class UnbindCommand extends Command
                 );
                 return;
             }
-            if ($MessageKey !== '') {
+
+            if ($message_key !== '') {
                 $text = '键入的 Email 地址与你的账户不匹配.';
             }
-            if ($MessageKey === '/unbind') {
-                $text = $this->sendtext();
+
+            if ($message_key === '/unbind') {
+                $text = $this->sendText();
             }
 
             // 回送信息
@@ -89,12 +87,14 @@ final class UnbindCommand extends Command
         }
     }
 
-    public function sendtext(): string
+    public function sendText(): string
     {
         $text = '以 `/unbind example@qq.com` 的形式发送进行解绑.';
+
         if (Setting::obtain('telegram_unbind_kick_member')) {
             $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，你解绑账户将会被自动移出用户群.';
         }
+
         return $text;
     }
 }

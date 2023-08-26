@@ -29,18 +29,17 @@ final class CheckinCommand extends Command
      */
     public function handle()
     {
-        $Update = $this->getUpdate();
-        $Message = $Update->getMessage();
-
+        $update = $this->getUpdate();
+        $message = $update->getMessage();
         // 消息会话 ID
-        $ChatID = $Message->getChat()->getId();
+        $chat_id = $message->getChat()->getId();
 
-        if ($ChatID < 0) {
+        if ($chat_id < 0) {
             if (Setting::obtain('telegram_group_quiet')) {
                 // 群组中不回应
                 return null;
             }
-            if ($ChatID !== Setting::obtain('telegram_chatid')) {
+            if ($chat_id !== Setting::obtain('telegram_chatid')) {
                 // 非我方群组
                 return null;
             }
@@ -50,30 +49,32 @@ final class CheckinCommand extends Command
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
         // 触发用户
-        $SendUser = [
-            'id' => $Message->getFrom()->getId(),
+        $send_user = [
+            'id' => $message->getFrom()->getId(),
         ];
-        $User = Tool::getUser($SendUser['id']);
-        if ($User === null) {
+        $user = Tool::getUser($send_user['id']);
+
+        if ($user === null) {
             // 回送信息
             $response = $this->replyWithMessage(
                 [
                     'text' => Setting::obtain('user_not_bind_reply'),
                     'parse_mode' => 'Markdown',
-                    'reply_to_message_id' => $Message->getMessageId(),
+                    'reply_to_message_id' => $message->getMessageId(),
                 ]
             );
         } else {
-            $checkin = $User->checkin();
+            $checkin = $user->checkin();
             // 回送信息
             $response = $this->replyWithMessage(
                 [
                     'text' => $checkin['msg'],
                     'parse_mode' => 'Markdown',
-                    'reply_to_message_id' => $Message->getMessageId(),
+                    'reply_to_message_id' => $message->getMessageId(),
                 ]
             );
         }
+
         return $response;
     }
 }

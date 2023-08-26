@@ -31,21 +31,19 @@ final class MyCommand extends Command
      */
     public function handle()
     {
-        $Update = $this->getUpdate();
-        $Message = $Update->getMessage();
-
+        $update = $this->getUpdate();
+        $message = $update->getMessage();
         // 消息 ID
-        $MessageID = $Message->getMessageId();
-
+        $message_id = $message->getMessageId();
         // 消息会话 ID
-        $ChatID = $Message->getChat()->getId();
+        $chat_id = $message->getChat()->getId();
 
-        if ($ChatID < 0) {
+        if ($chat_id < 0) {
             if (Setting::obtain('telegram_group_quiet')) {
                 // 群组中不回应
                 return null;
             }
-            if ($ChatID !== Setting::obtain('telegram_chatid')) {
+            if ($chat_id !== Setting::obtain('telegram_chatid')) {
                 // 非我方群组
                 return null;
             }
@@ -55,53 +53,54 @@ final class MyCommand extends Command
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
         // 触发用户
-        $SendUser = [
-            'id' => $Message->getFrom()->getId(),
-            'name' => $Message->getFrom()->getFirstName() . ' MyCommand.php' . $Message->getFrom()->getLastName(),
-            'username' => $Message->getFrom()->getUsername(),
+        $send_user = [
+            'id' => $message->getFrom()->getId(),
+            'name' => $message->getFrom()->getFirstName() . ' MyCommand.php' . $message->getFrom()->getLastName(),
+            'username' => $message->getFrom()->getUsername(),
         ];
 
-        $User = User::where('im_type', 4)->where('im_value', $SendUser['id'])->first();
-        if ($User === null) {
+        $user = User::where('im_type', 4)->where('im_value', $send_user['id'])->first();
+
+        if ($user === null) {
             // 回送信息
             $response = $this->replyWithMessage(
                 [
                     'text' => Setting::obtain('user_not_bind_reply'),
-                    'reply_to_message_id' => $MessageID,
+                    'reply_to_message_id' => $message_id,
                     'parse_mode' => 'Markdown',
                 ]
             );
         } else {
-            if ($ChatID > 0) {
+            if ($chat_id > 0) {
                 // 私人
                 $response = $this->triggerCommand('menu');
             } else {
                 // 群组
-                $response = $this->group($User, $SendUser, $ChatID, $Message, $MessageID);
+                $response = $this->group($user, $send_user, $chat_id, $message, $message_id);
             }
         }
 
         return $response;
     }
 
-    public function group($User, $SendUser, $ChatID, $Message, $MessageID)
+    public function group($user, $send_user, $chat_id, $message, $message_id)
     {
-        $text = Message::getUserTitle($User);
+        $text = Message::getUserTitle($user);
         $text .= PHP_EOL . PHP_EOL;
-        $text .= Message::getUserTrafficInfo($User);
+        $text .= Message::getUserTrafficInfo($user);
         // 回送信息
         return $this->replyWithMessage(
             [
                 'text' => $text,
                 'parse_mode' => 'Markdown',
-                'reply_to_message_id' => $MessageID,
+                'reply_to_message_id' => $message_id,
                 'reply_markup' => json_encode(
                     [
                         'inline_keyboard' => [
                             [
                                 [
-                                    'text' => (! $User->isAbleToCheckin() ? '已签到' : '签到'),
-                                    'callback_data' => 'user.checkin.' . $SendUser['id'],
+                                    'text' => (! $user->isAbleToCheckin() ? '已签到' : '签到'),
+                                    'callback_data' => 'user.checkin.' . $send_user['id'],
                                 ],
                             ],
                         ],
