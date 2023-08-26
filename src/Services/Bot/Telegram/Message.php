@@ -6,9 +6,9 @@ namespace App\Services\Bot\Telegram;
 
 use App\Models\Setting;
 use App\Models\User;
-use RedisException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\Message as TelegramMessage;
 use function in_array;
 use function json_decode;
 
@@ -22,42 +22,41 @@ final class Message
     /**
      * 触发用户TG信息
      */
-    private array $triggerUser;
+    private array $trigger_user;
 
     /**
      * 消息会话 ID
      */
-    private $ChatID;
+    private $chat_id;
 
     /**
      * 触发源信息
      */
-    private \Telegram\Bot\Objects\Message $Message;
+    private TelegramMessage $message;
 
     /**
      * 触发源信息 ID
      */
-    private $MessageID;
-    private $User;
+    private $message_id;
+    private $user;
 
     /**
      * @throws TelegramSDKException
-     * @throws RedisException
      */
-    public function __construct(Api $bot, \Telegram\Bot\Objects\Message $Message)
+    public function __construct(Api $bot, TelegramMessage $message)
     {
         $this->bot = $bot;
-        $this->triggerUser = [
-            'id' => $Message->getFrom()->getId(),
-            'name' => $Message->getFrom()->getFirstName() . ' Message.php' . $Message->getFrom()->getLastName(),
-            'username' => $Message->getFrom()->getUsername(),
+        $this->trigger_user = [
+            'id' => $message->getFrom()->getId(),
+            'name' => $message->getFrom()->getFirstName() . ' Message.php' . $message->getFrom()->getLastName(),
+            'username' => $message->getFrom()->getUsername(),
         ];
-        $this->User = Tool::getUser($this->triggerUser['id']);
-        $this->ChatID = $Message->getChat()->getId();
-        $this->Message = $Message;
-        $this->MessageID = $Message->getMessageId();
+        $this->user = Tool::getUser($this->trigger_user['id']);
+        $this->chat_id = $message->getChat()->getId();
+        $this->message = $message;
+        $this->message_id = $message->getMessageId();
 
-        if ($this->Message->getNewChatParticipant() !== null) {
+        if ($this->message->getNewChatParticipant() !== null) {
             $this->newChatParticipant();
         }
     }
@@ -65,21 +64,21 @@ final class Message
     /**
      * 回复讯息 | 默认已添加 chat_id 和 message_id
      *
-     * @param array $sendMessage
+     * @param array $send_message
      *
      * @throws TelegramSDKException
      */
-    public function replyWithMessage(array $sendMessage): void
+    public function replyWithMessage(array $send_message): void
     {
-        $sendMessage = array_merge(
+        $send_message = array_merge(
             [
-                'chat_id' => $this->ChatID,
-                'message_id' => $this->MessageID,
+                'chat_id' => $this->chat_id,
+                'message_id' => $this->message_id,
             ],
-            $sendMessage
+            $send_message
         );
 
-        $this->bot->sendMessage($sendMessage);
+        $this->bot->sendMessage($send_message);
     }
 
     /**
@@ -89,7 +88,7 @@ final class Message
      */
     public function newChatParticipant(): void
     {
-        $NewChatMember = $this->Message->getNewChatParticipant();
+        $NewChatMember = $this->message->getNewChatParticipant();
 
         $Member = [
             'id' => $NewChatMember->getId(),
@@ -100,7 +99,7 @@ final class Message
             // 机器人加入新群组
             if (! Setting::obtain('allow_to_join_new_groups')
                 &&
-                ! in_array($this->ChatID, json_decode(Setting::obtain('group_id_allowed_to_join')))) {
+                ! in_array($this->chat_id, json_decode(Setting::obtain('group_id_allowed_to_join')))) {
                 // 退群
 
                 $this->replyWithMessage(
@@ -112,7 +111,7 @@ final class Message
                 Tool::sendPost(
                     'kickChatMember',
                     [
-                        'chat_id' => $this->ChatID,
+                        'chat_id' => $this->chat_id,
                         'user_id' => $Member['id'],
                     ]
                 );
@@ -129,7 +128,7 @@ final class Message
 
             if (Setting::obtain('telegram_group_bound_user')
                 &&
-                $this->ChatID === Setting::obtain('telegram_chatid')
+                $this->chat_id === Setting::obtain('telegram_chatid')
                 &&
                 $NewUser === null
                 &&
@@ -144,7 +143,7 @@ final class Message
                 Tool::sendPost(
                     'kickChatMember',
                     [
-                        'chat_id' => $this->ChatID,
+                        'chat_id' => $this->chat_id,
                         'user_id' => $Member['id'],
                     ]
                 );

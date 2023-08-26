@@ -25,14 +25,14 @@ final class HelpCommand extends Command
 
     public function handle(): void
     {
-        $Update = $this->getUpdate();
-        $Message = $Update->getMessage();
+        $update = $this->getUpdate();
+        $message = $update->getMessage();
 
-        if ($Message->getChat()->getId() < 0 && Setting::obtain('telegram_group_quiet')) {
+        if ($message->getChat()->getId() < 0 && Setting::obtain('telegram_group_quiet')) {
             return;
         }
 
-        if (! preg_match('/^\/help\s?(@' . Setting::obtain('telegram_bot') . ')?.*/i', $Message->getText()) &&
+        if (! preg_match('/^\/help\s?(@' . Setting::obtain('telegram_bot') . ')?.*/i', $message->getText()) &&
             ! Setting::obtain('help_any_command')) {
             return;
         }
@@ -51,7 +51,7 @@ final class HelpCommand extends Command
                 'text' => $text,
                 'parse_mode' => 'Markdown',
                 'disable_web_page_preview' => false,
-                'reply_to_message_id' => $Message->getMessageId(),
+                'reply_to_message_id' => $message->getMessageId(),
                 'reply_markup' => null,
             ]
         );

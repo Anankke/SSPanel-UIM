@@ -30,24 +30,24 @@ final class MenuCommand extends Command
      */
     public function handle()
     {
-        $Update = $this->getUpdate();
-        $Message = $Update->getMessage();
+        $update = $this->getUpdate();
+        $message = $update->getMessage();
 
         // 消息会话 ID
-        $ChatID = $Message->getChat()->getId();
+        $chat_id = $message->getChat()->getId();
 
-        if ($ChatID > 0) {
+        if ($chat_id > 0) {
             // 私人会话
 
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
             // 触发用户
-            $SendUser = [
-                'id' => $Message->getFrom()->getId(),
+            $send_user = [
+                'id' => $message->getFrom()->getId(),
             ];
 
-            $user = Tool::getUser($SendUser['id']);
+            $user = Tool::getUser($send_user['id']);
             if ($user === null) {
                 $reply = null;
             } else {

@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Services\Bot\Telegram\Process;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
-use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use SmartyException;
@@ -20,7 +19,6 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 final class CallbackController extends BaseController
 {
     /**
-     * @throws RedisException
      * @throws InvalidDatabaseException
      * @throws SmartyException
      * @throws TelegramSDKException
@@ -35,7 +33,6 @@ final class CallbackController extends BaseController
 
     /**
      * @throws TelegramSDKException
-     * @throws RedisException
      * @throws InvalidDatabaseException
      */
     public function telegram(ServerRequest $request, Response $response, array $args): ResponseInterface
