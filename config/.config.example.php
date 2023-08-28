@@ -44,7 +44,7 @@ $_ENV['rate_limit_admin_api'] = 60;              //每分钟每个管理员的AP
 
 //邮件设置--------------------------------------------------------------------------------------------
 $_ENV['mail_filter']        = 0;            //0: 关闭; 1: 白名单模式; 2; 黑名单模式;
-$_ENV['mail_filter_list']   = array("qq.com", "vip.qq.com", "foxmail.com");
+$_ENV['mail_filter_list']   = [];
 
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
@@ -85,16 +85,10 @@ $_ENV['detect_gfw_port']     = 443;                                             
 $_ENV['detect_gfw_url']      = 'http://example.com:8080/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
 
 #离线检测
-$_ENV['enable_detect_offline']           = true;
+$_ENV['enable_detect_offline'] = true;
 
 // 主站是否提供 WebAPI
 $_ENV['WebAPI']     = true;
-
-#杂项
-$_ENV['authDriver']             = 'cookie';            //可选: cookie
-$_ENV['sessionDriver']          = 'cookie';            //可选: cookie
-$_ENV['cacheDriver']            = 'cookie';            //可选: cookie
-$_ENV['tokenDriver']            = 'db';                //可选: db
 
 $_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑定
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
@@ -106,24 +100,8 @@ $_ENV['jump_delay']             = 1200;                  //跳转延时，单位
 $_ENV['checkNodeIp']            = true;                 //是否webapi验证节点ip
 $_ENV['keep_connect']           = false;               // 流量耗尽用户限速至 1Mbps
 
-#Cloudflare
-$_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析
-$_ENV['cloudflare_email']       = '';            //Cloudflare 邮箱地址
-$_ENV['cloudflare_key']         = '';            //Cloudflare API Key
-$_ENV['cloudflare_name']        = '';            //域名
-
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $_ENV['enable_analytics_code']  = false;
-
-#在套了CDN之后获取用户真实ip，如果你不知道这是什么，请不要乱动
-$_ENV['cdn_forwarded_ip'] = array('HTTP_X_FORWARDED_FOR', 'HTTP_ALI_CDN_REAL_IP', 'X-Real-IP', 'True-Client-Ip');
-foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
-    if (isset($_SERVER[$cdn_forwarded_ip])) {
-        $list = explode(',', $_SERVER[$cdn_forwarded_ip]);
-        $_SERVER['REMOTE_ADDR'] = $list[0];
-        break;
-    }
-}
 
 $_ENV['jsdelivr_url'] = 'fastly.jsdelivr.net'; // cdn.jsdelivr.net / fastly.jsdelivr.net / gcore.jsdelivr.net / testingcf.jsdelivr.net
 
@@ -135,16 +113,25 @@ $_ENV['maxmind_license_key'] = '';
 $_ENV['geoip_locale'] = 'en';
 
 // Large language model powered ticket reply and more
-$_ENV['llm_backend'] = 'openai'; // openai or palm
+$_ENV['llm_backend'] = 'openai'; // openai/palm/huggingface
 // OpenAI ChatGPT
 $_ENV['openai_api_key'] = '';
-$_ENV['openai_model'] = 'gpt-3.5-turbo-16k-0613';
+$_ENV['openai_model'] = 'gpt-3.5-turbo-16k';
 // Google PaLM API
 $_ENV['palm_api_key'] = '';
 $_ENV['palm_text_model'] = 'text-bison-001';
+// Hugging Face Inference API
+$_ENV['huggingface_api_key'] = '';
+$_ENV['huggingface_endpoint_url'] = '';
 
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';
+
+#Cloudflare
+$_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析
+$_ENV['cloudflare_email']       = '';            //Cloudflare 邮箱地址
+$_ENV['cloudflare_key']         = '';            //Cloudflare API Key
+$_ENV['cloudflare_name']        = '';            //域名
 
 // use Cloudflare R2 for clients download
 $_ENV['enable_r2_client_download'] = false;
