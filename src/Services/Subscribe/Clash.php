@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Models\Node;
+use App\Utils\Tools;
 use Symfony\Component\Yaml\Yaml;
 use function array_key_exists;
 use function array_merge;
@@ -19,15 +19,7 @@ final class Clash extends Base
         $clash_config = $_ENV['Clash_Config'];
         $clash_group_indexes = $_ENV['Clash_Group_Indexes'];
         $clash_group_config = $_ENV['Clash_Group_Config'];
-
-        //篩選出用戶能連接的節點
-        $nodes_raw = Node::where('type', 1)
-            ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->node_group])
-            ->where(static function ($query): void {
-                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-            })
-            ->get();
+        $nodes_raw = Tools::getSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
