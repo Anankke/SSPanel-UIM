@@ -37,7 +37,7 @@
         "slim/slim": "^4.11",
         "smarty/smarty": "^4",
         "srmklive/paypal": "~3.0",
-        "stripe/stripe-php": "^10",
+        "stripe/stripe-php": "^12",
         "symfony/yaml": "^6",
         "tronovav/geoip2-update": "^2.1",
         "vectorface/googleauthenticator": "^3.0",
