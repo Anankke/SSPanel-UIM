@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fcedaff11e3ab25db456faff60ebd95",
+    "content-hash": "62a05154b69ea08eb91b388933a3baac",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -2718,16 +2718,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.6.4",
+            "version": "v0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "6e0738a3f052fb0d27bd57136fff47db96248f65"
+                "reference": "77b073f58d1472a8e17b59a36ed1b29bfec19d19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/6e0738a3f052fb0d27bd57136fff47db96248f65",
-                "reference": "6e0738a3f052fb0d27bd57136fff47db96248f65",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/77b073f58d1472a8e17b59a36ed1b29bfec19d19",
+                "reference": "77b073f58d1472a8e17b59a36ed1b29bfec19d19",
                 "shasum": ""
             },
             "require": {
@@ -2744,7 +2744,7 @@
                 "guzzlehttp/psr7": "^2.5.0",
                 "laravel/pint": "^1.10.3",
                 "nunomaduro/collision": "^7.7.0",
-                "pestphp/pest": "dev-develop as 2.6.2",
+                "pestphp/pest": "^2.16.0",
                 "pestphp/pest-plugin-arch": "^2.2.1",
                 "pestphp/pest-plugin-mock": "^2.0.0",
                 "pestphp/pest-plugin-type-coverage": "^2.0.0",
@@ -2790,7 +2790,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.6.4"
+                "source": "https://github.com/openai-php/client/tree/v0.7.2"
             },
             "funding": [
                 {
@@ -2806,7 +2806,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-18T22:59:43+00:00"
+            "time": "2023-08-31T12:15:17+00:00"
         },
         {
             "name": "ozdemir/datatables",
