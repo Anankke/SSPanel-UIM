@@ -641,6 +641,16 @@
     },
     {
         "id": null,
+        "item": "aws_ses_name",
+        "value": "",
+        "class": "aws_ses",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws ses发件人名称"
+    },	
+    {
+        "id": null,
         "item": "enable_telegram",
         "value": "0",
         "class": "telegram",
