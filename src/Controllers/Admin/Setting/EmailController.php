@@ -42,6 +42,7 @@ final class EmailController extends BaseController
         'aws_secret_access_key',
         'aws_region',
         'aws_ses_sender',
+        'aws_ses_name',    
         // Postal
         'postal_host',
         'postal_key',
