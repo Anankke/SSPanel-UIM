@@ -279,6 +279,12 @@
                                         <input id="aws_ses_sender" type="text" class="form-control" value="{$settings['aws_ses_sender']}">
                                     </div>
                                 </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">AWS SES 发件人名称</label>
+                                    <div class="col">
+                                        <input id="aws_ses_name" type="text" class="form-control" value="{$settings['aws_ses_name']}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
