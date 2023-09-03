@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Services\Mail;
 
 use App\Models\Setting;
-use Aws\Ses\SesClient;
+use Aws\SesV2\SesV2Client;
 
 final class Ses extends Base
 {
-    private SesClient $ses;
+    private SesV2Client $ses;
 
     public function __construct()
     {
         $configs = Setting::getClass('aws_ses');
 
-        $ses = new SesClient([
+        $ses = new SesV2Client([
             'credentials' => [
                 'key' => $configs['aws_access_key_id'],
                 'secret' => $configs['aws_secret_access_key'],
@@ -36,24 +36,25 @@ final class Ses extends Base
             'Destination' => [
                 'ToAddresses' => [$to],
             ],
-            'Source' => Setting::obtain('aws_ses_sender'),
-            'Message' => [
-                'Body' => [
-                    'Html' => [
-                        'Charset' => $char_set,
-                        'Data' => $text,
+            'FromEmailAddress' => Setting::obtain('aws_ses_sender'),
+            'Content' => [                        
+                'Simple' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => $char_set,
+                            'Data' => $text,
+                        ],
+                        'Text' => [
+                            'Charset' => $char_set,
+                            'Data' => $text,
+                        ],
                     ],
-                    'Text' => [
+                    'Subject' => [
                         'Charset' => $char_set,
-                        'Data' => $text,
+                        'Data' => $subject,
                     ],
-                ],
-                'Subject' => [
-                    'Charset' => $char_set,
-                    'Data' => $subject,
                 ],
             ],
-
         ]);
     }
 }
