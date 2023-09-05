@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\Link;
+use App\Models\Node;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
@@ -324,5 +325,23 @@ final class Tools
         };
 
         return is_null($number) ? 0.00 : round(floatval($number), 2);
+    }
+
+    /**
+     * @param $user
+     *
+     * @return mixed
+     */
+    public static function getSubNodes($user): mixed
+    {
+        return Node::where('type', 1)
+            ->where('node_class', '<=', $user->class)
+            ->whereIn('node_group', [0, $user->node_group])
+            ->where(static function ($query): void {
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+            })
+            ->orderBy('node_class')
+            ->orderBy('name')
+            ->get();
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Models\Node;
 use App\Models\Setting;
+use App\Utils\Tools;
 use function array_key_exists;
 use function json_decode;
 use const PHP_EOL;
@@ -19,14 +19,8 @@ final class SIP002 extends Base
         if (! Setting::obtain('enable_ss_sub')) {
             return $links;
         }
-        //篩選出用戶能連接的節點
-        $nodes_raw = Node::where('type', 1)
-            ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->node_group])
-            ->where(static function ($query): void {
-                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-            })
-            ->get();
+
+        $nodes_raw = Tools::getSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);

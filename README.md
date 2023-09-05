@@ -18,7 +18,7 @@
 
 [![Telegram 通知频道](https://img.shields.io/badge/Telegram-通知频道-blue?style=flat-square)](https://t.me/sspanel_uim)
 [![Telegram 开发频道](https://img.shields.io/badge/Telegram-开发频道-blue?style=flat-square)](https://t.me/sspanel_uim_dev)
-[![Discord](https://img.shields.io/discord/1049692075085549600?label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
+[![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
 [![Dev Blog](https://img.shields.io/badge/Blog-Dev-blue?style=flat-square)](https://blog.sspanel.org)
 
 ## 简介
