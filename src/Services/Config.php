@@ -18,7 +18,6 @@ final class Config
             'checkinMax' => $_ENV['checkinMax'],
 
             'jump_delay' => $_ENV['jump_delay'],
-            'enable_analytics_code' => $_ENV['enable_analytics_code'],
 
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],

@@ -21,7 +21,6 @@ class ConfigTest extends TestCase
             'checkinMin' => 10,
             'checkinMax' => 20,
             'jump_delay' => 5,
-            'enable_analytics_code' => false,
             'enable_kill' => true,
             'enable_change_email' => false,
             'subscribeLog' => true,
@@ -37,7 +36,6 @@ class ConfigTest extends TestCase
             'checkinMin' => 10,
             'checkinMax' => 20,
             'jump_delay' => 5,
-            'enable_analytics_code' => false,
             'enable_kill' => true,
             'enable_change_email' => false,
             'subscribeLog' => true,
@@ -54,7 +52,6 @@ class ConfigTest extends TestCase
         $this->assertSame($mockEnv['checkinMin'], $config['checkinMin']);
         $this->assertSame($mockEnv['checkinMax'], $config['checkinMax']);
         $this->assertSame($mockEnv['jump_delay'], $config['jump_delay']);
-        $this->assertSame($mockEnv['enable_analytics_code'], $config['enable_analytics_code']);
         $this->assertSame($mockEnv['enable_kill'], $config['enable_kill']);
         $this->assertSame($mockEnv['enable_change_email'], $config['enable_change_email']);
         $this->assertSame($mockEnv['subscribeLog'], $config['subscribeLog']);

@@ -54,6 +54,7 @@ final class SubController extends BaseController
 
         $user = $link->user();
         $sub_info = Subscribe::getContent($user, $subtype);
+
         $content_type = match ($subtype) {
             'clash' => 'application/yaml',
             default => 'application/json',
