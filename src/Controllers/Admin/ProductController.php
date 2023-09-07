@@ -83,6 +83,14 @@ final class ProductController extends BaseController
         $content = json_decode($product->content);
         $limit = json_decode($product->limit);
 
+        $content->time = $content->time ?? 0;
+        $content->class = $content->class ?? 0;
+        $content->class_time = $content->class_time ?? 0;
+        $content->bandwidth = $content->bandwidth ?? 0;
+        $content->node_group = $content->node_group ?? 0;
+        $content->speed_limit = $content->speed_limit ?? 0;
+        $content->ip_limit = $content->ip_limit ?? 0;
+
         return $response->write(
             $this->view()
                 ->assign('product', $product)
