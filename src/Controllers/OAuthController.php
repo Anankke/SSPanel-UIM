@@ -97,6 +97,7 @@ final class OAuthController extends BaseController
         $code_response = $client->post($slack_api_url, [
             'headers' => $code_headers,
             'form_params' => $code_body,
+            'timeout' => 3,
         ]);
 
         if (! json_decode($code_response->getBody()->__toString())->ok) {
@@ -161,6 +162,7 @@ final class OAuthController extends BaseController
         $code_response = $client->post($discord_api_url, [
             'headers' => $code_headers,
             'form_params' => $code_body,
+            'timeout' => 3,
         ]);
 
         if ($code_response->getStatusCode() !== 200) {

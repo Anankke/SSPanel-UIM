@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Bot\Telegram;
 
 use App\Models\Setting;
+use GuzzleHttp\Exception\GuzzleException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\RequestInterface;
 use Telegram\Bot\Api;
@@ -15,6 +16,7 @@ final class Process
     /**
      * @throws InvalidDatabaseException
      * @throws TelegramSDKException
+     * @throws GuzzleException
      */
     public static function index(RequestInterface $request): void
     {
@@ -31,6 +33,7 @@ final class Process
         ]);
 
         $bot->commandsHandler(true, $request);
+        $bot->setConnectTimeOut(1);
         $update = $bot->getWebhookUpdate();
 
         if ($update->has('callback_query')) {

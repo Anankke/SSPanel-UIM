@@ -112,6 +112,7 @@ final class LLM
         $response = json_decode($client->post($api_url, [
             'headers' => $headers,
             'json' => $data,
+            'timeout' => 10,
         ])->getBody()->getContents());
 
         return $response->candidates[0]->output;
@@ -146,6 +147,7 @@ final class LLM
         $response = json_decode($client->post($_ENV['huggingface_endpoint_url'], [
             'headers' => $headers,
             'json' => $data,
+            'timeout' => 10,
         ])->getBody()->getContents());
 
         return $response->answer;

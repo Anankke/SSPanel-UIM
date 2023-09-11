@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.281.1",
+            "version": "3.281.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d7a52685e00941636f25f4d53f26a4fa186f36d4"
+                "reference": "a3cfb20dbfb11117b7174b2594fc597745252e0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d7a52685e00941636f25f4d53f26a4fa186f36d4",
-                "reference": "d7a52685e00941636f25f4d53f26a4fa186f36d4",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a3cfb20dbfb11117b7174b2594fc597745252e0c",
+                "reference": "a3cfb20dbfb11117b7174b2594fc597745252e0c",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.281.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.281.3"
             },
-            "time": "2023-09-06T18:09:38+00:00"
+            "time": "2023-09-08T18:06:26+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2402,16 +2402,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.69.0",
+            "version": "2.70.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "4308217830e4ca445583a37d1bf4aff4153fa81c"
+                "reference": "d3298b38ea8612e5f77d38d1a99438e42f70341d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4308217830e4ca445583a37d1bf4aff4153fa81c",
-                "reference": "4308217830e4ca445583a37d1bf4aff4153fa81c",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/d3298b38ea8612e5f77d38d1a99438e42f70341d",
+                "reference": "d3298b38ea8612e5f77d38d1a99438e42f70341d",
                 "shasum": ""
             },
             "require": {
@@ -2504,7 +2504,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-03T09:00:52+00:00"
+            "time": "2023-09-07T16:43:50+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -2718,16 +2718,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.7.2",
+            "version": "v0.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "77b073f58d1472a8e17b59a36ed1b29bfec19d19"
+                "reference": "86ffa2abe167d6192f01d4df90f83a97c8533303"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/77b073f58d1472a8e17b59a36ed1b29bfec19d19",
-                "reference": "77b073f58d1472a8e17b59a36ed1b29bfec19d19",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/86ffa2abe167d6192f01d4df90f83a97c8533303",
+                "reference": "86ffa2abe167d6192f01d4df90f83a97c8533303",
                 "shasum": ""
             },
             "require": {
@@ -2790,7 +2790,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.7.2"
+                "source": "https://github.com/openai-php/client/tree/v0.7.3"
             },
             "funding": [
                 {
@@ -2806,7 +2806,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-31T12:15:17+00:00"
+            "time": "2023-09-08T08:48:59+00:00"
         },
         {
             "name": "ozdemir/datatables",
@@ -4789,16 +4789,16 @@
         },
         {
             "name": "srmklive/paypal",
-            "version": "3.0.23",
+            "version": "3.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/srmklive/laravel-paypal.git",
-                "reference": "40f1c8d318366056cf585e62505967c67d29296c"
+                "reference": "f9b3e6162f4b7ded0f53737101af5cf1ea9a02a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/40f1c8d318366056cf585e62505967c67d29296c",
-                "reference": "40f1c8d318366056cf585e62505967c67d29296c",
+                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/f9b3e6162f4b7ded0f53737101af5cf1ea9a02a2",
+                "reference": "f9b3e6162f4b7ded0f53737101af5cf1ea9a02a2",
                 "shasum": ""
             },
             "require": {
@@ -4849,9 +4849,9 @@
             ],
             "support": {
                 "issues": "https://github.com/srmklive/laravel-paypal/issues",
-                "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.23"
+                "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.24"
             },
-            "time": "2023-09-06T16:56:49+00:00"
+            "time": "2023-09-06T22:26:06+00:00"
         },
         {
             "name": "starkbank/ecdsa",
@@ -4898,16 +4898,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v12.1.0",
+            "version": "v12.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "8ef18513811e3ad0cac50f699deac4032409ae07"
+                "reference": "07829f2102362b0bfe0b680dab801e00cc4dce89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/8ef18513811e3ad0cac50f699deac4032409ae07",
-                "reference": "8ef18513811e3ad0cac50f699deac4032409ae07",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/07829f2102362b0bfe0b680dab801e00cc4dce89",
+                "reference": "07829f2102362b0bfe0b680dab801e00cc4dce89",
                 "shasum": ""
             },
             "require": {
@@ -4953,9 +4953,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v12.1.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v12.2.0"
             },
-            "time": "2023-08-31T20:23:14+00:00"
+            "time": "2023-09-07T18:03:22+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7119,16 +7119,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.25.1",
+            "version": "v3.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "8e21d69801de6b5ecb0dbe0bcdf967b335b1260b"
+                "reference": "d023ba6684055f6ea1da1352d8a02baca0426983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/8e21d69801de6b5ecb0dbe0bcdf967b335b1260b",
-                "reference": "8e21d69801de6b5ecb0dbe0bcdf967b335b1260b",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d023ba6684055f6ea1da1352d8a02baca0426983",
+                "reference": "d023ba6684055f6ea1da1352d8a02baca0426983",
                 "shasum": ""
             },
             "require": {
@@ -7202,7 +7202,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.25.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.26.1"
             },
             "funding": [
                 {
@@ -7210,7 +7210,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-04T01:22:52+00:00"
+            "time": "2023-09-08T19:09:07+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -7755,16 +7755,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.23.1",
+            "version": "1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "846ae76eef31c6d7790fac9bc399ecee45160b26"
+                "reference": "3510b0a6274cc42f7219367cb3abfc123ffa09d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/846ae76eef31c6d7790fac9bc399ecee45160b26",
-                "reference": "846ae76eef31c6d7790fac9bc399ecee45160b26",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/3510b0a6274cc42f7219367cb3abfc123ffa09d6",
+                "reference": "3510b0a6274cc42f7219367cb3abfc123ffa09d6",
                 "shasum": ""
             },
             "require": {
@@ -7796,9 +7796,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.23.1"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.0"
             },
-            "time": "2023-08-03T16:32:59+00:00"
+            "time": "2023-09-07T20:46:32+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -8706,16 +8706,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "f3ec4bf931c0b31e5b413f5b4fc970a7d03338c0"
+                "reference": "32ff03d078fed1279c4ec9a407d08c5e9febb480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/f3ec4bf931c0b31e5b413f5b4fc970a7d03338c0",
-                "reference": "f3ec4bf931c0b31e5b413f5b4fc970a7d03338c0",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/32ff03d078fed1279c4ec9a407d08c5e9febb480",
+                "reference": "32ff03d078fed1279c4ec9a407d08c5e9febb480",
                 "shasum": ""
             },
             "require": {
@@ -8771,7 +8771,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/5.0.0"
+                "security": "https://github.com/sebastianbergmann/exporter/security/policy",
+                "source": "https://github.com/sebastianbergmann/exporter/tree/5.0.1"
             },
             "funding": [
                 {
@@ -8779,7 +8780,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-03T07:06:49+00:00"
+            "time": "2023-09-08T04:46:58+00:00"
         },
         {
             "name": "sebastian/global-state",

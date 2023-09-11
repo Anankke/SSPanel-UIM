@@ -7,6 +7,8 @@ namespace App\Services\Bot\Telegram\Commands;
 use App\Models\Setting;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function preg_match;
+use const PHP_EOL;
 
 /**
  * Class HelpCommand.

@@ -10,6 +10,7 @@ use App\Services\Bot\Telegram\Message;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function json_encode;
+use const PHP_EOL;
 
 /**
  * Class MyCommand.
