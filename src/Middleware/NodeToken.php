@@ -42,7 +42,10 @@ final class NodeToken implements MiddlewareInterface
             ]);
         }
 
-        if (! $_ENV['WebAPI'] || $key !== $_ENV['muKey']) {
+        if (! $_ENV['webAPI'] ||
+            $key !== $_ENV['muKey'] ||
+            'https://' . $request->getHeaderLine('Host') !== $_ENV['webAPIUrl']
+        ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
                 'data' => 'Invalid request.',

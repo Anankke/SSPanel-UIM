@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Bot\Telegram\Commands;
 
 use App\Models\Setting;
-use App\Services\Bot\Telegram\Tool;
+use App\Services\Bot\Telegram\Message;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -52,7 +52,7 @@ final class CheckinCommand extends Command
         $send_user = [
             'id' => $message->getFrom()->getId(),
         ];
-        $user = Tool::getUser($send_user['id']);
+        $user = Message::getUser($send_user['id']);
 
         if ($user === null) {
             // 回送信息

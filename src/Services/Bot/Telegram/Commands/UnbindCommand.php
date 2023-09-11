@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Services\Bot\Telegram\Commands;
 
 use App\Models\Setting;
-use App\Services\Bot\Telegram\Tool;
+use App\Services\Bot\Telegram\Message;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function array_splice;
+use function explode;
+use function trim;
+use const PHP_EOL;
 
 /**
  * Class UnbindCommand.
@@ -34,7 +38,7 @@ final class UnbindCommand extends Command
         $send_user = [
             'id' => $message->getFrom()->getId(),
         ];
-        $user = Tool::getUser($send_user['id']);
+        $user = Message::getUser($send_user['id']);
 
         if ($chat_id > 0) {
             // 发送 '输入中' 会话状态

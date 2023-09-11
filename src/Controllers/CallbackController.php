@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Setting;
 use App\Services\Bot\Telegram\Process;
+use GuzzleHttp\Exception\GuzzleException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -21,7 +22,7 @@ final class CallbackController extends BaseController
     /**
      * @throws InvalidDatabaseException
      * @throws SmartyException
-     * @throws TelegramSDKException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -33,7 +34,7 @@ final class CallbackController extends BaseController
 
     /**
      * @throws TelegramSDKException
-     * @throws InvalidDatabaseException
+     * @throws InvalidDatabaseException|GuzzleException
      */
     public function telegram(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

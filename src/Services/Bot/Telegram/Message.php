@@ -6,11 +6,16 @@ namespace App\Services\Bot\Telegram;
 
 use App\Models\Setting;
 use App\Models\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Collection;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\Message as TelegramMessage;
+use function array_merge;
+use function implode;
 use function in_array;
 use function json_decode;
+use const PHP_EOL;
 
 final class Message
 {
@@ -32,7 +37,7 @@ final class Message
     /**
      * 触发源信息
      */
-    private TelegramMessage $message;
+    private Collection $message;
 
     /**
      * 触发源信息 ID
@@ -41,17 +46,19 @@ final class Message
     private $user;
 
     /**
-     * @throws TelegramSDKException
+     * @throws TelegramSDKException|GuzzleException
      */
-    public function __construct(Api $bot, TelegramMessage $message)
+    public function __construct(Api $bot, Collection $message)
     {
         $this->bot = $bot;
+
         $this->trigger_user = [
             'id' => $message->getFrom()->getId(),
             'name' => $message->getFrom()->getFirstName() . ' Message.php' . $message->getFrom()->getLastName(),
             'username' => $message->getFrom()->getUsername(),
         ];
-        $this->user = Tool::getUser($this->trigger_user['id']);
+
+        $this->user = self::getUser($this->trigger_user['id']);
         $this->chat_id = $message->getChat()->getId();
         $this->message = $message;
         $this->message_id = $message->getMessageId();
@@ -85,6 +92,7 @@ final class Message
      * 入群检测
      *
      * @throws TelegramSDKException
+     * @throws GuzzleException
      */
     public function newChatParticipant(): void
     {
@@ -108,7 +116,7 @@ final class Message
                     ]
                 );
 
-                Tool::sendPost(
+                self::sendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $this->chat_id,
@@ -124,7 +132,7 @@ final class Message
             }
         } else {
             // 新成员加入群组
-            $NewUser = Tool::getUser($Member['id']);
+            $NewUser = self::getUser($Member['id']);
 
             if (Setting::obtain('telegram_group_bound_user')
                 &&
@@ -140,7 +148,7 @@ final class Message
                     ]
                 );
 
-                Tool::sendPost(
+                self::sendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $this->chat_id,
@@ -208,5 +216,44 @@ final class Message
         }
 
         return $text;
+    }
+
+    /**
+     * Sends a POST request to Telegram Bot API.
+     * 伪异步，无结果返回.
+     *
+     * @param $method
+     * @param $params
+     *
+     * @throws GuzzleException
+     */
+    public static function sendPost($method, $params): void
+    {
+        $client = new Client();
+        $telegram_api_url = 'https://api.telegram.org/bot' . Setting::obtain('telegram_token') . '/' . $method;
+
+        $headers = [
+            'Content-Type' => 'application/json; charset=utf-8',
+        ];
+
+        $client->post(
+            $telegram_api_url,
+            [
+                'headers' => $headers,
+                'json' => $params,
+                'timeout' => 1,
+            ]
+        );
+    }
+
+    /**
+     * 搜索用户
+     *
+     * @param int $value  搜索值
+     * @param string $method 查找列
+     */
+    public static function getUser(int $value, string $method = 'im_value')
+    {
+        return User::where('im_type', 4)->where($method, $value)->first();
     }
 }
