@@ -27,7 +27,7 @@ final class SubController extends BaseController
         $err_msg = '订阅链接无效';
 
         $subtype = $args['subtype'];
-        $subtype_list = ['json', 'clash', 'sip008'];
+        $subtype_list = ['json', 'clash', 'sip008', 'singbox'];
 
         if (! $_ENV['Subscribe'] ||
             ! in_array($subtype, $subtype_list) ||

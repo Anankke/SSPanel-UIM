@@ -187,6 +187,9 @@
                                         <p>
                                             通用订阅（clash）：<code>{$UniversalSub}/clash</code>
                                         </p>
+                                        <p>
+                                            通用订阅（sing-box）：<code>{$UniversalSub}/singbox</code>
+                                        </p>
                                         {if $public_setting['enable_ss_sub']}
                                             <p>
                                                 通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
@@ -200,6 +203,10 @@
                                             <a data-clipboard-text="{$UniversalSub}/clash"
                                                class="copy btn btn-primary">
                                                 复制通用订阅（clash）
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/singbox"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（sing-box）
                                             </a>
                                             {if $public_setting['enable_ss_sub']}
                                                 <a data-clipboard-text="{$UniversalSub}/sip008"
