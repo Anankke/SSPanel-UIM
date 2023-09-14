@@ -65,7 +65,12 @@ final class UserController extends BaseController
 
         foreach ($logins as $login) {
             $login->datetime = Tools::toDateTime((int) $login->datetime);
-            $login->location = Tools::getIpLocation($login->ip);
+
+            try {
+                $login->location = Tools::getIpLocation($login->ip);
+            } catch (Exception) {
+                $login->location = '未知';
+            }
         }
 
         foreach ($ips as $ip) {

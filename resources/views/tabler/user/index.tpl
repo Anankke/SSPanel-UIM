@@ -187,10 +187,13 @@
                                         <p>
                                             通用订阅（clash）：<code>{$UniversalSub}/clash</code>
                                         </p>
+                                        <p>
+                                            通用订阅（sing-box）：<code>{$UniversalSub}/singbox</code>
+                                        </p>
                                         {if $public_setting['enable_ss_sub']}
-                                            <p>
-                                                通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
-                                            </p>
+                                        <p>
+                                            通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
+                                        </p>
                                         {/if}
                                         <div class="btn-list justify-content-start">
                                             <a data-clipboard-text="{$UniversalSub}/json"
@@ -201,11 +204,15 @@
                                                class="copy btn btn-primary">
                                                 复制通用订阅（clash）
                                             </a>
+                                            <a data-clipboard-text="{$UniversalSub}/singbox"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（sing-box）
+                                            </a>
                                             {if $public_setting['enable_ss_sub']}
-                                                <a data-clipboard-text="{$UniversalSub}/sip008"
-                                                   class="copy btn btn-primary">
-                                                    复制通用订阅（sip008）
-                                                </a>
+                                            <a data-clipboard-text="{$UniversalSub}/sip008"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（sip008）
+                                            </a>
                                             {/if}
                                         </div>
                                     </div>
@@ -219,15 +226,19 @@
                                                 传统订阅（Shadowsocks SIP002）：<code>{$TraditionalSub}?sip002=1</code>
                                             </p>
                                             {/if}
-                                            {if $public_setting['enable_v2_sub']}<p>
-                                                传统订阅（V2Ray）：<code>{$TraditionalSub}?v2ray=1</code></p>
+                                            {if $public_setting['enable_v2_sub']}
+                                            <p>
+                                                传统订阅（V2Ray）：<code>{$TraditionalSub}?v2ray=1</code>
+                                            </p>
                                             {/if}
-                                            {if $public_setting['enable_trojan_sub']}<p>
-                                                传统订阅（Trojan）：<code>{$TraditionalSub}?trojan=1</code></p>
+                                            {if $public_setting['enable_trojan_sub']}
+                                            <p>
+                                                传统订阅（Trojan）：<code>{$TraditionalSub}?trojan=1</code>
+                                            </p>
                                             {/if}
                                             <div class="btn-list justify-content-start">
                                                 {if $public_setting['enable_ss_sub']}
-                                                <a data-clipboard-text="{$TraditionalSub}?ss=1"class="copy btn btn-primary">
+                                                <a data-clipboard-text="{$TraditionalSub}?ss=1" class="copy btn btn-primary">
                                                     复制传统订阅（Shadowsocks）
                                                 </a>
                                                 <a data-clipboard-text="{$TraditionalSub}?sip002=1" class="copy btn btn-primary">
@@ -235,25 +246,27 @@
                                                 </a>
                                                 {/if}
                                                 {if $public_setting['enable_v2_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?v2ray=1"class="copy btn btn-primary">复制传统订阅（V2Ray）</a>
+                                                <a data-clipboard-text="{$TraditionalSub}?v2ray=1" class="copy btn btn-primary">
+                                                    复制传统订阅（V2Ray）
+                                                </a>
                                                 {/if}
                                                 {if $public_setting['enable_trojan_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?trojan=1"class="copy btn btn-primary">复制传统订阅（Trojan）</a>
+                                                <a data-clipboard-text="{$TraditionalSub}?trojan=1" class="copy btn btn-primary">
+                                                    复制传统订阅（Trojan）
+                                                </a>
                                                 {/if}
                                                 <a {if $config['enable_r2_client_download']}
                                                         href="/user/clients/v2rayN-Core.zip"
                                                     {else}
                                                         href="/clients/v2rayN-Core.zip"
-                                                    {/if}
-                                                   class="btn btn-primary">
+                                                    {/if} class="btn btn-azure">
                                                     下载 v2rayN（Windows）
                                                 </a>
                                                 <a {if $config['enable_r2_client_download']}
                                                         href="/user/clients/v2rayNG.apk"
                                                     {else}
                                                         href="/clients/v2rayNG.apk"
-                                                    {/if}
-                                                   class="btn btn-primary">
+                                                    {/if} class="btn btn-azure">
                                                     下载 v2rayNG（Android）
                                                 </a>
                                             </div>
@@ -266,21 +279,20 @@
                                             适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
                                         </p>
                                         <div class="btn-list justify-content-start">
+                                            <a
+                                            {if $config['enable_r2_client_download']}
+                                                href="/user/clients/Clash.Verge.exe"
+                                            {else}
+                                                href="/clients/Clash.Verge.exe"
+                                            {/if} class="btn btn-azure">
+                                                下载 Clash Verge
+                                            </a>
                                             <a data-clipboard-text="{$UniversalSub}/clash"
                                                class="copy btn btn-primary">
                                                 复制 Clash 订阅链接
                                             </a>
-                                            <a
-                                               {if $config['enable_r2_client_download']}
-                                                    href="/user/clients/Clash.Verge.exe"
-                                               {else}
-                                                    href="/clients/Clash.Verge.exe"
-                                               {/if}
-                                               class="btn btn-primary">
-                                                下载 Clash Verge
-                                            </a>
                                             <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                               class="btn btn-primary">
+                                               class="btn btn-indigo">
                                                 导入 Clash
                                             </a>
                                         </div>
@@ -290,30 +302,41 @@
                                     <p>
                                         适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
                                     </p>
+                                    <p>
+                                        适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
+                                    </p>
                                     <div class="btn-list justify-content-start">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Clash.Verge_aarch64.dmg"
+                                        {else}
+                                            href="/clients/Clash.Verge_aarch64.dmg"
+                                        {/if} class="btn btn-azure">
+                                            下载 Clash Verge (aarch64)
+                                        </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
                                         </a>
-                                        <a {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash.Verge_aarch64.dmg"
-                                            {else}
-                                                href="/clients/Clash.Verge_aarch64.dmg"
-                                            {/if}
-                                           class="btn btn-primary">
-                                            下载 Clash Verge (aarch64)
-                                        </a>
-                                        <a {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash.Verge_x64.dmg"
-                                            {else}
-                                                href="/clients/Clash.Verge_x64.dmg"
-                                            {/if}
-                                           class="btn btn-primary">
-                                            下载 Clash Verge (x86_64)
-                                        </a>
                                         <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-primary">
+                                           class="btn btn-indigo">
                                             导入 Clash
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/SFM.zip"
+                                        {else}
+                                            href="/clients/SFM.zip"
+                                        {/if} class="btn btn-azure">
+                                            下载 SFM
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/singbox"
+                                           class="copy btn btn-primary">
+                                            复制 sing-box 订阅链接
+                                        </a>
+                                        <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 SFM
                                         </a>
                                     </div>
                                 </div>
@@ -321,22 +344,41 @@
                                     <p>
                                         适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
                                     </p>
+                                    <p>
+                                        适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
+                                    </p>
                                     <div class="btn-list justify-content-start">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Clash-Android.apk"
+                                        {else}
+                                            href="/clients/Clash-Android.apk"
+                                        {/if} class="btn btn-azure">
+                                            下载 Clash for Android
+                                        </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
                                         </a>
-                                        <a {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash-Android.apk"
-                                            {else}
-                                                href="/clients/Clash-Android.apk"
-                                            {/if}
-                                           class="btn btn-primary">
-                                            下载 Clash for Android
-                                        </a>
                                         <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-primary">
+                                           class="btn btn-indigo">
                                             导入 Clash
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/SFA.apk"
+                                        {else}
+                                            href="/clients/SFA.apk"
+                                        {/if} class="btn btn-azure">
+                                            下载 SFA
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/singbox"
+                                           class="copy btn btn-primary">
+                                            复制 sing-box 订阅链接
+                                        </a>
+                                        <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 SFA
                                         </a>
                                     </div>
                                 </div>
@@ -345,11 +387,11 @@
                                         适用于 Clash 兼容客户端的订阅：<code>{$UniversalSub}/clash</code>
                                     </p>
                                     <p>
-                                        在购买并安装 Clash 兼容客户端（比如 Stash）之后，点击<code>复制 Clash 订阅链接</code>按钮，然后打开 Clash 兼容客户端导入即可。
+                                        适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a href="https://apps.apple.com/app/stash/id1596063349" target="_blank"
-                                           class="btn btn-primary">
+                                           class="btn btn-azure">
                                             购买 Stash
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
@@ -357,8 +399,22 @@
                                             复制 Clash 订阅链接
                                         </a>
                                         <a href="stash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-primary">
+                                           class="btn btn-indigo">
                                             导入 Stash
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a href="https://apps.apple.com/app/sing-box/id6451272673" target="_blank"
+                                           class="btn btn-azure">
+                                            安裝 sing-box
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/singbox"
+                                           class="copy btn btn-primary">
+                                            复制 sing-box 订阅链接
+                                        </a>
+                                        <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 sing-box
                                         </a>
                                     </div>
                                 </div>
@@ -367,20 +423,19 @@
                                         适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Clash.Verge.AppImage.tar.gz"
+                                        {else}
+                                            href="/clients/Clash.Verge.AppImage.tar.gz"
+                                        {/if} class="btn btn-azure">
+                                            下载 Clash Verge
+                                        </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
                                         </a>
-                                        <a {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash.Verge.AppImage.tar.gz"
-                                            {else}
-                                                href="/clients/Clash.Verge.AppImage.tar.gz"
-                                            {/if}
-                                           class="btn btn-primary">
-                                            下载 Clash Verge
-                                        </a>
                                         <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-primary">
+                                           class="btn btn-indigo">
                                             导入 Clash
                                         </a>
                                     </div>

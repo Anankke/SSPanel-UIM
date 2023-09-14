@@ -10,7 +10,6 @@ return new class() implements MigrationInterface {
     {
         DB::getPdo()->exec("
             ALTER TABLE user MODIFY COLUMN `im_type` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '联系方式类型';
-            UPDATE user SET `im_value` = `telegram_id` WHERE `im_type` = 4;
             UPDATE user SET `im_value` = '' WHERE `im_value` = '0';
         ");
 

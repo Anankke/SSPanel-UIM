@@ -15,10 +15,6 @@
                     "saveName": "Clash.Verge_aarch64.dmg"
                 },
                 {
-                    "sourceName": "Clash.Verge_%tagName1%_x64.dmg",
-                    "saveName": "Clash.Verge_x64.dmg"
-                },
-                {
                     "sourceName": "clash-verge_%tagName1%_amd64.AppImage.tar.gz",
                     "saveName": "Clash.Verge.AppImage.tar.gz"
                 }
@@ -57,6 +53,22 @@
                 {
                     "sourceName": "v2rayNG_%tagName%.apk",
                     "saveName": "v2rayNG.apk"
+                }
+            ]
+        },
+        {
+            "name": "sing-box",
+            "tagMethod": "github_release",
+            "gitRepo": "SagerNet/sing-box",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "SFA-%tagName1%-universal.apk",
+                    "saveName": "SFA.apk"
+                },
+                {
+                    "sourceName": "SFM-%tagName1%-universal.zip",
+                    "saveName": "SFM.zip"
                 }
             ]
         }
