@@ -32,7 +32,6 @@ final class SingBox extends Base
                 case 0:
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? '';
-                    $network = ($node_custom_config['udp'] ?? '') === true ? '' : 'tcp';
 
                     $node = [
                         'type' => 'shadowsocks',
@@ -43,7 +42,6 @@ final class SingBox extends Base
                         'password' => $user->passwd,
                         'plugin' => $plugin,
                         'plugin_opts' => $plugin_option,
-                        'network' => $network,
                     ];
 
                     break;
@@ -52,7 +50,6 @@ final class SingBox extends Base
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'auto';
-                    $network = ($node_custom_config['udp'] ?? '') === true ? '' : 'tcp';
                     $transport = $node_custom_config['network'] ?? '';
                     $host = [];
                     $host[] = $node_custom_config['header']['request']['headers']['Host'][0] ??
@@ -69,7 +66,6 @@ final class SingBox extends Base
                         'uuid' => $user->uuid,
                         'security' => $security,
                         'alter_id' => (int) $alter_id,
-                        'network' => $network,
                         'transport' => [
                             'type' => $transport,
                             'host' => $host,
@@ -85,7 +81,6 @@ final class SingBox extends Base
                 case 14:
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    $network = ($node_custom_config['udp'] ?? '') === true ? '' : 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $insecure = $node_custom_config['allow_insecure'] ?? false;
                     $transport = $node_custom_config['network']
@@ -101,7 +96,6 @@ final class SingBox extends Base
                         'server' => $server,
                         'server_port' => (int) $trojan_port,
                         'password' => $user->uuid,
-                        'network' => $network,
                         'tls' => [
                             'enabled' => true,
                             'server_name' => $host,
