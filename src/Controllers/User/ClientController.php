@@ -26,11 +26,12 @@ final class ClientController extends BaseController
         $clients = [
             'Clash.Verge.exe',
             'Clash.Verge_aarch64.dmg',
-            'Clash.Verge_x64.dmg',
             'Clash.Verge.AppImage.tar.gz',
             'Clash-Android.apk',
             'v2rayN-Core.zip',
             'v2rayNG.apk',
+            'SFA.apk',
+            'SFM.zip',
         ];
 
         if (! in_array($clientName, $clients)) {

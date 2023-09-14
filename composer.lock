@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.281.5",
+            "version": "3.281.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "53cb798ca9b0b817dd2584f9406ee84d0214e6fc"
+                "reference": "b83c543a9ff07fc1d9f11766ee77fc7f4deed2b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/53cb798ca9b0b817dd2584f9406ee84d0214e6fc",
-                "reference": "53cb798ca9b0b817dd2584f9406ee84d0214e6fc",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b83c543a9ff07fc1d9f11766ee77fc7f4deed2b9",
+                "reference": "b83c543a9ff07fc1d9f11766ee77fc7f4deed2b9",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.281.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.281.6"
             },
-            "time": "2023-09-12T18:13:00+00:00"
+            "time": "2023-09-13T18:07:28+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1237,7 +1237,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1292,7 +1292,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1338,7 +1338,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1389,7 +1389,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1437,7 +1437,7 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1506,7 +1506,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1552,7 +1552,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1602,16 +1602,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.23.0",
+            "version": "v10.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "2dbee8db3beaf6c1ffa07a1c6ca2b4d375d0d6b4"
+                "reference": "c21d327c2392eccd93748a2c9f1069a283a62d37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/2dbee8db3beaf6c1ffa07a1c6ca2b4d375d0d6b4",
-                "reference": "2dbee8db3beaf6c1ffa07a1c6ca2b4d375d0d6b4",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/c21d327c2392eccd93748a2c9f1069a283a62d37",
+                "reference": "c21d327c2392eccd93748a2c9f1069a283a62d37",
                 "shasum": ""
             },
             "require": {
@@ -1669,7 +1669,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-09-11T14:03:23+00:00"
+            "time": "2023-09-12T18:56:44+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
