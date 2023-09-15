@@ -11,6 +11,7 @@
         <span class="payment payment-xs payment-provider-visa me-auto"></span>
         等标识的信用卡或借记卡</p>
     <form action="/user/payment/purchase/stripe" method="post">
+        <input hidden id="invoice_id" name="invoice_id" value="{$invoice->id}">
         <div class="form-group form-group-label">    
             <label class="floating-label" for="amount-stripe-card">金额</label>
             <input class="form-control maxwidth-edit" id="price" name="price" min="{$public_setting['stripe_min_recharge']}" max="{$public_setting['stripe_max_recharge']}" step="0.1" type="number" required="required">
