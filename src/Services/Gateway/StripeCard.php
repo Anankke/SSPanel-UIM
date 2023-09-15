@@ -40,11 +40,13 @@ final class StripeCard extends AbstractPayment
         $user = Auth::getUser();
         $configs = Setting::getClass('stripe');
         $price = $request->getParam('price');
+        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
 
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
         $pl->tradeno = $trade_no;
+        $pl->invoice_id = $invoice_id;
         $pl->save();
 
         $params = [
