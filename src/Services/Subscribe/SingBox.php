@@ -30,9 +30,6 @@ final class SingBox extends Base
 
             switch ((int) $node_raw->sort) {
                 case 0:
-                    $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin_option = $node_custom_config['plugin_option'] ?? '';
-
                     $node = [
                         'type' => 'shadowsocks',
                         'tag' => $node_raw->name,
@@ -40,8 +37,6 @@ final class SingBox extends Base
                         'server_port' => (int) $user->port,
                         'method' => $user->method,
                         'password' => $user->passwd,
-                        'plugin' => $plugin,
-                        'plugin_opts' => $plugin_option,
                     ];
 
                     break;
@@ -56,8 +51,7 @@ final class SingBox extends Base
                     };
 
                     $user_pk = Tools::getSs2022UserPk($user, $pk_len);
-                    $plugin = $node_custom_config['plugin'] ?? '';
-                    $plugin_option = $node_custom_config['plugin_option'] ?? '';
+                    $server_key = $node_custom_config['server_key'] ?? '';
 
                     $node = [
                         'type' => 'shadowsocks',
@@ -65,15 +59,16 @@ final class SingBox extends Base
                         'server' => $server,
                         'server_port' => (int) $ss_2022_port,
                         'method' => $method,
-                        'password' => $user_pk,
-                        'plugin' => $plugin,
-                        'plugin_opts' => $plugin_option,
+                        'password' => $server_key === '' ? $user_pk : $server_key . ':' .$user_pk,
                     ];
 
                     break;
                 case 2:
                     $tuic_port = $node_custom_config['tuic_port'] ?? ($node_custom_config['offset_port_user']
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $host = $node_custom_config['host'] ?? '';
+                    $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
+                    $congestion_control = $node_custom_config['congestion_control'] ?? 'bbr';
 
                     $node = [
                         'type' => 'tuic',
@@ -82,7 +77,16 @@ final class SingBox extends Base
                         'server_port' => (int) $tuic_port,
                         'uuid' => $user->uuid,
                         'password' => $user->passwd,
+                        'congestion_control' => $congestion_control,
+                        'zero_rtt_handshake' => true,
+                        'tls' => [
+                            'enabled' => true,
+                            'server_name' => $host,
+                            'insecure' => (bool) $allow_insecure,
+                        ],
                     ];
+
+                    $node['tls'] = array_filter($node['tls']);
 
                     break;
                 case 11:
@@ -122,7 +126,7 @@ final class SingBox extends Base
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
-                    $insecure = $node_custom_config['allow_insecure'] ?? false;
+                    $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $transport = $node_custom_config['network']
                         ?? (array_key_exists('grpc', $node_custom_config)
                         && $node_custom_config['grpc'] === '1' ? 'grpc' : '');
@@ -139,7 +143,7 @@ final class SingBox extends Base
                         'tls' => [
                             'enabled' => true,
                             'server_name' => $host,
-                            'insecure' => $insecure,
+                            'insecure' => (bool) $allow_insecure,
                         ],
                         'transport' => [
                             'type' => $transport,
@@ -167,7 +171,7 @@ final class SingBox extends Base
         }
 
         $singbox_config['outbounds'] = array_merge($singbox_config['outbounds'], $nodes);
-        $singbox_config['experimental']['clash_api']['cache_id'] = (string) $user->id;
+        $singbox_config['experimental']['clash_api']['cache_id'] = $_ENV['appName'];
 
         return json_encode($singbox_config);
     }

@@ -100,6 +100,14 @@ $_ENV['SingBox_Config'] = [
         ],
     ],
     'route' => [
+        'geoip' => [
+            'download_url' => 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip-lite.db',
+            'download_detour' => 'direct',
+        ],
+        'geosite' => [
+            'download_url' => 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite-lite.db',
+            'download_detour' => 'direct',
+        ],
         'rules' => [
             [
                 'protocol' => 'dns',
@@ -147,7 +155,9 @@ $_ENV['SingBox_Config'] = [
     ],
     'experimental' => [
         'clash_api' => [
+            'external_controller' => '0.0.0.0:9090',
             'store_mode' => true,
+            'store_selected' => true,
             'cache_id' => '',
         ],
     ],
