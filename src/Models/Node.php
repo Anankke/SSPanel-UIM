@@ -51,7 +51,7 @@ final class Node extends Model
             0 => 'Shadowsocks',
             1 => 'Shadowsocks2022',
             2 => 'TUIC',
-            11 => 'V2Ray',
+            11 => 'Vmess',
             14 => 'Trojan',
             default => '未知',
         };

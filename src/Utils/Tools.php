@@ -344,4 +344,17 @@ final class Tools
             ->orderBy('name')
             ->get();
     }
+
+    public static function getSs2022UserPk($user, $len): string
+    {
+        $passwd_hash = hash('sha256', $user->passwd);
+
+        $pk = match ($len) {
+            16 => mb_strcut($passwd_hash, 0, 16),
+            32 => mb_strcut($passwd_hash, 0, 32),
+            default => $passwd_hash,
+        };
+
+        return base64_encode($pk);
+    }
 }

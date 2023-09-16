@@ -5,6 +5,7 @@
         "ext-curl": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "ext-mysqli": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",

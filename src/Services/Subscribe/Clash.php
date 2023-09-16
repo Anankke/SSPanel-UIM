@@ -46,10 +46,55 @@ final class Clash extends Base
                         'port' => (int) $user->port,
                         'password' => $user->passwd,
                         'cipher' => $user->method,
-                        'udp' => $udp,
+                        'udp' => (bool) $udp,
                         'client-fingerprint' => $client_fingerprint,
                         'plugin' => $plugin,
                         'plugin-opts' => $plugin_option,
+                    ];
+
+                    break;
+                case 1:
+                    $ss_2022_port = $node_custom_config['ss_2022_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
+
+                    $pk_len = match ($method) {
+                        '2022-blake3-aes-128-gcm' => 16,
+                        default => 32,
+                    };
+
+                    $user_pk = Tools::getSs2022UserPk($user, $pk_len);
+                    // Clash 特定配置
+                    $udp = $node_custom_config['udp'] ?? true;
+
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'ss',
+                        'server' => $server,
+                        'port' => (int) $ss_2022_port,
+                        'password' => $user_pk,
+                        'cipher' => $method,
+                        'udp' => (bool) $udp,
+                    ];
+
+                    break;
+                case 2:
+                    $tuic_port = $node_custom_config['tuic_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $host = $node_custom_config['host'] ?? '';
+                    $congestion_control = $node_custom_config['congestion_control'] ?? 'bbr';
+
+                    // Tuic V5 Only
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'tuic',
+                        'server' => $server,
+                        'port' => (int) $tuic_port,
+                        'password' => $user->passwd,
+                        'uuid' => $user->uuid,
+                        'sni' => $host,
+                        'congestion-controller' => $congestion_control,
+                        'reduce-rtt' => true,
                     ];
 
                     break;
@@ -85,12 +130,12 @@ final class Clash extends Base
                         'uuid' => $user->uuid,
                         'alterId' => (int) $alter_id,
                         'cipher' => $encryption,
-                        'udp' => $udp,
+                        'udp' => (bool) $udp,
                         'tls' => $tls,
                         'client-fingerprint' => $client_fingerprint,
                         'fingerprint' => $fingerprint,
                         'flow' => $flow,
-                        'skip-cert-verify' => $allow_insecure,
+                        'skip-cert-verify' => (bool) $allow_insecure,
                         'servername' => $host,
                         'network' => $network,
                         'ws-opts' => $ws_opts,
@@ -127,12 +172,12 @@ final class Clash extends Base
                         'port' => (int) $trojan_port,
                         'password' => $user->uuid,
                         'network' => $network,
-                        'udp' => $udp,
+                        'udp' => (bool) $udp,
                         'client-fingerprint' => $client_fingerprint,
                         'fingerprint' => $fingerprint,
                         'flow' => $flow,
-                        'flow-show' => $flow_show,
-                        'skip-cert-verify' => $allow_insecure,
+                        'flow-show' => (bool) $flow_show,
+                        'skip-cert-verify' => (bool) $allow_insecure,
                         'ws-opts' => $ws_opts,
                         'grpc-opts' => $grpc_opts,
                     ];

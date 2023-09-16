@@ -9,12 +9,17 @@ $_ENV['SingBox_Config'] = [
     'dns' => [
         'servers' => [
             [
+                'tag' => 'local',
+                'address' => 'local',
+            ],
+            [
                 'tag' => 'cloudflare',
-                'address' => '1.1.1.1',
+                'address' => 'https://1.1.1.1/dns-query',
+                'address_resolver' => 'local',
             ],
             [
                 'tag' => 'dnspod',
-                'address' => '119.29.29.29',
+                'address' => 'https://1.12.12.12/dns-query',
                 'detour' => 'direct',
             ],
         ],
@@ -48,24 +53,24 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'dnspod',
             ],
         ],
-        'strategy' => 'prefer_ipv4',
+        'strategy' => 'prefer_ipv6',
     ],
     'inbounds' => [
         [
-            "type" => "tun",
-            "inet4_address" => "172.19.0.1/30",
-            "auto_route" => true,
-            "strict_route" => true,
-            "endpoint_independent_nat" => true,
-            "udp_timeout" => 60,
-            "platform" => [
-                "http_proxy" => [
-                    "enabled" => true,
-                    "server" => "127.0.0.1",
-                    "server_port" => 8100,
+            'type' => 'tun',
+            'inet4_address' => '172.19.0.1/30',
+            'auto_route' => true,
+            'strict_route' => true,
+            'endpoint_independent_nat' => true,
+            'udp_timeout' => 60,
+            'platform' => [
+                'http_proxy' => [
+                    'enabled' => true,
+                    'server' => '127.0.0.1',
+                    'server_port' => 8100,
                 ],
             ],
-            "sniff" => true,
+            'sniff' => true,
         ],
         [
             'type' => 'mixed',
@@ -95,6 +100,14 @@ $_ENV['SingBox_Config'] = [
         ],
     ],
     'route' => [
+        'geoip' => [
+            'download_url' => 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip-lite.db',
+            'download_detour' => 'direct',
+        ],
+        'geosite' => [
+            'download_url' => 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite-lite.db',
+            'download_detour' => 'direct',
+        ],
         'rules' => [
             [
                 'protocol' => 'dns',
@@ -142,7 +155,9 @@ $_ENV['SingBox_Config'] = [
     ],
     'experimental' => [
         'clash_api' => [
+            'external_controller' => '0.0.0.0:9090',
             'store_mode' => true,
+            'store_selected' => true,
             'cache_id' => '',
         ],
     ],

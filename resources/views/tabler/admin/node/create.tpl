@@ -65,7 +65,9 @@
                                 <div class="col">
                                     <select id="sort" class="col form-select">
                                         <option value="14">Trojan</option>
-                                        <option value="11">V2Ray</option>
+                                        <option value="11">Vmess</option>
+                                        <option value="2">TUIC</option>
+                                        <option value="1">Shadowsocks2022</option>
                                         <option value="0">Shadowsocks</option>
                                     </select>
                                 </div>
