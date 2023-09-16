@@ -53,6 +53,55 @@ final class Clash extends Base
                     ];
 
                     break;
+                case 1:
+                    $ss_2022_port = $node_custom_config['ss_2022_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
+
+                    $pk_len = match ($method) {
+                        '2022-blake3-aes-128-gcm' => 16,
+                        default => 32,
+                    };
+
+                    $user_pk = Tools::getSs2022UserPk($user, $pk_len);
+                    $plugin = $node_custom_config['plugin'] ?? '';
+                    $plugin_option = $node_custom_config['plugin_option'] ?? null;
+                    // Clash 特定配置
+                    $udp = $node_custom_config['udp'] ?? true;
+                    // Clash.Meta
+                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
+
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'ss',
+                        'server' => $server,
+                        'port' => (int) $ss_2022_port,
+                        'password' => $user_pk,
+                        'cipher' => $method,
+                        'udp' => $udp,
+                        'client-fingerprint' => $client_fingerprint,
+                        'plugin' => $plugin,
+                        'plugin-opts' => $plugin_option,
+                    ];
+
+                    break;
+                case 2:
+                    $tuic_port = $node_custom_config['tuic_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $sni = $node_custom_config['sni'] ?? '';
+
+                    // Tuic V5 Only
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'tuic',
+                        'server' => $server,
+                        'port' => (int) $tuic_port,
+                        'password' => $user->passwd,
+                        'uuid' => $user->uuid,
+                        'sni' => $sni,
+                    ];
+
+                    break;
                 case 11:
                     $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
                         ?? ($node_custom_config['offset_port_node'] ?? 443));

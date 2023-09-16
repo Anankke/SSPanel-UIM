@@ -27,13 +27,6 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if ($node->sort === 0) {
-            $node_explode = explode(';', $node->server);
-            $node_server = $node_explode[0];
-        } else {
-            $node_server = $node->server;
-        }
-
         $data = [
             'node_group' => $node->node_group,
             'node_class' => $node->node_class,
@@ -41,7 +34,7 @@ final class NodeController extends BaseController
             'traffic_rate' => $node->traffic_rate,
             'mu_only' => 0,
             'sort' => $node->sort,
-            'server' => $node_server,
+            'server' => $node->server,
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => 'SSPanel-UIM',
             'version' => VERSION,

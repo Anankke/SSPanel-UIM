@@ -45,6 +45,46 @@ final class SingBox extends Base
                     ];
 
                     break;
+                case 1:
+                    $ss_2022_port = $node_custom_config['ss_2022_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
+
+                    $pk_len = match ($method) {
+                        '2022-blake3-aes-128-gcm' => 16,
+                        default => 32,
+                    };
+
+                    $user_pk = Tools::getSs2022UserPk($user, $pk_len);
+                    $plugin = $node_custom_config['plugin'] ?? '';
+                    $plugin_option = $node_custom_config['plugin_option'] ?? '';
+
+                    $node = [
+                        'type' => 'shadowsocks',
+                        'tag' => $node_raw->name,
+                        'server' => $server,
+                        'server_port' => (int) $ss_2022_port,
+                        'method' => $method,
+                        'password' => $user_pk,
+                        'plugin' => $plugin,
+                        'plugin_opts' => $plugin_option,
+                    ];
+
+                    break;
+                case 2:
+                    $tuic_port = $node_custom_config['tuic_port'] ?? ($node_custom_config['offset_port_user']
+                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+
+                    $node = [
+                        'type' => 'tuic',
+                        'tag' => $node_raw->name,
+                        'server' => $server,
+                        'server_port' => (int) $tuic_port,
+                        'uuid' => $user->uuid,
+                        'password' => $user->passwd,
+                    ];
+
+                    break;
                 case 11:
                     $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
