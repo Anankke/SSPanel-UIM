@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Utils\ClassHelper;
+use Psr\Http\Message\ResponseInterface;
 
 final class Payment
 {
@@ -61,7 +62,7 @@ final class Payment
         return $response->withStatus(404);
     }
 
-    public static function returnHTML($request, $response, $args)
+    public static function returnHTML($request, $response, $args): string|ResponseInterface
     {
         $payment = self::getPaymentByName($args['type']);
 

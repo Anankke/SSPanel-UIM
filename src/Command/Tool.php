@@ -139,12 +139,13 @@ EOL;
                 $new_item->mark = $item['mark'];
                 $new_item->save();
 
-                echo "添加新数据库设置：{$item_name}" . PHP_EOL;
+                echo '添加新数据库设置：' . $item_name . PHP_EOL;
                 $add_counter += 1;
             }
         }
         // 检查移除
         $db_settings = Setting::all();
+
         foreach ($db_settings as $db_setting) {
             if (! in_array($db_setting->item, $config)) {
                 $db_setting->delete();
@@ -153,12 +154,12 @@ EOL;
         }
 
         if ($add_counter !== 0) {
-            echo "总计添加了 {$add_counter} 项新数据库设置" . PHP_EOL;
+            echo '总计添加了 ' . $add_counter . ' 项新数据库设置' . PHP_EOL;
         } else {
             echo '没有任何新数据库设置项需要添加' . PHP_EOL;
         }
         if ($del_counter !== 0) {
-            echo "总计移除了 {$del_counter} 项数据库设置" . PHP_EOL;
+            echo '总计移除了 ' . $del_counter . ' 项数据库设置' . PHP_EOL;
         }
     }
 
@@ -360,6 +361,7 @@ EOL;
         fwrite(STDOUT, '请输入要设置的主题名称: ');
         $theme = trim(fgets(STDIN));
         $users = ModelsUser::all();
+
         foreach ($users as $user) {
             $user->theme = $theme;
             $user->save();

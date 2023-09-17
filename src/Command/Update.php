@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Exception;
 use tronovav\GeoIP2Update\Client;
 use function array_diff;
 use function copy;
@@ -15,6 +16,7 @@ use function str_replace;
 use function strpos;
 use function substr;
 use const BASE_PATH;
+use const PHP_EOL;
 
 final class Update extends Command
 {
@@ -29,9 +31,9 @@ END;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
 
         if ($copy_result) {
-            echo ".config.php 文件备份成功。\n";
+            echo '.config.php 文件备份成功。' . PHP_EOL;
         } else {
-            echo ".config.php 文件备份失败，迁移终止。\n";
+            echo '.config.php 文件备份失败，迁移终止。' . PHP_EOL;
         }
 
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
@@ -43,8 +45,9 @@ END;
             $regex = '/_ENV\[\'' . $key . '\'\].*?;/s';
             $matches_new = [];
             preg_match($regex, $config_new, $matches_new);
-            if (isset($matches_new[0]) === false) {
-                echo "未找到配置项：" . $key . " 未能在新版本 .config.php 文件中找到，可能已被更名或废弃。\n";
+
+            if (! isset($matches_new[0])) {
+                echo '未找到配置项：' . $key . ' 未能在新版本 .config.php 文件中找到，可能已被更名或废弃。' . PHP_EOL;
                 continue;
             }
 
@@ -83,23 +86,30 @@ END;
             $difference = substr($difference, 15);
             $difference = substr($difference, 0, -2);
 
-            echo "新增 .config.php 配置项：" . $difference . ":" . $comment . " \n";
+            echo '新增 .config.php 配置项：' . $difference . ':' . $comment . PHP_EOL;
         }
 
-        echo "没有任何新 .config.php 配置项需要添加。\n";
+        echo '没有任何新 .config.php 配置项需要添加。' . PHP_EOL;
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
-        echo "迁移完成。\n";
+        echo '迁移完成。' . PHP_EOL;
 
         // 更新 GeoLite2 数据库
         if ($_ENV['maxmind_license_key'] !== '') {
-            echo "正在更新 GeoLite2 数据库...\n";
+            echo '正在更新 GeoLite2 数据库...' . PHP_EOL;
+
             $client = new Client([
                 'license_key' => $_ENV['maxmind_license_key'],
                 'dir' => BASE_PATH . '/storage/',
                 'editions' => ['GeoLite2-City', "GeoLite2-Country"],
             ]);
-            $client->run();
-            echo "成功更新 GeoLite2 数据库。\n";
+
+            try {
+                $client->run();
+                echo '成功更新 GeoLite2 数据库。' . PHP_EOL;
+            } catch (Exception $e) {
+                echo '更新 GeoLite2 数据库失败。' . PHP_EOL;
+                echo $e->getMessage() . PHP_EOL;
+            }
         }
     }
 }

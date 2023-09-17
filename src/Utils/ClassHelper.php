@@ -18,7 +18,7 @@ final class ClassHelper
 
         self::$composer = require __DIR__ . '/../../vendor/autoload.php';
 
-        if (is_null(self::$composer) === false) {
+        if (! is_null(self::$composer)) {
             self::$classes = array_keys(self::$composer->getClassMap());
         }
     }
@@ -27,7 +27,7 @@ final class ClassHelper
     {
         $allClasses = [];
 
-        if (is_null(self::$classes) === false) {
+        if (! is_null(self::$classes)) {
             foreach (self::$classes as $class) {
                 $allClasses[] = '\\' . $class;
             }

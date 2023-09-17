@@ -93,7 +93,6 @@ final class Epay extends AbstractPayment
             'notify_url' => $_ENV['baseUrl'] . '/payment/notify/epay',
             'return_url' => $_ENV['baseUrl'] . '/user/payment/return/epay',
             'name' => $pl->tradeno,
-            #"name" =>  $user->mobile . "" . $price . "",
             'money' => $price,
             'sitename' => $_ENV['appName'],
         ];
@@ -112,12 +111,14 @@ final class Epay extends AbstractPayment
         if ($verify_result) {
             $out_trade_no = $_GET['out_trade_no'];
             $type = $_GET['type'];
+
             $type = match ($type) {
                 'qqpay' => 'QQ',
                 'wxpay' => 'WeChat',
                 'epusdt' => 'USDT',
                 default => 'Alipay',
             };
+
             $trade_status = $_GET['trade_status'];
 
             if ($trade_status === 'TRADE_SUCCESS') {

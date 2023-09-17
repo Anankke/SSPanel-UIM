@@ -53,6 +53,7 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'dnspod',
             ],
         ],
+        'final' => 'cloudflare',
         'strategy' => 'prefer_ipv6',
     ],
     'inbounds' => [

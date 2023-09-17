@@ -286,7 +286,7 @@ return static function (Slim\App $app): void {
         $group->post('/users/aliveip', App\Controllers\WebAPI\UserController::class . ':addAliveIp');
         $group->post('/users/detectlog', App\Controllers\WebAPI\UserController::class . ':addDetectLog');
         // 审计 & 杂七杂八的功能
-        $group->get('/func/detect_rules', App\Controllers\WebAPI\FuncController::class . ':getDetectLogs');
+        $group->get('/func/detect_rules', App\Controllers\WebAPI\FuncController::class . ':getDetectRules');
         $group->get('/func/ping', App\Controllers\WebAPI\FuncController::class . ':ping');
     })->add(new NodeToken());
 

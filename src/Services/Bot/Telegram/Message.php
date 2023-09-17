@@ -25,11 +25,6 @@ final class Message
     private Api $bot;
 
     /**
-     * 触发用户TG信息
-     */
-    private array $trigger_user;
-
-    /**
      * 消息会话 ID
      */
     private $chat_id;
@@ -43,7 +38,6 @@ final class Message
      * 触发源信息 ID
      */
     private $message_id;
-    private $user;
 
     /**
      * @throws TelegramSDKException|GuzzleException
@@ -51,14 +45,6 @@ final class Message
     public function __construct(Api $bot, Collection $message)
     {
         $this->bot = $bot;
-
-        $this->trigger_user = [
-            'id' => $message->getFrom()->getId(),
-            'name' => $message->getFrom()->getFirstName() . ' Message.php' . $message->getFrom()->getLastName(),
-            'username' => $message->getFrom()->getUsername(),
-        ];
-
-        $this->user = self::getUser($this->trigger_user['id']);
         $this->chat_id = $message->getChat()->getId();
         $this->message = $message;
         $this->message_id = $message->getMessageId();
@@ -96,14 +82,14 @@ final class Message
      */
     public function newChatParticipant(): void
     {
-        $NewChatMember = $this->message->getNewChatParticipant();
+        $new_chat_member = $this->message->getNewChatParticipant();
 
-        $Member = [
-            'id' => $NewChatMember->getId(),
-            'name' => $NewChatMember->getFirstName() . ' Message.php' . $NewChatMember->getLastName(),
+        $member = [
+            'id' => $new_chat_member->getId(),
+            'name' => $new_chat_member->getFirstName() . ' Message.php' . $new_chat_member->getLastName(),
         ];
 
-        if ($NewChatMember->getUsername() === Setting::obtain('telegram_bot')) {
+        if ($new_chat_member->getUsername() === Setting::obtain('telegram_bot')) {
             // 机器人加入新群组
             if (! Setting::obtain('allow_to_join_new_groups')
                 &&
@@ -120,7 +106,7 @@ final class Message
                     'kickChatMember',
                     [
                         'chat_id' => $this->chat_id,
-                        'user_id' => $Member['id'],
+                        'user_id' => $member['id'],
                     ]
                 );
             } else {
@@ -132,19 +118,19 @@ final class Message
             }
         } else {
             // 新成员加入群组
-            $NewUser = self::getUser($Member['id']);
+            $new_user = self::getUser($member['id']);
 
             if (Setting::obtain('telegram_group_bound_user')
                 &&
                 $this->chat_id === Setting::obtain('telegram_chatid')
                 &&
-                $NewUser === null
+                $new_user === null
                 &&
-                ! $NewChatMember->isBot()
+                ! $new_chat_member->isBot()
             ) {
                 $this->replyWithMessage(
                     [
-                        'text' => '由于 ' . $Member['name'] . ' 未绑定账户，将被移除。',
+                        'text' => '由于 ' . $member['name'] . ' 未绑定账户，将被移除。',
                     ]
                 );
 
@@ -152,15 +138,16 @@ final class Message
                     'kickChatMember',
                     [
                         'chat_id' => $this->chat_id,
-                        'user_id' => $Member['id'],
+                        'user_id' => $member['id'],
                     ]
                 );
+
                 return;
             }
 
             if (Setting::obtain('enable_welcome_message')) {
-                $text = ($NewUser->class > 0 ? '欢迎 VIP' . $NewUser->class .
-                    ' 用户 ' . $Member['name'] . '加入群组。' : '欢迎 ' . $Member['name']);
+                $text = ($new_user->class > 0 ? '欢迎 VIP' . $new_user->class .
+                    ' 用户 ' . $member['name'] . '加入群组。' : '欢迎 ' . $member['name']);
 
                 $this->replyWithMessage(
                     [
