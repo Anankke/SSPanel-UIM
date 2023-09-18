@@ -8,7 +8,7 @@ use App\Models\User;
 
 final class Auth
 {
-    private $user;
+    private User $user;
 
     public static function login($uid, $time): void
     {

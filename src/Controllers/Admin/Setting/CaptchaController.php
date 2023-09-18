@@ -11,7 +11,7 @@ use function json_encode;
 
 final class CaptchaController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'captcha_provider',
         'enable_reg_captcha',
         'enable_login_captcha',

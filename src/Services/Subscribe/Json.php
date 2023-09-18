@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Utils\Tools;
+use App\Services\Subscribe;
 use function array_key_exists;
 use function in_array;
 use function json_decode;
@@ -14,7 +14,7 @@ final class Json extends Base
     public function getContent($user): string
     {
         $nodes = [];
-        $nodes_raw = Tools::getSubNodes($user);
+        $nodes_raw = Subscribe::getSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);

@@ -11,7 +11,7 @@ use function json_encode;
 
 final class RefController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'invitation_to_register_balance_reward',
         'invitation_to_register_traffic_reward',
         'invitation_mode',

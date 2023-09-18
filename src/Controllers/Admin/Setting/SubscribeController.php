@@ -11,7 +11,7 @@ use function json_encode;
 
 final class SubscribeController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'enable_forced_replacement',
         'enable_traditional_sub',
         'enable_ss_sub',

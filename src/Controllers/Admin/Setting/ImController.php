@@ -16,7 +16,7 @@ use function json_encode;
 
 final class ImController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'enable_telegram',
         'telegram_token',
         'telegram_chatid',
@@ -57,6 +57,10 @@ final class ImController extends BaseController
         'slack_client_secret',
         'slack_team_id',
     ];
+
+    private static string $test_msg = '这是一条测试消息';
+    private static string $success_msg = '测试信息发送成功';
+    private static string $err_msg = '测试信息发送失败';
 
     /**
      * @throws Exception
@@ -114,18 +118,18 @@ final class ImController extends BaseController
         try {
             (new Telegram())->send(
                 $request->getParam('telegram_user_id'),
-                '这是一条测试消息',
+                $this::$test_msg,
             );
         } catch (TelegramSDKException|Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '测试信息发送失败 ' . $e->getMessage(),
+                'msg' => $this::$err_msg . ' ' . $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '测试信息发送成功',
+            'msg' => $this::$success_msg,
         ]);
     }
 
@@ -134,12 +138,12 @@ final class ImController extends BaseController
         try {
             (new Discord())->send(
                 $request->getParam('discord_user_id'),
-                '这是一条测试消息',
+                $this::$test_msg,
             );
         } catch (GuzzleException|Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '测试信息发送失败 ' . $e->getMessage(),
+                'msg' => $this::$err_msg . ' ' . $e->getMessage(),
             ]);
         }
 
@@ -154,12 +158,12 @@ final class ImController extends BaseController
         try {
             (new Slack())->send(
                 $request->getParam('slack_user_id'),
-                '这是一条测试消息',
+                $this::$test_msg,
             );
         } catch (GuzzleException|Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '测试信息发送失败 ' . $e->getMessage(),
+                'msg' => $this::$err_msg . ' ' . $e->getMessage(),
             ]);
         }
 

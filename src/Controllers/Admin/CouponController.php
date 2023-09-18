@@ -22,7 +22,7 @@ use function time;
  */
 final class CouponController extends BaseController
 {
-    public static array $details = [
+    private static array $details = [
         'field' => [
             'op' => '操作',
             'id' => 'ID',

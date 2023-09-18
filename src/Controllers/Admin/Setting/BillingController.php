@@ -13,7 +13,7 @@ use function json_encode;
 
 final class BillingController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         // 支付宝当面付
         'f2f_pay_app_id',
         'f2f_pay_pid',

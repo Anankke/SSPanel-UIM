@@ -11,7 +11,7 @@ use function json_encode;
 
 final class RegController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'reg_mode',
         'reg_email_verify',
         'sign_up_for_daily_report',

@@ -11,7 +11,7 @@ use function json_encode;
 
 final class CronController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'daily_job_hour',
         'daily_job_minute',
         'enable_daily_finance_mail',

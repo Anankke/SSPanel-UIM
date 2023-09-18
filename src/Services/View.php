@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Setting;
+use Illuminate\Database\DatabaseManager;
 use Smarty;
 
 final class View
 {
-    public static $connection;
-    public static $beginTime;
+    public static DatabaseManager $connection;
+    public static float $beginTime;
 
     public static function getSmarty(): Smarty
     {

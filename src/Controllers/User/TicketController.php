@@ -30,6 +30,8 @@ use function time;
  */
 final class TicketController extends BaseController
 {
+    private static string $err_msg = '请求失败';
+
     /**
      * @throws Exception
      */
@@ -68,18 +70,14 @@ final class TicketController extends BaseController
 
         if (! Setting::obtain('enable_ticket') ||
             $this->user->is_shadow_banned ||
-            ! RateLimit::checkTicketLimit($this->user->id)
+            ! RateLimit::checkTicketLimit($this->user->id) ||
+            $title === '' ||
+            $comment === '' ||
+            $type === ''
         ) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '暂时无法开启新工单，请稍后再试',
-            ]);
-        }
-
-        if ($title === '' || $comment === '' || $type === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '工单内容不能为空',
+                'msg' => self::$err_msg,
             ]);
         }
 
@@ -123,27 +121,16 @@ final class TicketController extends BaseController
      */
     public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        if (! Setting::obtain('enable_ticket')) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '暂时无法回复工单，请稍后再试',
-            ]);
-        }
-
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
 
-        if ($this->user->is_shadow_banned) {
+        if (! Setting::obtain('enable_ticket') ||
+            $this->user->is_shadow_banned ||
+            $comment === ''
+        ) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '暂时无法回复工单，请稍后再试',
-            ]);
-        }
-
-        if ($comment === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '工单回复不能为空',
+                'msg' => self::$err_msg,
             ]);
         }
 
@@ -152,7 +139,7 @@ final class TicketController extends BaseController
         if ($ticket === null) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '工单不存在',
+                'msg' => self::$err_msg,
             ]);
         }
 

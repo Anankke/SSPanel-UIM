@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\Link;
-use App\Models\Node;
-use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
@@ -19,11 +17,10 @@ use function closedir;
 use function date;
 use function explode;
 use function filter_var;
-use function floatval;
 use function floor;
 use function in_array;
-use function is_null;
 use function is_numeric;
+use function json_decode;
 use function log;
 use function opendir;
 use function openssl_random_pseudo_bytes;
@@ -34,9 +31,7 @@ use function round;
 use function shuffle;
 use function strlen;
 use function strpos;
-use function strtotime;
 use function substr;
-use function time;
 use const FILTER_FLAG_IPV4;
 use const FILTER_FLAG_IPV6;
 use const FILTER_VALIDATE_EMAIL;
@@ -48,9 +43,13 @@ final class Tools
     /**
      * 查询IP归属
      *
+     * @param string $ip
+     *
+     * @return string
+     *
      * @throws InvalidDatabaseException
      */
-    public static function getIpLocation($ip): string
+    public static function getIpLocation(string $ip): string
     {
         $err_msg = '';
         $city = null;
@@ -87,8 +86,13 @@ final class Tools
 
     /**
      * 根据流量值自动转换单位输出
+     *
+     * @param $size
+     * @param int $precision
+     *
+     * @return string
      */
-    public static function autoBytes($size, $precision = 2): string
+    public static function autoBytes($size, int $precision = 2): string
     {
         if ($size <= 0) {
             return '0B';
@@ -106,6 +110,10 @@ final class Tools
 
     /**
      * 根据含单位的流量值转换 B 输出
+     *
+     * @param $size
+     *
+     * @return int|null
      */
     public static function autoBytesR($size): ?int
     {
@@ -126,8 +134,13 @@ final class Tools
 
     /**
      * 根据速率值自动转换单位输出
+     *
+     * @param $size
+     * @param int $precision
+     *
+     * @return string
      */
-    public static function autoMbps($size, $precision = 2): string
+    public static function autoMbps($size, int $precision = 2): string
     {
         if ($size <= 0) {
             return '0Bps';
@@ -144,30 +157,62 @@ final class Tools
     }
 
     //虽然名字是toMB，但是实际上功能是from MB to B
-    public static function toMB($traffic): float|int
+    /**
+     * @param $traffic
+     *
+     * @return int
+     */
+    public static function toMB($traffic): int
     {
-        return $traffic * 1048576;
+        return (int) $traffic * 1048576;
     }
 
     //虽然名字是toGB，但是实际上功能是from GB to B
-    public static function toGB($traffic): float|int
+    /**
+     * @param $traffic
+     *
+     * @return int
+     */
+    public static function toGB($traffic): int
     {
-        return $traffic * 1073741824;
+        return (int) $traffic * 1073741824;
     }
 
+    /**
+     * @param $traffic
+     *
+     * @return float
+     */
     public static function flowToGB($traffic): float
     {
-        return $traffic / 1073741824;
+        return round($traffic / 1073741824, 2);
     }
 
+    /**
+     * @param $traffic
+     *
+     * @return float
+     */
     public static function flowToMB($traffic): float
     {
-        return $traffic / 1048576;
+        return round($traffic / 1048576, 2);
     }
 
-    public static function genRandomChar($length = 8): string
+    public static function genRandomChar(int $length = 8): string
     {
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
+    }
+
+    public static function genSubToken(): string
+    {
+        $token = self::genRandomChar($_ENV['sub_token_len']);
+        $is_token_used = Link::where('token', $token)->first();
+
+        if ($is_token_used === null) {
+            return $token;
+        }
+
+        return "couldn't alloc token";
     }
 
     public static function toDateTime(int $time): string
@@ -175,7 +220,7 @@ final class Tools
         return date('Y-m-d H:i:s', $time);
     }
 
-    public static function getAvPort()
+    public static function getSsPort(): int
     {
         if (Setting::obtain('min_port') > 65535
             || Setting::obtain('min_port') <= 0
@@ -192,6 +237,11 @@ final class Tools
         return $port[0];
     }
 
+    /**
+     * @param $dir
+     *
+     * @return array
+     */
     public static function getDir($dir): array
     {
         $dirArray = [];
@@ -211,6 +261,12 @@ final class Tools
         return $dirArray;
     }
 
+    /**
+     * @param $type
+     * @param $str
+     *
+     * @return bool
+     */
     public static function isParamValidate($type, $str): bool
     {
         $list = Config::getSupportParam($type);
@@ -222,15 +278,25 @@ final class Tools
         return false;
     }
 
+    /**
+     * @param $input
+     *
+     * @return bool
+     */
     public static function isEmail($input): bool
     {
-        if (filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
+        if (! filter_var($input, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
         return true;
     }
 
+    /**
+     * @param $email
+     *
+     * @return array
+     */
     public static function isEmailLegal($email): array
     {
         $res = [];
@@ -269,6 +335,11 @@ final class Tools
         }
     }
 
+    /**
+     * @param $input
+     *
+     * @return bool
+     */
     public static function isIPv4($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -278,6 +349,11 @@ final class Tools
         return true;
     }
 
+    /**
+     * @param $input
+     *
+     * @return bool
+     */
     public static function isIPv6($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
@@ -287,6 +363,11 @@ final class Tools
         return true;
     }
 
+    /**
+     * @param $input
+     *
+     * @return bool
+     */
     public static function isInt($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_INT)) {
@@ -296,65 +377,19 @@ final class Tools
         return true;
     }
 
-    public static function genSubToken(): string
+    /**
+     * 判断是否 JSON
+     *
+     * @param string $string
+     *
+     * @return bool
+     */
+    public static function isJson(string $string): bool
     {
-        $token = self::genRandomChar($_ENV['sub_token_len']);
-        $is_token_used = Link::where('token', $token)->first();
-
-        if ($is_token_used === null) {
-            return $token;
+        if (! json_decode($string)) {
+            return false;
         }
 
-        return "couldn't alloc token";
-    }
-
-    /**
-     * 获取累计收入
-     */
-    public static function getIncome(string $req): float
-    {
-        $today = strtotime('00:00:00');
-        $number = match ($req) {
-            'today' => Paylist::where('status', 1)
-                ->whereBetween('datetime', [$today, time()])->sum('total'),
-            'yesterday' => Paylist::where('status', 1)
-                ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->sum('total'),
-            'this month' => Paylist::where('status', 1)
-                ->whereBetween('datetime', [strtotime('first day of this month 00:00:00'), time()])->sum('total'),
-            default => Paylist::where('status', 1)->sum('total'),
-        };
-
-        return is_null($number) ? 0.00 : round(floatval($number), 2);
-    }
-
-    /**
-     * @param $user
-     *
-     * @return mixed
-     */
-    public static function getSubNodes($user): mixed
-    {
-        return Node::where('type', 1)
-            ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->node_group])
-            ->where(static function ($query): void {
-                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-            })
-            ->orderBy('node_class')
-            ->orderBy('name')
-            ->get();
-    }
-
-    public static function getSs2022UserPk($user, $len): string
-    {
-        $passwd_hash = hash('sha256', $user->passwd);
-
-        $pk = match ($len) {
-            16 => mb_strcut($passwd_hash, 0, 16),
-            32 => mb_strcut($passwd_hash, 0, 32),
-            default => $passwd_hash,
-        };
-
-        return base64_encode($pk);
+        return true;
     }
 }

@@ -17,7 +17,7 @@ use function time;
 
 final class ProductController extends BaseController
 {
-    public static array $details = [
+    private static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '商品ID',
@@ -32,7 +32,7 @@ final class ProductController extends BaseController
         ],
     ];
 
-    public static array $update_field = [
+    private static array $update_field = [
         'type',
         'name',
         'price',
@@ -48,6 +48,8 @@ final class ProductController extends BaseController
         'class_required',
         'node_group_required',
     ];
+
+    private static string $invalid_data_msg = '无效商品数据';
 
     /**
      * @throws Exception
@@ -127,29 +129,15 @@ final class ProductController extends BaseController
         if ($price < 0) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '无效的商品价格',
+                'msg' => self::$invalid_data_msg,
             ]);
         }
 
         if ($type === 'tabp') {
-            if ($time <= 0) {
+            if ($time <= 0 || $class_time <= 0 || $bandwidth <= 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '无效的商品时长',
-                ]);
-            }
-
-            if ($class_time <= 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无效的等级时长',
-                ]);
-            }
-
-            if ($bandwidth <= 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无效的套餐流量',
+                    'msg' => self::$invalid_data_msg,
                 ]);
             }
 
@@ -163,17 +151,10 @@ final class ProductController extends BaseController
                 'ip_limit' => $ip_limit,
             ];
         } elseif ($type === 'time') {
-            if ($time <= 0) {
+            if ($time <= 0 || $class_time === '' || $class_time <= 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '无效的商品时长',
-                ]);
-            }
-
-            if ($class_time === '' || $class_time <= 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无效的等级时长',
+                    'msg' => self::$invalid_data_msg,
                 ]);
             }
 
@@ -189,7 +170,7 @@ final class ProductController extends BaseController
             if ($bandwidth <= 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '无效的套餐流量',
+                    'msg' => self::$invalid_data_msg,
                 ]);
             }
 
@@ -199,7 +180,7 @@ final class ProductController extends BaseController
         } else {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '商品类型错误',
+                'msg' => self::$invalid_data_msg,
             ]);
         }
 
@@ -254,29 +235,15 @@ final class ProductController extends BaseController
         if ($price < 0) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '无效的商品价格',
+                'msg' => self::$invalid_data_msg,
             ]);
         }
 
         if ($type === 'tabp') {
-            if ($time <= 0) {
+            if ($time <= 0 || $class_time <= 0 || $bandwidth <= 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '无效的商品时长',
-                ]);
-            }
-
-            if ($class_time <= 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无效的等级时长',
-                ]);
-            }
-
-            if ($bandwidth <= 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无效的套餐流量',
+                    'msg' => self::$invalid_data_msg,
                 ]);
             }
 
@@ -290,17 +257,10 @@ final class ProductController extends BaseController
                 'ip_limit' => $ip_limit,
             ];
         } elseif ($type === 'time') {
-            if ($time <= 0) {
+            if ($time <= 0 || $class_time <= 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '无效的商品时长',
-                ]);
-            }
-
-            if ($class_time <= 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '无效的等级时长',
+                    'msg' => self::$invalid_data_msg,
                 ]);
             }
 
@@ -316,7 +276,7 @@ final class ProductController extends BaseController
             if ($bandwidth <= 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '无效的套餐流量',
+                    'msg' => self::$invalid_data_msg,
                 ]);
             }
 
@@ -326,7 +286,7 @@ final class ProductController extends BaseController
         } else {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '商品类型错误',
+                'msg' => self::$invalid_data_msg,
             ]);
         }
 

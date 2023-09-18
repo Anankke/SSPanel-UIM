@@ -112,7 +112,7 @@ final class UserController extends BaseController
                     default => 32,
                 };
 
-                $user_raw->passwd = Tools::getSs2022UserPk($user_raw, $pk_len);
+                $user_raw->passwd = $user_raw->getSs2022Pk($pk_len);
             }
 
             $user_raw->node_connector = 0;

@@ -22,7 +22,7 @@ use const PHP_EOL;
 
 final class AnnController extends BaseController
 {
-    public static array $details =
+    private static array $details =
         [
             'field' => [
                 'op' => '操作',
@@ -32,7 +32,7 @@ final class AnnController extends BaseController
             ],
         ];
 
-    public static array $update_field = [
+    private static array $update_field = [
         'email_notify_class',
     ];
 
