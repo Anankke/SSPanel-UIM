@@ -11,7 +11,7 @@ use function json_encode;
 
 final class FeatureController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'display_media',
         'display_subscribe_log',
         'display_detect_log',

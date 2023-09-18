@@ -19,7 +19,7 @@ use function str_replace;
 
 final class OnlineIpController extends BaseController
 {
-    public static array $details =
+    private static array $details =
         [
             'field' => [
                 'id' => '事件ID',

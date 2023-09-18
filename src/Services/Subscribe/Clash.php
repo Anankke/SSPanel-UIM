@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Utils\Tools;
+use App\Services\Subscribe;
 use Symfony\Component\Yaml\Yaml;
 use function array_key_exists;
 use function array_merge;
@@ -19,7 +19,7 @@ final class Clash extends Base
         $clash_config = $_ENV['Clash_Config'];
         $clash_group_indexes = $_ENV['Clash_Group_Indexes'];
         $clash_group_config = $_ENV['Clash_Group_Config'];
-        $nodes_raw = Tools::getSubNodes($user);
+        $nodes_raw = Subscribe::getSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
@@ -63,7 +63,7 @@ final class Clash extends Base
                         default => 32,
                     };
 
-                    $user_pk = Tools::getSs2022UserPk($user, $pk_len);
+                    $user_pk = $user->getSs2022Pk($pk_len);
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
 

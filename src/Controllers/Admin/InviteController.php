@@ -16,7 +16,7 @@ use function is_numeric;
 
 final class InviteController extends BaseController
 {
-    public static array $details =
+    private static array $details =
         [
             'field' => [
                 'id' => '事件ID',

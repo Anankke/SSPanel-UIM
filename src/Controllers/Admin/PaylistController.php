@@ -14,7 +14,7 @@ use Slim\Http\ServerRequest;
 
 final class PaylistController extends BaseController
 {
-    public static array $details =
+    private static array $details =
     [
         'field' => [
             'id' => '事件ID',

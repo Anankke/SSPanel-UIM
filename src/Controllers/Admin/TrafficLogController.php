@@ -14,7 +14,7 @@ use Slim\Http\ServerRequest;
 
 final class TrafficLogController extends BaseController
 {
-    public static array $details =
+    private static array $details =
     [
         'field' => [
             'id' => '记录ID',

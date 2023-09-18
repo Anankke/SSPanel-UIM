@@ -45,6 +45,24 @@ final class User extends Model
     ];
 
     /**
+     * @param $len
+     *
+     * @return string
+     */
+    public function getSs2022Pk($len): string
+    {
+        $passwd_hash = hash('sha256', $this->passwd);
+
+        $pk = match ($len) {
+            16 => mb_strcut($passwd_hash, 0, 16),
+            32 => mb_strcut($passwd_hash, 0, 32),
+            default => $passwd_hash,
+        };
+
+        return base64_encode($pk);
+    }
+
+    /**
      * DiceBear 头像
      */
     public function getDiceBearAttribute(): string

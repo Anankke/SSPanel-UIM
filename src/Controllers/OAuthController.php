@@ -32,6 +32,8 @@ use function time;
  */
 final class OAuthController extends BaseController
 {
+    private static string $err_msg = 'OAuth 请求失败';
+
     /**
      * @throws SmartyException
      * @throws GuzzleException
@@ -76,7 +78,7 @@ final class OAuthController extends BaseController
         $state = $request->getParam('state');
 
         if ($state !== $redis->get('slack_state:' . $user->id)) {
-            return ResponseHelper::error($response, '参数错误');
+            return ResponseHelper::error($response, self::$err_msg);
         }
 
         $client = new Client();
@@ -101,14 +103,21 @@ final class OAuthController extends BaseController
         ]);
 
         if (! json_decode($code_response->getBody()->__toString())->ok) {
-            return ResponseHelper::error($response, 'OAuth 请求失败');
+            return ResponseHelper::error($response, self::$err_msg);
         }
 
         $parser = new Parser(new JoseEncoder());
         $id_token = $parser->parse(json_decode($code_response->getBody()->__toString())->id_token);
 
+        $slack_user_id = $id_token->claims()->get('https://slack.com/user_id');
+
+        if (User::where('im_type', 1)->where('im_value', $slack_user_id)->first() !== null ||
+            ($user->im_type === 1 && $user->im_value === $slack_user_id)) {
+            return ResponseHelper::error($response, 'Slack 账户已绑定');
+        }
+
         $user->im_type = 1;
-        $user->im_value = $id_token->claims()->get('https://slack.com/user_id');
+        $user->im_value = $slack_user_id;
         $user->save();
 
         return $response->withRedirect($_ENV['baseUrl'] . '/user/edit');
@@ -141,7 +150,7 @@ final class OAuthController extends BaseController
         $state = $request->getParam('state');
 
         if ($state !== $redis->get('discord_state:' . $user->id)) {
-            return ResponseHelper::error($response, '参数错误');
+            return ResponseHelper::error($response, self::$err_msg);
         }
 
         $client = new Client();
@@ -166,7 +175,7 @@ final class OAuthController extends BaseController
         ]);
 
         if ($code_response->getStatusCode() !== 200) {
-            return ResponseHelper::error($response, 'OAuth 请求失败');
+            return ResponseHelper::error($response, self::$err_msg);
         }
 
         $access_token = json_decode($code_response->getBody()->getContents())->access_token;
@@ -182,11 +191,18 @@ final class OAuthController extends BaseController
         ]);
 
         if ($user_response->getStatusCode() !== 200) {
-            return ResponseHelper::error($response, 'OAuth 请求失败');
+            return ResponseHelper::error($response, self::$err_msg);
+        }
+
+        $discord_user_id = json_decode($user_response->getBody()->getContents(), true)['id'];
+
+        if (User::where('im_type', 2)->where('im_value', $discord_user_id)->first() !== null ||
+            ($user->im_type === 2 && $user->im_value === $discord_user_id)) {
+            return ResponseHelper::error($response, 'Discord 账户已绑定');
         }
 
         $user->im_type = 2;
-        $user->im_value = json_decode($user_response->getBody()->getContents(), true)['id'];
+        $user->im_value = $discord_user_id;
         $user->save();
 
         if (Setting::obtain('discord_guild_id') !== 0) {
@@ -229,7 +245,7 @@ final class OAuthController extends BaseController
         $hash = hash_hmac('sha256', $data_check_string, $secret_key);
 
         if (strcmp($hash, $check_hash) !== 0 || (time() - $user_auth['auth_date']) > 86400) {
-            return ResponseHelper::error($response, '绑定失败');
+            return ResponseHelper::error($response, self::$err_msg);
         }
 
         $antiXss = new AntiXSS();

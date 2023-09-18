@@ -25,7 +25,7 @@ use function time;
 
 final class TicketController extends BaseController
 {
-    public static array $details =
+    private static array $details =
     [
         'field' => [
             'op' => '操作',
@@ -37,6 +37,8 @@ final class TicketController extends BaseController
             'datetime' => '创建时间',
         ],
     ];
+
+    private static string $err_msg = '请求失败';
 
     /**
      * 后台工单页面
@@ -65,7 +67,7 @@ final class TicketController extends BaseController
         if ($comment === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '工单回复不能为空',
+                'msg' => self::$err_msg,
             ]);
         }
 
@@ -74,7 +76,7 @@ final class TicketController extends BaseController
         if ($ticket === null) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '工单不存在',
+                'msg' => self::$err_msg,
             ]);
         }
 
@@ -120,7 +122,7 @@ final class TicketController extends BaseController
         if ($ticket === null) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '工单不存在',
+                'msg' => self::$err_msg,
             ]);
         }
 
@@ -193,14 +195,14 @@ final class TicketController extends BaseController
         if ($ticket === null) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '工单不存在',
+                'msg' => self::$err_msg,
             ]);
         }
 
         if ($ticket->status === 'closed') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '操作失败，工单已关闭',
+                'msg' => self::$err_msg,
             ]);
         }
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\Link;
-use App\Models\Node;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
@@ -204,6 +203,18 @@ final class Tools
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
+    public static function genSubToken(): string
+    {
+        $token = self::genRandomChar($_ENV['sub_token_len']);
+        $is_token_used = Link::where('token', $token)->first();
+
+        if ($is_token_used === null) {
+            return $token;
+        }
+
+        return "couldn't alloc token";
+    }
+
     public static function toDateTime(int $time): string
     {
         return date('Y-m-d H:i:s', $time);
@@ -380,54 +391,5 @@ final class Tools
         }
 
         return true;
-    }
-
-    public static function genSubToken(): string
-    {
-        $token = self::genRandomChar($_ENV['sub_token_len']);
-        $is_token_used = Link::where('token', $token)->first();
-
-        if ($is_token_used === null) {
-            return $token;
-        }
-
-        return "couldn't alloc token";
-    }
-
-    /**
-     * @param $user
-     *
-     * @return mixed
-     */
-    public static function getSubNodes($user): mixed
-    {
-        return Node::where('type', 1)
-            ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->node_group])
-            ->where(static function ($query): void {
-                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-            })
-            ->orderBy('node_class')
-            ->orderBy('name')
-            ->get();
-    }
-
-    /**
-     * @param $user
-     * @param $len
-     *
-     * @return string
-     */
-    public static function getSs2022UserPk($user, $len): string
-    {
-        $passwd_hash = hash('sha256', $user->passwd);
-
-        $pk = match ($len) {
-            16 => mb_strcut($passwd_hash, 0, 16),
-            32 => mb_strcut($passwd_hash, 0, 32),
-            default => $passwd_hash,
-        };
-
-        return base64_encode($pk);
     }
 }

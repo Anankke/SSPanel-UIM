@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Node;
 use App\Services\Subscribe\Clash;
 use App\Services\Subscribe\Json;
 use App\Services\Subscribe\SingBox;
@@ -15,6 +16,24 @@ use App\Services\Subscribe\V2Ray;
 
 final class Subscribe
 {
+    /**
+     * @param $user
+     *
+     * @return mixed
+     */
+    public static function getSubNodes($user): mixed
+    {
+        return Node::where('type', 1)
+            ->where('node_class', '<=', $user->class)
+            ->whereIn('node_group', [0, $user->node_group])
+            ->where(static function ($query): void {
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+            })
+            ->orderBy('node_class')
+            ->orderBy('name')
+            ->get();
+    }
+
     public static function getClient($type): Json|SS|SIP002|V2Ray|Trojan|Clash|SIP008|SingBox
     {
         return match ($type) {

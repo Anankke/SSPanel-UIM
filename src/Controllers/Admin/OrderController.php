@@ -18,7 +18,7 @@ use function time;
 
 final class OrderController extends BaseController
 {
-    public static array $details = [
+    private static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '订单ID',

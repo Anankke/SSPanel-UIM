@@ -11,7 +11,7 @@ use function json_encode;
 
 final class SupportController extends BaseController
 {
-    public static array $update_field = [
+    private static array $update_field = [
         'live_chat',
         'tawk_id',
         'crisp_id',

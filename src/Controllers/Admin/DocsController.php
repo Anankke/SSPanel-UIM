@@ -17,7 +17,7 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 
 final class DocsController extends BaseController
 {
-    public static array $details =
+    private static array $details =
         [
             'field' => [
                 'op' => '操作',
