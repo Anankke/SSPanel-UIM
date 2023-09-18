@@ -45,6 +45,7 @@ final class V2Ray extends Base
                 $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                     $node_custom_config['host'] ?? '';
                 $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
+                $enable_vless = $node_custom_config['enable_vless'] === '1' ? 'vless' : 'vmess';
 
                 $v2rayn_array = [
                     'v' => '2',
@@ -60,7 +61,7 @@ final class V2Ray extends Base
                     'tls' => $security,
                 ];
 
-                $links .= 'vmess://' . base64_encode(json_encode($v2rayn_array)) . PHP_EOL;
+                $links .= $enable_vless . '://' . base64_encode(json_encode($v2rayn_array)) . PHP_EOL;
             }
         }
 
