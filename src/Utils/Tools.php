@@ -6,7 +6,6 @@ namespace App\Utils;
 
 use App\Models\Link;
 use App\Models\Node;
-use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
@@ -19,10 +18,8 @@ use function closedir;
 use function date;
 use function explode;
 use function filter_var;
-use function floatval;
 use function floor;
 use function in_array;
-use function is_null;
 use function is_numeric;
 use function json_decode;
 use function log;
@@ -35,9 +32,7 @@ use function round;
 use function shuffle;
 use function strlen;
 use function strpos;
-use function strtotime;
 use function substr;
-use function time;
 use const FILTER_FLAG_IPV4;
 use const FILTER_FLAG_IPV6;
 use const FILTER_VALIDATE_EMAIL;
@@ -166,22 +161,22 @@ final class Tools
     /**
      * @param $traffic
      *
-     * @return float|int
+     * @return int
      */
-    public static function toMB($traffic): float|int
+    public static function toMB($traffic): int
     {
-        return $traffic * 1048576;
+        return (int) $traffic * 1048576;
     }
 
     //虽然名字是toGB，但是实际上功能是from GB to B
     /**
      * @param $traffic
      *
-     * @return float|int
+     * @return int
      */
-    public static function toGB($traffic): float|int
+    public static function toGB($traffic): int
     {
-        return $traffic * 1073741824;
+        return (int) $traffic * 1073741824;
     }
 
     /**
@@ -191,7 +186,7 @@ final class Tools
      */
     public static function flowToGB($traffic): float
     {
-        return $traffic / 1073741824;
+        return round($traffic / 1073741824, 2);
     }
 
     /**
@@ -201,7 +196,7 @@ final class Tools
      */
     public static function flowToMB($traffic): float
     {
-        return $traffic / 1048576;
+        return round($traffic / 1048576, 2);
     }
 
     public static function genRandomChar(int $length = 8): string
@@ -214,7 +209,7 @@ final class Tools
         return date('Y-m-d H:i:s', $time);
     }
 
-    public static function getAvPort(): mixed
+    public static function getSsPort(): int
     {
         if (Setting::obtain('min_port') > 65535
             || Setting::obtain('min_port') <= 0
@@ -397,29 +392,6 @@ final class Tools
         }
 
         return "couldn't alloc token";
-    }
-
-    /**
-     * 获取累计收入
-     *
-     * @param string $req
-     *
-     * @return float
-     */
-    public static function getIncome(string $req): float
-    {
-        $today = strtotime('00:00:00');
-        $number = match ($req) {
-            'today' => Paylist::where('status', 1)
-                ->whereBetween('datetime', [$today, time()])->sum('total'),
-            'yesterday' => Paylist::where('status', 1)
-                ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->sum('total'),
-            'this month' => Paylist::where('status', 1)
-                ->whereBetween('datetime', [strtotime('first day of this month 00:00:00'), time()])->sum('total'),
-            default => Paylist::where('status', 1)->sum('total'),
-        };
-
-        return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
     /**

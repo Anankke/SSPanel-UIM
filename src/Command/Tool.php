@@ -184,7 +184,7 @@ EOL;
         $user = ModelsUser::find(trim(fgets(STDIN)));
 
         if ($user !== null) {
-            $user->port = Tools::getAvPort();
+            $user->port = Tools::getSsPort();
             if ($user->save()) {
                 echo '重置成功!';
             }
@@ -202,7 +202,7 @@ EOL;
 
         foreach ($users as $user) {
             $origin_port = $user->port;
-            $user->port = Tools::getAvPort();
+            $user->port = Tools::getSsPort();
             echo '$origin_port=' . $origin_port . '&$user->port=' . $user->port . PHP_EOL;
             $user->save();
         }
@@ -324,7 +324,7 @@ EOL;
             $user->passwd = Tools::genRandomChar(16);
             $user->uuid = Uuid::uuid4();
             $user->api_token = Uuid::uuid4();
-            $user->port = Tools::getAvPort();
+            $user->port = Tools::getSsPort();
             $user->u = 0;
             $user->d = 0;
             $user->transfer_enable = 0;

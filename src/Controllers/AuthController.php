@@ -250,7 +250,7 @@ final class AuthController extends BaseController
         $user->passwd = Tools::genRandomChar(16);
         $user->uuid = Uuid::uuid4();
         $user->api_token = Uuid::uuid4();
-        $user->port = Tools::getAvPort();
+        $user->port = Tools::getSsPort();
         $user->u = 0;
         $user->d = 0;
         $user->method = $configs['sign_up_for_method'];
