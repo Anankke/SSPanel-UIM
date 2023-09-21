@@ -124,7 +124,7 @@ final class UserController extends BaseController
             $users[] = $user_raw;
         }
 
-        return ResponseHelper::etagJson($request, $response, [
+        return ResponseHelper::successWithDataEtag($request, $response, [
             'ret' => 1,
             'data' => $users,
         ]);

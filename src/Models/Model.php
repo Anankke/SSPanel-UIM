@@ -17,6 +17,7 @@ abstract class Model extends EloquentModel
     public static function getTableName(): string
     {
         $class = static::class;
+
         return (new $class())->getTable();
     }
 }

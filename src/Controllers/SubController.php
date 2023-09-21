@@ -66,7 +66,7 @@ final class SubController extends BaseController
         . '; expire=' . strtotime($user->class_expire);
 
         if ($_ENV['subscribeLog']) {
-            SubscribeLog::add($user, $subtype, $request->getHeaderLine('User-Agent'));
+            (new SubscribeLog())->add($user, $subtype, $request->getHeaderLine('User-Agent'));
         }
 
         return $response->withHeader('Subscription-Userinfo', $sub_details)
@@ -127,7 +127,7 @@ final class SubController extends BaseController
 
         // 记录订阅日志
         if ($_ENV['subscribeLog']) {
-            SubscribeLog::add($user, $sub_type, $request->getHeaderLine('User-Agent'));
+            (new SubscribeLog())->add($user, $sub_type, $request->getHeaderLine('User-Agent'));
         }
 
         $sub_details = ' upload=' . $user->u

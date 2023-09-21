@@ -393,7 +393,10 @@ final class User extends Model
     /**
      * 记录登录 IP
      *
+     * @param string $ip   IP 地址
      * @param int    $type 登录失败为 1
+     *
+     * @return bool
      */
     public function collectLoginIP(string $ip, int $type = 0): bool
     {

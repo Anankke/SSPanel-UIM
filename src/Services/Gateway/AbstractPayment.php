@@ -78,7 +78,7 @@ abstract class AbstractPayment
 
         // 返利
         if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_paid') {
-            Payback::rebate($user->id, $paylist->total);
+            (new Payback())->rebate($user->id, $paylist->total);
         }
 
         return 0;
