@@ -263,7 +263,7 @@ final class ClientDownload extends Command
 
             echo '- 正在删除旧版本文件...' . PHP_EOL;
 
-            if (! unlink($filePath)) {
+            if (file_exists($filePath) && ! unlink($filePath)) {
                 echo '- 删除旧版本文件失败，此任务跳过，请检查权限' . PHP_EOL;
                 continue;
             }
