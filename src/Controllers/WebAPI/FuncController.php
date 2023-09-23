@@ -25,7 +25,7 @@ final class FuncController extends BaseController
     {
         $rules = DetectRule::all();
 
-        return ResponseHelper::etagJson($request, $response, [
+        return ResponseHelper::successWithDataEtag($request, $response, [
             'ret' => 1,
             'data' => $rules,
         ]);

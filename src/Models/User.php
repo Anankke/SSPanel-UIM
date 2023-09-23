@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Services\DB;
 use App\Services\IM;
 use App\Utils\Hash;
 use App\Utils\Tools;
@@ -51,15 +50,7 @@ final class User extends Model
      */
     public function getSs2022Pk($len): string
     {
-        $passwd_hash = hash('sha256', $this->passwd);
-
-        $pk = match ($len) {
-            16 => mb_strcut($passwd_hash, 0, 16),
-            32 => mb_strcut($passwd_hash, 0, 32),
-            default => $passwd_hash,
-        };
-
-        return base64_encode($pk);
+        return Tools::genSs2022UserPk($this->passwd, $len);
     }
 
     /**
@@ -67,7 +58,7 @@ final class User extends Model
      */
     public function getDiceBearAttribute(): string
     {
-        return 'https://api.dicebear.com/6.x/identicon/svg?seed=' . md5($this->email);
+        return 'https://api.dicebear.com/7.x/identicon/svg?seed=' . md5($this->email);
     }
 
     /**
@@ -127,16 +118,6 @@ final class User extends Model
     public function addInviteNum(int $num): bool
     {
         $this->invite_num += $num;
-
-        return $this->save();
-    }
-
-    /**
-     * 生成新的 UUID
-     */
-    public function generateUUID(): bool
-    {
-        $this->uuid = Uuid::uuid4();
 
         return $this->save();
     }
@@ -281,17 +262,7 @@ final class User extends Model
      */
     public function onlineIpCount(): int
     {
-        return DB::select(
-            '
-            SELECT
-                COUNT(*) AS count
-            FROM
-                online_log
-            WHERE
-                user_id = ?
-                AND last_time >= UNIX_TIMESTAMP() - 90',
-            [$this->attributes['id']]
-        )[0]->count;
+        return OnlineLog::where('user_id', $this->id)->where('last_time', '>', time() - 90)->count();
     }
 
     /**
@@ -393,7 +364,10 @@ final class User extends Model
     /**
      * 记录登录 IP
      *
+     * @param string $ip   IP 地址
      * @param int    $type 登录失败为 1
+     *
+     * @return bool
      */
     public function collectLoginIP(string $ip, int $type = 0): bool
     {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use function time;
+
 /**
  * Ip Model
  */
@@ -21,7 +23,7 @@ final class LoginIp extends Model
     }
 
     /**
-     * 登录用户
+     * 登录用户名
      */
     public function userName(): string
     {
@@ -34,5 +36,22 @@ final class LoginIp extends Model
     public function type(): string
     {
         return $this->type === 0 ? '成功' : '失败';
+    }
+
+    /**
+     * 记录登录 IP
+     *
+     * @param string $ip   IP 地址
+     * @param int    $type 登录失败为 1
+     *
+     * @return void
+     */
+    public function collectInvalidUserLoginIP(string $ip, int $type = 0): void
+    {
+        $this->ip = $ip;
+        $this->userid = 0;
+        $this->datetime = time();
+        $this->type = $type;
+        $this->save();
     }
 }

@@ -25,12 +25,14 @@ final class Hash
         if (in_array($_ENV['pwdMethod'], ['bcrypt', 'argon2i', 'argon2id'])) {
             return password_verify($password, $hashedPassword);
         }
+
         return $hashedPassword === self::passwordHash($password);
     }
 
     public static function passwordHash($pass): string
     {
         $method = $_ENV['pwdMethod'];
+
         return match ($method) {
             'md5' => self::md5WithSalt($pass),
             'sha256' => self::sha256WithSalt($pass),
@@ -43,12 +45,14 @@ final class Hash
     public static function md5WithSalt($pwd): string
     {
         $salt = $_ENV['salt'];
+
         return md5($pwd . $salt);
     }
 
     public static function sha256WithSalt($pwd): string
     {
         $salt = $_ENV['salt'];
+
         return hash('sha256', $pwd . $salt);
     }
 }

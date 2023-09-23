@@ -112,7 +112,7 @@ final class UserController extends BaseController
                     default => 32,
                 };
 
-                $user_raw->passwd = $user_raw->getSs2022Pk($pk_len);
+                $user_raw->passwd = Tools::genSs2022UserPk($user_raw->passwd, $pk_len);
             }
 
             $user_raw->node_connector = 0;
@@ -124,7 +124,7 @@ final class UserController extends BaseController
             $users[] = $user_raw;
         }
 
-        return ResponseHelper::etagJson($request, $response, [
+        return ResponseHelper::successWithDataEtag($request, $response, [
             'ret' => 1,
             'data' => $users,
         ]);

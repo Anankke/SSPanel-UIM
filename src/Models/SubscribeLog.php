@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Utils\Tools;
+use Exception;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use voku\helper\AntiXSS;
 use function time;
@@ -29,7 +30,7 @@ final class SubscribeLog extends Model
     {
         try {
             return Tools::getIpLocation($this->request_ip);
-        } catch (InvalidDatabaseException $e) {
+        } catch (InvalidDatabaseException|Exception $e) {
             return '未知';
         }
     }
@@ -37,15 +38,14 @@ final class SubscribeLog extends Model
     /**
      * 记录订阅日志
      */
-    public static function add(User $user, string $type, string $ua): void
+    public function add(User $user, string $type, string $ua): void
     {
-        $log = new SubscribeLog();
         $antiXss = new AntiXSS();
-        $log->user_id = $user->id;
-        $log->type = $antiXss->xss_clean($type);
-        $log->request_ip = $_SERVER['REMOTE_ADDR'];
-        $log->request_user_agent = $antiXss->xss_clean($ua);
-        $log->request_time = time();
-        $log->save();
+        $this->user_id = $user->id;
+        $this->type = $antiXss->xss_clean($type);
+        $this->request_ip = $_SERVER['REMOTE_ADDR'];
+        $this->request_user_agent = $antiXss->xss_clean($ua);
+        $this->request_time = time();
+        $this->save();
     }
 }

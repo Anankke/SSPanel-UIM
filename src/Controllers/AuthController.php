@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\InviteCode;
+use App\Models\LoginIp;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Auth;
@@ -69,16 +70,16 @@ final class AuthController extends BaseController
         }
 
         $antiXss = new AntiXSS();
-
         $code = $antiXss->xss_clean($request->getParam('code'));
         $passwd = $request->getParam('passwd');
         $rememberMe = $request->getParam('remember_me') === 'true' ? 1 : 0;
         $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
         $redir = Cookie::get('redir') === '' ? $antiXss->xss_clean(Cookie::get('redir')) : '/user';
-
         $user = User::where('email', $email)->first();
 
         if ($user === null) {
+            (new LoginIp())->collectInvalidUserLoginIP($_SERVER['REMOTE_ADDR'], 1);
+
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '邮箱或者密码错误',

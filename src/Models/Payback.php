@@ -33,23 +33,23 @@ final class Payback extends Model
             User::where('id', $this->ref_by)->first()->user_name;
     }
 
-    public static function rebate($user_id, $order_amount): void
+    public function rebate($user_id, $order_amount): void
     {
         $configs = Setting::getClass('invite');
         $user = User::where('id', $user_id)->first();
         $gift_user_id = $user->ref_by;
-
         // 判断
         $invite_rebate_mode = (string) $configs['invite_rebate_mode'];
 
         if ($invite_rebate_mode === 'continued') {
             // 不设限制
-            self::executeRebate($user_id, $gift_user_id, $order_amount);
+            $this->execute($user_id, $gift_user_id, $order_amount);
         } elseif ($invite_rebate_mode === 'limit_frequency') {
             // 限制返利次数
             $rebate_frequency = self::where('userid', $user_id)->count();
+
             if ($rebate_frequency < $configs['rebate_frequency_limit']) {
-                self::executeRebate($user_id, $gift_user_id, $order_amount);
+                $this->execute($user_id, $gift_user_id, $order_amount);
             }
         } elseif ($invite_rebate_mode === 'limit_amount') {
             // 限制返利金额
@@ -61,20 +61,21 @@ final class Payback extends Model
                 && $total_rebate_amount <= $configs['rebate_amount_limit']
             ) {
                 $adjust_rebate = $configs['rebate_amount_limit'] - $total_rebate_amount;
+
                 if ($adjust_rebate > 0) {
-                    self::executeRebate($user_id, $gift_user_id, $order_amount, $adjust_rebate);
+                    $this->execute($user_id, $gift_user_id, $order_amount, $adjust_rebate);
                 }
             } else {
-                self::executeRebate($user_id, $gift_user_id, $order_amount);
+                $this->execute($user_id, $gift_user_id, $order_amount);
             }
         } elseif ($invite_rebate_mode === 'limit_time_range') {
             if (strtotime($user->reg_date) + $configs['rebate_time_range_limit'] * 86400 > time()) {
-                self::executeRebate($user_id, $gift_user_id, $order_amount);
+                $this->execute($user_id, $gift_user_id, $order_amount);
             }
         }
     }
 
-    public static function executeRebate($user_id, $gift_user_id, $order_amount, $adjust_rebate = null): void
+    public function execute($user_id, $gift_user_id, $order_amount, $adjust_rebate = null): void
     {
         $gift_user = User::where('id', $gift_user_id)->first();
 
@@ -92,14 +93,13 @@ final class Payback extends Model
                 $adjust_rebate ?? $rebate_amount,
                 '邀请用户 #' . $user_id . ' 返利',
             );
-            // 记录
-            $payback = new Payback();
-            $payback->total = $order_amount;
-            $payback->userid = $user_id;
-            $payback->ref_by = $gift_user_id;
-            $payback->ref_get = $adjust_rebate ?? $rebate_amount;
-            $payback->datetime = time();
-            $payback->save();
+            // 添加记录
+            $this->total = $order_amount;
+            $this->userid = $user_id;
+            $this->ref_by = $gift_user_id;
+            $this->ref_get = $adjust_rebate ?? $rebate_amount;
+            $this->datetime = time();
+            $this->save();
         }
     }
 }

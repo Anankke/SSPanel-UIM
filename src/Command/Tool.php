@@ -247,7 +247,8 @@ EOL;
         $users = ModelsUser::all();
 
         foreach ($users as $user) {
-            $user->generateUUID();
+            $user->uuid = Uuid::uuid4();
+            $user->save();
         }
 
         echo 'generate UUID successful';

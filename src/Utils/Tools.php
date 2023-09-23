@@ -12,16 +12,19 @@ use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use function array_diff;
 use function array_flip;
+use function base64_encode;
 use function bin2hex;
 use function closedir;
 use function date;
 use function explode;
 use function filter_var;
 use function floor;
+use function hash;
 use function in_array;
 use function is_numeric;
 use function json_decode;
 use function log;
+use function mb_strcut;
 use function opendir;
 use function openssl_random_pseudo_bytes;
 use function pow;
@@ -213,6 +216,19 @@ final class Tools
         }
 
         return "couldn't alloc token";
+    }
+
+    public static function genSs2022UserPk($passwd, $len): string
+    {
+        $passwd_hash = hash('sha256', $passwd);
+
+        $pk = match ($len) {
+            16 => mb_strcut($passwd_hash, 0, 16),
+            32 => mb_strcut($passwd_hash, 0, 32),
+            default => $passwd_hash,
+        };
+
+        return base64_encode($pk);
     }
 
     public static function toDateTime(int $time): string

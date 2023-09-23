@@ -20,6 +20,13 @@ final class ResponseHelper
         ]);
     }
 
+    /**
+     * @param Response $response
+     * @param string $msg
+     * @param array $data
+     *
+     * @return ResponseInterface
+     */
     public static function successWithData(Response $response, string $msg, array $data): ResponseInterface
     {
         return $response->withJson([
@@ -37,6 +44,13 @@ final class ResponseHelper
         ]);
     }
 
+    /**
+     * @param Response $response
+     * @param string $msg
+     * @param array $data
+     *
+     * @return ResponseInterface
+     */
     public static function errorWithData(Response $response, string $msg, array $data): ResponseInterface
     {
         return $response->withJson([
@@ -57,7 +71,7 @@ final class ResponseHelper
      *
      * @return ResponseInterface
      */
-    public static function etagJson(
+    public static function successWithDataEtag(
         RequestInterface $request,
         ResponseInterface $response,
         mixed $data
