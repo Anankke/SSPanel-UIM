@@ -255,20 +255,6 @@
                                                     复制传统订阅（Trojan）
                                                 </a>
                                                 {/if}
-                                                <a {if $config['enable_r2_client_download']}
-                                                        href="/user/clients/v2rayN-Core.zip"
-                                                    {else}
-                                                        href="/clients/v2rayN-Core.zip"
-                                                    {/if} class="btn btn-azure">
-                                                    下载 v2rayN（Windows）
-                                                </a>
-                                                <a {if $config['enable_r2_client_download']}
-                                                        href="/user/clients/v2rayNG.apk"
-                                                    {else}
-                                                        href="/clients/v2rayNG.apk"
-                                                    {/if} class="btn btn-azure">
-                                                    下载 v2rayNG（Android）
-                                                </a>
                                             </div>
                                         </div>
                                     </div>

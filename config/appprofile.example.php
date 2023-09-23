@@ -102,11 +102,11 @@ $_ENV['SingBox_Config'] = [
     ],
     'route' => [
         'geoip' => [
-            'download_url' => 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip-lite.db',
+            'download_url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/MetaCubeX/meta-rules-dat@release/geoip-lite.db',
             'download_detour' => 'direct',
         ],
         'geosite' => [
-            'download_url' => 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite-lite.db',
+            'download_url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/MetaCubeX/meta-rules-dat@release/geosite-lite.db',
             'download_detour' => 'direct',
         ],
         'rules' => [

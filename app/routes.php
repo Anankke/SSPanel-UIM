@@ -193,9 +193,9 @@ return static function (Slim\App $app): void {
         // 登录日志
         $group->get('/login', App\Controllers\Admin\LoginLogController::class . ':index');
         $group->post('/login/ajax', App\Controllers\Admin\LoginLogController::class . ':ajax');
-        // 在线IP
-        $group->get('/online', App\Controllers\Admin\OnlineIpController::class . ':index');
-        $group->post('/online/ajax', App\Controllers\Admin\OnlineIpController::class . ':ajax');
+        // 在线IP日志
+        $group->get('/online', App\Controllers\Admin\OnlineLogController::class . ':index');
+        $group->post('/online/ajax', App\Controllers\Admin\OnlineLogController::class . ':ajax');
         // 订阅日志
         $group->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
         $group->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajax');
