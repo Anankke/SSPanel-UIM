@@ -78,7 +78,7 @@ final class AuthController extends BaseController
         $user = User::where('email', $email)->first();
 
         if ($user === null) {
-            (new LoginIp())->collectInvalidUserLoginIP($_SERVER['REMOTE_ADDR'], 1);
+            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
 
             return $response->withJson([
                 'ret' => 0,
@@ -87,8 +87,7 @@ final class AuthController extends BaseController
         }
 
         if (! Hash::checkPassword($user->pass, $passwd)) {
-            // 记录登录失败
-            $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
             return $response->withJson([
                 'ret' => 0,
@@ -98,8 +97,7 @@ final class AuthController extends BaseController
 
         if ($user->ga_enable) {
             if (strlen($code) !== 6) {
-                // 记录登录失败
-                $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+                (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
                 return $response->withJson([
                     'ret' => 0,
@@ -108,8 +106,7 @@ final class AuthController extends BaseController
             }
 
             if (! MFA::verifyGa($user, $code)) {
-                // 记录登录失败
-                $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+                (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
                 return $response->withJson([
                     'ret' => 0,
@@ -126,7 +123,9 @@ final class AuthController extends BaseController
 
         Auth::login($user->id, $time);
         // 记录登录成功
-        $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
+        (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
+        $user->last_login_time = time();
+        $user->save();
 
         return $response->withJson([
             'ret' => 1,
@@ -301,7 +300,7 @@ final class AuthController extends BaseController
 
         if ($user->save() && ! $is_admin_reg) {
             Auth::login($user->id, 3600);
-            $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
+            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
 
             return $response->withJson([
                 'ret' => 1,

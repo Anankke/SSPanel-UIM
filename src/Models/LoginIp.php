@@ -41,17 +41,20 @@ final class LoginIp extends Model
     /**
      * 记录登录 IP
      *
-     * @param string $ip   IP 地址
-     * @param int    $type 登录失败为 1
+     * @param string $ip IP
+     * @param int $type 1 = failed, 0 = success
+     * @param int $user_id User ID
      *
      * @return void
      */
-    public function collectInvalidUserLoginIP(string $ip, int $type = 0): void
+    public function collectLoginIP(string $ip, int $type = 0, int $user_id = 0): void
     {
-        $this->ip = $ip;
-        $this->userid = 0;
-        $this->datetime = time();
-        $this->type = $type;
-        $this->save();
+        if (Setting::obtain('login_log')) {
+            $this->ip = $ip;
+            $this->userid = $user_id;
+            $this->datetime = time();
+            $this->type = $type;
+            $this->save();
+        }
     }
 }

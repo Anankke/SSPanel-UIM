@@ -34,7 +34,7 @@
                             <a href="#display" class="nav-link active" data-bs-toggle="tab">功能显示</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#log" class="nav-link active" data-bs-toggle="tab">用户日志</a>
+                            <a href="#log" class="nav-link" data-bs-toggle="tab">用户日志</a>
                         </li>
                     </ul>
                 </div>
@@ -71,12 +71,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane active show" id="log">
+                        <div class="tab-pane" id="log">
                             <div class="card-body">
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">启用每小时使用流量日志</label>
                                     <div class="col">
-                                        <select id="display_media" class="col form-select" value="{$settings['traffic_log']}">
+                                        <select id="traffic_log" class="col form-select" value="{$settings['traffic_log']}">
                                             <option value="0" {if ! $settings['traffic_log']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['traffic_log']}selected{/if}>开启</option>
                                         </select>
@@ -91,7 +91,7 @@
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">启用订阅日志</label>
                                     <div class="col">
-                                        <select id="display_subscribe_log" class="col form-select" value="{$settings['subscribe_log']}">
+                                        <select id="subscribe_log" class="col form-select" value="{$settings['subscribe_log']}">
                                             <option value="0" {if ! $settings['subscribe_log']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['subscribe_log']}selected{/if}>开启</option>
                                         </select>
@@ -106,7 +106,7 @@
                                 <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">启用登录日志</label>
                                     <div class="col">
-                                        <select id="display_detect_log" class="col form-select" value="{$settings['login_log']}">
+                                        <select id="login_log" class="col form-select" value="{$settings['login_log']}">
                                             <option value="0" {if ! $settings['login_log']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['login_log']}selected{/if}>开启</option>
                                         </select>

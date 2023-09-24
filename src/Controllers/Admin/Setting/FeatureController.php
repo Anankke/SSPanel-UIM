@@ -11,8 +11,6 @@ use Exception;
 final class FeatureController extends BaseController
 {
     private static array $update_field = [
-        'display_media',
-        'display_subscribe_log',
         'display_detect_log',
         'display_docs',
         'display_docs_only_for_paid_user',
