@@ -240,7 +240,7 @@ final class AuthController extends BaseController
         $is_admin_reg
     ): ResponseInterface {
         $redir = Cookie::get('redir') ?? '/user';
-        $configs = Setting::getClass('register');
+        $configs = Setting::getClass('reg');
         // do reg user
         $user = new User();
 

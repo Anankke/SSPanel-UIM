@@ -27,16 +27,7 @@ final class RefController extends BaseController
      */
     public function ref($request, $response, $args)
     {
-        $settings = [];
-        $settings_raw = Setting::get(['item', 'value', 'type']);
-
-        foreach ($settings_raw as $setting) {
-            if ($setting->type === 'bool') {
-                $settings[$setting->item] = (bool) $setting->value;
-            } else {
-                $settings[$setting->item] = (string) $setting->value;
-            }
-        }
+        $settings = Setting::getClass('ref');
 
         return $response->write(
             $this->view()
@@ -48,21 +39,11 @@ final class RefController extends BaseController
 
     public function saveRef($request, $response, $args)
     {
-        $list = self::$update_field;
-
-        foreach ($list as $item) {
-            $setting = Setting::where('item', '=', $item)->first();
-
-            if ($setting->type === 'array') {
-                $setting->value = json_encode($request->getParam($item));
-            } else {
-                $setting->value = $request->getParam($item);
-            }
-
-            if (! $setting->save()) {
+        foreach (self::$update_field as $item) {
+            if (! Setting::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => "保存 {$item} 时出错",
+                    'msg' => '保存 ' . $item . ' 时出错',
                 ]);
             }
         }

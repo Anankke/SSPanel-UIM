@@ -877,7 +877,7 @@ final class Callback
             $paybacks_sum = 0;
         }
 
-        $invite = Setting::getClass('invite');
+        $invite = Setting::getClass('ref');
 
         $text = [
             '<strong>你每邀请 1 位用户注册：</strong>',

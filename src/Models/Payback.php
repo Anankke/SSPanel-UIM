@@ -35,7 +35,7 @@ final class Payback extends Model
 
     public function rebate($user_id, $order_amount): void
     {
-        $configs = Setting::getClass('invite');
+        $configs = Setting::getClass('ref');
         $user = User::where('id', $user_id)->first();
         $gift_user_id = $user->ref_by;
         // 判断

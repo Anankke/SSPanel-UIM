@@ -17,7 +17,7 @@ final class Postal extends Base
 
     public function __construct()
     {
-        $configs = Setting::getClass('postal');
+        $configs = Setting::getClass('email');
 
         $this->client = new Client($configs['postal_host'], $configs['postal_key']);
         $this->message = new Message();

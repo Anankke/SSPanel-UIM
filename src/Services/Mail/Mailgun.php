@@ -18,7 +18,7 @@ final class Mailgun extends Base
 
     public function __construct()
     {
-        $configs = Setting::getClass('mailgun');
+        $configs = Setting::getClass('email');
 
         $this->mg = MG::create($configs['mailgun_key']);
         $this->domain = $configs['mailgun_domain'];
