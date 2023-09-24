@@ -1431,6 +1431,16 @@
     },
     {
         "id": null,
+        "item": "notify_new_subscribe",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "通知用户新IP订阅"
+    },
+    {
+        "id": null,
         "item": "login_log",
         "value": "1",
         "class": "feature",
@@ -1438,6 +1448,16 @@
         "type": "bool",
         "default": "1",
         "mark": "启用登录日志"
+    },
+    {
+        "id": null,
+        "item": "notify_new_login",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "通知用户新IP登录"
     },
     {
         "id": null,

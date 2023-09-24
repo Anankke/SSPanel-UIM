@@ -18,7 +18,9 @@ final class FeatureController extends BaseController
         'traffic_log_retention_days',
         'subscribe_log',
         'subscribe_log_retention_days',
+        'notify_new_subscribe',
         'login_log',
+        'notify_new_login',
     ];
 
     /**

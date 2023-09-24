@@ -104,11 +104,29 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">通知用户新IP订阅</label>
+                                    <div class="col">
+                                        <select id="notify_new_subscribe" class="col form-select" value="{$settings['notify_new_subscribe']}">
+                                            <option value="0" {if ! $settings['notify_new_subscribe']}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['notify_new_subscribe']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
                                     <label class="form-label col-3 col-form-label">启用登录日志</label>
                                     <div class="col">
                                         <select id="login_log" class="col form-select" value="{$settings['login_log']}">
                                             <option value="0" {if ! $settings['login_log']}selected{/if}>关闭</option>
                                             <option value="1" {if $settings['login_log']}selected{/if}>开启</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3 row">
+                                    <label class="form-label col-3 col-form-label">通知用户新IP登录</label>
+                                    <div class="col">
+                                        <select id="notify_new_login" class="col form-select" value="{$settings['notify_new_login']}">
+                                            <option value="0" {if ! $settings['notify_new_login']}selected{/if}>关闭</option>
+                                            <option value="1" {if $settings['notify_new_login']}selected{/if}>开启</option>
                                         </select>
                                     </div>
                                 </div>

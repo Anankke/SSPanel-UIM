@@ -19,12 +19,14 @@ use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use voku\helper\AntiXSS;
 use function array_rand;
 use function date;
@@ -56,6 +58,11 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
+     * @throws TelegramSDKException
+     */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('enable_login_captcha')) {
@@ -225,6 +232,9 @@ final class AuthController extends BaseController
      *
      * @return ResponseInterface
      *
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
+     * @throws TelegramSDKException
      * @throws Exception
      */
     public static function registerHelper(
@@ -313,7 +323,16 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @throws Exception
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
+     *
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
+     * @throws RedisException
+     * @throws TelegramSDKException
      */
     public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

@@ -11,8 +11,11 @@ use App\Services\RateLimit;
 use App\Services\Subscribe;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use voku\helper\AntiXSS;
 use function in_array;
 use function strtotime;
@@ -20,7 +23,16 @@ use function strtotime;
 final class SubController extends BaseController
 {
     /**
+     * @param $request
+     * @param $response
+     * @param $args
+     *
+     * @return ResponseInterface
+     *
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
      * @throws RedisException
+     * @throws TelegramSDKException
      */
     public static function getUniversalSubContent($request, $response, $args): ResponseInterface
     {
@@ -75,7 +87,16 @@ final class SubController extends BaseController
     }
 
     /**
+     * @param $request
+     * @param $response
+     * @param $args
+     *
+     * @return ResponseInterface
+     *
      * @throws RedisException
+     * @throws GuzzleException
+     * @throws ClientExceptionInterface
+     * @throws TelegramSDKException
      */
     public static function getTraditionalSubContent($request, $response, $args): ResponseInterface
     {
