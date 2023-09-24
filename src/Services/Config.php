@@ -22,9 +22,6 @@ final class Config
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],
 
-            'subscribeLog' => $_ENV['subscribeLog'],
-            'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],
-
             'enable_r2_client_download' => $_ENV['enable_r2_client_download'],
 
             'jsdelivr_url' => $_ENV['jsdelivr_url'],

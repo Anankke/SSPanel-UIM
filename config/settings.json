@@ -1361,26 +1361,6 @@
     },
     {
         "id": null,
-        "item": "display_media",
-        "value": "0",
-        "class": "feature",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "显示节点流媒体解锁情况"
-    },
-    {
-        "id": null,
-        "item": "display_subscribe_log",
-        "value": "0",
-        "class": "feature",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "显示用户订阅记录"
-    },
-    {
-        "id": null,
         "item": "display_detect_log",
         "value": "1",
         "class": "feature",
@@ -1408,6 +1388,56 @@
         "type": "bool",
         "default": "0",
         "mark": "文档仅付费用户可见"
+    },
+    {
+        "id": null,
+        "item": "traffic_log",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用每小时使用流量日志"
+    },
+    {
+        "id": null,
+        "item": "traffic_log_retention_days",
+        "value": "7",
+        "class": "feature",
+        "is_public": 0,
+        "type": "int",
+        "default": "7",
+        "mark": "流量日志保留天数"
+    },
+    {
+        "id": null,
+        "item": "subscribe_log",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用订阅日志"
+    },
+    {
+        "id": null,
+        "item": "subscribe_log_retention_days",
+        "value": "7",
+        "class": "feature",
+        "is_public": 1,
+        "type": "int",
+        "default": "7",
+        "mark": "订阅日志保留天数"
+    },
+    {
+        "id": null,
+        "item": "login_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用登录日志"
     },
     {
         "id": null,

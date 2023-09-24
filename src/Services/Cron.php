@@ -64,9 +64,9 @@ final class Cron
         SubscribeLog::where(
             'request_time',
             '<',
-            time() - 86400 * (int) $_ENV['subscribeLog_keep_days']
+            time() - 86400 * Setting::obtain('subscribe_log_retention_days')
         )->delete();
-        UserHourlyUsage::where('datetime', '<', time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
+        UserHourlyUsage::where('datetime', '<', time() - 86400 * Setting::obtain('traffic_log_retention_days'))->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', time() - 86400)->delete();
         OnlineLog::where('last_time', '<', time() - 86400)->delete();

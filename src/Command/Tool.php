@@ -163,13 +163,15 @@ EOL;
         }
 
         if ($add_counter !== 0) {
-            echo '总计添加了 ' . $add_counter . ' 项新数据库设置' . PHP_EOL .
-                '更新了 ' . $update_counter . ' 项数据库设置' . PHP_EOL;
-        } else {
-            echo '没有任何新数据库设置项需要添加' . PHP_EOL;
+            echo '添加了 ' . $add_counter . ' 项新数据库设置' . PHP_EOL;
         }
+
+        if ($update_counter !== 0) {
+            echo '更新了 ' . $update_counter . ' 项数据库设置' . PHP_EOL;
+        }
+
         if ($del_counter !== 0) {
-            echo '总计移除了 ' . $del_counter . ' 项数据库设置' . PHP_EOL;
+            echo '移除了 ' . $del_counter . ' 项数据库设置' . PHP_EOL;
         }
     }
 

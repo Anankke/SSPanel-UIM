@@ -7,7 +7,6 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use Exception;
-use function json_encode;
 
 final class FeatureController extends BaseController
 {
@@ -17,6 +16,11 @@ final class FeatureController extends BaseController
         'display_detect_log',
         'display_docs',
         'display_docs_only_for_paid_user',
+        'traffic_log',
+        'traffic_log_retention_days',
+        'subscribe_log',
+        'subscribe_log_retention_days',
+        'login_log',
     ];
 
     /**

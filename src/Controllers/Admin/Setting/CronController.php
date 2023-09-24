@@ -7,7 +7,6 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use Exception;
-use function json_encode;
 
 final class CronController extends BaseController
 {

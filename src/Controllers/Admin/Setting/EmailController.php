@@ -9,7 +9,6 @@ use App\Models\Setting;
 use App\Services\Mail;
 use Exception;
 use Throwable;
-use function json_encode;
 
 final class EmailController extends BaseController
 {

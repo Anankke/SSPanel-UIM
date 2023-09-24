@@ -65,7 +65,7 @@ final class SubController extends BaseController
         . '; total=' . $user->transfer_enable
         . '; expire=' . strtotime($user->class_expire);
 
-        if ($_ENV['subscribeLog']) {
+        if (Setting::obtain('subscribe_log')) {
             (new SubscribeLog())->add($user, $subtype, $request->getHeaderLine('User-Agent'));
         }
 
@@ -126,7 +126,7 @@ final class SubController extends BaseController
         }
 
         // 记录订阅日志
-        if ($_ENV['subscribeLog']) {
+        if (Setting::obtain('subscribe_log')) {
             (new SubscribeLog())->add($user, $sub_type, $request->getHeaderLine('User-Agent'));
         }
 

@@ -12,7 +12,6 @@ use App\Services\IM\Telegram;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function json_encode;
 
 final class ImController extends BaseController
 {

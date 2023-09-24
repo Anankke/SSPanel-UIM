@@ -410,7 +410,7 @@ final class Callback
                 break;
             case 'subscribe_log':
                 // 订阅记录
-                if ($_ENV['subscribeLog']) {
+                if (Setting::obtain('subscribe_log')) {
                     $logs = SubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->take(10)->get();
                     $text = '<strong>以下是你最近 10 次订阅记录：</strong>' . PHP_EOL . PHP_EOL;
 
