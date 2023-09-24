@@ -116,7 +116,7 @@ final class AopF2F extends AbstractPayment
 
     private function createGateway(): GatewayInterface
     {
-        $configs = Setting::getClass('f2f');
+        $configs = Setting::getClass('billing');
         $gateway = Omnipay::create('Alipay_AopF2F');
         $gateway->setSignType('RSA2'); //RSA/RSA2
         $gateway->setAppId($configs['f2f_pay_app_id']);

@@ -38,7 +38,7 @@ final class StripeCard extends AbstractPayment
     {
         $trade_no = uniqid();
         $user = Auth::getUser();
-        $configs = Setting::getClass('stripe');
+        $configs = Setting::getClass('billing');
         $price = $request->getParam('price');
 
         $pl = new Paylist();

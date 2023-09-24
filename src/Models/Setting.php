@@ -55,4 +55,17 @@ final class Setting extends Model
 
         return $configs;
     }
+
+    public static function set($item, $value): bool
+    {
+        $config = self::where('item', $item)->first();
+
+        if ($config->tpye === 'array') {
+            $config->value = json_encode($value);
+        } else {
+            $config->value = $value;
+        }
+
+        return $config->save();
+    }
 }

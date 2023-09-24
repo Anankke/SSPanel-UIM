@@ -22,7 +22,7 @@ final class SendGrid extends Base
      */
     public function __construct()
     {
-        $configs = Setting::getClass('sendgrid');
+        $configs = Setting::getClass('email');
 
         $this->sg = new SG($configs['sendgrid_key']);
         $this->email = new Mail();

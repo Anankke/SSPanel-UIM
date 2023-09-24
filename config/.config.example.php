@@ -66,13 +66,6 @@ $_ENV['enable_change_email']        = true;         //是否允许用户更改�
 $_ENV['notify_limit_mode']          = false;         //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $_ENV['notify_limit_value']         = 500;           //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
-//日志设置---------------------------------------------------------------------------------------
-$_ENV['trafficLog']               = false;                       //是否记录用户每小时使用流量
-$_ENV['trafficLog_keep_days']     = 7;                           //每小时使用流量记录保留天数
-
-$_ENV['subscribeLog']             = false;                       //是否记录用户订阅日志
-$_ENV['subscribeLog_keep_days']   = 7;                           //订阅记录保留天数
-
 //订阅设置---------------------------------------------------------------------------------------
 $_ENV['Subscribe']                  = true;                         //本站是否提供订阅功能
 $_ENV['subUrl']                     = $_ENV['baseUrl'];             //订阅地址，如需和站点名称相同，请不要修改

@@ -17,7 +17,7 @@ final class Smtp extends Base
      */
     public function __construct()
     {
-        $configs = Setting::getClass('smtp');
+        $configs = Setting::getClass('email');
 
         $mail = new PHPMailer();
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output

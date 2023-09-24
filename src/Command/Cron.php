@@ -50,7 +50,7 @@ EOL;
         }
 
         // Run traffic log job
-        if ($minute === 0 && $_ENV['trafficLog']) {
+        if ($minute === 0 && Setting::obtain('traffic_log')) {
             $jobs->addTrafficLog();
         }
 

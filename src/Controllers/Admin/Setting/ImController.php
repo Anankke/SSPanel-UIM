@@ -12,7 +12,6 @@ use App\Services\IM\Telegram;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function json_encode;
 
 final class ImController extends BaseController
 {
@@ -67,16 +66,7 @@ final class ImController extends BaseController
      */
     public function im($request, $response, $args)
     {
-        $settings = [];
-        $settings_raw = Setting::get(['item', 'value', 'type']);
-
-        foreach ($settings_raw as $setting) {
-            if ($setting->type === 'bool') {
-                $settings[$setting->item] = (bool) $setting->value;
-            } else {
-                $settings[$setting->item] = (string) $setting->value;
-            }
-        }
+        $settings = Setting::getClass('im');
 
         return $response->write(
             $this->view()
@@ -88,21 +78,11 @@ final class ImController extends BaseController
 
     public function saveIm($request, $response, $args)
     {
-        $list = self::$update_field;
-
-        foreach ($list as $item) {
-            $setting = Setting::where('item', '=', $item)->first();
-
-            if ($setting->type === 'array') {
-                $setting->value = json_encode($request->getParam($item));
-            } else {
-                $setting->value = $request->getParam($item);
-            }
-
-            if (! $setting->save()) {
+        foreach (self::$update_field as $item) {
+            if (! Setting::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => "保存 {$item} 时出错",
+                    'msg' => '保存 ' . $item . ' 时出错',
                 ]);
             }
         }

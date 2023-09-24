@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\Notification;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Client\ClientExceptionInterface;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use function date;
 use function time;
 
 /**
@@ -41,17 +46,40 @@ final class LoginIp extends Model
     /**
      * 记录登录 IP
      *
-     * @param string $ip   IP 地址
-     * @param int    $type 登录失败为 1
+     * @param string $ip IP
+     * @param int $type 1 = failed, 0 = success
+     * @param int $user_id User ID
      *
      * @return void
+     *
+     * @throws GuzzleException
+     * @throws ClientExceptionInterface
+     * @throws TelegramSDKException
      */
-    public function collectInvalidUserLoginIP(string $ip, int $type = 0): void
+    public function collectLoginIP(string $ip, int $type = 0, int $user_id = 0): void
     {
-        $this->ip = $ip;
-        $this->userid = 0;
-        $this->datetime = time();
-        $this->type = $type;
-        $this->save();
+        if (Setting::obtain('login_log')) {
+            $this->ip = $ip;
+            $this->userid = $user_id;
+            $this->datetime = time();
+            $this->type = $type;
+
+            if (Setting::obtain('notify_new_login') &&
+                $user_id !== 0 &&
+                LoginIp::where('userid', $user_id)->where('ip', $this->ip)->count() === 0
+            ) {
+                try {
+                    Notification::notifyUser(
+                        User::where('id', $user_id)->first(),
+                        $_ENV['appName'] . '-新登录通知',
+                        '你的账号于 ' . date('Y-m-d H:i:s') . ' 通过 ' . $this->ip . ' 地址登录了用户面板',
+                    );
+                } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
+                    echo $e->getMessage();
+                }
+            }
+
+            $this->save();
+        }
     }
 }

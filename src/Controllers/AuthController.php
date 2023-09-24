@@ -19,12 +19,14 @@ use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use voku\helper\AntiXSS;
 use function array_rand;
 use function date;
@@ -56,6 +58,11 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
+     * @throws TelegramSDKException
+     */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Setting::obtain('enable_login_captcha')) {
@@ -78,7 +85,7 @@ final class AuthController extends BaseController
         $user = User::where('email', $email)->first();
 
         if ($user === null) {
-            (new LoginIp())->collectInvalidUserLoginIP($_SERVER['REMOTE_ADDR'], 1);
+            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
 
             return $response->withJson([
                 'ret' => 0,
@@ -87,8 +94,7 @@ final class AuthController extends BaseController
         }
 
         if (! Hash::checkPassword($user->pass, $passwd)) {
-            // 记录登录失败
-            $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
             return $response->withJson([
                 'ret' => 0,
@@ -98,8 +104,7 @@ final class AuthController extends BaseController
 
         if ($user->ga_enable) {
             if (strlen($code) !== 6) {
-                // 记录登录失败
-                $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+                (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
                 return $response->withJson([
                     'ret' => 0,
@@ -108,8 +113,7 @@ final class AuthController extends BaseController
             }
 
             if (! MFA::verifyGa($user, $code)) {
-                // 记录登录失败
-                $user->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+                (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
                 return $response->withJson([
                     'ret' => 0,
@@ -126,7 +130,9 @@ final class AuthController extends BaseController
 
         Auth::login($user->id, $time);
         // 记录登录成功
-        $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
+        (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
+        $user->last_login_time = time();
+        $user->save();
 
         return $response->withJson([
             'ret' => 1,
@@ -226,6 +232,9 @@ final class AuthController extends BaseController
      *
      * @return ResponseInterface
      *
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
+     * @throws TelegramSDKException
      * @throws Exception
      */
     public static function registerHelper(
@@ -240,7 +249,7 @@ final class AuthController extends BaseController
         $is_admin_reg
     ): ResponseInterface {
         $redir = Cookie::get('redir') ?? '/user';
-        $configs = Setting::getClass('register');
+        $configs = Setting::getClass('reg');
         // do reg user
         $user = new User();
 
@@ -301,7 +310,7 @@ final class AuthController extends BaseController
 
         if ($user->save() && ! $is_admin_reg) {
             Auth::login($user->id, 3600);
-            $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
+            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
 
             return $response->withJson([
                 'ret' => 1,
@@ -314,7 +323,16 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @throws Exception
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
+     *
+     * @throws ClientExceptionInterface
+     * @throws GuzzleException
+     * @throws RedisException
+     * @throws TelegramSDKException
      */
     public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

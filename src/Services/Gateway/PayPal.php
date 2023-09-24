@@ -23,7 +23,7 @@ final class PayPal extends AbstractPayment
 
     public function __construct()
     {
-        $configs = Setting::getClass('paypal');
+        $configs = Setting::getClass('billing');
 
         $this->gateway_config = [
             'mode' => $configs['paypal_mode'],

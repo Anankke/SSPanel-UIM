@@ -360,28 +360,4 @@ final class User extends Model
             }
         }
     }
-
-    /**
-     * 记录登录 IP
-     *
-     * @param string $ip   IP 地址
-     * @param int    $type 登录失败为 1
-     *
-     * @return bool
-     */
-    public function collectLoginIP(string $ip, int $type = 0): bool
-    {
-        $loginip = new LoginIp();
-        $loginip->ip = $ip;
-        $loginip->userid = $this->id;
-        $loginip->datetime = time();
-        $loginip->type = $type;
-
-        if ($type === 0) {
-            $this->last_login_time = time();
-            $this->save();
-        }
-
-        return $loginip->save();
-    }
 }

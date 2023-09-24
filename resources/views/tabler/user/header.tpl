@@ -96,7 +96,7 @@
                                                 <i class="ti ti-edit"></i>&nbsp;
                                                 资料
                                             </a>
-                                            {if $public_setting['display_subscribe_log']}
+                                            {if $public_setting['subscribe_log']}
                                             <a class="dropdown-item" href="/user/subscribe/log">
                                                 <i class="ti ti-rss"></i></i>&nbsp;
                                                 订阅

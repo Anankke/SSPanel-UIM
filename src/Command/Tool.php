@@ -119,6 +119,7 @@ EOL;
         $settings = json_decode($json_settings, true);
         $config = [];
         $add_counter = 0;
+        $update_counter = 0;
         $del_counter = 0;
 
         // 检查新增
@@ -141,6 +142,14 @@ EOL;
 
                 echo '添加新数据库设置：' . $item_name . PHP_EOL;
                 $add_counter += 1;
+                continue;
+            }
+
+            if ($query->class !== $item['class']) {
+                $query->class = $item['class'];
+                $query->save();
+                echo '更新数据库设置：' . $item_name . PHP_EOL;
+                $update_counter += 1;
             }
         }
         // 检查移除
@@ -154,12 +163,15 @@ EOL;
         }
 
         if ($add_counter !== 0) {
-            echo '总计添加了 ' . $add_counter . ' 项新数据库设置' . PHP_EOL;
-        } else {
-            echo '没有任何新数据库设置项需要添加' . PHP_EOL;
+            echo '添加了 ' . $add_counter . ' 项新数据库设置' . PHP_EOL;
         }
+
+        if ($update_counter !== 0) {
+            echo '更新了 ' . $update_counter . ' 项数据库设置' . PHP_EOL;
+        }
+
         if ($del_counter !== 0) {
-            echo '总计移除了 ' . $del_counter . ' 项数据库设置' . PHP_EOL;
+            echo '移除了 ' . $del_counter . ' 项数据库设置' . PHP_EOL;
         }
     }
 

@@ -13,7 +13,7 @@ final class Ses extends Base
 
     public function __construct()
     {
-        $configs = Setting::getClass('aws_ses');
+        $configs = Setting::getClass('email');
 
         $ses = new SesClient([
             'credentials' => [
