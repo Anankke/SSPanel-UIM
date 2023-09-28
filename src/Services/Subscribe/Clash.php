@@ -160,7 +160,7 @@ final class Clash extends Base
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
                     // Clash.Meta
                     $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
-                    $fingerprint = $node_custom_config['fingerprint'] ?? '';
+                    // $fingerprint = $node_custom_config['fingerprint'] ?? '';
                     $flow = $node_custom_config['flow'] ?? '';
                     $flow_show = $node_custom_config['flow_show'] ?? false;
 
@@ -174,7 +174,7 @@ final class Clash extends Base
                         'network' => $network,
                         'udp' => (bool) $udp,
                         'client-fingerprint' => $client_fingerprint,
-                        'fingerprint' => $fingerprint,
+                        //'fingerprint' => $fingerprint,
                         'flow' => $flow,
                         'flow-show' => (bool) $flow_show,
                         'skip-cert-verify' => (bool) $allow_insecure,
