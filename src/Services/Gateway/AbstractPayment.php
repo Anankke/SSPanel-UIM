@@ -9,6 +9,7 @@ use App\Models\Payback;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
+use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
@@ -26,7 +27,7 @@ abstract class AbstractPayment
     abstract public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
     /**
-     * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
+     * 支付网关的 codeName
      */
     abstract public static function _name(): string;
 
@@ -48,6 +49,7 @@ abstract class AbstractPayment
     public function getStatus(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $p = Paylist::where('tradeno', $_POST['pid'])->first();
+
         return $response->withJson([
             'ret' => 1,
             'result' => $p->satatus,
@@ -86,20 +88,7 @@ abstract class AbstractPayment
 
     public static function generateGuid(): string
     {
-        return substr(Uuid::uuid4()->toString(), 0, 8);
-    }
-
-    public static function exchange($currency)
-    {
-        $ch = curl_init();
-        $url = 'https://api.exchangerate.host/latest?symbols=CNY&base=' . strtoupper($currency);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $currency = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $currency->rates->CNY;
+        return Tools::genRandomChar();
     }
 
     protected static function getCallbackUrl(): string

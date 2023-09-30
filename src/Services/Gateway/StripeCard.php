@@ -7,9 +7,12 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
+use App\Services\Exchange;
 use App\Services\View;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Stripe\Checkout\Session;
@@ -34,12 +37,16 @@ final class StripeCard extends AbstractPayment
         return 'Stripe';
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws RedisException
+     */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $trade_no = uniqid();
         $user = Auth::getUser();
         $configs = Setting::getClass('billing');
         $price = $request->getParam('price');
+        $trade_no = self::generateGuid();
 
         $pl = new Paylist();
         $pl->userid = $user->id;
@@ -52,7 +59,7 @@ final class StripeCard extends AbstractPayment
             'sign' => md5($trade_no . ':' . $configs['stripe_webhook_key']),
         ];
 
-        $exchange_amount = $price / self::exchange($configs['stripe_currency']) * 100;
+        $exchange_amount = Exchange::exchange($price, 'CNY', $configs['stripe_currency']);
 
         Stripe::setApiKey($configs['stripe_sk']);
         $session = null;
