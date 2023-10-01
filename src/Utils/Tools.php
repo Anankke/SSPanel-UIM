@@ -203,6 +203,10 @@ final class Tools
 
     public static function genRandomChar(int $length = 8): string
     {
+        if ($length <= 2) {
+            $length = 2;
+        }
+
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
@@ -265,12 +269,14 @@ final class Tools
 
         if ($handle !== false) {
             $i = 0;
+
             while (($file = readdir($handle)) !== false) {
                 if ($file !== '.' && $file !== '..' && ! strpos($file, '.')) {
                     $dirArray[$i] = $file;
                     $i++;
                 }
             }
+
             closedir($handle);
         }
 

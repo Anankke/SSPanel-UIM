@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-use PHPUnit\Framework\TestCase;
 use App\Utils\Hash;
+use PHPUnit\Framework\TestCase;
 
 class HashTest extends TestCase
 {
@@ -41,6 +41,7 @@ class HashTest extends TestCase
      * @covers App\Utils\Hash::passwordHash
      * @covers App\Utils\Hash::md5WithSalt
      * @covers App\Utils\Hash::sha256WithSalt
+     * @covers App\Utils\Hash::sha3WithSalt
      */
     public function testPasswordFunctions()
     {
@@ -53,5 +54,6 @@ class HashTest extends TestCase
         $this->assertIsString(Hash::passwordHash($password));
         $this->assertIsString(Hash::md5WithSalt($password));
         $this->assertIsString(Hash::sha256WithSalt($password));
+        $this->assertIsString(Hash::sha3WithSalt($password));
     }
 }

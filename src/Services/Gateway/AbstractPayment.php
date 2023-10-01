@@ -11,7 +11,6 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function get_called_class;

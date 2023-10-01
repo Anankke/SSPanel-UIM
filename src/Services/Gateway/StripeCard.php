@@ -56,7 +56,7 @@ final class StripeCard extends AbstractPayment
 
         $params = [
             'trade_no' => $trade_no,
-            'sign' => md5($trade_no . ':' . $configs['stripe_webhook_key']),
+            'sign' => hash('sha256', $trade_no . ':' . $configs['stripe_webhook_key']),
         ];
 
         $exchange_amount = Exchange::exchange($price, 'CNY', $configs['stripe_currency']);
@@ -112,9 +112,13 @@ final class StripeCard extends AbstractPayment
         $trade_no = $request->getParam('trade_no');
         $session_id = $request->getParam('session_id');
 
-        $_sign = md5($trade_no . ':' . Setting::obtain('stripe_webhook_key'));
-        if ($_sign !== $sign) {
-            die('error_sign');
+        $correct_sign = hash('sha256', $trade_no . ':' . Setting::obtain('stripe_webhook_key'));
+
+        if ($correct_sign !== $sign) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Sign error',
+            ]);
         }
 
         $stripe = new StripeClient(Setting::obtain('stripe_sk'));

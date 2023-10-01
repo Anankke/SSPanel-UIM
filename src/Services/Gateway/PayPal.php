@@ -18,7 +18,6 @@ use Slim\Http\ServerRequest;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 use voku\helper\AntiXSS;
-use function round;
 
 final class PayPal extends AbstractPayment
 {
