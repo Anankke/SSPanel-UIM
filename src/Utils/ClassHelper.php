@@ -23,19 +23,6 @@ final class ClassHelper
         }
     }
 
-    public function getClasses(): array
-    {
-        $allClasses = [];
-
-        if (! is_null(self::$classes)) {
-            foreach (self::$classes as $class) {
-                $allClasses[] = '\\' . $class;
-            }
-        }
-
-        return $allClasses;
-    }
-
     public function getClassesByNamespace($namespace): array
     {
         if (! str_starts_with($namespace, '\\')) {
@@ -53,5 +40,18 @@ final class ClassHelper
             }
             return false;
         });
+    }
+
+    public function getClasses(): array
+    {
+        $allClasses = [];
+
+        if (! is_null(self::$classes)) {
+            foreach (self::$classes as $class) {
+                $allClasses[] = '\\' . $class;
+            }
+        }
+
+        return $allClasses;
     }
 }

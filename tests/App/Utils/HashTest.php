@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-use App\Utils\Hash;
 use PHPUnit\Framework\TestCase;
 
 class HashTest extends TestCase
