@@ -7,15 +7,17 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
+use App\Services\Exchange;
 use App\Services\View;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 use voku\helper\AntiXSS;
-use function round;
 
 final class PayPal extends AbstractPayment
 {
@@ -61,6 +63,8 @@ final class PayPal extends AbstractPayment
     }
 
     /**
+     * @throws GuzzleException
+     * @throws RedisException
      * @throws Throwable
      */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -78,7 +82,7 @@ final class PayPal extends AbstractPayment
             ]);
         }
 
-        $exchange_amount = round($price / self::exchange(Setting::obtain('paypal_currency')), 2);
+        $exchange_amount = Exchange::exchange($price, 'CNY', Setting::obtain('paypal_currency'));
 
         $order_data = [
             "intent" => "CAPTURE",

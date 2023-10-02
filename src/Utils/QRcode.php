@@ -13,7 +13,7 @@ final class QRcode
     /**
      * Decode QR code
      *
-     * @param   string      $source     QR code source url/path
+     * @param string $source QR code source url/path
      *
      * @return  string|null             Decoded string, null for empty
      */

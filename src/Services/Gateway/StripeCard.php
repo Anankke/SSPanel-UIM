@@ -7,9 +7,12 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
+use App\Services\Exchange;
 use App\Services\View;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
+use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Stripe\Checkout\Session;
@@ -34,12 +37,16 @@ final class StripeCard extends AbstractPayment
         return 'Stripe';
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws RedisException
+     */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $trade_no = uniqid();
         $user = Auth::getUser();
         $configs = Setting::getClass('billing');
         $price = $request->getParam('price');
+        $trade_no = self::generateGuid();
 
         $pl = new Paylist();
         $pl->userid = $user->id;
@@ -49,10 +56,10 @@ final class StripeCard extends AbstractPayment
 
         $params = [
             'trade_no' => $trade_no,
-            'sign' => md5($trade_no . ':' . $configs['stripe_webhook_key']),
+            'sign' => hash('sha256', $trade_no . ':' . $configs['stripe_webhook_key']),
         ];
 
-        $exchange_amount = $price / self::exchange($configs['stripe_currency']) * 100;
+        $exchange_amount = Exchange::exchange($price, 'CNY', $configs['stripe_currency']);
 
         Stripe::setApiKey($configs['stripe_sk']);
         $session = null;
@@ -105,9 +112,13 @@ final class StripeCard extends AbstractPayment
         $trade_no = $request->getParam('trade_no');
         $session_id = $request->getParam('session_id');
 
-        $_sign = md5($trade_no . ':' . Setting::obtain('stripe_webhook_key'));
-        if ($_sign !== $sign) {
-            die('error_sign');
+        $correct_sign = hash('sha256', $trade_no . ':' . Setting::obtain('stripe_webhook_key'));
+
+        if ($correct_sign !== $sign) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Sign error',
+            ]);
         }
 
         $stripe = new StripeClient(Setting::obtain('stripe_sk'));

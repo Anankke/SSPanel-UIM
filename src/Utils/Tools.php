@@ -160,6 +160,7 @@ final class Tools
     }
 
     //虽然名字是toMB，但是实际上功能是from MB to B
+
     /**
      * @param $traffic
      *
@@ -171,6 +172,7 @@ final class Tools
     }
 
     //虽然名字是toGB，但是实际上功能是from GB to B
+
     /**
      * @param $traffic
      *
@@ -201,11 +203,6 @@ final class Tools
         return round($traffic / 1048576, 2);
     }
 
-    public static function genRandomChar(int $length = 8): string
-    {
-        return bin2hex(openssl_random_pseudo_bytes($length / 2));
-    }
-
     public static function genSubToken(): string
     {
         $token = self::genRandomChar($_ENV['sub_token_len']);
@@ -216,6 +213,15 @@ final class Tools
         }
 
         return "couldn't alloc token";
+    }
+
+    public static function genRandomChar(int $length = 8): string
+    {
+        if ($length <= 2) {
+            $length = 2;
+        }
+
+        return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
     public static function genSs2022UserPk($passwd, $len): string
@@ -265,12 +271,14 @@ final class Tools
 
         if ($handle !== false) {
             $i = 0;
+
             while (($file = readdir($handle)) !== false) {
                 if ($file !== '.' && $file !== '..' && ! strpos($file, '.')) {
                     $dirArray[$i] = $file;
                     $i++;
                 }
             }
+
             closedir($handle);
         }
 
@@ -292,20 +300,6 @@ final class Tools
         }
 
         return false;
-    }
-
-    /**
-     * @param $input
-     *
-     * @return bool
-     */
-    public static function isEmail($input): bool
-    {
-        if (! filter_var($input, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -349,6 +343,20 @@ final class Tools
                 $res['ret'] = 1;
                 return $res;
         }
+    }
+
+    /**
+     * @param $input
+     *
+     * @return bool
+     */
+    public static function isEmail($input): bool
+    {
+        if (! filter_var($input, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

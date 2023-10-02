@@ -94,6 +94,7 @@ final class AopF2F extends AbstractPayment
 
         if ($aliResponse->isPaid()) {
             $this->postPayment($pid);
+
             return $response->withJson([
                 'ret' => 1,
                 'msg' => '支付成功',
