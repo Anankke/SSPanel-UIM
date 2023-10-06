@@ -110,15 +110,19 @@ final class SingBox extends Base
                         'uuid' => $user->uuid,
                         'security' => $security,
                         'alter_id' => (int) $alter_id,
+                        'tls' => [
+                            'enabled' => $node_custom_config['security'] === 'tls',
+                            'server_name' => $host,
+                        ],
                         'transport' => [
                             'type' => $transport,
-                            'host' => $host,
                             'path' => $path,
                             'headers' => $headers,
                             'service_name' => $service_name,
                         ],
                     ];
 
+                    $node['tls'] = array_filter($node['tls']);
                     $node['transport'] = array_filter($node['transport']);
 
                     break;
