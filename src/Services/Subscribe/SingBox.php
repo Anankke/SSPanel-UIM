@@ -95,8 +95,7 @@ final class SingBox extends Base
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'auto';
                     $transport = ($node_custom_config['network'] ?? '') === 'tcp' ? '' : $node_custom_config['network'];
-                    $host = [];
-                    $host[] = $node_custom_config['header']['request']['headers']['Host'][0] ??
+                    $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
                     $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '';
                     $headers = $node_custom_config['header']['request']['headers'] ?? [];
@@ -111,7 +110,6 @@ final class SingBox extends Base
                         'security' => $security,
                         'alter_id' => (int) $alter_id,
                         'tls' => [
-                            'enabled' => $node_custom_config['security'] === 'tls',
                             'server_name' => $host,
                         ],
                         'transport' => [
@@ -143,7 +141,6 @@ final class SingBox extends Base
                         'server_port' => (int) $trojan_port,
                         'password' => $user->uuid,
                         'tls' => [
-                            'enabled' => true,
                             'server_name' => $host,
                             'insecure' => (bool) $allow_insecure,
                         ],
