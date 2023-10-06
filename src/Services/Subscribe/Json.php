@@ -86,13 +86,8 @@ final class Json extends Base
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                    $security = $node_custom_config['security']
-                        ?? array_key_exists('enable_xtls', $node_custom_config)
-                        && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
                     $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport']
-                        ?? array_key_exists('grpc', $node_custom_config)
-                        && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                    $transport = $node_custom_config['transport'] ?? 'tcp';
 
                     $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                     $transport_method = $node_custom_config['transport_method'] ?? '';
@@ -106,7 +101,6 @@ final class Json extends Base
                         'host' => $host,
                         'port' => (int) $trojan_port,
                         'uuid' => $user->uuid,
-                        'security' => $security,
                         'mux' => $mux,
                         'transport' => $transport,
                         'transport_plugin' => $transport_plugin,

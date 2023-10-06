@@ -29,7 +29,7 @@ final class CronController extends BaseController
      */
     public function cron($request, $response, $args)
     {
-        $settings = Setting::getClass('captcha');
+        $settings = Setting::getClass('cron');
 
         return $response->write(
             $this->view()

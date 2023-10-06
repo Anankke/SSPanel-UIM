@@ -1,6 +1,6 @@
 {include file='admin/header.tpl'}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.6.0/tinymce.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.7.0/tinymce.min.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -50,7 +50,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         let options = {
             selector: '#tinymce',
-            height: 300,
             menubar: false,
             statusbar: false,
             plugins:
@@ -60,7 +59,9 @@
             toolbar: 'undo redo | formatselect | ' +
               'bold italic backcolor link | blocks | alignleft aligncenter ' +
               'alignright alignjustify | bullist numlist outdent indent | ' +
-              'removeformat',
+              'image removeformat',
+            image_title: false,
+            image_description: false,
             content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;   font-size:   14px; -webkit-font-smoothing: antialiased; }',
             {if $user->is_dark_mode}
             skin: 'oxide-dark',

@@ -94,7 +94,7 @@ final class SingBox extends Base
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'auto';
-                    $transport = $node_custom_config['network'] ?? '';
+                    $transport = ($node_custom_config['network'] ?? '') === 'tcp' ? '' : $node_custom_config['network'];
                     $host = [];
                     $host[] = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
@@ -110,15 +110,19 @@ final class SingBox extends Base
                         'uuid' => $user->uuid,
                         'security' => $security,
                         'alter_id' => (int) $alter_id,
+                        'tls' => [
+                            'enabled' => $node_custom_config['security'] === 'tls',
+                            'server_name' => $host,
+                        ],
                         'transport' => [
                             'type' => $transport,
-                            'host' => $host,
                             'path' => $path,
                             'headers' => $headers,
                             'service_name' => $service_name,
                         ],
                     ];
 
+                    $node['tls'] = array_filter($node['tls']);
                     $node['transport'] = array_filter($node['transport']);
 
                     break;
@@ -127,9 +131,7 @@ final class SingBox extends Base
                         ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
-                    $transport = $node_custom_config['network']
-                        ?? (array_key_exists('grpc', $node_custom_config)
-                        && $node_custom_config['grpc'] === '1' ? 'grpc' : '');
+                    $transport = $node_custom_config['network'] ?? '';
                     $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '';
                     $headers = $node_custom_config['header']['request']['headers'] ?? [];
                     $service_name = $node_custom_config['servicename'] ?? '';
