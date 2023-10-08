@@ -352,6 +352,7 @@ EOL;
             $user->node_iplimit = 0;
             $user->node_speedlimit = 0;
             $user->theme = $_ENV['theme'];
+            $user->locale = $_ENV['locale'];
 
             $user->ga_token = MFA::generateGaToken();
             $user->ga_enable = 0;

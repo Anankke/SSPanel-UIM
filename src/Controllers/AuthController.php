@@ -65,15 +65,11 @@ final class AuthController extends BaseController
      */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if (Setting::obtain('enable_login_captcha')) {
-            $ret = Captcha::verify($request->getParams());
-
-            if (! $ret) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '系统无法接受你的验证结果，请刷新页面后重试。',
-                ]);
-            }
+        if (Setting::obtain('enable_login_captcha') && ! Captcha::verify($request->getParams())) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '系统无法接受你的验证结果，请刷新页面后重试。',
+            ]);
         }
 
         $antiXss = new AntiXSS();
@@ -83,9 +79,10 @@ final class AuthController extends BaseController
         $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
         $redir = Cookie::get('redir') === '' ? $antiXss->xss_clean(Cookie::get('redir')) : '/user';
         $user = User::where('email', $email)->first();
+        $loginIp = new LoginIp();
 
         if ($user === null) {
-            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
+            $loginIp->collectLoginIP($_SERVER['REMOTE_ADDR'], 1);
 
             return $response->withJson([
                 'ret' => 0,
@@ -94,7 +91,7 @@ final class AuthController extends BaseController
         }
 
         if (! Hash::checkPassword($user->pass, $passwd)) {
-            (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
+            $loginIp->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
             return $response->withJson([
                 'ret' => 0,
@@ -102,24 +99,13 @@ final class AuthController extends BaseController
             ]);
         }
 
-        if ($user->ga_enable) {
-            if (strlen($code) !== 6) {
-                (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
+        if ($user->ga_enable && (strlen($code) !== 6 || ! MFA::verifyGa($user, $code))) {
+            $loginIp->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '两步验证码错误',
-                ]);
-            }
-
-            if (! MFA::verifyGa($user, $code)) {
-                (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
-
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '两步验证码错误',
-                ]);
-            }
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '两步验证码错误',
+            ]);
         }
 
         $time = 3600;
@@ -130,7 +116,7 @@ final class AuthController extends BaseController
 
         Auth::login($user->id, $time);
         // 记录登录成功
-        (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
+        $loginIp->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
         $user->last_login_time = time();
         $user->save();
 
@@ -268,7 +254,6 @@ final class AuthController extends BaseController
         $user->forbidden_port = Setting::obtain('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
-
         $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
         $user->auto_reset_day = Setting::obtain('free_user_reset_day');
@@ -292,7 +277,6 @@ final class AuthController extends BaseController
 
         $user->ga_token = MFA::generateGaToken();
         $user->ga_enable = 0;
-
         $user->class_expire = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_class_time'] * 86400);
         $user->class = $configs['sign_up_for_class'];
         $user->node_iplimit = $configs['connection_ip_limit'];
@@ -300,6 +284,7 @@ final class AuthController extends BaseController
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
+        $user->locale = $_ENV['locale'];
         $random_group = Setting::obtain('random_group');
 
         if ($random_group === '') {
@@ -340,15 +325,11 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '未开放注册。');
         }
 
-        if (Setting::obtain('enable_reg_captcha')) {
-            $ret = Captcha::verify($request->getParams());
-            if (! $ret) {
-                return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试。');
-            }
+        if (Setting::obtain('enable_reg_captcha') && ! Captcha::verify($request->getParams())) {
+            return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试。');
         }
 
         $antiXss = new AntiXSS();
-
         $tos = $request->getParam('tos') === 'true' ? 1 : 0;
         $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
         $name = $antiXss->xss_clean($request->getParam('name'));
@@ -383,11 +364,13 @@ final class AuthController extends BaseController
 
         // check email format
         $check_res = Tools::isEmailLegal($email);
+
         if ($check_res['ret'] === 0) {
             return $response->withJson($check_res);
         }
         // check email
         $user = User::where('email', $email)->first();
+
         if ($user !== null) {
             return ResponseHelper::error($response, '邮箱已经被注册了');
         }
@@ -418,6 +401,7 @@ final class AuthController extends BaseController
     public function logout(ServerRequest $request, Response $response, $next): Response
     {
         Auth::logout();
+
         return $response->withStatus(302)
             ->withHeader('Location', '/auth/login');
     }
