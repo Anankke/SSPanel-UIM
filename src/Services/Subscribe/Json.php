@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Subscribe;
 
 use App\Services\Subscribe;
-use function array_key_exists;
-use function in_array;
 use function json_decode;
 
 final class Json extends Base
@@ -18,12 +16,6 @@ final class Json extends Base
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
-            //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! array_key_exists('server_user', $node_custom_config)) {
-                $server = $node_raw->server;
-            } else {
-                $server = $node_custom_config['server_user'];
-            }
 
             switch ((int) $node_raw->sort) {
                 case 0:
@@ -33,7 +25,7 @@ final class Json extends Base
                         'name' => $node_raw->name,
                         'id' => $node_raw->id,
                         'type' => 'ss',
-                        'address' => $server,
+                        'address' => $node_raw->server,
                         'port' => (int) $user->port,
                         'password' => $user->passwd,
                         'encryption' => $user->method,
@@ -43,10 +35,7 @@ final class Json extends Base
                     ];
                     break;
                 case 11:
-                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
-                        ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    //默認值有問題的請懂 V2 怎麽用的人來改一改。
-                    $alter_id = $node_custom_config['alter_id'] ?? '0';
+                    $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
                     $flow = $node_custom_config['flow'] ?? '';
                     $encryption = $node_custom_config['encryption'] ?? '';
@@ -57,16 +46,15 @@ final class Json extends Base
                         $node_custom_config['host'] ?? '';
                     $servicename = $node_custom_config['servicename'] ?? '';
                     $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
-                    $tls = in_array($security, ['tls', 'xtls']) ? '1' : '0';
-                    $enable_vless = $node_custom_config['enable_vless'] ?? '0';
+                    $tls = $security === 'tls' ? '1' : '0';
                     $node = [
                         'name' => $node_raw->name,
                         'id' => $node_raw->id,
                         'type' => 'vmess',
-                        'address' => $server,
+                        'address' => $node_raw->server,
                         'port' => (int) $v2_port,
                         'uuid' => $user->uuid,
-                        'alterid' => (int) $alter_id,
+                        'alterid' => 0,
                         'security' => $security,
                         'flow' => $flow,
                         'encryption' => $encryption,
@@ -77,18 +65,15 @@ final class Json extends Base
                         'path' => $path,
                         'servicename' => $servicename,
                         'tls' => (int) $tls,
-                        'enable_vless' => (int) $enable_vless,
                         'remark' => $node_raw->info,
                     ];
                     break;
                 case 14:
-                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
-                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
                     $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport'] ?? 'tcp';
-
+                    $network = $node_custom_config['network'] ?? 'tcp';
                     $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                     $transport_method = $node_custom_config['transport_method'] ?? '';
                     $servicename = $node_custom_config['servicename'] ?? '';
@@ -97,12 +82,12 @@ final class Json extends Base
                         'name' => $node_raw->name,
                         'id' => $node_raw->id,
                         'type' => 'trojan',
-                        'address' => $server,
+                        'address' => $node_raw->server,
                         'host' => $host,
                         'port' => (int) $trojan_port,
                         'uuid' => $user->uuid,
                         'mux' => $mux,
-                        'transport' => $transport,
+                        'transport' => $network,
                         'transport_plugin' => $transport_plugin,
                         'transport_method' => $transport_method,
                         'allow_insecure' => (int) $allow_insecure,
@@ -124,7 +109,7 @@ final class Json extends Base
         }
 
         return json_encode([
-            'version' => 2,
+            'version' => 3,
             'sub_name' => $_ENV['appName'],
             'user_email' => $user->email,
             'user_name' => $user->user_name,
