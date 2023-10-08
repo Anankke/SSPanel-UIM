@@ -30,6 +30,7 @@ final class ClassHelper
         }
 
         $termUpper = strtoupper($namespace);
+
         return array_filter($this->getClasses(), static function ($class) use ($termUpper) {
             $className = strtoupper($class);
             if (str_starts_with($className, $termUpper) &&

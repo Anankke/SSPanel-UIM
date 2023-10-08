@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
+use App\Services\GeoIP2;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use function array_diff;
