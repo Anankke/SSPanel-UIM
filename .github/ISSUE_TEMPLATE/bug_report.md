@@ -8,9 +8,11 @@ labels: bug-user-report
 
 **Environment 环境**
 
-OS:    
+OS:   
+HTTPS enabled:   
 PHP version:    
-DB version:    
+DB version:  
+Redis version:    
 Commit:    
 
 **Bug Info**
