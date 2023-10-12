@@ -72,6 +72,7 @@ final class OrderController extends BaseController
         }
 
         $product = Product::where('id', $product_id)->first();
+        $product->type_text = $product->type();
         $product->content = json_decode($product->content);
 
         return $response->write(
@@ -95,26 +96,23 @@ final class OrderController extends BaseController
             return $response->withRedirect('/user/order');
         }
 
-        $order->product_type = $order->productType();
+        $order->product_type_text = $order->productType();
         $order->status = $order->status();
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
-
-        $product_content = json_decode($order->product_content);
+        $order->content = json_decode($order->product_content);
 
         $invoice = Invoice::where('order_id', $id)->first();
         $invoice->status = $invoice->status();
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
         $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
-        $invoice_content = json_decode($invoice->content);
+        $invoice->content = json_decode($invoice->content);
 
         return $response->write(
             $this->view()
                 ->assign('order', $order)
                 ->assign('invoice', $invoice)
-                ->assign('product_content', $product_content)
-                ->assign('invoice_content', $invoice_content)
                 ->fetch('user/order/view.tpl')
         );
     }

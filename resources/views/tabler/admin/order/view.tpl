@@ -52,7 +52,7 @@
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">商品类型</div>
-                            <div class="datagrid-content">{$order->product_type}</div>
+                            <div class="datagrid-content">{$order->product_type_text}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">商品名称</div>
@@ -87,46 +87,52 @@
                 </div>
                 <div class="card-body">
                     <div class="datagrid">
+                        {if $order->product_type === 'tabp' || $order->product_type === 'time'}
                         <div class="datagrid-item">
                             <div class="datagrid-title">商品时长 (天)</div>
-                            <div class="datagrid-content">{$product_content->time}</div>
-                        </div>
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">可用流量 (GB)</div>
-                            <div class="datagrid-content">{$product_content->bandwidth}</div>
-                        </div>
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">等级</div>
-                            <div class="datagrid-content">{$product_content->class}</div>
+                            <div class="datagrid-content">{$order->content->time}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">等级时长 (天)</div>
-                            <div class="datagrid-content">{$product_content->class_time}</div>
+                            <div class="datagrid-content">{$order->content->class_time}</div>
                         </div>
                         <div class="datagrid-item">
+                            <div class="datagrid-title">等级</div>
+                            <div class="datagrid-content">{$order->content->class}</div>
+                        </div>
+                        {/if}
+                        {if $order->product_type === 'tabp' || $order->product_type === 'bandwidth'}
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">可用流量 (GB)</div>
+                            <div class="datagrid-content">{$order->content->bandwidth}</div>
+                        </div>
+                        {/if}
+                        {if $order->product_type === 'tabp' || $order->product_type === 'time'}
+                        <div class="datagrid-item">
                             <div class="datagrid-title">用户分组</div>
-                            <div class="datagrid-content">{$product_content->node_group}</div>
+                            <div class="datagrid-content">{$order->content->node_group}</div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">速率限制 (Mbps)</div>
                             <div class="datagrid-content">
-                            {if $product_content->ip_limit === '0'}
+                            {if $order->content->ip_limit === '0'}
                             不限制
                             {else}
-                            {$product_content->speed_limit}
+                            {$order->content->speed_limit}
                             {/if}
                             </div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">同时连接IP限制</div>
                             <div class="datagrid-content">
-                            {if $product_content->ip_limit === '0'}
+                            {if $order->content->ip_limit === '0'}
                             不限制
                             {else}
-                            {$product_content->ip_limit}
+                            {$order->content->ip_limit}
                             {/if}
                             </div>
                         </div>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -148,10 +154,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {foreach $invoice_content as $invoice_content_detail}
+                                            {foreach $invoice->content as $invoice_content}
                                             <tr>
-                                                <td>{$invoice_content_detail->name}</td>
-                                                <td>{$invoice_content_detail->price}</td>
+                                                <td>{$invoice_content->name}</td>
+                                                <td>{$invoice_content->price}</td>
                                             </tr>
                                             {/foreach}
                                         </tbody>

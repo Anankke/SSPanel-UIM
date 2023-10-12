@@ -6,7 +6,6 @@ namespace App\Services\Subscribe;
 
 use App\Services\Subscribe;
 use Symfony\Component\Yaml\Yaml;
-use function array_key_exists;
 use function array_merge;
 use function in_array;
 use function json_decode;
@@ -23,12 +22,6 @@ final class Clash extends Base
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
-            //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! array_key_exists('server_user', $node_custom_config)) {
-                $server = $node_raw->server;
-            } else {
-                $server = $node_custom_config['server_user'];
-            }
 
             switch ((int) $node_raw->sort) {
                 case 0:
@@ -42,7 +35,7 @@ final class Clash extends Base
                     $node = [
                         'name' => $node_raw->name,
                         'type' => 'ss',
-                        'server' => $server,
+                        'server' => $node_raw->server,
                         'port' => (int) $user->port,
                         'password' => $user->passwd,
                         'cipher' => $user->method,
@@ -54,8 +47,7 @@ final class Clash extends Base
 
                     break;
                 case 1:
-                    $ss_2022_port = $node_custom_config['ss_2022_port'] ?? ($node_custom_config['offset_port_user']
-                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $ss_2022_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
 
                     $pk_len = match ($method) {
@@ -70,7 +62,7 @@ final class Clash extends Base
                     $node = [
                         'name' => $node_raw->name,
                         'type' => 'ss',
-                        'server' => $server,
+                        'server' => $node_raw->server,
                         'port' => (int) $ss_2022_port,
                         'password' => $user_pk,
                         'cipher' => $method,
@@ -79,8 +71,7 @@ final class Clash extends Base
 
                     break;
                 case 2:
-                    $tuic_port = $node_custom_config['tuic_port'] ?? ($node_custom_config['offset_port_user']
-                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $tuic_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
                     $congestion_control = $node_custom_config['congestion_control'] ?? 'bbr';
 
@@ -88,7 +79,7 @@ final class Clash extends Base
                     $node = [
                         'name' => $node_raw->name,
                         'type' => 'tuic',
-                        'server' => $server,
+                        'server' => $node_raw->server,
                         'port' => (int) $tuic_port,
                         'password' => $user->passwd,
                         'uuid' => $user->uuid,
@@ -99,9 +90,7 @@ final class Clash extends Base
 
                     break;
                 case 11:
-                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user']
-                        ?? ($node_custom_config['offset_port_node'] ?? 443));
-                    $alter_id = $node_custom_config['alter_id'] ?? '0';
+                    $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
                     $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? '';
@@ -125,10 +114,10 @@ final class Clash extends Base
                     $node = [
                         'name' => $node_raw->name,
                         'type' => $type,
-                        'server' => $server,
+                        'server' => $node_raw->server,
                         'port' => (int) $v2_port,
                         'uuid' => $user->uuid,
-                        'alterId' => (int) $alter_id,
+                        'alterId' => 0,
                         'cipher' => $encryption,
                         'udp' => (bool) $udp,
                         'tls' => $tls,
@@ -147,8 +136,7 @@ final class Clash extends Base
 
                     break;
                 case 14:
-                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user']
-                        ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $network = $node_custom_config['network'] ?? 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
@@ -165,7 +153,7 @@ final class Clash extends Base
                     $node = [
                         'name' => $node_raw->name,
                         'type' => 'trojan',
-                        'server' => $server,
+                        'server' => $node_raw->server,
                         'sni' => $host,
                         'port' => (int) $trojan_port,
                         'password' => $user->uuid,

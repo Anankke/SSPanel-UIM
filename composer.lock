@@ -1237,16 +1237,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "133f59956c8002448b07a3ff5f4352f3b3de5614"
+                "reference": "bb8784ce913bd46f944b4bd67cd857f40d9cfe68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/133f59956c8002448b07a3ff5f4352f3b3de5614",
-                "reference": "133f59956c8002448b07a3ff5f4352f3b3de5614",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/bb8784ce913bd46f944b4bd67cd857f40d9cfe68",
+                "reference": "bb8784ce913bd46f944b4bd67cd857f40d9cfe68",
                 "shasum": ""
             },
             "require": {
@@ -1288,11 +1288,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-09-19T22:43:12+00:00"
+            "time": "2023-10-10T12:55:25+00:00"
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1338,7 +1338,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1389,7 +1389,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1437,16 +1437,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "f3be980302c06dcc7ed941d4b0079ae849c6c28a"
+                "reference": "7b82234921a80bfc7a8fe67ff3ba3043c384fc04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/f3be980302c06dcc7ed941d4b0079ae849c6c28a",
-                "reference": "f3be980302c06dcc7ed941d4b0079ae849c6c28a",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/7b82234921a80bfc7a8fe67ff3ba3043c384fc04",
+                "reference": "7b82234921a80bfc7a8fe67ff3ba3043c384fc04",
                 "shasum": ""
             },
             "require": {
@@ -1502,11 +1502,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-10-02T18:33:10+00:00"
+            "time": "2023-10-09T18:36:56+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1552,7 +1552,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1602,16 +1602,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.26.2",
+            "version": "v10.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "c7cf96f64ae6766a85fcd17f46afcae5a6a88744"
+                "reference": "dd3b3275a9dbd30736363f232e6bc2970d7681e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/c7cf96f64ae6766a85fcd17f46afcae5a6a88744",
-                "reference": "c7cf96f64ae6766a85fcd17f46afcae5a6a88744",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/dd3b3275a9dbd30736363f232e6bc2970d7681e9",
+                "reference": "dd3b3275a9dbd30736363f232e6bc2970d7681e9",
                 "shasum": ""
             },
             "require": {
@@ -1669,7 +1669,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-09-21T20:37:39+00:00"
+            "time": "2023-10-06T13:41:04+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
@@ -4840,16 +4840,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v12.6.0",
+            "version": "v12.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "e0c15e4cbf252e708b937482bb1a50fa7e01bc9d"
+                "reference": "01a4a316d7c724fd1a111f36f037b698ca425f2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e0c15e4cbf252e708b937482bb1a50fa7e01bc9d",
-                "reference": "e0c15e4cbf252e708b937482bb1a50fa7e01bc9d",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/01a4a316d7c724fd1a111f36f037b698ca425f2c",
+                "reference": "01a4a316d7c724fd1a111f36f037b698ca425f2c",
                 "shasum": ""
             },
             "require": {
@@ -4860,7 +4860,6 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "3.5.0",
-                "php-coveralls/php-coveralls": "^2.5",
                 "phpstan/phpstan": "^1.2",
                 "phpunit/phpunit": "^5.7 || ^9.0"
             },
@@ -4894,9 +4893,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v12.6.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v12.7.0"
             },
-            "time": "2023-10-05T18:01:43+00:00"
+            "time": "2023-10-11T17:29:55+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -6755,16 +6754,16 @@
         },
         {
             "name": "composer/pcre",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/pcre.git",
-                "reference": "4bff79ddd77851fe3cdd11616ed3f92841ba5bd2"
+                "reference": "00104306927c7a0919b4ced2aaa6782c1e61a3c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/pcre/zipball/4bff79ddd77851fe3cdd11616ed3f92841ba5bd2",
-                "reference": "4bff79ddd77851fe3cdd11616ed3f92841ba5bd2",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/00104306927c7a0919b4ced2aaa6782c1e61a3c9",
+                "reference": "00104306927c7a0919b4ced2aaa6782c1e61a3c9",
                 "shasum": ""
             },
             "require": {
@@ -6806,7 +6805,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/pcre/issues",
-                "source": "https://github.com/composer/pcre/tree/3.1.0"
+                "source": "https://github.com/composer/pcre/tree/3.1.1"
             },
             "funding": [
                 {
@@ -6822,7 +6821,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-17T09:50:14+00:00"
+            "time": "2023-10-11T07:11:09+00:00"
         },
         {
             "name": "composer/semver",
@@ -9120,16 +9119,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "8.14.0",
+            "version": "8.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "5cb40fa9c1808efad471f8db5ee795ef36720d5f"
+                "reference": "fea1fd6f137cc84f9cba0ae30d549615dbc6a926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/5cb40fa9c1808efad471f8db5ee795ef36720d5f",
-                "reference": "5cb40fa9c1808efad471f8db5ee795ef36720d5f",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/fea1fd6f137cc84f9cba0ae30d549615dbc6a926",
+                "reference": "fea1fd6f137cc84f9cba0ae30d549615dbc6a926",
                 "shasum": ""
             },
             "require": {
@@ -9169,7 +9168,7 @@
             ],
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/8.14.0"
+                "source": "https://github.com/slevomat/coding-standard/tree/8.14.1"
             },
             "funding": [
                 {
@@ -9181,7 +9180,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-07T09:18:52+00:00"
+            "time": "2023-10-08T07:28:08+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
