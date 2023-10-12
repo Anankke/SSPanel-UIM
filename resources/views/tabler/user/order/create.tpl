@@ -35,13 +35,7 @@
                                 </tr>
                                 <tr>
                                     <td>商品类型</td>
-                                    {if $product->type === 'tabp'}
-                                        <td class="text-end">时间流量包</td>
-                                    {elseif $product->type === 'time'}
-                                        <td class="text-end">时间包</td>
-                                    {elseif $product->type === 'bandwidth'}
-                                        <td class="text-end">流量包</td>
-                                    {/if}
+                                    <td class="text-end">{$product->type_text}</td>
                                 </tr>
                                 {if $product->type === 'tabp' || $product->type === 'time'}
                                 <tr>
