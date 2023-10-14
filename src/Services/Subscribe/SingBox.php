@@ -82,7 +82,6 @@ final class SingBox extends Base
                     break;
                 case 11:
                     $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
-                    $security = $node_custom_config['security'] ?? 'auto';
                     $transport = ($node_custom_config['network'] ?? '') === 'tcp' ? '' : $node_custom_config['network'];
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
@@ -96,7 +95,7 @@ final class SingBox extends Base
                         'server' => $node_raw->server,
                         'server_port' => (int) $v2_port,
                         'uuid' => $user->uuid,
-                        'security' => $security,
+                        'security' => 'auto',
                         'alter_id' => 0,
                         'tls' => [
                             'server_name' => $host,
