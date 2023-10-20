@@ -19,9 +19,9 @@ final class EpayTool
     public static function verify($prestr, $sign, $key): bool
     {
         $prestr .= $key;
-        $correct_sgin = hash('sha256', $prestr);
+        $correct_sign = hash('sha256', $prestr);
 
-        return $correct_sgin === $sign;
+        return $correct_sign === $sign;
     }
 
     public static function createLinkstring($para): string
