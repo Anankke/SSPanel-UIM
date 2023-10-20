@@ -13,13 +13,13 @@ final class EpayTool
     {
         $prestr .= $key;
 
-        return hash('sha256', $prestr);
+        return hash('md5', $prestr);
     }
 
     public static function verify($prestr, $sign, $key): bool
     {
         $prestr .= $key;
-        $correct_sgin = hash('sha256', $prestr);
+        $correct_sgin = hash('md5', $prestr);
 
         return $correct_sgin === $sign;
     }
