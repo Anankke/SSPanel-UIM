@@ -18,37 +18,38 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
-                 <div class="col-sm-12 col-lg-12">
-                     <div class="card">
-                         <div class="card-body">
-                             <table class="table table-transparent table-responsive">
-                                 <tr>
-                                     <td>SSPanel-UIM 版本</td>
-                                     <td class="text-end" id="version"><a href="#" id="version_check">{$version} </a></td>
-                                 </tr>
-                                 <tr>
-                                     <td>数据库版本</td>
-                                     <td class="text-end">{$db_version}</td>
-                                 </tr>
-                                 <tr>
-                                     <td>最后一次每日任务执行时间</td>
-                                     <td class="text-end">{$last_daily_job_time}</td>
-                                 </tr>
-                             </table>
-                         </div>
-                     </div>
-                 </div>
+                <div class="col-sm-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-transparent table-responsive">
+                                <tr>
+                                    <td>SSPanel-UIM 版本</td>
+                                    <td class="text-end" id="version"><a href="#" id="version_check">{$version} </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>数据库版本</td>
+                                    <td class="text-end">{$db_version}</td>
+                                </tr>
+                                <tr>
+                                    <td>最后一次每日任务执行时间</td>
+                                    <td class="text-end">{$last_daily_job_time}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        $('#version_check').click(function() {
+        $('#version_check').click(function () {
             $.ajax({
                 url: '/admin/system/check_update',
                 type: 'POST',
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.is_upto_date === true) {
                         $('.badge').remove();
                         $('#version').append('<span class="badge bg-green">已是最新版本</span>');
@@ -61,4 +62,4 @@
         });
     </script>
 
-{include file='admin/footer.tpl'}
+    {include file='admin/footer.tpl'}

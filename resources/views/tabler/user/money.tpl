@@ -1,7 +1,7 @@
 {include file='user/header.tpl'}
 
 <div class="page-wrapper">
-    <div class="container-xl">       
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
@@ -32,14 +32,14 @@
                         <div class="table-responsive">
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr>
-                                        <th>事件ID</th>
-                                        <th>变动前余额</th>
-                                        <th>变动后余额</th>
-                                        <th>变动金额</th>
-                                        <th>备注</th>
-                                        <th>变动时间</th>
-                                    </tr>
+                                <tr>
+                                    <th>事件ID</th>
+                                    <th>变动前余额</th>
+                                    <th>变动后余额</th>
+                                    <th>变动金额</th>
+                                    <th>备注</th>
+                                    <th>变动时间</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 {foreach $moneylogs as $moneylog}
@@ -71,21 +71,23 @@
                 <div class="modal-body">
                     <div class="form-group mb-3 row">
                         <div class="col">
-                            <input id="giftcard" type="text" class="form-control" placeholder="输入礼品卡卡号并点击兑换">
+                            <input id="giftcard" type="text" class="form-control"
+                                   placeholder="输入礼品卡卡号并点击兑换">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
                     <button id="apply-giftcard"
-                            type="button" class="btn btn-primary" data-bs-dismiss="modal">兑换</button>
+                            type="button" class="btn btn-primary" data-bs-dismiss="modal">兑换
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        $("#apply-giftcard").click(function() {
+        $("#apply-giftcard").click(function () {
             $.ajax({
                 url: '/user/giftcard',
                 type: 'POST',
@@ -93,7 +95,7 @@
                 data: {
                     giftcard: $('#giftcard').val(),
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');

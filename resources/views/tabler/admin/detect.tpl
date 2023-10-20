@@ -15,7 +15,7 @@
                 <div class="col-auto">
                     <div class="btn-list">
                         <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#add-detect-dialog">
+                                data-bs-target="#add-detect-dialog">
                             <i class="icon ti ti-plus"></i>
                             添加审计规则
                         </button>
@@ -32,11 +32,11 @@
                         <div class="table-responsive">
                             <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr>
-                                        {foreach $details['field'] as $key => $value}
-                                            <th>{$value}</th>
-                                        {/foreach}
-                                    </tr>
+                                <tr>
+                                    {foreach $details['field'] as $key => $value}
+                                        <th>{$value}</th>
+                                    {/foreach}
+                                </tr>
                                 </thead>
                             </table>
                         </div>
@@ -60,7 +60,7 @@
                                 <label class="form-label col-3 col-form-label">{$from['info']}</label>
                                 <div class="col">
                                     <input id="{$from['id']}" type="text" class="form-control"
-                                        placeholder="{$from['placeholder']}">
+                                           placeholder="{$from['placeholder']}">
                                 </div>
                             </div>
                         {/if}
@@ -68,7 +68,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">{$from['info']}</label>
                                 <textarea id="{$from['id']}" class="col form-control" rows="{$from['rows']}"
-                                    placeholder="{$from['placeholder']}"></textarea>
+                                          placeholder="{$from['placeholder']}"></textarea>
                             </div>
                         {/if}
                         {if $from['type'] === 'select'}
@@ -87,7 +87,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="add-detect-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交</button>
+                    <button id="add-detect-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交
+                    </button>
                 </div>
             </div>
         </div>
@@ -100,7 +101,7 @@
                 type: 'POST',
                 dataSrc: 'rules'
             },
-            "autoWidth":false,
+            "autoWidth": false,
             'iDisplayLength': 10,
             'scrollX': true,
             'order': [
@@ -108,11 +109,16 @@
             ],
             columns: [
                 {foreach $details['field'] as $key => $value}
-                { data: '{$key}' },
+                {
+                    data: '{$key}'
+                },
                 {/foreach}
             ],
-            "columnDefs":[
-                { targets:[0],orderable:false },
+            "columnDefs": [
+                {
+                    targets: [0],
+                    orderable: false
+                },
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
@@ -143,17 +149,17 @@
             }
         });
 
-        $("#add-detect-button").click(function() {
+        $("#add-detect-button").click(function () {
             $.ajax({
                 type: "POST",
                 url: "/admin/detect/add",
                 dataType: "json",
                 data: {
                     {foreach $details['add_dialog'] as $from}
-                        {$from['id']}: $('#{$from['id']}').val(),
+                    {$from['id']}: $('#{$from['id']}').val(),
                     {/foreach}
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -169,12 +175,12 @@
         function deleteRule(rule_id) {
             $('#notice-message').text('确定删除此审计规则？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').off('click').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/detect/" + rule_id,
                     type: 'DELETE',
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         if (data.ret === 1) {
                             $('#success-noreload-message').text(data.msg);
                             $('#success-noreload-dialog').modal('show');
@@ -199,4 +205,4 @@
         loadTable();
     </script>
 
-{include file='admin/footer.tpl'}
+    {include file='admin/footer.tpl'}

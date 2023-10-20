@@ -57,7 +57,7 @@
                                 <label class="form-label col-3 col-form-label">流量倍率</label>
                                 <div class="col">
                                     <input id="traffic_rate" type="text" class="form-control"
-                                        value="{$node->traffic_rate}">
+                                           value="{$node->traffic_rate}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -76,7 +76,8 @@
                                 <label class="form-label col-3 col-form-label">自定义配置</label>
                                 <div id="custom_config"></div>
                                 <label class="form-label col-form-label">
-                                    请参考 <a href="//wiki.sspanel.org/#/custom-config" target="_blank">wiki.sspanel.org/#/custom-config</a> 修改节点自定义配置
+                                    请参考 <a href="//wiki.sspanel.org/#/custom-config" target="_blank">wiki.sspanel.org/#/custom-config</a>
+                                    修改节点自定义配置
                                 </label>
                             </div>
                             <div class="mb-3">
@@ -87,7 +88,7 @@
                                             <span class="col-auto">
                                                 <label class="form-check form-check-single form-switch">
                                                     <input id="type" class="form-check-input" type="checkbox"
-                                                        {if $node->type === 1}checked="" {/if}>
+                                                           {if $node->type === 1}checked="" {/if}>
                                                 </label>
                                             </span>
                                         </label>
@@ -128,28 +129,28 @@
                                 <label class="form-label col-3 col-form-label">已用流量 (GB)</label>
                                 <div class="col">
                                     <input id="node_bandwidth" type="text" class="form-control"
-                                        value="{round($node->node_bandwidth / 1073741824, 2)}" disabled="">
+                                           value="{round($node->node_bandwidth / 1073741824, 2)}" disabled="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">可用流量 (GB)</label>
                                 <div class="col">
                                     <input id="node_bandwidth_limit" type="text" class="form-control"
-                                        value="{round($node->node_bandwidth_limit / 1073741824, 2)}">
+                                           value="{round($node->node_bandwidth_limit / 1073741824, 2)}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">流量重置日</label>
                                 <div class="col">
                                     <input id="bandwidthlimit_resetday" type="text" class="form-control"
-                                        value="{$node->bandwidthlimit_resetday}">
+                                           value="{$node->bandwidthlimit_resetday}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">速率限制 (Mbps)</label>
                                 <div class="col">
                                     <input id="node_speedlimit" type="text" class="form-control"
-                                        value="{$node->node_speedlimit}">
+                                           value="{$node->node_speedlimit}">
                                 </div>
                             </div>
                             <div class="hr-text">
@@ -157,11 +158,13 @@
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">节点通讯密钥</label>
-                                <input type="text" class="form-control" id="password" value="{$node->password}" disabled="">
+                                <input type="text" class="form-control" id="password" value="{$node->password}"
+                                       disabled="">
                                 <div class="row my-3">
                                     <div class="col">
                                         <button id="reset-node-password" class="btn btn-red">重置</button>
-                                        <button id="copy-password" class="copy btn btn-primary" data-clipboard-text="{$node->password}">
+                                        <button id="copy-password" class="copy btn btn-primary"
+                                                data-clipboard-text="{$node->password}">
                                             复制
                                         </button>
                                     </div>
@@ -180,7 +183,7 @@
 
 <script>
     var clipboard = new ClipboardJS('.copy');
-    clipboard.on('success', function(e) {
+    clipboard.on('success', function (e) {
         $('#success-noreload-message').text('已复制到剪切板');
         $('#success-noreload-dialog').modal('show');
     });
@@ -192,12 +195,12 @@
     const editor = new JSONEditor(container, options);
     editor.set({$node->custom_config})
 
-    $("#reset-node-password").click(function() {
+    $("#reset-node-password").click(function () {
         $.ajax({
             url: '/admin/node/{$node->id}/password_reset',
             type: 'POST',
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
@@ -209,7 +212,7 @@
         })
     });
 
-    $("#save-node").click(function() {
+    $("#save-node").click(function () {
         $.ajax({
             url: '/admin/node/{$node->id}',
             type: 'PUT',
@@ -221,7 +224,7 @@
                 type: $("#type").is(":checked"),
                 custom_config: JSON.stringify(editor.get()),
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');

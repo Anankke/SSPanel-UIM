@@ -24,16 +24,16 @@
                         <div class="table-responsive">
                             <table class="table table-vcenter card-table">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>名称</th>
-                                        <th>描述</th>
-                                        <th>正则表达式</th>
-                                        <th>类型</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>名称</th>
+                                    <th>描述</th>
+                                    <th>正则表达式</th>
+                                    <th>类型</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach $rules as $rule}
+                                {foreach $rules as $rule}
                                     <tr>
                                         <td>#{$rule->id}</td>
                                         <td>{$rule->name}</td>
@@ -46,7 +46,7 @@
                                             <td>数据包 hex 匹配</td>
                                         {/if}
                                     </tr>
-                                    {/foreach}
+                                {/foreach}
                                 </tbody>
                             </table>
                         </div>
@@ -55,5 +55,5 @@
             </div>
         </div>
     </div>
-    
-{include file='user/footer.tpl'}
+
+    {include file='user/footer.tpl'}

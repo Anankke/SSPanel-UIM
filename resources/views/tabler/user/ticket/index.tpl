@@ -15,7 +15,7 @@
                 <div class="col-auto">
                     <div class="btn-list">
                         <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#create-ticket">
+                                data-bs-target="#create-ticket">
                             <i class="icon ti ti-plus"></i>
                             创建工单
                         </button>
@@ -36,13 +36,13 @@
                                         <div class="card-body">
                                             <div class="card-stamp">
                                                 {if $ticket->status !== 'closed'}
-                                                <div class="card-stamp-icon bg-yellow">
-                                                    <i class="ti ti-clock"></i>
-                                                </div>
+                                                    <div class="card-stamp-icon bg-yellow">
+                                                        <i class="ti ti-clock"></i>
+                                                    </div>
                                                 {else}
-                                                <div class="card-stamp-icon bg-green">
-                                                    <i class="ti ti-check"></i>
-                                                </div>
+                                                    <div class="card-stamp-icon bg-green">
+                                                        <i class="ti ti-check"></i>
+                                                    </div>
                                                 {/if}
                                             </div>
                                             <h3 class="card-title" style="font-size: 20px;">
@@ -59,19 +59,19 @@
                                                 <!-- 工单类型标签 -->
                                                 <span class="status status-grey">{$ticket->type}</span>
                                                 <a href="/user/ticket/{$ticket->id}/view"
-                                                    class="btn btn-primary ms-auto">查看</a>
+                                                   class="btn btn-primary ms-auto">查看</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             {/foreach}
                         {else}
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">没有任何工单</h3>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">没有任何工单</h3>
+                                </div>
+                                <div class="card-body">如需帮助，请点击右上角按钮开启新工单</div>
                             </div>
-                            <div class="card-body">如需帮助，请点击右上角按钮开启新工单</div>
-                        </div>
                         {/if}
                     </div>
                 </div>
@@ -100,20 +100,22 @@
                         <input id="ticket-title" type="text" class="form-control" placeholder="请输入工单主题">
                     </div>
                     <div class="mb-3">
-                        <textarea id="ticket-comment" class="form-control" rows="12" placeholder="请输入工单内容"></textarea>
+                        <textarea id="ticket-comment" class="form-control" rows="12"
+                                  placeholder="请输入工单内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
                     <button id="create-ticket-button" type="button" class="btn btn-primary"
-                        data-bs-dismiss="modal">创建</button>
+                            data-bs-dismiss="modal">创建
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        $("#create-ticket-button").click(function() {
+        $("#create-ticket-button").click(function () {
             $.ajax({
                 type: "POST",
                 url: "/user/ticket",
@@ -123,7 +125,7 @@
                     comment: $('#ticket-comment').val(),
                     type: $('#ticket-type').val(),
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');

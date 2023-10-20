@@ -8,38 +8,38 @@
 
     <style>
         .bigTitle {
-            color:#000000;
-            font-family:'Open Sans', Tahoma, Verdana, sans-serif;
-            font-size:24px;
-            font-weight:600;
-            font-style:normal;
-            letter-spacing:normal;
-            line-height:34px;
-            text-align:center;
-            padding:0;
-            margin:0;
+            color: #000000;
+            font-family: 'Open Sans', Tahoma, Verdana, sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            font-style: normal;
+            letter-spacing: normal;
+            line-height: 34px;
+            text-align: center;
+            padding: 0;
+            margin: 0;
         }
 
         .midText {
-            color:#000000 !important;
-            font-family:'Open Sans', Tahoma, Verdana, sans-serif !important;
-            font-size:16px !important;
-            font-weight:400 !important;
-            line-height:22px !important;
-            text-align:center !important;
-            padding:0 !important;
-            margin:0 !important;
+            color: #000000 !important;
+            font-family: 'Open Sans', Tahoma, Verdana, sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 400 !important;
+            line-height: 22px !important;
+            text-align: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         .smlText {
-            color:#313131;
-            font-family:'Open Sans', Tahoma, Verdana, sans-serif;
-            font-size:12px;
-            font-weight:400;
-            line-height:18px;
-            text-align:center;
-            margin:0;
-            padding:0;
+            color: #313131;
+            font-family: 'Open Sans', Tahoma, Verdana, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>

@@ -23,17 +23,17 @@
                         <div class="table-responsive">
                             <table class="table table-vcenter card-table">
                                 <thead>
-                                    <tr>
-                                        <th>事件ID</th>
-                                        <th>节点ID</th>
-                                        <th>节点名称</th>
-                                        <th>规则ID</th>
-                                        <th>名称</th>
-                                        <th>描述</th>
-                                        <th>正则表达式</th>
-                                        <th>类型</th>
-                                        <th>时间</th>
-                                    </tr>
+                                <tr>
+                                    <th>事件ID</th>
+                                    <th>节点ID</th>
+                                    <th>节点名称</th>
+                                    <th>规则ID</th>
+                                    <th>名称</th>
+                                    <th>描述</th>
+                                    <th>正则表达式</th>
+                                    <th>类型</th>
+                                    <th>时间</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 {foreach $logs as $log}
@@ -58,4 +58,4 @@
         </div>
     </div>
 
-{include file='user/footer.tpl'}
+    {include file='user/footer.tpl'}

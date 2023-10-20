@@ -57,7 +57,7 @@
                                 <label class="form-label col-3 col-form-label required">流量倍率</label>
                                 <div class="col">
                                     <input id="traffic_rate" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -76,7 +76,8 @@
                                 <label class="form-label col-3 col-form-label">自定义配置</label>
                                 <div id="custom_config"></div>
                                 <label class="form-label col-form-label">
-                                    请参考 <a href="//wiki.sspanel.org/#/custom-config" target="_blank">wiki.sspanel.org/#/custom-config</a> 修改节点自定义配置
+                                    请参考 <a href="//wiki.sspanel.org/#/custom-config" target="_blank">wiki.sspanel.org/#/custom-config</a>
+                                    修改节点自定义配置
                                 </label>
                             </div>
                             <div class="mb-3">
@@ -87,7 +88,7 @@
                                             <span class="col-auto">
                                                 <label class="form-check form-check-single form-switch">
                                                     <input id="type" class="form-check-input" type="checkbox"
-                                                        checked="">
+                                                           checked="">
                                                 </label>
                                             </span>
                                         </label>
@@ -128,21 +129,21 @@
                                 <label class="form-label col-3 col-form-label required">可用流量 (GB)</label>
                                 <div class="col">
                                     <input id="node_bandwidth_limit" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label required">流量重置日</label>
                                 <div class="col">
                                     <input id="bandwidthlimit_resetday" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label required">速率限制 (Mbps)</label>
                                 <div class="col">
                                     <input id="node_speedlimit" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                         </div>
@@ -160,7 +161,7 @@
     };
     const editor = new JSONEditor(container, options);
 
-    $("#create-node").click(function() {
+    $("#create-node").click(function () {
         $.ajax({
             url: '/admin/node',
             type: 'POST',
@@ -172,7 +173,7 @@
                 type: $("#type").is(":checked"),
                 custom_config: JSON.stringify(editor.get()),
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
