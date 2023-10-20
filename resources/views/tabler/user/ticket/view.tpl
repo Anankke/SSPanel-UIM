@@ -13,15 +13,15 @@
                     </div>
                 </div>
                 {if $ticket->status !== 'closed'}
-                <div class="col-auto">
-                    <div class="btn-list">
-                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#add-reply">
-                            <i class="icon ti ti-plus"></i>
-                            添加回复
-                        </a>
+                    <div class="col-auto">
+                        <div class="btn-list">
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                               data-bs-target="#add-reply">
+                                <i class="icon ti ti-plus"></i>
+                                添加回复
+                            </a>
+                        </div>
                     </div>
-                </div>
                 {/if}
             </div>
         </div>
@@ -77,21 +77,22 @@
                         <div class="card-body">
                             <div class="divide-y">
                                 {foreach $comments as $comment}
-                                <div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div>
-                                                {nl2br($comment->comment)}
+                                    <div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div>
+                                                    {nl2br($comment->comment)}
+                                                </div>
+                                                <div class="text-secondary my-1">{$comment->commenter_name}
+                                                    回复于 {$comment->datetime}</div>
                                             </div>
-                                            <div class="text-secondary my-1">{$comment->commenter_name} 回复于 {$comment->datetime}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div>
-                                                # {$comment->comment_id + 1}
+                                            <div class="col-auto">
+                                                <div>
+                                                    # {$comment->comment_id + 1}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 {/foreach}
                             </div>
                         </div>
@@ -110,7 +111,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="reply-comment" class="form-control" rows="10" placeholder="请输入回复内容"></textarea>
+                        <textarea id="reply-comment" class="form-control" rows="10"
+                                  placeholder="请输入回复内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -122,7 +124,7 @@
     </div>
 
     <script>
-        $("#reply").click(function() {
+        $("#reply").click(function () {
             $.ajax({
                 url: "/user/ticket/{$ticket->id}",
                 type: 'PUT',
@@ -130,7 +132,7 @@
                 data: {
                     comment: $('#reply-comment').val()
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -142,5 +144,5 @@
             })
         });
     </script>
-    
-{include file='user/footer.tpl'}
+
+    {include file='user/footer.tpl'}

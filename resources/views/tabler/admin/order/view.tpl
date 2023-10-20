@@ -23,11 +23,11 @@
                             查看关联账单
                         </a>
                         {if $order->status === 'pending_payment'}
-                        <button href="#" class="btn btn-red" data-bs-toggle="modal"
-                            data-bs-target="#cancel_order_confirm_dialog">
-                            <i class="icon ti ti-x"></i>
-                            取消订单
-                        </button>
+                            <button href="#" class="btn btn-red" data-bs-toggle="modal"
+                                    data-bs-target="#cancel_order_confirm_dialog">
+                                <i class="icon ti ti-x"></i>
+                                取消订单
+                            </button>
                         {/if}
                     </div>
                 </div>
@@ -88,50 +88,50 @@
                 <div class="card-body">
                     <div class="datagrid">
                         {if $order->product_type === 'tabp' || $order->product_type === 'time'}
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">商品时长 (天)</div>
-                            <div class="datagrid-content">{$order->content->time}</div>
-                        </div>
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">等级时长 (天)</div>
-                            <div class="datagrid-content">{$order->content->class_time}</div>
-                        </div>
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">等级</div>
-                            <div class="datagrid-content">{$order->content->class}</div>
-                        </div>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">商品时长 (天)</div>
+                                <div class="datagrid-content">{$order->content->time}</div>
+                            </div>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">等级时长 (天)</div>
+                                <div class="datagrid-content">{$order->content->class_time}</div>
+                            </div>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">等级</div>
+                                <div class="datagrid-content">{$order->content->class}</div>
+                            </div>
                         {/if}
                         {if $order->product_type === 'tabp' || $order->product_type === 'bandwidth'}
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">可用流量 (GB)</div>
-                            <div class="datagrid-content">{$order->content->bandwidth}</div>
-                        </div>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">可用流量 (GB)</div>
+                                <div class="datagrid-content">{$order->content->bandwidth}</div>
+                            </div>
                         {/if}
                         {if $order->product_type === 'tabp' || $order->product_type === 'time'}
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">用户分组</div>
-                            <div class="datagrid-content">{$order->content->node_group}</div>
-                        </div>
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">速率限制 (Mbps)</div>
-                            <div class="datagrid-content">
-                            {if $order->content->ip_limit === '0'}
-                            不限制
-                            {else}
-                            {$order->content->speed_limit}
-                            {/if}
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">用户分组</div>
+                                <div class="datagrid-content">{$order->content->node_group}</div>
                             </div>
-                        </div>
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">同时连接IP限制</div>
-                            <div class="datagrid-content">
-                            {if $order->content->ip_limit === '0'}
-                            不限制
-                            {else}
-                            {$order->content->ip_limit}
-                            {/if}
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">速率限制 (Mbps)</div>
+                                <div class="datagrid-content">
+                                    {if $order->content->ip_limit === '0'}
+                                        不限制
+                                    {else}
+                                        {$order->content->speed_limit}
+                                    {/if}
+                                </div>
                             </div>
-                        </div>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">同时连接IP限制</div>
+                                <div class="datagrid-content">
+                                    {if $order->content->ip_limit === '0'}
+                                        不限制
+                                    {else}
+                                        {$order->content->ip_limit}
+                                    {/if}
+                                </div>
+                            </div>
                         {/if}
                     </div>
                 </div>
@@ -148,18 +148,18 @@
                                 <div class="table-responsive">
                                     <table id="invoice_content_table" class="table table-vcenter card-table">
                                         <thead>
-                                            <tr>
-                                                <th>名称</th>
-                                                <th>价格</th>
-                                            </tr>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>价格</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            {foreach $invoice->content as $invoice_content}
+                                        {foreach $invoice->content as $invoice_content}
                                             <tr>
                                                 <td>{$invoice_content->name}</td>
                                                 <td>{$invoice_content->price}</td>
                                             </tr>
-                                            {/foreach}
+                                        {/foreach}
                                         </tbody>
                                     </table>
                                 </div>
@@ -207,19 +207,20 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="confirm_cancel" type="button" class="btn btn-primary" data-bs-dismiss="modal">确认</button>
+                    <button id="confirm_cancel" type="button" class="btn btn-primary" data-bs-dismiss="modal">确认
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        $("#confirm_cancel").click(function() {
+        $("#confirm_cancel").click(function () {
             $.ajax({
                 url: "/admin/order/{$order->id}/cancel",
                 type: 'POST',
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -232,4 +233,4 @@
         });
     </script>
 
-{include file='admin/footer.tpl'}
+    {include file='admin/footer.tpl'}

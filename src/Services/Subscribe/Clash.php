@@ -7,7 +7,6 @@ namespace App\Services\Subscribe;
 use App\Services\Subscribe;
 use Symfony\Component\Yaml\Yaml;
 use function array_merge;
-use function in_array;
 use function json_decode;
 
 final class Clash extends Base
@@ -97,7 +96,7 @@ final class Clash extends Base
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
-                    $tls = in_array($security, ['tls', 'xtls']);
+                    $tls = $security === 'tls';
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
                     $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;

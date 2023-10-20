@@ -115,8 +115,6 @@ final class UserController extends BaseController
                 $user_raw->passwd = Tools::genSs2022UserPk($user_raw->passwd, $pk_len);
             }
 
-            $user_raw->node_connector = 0;
-
             foreach ($keys_unset as $key) {
                 unset($user_raw->$key);
             }

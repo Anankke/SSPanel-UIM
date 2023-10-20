@@ -27,15 +27,15 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="card">
                                                 {if $server["class"] === 0}
-                                                <div class="ribbon bg-blue">免费</div>
+                                                    <div class="ribbon bg-blue">免费</div>
                                                 {else}
-                                                <div class="ribbon bg-blue">LV. {$server["class"]}</div>
+                                                    <div class="ribbon bg-blue">LV. {$server["class"]}</div>
                                                 {/if}
                                                 <div class="card-body">
                                                     <div class="row g-3 align-items-center">
                                                         <div class="col-auto">
                                                             <span
-                                                                class="status-indicator status-{$server["color"]}
+                                                                    class="status-indicator status-{$server["color"]}
                                                                  status-indicator-animated">
                                                                 <span class="status-indicator-circle"></span>
                                                                 <span class="status-indicator-circle"></span>
@@ -46,7 +46,7 @@
                                                             <h2 class="page-title" style="font-size: 16px;">
                                                                 {$server["name"]}&nbsp;
                                                                 <span class="card-subtitle my-2"
-                                                                    style="font-size: 10px;">
+                                                                      style="font-size: 10px;">
                                                                     {$server["node_bandwidth"]} /
                                                                     {$server["node_bandwidth_limit"]}
                                                                 </span>
@@ -72,15 +72,15 @@
                                                 </div>
                                             </div>
                                             {if $user->class < $server["class"]}
-                                            <div class="card bg-primary-lt">
-                                                <div class="card-body">
-                                                    <p class="text-secondary">
-                                                        <i class="ti ti-info-circle icon text-blue"></i>
-                                                        你当前的账户等级小于节点等级，因此无法使用。可前往 <a
-                                                            href="/user/product">商品页面</a> 订购时间流量包
-                                                    </p>
+                                                <div class="card bg-primary-lt">
+                                                    <div class="card-body">
+                                                        <p class="text-secondary">
+                                                            <i class="ti ti-info-circle icon text-blue"></i>
+                                                            你当前的账户等级小于节点等级，因此无法使用。可前往 <a
+                                                                    href="/user/product">商品页面</a> 订购时间流量包
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             {/if}
                                         </div>
                                     {/foreach}
@@ -92,5 +92,5 @@
             </div>
         </div>
     </div>
-    
-{include file="user/footer.tpl"}
+
+    {include file="user/footer.tpl"}

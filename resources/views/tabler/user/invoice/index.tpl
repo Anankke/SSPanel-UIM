@@ -1,13 +1,13 @@
 {include file='user/header.tpl'}
 
-<link href="//cdn.datatables.net/v/bs5/dt-1.13.5/datatables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/v/bs5/dt-1.13.5/datatables.min.js"></script>
+<link href="//cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css" rel="stylesheet"/>
+<script src="//cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
 
 <div class="page-wrapper">
-    <div class="container-xl">       
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
-                <div class="col">                   
+                <div class="col">
                     <h2 class="page-title">
                         <span class="home-title my-3">账单列表</span>
                     </h2>
@@ -26,11 +26,11 @@
                         <div class="table-responsive">
                             <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr>
-                                        {foreach $details['field'] as $key => $value}
+                                <tr>
+                                    {foreach $details['field'] as $key => $value}
                                         <th>{$value}</th>
-                                        {/foreach}
-                                    </tr>
+                                    {/foreach}
+                                </tr>
                                 </thead>
                             </table>
                         </div>
@@ -41,13 +41,13 @@
     </div>
 
     <script>
-       var table = $('#data_table').DataTable({
+        var table = $('#data_table').DataTable({
             ajax: {
                 url: '/user/invoice/ajax',
                 type: 'POST',
                 dataSrc: 'invoices'
             },
-            "autoWidth":false,
+            "autoWidth": false,
             'iDisplayLength': 10,
             'scrollX': true,
             'order': [
@@ -55,11 +55,16 @@
             ],
             columns: [
                 {foreach $details['field'] as $key => $value}
-                { data: '{$key}' },
+                {
+                    data: '{$key}'
+                },
                 {/foreach}
             ],
-            "columnDefs":[
-                { targets:[0],orderable:false }
+            "columnDefs": [
+                {
+                    targets: [0],
+                    orderable: false
+                }
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
@@ -101,4 +106,4 @@
         loadTable();
     </script>
 
-{include file='user/footer.tpl'}
+    {include file='user/footer.tpl'}

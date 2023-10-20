@@ -112,14 +112,14 @@
                                 <label class="form-label col-3 col-form-label required">速率限制 (Mbps)</label>
                                 <div class="col">
                                     <input id="speed_limit" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div id="ip_limit_option" class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label required">同时连接IP限制</label>
                                 <div class="col">
                                     <input id="ip_limit" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div class="hr-text">
@@ -129,14 +129,14 @@
                                 <label class="form-label col-3 col-form-label">用户等级要求</label>
                                 <div class="col">
                                     <input id="class_required" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户所在的节点组</label>
                                 <div class="col">
                                     <input id="node_group_required" type="text" class="form-control"
-                                        value="">
+                                           value="">
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -162,9 +162,8 @@
         $("#type").change();
     });
 
-    $("#type").on("change", function() {
-        if (this.value === "bandwidth")
-        {
+    $("#type").on("change", function () {
+        if (this.value === "bandwidth") {
             $("#time_option").hide();
             $("#class_option").hide();
             $("#class_time_option").hide();
@@ -172,16 +171,14 @@
             $("#node_group_option").hide();
             $("#speed_limit_option").hide();
             $("#ip_limit_option").hide();
-            $("#time").prop("required",false);
-            $("#class").prop("required",false);
-            $("#class_time").prop("required",false);
-            $("#bandwidth").prop("required",true);
-            $("#node_group").prop("required",false);
-            $("#speed_limit").prop("required",false);
-            $("#ip_limit").prop("required",false);
-        }
-        else if (this.value === "time")
-        {
+            $("#time").prop("required", false);
+            $("#class").prop("required", false);
+            $("#class_time").prop("required", false);
+            $("#bandwidth").prop("required", true);
+            $("#node_group").prop("required", false);
+            $("#speed_limit").prop("required", false);
+            $("#ip_limit").prop("required", false);
+        } else if (this.value === "time") {
             $("#time_option").show();
             $("#class_option").show();
             $("#class_time_option").show();
@@ -189,16 +186,14 @@
             $("#node_group_option").show();
             $("#speed_limit_option").show();
             $("#ip_limit_option").show();
-            $("#time").prop("required",true);
-            $("#class").prop("required",true);
-            $("#class_time").prop("required",true);
-            $("#bandwidth").prop("required",false);
-            $("#node_group").prop("required",true);
-            $("#speed_limit").prop("required",true);
-            $("#ip_limit").prop("required",true);
-        }
-        else
-        {
+            $("#time").prop("required", true);
+            $("#class").prop("required", true);
+            $("#class_time").prop("required", true);
+            $("#bandwidth").prop("required", false);
+            $("#node_group").prop("required", true);
+            $("#speed_limit").prop("required", true);
+            $("#ip_limit").prop("required", true);
+        } else {
             $("#time_option").show();
             $("#class_option").show();
             $("#class_time_option").show();
@@ -206,18 +201,18 @@
             $("#node_group_option").show();
             $("#speed_limit_option").show();
             $("#ip_limit_option").show();
-            $("#time").prop("required",true);
-            $("#class").prop("required",true);
-            $("#class_time").prop("required",true);
-            $("#bandwidth").prop("required",true);
-            $("#node_group").prop("required",true);
-            $("#speed_limit").prop("required",true);
-            $("#ip_limit").prop("required",true);
+            $("#time").prop("required", true);
+            $("#class").prop("required", true);
+            $("#class_time").prop("required", true);
+            $("#bandwidth").prop("required", true);
+            $("#node_group").prop("required", true);
+            $("#speed_limit").prop("required", true);
+            $("#ip_limit").prop("required", true);
         }
     });
 
-    $("#create-product").click(function() {
-        var emptyFields = $('input[required]').filter(function() {
+    $("#create-product").click(function () {
+        var emptyFields = $('input[required]').filter(function () {
             return $(this).val() === '';
         });
 

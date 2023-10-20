@@ -1,6 +1,6 @@
 {include file='admin/header.tpl'}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.7.0/tinymce.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.7.1/tinymce.min.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -47,13 +47,13 @@
             menubar: false,
             statusbar: false,
             plugins:
-              'advlist autolink lists link image charmap preview anchor ' +
-              'searchreplace visualblocks code fullscreen ' +
-              'insertdatetime media table wordcount',
+                'advlist autolink lists link image charmap preview anchor ' +
+                'searchreplace visualblocks code fullscreen ' +
+                'insertdatetime media table wordcount',
             toolbar: 'undo redo | formatselect | ' +
-              'bold italic backcolor link | blocks | alignleft aligncenter ' +
-              'alignright alignjustify | bullist numlist outdent indent | ' +
-              'removeformat',
+                'bold italic backcolor link | blocks | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat',
             content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;   font-size:   14px; -webkit-font-smoothing: antialiased; }',
             {if $user->is_dark_mode}
             skin: 'oxide-dark',
@@ -63,7 +63,7 @@
         tinyMCE.init(options);
     })
 
-    $("#save-ann").click(function() {
+    $("#save-ann").click(function () {
         $.ajax({
             url: '/admin/announcement/' + {$ann->id},
             type: 'PUT',
@@ -71,7 +71,7 @@
             data: {
                 content: tinyMCE.activeEditor.getContent(),
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');

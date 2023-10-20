@@ -13,15 +13,15 @@
                     </div>
                 </div>
                 {if $invoice->status === 'unpaid'}
-                <div class="col-auto">
-                    <div class="btn-list">
-                        <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#mark_paid_confirm_dialog">
-                            <i class="icon ti ti-checklist"></i>
-                            标记为支付
-                        </button>
+                    <div class="col-auto">
+                        <div class="btn-list">
+                            <button href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#mark_paid_confirm_dialog">
+                                <i class="icon ti ti-checklist"></i>
+                                标记为支付
+                            </button>
+                        </div>
                     </div>
-                </div>
                 {/if}
             </div>
         </div>
@@ -63,10 +63,10 @@
                             <div class="datagrid-content">{$invoice->pay_time}</div>
                         </div>
                         {if $invoice->status === 'paid_gateway'}
-                        <div class="datagrid-item">
-                            <div class="datagrid-title">支付网关单号</div>
-                            <div class="datagrid-content">{$paylist->tradeno}</div>
-                        </div>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">支付网关单号</div>
+                                <div class="datagrid-content">{$paylist->tradeno}</div>
+                            </div>
                         {/if}
                     </div>
                 </div>
@@ -79,18 +79,18 @@
                     <div class="table-responsive">
                         <table id="invoice_content_table" class="table table-vcenter card-table">
                             <thead>
-                                <tr>
-                                    <th>名称</th>
-                                    <th>价格</th>
-                                </tr>
+                            <tr>
+                                <th>名称</th>
+                                <th>价格</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {foreach $invoice_content as $invoice_content_detail}
+                            {foreach $invoice_content as $invoice_content_detail}
                                 <tr>
                                     <td>{$invoice_content_detail->name}</td>
                                     <td>{$invoice_content_detail->price}</td>
                                 </tr>
-                                {/foreach}
+                            {/foreach}
                             </tbody>
                         </table>
                     </div>
@@ -115,19 +115,20 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="confirm_mark_paid" type="button" class="btn btn-primary" data-bs-dismiss="modal">确认</button>
+                    <button id="confirm_mark_paid" type="button" class="btn btn-primary" data-bs-dismiss="modal">确认
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        $("#confirm_mark_paid").click(function() {
+        $("#confirm_mark_paid").click(function () {
             $.ajax({
                 url: "/admin/invoice/{$invoice->id}/mark_paid",
                 type: 'POST',
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -140,4 +141,4 @@
         });
     </script>
 
-{include file='admin/footer.tpl'}
+    {include file='admin/footer.tpl'}

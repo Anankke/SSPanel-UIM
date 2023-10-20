@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.283.2",
+            "version": "3.283.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6616677d76e39af28138512740199d38a461859f"
+                "reference": "0f73ec85852312a6e971cfe2eebfd7c8091cca34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6616677d76e39af28138512740199d38a461859f",
-                "reference": "6616677d76e39af28138512740199d38a461859f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0f73ec85852312a6e971cfe2eebfd7c8091cca34",
+                "reference": "0f73ec85852312a6e971cfe2eebfd7c8091cca34",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.283.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.283.8"
             },
-            "time": "2023-10-06T18:09:54+00:00"
+            "time": "2023-10-19T19:26:52+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -4840,16 +4840,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v12.7.0",
+            "version": "v12.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "01a4a316d7c724fd1a111f36f037b698ca425f2c"
+                "reference": "6b6f4a775ad46fee4b1df2df4fdfa574365b1621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/01a4a316d7c724fd1a111f36f037b698ca425f2c",
-                "reference": "01a4a316d7c724fd1a111f36f037b698ca425f2c",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6b6f4a775ad46fee4b1df2df4fdfa574365b1621",
+                "reference": "6b6f4a775ad46fee4b1df2df4fdfa574365b1621",
                 "shasum": ""
             },
             "require": {
@@ -4893,9 +4893,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v12.7.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v12.8.0"
             },
-            "time": "2023-10-11T17:29:55+00:00"
+            "time": "2023-10-16T18:04:12+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7050,16 +7050,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.34.1",
+            "version": "v3.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "98bf1b1068b4ceddbbc2a2b70b67a5e380add9e3"
+                "reference": "ec1ccc264994b6764882669973ca435cf05bab08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/98bf1b1068b4ceddbbc2a2b70b67a5e380add9e3",
-                "reference": "98bf1b1068b4ceddbbc2a2b70b67a5e380add9e3",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/ec1ccc264994b6764882669973ca435cf05bab08",
+                "reference": "ec1ccc264994b6764882669973ca435cf05bab08",
                 "shasum": ""
             },
             "require": {
@@ -7092,8 +7092,6 @@
                 "phpspec/prophecy": "^1.16",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5",
-                "phpunitgoodpractices/polyfill": "^1.6",
-                "phpunitgoodpractices/traits": "^1.9.2",
                 "symfony/phpunit-bridge": "^6.2.3",
                 "symfony/yaml": "^5.4 || ^6.0"
             },
@@ -7133,7 +7131,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.34.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.35.1"
             },
             "funding": [
                 {
@@ -7141,7 +7139,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-03T23:51:05+00:00"
+            "time": "2023-10-12T13:47:26+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -7412,16 +7410,16 @@
         },
         {
             "name": "nunomaduro/phpinsights",
-            "version": "v2.8.0",
+            "version": "v2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/phpinsights.git",
-                "reference": "a701b7acfda9940ef0140c7276319df9026824c4"
+                "reference": "52d69d895239b1e9a90d7212dffc6c7e73ec822e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/phpinsights/zipball/a701b7acfda9940ef0140c7276319df9026824c4",
-                "reference": "a701b7acfda9940ef0140c7276319df9026824c4",
+                "url": "https://api.github.com/repos/nunomaduro/phpinsights/zipball/52d69d895239b1e9a90d7212dffc6c7e73ec822e",
+                "reference": "52d69d895239b1e9a90d7212dffc6c7e73ec822e",
                 "shasum": ""
             },
             "require": {
@@ -7439,8 +7437,8 @@
                 "psr/container": "^1.0|^2.0",
                 "psr/simple-cache": "^1.0|^2.0|^3.0",
                 "sebastian/diff": "^4.0|^5.0",
-                "slevomat/coding-standard": "^7.0.8|^8.0",
-                "squizlabs/php_codesniffer": "^3.5",
+                "slevomat/coding-standard": "^8.13",
+                "squizlabs/php_codesniffer": "^3.7",
                 "symfony/cache": "^4.4|^5.0|^6.0",
                 "symfony/console": "^4.2.12|^5.0|^6.0",
                 "symfony/finder": "^4.2.12|^5.0|^6.0",
@@ -7498,7 +7496,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/phpinsights/issues",
-                "source": "https://github.com/nunomaduro/phpinsights/tree/v2.8.0"
+                "source": "https://github.com/nunomaduro/phpinsights/tree/v2.9.0"
             },
             "funding": [
                 {
@@ -7514,7 +7512,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-18T18:38:03+00:00"
+            "time": "2023-10-20T15:58:50+00:00"
         },
         {
             "name": "phar-io/manifest",

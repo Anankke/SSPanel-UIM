@@ -8,11 +8,11 @@ use function is_null;
 
 final class EpayNotify
 {
-    private array $alipay_config;
+    private array $epay_config;
 
-    public function __construct($alipay_config)
+    public function __construct($epay_config)
     {
-        $this->alipay_config = $alipay_config;
+        $this->epay_config = $epay_config;
     }
 
     public function verifyNotify(): bool
@@ -20,14 +20,8 @@ final class EpayNotify
         if (is_null($_GET)) {//判断POST来的数组是否为空
             return false;
         }
-        //生成签名结果
-        $isSign = $this->getSignVeryfy($_GET, $_GET['sign']);
-        //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
-        $responseTxt = 'true';
-        //验证
-        //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
-        //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
-        if (preg_match('/true$/i', $responseTxt) && $isSign) {
+
+        if ($this->getSignVeryfy($_GET, $_GET['sign'])) {
             return true;
         }
 
@@ -43,6 +37,6 @@ final class EpayNotify
         //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         $prestr = EpayTool::createLinkstring($para_sort);
 
-        return EpayTool::verify($prestr, $sign, $this->alipay_config['key']);
+        return EpayTool::verify($prestr, $sign, $this->epay_config['key']);
     }
 }

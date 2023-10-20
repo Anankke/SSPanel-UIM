@@ -15,18 +15,18 @@
                 <div class="col-auto">
                     <div class="btn-list">
                         {if $ticket->status !== 'closed'}
-                        <button href="#" class="btn btn-red" data-bs-toggle="modal"
-                            data-bs-target="#close_ticket_confirm_dialog">
-                            <i class="icon ti ti-x"></i>
-                            关闭
-                        </button>
+                            <button href="#" class="btn btn-red" data-bs-toggle="modal"
+                                    data-bs-target="#close_ticket_confirm_dialog">
+                                <i class="icon ti ti-x"></i>
+                                关闭
+                            </button>
                         {/if}
                         <button id="add_ai_reply" href="#" class="btn btn-primary">
                             <i class="icon ti ti-robot"></i>
                             AI 回复
                         </button>
                         <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#add-reply">
+                                data-bs-target="#add-reply">
                             <i class="icon ti ti-plus"></i>
                             回复
                         </button>
@@ -51,24 +51,25 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="divide-y">
-                            {foreach $comments as $comment}
-                            <div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div>
-                                            {nl2br($comment->comment)}
-                                        </div>
-                                        <div class="text-secondary my-1">{$comment->commenter_name} 回复于 {$comment->datetime}
+                                {foreach $comments as $comment}
+                                    <div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div>
+                                                    {nl2br($comment->comment)}
+                                                </div>
+                                                <div class="text-secondary my-1">{$comment->commenter_name}
+                                                    回复于 {$comment->datetime}
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div>
+                                                    # {$comment->comment_id + 1}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <div>
-                                            # {$comment->comment_id + 1}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/foreach}
+                                {/foreach}
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="reply-comment" class="form-control" rows="12" placeholder="请输入回复内容"></textarea>
+                        <textarea id="reply-comment" class="form-control" rows="12"
+                                  placeholder="请输入回复内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -113,14 +115,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="confirm_close" type="button" class="btn btn-primary" data-bs-dismiss="modal">确认</button>
+                    <button id="confirm_close" type="button" class="btn btn-primary" data-bs-dismiss="modal">确认
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        $("#reply").click(function() {
+        $("#reply").click(function () {
             $.ajax({
                 url: "/admin/ticket/{$ticket->id}",
                 type: 'PUT',
@@ -128,7 +131,7 @@
                 data: {
                     comment: $('#reply-comment').val()
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -140,12 +143,12 @@
             })
         });
 
-        $("#add_ai_reply").click(function() {
+        $("#add_ai_reply").click(function () {
             $.ajax({
                 url: "/admin/ticket/{$ticket->id}/ai",
                 type: 'PUT',
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
@@ -157,12 +160,12 @@
             })
         });
 
-        $("#confirm_close").click(function() {
+        $("#confirm_close").click(function () {
             $.ajax({
                 url: "/admin/ticket/{$ticket->id}/close",
                 type: 'PUT',
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');

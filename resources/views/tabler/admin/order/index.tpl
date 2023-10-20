@@ -23,11 +23,11 @@
                         <div class="table-responsive">
                             <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr>
-                                        {foreach $details['field'] as $key => $value}
-                                            <th>{$value}</th>
-                                        {/foreach}
-                                    </tr>
+                                <tr>
+                                    {foreach $details['field'] as $key => $value}
+                                        <th>{$value}</th>
+                                    {/foreach}
+                                </tr>
                                 </thead>
                             </table>
                         </div>
@@ -44,7 +44,7 @@
                 type: 'POST',
                 dataSrc: 'orders'
             },
-            "autoWidth":false,
+            "autoWidth": false,
             'iDisplayLength': 10,
             'scrollX': true,
             'order': [
@@ -52,11 +52,16 @@
             ],
             columns: [
                 {foreach $details['field'] as $key => $value}
-                { data: '{$key}' },
+                {
+                    data: '{$key}'
+                },
                 {/foreach}
             ],
-            "columnDefs":[
-                { targets:[0],orderable:false }
+            "columnDefs": [
+                {
+                    targets: [0],
+                    orderable: false
+                }
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
@@ -94,12 +99,12 @@
         function deleteOrder(order_id) {
             $('#notice-message').text('确定删除此订单？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').off('click').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/order/" + order_id,
                     type: 'DELETE',
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         if (data.ret === 1) {
                             $('#success-noreload-message').text(data.msg);
                             $('#success-noreload-dialog').modal('show');
@@ -116,12 +121,12 @@
         function cancelOrder(order_id) {
             $('#notice-message').text('确定取消此订单？');
             $('#notice-dialog').modal('show');
-            $('#notice-confirm').off('click').on('click', function() {
+            $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/order/" + order_id + "/cancel",
                     type: 'POST',
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
@@ -142,4 +147,4 @@
         loadTable();
     </script>
 
-{include file='admin/footer.tpl'}
+    {include file='admin/footer.tpl'}

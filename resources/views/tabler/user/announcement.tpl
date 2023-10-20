@@ -23,20 +23,20 @@
                         <div class="table-responsive">
                             <table class="table table-vcenter card-table">
                                 <thead>
-                                    <tr>
-                                        <th>公告ID</th>
-                                        <th>发布日期</th>
-                                        <th>公告内容</th>
-                                    </tr>
+                                <tr>
+                                    <th>公告ID</th>
+                                    <th>发布日期</th>
+                                    <th>公告内容</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach $anns as $ann}
-                                        <tr>
-                                            <td>{$ann->id}</td>
-                                            <td>{$ann->date}</td>
-                                            <td>{$ann->content}</td>
-                                        </tr>
-                                    {/foreach}
+                                {foreach $anns as $ann}
+                                    <tr>
+                                        <td>{$ann->id}</td>
+                                        <td>{$ann->date}</td>
+                                        <td>{$ann->content}</td>
+                                    </tr>
+                                {/foreach}
                                 </tbody>
                             </table>
                         </div>

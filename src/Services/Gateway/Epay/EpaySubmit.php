@@ -6,13 +6,13 @@ namespace App\Services\Gateway\Epay;
 
 final class EpaySubmit
 {
-    private array $alipay_config;
-    private string $alipay_gateway_new;
+    private array $epay_config;
+    private string $epay_gateway;
 
-    public function __construct($alipay_config)
+    public function __construct($epay_config)
     {
-        $this->alipay_config = $alipay_config;
-        $this->alipay_gateway_new = $this->alipay_config['apiurl'] . 'submit.php?';
+        $this->epay_config = $epay_config;
+        $this->epay_gateway = $this->epay_config['apiurl'] . 'submit.php?';
     }
 
     public function buildRequestMysign($para_sort): string
@@ -20,7 +20,7 @@ final class EpaySubmit
         //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         $prestr = EpayTool::createLinkstring($para_sort);
 
-        return EpayTool::sign($prestr, $this->alipay_config['key']);
+        return EpayTool::sign($prestr, $this->epay_config['key']);
     }
 
     public function buildRequestPara($para_temp)
@@ -33,7 +33,7 @@ final class EpaySubmit
         $mysign = $this->buildRequestMysign($para_sort);
         //签名结果与签名方式加入请求提交参数组中
         $para_sort['sign'] = $mysign;
-        $para_sort['sign_type'] = strtoupper(trim($this->alipay_config['sign_type']));
+        $para_sort['sign_type'] = strtoupper(trim($this->epay_config['sign_type']));
 
         return $para_sort;
     }
@@ -42,16 +42,16 @@ final class EpaySubmit
     {
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".
-            $this->alipay_gateway_new . "' method='" . $method . "'>";
+        $html = "<form id='alipaysubmit' name='alipaysubmit' action='".
+            $this->epay_gateway . "' method='" . $method . "'>";
 
         foreach ($para as $key => $val) {
-            $sHtml .= "<input type='hidden' name='".$key."' value='".$val."'/>";
+            $html .= "<input type='hidden' name='".$key."' value='".$val."'/>";
         }
         //submit按钮控件请不要含有name属性
-        $sHtml .= "<input type='submit' value='".$button_name."'></form>";
-        $sHtml .= "<script>document.forms['alipaysubmit'].submit();</script>";
+        $html .= "<input type='submit' value='".$button_name."'></form>";
+        $html .= "<script>document.forms['alipaysubmit'].submit();</script>";
 
-        return $sHtml;
+        return $html;
     }
 }

@@ -23,11 +23,11 @@
                         <div class="table-responsive">
                             <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr>
-                                        {foreach $details['field'] as $key => $value}
-                                            <th>{$value}</th>
-                                        {/foreach}
-                                    </tr>
+                                <tr>
+                                    {foreach $details['field'] as $key => $value}
+                                        <th>{$value}</th>
+                                    {/foreach}
+                                </tr>
                                 </thead>
                             </table>
                         </div>
@@ -47,7 +47,7 @@
                 type: 'POST',
                 dataSrc: 'logins.data'
             },
-            "autoWidth":false,
+            "autoWidth": false,
             'iDisplayLength': 10,
             'scrollX': true,
             'order': [
@@ -55,7 +55,9 @@
             ],
             columns: [
                 {foreach $details['field'] as $key => $value}
-                { data: '{$key}' },
+                {
+                    data: '{$key}'
+                },
                 {/foreach}
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
@@ -94,4 +96,4 @@
         loadTable();
     </script>
 
-{include file='admin/footer.tpl'}
+    {include file='admin/footer.tpl'}

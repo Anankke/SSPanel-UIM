@@ -1,10 +1,10 @@
 {include file='user/header.tpl'}
 
 <div class="page-wrapper">
-    <div class="container-xl">  
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
-                <div class="col">     
+                <div class="col">
                     <h2 class="page-title">
                         <span class="home-title">账户信息</span>
                     </h2>
@@ -68,20 +68,20 @@
                         <div class="table-responsive">
                             <table class="table table-vcenter text-nowrap card-table">
                                 <thead>
-                                    <tr>
-                                        <th>IP</th>
-                                        <th>时间</th>
-                                        <th>IP归属地</th>
-                                    </tr>
+                                <tr>
+                                    <th>IP</th>
+                                    <th>时间</th>
+                                    <th>IP归属地</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach $logins as $login}
+                                {foreach $logins as $login}
                                     <tr>
                                         <td>{$login->ip}</td>
                                         <td>{$login->datetime}</td>
                                         <td>{$login->location}</td>
                                     </tr>
-                                    {/foreach}
+                                {/foreach}
                                 </tbody>
                             </table>
                         </div>
@@ -119,5 +119,5 @@
             </div>
         </div>
     </div>
-    
+
 {include file='user/footer.tpl'}

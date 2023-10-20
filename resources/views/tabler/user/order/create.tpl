@@ -38,42 +38,42 @@
                                     <td class="text-end">{$product->type_text}</td>
                                 </tr>
                                 {if $product->type === 'tabp' || $product->type === 'time'}
-                                <tr>
-                                    <td>商品时长</td>
-                                    <td class="text-end">{$product->content->time} 天</td>
-                                </tr>
-                                <tr>
-                                    <td>等级时长</td>
-                                    <td class="text-end">{$product->content->class_time} 天</td>
-                                </tr>
-                                <tr>
-                                    <td>等级</td>
-                                    <td class="text-end">Lv. {$product->content->class}</td>
-                                </tr>
+                                    <tr>
+                                        <td>商品时长</td>
+                                        <td class="text-end">{$product->content->time} 天</td>
+                                    </tr>
+                                    <tr>
+                                        <td>等级时长</td>
+                                        <td class="text-end">{$product->content->class_time} 天</td>
+                                    </tr>
+                                    <tr>
+                                        <td>等级</td>
+                                        <td class="text-end">Lv. {$product->content->class}</td>
+                                    </tr>
                                 {/if}
                                 {if $product->type === 'tabp' || $product->type === 'bandwidth'}
-                                <tr>
-                                    <td>可用流量</td>
-                                    <td class="text-end">{$product->content->bandwidth} GB</td>
-                                </tr>
+                                    <tr>
+                                        <td>可用流量</td>
+                                        <td class="text-end">{$product->content->bandwidth} GB</td>
+                                    </tr>
                                 {/if}
                                 {if $product->type === 'tabp' || $product->type === 'time'}
-                                <tr>
-                                    <td>速率限制</td>
-                                    {if $product->content->speed_limit === '0'}
-                                    <td class="text-end">不限制</td>
-                                    {else}
-                                    <td class="text-end">{$product->content->speed_limit} Mbps</td>
-                                    {/if}
-                                </tr>
-                                <tr>
-                                    <td>同时连接 IP 限制</td>
-                                    {if $product->content->ip_limit === '0'}
-                                    <td class="text-end">不限制</td>
-                                    {else}
-                                    <td class="text-end">{$product->content->ip_limit}</td>
-                                    {/if}
-                                </tr>
+                                    <tr>
+                                        <td>速率限制</td>
+                                        {if $product->content->speed_limit === '0'}
+                                            <td class="text-end">不限制</td>
+                                        {else}
+                                            <td class="text-end">{$product->content->speed_limit} Mbps</td>
+                                        {/if}
+                                    </tr>
+                                    <tr>
+                                        <td>同时连接 IP 限制</td>
+                                        {if $product->content->ip_limit === '0'}
+                                            <td class="text-end">不限制</td>
+                                        {else}
+                                            <td class="text-end">{$product->content->ip_limit}</td>
+                                        {/if}
+                                    </tr>
                                 {/if}
                             </table>
                         </div>
@@ -112,7 +112,8 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <div class="input-group mb-2">
-                                    <input id="coupon" type="text" class="form-control" placeholder="填写优惠码，没有请留空">
+                                    <input id="coupon" type="text" class="form-control"
+                                           placeholder="填写优惠码，没有请留空">
                                     <button id="verify-coupon" class="btn" type="button">应用</button>
                                 </div>
                             </div>
@@ -121,7 +122,8 @@
                     <div class="card my-3">
                         <div class="card-body">
                             <button id="create-order" href=""
-                            class="btn btn-primary w-100 my-3">创建订单</button>
+                                    class="btn btn-primary w-100 my-3">创建订单
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -130,7 +132,7 @@
     </div>
 
     <script>
-        $("#verify-coupon").click(function() {
+        $("#verify-coupon").click(function () {
             $.ajax({
                 url: '/user/coupon',
                 type: 'POST',
@@ -139,7 +141,7 @@
                     coupon: $('#coupon').val(),
                     product_id: {$product->id},
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#coupon-code').text($('#coupon').val());
                         $('#product-buy-discount').text(data.discount);
@@ -152,7 +154,7 @@
             })
         });
 
-        $("#create-order").click(function() {
+        $("#create-order").click(function () {
             $.ajax({
                 url: '/user/order/create',
                 type: 'POST',
@@ -161,11 +163,11 @@
                     coupon: $('#coupon').val(),
                     product_id: {$product->id},
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.ret === 1) {
                         $('#success-noreload-message').text(data.msg);
                         $('#success-noreload-dialog').modal('show');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $(location).attr('href', '/user/invoice/' + data.invoice_id + '/view');
                         }, 1500);
                     } else {
@@ -177,4 +179,4 @@
         });
     </script>
 
-{include file='user/footer.tpl'}
+    {include file='user/footer.tpl'}

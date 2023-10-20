@@ -1,6 +1,6 @@
 {include file='admin/header.tpl'}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.7.0/tinymce.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.7.1/tinymce.min.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -17,7 +17,7 @@
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                         <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#generate-ai-content">
+                                data-bs-target="#generate-ai-content">
                             <i class="icon ti ti-robot"></i>
                             AI 文档生成
                         </button>
@@ -78,13 +78,13 @@
             menubar: false,
             statusbar: false,
             plugins:
-              'advlist autolink lists link image charmap preview anchor ' +
-              'searchreplace visualblocks code fullscreen ' +
-              'insertdatetime media table wordcount',
+                'advlist autolink lists link image charmap preview anchor ' +
+                'searchreplace visualblocks code fullscreen ' +
+                'insertdatetime media table wordcount',
             toolbar: 'undo redo | formatselect | ' +
-              'bold italic backcolor link | blocks | alignleft aligncenter ' +
-              'alignright alignjustify | bullist numlist outdent indent | ' +
-              'image removeformat',
+                'bold italic backcolor link | blocks | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'image removeformat',
             image_title: false,
             image_description: false,
             content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;font-size:   14px; -webkit-font-smoothing: antialiased; }',
@@ -96,7 +96,7 @@
         tinyMCE.init(options);
     })
 
-    $("#generate").click(function() {
+    $("#generate").click(function () {
         $.ajax({
             url: "/admin/docs/generate",
             type: 'POST',
@@ -104,7 +104,7 @@
             data: {
                 question: $("#question").val(),
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.ret === 1) {
                     $('#success-noreload-message').text(data.msg);
                     $('#success-noreload-dialog').modal('show');
@@ -117,7 +117,7 @@
         })
     });
 
-    $("#create-doc").click(function() {
+    $("#create-doc").click(function () {
         $.ajax({
             url: '/admin/docs',
             type: 'POST',
@@ -126,7 +126,7 @@
                 title: $("#title").val(),
                 content: tinyMCE.get('tinymce').getContent(),
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
                     $('#success-dialog').modal('show');
