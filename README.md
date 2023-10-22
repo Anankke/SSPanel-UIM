@@ -27,7 +27,7 @@ SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan 协议设计的多用�
 
 ## 特性
 
-- 集成 支付宝当面付，Stripe 银行卡，彩虹易支付 等多种支付系统
+- 集成 支付宝当面付，PayPal，Stripe 等多种支付系统
 - 支持多种邮件服务，内置队列功能，无需第三方组件即可使用
 - 内置基于 Bootstrap 5 的 tabler 主题，模板引擎支持
 - 支持 Shadowsocks 2022，TUIC 等最新代理协议

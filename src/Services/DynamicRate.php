@@ -12,9 +12,9 @@ final class DynamicRate
         float $min_rate,
         int $min_rate_time,
         string $method = 'logistic',
-    ): array|string {
+    ): array {
         if (! self::validateData($max_rate, $max_rate_time, $min_rate, $min_rate_time)) {
-            return 'Invalid data';
+            return [];
         }
 
         $rates = [];
@@ -33,9 +33,9 @@ final class DynamicRate
         int $min_rate_time,
         int $time,
         string $method = 'logistic',
-    ): float|string {
+    ): float {
         if (! self::validateData($max_rate, $max_rate_time, $min_rate, $min_rate_time)) {
-            return 'Invalid data';
+            return 1;
         }
 
         if ($time === $max_rate_time || $max_rate_time === $min_rate_time || $max_rate === $min_rate) {
@@ -85,7 +85,10 @@ final class DynamicRate
         $k = $time < $max_rate_time ? -0.7 : 1.3;
         $e = M_E;
 
-        return ($max_rate - $min_rate) / (1 + $e ** ($k * ($time - ($max_rate_time + $min_rate_time) / 2))) + $min_rate;
+        return round(
+            ($max_rate - $min_rate) / (1 + $e ** ($k * ($time - ($max_rate_time + $min_rate_time) / 2))) + $min_rate,
+            2
+        );
     }
 
     public static function linear(
@@ -98,6 +101,9 @@ final class DynamicRate
         $k = ($max_rate - $min_rate) / ($max_rate_time - $min_rate_time);
         $b = $max_rate - $k * $max_rate_time;
 
-        return $k * $time + $b;
+        return round(
+            $k * $time + $b,
+            2
+        );
     }
 }

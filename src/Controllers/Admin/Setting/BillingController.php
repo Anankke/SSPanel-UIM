@@ -34,6 +34,7 @@ final class BillingController extends BaseController
         'epay_url',
         'epay_pid',
         'epay_key',
+        'epay_sign_type',
         'epay_alipay',
         'epay_wechat',
         'epay_qq',

@@ -59,7 +59,11 @@
                                                                     </li>
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-rocket"></i>&nbsp;
-                                                                        {$server["traffic_rate"]} 倍
+                                                                        {if $server["is_dynamic_rate"]}
+                                                                            动态倍率
+                                                                        {else}
+                                                                            {$server["traffic_rate"]} 倍
+                                                                        {/if}
                                                                     </li>
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-server-2"></i>&nbsp;

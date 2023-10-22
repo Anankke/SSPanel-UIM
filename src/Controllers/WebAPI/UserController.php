@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\DetectLog;
 use App\Models\Node;
 use App\Services\DB;
+use App\Services\DynamicRate;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
@@ -167,7 +168,20 @@ final class UserController extends BaseController
                 transfer_total = transfer_total + ?,
                 transfer_today = transfer_today + ? WHERE id = ?
         ');
-        $rate = (float) $node->traffic_rate;
+
+        if ($node->is_dynamic_rate) {
+            $dynamic_rate_config = json_decode($node->dynamic_rate_config);
+            $rate = DynamicRate::getRateByTime(
+                (float) $dynamic_rate_config?->max_rate,
+                (int) $dynamic_rate_config?->max_rate_time,
+                (float) $dynamic_rate_config?->min_rate,
+                (int) $dynamic_rate_config?->min_rate_time,
+                (int) date('H')
+            );
+        } else {
+            $rate = (float) $node->traffic_rate;
+        }
+
         $sum = 0;
 
         foreach ($data as $log) {

@@ -40,6 +40,7 @@ final class AopF2F extends AbstractPayment
 
         $price = $antiXss->xss_clean($request->getParam('amount'));
         $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        $trade_no = self::generateGuid();
 
         if ($price <= 0) {
             return $response->withJson([
@@ -54,7 +55,7 @@ final class AopF2F extends AbstractPayment
         $pl->userid = $user->id;
         $pl->total = $price;
         $pl->invoice_id = $invoice_id;
-        $pl->tradeno = self::generateGuid();
+        $pl->tradeno = $trade_no;
         $pl->gateway = self::_readableName();
 
         $pl->save();
@@ -63,9 +64,9 @@ final class AopF2F extends AbstractPayment
 
         $request = $gateway->purchase();
         $request->setBizContent([
-            'subject' => $pl->tradeno,
-            'out_trade_no' => $pl->tradeno,
-            'total_amount' => $pl->total,
+            'subject' => $trade_no,
+            'out_trade_no' => $trade_no,
+            'total_amount' => $price,
         ]);
 
         $aliResponse = $request->send();
@@ -76,8 +77,8 @@ final class AopF2F extends AbstractPayment
         return $response->withJson([
             'ret' => 1,
             'qrcode' => $qrCodeContent,
-            'amount' => $pl->total,
-            'pid' => $pl->tradeno,
+            'amount' => $price,
+            'pid' => $trade_no,
         ]);
     }
 

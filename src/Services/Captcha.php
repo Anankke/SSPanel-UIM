@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Setting;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use function hash_hmac;
 use function json_decode;
 
@@ -29,38 +31,36 @@ final class Captcha
     public static function verify($param): bool
     {
         $result = false;
+        $client = new Client();
 
         switch (Setting::obtain('captcha_provider')) {
             case 'turnstile':
-                $turnstile = $param['turnstile'] ?? '';
-                if ($turnstile !== '') {
-                    $postdata = http_build_query(
-                        [
-                            'secret' => Setting::obtain('turnstile_secret'),
-                            'response' => $turnstile,
-                        ]
-                    );
+                if (isset($param['turnstile'])) {
+                    $turnstile_url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
-                    $opts = [
-                        'http' => [
-                            'method' => 'POST',
-                            'header' => 'Content-Type: application/x-www-form-urlencoded',
-                            'content' => $postdata,
-                        ],
+                    $turnstile_headers = [
+                        'Content-Type' => 'application/x-www-form-urlencoded',
                     ];
 
-                    $json = json_decode(file_get_contents(
-                        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-                        false,
-                        stream_context_create($opts)
-                    ));
+                    $turnstile_body = [
+                        'secret' => Setting::obtain('turnstile_secret'),
+                        'response' => $param['turnstile'],
+                    ];
 
-                    $result = $json->success;
+                    try {
+                        $result = json_decode($client->post($turnstile_url, [
+                            'headers' => $turnstile_headers,
+                            'form_params' => $turnstile_body,
+                            'timeout' => 3,
+                        ])->getBody()->getContents())->success;
+                    } catch (GuzzleException $e) {
+                        echo $e->getMessage();
+                    }
                 }
                 break;
             case 'geetest':
-                $geetest = $param['geetest'] ?? [];
-                if ($geetest !== []) {
+                if (isset($param['geetest'])) {
+                    $geetest = $param['geetest'];
                     $captcha_id = Setting::obtain('geetest_id');
                     $captcha_key = Setting::obtain('geetest_key');
                     $lot_number = $geetest['lot_number'];
@@ -69,32 +69,32 @@ final class Captcha
                     $gen_time = $geetest['gen_time'];
                     $sign_token = hash_hmac('sha256', $lot_number, $captcha_key);
 
-                    $postdata = http_build_query(
-                        [
-                            'lot_number' => $lot_number,
-                            'captcha_output' => $captcha_output,
-                            'pass_token' => $pass_token,
-                            'gen_time' => $gen_time,
-                            'sign_token' => $sign_token,
-                        ]
-                    );
-
-                    $opts = [
-                        'http' => [
-                            'method' => 'POST',
-                            'header' => 'Content-type: application/x-www-form-urlencoded',
-                            'content' => $postdata,
-                            'timeout' => 5,
-                        ],
+                    $geetest_headers = [
+                        'Content-Type' => 'application/x-www-form-urlencoded',
                     ];
 
-                    $json = json_decode(file_get_contents(
-                        'https://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id,
-                        false,
-                        stream_context_create($opts)
-                    ));
+                    $geetest_body = [
+                        'lot_number' => $lot_number,
+                        'captcha_output' => $captcha_output,
+                        'pass_token' => $pass_token,
+                        'gen_time' => $gen_time,
+                        'sign_token' => $sign_token,
+                    ];
 
-                    if ($json->result === 'success') {
+                    $geetest_url = 'https://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id;
+
+                    try {
+                        $json = json_decode($client->post($geetest_url, [
+                            'headers' => $geetest_headers,
+                            'form_params' => $geetest_body,
+                            'timeout' => 3,
+                        ])->getBody()->getContents());
+                    } catch (GuzzleException $e) {
+                        $json = null;
+                        echo $e->getMessage();
+                    }
+
+                    if ($json?->result === 'success') {
                         $result = true;
                     }
                 }

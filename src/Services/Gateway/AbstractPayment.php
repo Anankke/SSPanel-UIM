@@ -16,7 +16,6 @@ use Slim\Http\ServerRequest;
 use function get_called_class;
 use function in_array;
 use function json_decode;
-use function json_encode;
 use function time;
 
 abstract class AbstractPayment
@@ -57,32 +56,30 @@ abstract class AbstractPayment
 
     abstract public static function getPurchaseHTML(): string;
 
-    public function postPayment($tradeno): false|int|string
+    public function postPayment($trade_no): void
     {
-        $paylist = Paylist::where('tradeno', $tradeno)->first();
+        $paylist = Paylist::where('tradeno', $trade_no)->first();
 
-        if ($paylist->status === 1) {
-            return json_encode(['errcode' => 0]);
+        if ($paylist?->status === 0) {
+            $paylist->datetime = time();
+            $paylist->status = 1;
+            $paylist->save();
         }
 
-        $paylist->datetime = time();
-        $paylist->status = 1;
-        $paylist->save();
+        $invoice = Invoice::where('id', $paylist?->invoice_id)->first();
 
-        $user = User::find($paylist->userid);
+        if ($invoice?->status === 'unpaid' && (int) $invoice?->price === (int) $paylist?->total) {
+            $invoice->status = 'paid_gateway';
+            $invoice->update_time = time();
+            $invoice->pay_time = time();
+            $invoice->save();
+        }
 
-        $invoice = Invoice::where('id', $paylist->invoice_id)->first();
-        $invoice->status = 'paid_gateway';
-        $invoice->update_time = time();
-        $invoice->pay_time = time();
-        $invoice->save();
-
+        $user = User::find($paylist?->userid);
         // 返利
-        if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_paid') {
+        if ($user !== null && $user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_paid') {
             (new Payback())->rebate($user->id, $paylist->total);
         }
-
-        return 0;
     }
 
     public static function generateGuid(): string
