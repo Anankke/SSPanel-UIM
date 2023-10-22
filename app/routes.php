@@ -40,6 +40,9 @@ return static function (Slim\App $app): void {
         $group->get('/banned', App\Controllers\UserController::class . ':banned');
         // 节点
         $group->get('/server', App\Controllers\User\ServerController::class . ':server');
+        // 动态倍率
+        $group->get('/rate', App\Controllers\User\RateController::class . ':index');
+        $group->post('/rate', App\Controllers\User\RateController::class . ':ajax');
         // 审计
         $group->get('/detect', App\Controllers\User\DetectController::class . ':index');
         // 工单

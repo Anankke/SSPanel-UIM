@@ -80,20 +80,51 @@
                                     修改节点自定义配置
                                 </label>
                             </div>
-                            <div class="mb-3">
-                                <div class="divide-y">
-                                    <div>
-                                        <label class="row">
-                                            <span class="col">显示此节点</span>
-                                            <span class="col-auto">
-                                                <label class="form-check form-check-single form-switch">
-                                                    <input id="type" class="form-check-input" type="checkbox"
-                                                           checked="">
-                                                </label>
-                                            </span>
-                                        </label>
-                                    </div>
+                            <div class="form-group mb-3 row">
+                                <span class="col">显示此节点</span>
+                                <span class="col-auto">
+                                      <label class="form-check form-check-single form-switch">
+                                          <input id="type" class="form-check-input" type="checkbox" {if $node->type}checked="" {/if}>
+                                      </label>
+                                  </span>
+                            </div>
+                            <div class="hr-text">
+                                <span>动态倍率</span>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <span class="col">启用动态流量倍率</span>
+                                <span class="col-auto">
+                                      <label class="form-check form-check-single form-switch">
+                                          <input id="is_dynamic_rate" class="form-check-input" type="checkbox" {if $node->is_dynamic_rate}checked="" {/if}>
+                                      </label>
+                                  </span>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最大倍率</label>
+                                <div class="col">
+                                    <input id="max_rate" type="text" class="form-control" value="{$node->max_rate}">
                                 </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最大倍率时间（时）</label>
+                                <div class="col">
+                                    <input id="max_rate_time" type="text" class="form-control" value="{$node->max_rate_time}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最小倍率</label>
+                                <div class="col">
+                                    <input id="min_rate" type="text" class="form-control" value="{$node->min_rate}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最小倍率时间（时）</label>
+                                <div class="col">
+                                    <input id="min_rate_time" type="text" class="form-control" value="{$node->min_rate_time}">
+                                </div>
+                                <label class="form-label col-form-label">
+                                    最大倍率时间必须大于最小倍率时间，否则将不会生效
+                                </label>
                             </div>
                         </div>
                     </div>

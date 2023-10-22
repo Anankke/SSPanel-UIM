@@ -126,6 +126,10 @@
                                     <i class="ti ti-server"></i>&nbsp;
                                     节点
                                 </a>
+                                <a class="dropdown-item" href="/user/rate">
+                                    <i class="ti ti-chart-bar"></i>&nbsp;
+                                    流量倍率
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
