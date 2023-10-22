@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway\Epay;
 
+use App\Models\Setting;
 use function hash;
 use function strlen;
 
@@ -13,13 +14,13 @@ final class EpayTool
     {
         $prestr .= $key;
 
-        return hash('sha256', $prestr);
+        return hash(Setting::obtain('epay_sign_type'), $prestr);
     }
 
     public static function verify($prestr, $sign, $key): bool
     {
         $prestr .= $key;
-        $correct_sign = hash('sha256', $prestr);
+        $correct_sign = hash(Setting::obtain('epay_sign_type'), $prestr);
 
         return $correct_sign === $sign;
     }

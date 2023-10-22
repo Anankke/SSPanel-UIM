@@ -111,6 +111,16 @@
     },
     {
         "id": null,
+        "item": "stripe_max_recharge",
+        "value": "1000",
+        "class": "billing",
+        "is_public": 1,
+        "type": "int",
+        "default": "1000",
+        "mark": "最高充值限额"
+    },
+    {
+        "id": null,
         "item": "stripe_card",
         "value": "0",
         "class": "billing",
@@ -141,43 +151,43 @@
     },
     {
         "id": null,
-        "item": "stripe_max_recharge",
-        "value": "1000",
-        "class": "billing",
-        "is_public": 1,
-        "type": "int",
-        "default": "1000",
-        "mark": "最高充值限额"
-    },
-    {
-        "id": null,
         "item": "epay_url",
-        "value": "1000",
+        "value": "",
         "class": "billing",
         "is_public": 0,
         "type": "string",
-        "default": "1000",
+        "default": "",
         "mark": "易支付url"
     },
 	{
         "id": null,
         "item": "epay_pid",
-        "value": "1000",
+        "value": "",
         "class": "billing",
         "is_public": 0,
         "type": "string",
-        "default": "1000",
+        "default": "",
         "mark": "易支付商户ID"
     },
 	{
         "id": null,
         "item": "epay_key",
-        "value": "1000",
+        "value": "",
         "class": "billing",
         "is_public": 0,
         "type": "string",
-        "default": "1000",
+        "default": "",
         "mark": "易支付商户Key"
+    },
+    {
+        "id": null,
+        "item": "epay_sign_type",
+        "value": "sha256",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "sha256",
+        "mark": "易支付签名方式"
     },
     {
         "id": null,

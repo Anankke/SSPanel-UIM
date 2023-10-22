@@ -199,10 +199,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">密钥</label>
+                                            <label class="form-label col-3 col-form-label">商户Key</label>
                                             <div class="col">
                                                 <input id="epay_key" type="text" class="form-control"
                                                        value="{$settings['epay_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">签名方式</label>
+                                            <div class="col">
+                                                <input id="epay_sign_type" type="text" class="form-control"
+                                                       value="{$settings['epay_sign_type']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">

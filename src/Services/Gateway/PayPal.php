@@ -131,8 +131,7 @@ final class PayPal extends AbstractPayment
         $result = $pp->capturePaymentOrder($order_id);
 
         if (isset($result['status']) && $result['status'] === 'COMPLETED') {
-            $trade_no = $result['purchase_units'][0]['reference_id'];
-            $this->postPayment($trade_no);
+            $this->postPayment($result['purchase_units'][0]['reference_id']);
 
             return $response->withJson([
                 'ret' => 1,
