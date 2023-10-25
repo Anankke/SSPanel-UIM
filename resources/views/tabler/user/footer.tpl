@@ -22,30 +22,6 @@
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="success-noreload-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-status bg-success"></div>
-            <div class="modal-body text-center py-4">
-                <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
-                <p id="success-noreload-message" class="text-secondary">成功</p>
-            </div>
-            <div class="modal-footer">
-                <div class="w-100">
-                    <div class="row">
-                        <div class="col">
-                            <a id="success-noreload-confirm" href="" class="btn w-100" data-bs-dismiss="modal">
-                                好
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -95,28 +71,27 @@
 </div>
 <!-- js -->
 <script>
-    $("#switch_theme_mode").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/user/switch_theme_mode",
-            dataType: "json",
-            success: function (data) {
-                if (data.ret === 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                    window.setTimeout("location.reload()", {$config['jump_delay']});
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
-                }
-            }
-        })
-    });
+    htmx.on("htmx:afterRequest", function(evt) {
+        if (evt.detail.xhr.getResponseHeader('HX-Refresh') === 'true' ||
+            typeof evt.detail.xhr.getResponseHeader('HX-Trigger') !== 'undefined')
+        {
+            return;
+        }
 
-    $("#success-confirm").click(function () {
-        location.reload();
+        let data = JSON.parse(evt.detail.xhr.response);
+        let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
+        let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
+
+        if (data.ret === 1) {
+            document.getElementById("success-message").innerHTML = data.msg;
+            successDialog.show();
+        } else {
+            document.getElementById("fail-message").innerHTML = data.msg;
+            failDialog.show();
+        }
     });
 </script>
+
 <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
 

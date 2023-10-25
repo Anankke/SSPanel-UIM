@@ -284,7 +284,10 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::success($response, '修改成功');
+        return $response->withHeader('HX-Refresh', 'true')->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -304,7 +307,10 @@ final class InfoController extends BaseController
             Auth::logout();
             $user->kill();
 
-            return ResponseHelper::success($response, '你的帐号已被送去古拉格劳动改造，再见');
+            return $response->withHeader('HX-Refresh', 'true')->withJson([
+                'ret' => 1,
+                'msg' => '你的帐号已被送去古拉格劳动改造，再见',
+            ]);
         }
 
         return ResponseHelper::error($response, '自助账号删除未启用');

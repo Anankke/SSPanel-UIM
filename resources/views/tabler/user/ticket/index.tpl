@@ -106,36 +106,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="create-ticket-button" type="button" class="btn btn-primary"
-                            data-bs-dismiss="modal">创建
+                    <button id="create-ticket-button" class="btn btn-primary" data-bs-dismiss="modal"
+                            hx-post="/user/ticket" hx-swap="none"
+                            hx-vals='js:{
+                            title: document.getElementById("ticket-title").value
+                            comment: document.getElementById("ticket-comment").value
+                            type: document.getElementById("ticket-type").value }'>
+                        创建
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        $("#create-ticket-button").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/ticket",
-                dataType: "json",
-                data: {
-                    title: $('#ticket-title').val(),
-                    comment: $('#ticket-comment').val(),
-                    type: $('#ticket-type').val(),
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-    </script>
 
 {include file='user/footer.tpl'}

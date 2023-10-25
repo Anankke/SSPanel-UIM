@@ -138,14 +138,7 @@ final class UserController extends BaseController
             ->fetch('user/invite.tpl'));
     }
 
-    public function logout(ServerRequest $request, Response $response, array $args): Response
-    {
-        Auth::logout();
-
-        return $response->withStatus(302)->withHeader('Location', '/');
-    }
-
-    public function doCheckIn(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function checkin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (! $_ENV['enable_checkin']) {
             return ResponseHelper::error($response, '暂时还不能签到');
@@ -165,16 +158,24 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, (string) $checkin['msg']);
         }
 
-        return $response->withJson([
+        return $response->withHeader('HX-Refresh', 'true')->withJson([
             'ret' => 1,
-            'trafficInfo' => [
-                'todayUsedTraffic' => $this->user->todayUsedTraffic(),
-                'lastUsedTraffic' => $this->user->lastUsedTraffic(),
-                'unUsedTraffic' => $this->user->unusedTraffic(),
-            ],
-            'traffic' => Tools::autoBytes($this->user->transfer_enable),
-            'unflowtraffic' => $this->user->transfer_enable,
             'msg' => $checkin['msg'],
+        ]);
+    }
+
+    public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
+        $user = $this->user;
+        $user->is_dark_mode = $user->is_dark_mode === 1 ? 0 : 1;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '切换失败');
+        }
+
+        return $response->withHeader('HX-Refresh', 'true')->withJson([
+            'ret' => 1,
+            'msg' => '切换成功',
         ]);
     }
 
@@ -190,15 +191,10 @@ final class UserController extends BaseController
             ->fetch('user/banned.tpl'));
     }
 
-    public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function logout(ServerRequest $request, Response $response, array $args): Response
     {
-        $user = $this->user;
-        $user->is_dark_mode = $user->is_dark_mode === 1 ? 0 : 1;
+        Auth::logout();
 
-        if (! $user->save()) {
-            return ResponseHelper::error($response, '切换失败');
-        }
-
-        return ResponseHelper::success($response, '切换成功');
+        return $response->withStatus(302)->withHeader('Location', '/');
     }
 }

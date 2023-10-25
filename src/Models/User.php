@@ -301,6 +301,7 @@ final class User extends Model
             } catch (Exception $e) {
                 $traffic = 0;
             }
+
             $this->transfer_enable += Tools::toMB($traffic);
             $this->last_check_in_time = time();
             $this->save();

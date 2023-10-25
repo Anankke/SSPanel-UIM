@@ -74,13 +74,24 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         {if $public_setting['reg_email_verify'] && $config['enable_change_email']}
-                                                            <a id="email-verify" class="btn btn-link">获取验证码</a>
-                                                            <button id="modify-email"
-                                                                    class="btn btn-primary ms-auto">修改
+                                                            <button id="email-verify" class="btn btn-link"
+                                                                    hx-post="/user/send" hx-swap="none"
+                                                                    hx-vals='js:{ email: document.getElementById("newemail").value }'>
+                                                                获取验证码
+                                                            </button>
+                                                            <button id="modify-email" class="btn btn-primary ms-auto"
+                                                                    hx-post="/user/email" hx-swap="none"
+                                                                    hx-vals='js:{
+                                                                        newemail: document.getElementById("new-email").value,
+                                                                        emailcode: document.getElementById("email-code").value
+                                                                    }'>
+                                                                修改
                                                             </button>
                                                         {elseif $config['enable_change_email']}
-                                                            <button id="modify-email"
-                                                                    class="btn btn-primary ms-auto">修改
+                                                            <button id="modify-email" class="btn btn-primary ms-auto"
+                                                                    hx-post="/user/email" hx-swap="none"
+                                                                    hx-vals='js:{ newemail: document.getElementById("new-email").value }'>
+                                                                修改
                                                             </button>
                                                         {else}
                                                             <button id="modify-email" class="btn btn-primary ms-auto"
@@ -97,13 +108,17 @@
                                                     <h3 class="card-title">用戶名</h3>
                                                     <p>当前用戶名：<code>{$user->user_name}</code></p>
                                                     <div class="mb-3">
-                                                        <input id="new-nickname" type="text" class="form-control"
+                                                        <input id="new-username" type="text" class="form-control"
                                                                placeholder="新用戶名" autocomplete="off">
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="modify-username" class="btn btn-primary ms-auto">修改</a>
+                                                        <button id="modify-username" class="btn btn-primary ms-auto"
+                                                           hx-post="/user/username" hx-swap="none"
+                                                           hx-vals='js:{ newusername: document.getElementById("new-username").value }'>
+                                                            修改
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,7 +172,8 @@
                                                 {if $user->im_type !== 0}
                                                     <div class="card-footer">
                                                         <div class="d-flex">
-                                                            <button id="unbind-im" class="btn btn-red ms-auto">
+                                                            <button id="unbind-im" class="btn btn-red ms-auto"
+                                                                    hx-post="/user/unbind_im" hx-swap="none">
                                                                 解绑
                                                             </button>
                                                         </div>
@@ -204,7 +220,7 @@
                                                                 </select>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <input id="2fa-test-code" type="text"
+                                                                <input id="ga-test-code" type="text"
                                                                        class="form-control"
                                                                        placeholder="测试两步认证验证码">
                                                             </div>
@@ -216,9 +232,20 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="reset-2fa" class="btn btn-link">重置</a>
-                                                        <a id="test-2fa" class="btn btn-link">测试</a>
-                                                        <a id="save-2fa" class="btn btn-primary ms-auto">设置</a>
+                                                        <button id="reset-2fa" class="btn btn-link"
+                                                                hx-post="/user/ga_reset" hx-swap="none">
+                                                            重置
+                                                        </button>
+                                                        <button id="test-2fa" class="btn btn-link"
+                                                                hx-post="/user/ga_check" hx-swap="none"
+                                                                hx-vals='js:{ code: document.getElementById("ga-test-code").value }'>
+                                                            测试
+                                                        </button>
+                                                        <button id="save-2fa" class="btn btn-primary ms-auto"
+                                                                hx-post="/user/ga_set" hx-swap="none"
+                                                                hx-vals='js:{ enable: document.getElementById("ga-enable").value }'>
+                                                            设置
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -242,7 +269,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <form>
-                                                            <input id="again-new-password" type="password"
+                                                            <input id="repeat-new-password" type="password"
                                                                    class="form-control" placeholder="再次输入新密码"
                                                                    autocomplete="off">
                                                         </form>
@@ -250,8 +277,14 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="modify-login-passwd"
-                                                           class="btn btn-primary ms-auto">修改</a>
+                                                        <button id="modify-login-passwd" class="btn btn-primary ms-auto"
+                                                                hx-post="/user/password" hx-swap="none"
+                                                                hx-vals='js:{
+                                                                pwd: document.getElementById("new-password").value
+                                                                repwd: document.getElementById("repeat-new-password").value
+                                                                oldpwd: document.getElementById("password").value }'>
+                                                            修改
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -279,8 +312,11 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="modify-user-method"
-                                                           class="btn btn-primary ms-auto">修改</a>
+                                                        <button id="modify-user-method" class="btn btn-primary ms-auto"
+                                                                hx-post="/user/method" hx-swap="none"
+                                                                hx-vals='js:{ method: document.getElementById("user-method").value }'>
+                                                            修改
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -294,8 +330,10 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="reset-sub-url"
-                                                           class="btn btn-primary ms-auto bg-red">重置</a>
+                                                        <button id="reset-sub-url" class="btn btn-primary ms-auto bg-red"
+                                                                hx-post="/user/url_reset" hx-swap="none">
+                                                            重置
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -310,8 +348,10 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="reset-passwd"
-                                                           class="btn btn-primary ms-auto bg-red">重置</a>
+                                                        <button id="reset-passwd" class="btn btn-primary ms-auto bg-red"
+                                                                hx-post="/user/passwd_reset" hx-swap="none">
+                                                            重置
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -325,7 +365,7 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">每日流量报告</h3>
                                                     <div class="mb-3">
-                                                        <select id="daily-report" class="form-select">
+                                                        <select id="daily-mail" class="form-select">
                                                             <option value="0"
                                                                     {if $user->daily_mail_enable === 0}selected{/if}>
                                                                 不接收
@@ -343,8 +383,11 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="modify-daily-report"
-                                                           class="btn btn-primary ms-auto">修改</a>
+                                                        <button id="modify-daily-mail" class="btn btn-primary ms-auto"
+                                                                hx-post="/user/daily_mail" hx-swap="none"
+                                                                hx-vals='js:{ mail: document.getElementById("daily-mail").value }'>
+                                                            修改
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -369,8 +412,11 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="modify-contact-method"
-                                                           class="btn btn-primary ms-auto">修改</a>
+                                                        <button id="modify-contact-method" class="btn btn-primary ms-auto"
+                                                                hx-post="/user/contact_method" hx-swap="none"
+                                                                hx-vals='js:{ contact: document.getElementById("contact-method").value }'>
+                                                            修改
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -391,8 +437,11 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
-                                                        <a id="modify-user-theme"
-                                                           class="btn btn-primary ms-auto">修改</a>
+                                                        <button id="modify-user-theme" class="btn btn-primary ms-auto"
+                                                                hx-post="/user/theme" hx-swap="none"
+                                                                hx-vals='js:{ theme: document.getElementById("user-theme").value }'>
+                                                            修改
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -409,11 +458,11 @@
                                                         <h3 class="card-title">删除账户数据</h3>
                                                     </div>
                                                     <div class="card-footer">
-                                                        <a href="#" class="btn btn-red" data-bs-toggle="modal"
+                                                        <button class="btn btn-red" data-bs-toggle="modal"
                                                            data-bs-target="#destroy-account">
                                                             <i class="ti ti-trash icon"></i>
                                                             确认删除
-                                                        </a>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -432,7 +481,7 @@
         <div class="modal modal-blur fade" id="destroy-account" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="modal-status bg-danger"></div>
                     <div class="modal-body text-center py-4">
                         <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
@@ -443,8 +492,7 @@
                         <div class="py-3">
                             <form>
                                 <input id="confirm-passwd" type="password" class="form-control"
-                                       placeholder="输入登录密码"
-                                       autocomplete="off">
+                                       placeholder="输入登录密码" autocomplete="off">
                             </form>
                         </div>
                     </div>
@@ -452,63 +500,16 @@
                         <div class="w-100">
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="btn w-100" data-bs-dismiss="modal">
+                                    <button class="btn w-100" data-bs-dismiss="modal">
                                         取消
-                                    </a>
+                                    </button>
                                 </div>
                                 <div class="col">
-                                    <a href="#" id="confirm-destroy" class="btn btn-danger w-100"
-                                       data-bs-dismiss="modal">
+                                    <button href="#" id="confirm-kill" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                                            hx-post="/user/kill" hx-swap="none"
+                                            hx-vals='js:{ passwd: document.getElementById("confirm-passwd").value }'>
                                         确认
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal modal-blur fade" id="destroy-account-success" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-status bg-success"></div>
-                    <div class="modal-body text-center py-4">
-                        <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
-                        <h3>删除成功</h3>
-                        <p id="success-message" class="text-secondary">删除成功</p>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="w-100">
-                            <div class="row">
-                                <div class="col">
-                                    <a href="#" class="btn w-100" data-bs-dismiss="modal">
-                                        好
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal modal-blur fade" id="destroy-account-fail" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-status bg-danger"></div>
-                    <div class="modal-body text-center py-4">
-                        <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
-                        <h3>删除失败</h3>
-                        <p id="error-message" class="text-secondary">删除失败</p>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="w-100">
-                            <div class="row">
-                                <div class="col">
-                                    <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                                        确认
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -519,7 +520,7 @@
     {/if}
 
     <script>
-        var qrcode = new QRCode('qrcode', {
+        let qrcode = new QRCode('qrcode', {
             text: "{$gaurl}",
             width: 128,
             height: 128,
@@ -527,308 +528,6 @@
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H
         });
-
-        var clipboard = new ClipboardJS('.copy');
-        clipboard.on('success', function (e) {
-            $('#success-noreload-message').text('已复制到剪切板');
-            $('#success-noreload-dialog').modal('show');
-        });
-
-        $("#modify-email").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/email",
-                dataType: "json",
-                data: {
-                    {if $public_setting['reg_email_verify']}
-                    emailcode: $('#email-code').val(),
-                    {/if}
-                    newemail: $('#new-email').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#email-verify").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/send",
-                dataType: "json",
-                data: {
-                    email: $('#new-email').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-username").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/username",
-                dataType: "json",
-                data: {
-                    newusername: $('#new-nickname').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-user-method").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/method",
-                dataType: "json",
-                data: {
-                    method: $('#user-method').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#reset-sub-url").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/url_reset",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#reset-passwd").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/passwd_reset",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-login-passwd").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/password",
-                dataType: "json",
-                data: {
-                    pwd: $('#new-password').val(),
-                    repwd: $('#again-new-password').val(),
-                    oldpwd: $('#password').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#unbind-im").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/unbind_im",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#reset-2fa").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/ga_reset",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#test-2fa").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/ga_check",
-                dataType: "json",
-                data: {
-                    code: $('#2fa-test-code').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#save-2fa").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/ga_set",
-                dataType: "json",
-                data: {
-                    enable: $('#ga-enable').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-daily-report").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/daily_mail",
-                dataType: "json",
-                data: {
-                    mail: $('#daily-report').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-contact-method").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/contact_method",
-                dataType: "json",
-                data: {
-                    contact: $('#contact-method').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#modify-user-theme").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/theme",
-                dataType: "json",
-                data: {
-                    theme: $('#user-theme').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                        window.setTimeout("location.reload()", {$config['jump_delay']});
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        {if $config['enable_kill']}
-        $("#confirm-destroy").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/kill",
-                dataType: "json",
-                data: {
-                    passwd: $('#confirm-passwd').val(),
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#destroy-account-success').modal('show');
-                    } else {
-                        $('#error-message').text(data.msg);
-                        $('#destroy-account-fail').modal('show');
-                    }
-                }
-            })
-        });
-        {/if}
 
         {if $user->im_type === 0 && $user->im_value === ''}
         $("#imtype").on('change', function () {
