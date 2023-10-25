@@ -80,6 +80,10 @@ final class MFAController extends BaseController
             return $response->withJson([
                 'ret' => 1,
                 'msg' => '重置成功',
+                'data' => [
+                    'ga-token' => $user->ga_token,
+                    'ga-url' => MFA::getGaUrl($user),
+                ],
             ]);
         }
 

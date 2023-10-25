@@ -73,23 +73,42 @@
 <script>
     htmx.on("htmx:afterRequest", function(evt) {
         if (evt.detail.xhr.getResponseHeader('HX-Refresh') === 'true' ||
-            typeof evt.detail.xhr.getResponseHeader('HX-Trigger') !== 'undefined')
+            evt.detail.xhr.getResponseHeader('HX-Trigger'))
         {
             return;
         }
 
-        let data = JSON.parse(evt.detail.xhr.response);
+        let res = JSON.parse(evt.detail.xhr.response);
+
+        if (typeof res.data !== 'undefined') {
+            for (let key in res.data) {
+                if (res.data.hasOwnProperty(key)) {
+                    if (key === "ga-url") {
+                        qrcode.clear();
+                        qrcode.makeCode(res.data[key]);
+                    }
+
+                    let element = document.getElementById(key);
+
+                    if (element) {
+                        element.innerHTML = res.data[key];
+                    }
+                }
+            }
+        }
+
         let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
         let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
 
-        if (data.ret === 1) {
-            document.getElementById("success-message").innerHTML = data.msg;
+        if (res.ret === 1) {
+            document.getElementById("success-message").innerHTML = res.msg;
             successDialog.show();
         } else {
-            document.getElementById("fail-message").innerHTML = data.msg;
+            document.getElementById("fail-message").innerHTML = res.msg;
             failDialog.show();
         }
     });
+
 </script>
 
 <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>

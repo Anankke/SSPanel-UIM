@@ -58,7 +58,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">登录邮箱</h3>
-                                                    <p>当前邮箱：<code>{$user->email}</code></p>
+                                                    <p>当前邮箱：<code id="email">{$user->email}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-email" type="email" class="form-control"
                                                                placeholder="新邮箱"
@@ -106,7 +106,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">用戶名</h3>
-                                                    <p>当前用戶名：<code>{$user->user_name}</code></p>
+                                                    <p>当前用戶名：<code id="username">{$user->user_name}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-username" type="text" class="form-control"
                                                                placeholder="新用戶名" autocomplete="off">
@@ -225,7 +225,11 @@
                                                                        placeholder="测试两步认证验证码">
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <p>密钥：<code>{$user->ga_token}</code></p>
+                                                                <p>密钥：
+                                                                    <code id="ga-token">
+                                                                        {$user->ga_token}
+                                                                    </code>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -233,7 +237,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button id="reset-2fa" class="btn btn-link"
-                                                                hx-post="/user/ga_reset" hx-swap="none">
+                                                                hx-post="/user/ga_reset" hx-swap="none" >
                                                             重置
                                                         </button>
                                                         <button id="test-2fa" class="btn btn-link"
@@ -343,8 +347,8 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">重置连接密码</h3>
                                                     <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
-                                                    <p>当前连接密码：<code>{$user->passwd}</code></p>
-                                                    <p>当前UUID：<code>{$user->uuid}</code></p>
+                                                    <p>当前连接密码：<code id="passwd">{$user->passwd}</code></p>
+                                                    <p>当前UUID：<code id="uuid">{$user->uuid}</code></p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
@@ -521,7 +525,7 @@
 
     <script>
         let qrcode = new QRCode('qrcode', {
-            text: "{$gaurl}",
+            text: "{$ga_url}",
             width: 128,
             height: 128,
             colorDark: '#000000',

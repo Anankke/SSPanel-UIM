@@ -41,7 +41,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title">邀请链接</h3>
-                                    <input class="form-control" value="{$invite_url}" disabled/>
+                                    <input class="form-control" id="invite-url" value="{$invite_url}" disabled/>
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-flex">
