@@ -8,6 +8,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  unit-test-php81:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+      - run: |
+          composer install --no-interaction --no-progress --no-suggest
+          php vendor/bin/phpunit
+
   unit-test-php82:
     runs-on: ubuntu-latest
     steps:
@@ -18,3 +29,15 @@ jobs:
     - run: |
         composer install --no-interaction --no-progress --no-suggest
         php vendor/bin/phpunit
+
+  unit-test-php83:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - run: |
+          composer install --no-interaction --no-progress --no-suggest
+          php vendor/bin/phpunit
