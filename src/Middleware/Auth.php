@@ -13,6 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
 use function in_array;
 use function str_contains;
+use function time;
 
 final class Auth implements MiddlewareInterface
 {
@@ -25,12 +26,13 @@ final class Auth implements MiddlewareInterface
             if (str_contains($path, '/user/order/create')) {
                 Cookie::set(['redir' => $path . '?' . $request->getUri()->getQuery()], time() + 3600);
             }
+
             return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/auth/login');
         }
 
         $enablePages = ['/user/banned', '/user/logout'];
 
-        if ($user->is_banned === 1 && ! in_array($path, $enablePages)) {
+        if ($user->is_banned && ! in_array($path, $enablePages)) {
             return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/user/banned');
         }
 

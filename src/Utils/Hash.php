@@ -6,18 +6,29 @@ namespace App\Utils;
 
 use function hash;
 use function in_array;
+use function md5;
 use function password_hash;
+use function password_verify;
+use function substr;
+use const PASSWORD_ARGON2I;
+use const PASSWORD_ARGON2ID;
+use const PASSWORD_BCRYPT;
 
 final class Hash
 {
-    public static function cookieHash($passHash, $expire_in): string
+    public static function cookieHash($pass, $expire_in): string
     {
-        return substr(hash('sha256', $passHash . $_ENV['key'] . $expire_in), 5, 45);
+        return substr(hash('sha3-256', $pass . $_ENV['key'] . $expire_in), 5, 45);
     }
 
     public static function ipHash($ip, $uid, $expire_in): string
     {
-        return substr(hash('sha256', $ip . $_ENV['key'] . $uid . $expire_in), 5, 45);
+        return substr(hash('sha3-256', $ip . $_ENV['key'] . $uid . $expire_in), 5, 45);
+    }
+
+    public static function deviceHash($ua, $uid, $expire_in): string
+    {
+        return substr(hash('sha3-256', $ua . $_ENV['key'] . $uid . $expire_in), 5, 45);
     }
 
     public static function checkPassword($hashedPassword, $password): bool
@@ -45,22 +56,16 @@ final class Hash
 
     public static function md5WithSalt($pwd): string
     {
-        $salt = $_ENV['salt'];
-
-        return md5($pwd . $salt);
+        return md5($pwd . $_ENV['salt']);
     }
 
     public static function sha256WithSalt($pwd): string
     {
-        $salt = $_ENV['salt'];
-
-        return hash('sha256', $pwd . $salt);
+        return hash('sha256', $pwd . $_ENV['salt']);
     }
 
     public static function sha3WithSalt($pwd): string
     {
-        $salt = $_ENV['salt'];
-
-        return hash('sha3-256', $pwd . $salt);
+        return hash('sha3-256', $pwd . $_ENV['salt']);
     }
 }

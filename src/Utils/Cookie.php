@@ -13,7 +13,7 @@ final class Cookie
         }
     }
 
-    public static function setwithdomain($arg, $time, $domain): void
+    public static function setWithDomain($arg, $time, $domain): void
     {
         foreach ($arg as $key => $value) {
             setcookie((string) $key, (string) $value, (int) $time, '/', (string) $domain, true, true);

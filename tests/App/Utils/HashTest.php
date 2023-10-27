@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use PHPUnit\Framework\TestCase;
+use function strlen;
 
 class HashTest extends TestCase
 {
@@ -31,6 +32,20 @@ class HashTest extends TestCase
         $uid = 'user_id';
         $expire_in = '1 hour';
         $result = Hash::ipHash($ip, $uid, $expire_in);
+        $this->assertIsString($result);
+        $this->assertEquals(45, strlen($result));
+    }
+
+    /**
+     * @covers App\Utils\Hash::deviceHash
+     */
+    public function testDeviceHash()
+    {
+        $_ENV['key'] = 'cookie_key';
+        $device = 'Firefox/119.0';
+        $uid = 'user_id';
+        $expire_in = '1 hour';
+        $result = Hash::deviceHash($device, $uid, $expire_in);
         $this->assertIsString($result);
         $this->assertEquals(45, strlen($result));
     }

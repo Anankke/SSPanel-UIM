@@ -74,6 +74,13 @@ SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档�
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O850UEH)
 
+<a href="https://www.vultr.com/?ref=8941355-8H">
+<img src="https://www.vultr.com/media/logo_onwhite.png" alt="Vultr" width="200" align="left" />
+</a>    
+
+<br/>
+<br/>
+
 ## Sponsor / 赞助商
 
 [![](.github/jetbrains.png)](https://www.jetbrains.com/?from=SSPanel-UIM)
