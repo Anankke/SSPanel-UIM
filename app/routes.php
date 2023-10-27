@@ -27,7 +27,7 @@ return static function (Slim\App $app): void {
         $group->get('', App\Controllers\UserController::class . ':index');
         $group->get('/', App\Controllers\UserController::class . ':index');
         // 签到
-        $group->post('/checkin', App\Controllers\UserController::class . ':doCheckin');
+        $group->post('/checkin', App\Controllers\UserController::class . ':checkin');
         // 公告
         $group->get('/announcement', App\Controllers\UserController::class . ':announcement');
         // 文档

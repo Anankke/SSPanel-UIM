@@ -107,42 +107,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">添加回复</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="reply-comment" class="form-control" rows="10"
-                                  placeholder="请输入回复内容"></textarea>
+                        <textarea id="reply-comment" class="form-control" rows="15" placeholder="请输入回复内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="reply" type="button" class="btn btn-primary" data-bs-dismiss="modal">回复</button>
+                    <button id="reply" class="btn btn-primary" data-bs-dismiss="modal"
+                            hx-put="/user/ticket/{$ticket->id}" hx-swap="none"
+                            hx-vals='js:{ comment: document.getElementById("reply-comment").value }'>
+                        回复
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        $("#reply").click(function () {
-            $.ajax({
-                url: "/user/ticket/{$ticket->id}",
-                type: 'PUT',
-                dataType: "json",
-                data: {
-                    comment: $('#reply-comment').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-    </script>
 
     {include file='user/footer.tpl'}

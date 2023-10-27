@@ -1,5 +1,7 @@
 {include file='user/header.tpl'}
 
+<script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
+
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -39,13 +41,16 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title">邀请链接</h3>
-                                    <input class="form-control" value="{$invite_url}" disabled/>
+                                    <input class="form-control" id="invite-url" value="{$invite_url}" disabled/>
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-flex">
-                                        <a id="reset-url" class="btn text-red btn-link">重置</a>
-                                        <a data-clipboard-text="{$invite_url}"
-                                           class="copy btn btn-primary ms-auto">复制</a>
+                                        <button id="reset-url" class="btn text-red btn-link"
+                                                hx-post="/user/invite_reset" hx-swap="none">
+                                            重置
+                                        </button>
+                                        <button data-clipboard-text="{$invite_url}"
+                                           class="copy btn btn-primary ms-auto">复制</button>
                                     </div>
                                 </div>
                             </div>
@@ -88,27 +93,10 @@
     </div>
 
     <script>
-        var clipboard = new ClipboardJS('.copy');
+        let clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function (e) {
-            $('#success-noreload-message').text('已复制到剪切板');
-            $('#success-noreload-dialog').modal('show');
-        });
-
-        $("#reset-url").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/invite_reset",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
+            $('#success-message').text('已复制到剪切板');
+            $('#success-dialog').modal('show');
         });
     </script>
 

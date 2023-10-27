@@ -1,7 +1,5 @@
 {include file='user/header.tpl'}
 
-<script src="//{$config['jsdelivr_url']}/npm/htmx.org@latest/dist/htmx.min.js"></script>
-
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -32,11 +30,9 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             {foreach $nodes as $node}
                                             <a class="dropdown-item" hx-post="/user/rate" hx-swap="none"
-                                               hx-vals='
-                                                {
-                                                   "node_id": "{$node['id']}"
-                                                }
-                                            '>{$node['name']}</a>
+                                                hx-vals='{ "node_id": "{$node['id']}" }'>
+                                                {$node['name']}
+                                            </a>
                                             {/foreach}
                                         </div>
                                     </div>
@@ -51,7 +47,7 @@
     </div>
 
     <script>
-        htmx.on("htmx:afterRequest", function(evt) {
+        document.body.addEventListener("drawChart", function(evt) {
             var chart = window.ApexCharts && new ApexCharts(document.getElementById('rate-chart'), {
                 chart: {
                     type: "bar",
@@ -112,7 +108,8 @@
                     axisBorder: {
                         show: false,
                     },
-                    categories: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                    categories: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12',
+                        '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
                 },
                 yaxis: {
                     title: {
@@ -128,15 +125,15 @@
                     show: false,
                 },
             });
-            document.getElementById('dropdown-toggle').innerHTML = JSON.parse(evt.detail.xhr.response).msg;
+            document.getElementById('dropdown-toggle').innerHTML = evt.detail.msg;
             chart.render();
             chart.updateOptions({
                 series: [{
                     name: "倍率",
-                    data: JSON.parse(evt.detail.xhr.response).data
+                    data: evt.detail.data
                 }],
             });
-        });
+        })
     </script>
 
     <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>

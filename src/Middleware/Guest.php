@@ -19,6 +19,7 @@ final class Guest implements MiddlewareInterface
 
         if ($user->isLogin) {
             $response = AppFactory::determineResponseFactory()->createResponse(302);
+
             return $response->withHeader('Location', '/user');
         }
 

@@ -1,5 +1,7 @@
 {include file='user/header.tpl'}
 
+<script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
+
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -574,7 +576,16 @@
                                                 <div id="geetest"></div>
                                             {/if}
                                         {/if}
-                                        <button id="check-in" class="btn btn-primary ms-auto">签到</button>
+                                        <button id="check-in" class="btn btn-primary ms-auto"
+                                                hx-post="/user/checkin" hx-swap="none"
+                                                {if $public_setting['captcha_provider'] === 'turnstile'}
+                                                    hx-vals='js:{ turnstile: document.querySelector("[name=cf-turnstile-response]").value }'
+                                                {/if}
+                                                {if $public_setting['captcha_provider'] === 'geetest'}
+                                                    hx-vals='js:{ geetest: geetest_result }'
+                                                {/if}>
+                                            签到
+                                        </button>
                                     {/if}
                                 </div>
                             </div>
@@ -586,37 +597,10 @@
     </div>
 
     <script>
-        var clipboard = new ClipboardJS('.copy');
+        let clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function (e) {
-            $('#success-noreload-message').text('已复制到剪切板');
-            $('#success-noreload-dialog').modal('show');
-        });
-
-        $("#check-in").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/checkin",
-                dataType: "json",
-                data: {
-                    {if $public_setting['enable_checkin_captcha'] && $user->isAbleToCheckin()}
-                    {if $public_setting['captcha_provider'] === 'turnstile'}
-                    turnstile: $('input[name=cf-turnstile-response]').val(),
-                    {/if}
-                    {if $public_setting['captcha_provider'] === 'geetest'}
-                    geetest: geetest_result,
-                    {/if}
-                    {/if}
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
+            $('#success-message').text('已复制到剪切板');
+            $('#success-dialog').modal('show');
         });
     </script>
 
@@ -627,7 +611,7 @@
     {if $public_setting['captcha_provider'] === 'geetest'}
         <script src="https://static.geetest.com/v4/gt4.js"></script>
         <script>
-            var geetest_result = '';
+            let geetest_result = '';
             initGeetest4({
                 captchaId: '{$captcha['geetest_id']}',
                 product: 'float',

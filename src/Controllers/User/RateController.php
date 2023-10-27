@@ -14,6 +14,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 use function array_fill;
+use function json_encode;
 
 final class RateController extends BaseController
 {
@@ -74,6 +75,15 @@ final class RateController extends BaseController
             $rates = array_fill(0, 24, $node->traffic_rate);
         }
 
-        return ResponseHelper::successWithData($response, $node->name, $rates);
+        $event = json_encode([
+            'drawChart' => [
+                'msg' => $node->name,
+                'data' => $rates,
+            ],
+        ]);
+
+        return $response->withHeader('HX-Trigger', $event)->withJson([
+            'ret' => 1,
+        ]);
     }
 }

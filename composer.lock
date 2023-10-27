@@ -69,16 +69,16 @@
         },
         {
             "name": "aws/aws-crt-php",
-            "version": "v1.2.2",
+            "version": "v1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awslabs/aws-crt-php.git",
-                "reference": "2f1dc7b7eda080498be96a4a6d683a41583030e9"
+                "reference": "5545a4fa310aec39f54279fdacebcce33b3ff382"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/2f1dc7b7eda080498be96a4a6d683a41583030e9",
-                "reference": "2f1dc7b7eda080498be96a4a6d683a41583030e9",
+                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/5545a4fa310aec39f54279fdacebcce33b3ff382",
+                "reference": "5545a4fa310aec39f54279fdacebcce33b3ff382",
                 "shasum": ""
             },
             "require": {
@@ -117,26 +117,26 @@
             ],
             "support": {
                 "issues": "https://github.com/awslabs/aws-crt-php/issues",
-                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.2"
+                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.3"
             },
-            "time": "2023-07-20T16:49:55+00:00"
+            "time": "2023-10-16T20:10:06+00:00"
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.283.9",
+            "version": "3.283.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0233b9f3f2155dac35c829ce4fc1b7cdb6ff8c0a"
+                "reference": "853eecfb21e8d623fa1b32e597b0a75912e8a404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0233b9f3f2155dac35c829ce4fc1b7cdb6ff8c0a",
-                "reference": "0233b9f3f2155dac35c829ce4fc1b7cdb6ff8c0a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/853eecfb21e8d623fa1b32e597b0a75912e8a404",
+                "reference": "853eecfb21e8d623fa1b32e597b0a75912e8a404",
                 "shasum": ""
             },
             "require": {
-                "aws/aws-crt-php": "^1.0.4",
+                "aws/aws-crt-php": "^1.2.3",
                 "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.283.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.283.13"
             },
-            "time": "2023-10-20T20:03:26+00:00"
+            "time": "2023-10-26T18:14:40+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1237,7 +1237,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1292,7 +1292,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1338,7 +1338,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1389,7 +1389,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1437,16 +1437,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "7b82234921a80bfc7a8fe67ff3ba3043c384fc04"
+                "reference": "bfe1d2bcd955db6325709c36d098b2d9bd4d7c5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/7b82234921a80bfc7a8fe67ff3ba3043c384fc04",
-                "reference": "7b82234921a80bfc7a8fe67ff3ba3043c384fc04",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/bfe1d2bcd955db6325709c36d098b2d9bd4d7c5d",
+                "reference": "bfe1d2bcd955db6325709c36d098b2d9bd4d7c5d",
                 "shasum": ""
             },
             "require": {
@@ -1502,11 +1502,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-10-09T18:36:56+00:00"
+            "time": "2023-10-20T10:10:54+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1552,7 +1552,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1602,16 +1602,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.28.0",
+            "version": "v10.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "dd3b3275a9dbd30736363f232e6bc2970d7681e9"
+                "reference": "e46e5864314d59fa690637e51d6cd2113acb2e7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/dd3b3275a9dbd30736363f232e6bc2970d7681e9",
-                "reference": "dd3b3275a9dbd30736363f232e6bc2970d7681e9",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/e46e5864314d59fa690637e51d6cd2113acb2e7b",
+                "reference": "e46e5864314d59fa690637e51d6cd2113acb2e7b",
                 "shasum": ""
             },
             "require": {
@@ -1669,7 +1669,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-10-06T13:41:04+00:00"
+            "time": "2023-10-18T14:12:13+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
@@ -2012,24 +2012,24 @@
         },
         {
             "name": "mailgun/mailgun-php",
-            "version": "v3.6.0",
+            "version": "v3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailgun/mailgun-php.git",
-                "reference": "02d8b5c7e082a64fb8e9bf9aea557501bf69fa41"
+                "reference": "c5162d1f569ade72aa9f80f10ba2b5e63ff2e221"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/02d8b5c7e082a64fb8e9bf9aea557501bf69fa41",
-                "reference": "02d8b5c7e082a64fb8e9bf9aea557501bf69fa41",
+                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/c5162d1f569ade72aa9f80f10ba2b5e63ff2e221",
+                "reference": "c5162d1f569ade72aa9f80f10ba2b5e63ff2e221",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3 || ^8.0",
                 "php-http/client-common": "^2.2.1",
-                "php-http/discovery": "^1.9.1",
+                "php-http/discovery": "^1.19",
                 "php-http/multipart-stream-builder": "^1.1.2",
-                "psr/http-client": "^1.0.1",
+                "psr/http-client": "^1.0",
                 "webmozart/assert": "^1.9.1"
             },
             "require-dev": {
@@ -2037,7 +2037,7 @@
                 "nyholm/psr7": "^1.3.1",
                 "phpunit/phpunit": "^9.3",
                 "squizlabs/php_codesniffer": "^3.7",
-                "symfony/http-client": "^5.3"
+                "symfony/http-client": "^5.4 || ^6.3"
             },
             "suggest": {
                 "nyholm/psr7": "PSR-7 message implementation",
@@ -2067,9 +2067,9 @@
             "description": "The Mailgun SDK provides methods for all API functions.",
             "support": {
                 "issues": "https://github.com/mailgun/mailgun-php/issues",
-                "source": "https://github.com/mailgun/mailgun-php/tree/v3.6.0"
+                "source": "https://github.com/mailgun/mailgun-php/tree/v3.6.1"
             },
-            "time": "2023-08-13T13:48:52+00:00"
+            "time": "2023-10-27T12:22:03+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -3241,31 +3241,26 @@
         },
         {
             "name": "php-http/promise",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/promise.git",
-                "reference": "4c4c1f9b7289a2ec57cde7f1e9762a5789506f88"
+                "reference": "ef4905bfb492ff389eb7f12e26925a0f20073050"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/promise/zipball/4c4c1f9b7289a2ec57cde7f1e9762a5789506f88",
-                "reference": "4c4c1f9b7289a2ec57cde7f1e9762a5789506f88",
+                "url": "https://api.github.com/repos/php-http/promise/zipball/ef4905bfb492ff389eb7f12e26925a0f20073050",
+                "reference": "ef4905bfb492ff389eb7f12e26925a0f20073050",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "friends-of-phpspec/phpspec-code-coverage": "^4.3.2",
-                "phpspec/phpspec": "^5.1.2 || ^6.2"
+                "friends-of-phpspec/phpspec-code-coverage": "^4.3.2 || ^6.3",
+                "phpspec/phpspec": "^5.1.2 || ^6.2 || ^7.4"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Http\\Promise\\": "src/"
@@ -3292,9 +3287,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/promise/issues",
-                "source": "https://github.com/php-http/promise/tree/1.1.0"
+                "source": "https://github.com/php-http/promise/tree/1.2.0"
             },
-            "time": "2020-07-07T09:29:14+00:00"
+            "time": "2023-10-24T09:20:26+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -4373,16 +4368,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.21.0",
+            "version": "3.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "624aafc22b84b089ffa43b71fb01e0096505ec4f"
+                "reference": "c0e3df5a5c1d133cd9461e7672568ff07042c19d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/624aafc22b84b089ffa43b71fb01e0096505ec4f",
-                "reference": "624aafc22b84b089ffa43b71fb01e0096505ec4f",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/c0e3df5a5c1d133cd9461e7672568ff07042c19d",
+                "reference": "c0e3df5a5c1d133cd9461e7672568ff07042c19d",
                 "shasum": ""
             },
             "require": {
@@ -4400,7 +4395,7 @@
                 "psr/http-factory": "^1.0",
                 "psr/http-factory-implementation": "^1.0",
                 "psr/log": "^1.0|^2.0|^3.0",
-                "symfony/options-resolver": "^3.4.43|^4.4.30|^5.0.11|^6.0",
+                "symfony/options-resolver": "^3.4.43|^4.4.30|^5.0.11|^6.0|^7.0",
                 "symfony/polyfill-php80": "^1.17"
             },
             "conflict": {
@@ -4457,7 +4452,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.21.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.22.0"
             },
             "funding": [
                 {
@@ -4469,7 +4464,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-07-31T15:31:24+00:00"
+            "time": "2023-10-23T20:34:53+00:00"
         },
         {
             "name": "slim/http",
@@ -6259,16 +6254,16 @@
         },
         {
             "name": "tronovav/geoip2-update",
-            "version": "v2.2.4",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tronovav/geoip2-update.git",
-                "reference": "60dc374c21e97ca16cadfbb418a4bbd6045b581e"
+                "reference": "86fddebc2bd277832846c8d6bb3b059fd093db06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronovav/geoip2-update/zipball/60dc374c21e97ca16cadfbb418a4bbd6045b581e",
-                "reference": "60dc374c21e97ca16cadfbb418a4bbd6045b581e",
+                "url": "https://api.github.com/repos/tronovav/geoip2-update/zipball/86fddebc2bd277832846c8d6bb3b059fd093db06",
+                "reference": "86fddebc2bd277832846c8d6bb3b059fd093db06",
                 "shasum": ""
             },
             "require": {
@@ -6306,9 +6301,9 @@
             "support": {
                 "email": "newtronov@gmail.com",
                 "issues": "https://github.com/tronovav/geoip2-update/issues",
-                "source": "https://github.com/tronovav/geoip2-update/tree/v2.2.4"
+                "source": "https://github.com/tronovav/geoip2-update/tree/v2.3.1"
             },
-            "time": "2023-09-21T16:52:07+00:00"
+            "time": "2023-10-25T22:16:50+00:00"
         },
         {
             "name": "vectorface/googleauthenticator",
@@ -7050,16 +7045,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.35.1",
+            "version": "v3.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "ec1ccc264994b6764882669973ca435cf05bab08"
+                "reference": "e889301f276c6ce2c391d6aafae9a162e785b064"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/ec1ccc264994b6764882669973ca435cf05bab08",
-                "reference": "ec1ccc264994b6764882669973ca435cf05bab08",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/e889301f276c6ce2c391d6aafae9a162e785b064",
+                "reference": "e889301f276c6ce2c391d6aafae9a162e785b064",
                 "shasum": ""
             },
             "require": {
@@ -7131,7 +7126,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.35.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.36.0"
             },
             "funding": [
                 {
@@ -7139,7 +7134,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-12T13:47:26+00:00"
+            "time": "2023-10-27T10:12:29+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -8052,16 +8047,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.4.1",
+            "version": "10.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "62bd7af13d282deeb95650077d28ba3600ca321c"
+                "reference": "cacd8b9dd224efa8eb28beb69004126c7ca1a1a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/62bd7af13d282deeb95650077d28ba3600ca321c",
-                "reference": "62bd7af13d282deeb95650077d28ba3600ca321c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/cacd8b9dd224efa8eb28beb69004126c7ca1a1a1",
+                "reference": "cacd8b9dd224efa8eb28beb69004126c7ca1a1a1",
                 "shasum": ""
             },
             "require": {
@@ -8133,7 +8128,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.4.1"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.4.2"
             },
             "funding": [
                 {
@@ -8149,7 +8144,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-08T05:01:11+00:00"
+            "time": "2023-10-26T07:21:45+00:00"
         },
         {
             "name": "psr/cache",

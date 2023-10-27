@@ -78,34 +78,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="apply-giftcard"
-                            type="button" class="btn btn-primary" data-bs-dismiss="modal">兑换
+                    <button id="apply-giftcard" class="btn btn-primary" data-bs-dismiss="modal"
+                            hx-post="/user/giftcard" hx-swap="none"
+                            hx-vals='js:{ giftcard: document.getElementById("giftcard").value }'>
+                        兑换
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        $("#apply-giftcard").click(function () {
-            $.ajax({
-                url: '/user/giftcard',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    giftcard: $('#giftcard').val(),
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-    </script>
 
 {include file='user/footer.tpl'}

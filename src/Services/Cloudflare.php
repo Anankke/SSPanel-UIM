@@ -15,23 +15,6 @@ use Exception;
 
 final class Cloudflare
 {
-    public static function modifyRecord(DNS $dns, $zoneID, $recordID, $name, $content, $proxied = false): int
-    {
-        $details = ['type' => 'A', 'name' => $name, 'content' => $content, 'proxied' => $proxied];
-        if ($dns->updateRecordDetails($zoneID, $recordID, $details)->success) {
-            return 1;
-        }
-        return 0;
-    }
-
-    public static function addRecord(DNS $dns, $zoneID, $type, $name, $content, $ttl = 120, $proxied = false): int
-    {
-        if ($dns->addRecord($zoneID, $type, $name, $content, $ttl, $proxied)) {
-            return 1;
-        }
-        return 0;
-    }
-
     /**
      * @throws EndpointException
      */
@@ -40,22 +23,20 @@ final class Cloudflare
         $key = new APIKey($_ENV['cloudflare_email'], $_ENV['cloudflare_key']);
         $adapter = new Guzzle($key);
         $zones = new Zones($adapter);
-        $zoneID = null;
-
-        $zoneID = $zones->getZoneID($_ENV['cloudflare_name']);
-
         $dns = new DNS($adapter);
 
+        $zoneID = $zones->getZoneID($_ENV['cloudflare_name']);
         $r = $dns->listRecords($zoneID, '', $name);
         $recordCount = $r->result_info->count;
         $records = $r->result;
 
         if ($recordCount === 0) {
-            self::addRecord($dns, $zoneID, 'A', $name, $content);
+            $dns->addRecord($zoneID, $type, $name, $content, $ttl, $proxied);
         } elseif ($recordCount >= 1) {
             foreach ($records as $record) {
                 $recordID = $record->id;
-                self::modifyRecord($dns, $zoneID, $recordID, $name, $content, $proxied);
+                $details = ['type' => 'A', 'name' => $name, 'content' => $content, 'proxied' => $proxied];
+                $dns->updateRecordDetails($zoneID, $recordID, $details);
             }
         }
     }
@@ -76,10 +57,10 @@ final class Cloudflare
 
     public static function uploadR2($name, $file): void
     {
-        $s3 = self::initR2();
+        $r2 = self::initR2();
 
         try {
-            $s3->upload(
+            $r2->upload(
                 $_ENV['r2_bucket_name'],
                 $name,
                 $file,
@@ -91,14 +72,14 @@ final class Cloudflare
 
     public static function genR2PresignedUrl($fileName): string
     {
-        $s3 = self::initR2();
+        $r2 = self::initR2();
 
-        $cmd = $s3->getCommand('GetObject', [
+        $cmd = $r2->getCommand('GetObject', [
             'Bucket' => $_ENV['r2_bucket_name'],
             'Key' => $fileName,
         ]);
 
-        return (string) $s3->createPresignedRequest(
+        return (string) $r2->createPresignedRequest(
             $cmd,
             '+' . $_ENV['r2_client_download_timeout'] . ' minutes'
         )->getUri();

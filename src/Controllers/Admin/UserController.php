@@ -11,9 +11,12 @@ use App\Models\UserMoneyLog;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function str_replace;
 use const PHP_EOL;
 
@@ -105,7 +108,15 @@ final class UserController extends BaseController
     }
 
     /**
-     * @throws Exception
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
+     *
+     * @throws GuzzleException
+     * @throws ClientExceptionInterface
+     * @throws TelegramSDKException
      */
     public function createNewUser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

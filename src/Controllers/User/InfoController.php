@@ -38,14 +38,13 @@ final class InfoController extends BaseController
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
         $methods = Config::getSupportParam('method');
-        $gaurl = MFA::getGaUrl($this->user);
+        $ga_url = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
             ->assign('methods', $methods)
-            ->assign('gaurl', $gaurl)
-            ->registerClass('Config', Config::class)
+            ->assign('ga_url', $ga_url)
             ->fetch('user/edit.tpl'));
     }
 
@@ -101,7 +100,13 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::success($response, '修改成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+            'data' => [
+                'email' => $user->email,
+            ],
+        ]);
     }
 
     public function updateUsername(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -120,7 +125,13 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::success($response, '修改成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+            'data' => [
+                'username' => $user->user_name,
+            ],
+        ]);
     }
 
     public function unbindIM(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -131,7 +142,10 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '解绑失败');
         }
 
-        return ResponseHelper::success($response, '解绑成功');
+        return $response->withHeader('HX-Refresh', 'true')->withJson([
+            'ret' => 1,
+            'msg' => '解绑成功',
+        ]);
     }
 
     public function updatePassword(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -171,14 +185,21 @@ final class InfoController extends BaseController
     public function resetPasswd(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $user->uuid = Uuid::uuid4();
         $user->passwd = Tools::genRandomChar(16);
+        $user->uuid = Uuid::uuid4();
 
         if (! $user->save()) {
-            return ResponseHelper::error($response, '修改失败');
+            return ResponseHelper::error($response, '重置失败');
         }
 
-        return ResponseHelper::success($response, '修改成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '重置成功',
+            'data' => [
+                'passwd' => $user->passwd,
+                'uuid' => $user->uuid,
+            ],
+        ]);
     }
 
     public function resetApiToken(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -187,10 +208,10 @@ final class InfoController extends BaseController
         $user->api_token = Uuid::uuid4();
 
         if (! $user->save()) {
-            return ResponseHelper::error($response, '修改失败');
+            return ResponseHelper::error($response, '重置失败');
         }
 
-        return ResponseHelper::success($response, '修改成功');
+        return ResponseHelper::success($response, '重置成功');
     }
 
     public function updateMethod(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -228,8 +249,15 @@ final class InfoController extends BaseController
     {
         $user = $this->user;
         $user->clearInviteCodes();
+        $code = $this->user->addInviteCode();
 
-        return ResponseHelper::success($response, '重置成功');
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '重置成功',
+            'data' => [
+                'invite-url' => $_ENV['baseUrl'] . '/auth/register?code=' . $code,
+            ],
+        ]);
     }
 
     public function updateDailyMail(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -284,7 +312,10 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return ResponseHelper::success($response, '修改成功');
+        return $response->withHeader('HX-Refresh', 'true')->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -304,7 +335,10 @@ final class InfoController extends BaseController
             Auth::logout();
             $user->kill();
 
-            return ResponseHelper::success($response, '你的帐号已被送去古拉格劳动改造，再见');
+            return $response->withHeader('HX-Refresh', 'true')->withJson([
+                'ret' => 1,
+                'msg' => '你的帐号已被送去古拉格劳动改造，再见',
+            ]);
         }
 
         return ResponseHelper::error($response, '自助账号删除未启用');
