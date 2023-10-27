@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use PHPUnit\Framework\TestCase;
+use function date_default_timezone_set;
 
 class ToolsTest extends TestCase
 {
@@ -15,6 +16,7 @@ class ToolsTest extends TestCase
     {
         $_ENV['maxmind_license_key'] = '';
         $msg = Tools::getIpLocation('8.8.8.8');
+        $this->assertIsString($msg);
         $this->assertEquals('GeoIP2 服务未配置', $msg);
     }
 
@@ -25,6 +27,7 @@ class ToolsTest extends TestCase
     {
         $size = 1024;
         $bytes = Tools::autoBytes($size);
+        $this->assertIsString($bytes);
         $this->assertEquals('1KB', $bytes);
     }
 
@@ -35,6 +38,7 @@ class ToolsTest extends TestCase
     {
         $size = '1KB';
         $bytes = Tools::autoBytesR($size);
+        $this->assertIsInt($bytes);
         $this->assertEquals(1024, $bytes);
     }
 
@@ -45,6 +49,7 @@ class ToolsTest extends TestCase
     {
         $bandwidth = 1;
         $mbps = Tools::autoMbps($bandwidth);
+        $this->assertIsString($mbps);
         $this->assertEquals('1Mbps', $mbps);
     }
 
@@ -56,6 +61,7 @@ class ToolsTest extends TestCase
         $traffic = 1;
         $mb = 1048576;
         $result = Tools::toMB($traffic);
+        $this->assertIsInt($result);
         $this->assertEquals($traffic * $mb, $result);
     }
 
@@ -67,6 +73,7 @@ class ToolsTest extends TestCase
         $traffic = 1;
         $gb = 1048576 * 1024;
         $result = Tools::toGB($traffic);
+        $this->assertIsInt($result);
         $this->assertEquals($traffic * $gb, $result);
     }
 
@@ -78,6 +85,7 @@ class ToolsTest extends TestCase
         $traffic = 1048576 * 1024;
         $gb = 1048576 * 1024;
         $result = Tools::flowToGB($traffic);
+        $this->assertIsFloat($result);
         $this->assertEquals($traffic / $gb, $result);
     }
 
@@ -89,6 +97,7 @@ class ToolsTest extends TestCase
         $traffic = 1048576;
         $mb = 1048576;
         $result = Tools::flowToMB($traffic);
+        $this->assertIsFloat($result);
         $this->assertEquals($traffic / $mb, $result);
     }
 
@@ -99,6 +108,7 @@ class ToolsTest extends TestCase
     {
         $length = 10;
         $randomString = Tools::genRandomChar($length);
+        $this->assertIsString($randomString);
         $this->assertEquals($length, strlen($randomString));
     }
 
@@ -110,6 +120,7 @@ class ToolsTest extends TestCase
         $passwd = 'password';
         $length = 16;
         $pk = Tools::genSs2022UserPk($passwd, $length);
+        $this->assertIsString($pk);
         $this->assertEquals('NWU4ODQ4OThkYTI4MDQ3MQ==', $pk);
     }
 
@@ -118,9 +129,12 @@ class ToolsTest extends TestCase
      */
     public function testToDateTime()
     {
-        $time = 1630512000; // September 1, 2021 16:00:00
-        $expected = '2021-09-01 16:00:00';
-        $this->assertEquals($expected, Tools::toDateTime($time));
+        date_default_timezone_set('ROC'); // Use Asia/Shanghai or PRC will cause this test to fail
+        $time = 612907200; // 1989-06-04 04:00:00 UTC+8
+        $expected = '1989-06-04 04:00:00';
+        $result = Tools::toDateTime($time);
+        $this->assertIsString($result);
+        $this->assertEquals($expected, $result);
     }
 
     /**
