@@ -145,7 +145,7 @@
                             $('#success-dialog').modal('show');
                             setTimeout(function () {
                                 $(location).attr('href', '/user/invoice');
-                            }, 1500);
+                            }, {$config['jump_delay']});
                         } else {
                             $('#fail-message').text(data.msg);
                             $('#fail-dialog').modal('show');

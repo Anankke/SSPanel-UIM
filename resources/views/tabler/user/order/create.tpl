@@ -169,7 +169,7 @@
                         $('#success-dialog').modal('show');
                         setTimeout(function () {
                             $(location).attr('href', '/user/invoice/' + data.invoice_id + '/view');
-                        }, $config['jump_delay']);
+                        }, {$config['jump_delay']});
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
