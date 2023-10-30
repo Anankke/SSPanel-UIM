@@ -11,6 +11,9 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function file_get_contents;
+use function stream_context_create;
+use function version_compare;
 use const VERSION;
 
 final class SystemController extends BaseController

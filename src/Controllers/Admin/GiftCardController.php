@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function time;
+use const PHP_EOL;
 
 final class GiftCardController extends BaseController
 {

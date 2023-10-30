@@ -26,17 +26,17 @@ use function time;
 final class TicketController extends BaseController
 {
     private static array $details =
-    [
-        'field' => [
-            'op' => '操作',
-            'id' => '工单ID',
-            'title' => '主题',
-            'status' => '工单状态',
-            'type' => '工单类型',
-            'userid' => '提交用户',
-            'datetime' => '创建时间',
-        ],
-    ];
+        [
+            'field' => [
+                'op' => '操作',
+                'id' => '工单ID',
+                'title' => '主题',
+                'status' => '工单状态',
+                'type' => '工单类型',
+                'userid' => '提交用户',
+                'datetime' => '创建时间',
+            ],
+        ];
 
     private static string $err_msg = '请求失败';
 

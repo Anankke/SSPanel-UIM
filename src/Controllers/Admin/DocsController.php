@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function time;
 
 final class DocsController extends BaseController
 {

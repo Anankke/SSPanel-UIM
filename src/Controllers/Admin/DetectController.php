@@ -19,78 +19,78 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 final class DetectController extends BaseController
 {
     private static array $rule_details =
-    [
-        'field' => [
-            'op' => '操作',
-            'id' => '规则ID',
-            'name' => '规则名称',
-            'text' => '规则介绍',
-            'regex' => '正则表达式',
-            'type' => '规则类型',
-        ],
-        'add_dialog' => [
-            [
-                'id' => 'name',
-                'info' => '规则名称',
-                'type' => 'input',
-                'placeholder' => '审计规则名称',
+        [
+            'field' => [
+                'op' => '操作',
+                'id' => '规则ID',
+                'name' => '规则名称',
+                'text' => '规则介绍',
+                'regex' => '正则表达式',
+                'type' => '规则类型',
             ],
-            [
-                'id' => 'text',
-                'info' => '规则介绍',
-                'type' => 'input',
-                'placeholder' => '简洁明了地描述审计规则',
-            ],
-            [
-                'id' => 'regex',
-                'info' => '正则表达式',
-                'type' => 'input',
-                'placeholder' => '用以匹配审计内容的正则表达式',
-            ],
-            [
-                'id' => 'type',
-                'info' => '规则类型',
-                'type' => 'select',
-                'select' => [
-                    '1' => '数据包明文匹配',
-                    '0' => '数据包十六进制匹配',
+            'add_dialog' => [
+                [
+                    'id' => 'name',
+                    'info' => '规则名称',
+                    'type' => 'input',
+                    'placeholder' => '审计规则名称',
+                ],
+                [
+                    'id' => 'text',
+                    'info' => '规则介绍',
+                    'type' => 'input',
+                    'placeholder' => '简洁明了地描述审计规则',
+                ],
+                [
+                    'id' => 'regex',
+                    'info' => '正则表达式',
+                    'type' => 'input',
+                    'placeholder' => '用以匹配审计内容的正则表达式',
+                ],
+                [
+                    'id' => 'type',
+                    'info' => '规则类型',
+                    'type' => 'select',
+                    'select' => [
+                        '1' => '数据包明文匹配',
+                        '0' => '数据包十六进制匹配',
+                    ],
                 ],
             ],
-        ],
-    ];
+        ];
 
     private static array $log_details =
-    [
-        'field' => [
-            'id' => '事件ID',
-            'user_id' => '用户ID',
-            'user_name' => '用户名',
-            'node_id' => '节点ID',
-            'node_name' => '节点名',
-            'list_id' => '规则ID',
-            'rule_name' => '规则名',
-            'rule_text' => '规则描述',
-            'rule_regex' => '规则正则表达式',
-            'rule_type' => '规则类型',
-            'datetime' => '时间',
-        ],
-    ];
+        [
+            'field' => [
+                'id' => '事件ID',
+                'user_id' => '用户ID',
+                'user_name' => '用户名',
+                'node_id' => '节点ID',
+                'node_name' => '节点名',
+                'list_id' => '规则ID',
+                'rule_name' => '规则名',
+                'rule_text' => '规则描述',
+                'rule_regex' => '规则正则表达式',
+                'rule_type' => '规则类型',
+                'datetime' => '时间',
+            ],
+        ];
 
     private static array $ban_details =
-    [
-        'field' => [
-            'id' => '事件ID',
-            'user_name' => '用户名',
-            'user_id' => '用户ID',
-            'email' => '用户邮箱',
-            'detect_number' => '违规次数',
-            'ban_time' => '封禁时长(分钟)',
-            'start_time' => '统计开始时间',
-            'end_time' => '统计结束&封禁开始时间',
-            'ban_end_time' => '封禁结束时间',
-            'all_detect_number' => '累计违规次数',
-        ],
-    ];
+        [
+            'field' => [
+                'id' => '事件ID',
+                'user_name' => '用户名',
+                'user_id' => '用户ID',
+                'email' => '用户邮箱',
+                'detect_number' => '违规次数',
+                'ban_time' => '封禁时长(分钟)',
+                'start_time' => '统计开始时间',
+                'end_time' => '统计结束&封禁开始时间',
+                'ban_end_time' => '封禁结束时间',
+                'all_detect_number' => '累计违规次数',
+            ],
+        ];
 
     /**
      * @throws Exception
@@ -175,7 +175,7 @@ final class DetectController extends BaseController
 
         foreach ($rules as $rule) {
             $rule->op = '<button type="button" class="btn btn-red" id="delete-rule-' . $rule->id .
-            '" onclick="deleteRule(' . $rule->id . ')">删除</button>';
+                '" onclick="deleteRule(' . $rule->id . ')">删除</button>';
             $rule->type = $rule->type();
         }
 
