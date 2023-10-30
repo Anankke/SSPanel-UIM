@@ -80,7 +80,7 @@ $_ENV['auto_detect_ban_time']        = 60;          // 每次封禁的时长 (�
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测
 $_ENV['detect_gfw_port']     = 443;                                                  //所有节点服务器都打开的TCP端口
-$_ENV['detect_gfw_url']      = 'http://example.com:8080/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
+$_ENV['detect_gfw_url']      = 'http://example.com:8080/v1/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
 
 #离线检测
 $_ENV['enable_detect_offline']  = true;
