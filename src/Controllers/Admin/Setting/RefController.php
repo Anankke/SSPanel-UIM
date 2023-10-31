@@ -24,7 +24,7 @@ final class RefController extends BaseController
     /**
      * @throws Exception
      */
-    public function ref($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('ref');
 
@@ -36,7 +36,7 @@ final class RefController extends BaseController
         );
     }
 
-    public function saveRef($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

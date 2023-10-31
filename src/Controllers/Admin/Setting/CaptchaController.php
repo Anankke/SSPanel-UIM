@@ -27,7 +27,7 @@ final class CaptchaController extends BaseController
     /**
      * @throws Exception
      */
-    public function captcha($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('captcha');
 
@@ -39,7 +39,7 @@ final class CaptchaController extends BaseController
         );
     }
 
-    public function saveCaptcha($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

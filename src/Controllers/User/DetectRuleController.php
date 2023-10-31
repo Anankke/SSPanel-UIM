@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-final class DetectController extends BaseController
+final class DetectRuleController extends BaseController
 {
     /**
      * @throws Exception

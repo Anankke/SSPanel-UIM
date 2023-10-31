@@ -592,7 +592,7 @@ final class Callback
                 // 加密方式更改
                 $keyboard = $back;
                 if (isset($CallbackDataExplode[1])) {
-                    if (in_array($CallbackDataExplode[1], Config::getSupportParam('method'))) {
+                    if (in_array($CallbackDataExplode[1], Config::getSsMethod('method'))) {
                         $temp = $this->user->setMethod($CallbackDataExplode[1]);
                         if ($temp['ok']) {
                             $text = '你当前的加密方式为：' . $this->user->method . PHP_EOL . PHP_EOL . $temp['msg'];
@@ -605,7 +605,7 @@ final class Callback
                 } else {
                     $Encrypts = [];
 
-                    foreach (Config::getSupportParam('method') as $value) {
+                    foreach (Config::getSsMethod('method') as $value) {
                         $Encrypts[] = [
                             'text' => $value,
                             'callback_data' => 'user.edit.encrypt|' . $value,

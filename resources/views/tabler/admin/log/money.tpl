@@ -40,7 +40,7 @@
     <script>
         var table = $('#data_table').DataTable({
             ajax: {
-                url: '/admin/moneylog/ajax',
+                url: '/admin/money/ajax',
                 type: 'POST',
                 dataSrc: 'money_logs'
             },

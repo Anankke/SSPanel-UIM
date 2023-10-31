@@ -43,7 +43,7 @@
             "searching": false,
             "ordering": false,
             ajax: {
-                url: '/admin/trafficlog/ajax',
+                url: '/admin/traffic/ajax',
                 type: 'POST',
                 dataSrc: 'trafficlogs.data'
             },

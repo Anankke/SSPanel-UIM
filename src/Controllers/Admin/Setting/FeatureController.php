@@ -26,7 +26,7 @@ final class FeatureController extends BaseController
     /**
      * @throws Exception
      */
-    public function feature($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('feature');
 
@@ -38,7 +38,7 @@ final class FeatureController extends BaseController
         );
     }
 
-    public function saveFeature($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

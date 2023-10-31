@@ -132,11 +132,11 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @covers App\Services\Config::getSupportParam
+     * @covers App\Services\Config::getSsMethod
      */
-    public function testGetSupportParam(): void
+    public function testGetSsMethod(): void
     {
-        $params = Config::getSupportParam('ss_aead_method');
+        $params = Config::getSsMethod('ss_aead_method');
 
         $this->assertIsArray($params);
         $this->assertContains('aes-128-gcm', $params);

@@ -64,7 +64,7 @@ final class ImController extends BaseController
     /**
      * @throws Exception
      */
-    public function im($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('im');
 
@@ -76,7 +76,7 @@ final class ImController extends BaseController
         );
     }
 
-    public function saveIm($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

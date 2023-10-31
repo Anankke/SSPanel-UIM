@@ -25,7 +25,7 @@ final class SupportController extends BaseController
     /**
      * @throws Exception
      */
-    public function support($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('support');
 
@@ -37,7 +37,7 @@ final class SupportController extends BaseController
         );
     }
 
-    public function saveSupport($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

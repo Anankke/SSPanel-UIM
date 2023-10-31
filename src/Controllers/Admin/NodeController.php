@@ -287,7 +287,7 @@ final class NodeController extends BaseController
         ]);
     }
 
-    public function resetNodePassword(
+    public function reset(
         ServerRequest $request,
         Response $response,
         array $args

@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-final class SubscribeLogController extends BaseController
+final class SubLogController extends BaseController
 {
     private static array $details =
         [

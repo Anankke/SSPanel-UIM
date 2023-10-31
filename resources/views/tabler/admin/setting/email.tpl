@@ -367,7 +367,7 @@
 
             $("#test-email").click(function () {
                 $.ajax({
-                    url: '/admin/setting/test_email',
+                    url: '/admin/setting/test/email',
                     type: 'POST',
                     dataType: "json",
                     data: {

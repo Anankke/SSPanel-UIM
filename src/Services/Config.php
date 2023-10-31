@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-// Config is singleton instance store all config
 final class Config
 {
     public static function getViewConfig(): array
@@ -55,7 +54,7 @@ final class Config
         ];
     }
 
-    public static function getSupportParam($type): array
+    public static function getSsMethod($type): array
     {
         return match ($type) {
             'ss_obfs' => [
@@ -63,11 +62,6 @@ final class Config
                 'simple_obfs_http_compatible',
                 'simple_obfs_tls',
                 'simple_obfs_tls_compatible',
-            ],
-            'ss_2022' => [
-                '2022-blake3-aes-128-gcm',
-                '2022-blake3-aes-256-gcm',
-                '2022-blake3-chacha20-poly1305',
             ],
             default => [
                 'aes-128-gcm',

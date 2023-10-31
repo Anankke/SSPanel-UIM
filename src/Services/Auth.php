@@ -15,9 +15,6 @@ final class Auth
         self::getDriver()->login($uid, $time);
     }
 
-    /**
-     * Get current user(cached)
-     */
     public static function getUser(): User
     {
         global $user;

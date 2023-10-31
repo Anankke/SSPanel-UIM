@@ -30,9 +30,9 @@ final class Auth implements MiddlewareInterface
             return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/auth/login');
         }
 
-        $enablePages = ['/user/banned', '/user/logout'];
+        $bannedUserEnabledPages = ['/user/banned', '/user/logout'];
 
-        if ($user->is_banned && ! in_array($path, $enablePages)) {
+        if ($user->is_banned && ! in_array($path, $bannedUserEnabledPages)) {
             return AppFactory::determineResponseFactory()->createResponse(302)->withHeader('Location', '/user/banned');
         }
 
