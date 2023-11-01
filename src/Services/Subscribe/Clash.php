@@ -95,11 +95,14 @@ final class Clash extends Base
                     $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
+                    $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $tls = $security === 'tls';
+                    
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
-                    $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
+                    $custom_ws_opt = ['path' => $path, 'headers' => ['Host' => $host], ];
+                    $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? $custom_ws_opt ?? null;
                     $h2_opts = $node_custom_config['h2-opts'] ?? $node_custom_config['h2_opts'] ?? null;
                     $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
