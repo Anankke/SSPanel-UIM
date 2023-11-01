@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-final class UserApiToken
+final class NodeApi
 {
     /**
      * MID /user/api

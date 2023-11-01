@@ -23,7 +23,7 @@ final class MoneyController extends BaseController
     /**
      * @throws Exception
      */
-    public function money(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $moneylogs = UserMoneyLog::where('user_id', $user->id)->orderBy('id', 'desc')->get();

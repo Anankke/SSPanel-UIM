@@ -33,7 +33,7 @@ final class RegController extends BaseController
     /**
      * @throws Exception
      */
-    public function reg($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('reg');
 
@@ -45,7 +45,7 @@ final class RegController extends BaseController
         );
     }
 
-    public function saveReg($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

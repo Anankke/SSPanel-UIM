@@ -193,7 +193,7 @@
                                     <i class="ti ti-friends"></i>&nbsp;
                                     邀请
                                 </a>
-                                <a class="dropdown-item" href="/admin/moneylog">
+                                <a class="dropdown-item" href="/admin/money">
                                     <i class="ti ti-coin"></i>&nbsp;
                                     余额
                                 </a>
@@ -205,7 +205,7 @@
                                     <i class="ti ti-router"></i>&nbsp;
                                     在线IP
                                 </a>
-                                <a class="dropdown-item" href="/admin/trafficlog">
+                                <a class="dropdown-item" href="/admin/traffic">
                                     <i class="ti ti-arrows-up-down"></i>&nbsp;
                                     流量使用
                                 </a>

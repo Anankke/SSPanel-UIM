@@ -37,7 +37,7 @@ final class InfoController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $methods = Config::getSupportParam('method');
+        $methods = Config::getSsMethod('method');
         $ga_url = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()

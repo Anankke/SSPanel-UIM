@@ -27,7 +27,7 @@ final class CronController extends BaseController
     /**
      * @throws Exception
      */
-    public function cron($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('cron');
 
@@ -39,7 +39,7 @@ final class CronController extends BaseController
         );
     }
 
-    public function saveCron($request, $response, $args)
+    public function save($request, $response, $args)
     {
         $daily_job_hour = (int) $request->getParam('daily_job_hour');
         $daily_job_minute = (int) $request->getParam('daily_job_minute');

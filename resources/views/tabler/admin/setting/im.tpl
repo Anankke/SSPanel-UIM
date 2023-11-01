@@ -519,7 +519,7 @@
 
             $("#test-telegram").click(function () {
                 $.ajax({
-                    url: '/admin/setting/test_telegram',
+                    url: '/admin/setting/test/telegram',
                     type: 'POST',
                     dataType: "json",
                     data: {
@@ -539,7 +539,7 @@
 
             $("#test-discord").click(function () {
                 $.ajax({
-                    url: '/admin/setting/test_discord',
+                    url: '/admin/setting/test/discord',
                     type: 'POST',
                     dataType: "json",
                     data: {
@@ -559,7 +559,7 @@
 
             $("#test-slack").click(function () {
                 $.ajax({
-                    url: '/admin/setting/test_slack',
+                    url: '/admin/setting/test/slack',
                     type: 'POST',
                     dataType: "json",
                     data: {

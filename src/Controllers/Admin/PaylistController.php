@@ -15,18 +15,18 @@ use Slim\Http\ServerRequest;
 final class PaylistController extends BaseController
 {
     private static array $details =
-    [
-        'field' => [
-            'id' => '事件ID',
-            'userid' => '用户ID',
-            'total' => '金额',
-            'status' => '状态',
-            'gateway' => '支付网关',
-            'tradeno' => '网关单号',
-            'datetime' => '支付时间',
-            'invoice_id' => '关联账单ID',
-        ],
-    ];
+        [
+            'field' => [
+                'id' => '事件ID',
+                'userid' => '用户ID',
+                'total' => '金额',
+                'status' => '状态',
+                'gateway' => '支付网关',
+                'tradeno' => '网关单号',
+                'datetime' => '支付时间',
+                'invoice_id' => '关联账单ID',
+            ],
+        ];
 
     /**
      * 后台网关记录页面

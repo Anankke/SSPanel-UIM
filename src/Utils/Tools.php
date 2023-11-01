@@ -294,7 +294,7 @@ final class Tools
      */
     public static function isParamValidate($type, $str): bool
     {
-        $list = Config::getSupportParam($type);
+        $list = Config::getSsMethod($type);
 
         if (in_array($str, $list)) {
             return true;

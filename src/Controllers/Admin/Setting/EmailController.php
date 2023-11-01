@@ -51,7 +51,7 @@ final class EmailController extends BaseController
     /**
      * @throws Exception
      */
-    public function email($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('email');
 
@@ -63,7 +63,7 @@ final class EmailController extends BaseController
         );
     }
 
-    public function saveEmail($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

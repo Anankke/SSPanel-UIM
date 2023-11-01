@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Setting;
 use Exception;
 
-final class SubscribeController extends BaseController
+final class SubController extends BaseController
 {
     private static array $update_field = [
         'enable_forced_replacement',
@@ -21,7 +21,7 @@ final class SubscribeController extends BaseController
     /**
      * @throws Exception
      */
-    public function sub($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('subscribe');
 
@@ -33,7 +33,7 @@ final class SubscribeController extends BaseController
         );
     }
 
-    public function saveSub($request, $response, $args)
+    public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
             if (! Setting::set($item, $request->getParam($item))) {

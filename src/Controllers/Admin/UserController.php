@@ -118,7 +118,7 @@ final class UserController extends BaseController
      * @throws ClientExceptionInterface
      * @throws TelegramSDKException
      */
-    public function createNewUser(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $email = $request->getParam('email');
         $ref_by = $request->getParam('ref_by');

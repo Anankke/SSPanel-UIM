@@ -228,7 +228,7 @@
 
     $("#reset-node-password").click(function () {
         $.ajax({
-            url: '/admin/node/{$node->id}/password_reset',
+            url: '/admin/node/{$node->id}/reset',
             type: 'POST',
             dataType: "json",
             success: function (data) {

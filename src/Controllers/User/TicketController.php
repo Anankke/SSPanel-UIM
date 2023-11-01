@@ -35,7 +35,7 @@ final class TicketController extends BaseController
     /**
      * @throws Exception
      */
-    public function ticket(ServerRequest $request, Response $response, array $args): ?ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
         if (! Setting::obtain('enable_ticket')) {
             return $response->withRedirect('/user');
@@ -62,7 +62,7 @@ final class TicketController extends BaseController
      * @throws TelegramSDKException
      * @throws GuzzleException
      */
-    public function ticketAdd(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $title = $request->getParam('title') ?? '';
         $comment = $request->getParam('comment') ?? '';
@@ -119,7 +119,7 @@ final class TicketController extends BaseController
      * @throws TelegramSDKException
      * @throws ClientExceptionInterface
      */
-    public function ticketUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
@@ -177,7 +177,7 @@ final class TicketController extends BaseController
     /**
      * @throws Exception
      */
-    public function ticketView(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function detail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! Setting::obtain('enable_ticket')) {
             return $response->withRedirect('/user');

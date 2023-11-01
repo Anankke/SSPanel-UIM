@@ -50,7 +50,7 @@ final class BillingController extends BaseController
     /**
      * @throws Exception
      */
-    public function billing($request, $response, $args)
+    public function index($request, $response, $args)
     {
         $settings = Setting::getClass('billing');
 
@@ -64,7 +64,7 @@ final class BillingController extends BaseController
         );
     }
 
-    public function saveBilling($request, $response, $args)
+    public function save($request, $response, $args)
     {
         $gateway_in_use = [];
 

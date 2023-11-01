@@ -18,6 +18,7 @@ use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function str_replace;
 use function strip_tags;
+use function time;
 use const PHP_EOL;
 
 final class AnnController extends BaseController
