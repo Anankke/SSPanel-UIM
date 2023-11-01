@@ -38,6 +38,6 @@ final class Exchange
             $redis->setex('exchange_rate:' . $from . '_' . $to, 3600, $rate);
         }
 
-        return $rate;
+        return (float) $rate;
     }
 }
