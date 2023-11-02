@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Services\Bot\Telegram;
 
 use App\Controllers\SubController;
+use App\Models\Config;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\OnlineLog;
 use App\Models\Payback;
-use App\Models\Setting;
 use App\Models\SubscribeLog;
-use App\Services\Config;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
@@ -92,7 +91,7 @@ final class Callback
         $this->callback_data = $callback->getData();
         $this->allow_edit_message = time() < $callback->getMessage()->getDate() + 172800;
 
-        if ($this->chat_id < 0 && Setting::obtain('telegram_group_quiet')) {
+        if ($this->chat_id < 0 && Config::obtain('telegram_group_quiet')) {
             // 群组中不回应
             return;
         }
@@ -410,7 +409,7 @@ final class Callback
                 break;
             case 'subscribe_log':
                 // 订阅记录
-                if (Setting::obtain('subscribe_log')) {
+                if (Config::obtain('subscribe_log')) {
                     $logs = SubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->take(10)->get();
                     $text = '<strong>以下是你最近 10 次订阅记录：</strong>' . PHP_EOL . PHP_EOL;
 
@@ -591,8 +590,10 @@ final class Callback
             case 'encrypt':
                 // 加密方式更改
                 $keyboard = $back;
+                $method = Tools::getSsMethod('method');
+
                 if (isset($CallbackDataExplode[1])) {
-                    if (in_array($CallbackDataExplode[1], Config::getSsMethod('method'))) {
+                    if (in_array($CallbackDataExplode[1], $method)) {
                         $temp = $this->user->setMethod($CallbackDataExplode[1]);
                         if ($temp['ok']) {
                             $text = '你当前的加密方式为：' . $this->user->method . PHP_EOL . PHP_EOL . $temp['msg'];
@@ -605,7 +606,7 @@ final class Callback
                 } else {
                     $Encrypts = [];
 
-                    foreach (Config::getSsMethod('method') as $value) {
+                    foreach ($method as $value) {
                         $Encrypts[] = [
                             'text' => $value,
                             'callback_data' => 'user.edit.encrypt|' . $value,
@@ -638,7 +639,7 @@ final class Callback
                 // Telegram 账户解绑
                 $this->allow_edit_message = false;
                 $text = '发送 **/unbind 账户邮箱** 进行解绑。';
-                if (Setting::obtain('telegram_unbind_kick_member')) {
+                if (Config::obtain('telegram_unbind_kick_member')) {
                     $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，你解绑账户将会被自动移出用户群。';
                 }
                 $sendMessage = [
@@ -676,7 +677,7 @@ final class Callback
                 Message::sendPost(
                     'unbanChatMember',
                     [
-                        'chat_id' => Setting::obtain('telegram_chatid'),
+                        'chat_id' => Config::obtain('telegram_chatid'),
                         'user_id' => $this->trigger_user['id'],
                     ]
                 );
@@ -762,21 +763,21 @@ final class Callback
             ],
         ];
 
-        if (! Setting::obtain('enable_traditional_sub')) {
+        if (! Config::obtain('enable_traditional_sub')) {
             unset($keyboard[1]);
             unset($keyboard[2]);
         }
 
-        if (! Setting::obtain('enable_ss_sub')) {
+        if (! Config::obtain('enable_ss_sub')) {
             unset($keyboard[0][2]);
             unset($keyboard[1]);
         }
 
-        if (! Setting::obtain('enable_v2_sub')) {
+        if (! Config::obtain('enable_v2_sub')) {
             unset($keyboard[2][0]);
         }
 
-        if (! Setting::obtain('enable_trojan_sub')) {
+        if (! Config::obtain('enable_trojan_sub')) {
             unset($keyboard[2][1]);
         }
 
@@ -877,7 +878,7 @@ final class Callback
             $paybacks_sum = 0;
         }
 
-        $invite = Setting::getClass('ref');
+        $invite = Config::getClass('ref');
 
         $text = [
             '<strong>你每邀请 1 位用户注册：</strong>',

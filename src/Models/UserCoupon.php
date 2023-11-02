@@ -4,9 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Query\Builder;
 use function json_decode;
 use function time;
 
+/**
+ * @property int    $id          优惠码ID
+ * @property string $code        优惠码
+ * @property string $content     优惠码内容
+ * @property string $limit       优惠码限制
+ * @property int    $use_count   累计使用次数
+ * @property int    $create_time 创建时间
+ * @property int    $expire_time 过期时间
+ *
+ * @mixin Builder
+ */
 final class UserCoupon extends Model
 {
     protected $connection = 'default';

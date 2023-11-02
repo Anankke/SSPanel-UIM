@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Models\Setting;
+use App\Models\Config;
 use App\Models\Ticket;
 use App\Services\Notification;
 use App\Services\RateLimit;
@@ -37,7 +37,7 @@ final class TicketController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): ?ResponseInterface
     {
-        if (! Setting::obtain('enable_ticket')) {
+        if (! Config::obtain('enable_ticket')) {
             return $response->withRedirect('/user');
         }
 
@@ -68,7 +68,7 @@ final class TicketController extends BaseController
         $comment = $request->getParam('comment') ?? '';
         $type = $request->getParam('type') ?? '';
 
-        if (! Setting::obtain('enable_ticket') ||
+        if (! Config::obtain('enable_ticket') ||
             $this->user->is_shadow_banned ||
             ! RateLimit::checkTicketLimit($this->user->id) ||
             $title === '' ||
@@ -101,7 +101,7 @@ final class TicketController extends BaseController
         $ticket->type = $antiXss->xss_clean($type);
         $ticket->save();
 
-        if (Setting::obtain('mail_ticket')) {
+        if (Config::obtain('mail_ticket')) {
             Notification::notifyAdmin(
                 $_ENV['appName'] . '-新工单被开启',
                 '管理员，有人开启了新的工单，请你及时处理。'
@@ -124,7 +124,7 @@ final class TicketController extends BaseController
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
 
-        if (! Setting::obtain('enable_ticket') ||
+        if (! Config::obtain('enable_ticket') ||
             $this->user->is_shadow_banned ||
             $comment === ''
         ) {
@@ -159,7 +159,7 @@ final class TicketController extends BaseController
         $ticket->status = 'open_wait_admin';
         $ticket->save();
 
-        if (Setting::obtain('mail_ticket')) {
+        if (Config::obtain('mail_ticket')) {
             Notification::notifyAdmin(
                 $_ENV['appName'] . '-工单被回复',
                 '管理员，有人回复了 <a href="' .
@@ -179,7 +179,7 @@ final class TicketController extends BaseController
      */
     public function detail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        if (! Setting::obtain('enable_ticket')) {
+        if (! Config::obtain('enable_ticket')) {
             return $response->withRedirect('/user');
         }
 

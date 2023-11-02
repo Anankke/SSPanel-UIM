@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Payment;
 use Exception;
 use function json_decode;
@@ -52,7 +52,7 @@ final class BillingController extends BaseController
      */
     public function index($request, $response, $args)
     {
-        $settings = Setting::getClass('billing');
+        $settings = Config::getClass('billing');
 
         return $response->write(
             $this->view()
@@ -75,7 +75,7 @@ final class BillingController extends BaseController
             }
         }
 
-        $gateway = Setting::where('item', 'payment_gateway')->first();
+        $gateway = Config::where('item', 'payment_gateway')->first();
         $gateway->value = json_encode($gateway_in_use);
 
         if (! $gateway->save()) {
@@ -86,7 +86,7 @@ final class BillingController extends BaseController
         }
 
         foreach (self::$update_field as $item) {
-            if (! Setting::set($item, $request->getParam($item))) {
+            if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '保存 ' . $item . ' 时出错',
@@ -113,7 +113,7 @@ final class BillingController extends BaseController
 
     public function returnActiveGateways()
     {
-        $payment_gateways = Setting::where('item', 'payment_gateway')->first();
+        $payment_gateways = Config::where('item', 'payment_gateway')->first();
         return json_decode($payment_gateways->value);
     }
 }

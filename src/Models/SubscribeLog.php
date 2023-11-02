@@ -8,12 +8,23 @@ use App\Services\Notification;
 use App\Utils\Tools;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Database\Query\Builder;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use voku\helper\AntiXSS;
 use function time;
 
+/**
+ * @property int    $id                 记录ID
+ * @property int    $user_id            用户ID
+ * @property string $type               获取的订阅类型
+ * @property string $request_ip         请求IP
+ * @property string $request_user_agent 请求UA
+ * @property int    $request_time       请求时间
+ *
+ * @mixin Builder
+ */
 final class SubscribeLog extends Model
 {
     protected $connection = 'default';
@@ -55,7 +66,7 @@ final class SubscribeLog extends Model
         $this->request_user_agent = $antiXss->xss_clean($ua);
         $this->request_time = time();
 
-        if (Setting::obtain('notify_new_subscribe') &&
+        if (Config::obtain('notify_new_subscribe') &&
             SubscribeLog::where('user_id', $this->user_id)->where('request_ip', 'like', $this->request_ip)->count() === 0
         ) {
             try {

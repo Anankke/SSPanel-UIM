@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Config;
 use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\Node;
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
@@ -59,11 +59,11 @@ final class Detect
                     echo $e->getMessage() . PHP_EOL;
                 }
 
-                if (Setting::obtain('telegram_node_gfwed')) {
+                if (Config::obtain('telegram_node_gfwed')) {
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
-                        Setting::obtain('telegram_node_gfwed_text')
+                        Config::obtain('telegram_node_gfwed_text')
                     );
 
                     (new Telegram())->send(0, $notice_text);
@@ -88,11 +88,11 @@ final class Detect
                     echo $e->getMessage() . PHP_EOL;
                 }
 
-                if (Setting::obtain('telegram_node_ungfwed')) {
+                if (Config::obtain('telegram_node_ungfwed')) {
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
-                        Setting::obtain('telegram_node_ungfwed_text')
+                        Config::obtain('telegram_node_ungfwed_text')
                     );
 
                     (new Telegram())->send(0, $notice_text);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Bot\Telegram\Commands;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function implode;
@@ -49,7 +49,7 @@ final class PingCommand extends Command
                 ]
             );
         } else {
-            if (Setting::obtain('telegram_group_quiet')) {
+            if (Config::obtain('telegram_group_quiet')) {
                 // 群组中不回应
                 return;
             }

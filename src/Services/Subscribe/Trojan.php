@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Subscribe;
 use function json_decode;
 use const PHP_EOL;
@@ -15,7 +15,7 @@ final class Trojan extends Base
     {
         $links = '';
         //判断是否开启Trojan订阅
-        if (! Setting::obtain('enable_trojan_sub')) {
+        if (! Config::obtain('enable_trojan_sub')) {
             return $links;
         }
 

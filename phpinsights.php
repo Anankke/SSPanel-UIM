@@ -10,6 +10,7 @@ return [
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineGlobalConstants::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenGlobals::class,
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\TodoSniff::class,
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff::class,
         PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\EvalSniff::class,
         PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\GlobalKeywordSniff::class,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Bot\Telegram;
 
-use App\Models\Setting;
+use App\Models\Config;
 use GuzzleHttp\Exception\GuzzleException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\RequestInterface;
@@ -20,7 +20,7 @@ final class Process
      */
     public static function index(RequestInterface $request): void
     {
-        $bot = new Api(Setting::obtain('telegram_token'));
+        $bot = new Api(Config::obtain('telegram_token'));
 
         $bot->addCommands([
             new Commands\MyCommand(),

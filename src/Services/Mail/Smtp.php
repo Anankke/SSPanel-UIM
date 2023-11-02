@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -17,7 +17,7 @@ final class Smtp extends Base
      */
     public function __construct()
     {
-        $configs = Setting::getClass('email');
+        $configs = Config::getClass('email');
 
         $mail = new PHPMailer();
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output

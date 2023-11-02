@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\Config;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
@@ -48,7 +48,7 @@ final class AuthController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_login_captcha')) {
+        if (Config::obtain('enable_login_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -65,7 +65,7 @@ final class AuthController extends BaseController
      */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if (Setting::obtain('enable_login_captcha') && ! Captcha::verify($request->getParams())) {
+        if (Config::obtain('enable_login_captcha') && ! Captcha::verify($request->getParams())) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '系统无法接受你的验证结果，请刷新页面后重试。',
@@ -134,7 +134,7 @@ final class AuthController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_reg_captcha')) {
+        if (Config::obtain('enable_reg_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -155,7 +155,7 @@ final class AuthController extends BaseController
      */
     public function sendVerify(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
-        if (Setting::obtain('reg_email_verify')) {
+        if (Config::obtain('reg_email_verify')) {
             $antiXss = new AntiXSS();
             $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
 
@@ -183,7 +183,7 @@ final class AuthController extends BaseController
 
             $code = Tools::genRandomChar(6);
             $redis = Cache::initRedis();
-            $redis->setex('email_verify:' . $code, Setting::obtain('email_verify_code_ttl'), $email);
+            $redis->setex('email_verify:' . $code, Config::obtain('email_verify_code_ttl'), $email);
 
             try {
                 Mail::send(
@@ -192,7 +192,7 @@ final class AuthController extends BaseController
                     'verify_code.tpl',
                     [
                         'code' => $code,
-                        'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_code_ttl')),
+                        'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
                     ]
                 );
             } catch (Exception|ClientExceptionInterface $e) {
@@ -235,7 +235,7 @@ final class AuthController extends BaseController
         $is_admin_reg
     ): ResponseInterface {
         $redir = Cookie::get('redir') ?? '/user';
-        $configs = Setting::getClass('reg');
+        $configs = Config::getClass('reg');
         // do reg user
         $user = new User();
 
@@ -250,14 +250,14 @@ final class AuthController extends BaseController
         $user->u = 0;
         $user->d = 0;
         $user->method = $configs['sign_up_for_method'];
-        $user->forbidden_ip = Setting::obtain('reg_forbidden_ip');
-        $user->forbidden_port = Setting::obtain('reg_forbidden_port');
+        $user->forbidden_ip = Config::obtain('reg_forbidden_ip');
+        $user->forbidden_port = Config::obtain('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
         $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
-        $user->auto_reset_day = Setting::obtain('free_user_reset_day');
-        $user->auto_reset_bandwidth = Setting::obtain('free_user_reset_bandwidth');
+        $user->auto_reset_day = Config::obtain('free_user_reset_day');
+        $user->auto_reset_bandwidth = Config::obtain('free_user_reset_bandwidth');
         $user->daily_mail_enable = $configs['sign_up_for_daily_report'];
 
         if ($money > 0) {
@@ -272,7 +272,7 @@ final class AuthController extends BaseController
             $invite = InviteCode::where('code', $code)->first();
             $invite->reward();
             $user->ref_by = $invite->user_id;
-            $user->money = Setting::obtain('invitation_to_register_balance_reward');
+            $user->money = Config::obtain('invitation_to_register_balance_reward');
         }
 
         $user->ga_token = MFA::generateGaToken();
@@ -285,7 +285,7 @@ final class AuthController extends BaseController
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
         $user->locale = $_ENV['locale'];
-        $random_group = Setting::obtain('random_group');
+        $random_group = Config::obtain('random_group');
 
         if ($random_group === '') {
             $user->node_group = 0;
@@ -321,11 +321,11 @@ final class AuthController extends BaseController
      */
     public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if (Setting::obtain('reg_mode') === 'close') {
+        if (Config::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '未开放注册。');
         }
 
-        if (Setting::obtain('enable_reg_captcha') && ! Captcha::verify($request->getParams())) {
+        if (Config::obtain('enable_reg_captcha') && ! Captcha::verify($request->getParams())) {
             return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试。');
         }
 
@@ -341,7 +341,7 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '请同意服务条款');
         }
         // Check Invite Code
-        if ($code === '' && Setting::obtain('reg_mode') === 'invite') {
+        if ($code === '' && Config::obtain('reg_mode') === 'invite') {
             return ResponseHelper::error($response, '邀请码不能为空');
         }
 
@@ -383,7 +383,7 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '两次密码输入不符');
         }
 
-        if (Setting::obtain('reg_email_verify')) {
+        if (Config::obtain('reg_email_verify')) {
             $redis = Cache::initRedis();
             $email_verify_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
             $email_verify = $redis->get('email_verify:' . $email_verify_code);

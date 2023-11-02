@@ -18,25 +18,25 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `config` (
                 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-                `item` varchar(255) DEFAULT NULL COMMENT '项',
-                `value` varchar(2048) DEFAULT NULL COMMENT '值',
-                `class` varchar(255) DEFAULT 'default' COMMENT '配置分类',
+                `item` varchar(255) DEFAULT NULL COMMENT '配置项',
+                `value` varchar(2048) DEFAULT NULL COMMENT '配置值',
+                `class` varchar(255) DEFAULT 'default' COMMENT '配置类别',
                 `is_public` int(11) DEFAULT 0 COMMENT '是否为公共参数',
-                `type` varchar(255) DEFAULT NULL COMMENT '值类型',
+                `type` varchar(255) DEFAULT NULL COMMENT '配置值类型',
                 `default` varchar(255) DEFAULT NULL COMMENT '默认值',
                 `mark` varchar(255) DEFAULT NULL COMMENT '备注',
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `detect_ban_log` (
-                `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁记录ID',
                 `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱',
                 `detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次违规次数',
-                `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次封禁时长',
-                `start_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '统计开始时间',
-                `end_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '统计结束时间',
+                `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁时长',
+                `start_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁开始时间',
+                `end_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁结束时间',
                 `all_detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '累计违规次数',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)
@@ -45,14 +45,14 @@ return new class() implements MigrationInterface {
             CREATE TABLE `detect_list` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '审计规则ID',
                 `name` varchar(255) NOT NULL DEFAULT '' COMMENT '规则名称',
-                `text` varchar(255) NOT NULL DEFAULT '' COMMENT '规则名称',
+                `text` varchar(255) NOT NULL DEFAULT '' COMMENT '规则介绍',
                 `regex` varchar(255) NOT NULL DEFAULT '' COMMENT '正则表达式',
                 `type` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '规则类型',
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `detect_log` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '审计记录ID',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `list_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '规则ID',
                 `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '触发时间',
@@ -65,7 +65,7 @@ return new class() implements MigrationInterface {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `docs` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
                 `date` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '文档日期',
                 `title` varchar(255) NOT NULL DEFAULT '' COMMENT '文档标题',
                 `content` longtext NOT NULL DEFAULT '' COMMENT '文档内容',
@@ -75,7 +75,7 @@ return new class() implements MigrationInterface {
             CREATE TABLE `email_queue` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `to_email` varchar(255) NOT NULL DEFAULT '' COMMENT '收件人邮箱',
-                `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件标题',
+                `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件主题',
                 `template` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件模板',
                 `array` longtext NOT NULL DEFAULT '{}' COMMENT '模板参数' CHECK (json_valid(`array`)),
                 `time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '添加时间',
@@ -97,7 +97,7 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `invoice` (
                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账单ID',
-                `user_id` bigint(20) unsigned DEFAULT 0 COMMENT '归属用户',
+                `user_id` bigint(20) unsigned DEFAULT 0 COMMENT '归属用户ID',
                 `order_id` bigint(20) unsigned DEFAULT 0 COMMENT '订单ID',
                 `content` longtext DEFAULT '{}' COMMENT '账单内容' CHECK (json_valid(`content`)),
                 `price` double unsigned DEFAULT 0 COMMENT '账单金额',
@@ -178,7 +178,7 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `order` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
-                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '提交用户',
+                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '提交用户ID',
                 `product_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '商品ID',
                 `product_type` varchar(255) NOT NULL DEFAULT '' COMMENT '商品类型',
                 `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '商品名称',
@@ -228,7 +228,7 @@ return new class() implements MigrationInterface {
                 `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '销售状态',
                 `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 `update_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '更新时间',
-                `sale_count` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '累计销售数',
+                `sale_count` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '累计销量',
                 `stock` int(11) NOT NULL DEFAULT -1 COMMENT '库存',
                 PRIMARY KEY (`id`),
                 KEY `id` (`id`),
@@ -241,7 +241,7 @@ return new class() implements MigrationInterface {
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `type` varchar(255) NOT NULL DEFAULT '' COMMENT '获取的订阅类型',
                 `request_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '请求IP',
-                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA信息',
+                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA',
                 `request_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '请求时间',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)

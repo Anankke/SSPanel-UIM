@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-use App\Models\Setting;
+use App\Models\Config;
 use SendGrid as SG;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\TypeException;
@@ -22,7 +22,7 @@ final class SendGrid extends Base
      */
     public function __construct()
     {
-        $configs = Setting::getClass('email');
+        $configs = Config::getClass('email');
 
         $this->sg = new SG($configs['sendgrid_key']);
         $this->email = new Mail();

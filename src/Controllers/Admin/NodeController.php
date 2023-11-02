@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\Config;
 use App\Models\Node;
-use App\Models\Setting;
 use App\Services\Cloudflare;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
@@ -150,14 +150,14 @@ final class NodeController extends BaseController
             Cloudflare::updateRecord($domain_name[0], $node->node_ip);
         }
 
-        if (Setting::obtain('telegram_add_node')) {
+        if (Config::obtain('telegram_add_node')) {
             try {
                 (new Telegram())->send(
                     0,
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Setting::obtain('telegram_add_node_text')
+                        Config::obtain('telegram_add_node_text')
                     )
                 );
             } catch (Exception $e) {
@@ -263,14 +263,14 @@ final class NodeController extends BaseController
             Cloudflare::updateRecord($domain_name[0], $node->node_ip);
         }
 
-        if (Setting::obtain('telegram_update_node')) {
+        if (Config::obtain('telegram_update_node')) {
             try {
                 (new Telegram())->send(
                     0,
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Setting::obtain('telegram_update_node_text')
+                        Config::obtain('telegram_update_node_text')
                     )
                 );
             } catch (Exception $e) {
@@ -321,14 +321,14 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Setting::obtain('telegram_delete_node')) {
+        if (Config::obtain('telegram_delete_node')) {
             try {
                 (new Telegram())->send(
                     0,
                     str_replace(
                         '%node_name%',
                         $node->name,
-                        Setting::obtain('telegram_delete_node_text')
+                        Config::obtain('telegram_delete_node_text')
                     )
                 );
             } catch (Exception $e) {

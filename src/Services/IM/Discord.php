@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\IM;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -17,7 +17,7 @@ final class Discord extends Base
 
     public function __construct()
     {
-        $this->token = Setting::obtain('discord_bot_token');
+        $this->token = Config::obtain('discord_bot_token');
         $this->client = new Client();
     }
 

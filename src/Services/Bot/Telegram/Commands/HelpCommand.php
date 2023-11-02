@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Bot\Telegram\Commands;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function preg_match;
@@ -30,12 +30,12 @@ final class HelpCommand extends Command
         $update = $this->getUpdate();
         $message = $update->getMessage();
 
-        if ($message->getChat()->getId() < 0 && Setting::obtain('telegram_group_quiet')) {
+        if ($message->getChat()->getId() < 0 && Config::obtain('telegram_group_quiet')) {
             return;
         }
 
-        if (! preg_match('/^\/help\s?(@' . Setting::obtain('telegram_bot') . ')?.*/i', $message->getText()) &&
-            ! Setting::obtain('help_any_command')) {
+        if (! preg_match('/^\/help\s?(@' . Config::obtain('telegram_bot') . ')?.*/i', $message->getText()) &&
+            ! Config::obtain('help_any_command')) {
             return;
         }
 

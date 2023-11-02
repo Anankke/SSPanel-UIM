@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Bot\Telegram\Process;
 use GuzzleHttp\Exception\GuzzleException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
@@ -40,7 +40,7 @@ final class CallbackController extends BaseController
     {
         $token = $request->getQueryParam('token');
 
-        if (Setting::obtain('enable_telegram') && $token === Setting::obtain('telegram_request_token')) {
+        if (Config::obtain('enable_telegram') && $token === Config::obtain('telegram_request_token')) {
             Process::index($request);
             $result = '1';
         } else {

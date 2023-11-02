@@ -23,4 +23,15 @@ final class Cache
 
         return $redis;
     }
+
+    public static function getRedisConfig(): array
+    {
+        return [
+            'host' => $_ENV['redis_host'],
+            'port' => $_ENV['redis_port'],
+            'connectTimeout' => $_ENV['redis_timeout'],
+            'auth' => [$_ENV['redis_username'], $_ENV['redis_password']],
+            'ssl' => ['verify_peer' => $_ENV['redis_ssl']],
+        ];
+    }
 }

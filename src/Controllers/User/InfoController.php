@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Models\Setting;
+use App\Models\Config;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
-use App\Services\Config;
 use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
@@ -37,7 +36,7 @@ final class InfoController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $methods = Config::getSsMethod('method');
+        $methods = Tools::getSsMethod('method');
         $ga_url = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()
@@ -82,7 +81,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '新邮箱不能和旧邮箱一样');
         }
 
-        if (Setting::obtain('reg_email_verify')) {
+        if (Config::obtain('reg_email_verify')) {
             $redis = Cache::initRedis();
             $email_verify_code = $request->getParam('emailcode');
             $email_verify = $redis->get('email_verify:' . $email_verify_code);
@@ -175,7 +174,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        if (Setting::obtain('enable_forced_replacement')) {
+        if (Config::obtain('enable_forced_replacement')) {
             $user->cleanLink();
         }
 

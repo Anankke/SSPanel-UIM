@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Query\Builder;
+
+/**
+ * @property int    $id     记录ID
+ * @property string $type   订阅token
+ * @property int    $userid 用户ID
+ *
+ * @mixin Builder
+ */
 final class Link extends Model
 {
     protected $connection = 'default';

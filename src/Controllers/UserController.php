@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\Ann;
+use App\Models\Config;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\Node;
 use App\Models\OnlineLog;
 use App\Models\Payback;
-use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Utils\ResponseHelper;
@@ -37,7 +37,7 @@ final class UserController extends BaseController
         $class_expire_days = $this->user->class > 0 ?
             round((strtotime($this->user->class_expire) - time()) / 86400) : 0;
 
-        if (Setting::obtain('enable_checkin_captcha')) {
+        if (Config::obtain('enable_checkin_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -128,7 +128,7 @@ final class UserController extends BaseController
         }
 
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code;
-        $rebate_ratio_per = Setting::obtain('rebate_ratio') * 100;
+        $rebate_ratio_per = Config::obtain('rebate_ratio') * 100;
 
         return $response->write($this->view()
             ->assign('paybacks', $paybacks)
@@ -144,7 +144,7 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, '暂时还不能签到');
         }
 
-        if (Setting::obtain('enable_checkin_captcha')) {
+        if (Config::obtain('enable_checkin_captcha')) {
             $ret = Captcha::verify($request->getParams());
 
             if (! $ret) {

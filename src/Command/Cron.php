@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Cron as CronService;
 use App\Services\Detect;
 use Exception;
@@ -50,38 +50,38 @@ EOL;
         }
 
         // Run traffic log job
-        if ($minute === 0 && Setting::obtain('traffic_log')) {
+        if ($minute === 0 && Config::obtain('traffic_log')) {
             $jobs->addTrafficLog();
         }
 
         // Run daily job
-        if ($hour === Setting::obtain('daily_job_hour') &&
-            $minute === Setting::obtain('daily_job_minute') &&
-            time() - Setting::obtain('last_daily_job_time') > 86399
+        if ($hour === Config::obtain('daily_job_hour') &&
+            $minute === Config::obtain('daily_job_minute') &&
+            time() - Config::obtain('last_daily_job_time') > 86399
         ) {
             $jobs->cleanDb();
             $jobs->resetNodeBandwidth();
             $jobs->resetFreeUserTraffic();
             $jobs->sendDailyTrafficReport();
 
-            if (Setting::obtain('enable_detect_inactive_user')) {
+            if (Config::obtain('enable_detect_inactive_user')) {
                 $jobs->detectInactiveUser();
             }
 
-            if (Setting::obtain('telegram_diary')) {
+            if (Config::obtain('telegram_diary')) {
                 $jobs->sendTelegramDiary();
             }
 
             $jobs->resetTodayTraffic();
 
-            if (Setting::obtain('telegram_daily_job')) {
+            if (Config::obtain('telegram_daily_job')) {
                 $jobs->sendTelegramDailyJob();
             }
 
-            Setting::where('item', 'last_daily_job_time')->update([
+            Config::where('item', 'last_daily_job_time')->update([
                 'value' => mktime(
-                    Setting::obtain('daily_job_hour'),
-                    Setting::obtain('daily_job_minute'),
+                    Config::obtain('daily_job_hour'),
+                    Config::obtain('daily_job_minute'),
                     0,
                     (int) date('m'),
                     (int) date('d'),
@@ -91,7 +91,7 @@ EOL;
         }
 
         // Daily finance report
-        if (Setting::obtain('enable_daily_finance_mail')
+        if (Config::obtain('enable_daily_finance_mail')
             && $hour === 0
             && $minute === 0
         ) {
@@ -99,7 +99,7 @@ EOL;
         }
 
         // Weekly finance report
-        if (Setting::obtain('enable_weekly_finance_mail')
+        if (Config::obtain('enable_weekly_finance_mail')
             && $hour === 0
             && $minute === 0
             && date('w') === '1'
@@ -108,7 +108,7 @@ EOL;
         }
 
         // Monthly finance report
-        if (Setting::obtain('enable_monthly_finance_mail')
+        if (Config::obtain('enable_monthly_finance_mail')
             && $hour === 0
             && $minute === 0
             && date('d') === '01'
@@ -117,14 +117,14 @@ EOL;
         }
 
         // Detect GFW
-        if (Setting::obtain('enable_detect_gfw') && $minute === 0
+        if (Config::obtain('enable_detect_gfw') && $minute === 0
         ) {
             $detect = new Detect();
             $detect->gfw();
         }
 
         // Detect ban
-        if (Setting::obtain('enable_detect_ban') && $minute === 0
+        if (Config::obtain('enable_detect_ban') && $minute === 0
         ) {
             $detect = new Detect();
             $detect->ban();

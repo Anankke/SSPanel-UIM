@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.283.16",
+            "version": "3.283.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "cb629771356d6a4d12bb030a072b832044440672"
+                "reference": "b1a52f85e9eb3952d8f1909d5404849fc2f2af4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cb629771356d6a4d12bb030a072b832044440672",
-                "reference": "cb629771356d6a4d12bb030a072b832044440672",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b1a52f85e9eb3952d8f1909d5404849fc2f2af4e",
+                "reference": "b1a52f85e9eb3952d8f1909d5404849fc2f2af4e",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.283.16"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.283.17"
             },
-            "time": "2023-10-31T18:21:09+00:00"
+            "time": "2023-11-01T18:11:41+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1237,7 +1237,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1292,7 +1292,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1338,7 +1338,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1389,7 +1389,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1437,7 +1437,7 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1506,7 +1506,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1552,7 +1552,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1602,7 +1602,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.30.0",
+            "version": "v10.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",

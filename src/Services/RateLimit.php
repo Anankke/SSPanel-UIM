@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Setting;
+use App\Models\Config;
 use RateLimit\Exception\LimitExceeded;
 use RateLimit\Rate;
 use RateLimit\RedisRateLimiter;
@@ -113,7 +113,7 @@ final class RateLimit
     public static function checkEmailIpLimit(string $request_ip): bool
     {
         $email_ip_limiter = new RedisRateLimiter(
-            Rate::perHour(Setting::obtain('email_request_ip_limit')),
+            Rate::perHour(Config::obtain('email_request_ip_limit')),
             Cache::initRedis()
         );
 
@@ -132,7 +132,7 @@ final class RateLimit
     public static function checkEmailAddressLimit(string $request_address): bool
     {
         $email_address_limiter = new RedisRateLimiter(
-            Rate::perHour(Setting::obtain('email_request_address_limit')),
+            Rate::perHour(Config::obtain('email_request_address_limit')),
             Cache::initRedis()
         );
 
@@ -151,7 +151,7 @@ final class RateLimit
     public static function checkTicketLimit(int $user_id): bool
     {
         $ticket_limiter = new RedisRateLimiter(
-            Rate::custom(Setting::obtain('ticket_limit'), 2592000),
+            Rate::custom(Config::obtain('ticket_limit'), 2592000),
             Cache::initRedis()
         );
 

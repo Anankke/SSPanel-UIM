@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Query\Builder;
+
 /**
- * Ann Model
+ * @property int    $id         公告ID
+ * @property string $date       公告日期
+ * @property string $content    公告内容
  *
- * @property-read   int    $id         Announcement ID
- *
- * @property        string $date       Date announcement posted
- * @property        string $content    Announcement in HTML
- * @property        string $markdown   Announcement in MarkDown
+ * @mixin Builder
  */
 final class Ann extends Model
 {

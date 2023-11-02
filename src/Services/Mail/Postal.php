@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Postal\Client;
 use Postal\Send\Message;
 use function basename;
@@ -17,7 +17,7 @@ final class Postal extends Base
 
     public function __construct()
     {
-        $configs = Setting::getClass('email');
+        $configs = Config::getClass('email');
 
         $this->client = new Client($configs['postal_host'], $configs['postal_key']);
         $this->message = new Message();

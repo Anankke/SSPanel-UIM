@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Query\Builder;
+
 /**
- * Docs Model
+ * @property int    $id      文档ID
+ * @property string $date    文档日期
+ * @property string $title   文档标题
+ * @property string $content 文档内容
  *
- * @property-read   int    $id         Document ID
- *
- * @property        string $date       Date document posted
- * @property        string $title      Document title
- * @property        string $content    Document in HTML
- * @property        string $markdown   Document in MarkDown
+ * @mixin Builder
  */
 final class Docs extends Model
 {

@@ -4,8 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Query\Builder;
 use function time;
 
+/**
+ * @property int   $id       记录ID
+ * @property float $total    总金额
+ * @property int   $userid   用户ID
+ * @property int   $ref_by   推荐人ID
+ * @property float $ref_get  推荐人获得金额
+ * @property int   $datetime 创建时间
+ *
+ * @mixin Builder
+ */
 final class Payback extends Model
 {
     protected $connection = 'default';
@@ -35,7 +46,7 @@ final class Payback extends Model
 
     public function rebate($user_id, $order_amount): void
     {
-        $configs = Setting::getClass('ref');
+        $configs = Config::getClass('ref');
         $user = User::where('id', $user_id)->first();
         $gift_user_id = $user->ref_by;
         // 判断
@@ -80,7 +91,7 @@ final class Payback extends Model
         $gift_user = User::where('id', $gift_user_id)->first();
 
         if ($gift_user !== null) {
-            $rebate_amount = $order_amount * Setting::obtain('rebate_ratio');
+            $rebate_amount = $order_amount * Config::obtain('rebate_ratio');
             // 返利
             $money_before = $gift_user->money;
             $gift_user->money += $adjust_rebate ?? $rebate_amount;

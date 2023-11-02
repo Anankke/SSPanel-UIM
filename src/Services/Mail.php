@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\NullMail;
 use App\Services\Mail\Postal;
@@ -22,7 +22,7 @@ final class Mail
 {
     public static function getClient(): Mailgun|Smtp|SendGrid|NullMail|Ses|Postal
     {
-        $driver = Setting::obtain('email_driver');
+        $driver = Config::obtain('email_driver');
         return match ($driver) {
             'mailgun' => new Mailgun(),
             'ses' => new Ses(),

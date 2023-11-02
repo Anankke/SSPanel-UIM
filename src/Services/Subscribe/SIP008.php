@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Subscribe;
 use function json_decode;
 use function json_encode;
@@ -15,7 +15,7 @@ final class SIP008 extends Base
     {
         $nodes = [];
         //判断是否开启SS订阅
-        if (! Setting::obtain('enable_ss_sub')) {
+        if (! Config::obtain('enable_ss_sub')) {
             return '';
         }
 
