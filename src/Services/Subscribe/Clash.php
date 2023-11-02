@@ -29,8 +29,6 @@ final class Clash extends Base
                     $plugin_option = $node_custom_config['plugin_option'] ?? null;
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
-                    // Clash.Meta
-                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
 
                     $node = [
                         'name' => $node_raw->name,
@@ -40,7 +38,6 @@ final class Clash extends Base
                         'password' => $user->passwd,
                         'cipher' => $user->method,
                         'udp' => (bool) $udp,
-                        'client-fingerprint' => $client_fingerprint,
                         'plugin' => $plugin,
                         'plugin-opts' => $plugin_option,
                     ];
@@ -74,7 +71,7 @@ final class Clash extends Base
                     $tuic_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
                     $congestion_control = $node_custom_config['congestion_control'] ?? 'bbr';
-
+                    // Only Clash.Meta core has TUIC support
                     // Tuic V5 Only
                     $node = [
                         'name' => $node_raw->name,
@@ -93,7 +90,8 @@ final class Clash extends Base
                     $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
-                    $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? '';
+                    $network = $node_custom_config['header']['type'] ??
+                        ($node_custom_config['network'] === 'httpupgrade' ? 'ws' : $node_custom_config['network']) ?? '';
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
@@ -104,16 +102,10 @@ final class Clash extends Base
                     $h2_opts = $node_custom_config['h2-opts'] ?? $node_custom_config['h2_opts'] ?? null;
                     $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
-                    // Clash.Meta
-                    $type = ($node_custom_config['enable_vless'] ?? '0') === '1' ? 'vless' : 'vmess';
-                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
-                    $fingerprint = $node_custom_config['fingerprint'] ?? '';
-                    $flow = $node_custom_config['flow'] ?? '';
-                    $reality_opts = $node_custom_config['reality-opts'] ?? $node_custom_config['reality_opts'] ?? null;
 
                     $node = [
                         'name' => $node_raw->name,
-                        'type' => $type,
+                        'type' => 'vmess',
                         'server' => $node_raw->server,
                         'port' => (int) $v2_port,
                         'uuid' => $user->uuid,
@@ -121,9 +113,6 @@ final class Clash extends Base
                         'cipher' => $encryption,
                         'udp' => (bool) $udp,
                         'tls' => $tls,
-                        'client-fingerprint' => $client_fingerprint,
-                        'fingerprint' => $fingerprint,
-                        'flow' => $flow,
                         'skip-cert-verify' => (bool) $allow_insecure,
                         'servername' => $host,
                         'network' => $network,
@@ -131,24 +120,19 @@ final class Clash extends Base
                         'h2-opts' => $h2_opts,
                         'http-opts' => $http_opts,
                         'grpc-opts' => $grpc_opts,
-                        'reality-opts' => $reality_opts,
                     ];
 
                     break;
                 case 14:
                     $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
-                    $network = $node_custom_config['network'] ?? 'tcp';
+                    $network = $node_custom_config['header']['type'] ??
+                        ($node_custom_config['network'] === 'httpupgrade' ? 'ws' : $node_custom_config['network']) ?? 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
                     $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
-                    // Clash.Meta
-                    $client_fingerprint = $node_custom_config['client_fingerprint'] ?? '';
-                    $fingerprint = $node_custom_config['fingerprint'] ?? '';
-                    $flow = $node_custom_config['flow'] ?? '';
-                    $flow_show = $node_custom_config['flow_show'] ?? false;
 
                     $node = [
                         'name' => $node_raw->name,
@@ -159,10 +143,6 @@ final class Clash extends Base
                         'password' => $user->uuid,
                         'network' => $network,
                         'udp' => (bool) $udp,
-                        'client-fingerprint' => $client_fingerprint,
-                        'fingerprint' => $fingerprint,
-                        'flow' => $flow,
-                        'flow-show' => (bool) $flow_show,
                         'skip-cert-verify' => (bool) $allow_insecure,
                         'ws-opts' => $ws_opts,
                         'grpc-opts' => $grpc_opts,

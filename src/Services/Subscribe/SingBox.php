@@ -115,7 +115,7 @@ final class SingBox extends Base
                 case 14:
                     $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
-                    $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
+                    $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
                     $transport = $node_custom_config['network'] ?? '';
                     $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '';
                     $headers = $node_custom_config['header']['request']['headers'] ?? [];
