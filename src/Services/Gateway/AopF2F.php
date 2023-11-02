@@ -17,7 +17,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
-final class AopF2F extends AbstractPayment
+final class AopF2F extends Base
 {
     public static function _name(): string
     {

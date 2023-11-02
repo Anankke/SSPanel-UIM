@@ -21,7 +21,7 @@ use Stripe\Stripe;
 use Stripe\StripeClient;
 use voku\helper\AntiXSS;
 
-final class StripeCard extends AbstractPayment
+final class StripeCard extends Base
 {
     public static function _name(): string
     {

@@ -18,7 +18,7 @@ use function in_array;
 use function json_decode;
 use function time;
 
-abstract class AbstractPayment
+abstract class Base
 {
     abstract public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface;
 

@@ -22,7 +22,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
-final class Epay extends AbstractPayment
+final class Epay extends Base
 {
     protected array $epay = [];
 

@@ -43,7 +43,7 @@ final class Mail
         $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/');
         $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/');
         // add config
-        $smarty->assign('config', Config::getViewConfig());
+        $smarty->assign('config', View::getConfig());
 
         foreach ($ary as $key => $value) {
             $smarty->assign($key, $value);

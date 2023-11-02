@@ -19,7 +19,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 use voku\helper\AntiXSS;
 
-final class PayPal extends AbstractPayment
+final class PayPal extends Base
 {
     private array $gateway_config;
 
