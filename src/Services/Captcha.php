@@ -36,7 +36,7 @@ final class Captcha
         switch (Config::obtain('captcha_provider')) {
             case 'turnstile':
                 if (isset($param['turnstile'])) {
-                    $turnstile_url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+                    $turnstile_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
                     $turnstile_headers = [
                         'Content-Type' => 'application/x-www-form-urlencoded',

@@ -27,7 +27,7 @@ final class Discord extends Base
      */
     public function send($to, $msg): void
     {
-        $dm_url = "https://discord.com/api/v10/users/@me/channels";
+        $dm_url = 'https://discord.com/api/v10/users/@me/channels';
 
         $headers = [
             'Authorization' => "Bot {$this->token}",

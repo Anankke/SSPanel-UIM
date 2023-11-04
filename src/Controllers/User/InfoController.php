@@ -25,9 +25,6 @@ use function strlen;
 use function strtolower;
 use const BASE_PATH;
 
-/**
- *  InfoController
- */
 final class InfoController extends BaseController
 {
     /**

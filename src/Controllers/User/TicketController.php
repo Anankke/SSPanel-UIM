@@ -25,9 +25,6 @@ use function json_decode;
 use function json_encode;
 use function time;
 
-/**
- *  TicketController
- */
 final class TicketController extends BaseController
 {
     private static string $err_msg = '请求失败';

@@ -100,7 +100,7 @@ END;
             $client = new Client([
                 'license_key' => $_ENV['maxmind_license_key'],
                 'dir' => BASE_PATH . '/storage/',
-                'editions' => ['GeoLite2-City', "GeoLite2-Country"],
+                'editions' => ['GeoLite2-City', 'GeoLite2-Country'],
             ]);
 
             try {

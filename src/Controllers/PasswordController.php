@@ -21,12 +21,6 @@ use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 use function strlen;
 
-/*
- * Class Password
- *
- * @package App\Controllers
- * 密码重置
- */
 final class PasswordController extends BaseController
 {
     /**

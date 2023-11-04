@@ -86,7 +86,7 @@ final class InvoiceController extends BaseController
         $antiXss = new AntiXSS();
         $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
 
-        $invoice = Invoice::where("user_id", $this->user->id)->where("id", $invoice_id)->first();
+        $invoice = Invoice::where('user_id', $this->user->id)->where('id', $invoice_id)->first();
 
         if ($invoice === null) {
             return $response->withJson([

@@ -10,9 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-/*
- *  Admin Controller
- */
 final class AdminController extends BaseController
 {
     /**

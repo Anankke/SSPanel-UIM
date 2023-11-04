@@ -10,9 +10,6 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use SmartyException;
 
-/**
- *  HomeController
- */
 final class HomeController extends BaseController
 {
     /**

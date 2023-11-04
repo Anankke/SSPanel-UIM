@@ -12,7 +12,6 @@ use Illuminate\Database\Query\Builder;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use voku\helper\AntiXSS;
 use function time;
 
 /**
@@ -52,22 +51,19 @@ final class SubscribeLog extends Model
 
     /**
      * 记录订阅日志
-     *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
-     * @throws ClientExceptionInterface
      */
     public function add(User $user, string $type, string $ua): void
     {
-        $antiXss = new AntiXSS();
         $this->user_id = $user->id;
-        $this->type = $antiXss->xss_clean($type);
+        $this->type = $type;
         $this->request_ip = $_SERVER['REMOTE_ADDR'];
-        $this->request_user_agent = $antiXss->xss_clean($ua);
+        $this->request_user_agent = $ua;
         $this->request_time = time();
 
         if (Config::obtain('notify_new_subscribe') &&
-            SubscribeLog::where('user_id', $this->user_id)->where('request_ip', 'like', $this->request_ip)->count() === 0
+            SubscribeLog::where('user_id', $this->user_id)
+                ->where('request_ip', 'like', '%' . $this->request_ip . '%')
+                ->count() === 0
         ) {
             try {
                 Notification::notifyUser(

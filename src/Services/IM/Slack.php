@@ -26,7 +26,7 @@ final class Slack extends Base
      */
     public function send($to, $msg): void
     {
-        $url = "https://slack.com/api/chat.postMessage";
+        $url = 'https://slack.com/api/chat.postMessage';
 
         $headers = [
             'Authorization' => 'Bearer '.$this->token,

@@ -36,9 +36,6 @@ use function strtolower;
 use function time;
 use function trim;
 
-/**
- *  AuthController
- */
 final class AuthController extends BaseController
 {
     /**

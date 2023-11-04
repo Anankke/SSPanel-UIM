@@ -27,9 +27,6 @@ use function json_decode;
 use function strcmp;
 use function time;
 
-/**
- *  OAuthController
- */
 final class OAuthController extends BaseController
 {
     private static string $err_msg = 'OAuth 请求失败';

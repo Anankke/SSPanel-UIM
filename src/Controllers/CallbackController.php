@@ -14,9 +14,6 @@ use Slim\Http\ServerRequest;
 use SmartyException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
-/**
- *  CallbackController
- */
 final class CallbackController extends BaseController
 {
     /**

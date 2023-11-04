@@ -9,9 +9,6 @@ use App\Services\Auth;
 use App\Services\View;
 use Smarty;
 
-/**
- * BaseController
- */
 abstract class BaseController
 {
     /**

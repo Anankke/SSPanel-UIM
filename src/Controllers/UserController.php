@@ -23,9 +23,6 @@ use function str_replace;
 use function strtotime;
 use function time;
 
-/**
- *  HomeController
- */
 final class UserController extends BaseController
 {
     /**
