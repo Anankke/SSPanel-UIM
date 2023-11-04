@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\Config;
 use App\Models\Link;
-use App\Models\Setting;
 use App\Models\SubscribeLog;
 use App\Services\RateLimit;
 use App\Services\Subscribe;
@@ -77,8 +77,8 @@ final class SubController extends BaseController
         . '; total=' . $user->transfer_enable
         . '; expire=' . strtotime($user->class_expire);
 
-        if (Setting::obtain('subscribe_log')) {
-            (new SubscribeLog())->add($user, $subtype, $request->getHeaderLine('User-Agent'));
+        if (Config::obtain('subscribe_log')) {
+            (new SubscribeLog())->add($user, $subtype, $antiXss->xss_clean($request->getHeaderLine('User-Agent')));
         }
 
         return $response->withHeader('Subscription-Userinfo', $sub_details)
@@ -103,7 +103,7 @@ final class SubController extends BaseController
         $err_msg = '订阅链接无效';
 
         if (! $_ENV['Subscribe'] ||
-            ! Setting::obtain('enable_traditional_sub') ||
+            ! Config::obtain('enable_traditional_sub') ||
             'https://' . $request->getHeaderLine('Host') !== $_ENV['subUrl']
         ) {
             return ResponseHelper::error($response, $err_msg);
@@ -147,8 +147,8 @@ final class SubController extends BaseController
         }
 
         // 记录订阅日志
-        if (Setting::obtain('subscribe_log')) {
-            (new SubscribeLog())->add($user, $sub_type, $request->getHeaderLine('User-Agent'));
+        if (Config::obtain('subscribe_log')) {
+            (new SubscribeLog())->add($user, $sub_type, $antiXss->xss_clean($request->getHeaderLine('User-Agent')));
         }
 
         $sub_details = ' upload=' . $user->u

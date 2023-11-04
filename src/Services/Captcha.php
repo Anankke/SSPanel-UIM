@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Setting;
+use App\Models\Config;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function hash_hmac;
@@ -14,12 +14,12 @@ final class Captcha
 {
     public static function generate(): array
     {
-        return match (Setting::obtain('captcha_provider')) {
+        return match (Config::obtain('captcha_provider')) {
             'turnstile' => [
-                'turnstile_sitekey' => Setting::obtain('turnstile_sitekey'),
+                'turnstile_sitekey' => Config::obtain('turnstile_sitekey'),
             ],
             'geetest' => [
-                'geetest_id' => Setting::obtain('geetest_id'),
+                'geetest_id' => Config::obtain('geetest_id'),
             ],
             default => [],
         };
@@ -33,17 +33,17 @@ final class Captcha
         $result = false;
         $client = new Client();
 
-        switch (Setting::obtain('captcha_provider')) {
+        switch (Config::obtain('captcha_provider')) {
             case 'turnstile':
                 if (isset($param['turnstile'])) {
-                    $turnstile_url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+                    $turnstile_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
                     $turnstile_headers = [
                         'Content-Type' => 'application/x-www-form-urlencoded',
                     ];
 
                     $turnstile_body = [
-                        'secret' => Setting::obtain('turnstile_secret'),
+                        'secret' => Config::obtain('turnstile_secret'),
                         'response' => $param['turnstile'],
                     ];
 
@@ -61,8 +61,8 @@ final class Captcha
             case 'geetest':
                 if (isset($param['geetest'])) {
                     $geetest = $param['geetest'];
-                    $captcha_id = Setting::obtain('geetest_id');
-                    $captcha_key = Setting::obtain('geetest_key');
+                    $captcha_id = Config::obtain('geetest_id');
+                    $captcha_key = Config::obtain('geetest_key');
                     $lot_number = $geetest['lot_number'];
                     $captcha_output = $geetest['captcha_output'];
                     $pass_token = $geetest['pass_token'];

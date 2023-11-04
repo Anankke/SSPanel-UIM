@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Interfaces\MigrationInterface;
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\DB;
 use function count;
 use function explode;
@@ -36,7 +36,7 @@ END;
         if ($target === 'new') {
             $current = 0;
         } else {
-            $current = Setting::obtain('db_version');
+            $current = Config::obtain('db_version');
         }
 
         if ($target === 'latest') {

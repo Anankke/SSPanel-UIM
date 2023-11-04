@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\NullMail;
 use App\Services\Mail\Postal;
@@ -22,7 +22,7 @@ final class Mail
 {
     public static function getClient(): Mailgun|Smtp|SendGrid|NullMail|Ses|Postal
     {
-        $driver = Setting::obtain('email_driver');
+        $driver = Config::obtain('email_driver');
         return match ($driver) {
             'mailgun' => new Mailgun(),
             'ses' => new Ses(),
@@ -43,7 +43,7 @@ final class Mail
         $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/');
         $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/');
         // add config
-        $smarty->assign('config', Config::getViewConfig());
+        $smarty->assign('config', View::getConfig());
 
         foreach ($ary as $key => $value) {
             $smarty->assign($key, $value);

@@ -71,40 +71,40 @@ final class LLM
         ];
 
         $data = [
-            "prompt" => [
-                "text" => $q,
+            'prompt' => [
+                'text' => $q,
             ],
-            "temperature" => 1,
-            "candidate_count" => 1,
-            "top_k" => 40,
-            "top_p" => 0.95,
-            "max_output_tokens" => 1024,
-            "stop_sequences" => [
+            'temperature' => 1,
+            'candidate_count' => 1,
+            'top_k' => 40,
+            'top_p' => 0.95,
+            'max_output_tokens' => 1024,
+            'stop_sequences' => [
             ],
-            "safety_settings" => [
+            'safety_settings' => [
                 [
-                    "category" => "HARM_CATEGORY_DEROGATORY",
-                    "threshold" => 3,
+                    'category' => 'HARM_CATEGORY_DEROGATORY',
+                    'threshold' => 3,
                 ],
                 [
-                    "category" => "HARM_CATEGORY_TOXICITY",
-                    "threshold" => 3,
+                    'category' => 'HARM_CATEGORY_TOXICITY',
+                    'threshold' => 3,
                 ],
                 [
-                    "category" => "HARM_CATEGORY_VIOLENCE",
-                    "threshold" => 3,
+                    'category' => 'HARM_CATEGORY_VIOLENCE',
+                    'threshold' => 3,
                 ],
                 [
-                    "category" => "HARM_CATEGORY_SEXUAL",
-                    "threshold" => 3,
+                    'category' => 'HARM_CATEGORY_SEXUAL',
+                    'threshold' => 3,
                 ],
                 [
-                    "category" => "HARM_CATEGORY_MEDICAL",
-                    "threshold" => 3,
+                    'category' => 'HARM_CATEGORY_MEDICAL',
+                    'threshold' => 3,
                 ],
                 [
-                    "category" => "HARM_CATEGORY_DANGEROUS",
-                    "threshold" => 3,
+                    'category' => 'HARM_CATEGORY_DANGEROUS',
+                    'threshold' => 3,
                 ],
             ],
         ];

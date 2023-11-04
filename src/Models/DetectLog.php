@@ -5,7 +5,18 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Utils\Tools;
+use Illuminate\Database\Query\Builder;
 
+/**
+ * @property int $id       检测记录ID
+ * @property int $user_id  用户ID
+ * @property int $list_id  规则ID
+ * @property int $datetime 检测时间
+ * @property int $node_id  节点ID
+ * @property int $status   状态
+ *
+ * @mixin Builder
+ */
 final class DetectLog extends Model
 {
     protected $connection = 'default';

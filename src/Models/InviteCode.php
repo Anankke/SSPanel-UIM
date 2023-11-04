@@ -5,9 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Utils\Tools;
+use Illuminate\Database\Query\Builder;
 
 /**
- * InviteCode Model
+ * @property int    $id         记录ID
+ * @property string $code       邀请码
+ * @property int    $user_id    用户ID
+ * todo: delete these two properties
+ * @property int    $create_at  创建时间
+ * @property int    $updated_at 更新时间
+ *
+ * @mixin Builder
  */
 final class InviteCode extends Model
 {
@@ -17,7 +25,7 @@ final class InviteCode extends Model
     public function reward(): void
     {
         $user = User::where('id', $this->user_id)->first();
-        $user->transfer_enable += Tools::toGB(Setting::obtain('invitation_to_register_traffic_reward'));
+        $user->transfer_enable += Tools::toGB(Config::obtain('invitation_to_register_traffic_reward'));
 
         if ($user->invite_num > 0) {
             --$user->invite_num;

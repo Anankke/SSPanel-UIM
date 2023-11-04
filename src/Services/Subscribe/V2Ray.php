@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Subscribe;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Subscribe;
 use function base64_encode;
 use function json_decode;
@@ -17,7 +17,7 @@ final class V2Ray extends Base
     {
         $links = '';
         //判断是否开启V2Ray订阅
-        if (! Setting::obtain('enable_v2_sub')) {
+        if (! Config::obtain('enable_v2_sub')) {
             return $links;
         }
 

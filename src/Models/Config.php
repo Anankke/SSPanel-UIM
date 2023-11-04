@@ -4,7 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-final class Setting extends Model
+use Illuminate\Database\Query\Builder;
+
+/**
+ * @property int    $id         配置ID
+ * @property string $item       配置项
+ * @property string $value      配置值
+ * @property string $class      配置类别
+ * @property string $is_public  是否为公共参数
+ * @property string $default    默认值
+ * @property string $mark       备注
+ *
+ * @mixin Builder
+ */
+final class Config extends Model
 {
     protected $connection = 'default';
     protected $table = 'config';
@@ -23,7 +36,7 @@ final class Setting extends Model
     public static function getClass($class): array
     {
         $configs = [];
-        $all_configs = Setting::where('class', $class)->get();
+        $all_configs = self::where('class', $class)->get();
 
         foreach ($all_configs as $config) {
             if ($config->type === 'bool') {
@@ -41,7 +54,7 @@ final class Setting extends Model
     public static function getPublicConfig(): array
     {
         $configs = [];
-        $all_configs = Setting::where('is_public', '1')->get();
+        $all_configs = self::where('is_public', '1')->get();
 
         foreach ($all_configs as $config) {
             if ($config->type === 'bool') {

@@ -16,7 +16,7 @@ return new class() implements MigrationInterface {
     public function down(): int
     {
         DB::getPdo()->exec(
-            "CREATE TABLE IF NOT EXISTS `user_token` (
+            'CREATE TABLE IF NOT EXISTS `user_token` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `token` varchar(255) DEFAULT NULL,
                 `user_id` bigint(20) unsigned DEFAULT NULL,
@@ -24,7 +24,7 @@ return new class() implements MigrationInterface {
                 `expire_time` bigint(20) DEFAULT NULL,
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;'
         );
 
         return 2023020100;

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Models\Config;
 use App\Models\Link;
-use App\Models\Setting;
 use App\Models\User;
-use App\Services\Config;
 use App\Services\GeoIP2;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
@@ -245,16 +244,16 @@ final class Tools
 
     public static function getSsPort(): int
     {
-        if (Setting::obtain('min_port') > 65535
-            || Setting::obtain('min_port') <= 0
-            || Setting::obtain('max_port') > 65535
-            || Setting::obtain('max_port') <= 0
+        if (Config::obtain('min_port') > 65535
+            || Config::obtain('min_port') <= 0
+            || Config::obtain('max_port') > 65535
+            || Config::obtain('max_port') <= 0
         ) {
             return 0;
         }
 
         $det = User::pluck('port')->toArray();
-        $port = array_diff(range(Setting::obtain('min_port'), Setting::obtain('max_port')), $det);
+        $port = array_diff(range(Config::obtain('min_port'), Config::obtain('max_port')), $det);
         shuffle($port);
 
         return $port[0];
@@ -294,13 +293,32 @@ final class Tools
      */
     public static function isParamValidate($type, $str): bool
     {
-        $list = Config::getSsMethod($type);
+        $list = self::getSsMethod($type);
 
         if (in_array($str, $list)) {
             return true;
         }
 
         return false;
+    }
+
+    public static function getSsMethod($type): array
+    {
+        return match ($type) {
+            'ss_obfs' => [
+                'simple_obfs_http',
+                'simple_obfs_http_compatible',
+                'simple_obfs_tls',
+                'simple_obfs_tls_compatible',
+            ],
+            default => [
+                'aes-128-gcm',
+                'aes-192-gcm',
+                'aes-256-gcm',
+                'chacha20-ietf-poly1305',
+                'xchacha20-ietf-poly1305',
+            ],
+        };
     }
 
     /**

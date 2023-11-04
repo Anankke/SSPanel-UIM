@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
+use App\Models\Config;
 use App\Models\Paylist;
-use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\Exchange;
 use App\Services\View;
@@ -21,7 +21,7 @@ use Stripe\Stripe;
 use Stripe\StripeClient;
 use voku\helper\AntiXSS;
 
-final class StripeCard extends AbstractPayment
+final class StripeCard extends Base
 {
     public static function _name(): string
     {
@@ -50,8 +50,8 @@ final class StripeCard extends AbstractPayment
         $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
         $trade_no = self::generateGuid();
 
-        if ($price < Setting::obtain('stripe_min_recharge') ||
-            $price > Setting::obtain('stripe_max_recharge')
+        if ($price < Config::obtain('stripe_min_recharge') ||
+            $price > Config::obtain('stripe_max_recharge')
         ) {
             return $response->withJson([
                 'ret' => 0,
@@ -68,9 +68,9 @@ final class StripeCard extends AbstractPayment
         $pl->tradeno = $trade_no;
         $pl->save();
 
-        $exchange_amount = Exchange::exchange($price, 'CNY', Setting::obtain('stripe_currency'));
+        $exchange_amount = Exchange::exchange($price, 'CNY', Config::obtain('stripe_currency'));
 
-        Stripe::setApiKey(Setting::obtain('stripe_sk'));
+        Stripe::setApiKey(Config::obtain('stripe_sk'));
         $session = null;
 
         try {
@@ -79,7 +79,7 @@ final class StripeCard extends AbstractPayment
                 'line_items' => [
                     [
                         'price_data' => [
-                            'currency' => Setting::obtain('stripe_currency'),
+                            'currency' => Config::obtain('stripe_currency'),
                             'product_data' => [
                                 'name' => 'Account Recharge',
                             ],
@@ -122,7 +122,7 @@ final class StripeCard extends AbstractPayment
 
         $session_id = $antiXss->xss_clean($request->getParam('session_id'));
 
-        $stripe = new StripeClient(Setting::obtain('stripe_sk'));
+        $stripe = new StripeClient(Config::obtain('stripe_sk'));
         $session = null;
 
         try {

@@ -17,9 +17,6 @@ use function json_encode;
 use function property_exists;
 use function time;
 
-/*
- *  Coupon Controller
- */
 final class CouponController extends BaseController
 {
     private static array $details = [

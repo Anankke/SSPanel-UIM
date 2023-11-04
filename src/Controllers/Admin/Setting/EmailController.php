@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
-use App\Models\Setting;
+use App\Models\Config;
 use App\Services\Mail;
 use Exception;
 use Throwable;
@@ -53,7 +53,7 @@ final class EmailController extends BaseController
      */
     public function index($request, $response, $args)
     {
-        $settings = Setting::getClass('email');
+        $settings = Config::getClass('email');
 
         return $response->write(
             $this->view()
@@ -66,7 +66,7 @@ final class EmailController extends BaseController
     public function save($request, $response, $args)
     {
         foreach (self::$update_field as $item) {
-            if (! Setting::set($item, $request->getParam($item))) {
+            if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '保存 ' . $item . ' 时出错',

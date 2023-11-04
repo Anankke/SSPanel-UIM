@@ -6,13 +6,20 @@ namespace App\Models;
 
 use App\Services\Notification;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Database\Query\Builder;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function date;
 use function time;
 
 /**
- * Ip Model
+ * @property int    $id       记录ID
+ * @property int    $userid   用户ID
+ * @property string $ip       登录IP
+ * @property int    $datetime 登录时间
+ * @property int    $type     登录类型
+ *
+ * @mixin Builder
  */
 final class LoginIp extends Model
 {
@@ -58,13 +65,13 @@ final class LoginIp extends Model
      */
     public function collectLoginIP(string $ip, int $type = 0, int $user_id = 0): void
     {
-        if (Setting::obtain('login_log')) {
+        if (Config::obtain('login_log')) {
             $this->ip = $ip;
             $this->userid = $user_id;
             $this->datetime = time();
             $this->type = $type;
 
-            if (Setting::obtain('notify_new_login') &&
+            if (Config::obtain('notify_new_login') &&
                 $user_id !== 0 &&
                 LoginIp::where('userid', $user_id)->where('ip', $this->ip)->count() === 0
             ) {

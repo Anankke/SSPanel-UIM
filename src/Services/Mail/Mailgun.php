@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Exception;
 use Mailgun\Mailgun as MG;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -18,7 +18,7 @@ final class Mailgun extends Base
 
     public function __construct()
     {
-        $configs = Setting::getClass('email');
+        $configs = Config::getClass('email');
 
         $this->mg = MG::create($configs['mailgun_key']);
         $this->domain = $configs['mailgun_domain'];

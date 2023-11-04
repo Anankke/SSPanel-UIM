@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Exception;
+use Illuminate\Database\Query\Builder;
 use function array_key_exists;
 use function count;
 use function dns_get_record;
@@ -12,6 +13,34 @@ use function time;
 use const DNS_A;
 use const DNS_AAAA;
 
+/**
+ * @property int    $id                      节点ID
+ * @property string $name                    节点名称
+ * @property int    $type                    节点显示
+ * @property string $server                  节点地址
+ * @property string $custom_config           自定义配置
+ * todo: delete these two properties
+ * @property string $info                    节点信息
+ * @property string $status                  节点状态
+ * @property int    $sort                    节点类型
+ * @property float  $traffic_rate            流量倍率
+ * @property int    $is_dynamic_rate         是否启用动态流量倍率
+ * @property string $dynamic_rate_config     动态流量倍率配置
+ * @property int    $node_class              节点等级
+ * @property float  $node_speedlimit         节点限速
+ * @property int    $node_bandwidth          节点流量
+ * @property int    $node_bandwidth_limit    节点流量限制
+ * @property int    $bandwidthlimit_resetday 流量重置日
+ * @property int    $node_heartbeat          节点心跳
+ * @property int    $online_user             节点在线用户
+ * @property string $node_ip                 节点IP
+ * @property int    $node_group              节点群组
+ * @property int    $online                  在线状态
+ * @property int    $gfw_block               是否被GFW封锁
+ * @property string $password                后端连接密码
+ *
+ * @mixin Builder
+ */
 final class Node extends Model
 {
     protected $connection = 'default';

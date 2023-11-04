@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Aws\Ses\SesClient;
 
 final class Ses extends Base
@@ -13,7 +13,7 @@ final class Ses extends Base
 
     public function __construct()
     {
-        $configs = Setting::getClass('email');
+        $configs = Config::getClass('email');
 
         $ses = new SesClient([
             'credentials' => [
@@ -36,7 +36,7 @@ final class Ses extends Base
             'Destination' => [
                 'ToAddresses' => [$to],
             ],
-            'Source' => Setting::obtain('aws_ses_sender'),
+            'Source' => Config::obtain('aws_ses_sender'),
             'Message' => [
                 'Body' => [
                     'Html' => [

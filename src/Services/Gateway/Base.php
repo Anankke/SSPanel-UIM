@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
+use App\Models\Config;
 use App\Models\Invoice;
 use App\Models\Payback;
 use App\Models\Paylist;
-use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
@@ -18,7 +18,7 @@ use function in_array;
 use function json_decode;
 use function time;
 
-abstract class AbstractPayment
+abstract class Base
 {
     abstract public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
@@ -77,7 +77,7 @@ abstract class AbstractPayment
 
         $user = User::find($paylist?->userid);
         // 返利
-        if ($user !== null && $user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_paid') {
+        if ($user !== null && $user->ref_by > 0 && Config::obtain('invitation_mode') === 'after_paid') {
             (new Payback())->rebate($user->id, $paylist->total);
         }
     }
@@ -99,7 +99,7 @@ abstract class AbstractPayment
 
     protected static function getActiveGateway($key): bool
     {
-        $payment_gateways = Setting::where('item', 'payment_gateway')->first();
+        $payment_gateways = Config::where('item', 'payment_gateway')->first();
         $active_gateways = json_decode($payment_gateways->value);
         if (in_array($key, $active_gateways)) {
             return true;

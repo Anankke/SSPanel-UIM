@@ -18,10 +18,10 @@ return new class() implements MigrationInterface {
 
     public function down(): int
     {
-        DB::getPdo()->exec("
+        DB::getPdo()->exec('
             ALTER TABLE node DROP COLUMN IF EXISTS `is_dynamic_rate`;
             ALTER TABLE node DROP COLUMN IF EXISTS `dynamic_rate_config`;
-        ");
+        ');
 
         return 2023082000;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Models\User;
 use App\Services\Cache;
 use App\Utils\ResponseHelper;
@@ -27,9 +27,6 @@ use function json_decode;
 use function strcmp;
 use function time;
 
-/**
- *  OAuthController
- */
 final class OAuthController extends BaseController
 {
     private static string $err_msg = 'OAuth 请求失败';
@@ -62,8 +59,8 @@ final class OAuthController extends BaseController
         if ($request->getParam('code') === null) {
             $state = Tools::genRandomChar(16);
             $redis->setex('slack_state:' . $user->id, 300, $state);
-            $client_id = Setting::obtain('slack_client_id');
-            $team_id = Setting::obtain('slack_team_id');
+            $client_id = Config::obtain('slack_client_id');
+            $team_id = Config::obtain('slack_team_id');
             $redirect_uri = $_ENV['baseUrl'] . '/oauth/slack';
 
             return $response->withJson([
@@ -89,8 +86,8 @@ final class OAuthController extends BaseController
         ];
 
         $code_body = [
-            'client_id' => Setting::obtain('slack_client_id'),
-            'client_secret' => Setting::obtain('slack_client_secret'),
+            'client_id' => Config::obtain('slack_client_id'),
+            'client_secret' => Config::obtain('slack_client_secret'),
             'grant_type' => 'authorization_code',
             'code' => $code,
             'redirect_uri' => $_ENV['baseUrl'] . '/oauth/slack',
@@ -135,7 +132,7 @@ final class OAuthController extends BaseController
         if ($request->getParam('code') === null) {
             $state = Tools::genRandomChar(16);
             $redis->setex('discord_state:' . $user->id, 300, $state);
-            $client_id = Setting::obtain('discord_client_id');
+            $client_id = Config::obtain('discord_client_id');
             $redirect_uri = $_ENV['baseUrl'] . '/oauth/discord';
 
             return $response->withJson([
@@ -161,8 +158,8 @@ final class OAuthController extends BaseController
         ];
 
         $code_body = [
-            'client_id' => Setting::obtain('discord_client_id'),
-            'client_secret' => Setting::obtain('discord_client_secret'),
+            'client_id' => Config::obtain('discord_client_id'),
+            'client_secret' => Config::obtain('discord_client_secret'),
             'grant_type' => 'authorization_code',
             'code' => $code,
             'redirect_uri' => $_ENV['baseUrl'] . '/oauth/discord',
@@ -205,13 +202,13 @@ final class OAuthController extends BaseController
         $user->im_value = $discord_user_id;
         $user->save();
 
-        if (Setting::obtain('discord_guild_id') !== 0) {
-            $discord_guild_url = 'https://discord.com/api/guilds/' . Setting::obtain('discord_guild_id') .
+        if (Config::obtain('discord_guild_id') !== 0) {
+            $discord_guild_url = 'https://discord.com/api/guilds/' . Config::obtain('discord_guild_id') .
                 '/members/' . $user->im_value;
 
             $guild_headers = [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bot ' . Setting::obtain('discord_bot_token'),
+                'Authorization' => 'Bot ' . Config::obtain('discord_bot_token'),
             ];
 
             $guild_body = [
@@ -241,7 +238,7 @@ final class OAuthController extends BaseController
 
         sort($data_check_arr);
         $data_check_string = implode("\n", $data_check_arr);
-        $secret_key = hash('sha256', Setting::obtain('telegram_token'), true);
+        $secret_key = hash('sha256', Config::obtain('telegram_token'), true);
         $hash = hash_hmac('sha256', $data_check_string, $secret_key);
 
         if (strcmp($hash, $check_hash) !== 0 || (time() - $user_auth['auth_date']) > 86400) {

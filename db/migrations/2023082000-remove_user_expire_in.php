@@ -8,10 +8,10 @@ use App\Services\DB;
 return new class() implements MigrationInterface {
     public function up(): int
     {
-        DB::getPdo()->exec("
+        DB::getPdo()->exec('
             ALTER TABLE user DROP COLUMN IF EXISTS `expire_in`;
             ALTER TABLE user DROP COLUMN IF EXISTS `telegram_id`;
-        ");
+        ');
 
         return 2023082000;
     }

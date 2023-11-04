@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
+use App\Models\Config;
 use App\Models\Paylist;
-use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Exception;
@@ -17,7 +17,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 
-final class AopF2F extends AbstractPayment
+final class AopF2F extends Base
 {
     public static function _name(): string
     {
@@ -118,7 +118,7 @@ final class AopF2F extends AbstractPayment
 
     private function createGateway(): GatewayInterface
     {
-        $configs = Setting::getClass('billing');
+        $configs = Config::getClass('billing');
         $gateway = Omnipay::create('Alipay_AopF2F');
         $gateway->setSignType('RSA2'); //RSA/RSA2
         $gateway->setAppId($configs['f2f_pay_app_id']);

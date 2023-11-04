@@ -17,9 +17,9 @@ return new class() implements MigrationInterface {
 
     public function down(): int
     {
-        DB::getPdo()->exec("
+        DB::getPdo()->exec('
             ALTER TABLE user DROP COLUMN IF EXISTS `contact_method`;
-        ");
+        ');
 
         return 2023080900;
     }

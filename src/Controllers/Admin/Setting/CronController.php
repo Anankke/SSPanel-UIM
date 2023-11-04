@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
-use App\Models\Setting;
+use App\Models\Config;
 use Exception;
 
 final class CronController extends BaseController
@@ -29,7 +29,7 @@ final class CronController extends BaseController
      */
     public function index($request, $response, $args)
     {
-        $settings = Setting::getClass('cron');
+        $settings = Config::getClass('cron');
 
         return $response->write(
             $this->view()
@@ -60,11 +60,11 @@ final class CronController extends BaseController
 
         foreach (self::$update_field as $item) {
             if ($item === 'daily_job_minute') {
-                Setting::set($item, $daily_job_minute - ($daily_job_minute % 5));
+                Config::set($item, $daily_job_minute - ($daily_job_minute % 5));
                 continue;
             }
 
-            if (! Setting::set($item, $request->getParam($item))) {
+            if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '保存 ' . $item . ' 时出错',

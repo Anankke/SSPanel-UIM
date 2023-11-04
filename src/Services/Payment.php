@@ -16,9 +16,9 @@ final class Payment
         $helper = new ClassHelper();
         $class_list = $helper->getClassesByNamespace('\\App\\Services\\Gateway\\');
 
-        foreach ($class_list as $clazz) {
-            if (get_parent_class($clazz) === 'App\\Services\\Gateway\\AbstractPayment') {
-                $payments[] = $clazz;
+        foreach ($class_list as $class) {
+            if (get_parent_class($class) === 'App\\Services\\Gateway\\Base') {
+                $payments[] = $class;
             }
         }
 

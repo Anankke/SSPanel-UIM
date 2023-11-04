@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\Setting;
+use App\Models\Config;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -25,8 +25,8 @@ final class SystemController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $last_daily_job_time = Tools::toDateTime(Setting::obtain('last_daily_job_time'));
-        $db_version = Setting::obtain('db_version');
+        $last_daily_job_time = Tools::toDateTime(Config::obtain('last_daily_job_time'));
+        $db_version = Config::obtain('db_version');
 
         return $response->write(
             $this->view()

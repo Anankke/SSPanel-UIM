@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\IM;
 
-use App\Models\Setting;
+use App\Models\Config;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -16,7 +16,7 @@ final class Slack extends Base
 
     public function __construct()
     {
-        $this->token = Setting::obtain('slack_token');
+        $this->token = Config::obtain('slack_token');
         $this->client = new Client();
     }
 
@@ -26,7 +26,7 @@ final class Slack extends Base
      */
     public function send($to, $msg): void
     {
-        $url = "https://slack.com/api/chat.postMessage";
+        $url = 'https://slack.com/api/chat.postMessage';
 
         $headers = [
             'Authorization' => 'Bearer '.$this->token,

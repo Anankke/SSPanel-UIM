@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Bot\Telegram;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -89,11 +89,11 @@ final class Message
             'name' => $new_chat_member->getFirstName() . ' Message.php' . $new_chat_member->getLastName(),
         ];
 
-        if ($new_chat_member->getUsername() === Setting::obtain('telegram_bot')) {
+        if ($new_chat_member->getUsername() === Config::obtain('telegram_bot')) {
             // 机器人加入新群组
-            if (! Setting::obtain('allow_to_join_new_groups')
+            if (! Config::obtain('allow_to_join_new_groups')
                 &&
-                ! in_array($this->chat_id, json_decode(Setting::obtain('group_id_allowed_to_join')))) {
+                ! in_array($this->chat_id, json_decode(Config::obtain('group_id_allowed_to_join')))) {
                 // 退群
 
                 $this->replyWithMessage(
@@ -120,9 +120,9 @@ final class Message
             // 新成员加入群组
             $new_user = self::getUser($member['id']);
 
-            if (Setting::obtain('telegram_group_bound_user')
+            if (Config::obtain('telegram_group_bound_user')
                 &&
-                $this->chat_id === Setting::obtain('telegram_chatid')
+                $this->chat_id === Config::obtain('telegram_chatid')
                 &&
                 $new_user === null
                 &&
@@ -145,7 +145,7 @@ final class Message
                 return;
             }
 
-            if (Setting::obtain('enable_welcome_message')) {
+            if (Config::obtain('enable_welcome_message')) {
                 $text = ($new_user->class > 0 ? '欢迎 VIP' . $new_user->class .
                     ' 用户 ' . $member['name'] . '加入群组。' : '欢迎 ' . $member['name']);
 
@@ -217,7 +217,7 @@ final class Message
     public static function sendPost($method, $params): void
     {
         $client = new Client();
-        $telegram_api_url = 'https://api.telegram.org/bot' . Setting::obtain('telegram_token') . '/' . $method;
+        $telegram_api_url = 'https://api.telegram.org/bot' . Config::obtain('telegram_token') . '/' . $method;
 
         $headers = [
             'Content-Type' => 'application/json; charset=utf-8',

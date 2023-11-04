@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Models\Config;
 use App\Models\Link;
 use App\Models\Node;
-use App\Models\Setting;
 use App\Models\User as ModelsUser;
 use App\Services\MFA;
 use App\Utils\Hash;
@@ -72,8 +72,8 @@ EOL;
      */
     public function setTelegram(): void
     {
-        $WebhookUrl = $_ENV['baseUrl'] . '/callback/telegram?token=' . Setting::obtain('telegram_request_token');
-        $telegram = new Api(Setting::obtain('telegram_token'));
+        $WebhookUrl = $_ENV['baseUrl'] . '/callback/telegram?token=' . Config::obtain('telegram_request_token');
+        $telegram = new Api(Config::obtain('telegram_token'));
         $telegram->removeWebhook();
 
         if ($telegram->setWebhook(['url' => $WebhookUrl])) {
@@ -85,7 +85,7 @@ EOL;
 
     public function resetAllSettings(): void
     {
-        $settings = Setting::all();
+        $settings = Config::all();
 
         foreach ($settings as $setting) {
             $setting->value = $setting->default;
@@ -97,7 +97,7 @@ EOL;
 
     public function exportAllSettings(): void
     {
-        $settings = Setting::all();
+        $settings = Config::all();
 
         foreach ($settings as $setting) {
             // 因为主键自增所以即便设置为 null 也会在导入时自动分配 id
@@ -126,10 +126,10 @@ EOL;
         foreach ($settings as $item) {
             $config[] = $item['item'];
             $item_name = $item['item'];
-            $query = Setting::where('item', $item['item'])->first();
+            $query = Config::where('item', $item['item'])->first();
 
             if ($query === null) {
-                $new_item = new Setting();
+                $new_item = new Config();
                 $new_item->id = null;
                 $new_item->item = $item['item'];
                 $new_item->value = $item['value'];
@@ -153,7 +153,7 @@ EOL;
             }
         }
         // 检查移除
-        $db_settings = Setting::all();
+        $db_settings = Config::all();
 
         foreach ($db_settings as $db_setting) {
             if (! in_array($db_setting->item, $config)) {

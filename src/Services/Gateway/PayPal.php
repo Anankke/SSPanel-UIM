@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
+use App\Models\Config;
 use App\Models\Paylist;
-use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\Exchange;
 use App\Services\View;
@@ -19,13 +19,13 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 use voku\helper\AntiXSS;
 
-final class PayPal extends AbstractPayment
+final class PayPal extends Base
 {
     private array $gateway_config;
 
     public function __construct()
     {
-        $configs = Setting::getClass('billing');
+        $configs = Config::getClass('billing');
 
         $this->gateway_config = [
             'mode' => $configs['paypal_mode'],
@@ -82,17 +82,17 @@ final class PayPal extends AbstractPayment
             ]);
         }
 
-        $exchange_amount = Exchange::exchange($price, 'CNY', Setting::obtain('paypal_currency'));
+        $exchange_amount = Exchange::exchange($price, 'CNY', Config::obtain('paypal_currency'));
 
         $order_data = [
-            "intent" => "CAPTURE",
-            "purchase_units" => [
+            'intent' => 'CAPTURE',
+            'purchase_units' => [
                 [
-                    "amount" => [
-                        "currency_code" => Setting::obtain('paypal_currency'),
-                        "value" => $exchange_amount,
+                    'amount' => [
+                        'currency_code' => Config::obtain('paypal_currency'),
+                        'value' => $exchange_amount,
                     ],
-                    "reference_id" => $trade_no,
+                    'reference_id' => $trade_no,
                 ],
             ],
         ];

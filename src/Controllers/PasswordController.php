@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\Setting;
+use App\Models\Config;
 use App\Models\User;
 use App\Services\Cache;
 use App\Services\Captcha;
@@ -21,12 +21,6 @@ use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 use function strlen;
 
-/*
- * Class Password
- *
- * @package App\Controllers
- * 密码重置
- */
 final class PasswordController extends BaseController
 {
     /**
@@ -36,7 +30,7 @@ final class PasswordController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_reset_password_captcha')) {
+        if (Config::obtain('enable_reset_password_captcha')) {
             $captcha = Captcha::generate();
         }
 
@@ -52,7 +46,7 @@ final class PasswordController extends BaseController
      */
     public function handleReset(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        if (Setting::obtain('enable_reset_password_captcha')) {
+        if (Config::obtain('enable_reset_password_captcha')) {
             $ret = Captcha::verify($request->getParams());
 
             if (! $ret) {
@@ -145,7 +139,7 @@ final class PasswordController extends BaseController
             return ResponseHelper::error($response, '重置失败，请重试');
         }
 
-        if (Setting::obtain('enable_forced_replacement')) {
+        if (Config::obtain('enable_forced_replacement')) {
             $user->cleanLink();
         }
 
