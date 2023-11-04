@@ -21,18 +21,6 @@
             ]
         },
         {
-            "name": "Clash for Android",
-            "tagMethod": "github_pre_release",
-            "gitRepo": "Kr328/ClashForAndroid",
-            "savePath": "public/clients/",
-            "downloads": [
-                {
-                    "sourceName": "cfa-%tagName1%-premium-universal-release.apk",
-                    "saveName": "Clash-Android.apk"
-                }
-            ]
-        },
-        {
             "name": "sing-box",
             "tagMethod": "github_release",
             "gitRepo": "SagerNet/sing-box",
