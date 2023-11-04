@@ -128,6 +128,7 @@ final class SingBox extends Base
                         'server_port' => (int) $trojan_port,
                         'password' => $user->uuid,
                         'tls' => [
+                            'enabled' => true,
                             'server_name' => $host,
                             'insecure' => (bool) $allow_insecure,
                         ],
