@@ -11,12 +11,12 @@
     <!-- CSS files -->
     <link href="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="//{$config['jsdelivr_url']}/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet"/>
-    <link href="//cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css" rel="stylesheet"/>
+    <link href="//cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet"/>
     <!-- JS files -->
     <script src="//{$config['jsdelivr_url']}/npm/qrcode_js@latest/qrcode.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
+    <script src="//cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;

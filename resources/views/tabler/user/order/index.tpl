@@ -1,7 +1,7 @@
 {include file='user/header.tpl'}
 
-<link href="//cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css" rel="stylesheet"/>
-<script src="//cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
+<link href="//cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet"/>
+<script src="//cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">
