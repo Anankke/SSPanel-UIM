@@ -26,7 +26,7 @@ final class NodeToken implements MiddlewareInterface
         if ($key === null) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
-                'data' => 'Invalid request.',
+                'msg' => 'Invalid request.',
             ]);
         }
 
@@ -38,7 +38,7 @@ final class NodeToken implements MiddlewareInterface
         ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
-                'data' => 'Invalid request.',
+                'msg' => 'Invalid request.',
             ]);
         }
 
@@ -48,7 +48,7 @@ final class NodeToken implements MiddlewareInterface
         ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
-                'data' => 'Invalid request.',
+                'msg' => 'Invalid request.',
             ]);
         }
 
@@ -58,7 +58,7 @@ final class NodeToken implements MiddlewareInterface
             if ($ip !== '127.0.0.1' && ! Node::where('node_ip', $ip)->exists()) {
                 return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                     'ret' => 0,
-                    'data' => 'Invalid request IP.',
+                    'msg' => 'Invalid request IP.',
                 ]);
             }
         }
