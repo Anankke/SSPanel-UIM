@@ -17,7 +17,7 @@ final class FuncController extends BaseController
     {
         return $response->withJson([
             'ret' => 1,
-            'data' => 'Pong? Pong!',
+            'msg' => 'Pong? Pong!',
         ]);
     }
 

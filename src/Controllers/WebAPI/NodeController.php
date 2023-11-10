@@ -23,7 +23,7 @@ final class NodeController extends BaseController
         if ($node === null) {
             return $response->withJson([
                 'ret' => 0,
-                'data' => 'Node not found.',
+                'msg' => 'Node not found.',
             ]);
         }
 

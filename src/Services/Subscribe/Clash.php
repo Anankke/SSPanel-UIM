@@ -90,8 +90,7 @@ final class Clash extends Base
                     $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
-                    $network = $node_custom_config['header']['type'] ??
-                        ($node_custom_config['network'] === 'httpupgrade' ? 'ws' : $node_custom_config['network']) ?? '';
+                    $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
@@ -102,6 +101,10 @@ final class Clash extends Base
                     $h2_opts = $node_custom_config['h2-opts'] ?? $node_custom_config['h2_opts'] ?? null;
                     $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+                    // HTTPUpgrade 在 Clash.Meta 内核中属于 ws 类型
+                    if ($network === 'httpupgrade') {
+                        $network = 'ws';
+                    }
 
                     $node = [
                         'name' => $node_raw->name,
@@ -125,14 +128,17 @@ final class Clash extends Base
                     break;
                 case 14:
                     $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
-                    $network = $node_custom_config['header']['type'] ??
-                        ($node_custom_config['network'] === 'httpupgrade' ? 'ws' : $node_custom_config['network']) ?? 'tcp';
+                    $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
                     $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+                    // HTTPUpgrade 在 Clash.Meta 内核中属于 ws 类型
+                    if ($network === 'httpupgrade') {
+                        $network = 'ws';
+                    }
 
                     $node = [
                         'name' => $node_raw->name,
