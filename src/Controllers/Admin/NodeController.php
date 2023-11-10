@@ -7,15 +7,12 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Models\Node;
-use App\Services\Cloudflare;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
-use Cloudflare\API\Endpoints\EndpointException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use function explode;
 use function json_decode;
 use function json_encode;
 use function round;
@@ -145,11 +142,6 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if ($_ENV['cloudflare_enable']) {
-            $domain_name = explode('.' . $_ENV['cloudflare_name'], $node->server);
-            Cloudflare::updateRecord($domain_name[0], $node->node_ip);
-        }
-
         if (Config::obtain('telegram_add_node')) {
             try {
                 (new Telegram())->send(
@@ -178,8 +170,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台编辑指定节点页面
-     *
-     * @throws Exception
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -205,8 +195,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台更新指定节点内容
-     *
-     * @throws EndpointException
      */
     public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -256,11 +244,6 @@ final class NodeController extends BaseController
                 'ret' => 0,
                 'msg' => '修改失败',
             ]);
-        }
-
-        if ($_ENV['cloudflare_enable']) {
-            $domain_name = explode('.' . $_ENV['cloudflare_name'], $node->server);
-            Cloudflare::updateRecord($domain_name[0], $node->node_ip);
         }
 
         if (Config::obtain('telegram_update_node')) {

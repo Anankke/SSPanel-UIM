@@ -120,12 +120,6 @@ $_ENV['huggingface_endpoint_url'] = '';
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';
 
-#Cloudflare
-$_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析
-$_ENV['cloudflare_email']       = '';            //Cloudflare 邮箱地址
-$_ENV['cloudflare_key']         = '';            //Cloudflare API Key
-$_ENV['cloudflare_name']        = '';            //域名
-
 // use Cloudflare R2 for clients download
 $_ENV['enable_r2_client_download']  = false;
 $_ENV['r2_bucket_name']             = '';
