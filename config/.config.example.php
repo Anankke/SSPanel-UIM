@@ -106,16 +106,20 @@ $_ENV['maxmind_license_key'] = '';
 $_ENV['geoip_locale']        = 'en';
 
 // Large language model powered ticket reply and more
-$_ENV['llm_backend'] = 'openai'; // openai/palm/huggingface
+$_ENV['llm_backend'] = 'openai'; // openai/palm/huggingface/cf-workers-ai
 // OpenAI ChatGPT
 $_ENV['openai_api_key'] = '';
-$_ENV['openai_model']   = 'gpt-3.5-turbo-16k';
+$_ENV['openai_model']   = 'gpt-3.5-turbo-1106';
 // Google PaLM API
 $_ENV['palm_api_key']    = '';
 $_ENV['palm_text_model'] = 'text-bison-001';
 // Hugging Face Inference API
 $_ENV['huggingface_api_key']      = '';
 $_ENV['huggingface_endpoint_url'] = '';
+// Cloudflare Workers AI
+$_ENV['cf_workers_ai_account_id'] = '';
+$_ENV['cf_workers_ai_api_token']  = '';
+$_ENV['cf_workers_ai_model_id']   = '@cf/meta/llama-2-7b-chat-int8';
 
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';

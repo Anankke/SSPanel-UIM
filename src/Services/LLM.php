@@ -16,10 +16,15 @@ final class LLM
      */
     public static function genTextResponse(string $q): string
     {
+        if ($q === '') {
+            return 'No question provided';
+        }
+
         return match ($_ENV['llm_backend']) {
             'openai' => self::textPromptGPT($q),
             'palm' => self::textPromptPaLM($q),
             'huggingface' => self::textPromptHF($q),
+            'cf-workers-ai' => self::textPromptCF($q),
             default => 'No LLM backend configured',
         };
     }
@@ -28,10 +33,6 @@ final class LLM
     {
         if ($_ENV['openai_api_key'] === '') {
             return 'OpenAI API key not set';
-        }
-
-        if ($q === '') {
-            return 'No question provided';
         }
 
         $client = OpenAI::client($_ENV['openai_api_key']);
@@ -58,12 +59,9 @@ final class LLM
             return 'PaLM API key not set';
         }
 
-        if ($q === '') {
-            return 'No question provided';
-        }
-
         $client = new Client();
-        $api_url = 'https://generativelanguage.googleapis.com/v1beta2/models/' .
+
+        $api_url = 'https://generativelanguage.googleapis.com/v1beta3/models/' .
             $_ENV['palm_text_model'] . ':generateText?key=' . $_ENV['palm_api_key'];
 
         $headers = [
@@ -123,12 +121,8 @@ final class LLM
      */
     public static function textPromptHF(string $q): string
     {
-        if ($_ENV['huggingface_api_key'] === '') {
-            return 'Hugging Face API key not set';
-        }
-
-        if ($q === '') {
-            return 'No question provided';
+        if ($_ENV['huggingface_api_key'] === '' || $_ENV['huggingface_endpoint_url'] === '') {
+            return 'Hugging Face API key or Endpoint URL not set';
         }
 
         $client = new Client();
@@ -151,5 +145,37 @@ final class LLM
         ])->getBody()->getContents());
 
         return $response->answer;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public static function textPromptCF(string $q): string
+    {
+        if ($_ENV['cf_workers_ai_account_id'] === '' || $_ENV['cf_workers_ai_api_token'] === '') {
+            return 'Cloudflare Workers AI Account ID or API Token not set';
+        }
+
+        $client = new Client();
+
+        $api_url = 'https://api.cloudflare.com/client/v4/accounts/' .
+            $_ENV['cf_workers_ai_account_id'] . '/ai/run/' . $_ENV['cf_workers_ai_model_id'];
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $_ENV['cf_workers_ai_api_token'],
+            'Content-Type' => 'application/json',
+        ];
+
+        $data = [
+            'prompt' => $q,
+        ];
+
+        $response = json_decode($client->post($api_url, [
+            'headers' => $headers,
+            'json' => $data,
+            'timeout' => 10,
+        ])->getBody()->getContents());
+
+        return $response->result->response;
     }
 }
