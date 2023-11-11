@@ -50,7 +50,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">服务器IP</label>
                                 <div class="col">
-                                    <input id="node_ip" type="text" class="form-control" value="{$node->node_ip}">
+                                    <input id="node_ip" type="text" class="form-control" value="{$node->node_ip}" disabled>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
