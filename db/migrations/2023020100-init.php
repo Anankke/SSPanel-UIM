@@ -138,8 +138,6 @@ return new class() implements MigrationInterface {
                 `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点显示',
                 `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址',
                 `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`)),
-                `info` varchar(255) NOT NULL DEFAULT '' COMMENT '节点信息',
-                `status` varchar(255) NOT NULL DEFAULT '' COMMENT '节点状态',
                 `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型',
                 `traffic_rate` float unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率',
                 `is_dynamic_rate` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否启用动态流量倍率',

@@ -73,8 +73,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE node MODIFY COLUMN `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点显示';
         ALTER TABLE node MODIFY COLUMN `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址';
         ALTER TABLE node MODIFY COLUMN `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`));
-        ALTER TABLE node MODIFY COLUMN `info` varchar(255) NOT NULL DEFAULT '' COMMENT '节点信息';
-        ALTER TABLE node MODIFY COLUMN `status` varchar(255) NOT NULL DEFAULT '' COMMENT '节点状态';
         ALTER TABLE node MODIFY COLUMN `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型';
         ALTER TABLE node MODIFY COLUMN `traffic_rate` float unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率';
         ALTER TABLE node MODIFY COLUMN `node_class` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点等级';
