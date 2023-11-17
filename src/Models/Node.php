@@ -18,9 +18,6 @@ use const DNS_AAAA;
  * @property int    $type                    节点显示
  * @property string $server                  节点地址
  * @property string $custom_config           自定义配置
- * todo: delete these two properties
- * @property string $info                    节点信息
- * @property string $status                  节点状态
  * @property int    $sort                    节点类型
  * @property float  $traffic_rate            流量倍率
  * @property int    $is_dynamic_rate         是否启用动态流量倍率

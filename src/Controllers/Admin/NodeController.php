@@ -95,9 +95,6 @@ final class NodeController extends BaseController
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group');
         $node->server = trim($request->getParam('server'));
-
-        $node->updateNodeIp();
-
         $node->traffic_rate = $request->getParam('traffic_rate') ?? 1;
         $node->is_dynamic_rate = $request->getParam('is_dynamic_rate') === 'true' ? 1 : 0;
         $node->dynamic_rate_config = json_encode([
@@ -192,9 +189,6 @@ final class NodeController extends BaseController
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group') ?? 0;
         $node->server = trim($request->getParam('server'));
-
-        $node->updateNodeIp();
-
         $node->traffic_rate = $request->getParam('traffic_rate') ?? 1;
         $node->is_dynamic_rate = $request->getParam('is_dynamic_rate') === 'true' ? 1 : 0;
         $node->dynamic_rate_config = json_encode([

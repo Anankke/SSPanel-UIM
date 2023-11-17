@@ -12,7 +12,6 @@ final class SubController extends BaseController
 {
     private static array $update_field = [
         'enable_forced_replacement',
-        'enable_traditional_sub',
         'enable_ss_sub',
         'enable_v2_sub',
         'enable_trojan_sub',
