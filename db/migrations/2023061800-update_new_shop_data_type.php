@@ -14,9 +14,7 @@ return new class() implements MigrationInterface {
         ALTER TABLE announcement MODIFY COLUMN `content` text NOT NULL DEFAULT '' COMMENT '公告内容';
         ALTER TABLE config MODIFY COLUMN `value` varchar(2048) DEFAULT NULL COMMENT '值';
         ALTER TABLE detect_ban_log MODIFY COLUMN `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE detect_ban_log MODIFY COLUMN `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名';
         ALTER TABLE detect_ban_log MODIFY COLUMN `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID';
-        ALTER TABLE detect_ban_log MODIFY COLUMN `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱';
         ALTER TABLE detect_ban_log MODIFY COLUMN `detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次违规次数';
         ALTER TABLE detect_ban_log MODIFY COLUMN `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次封禁时长';
         ALTER TABLE detect_ban_log MODIFY COLUMN `start_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '统计开始时间';

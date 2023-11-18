@@ -30,9 +30,7 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `detect_ban_log` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁记录ID',
-                `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱',
                 `detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次违规次数',
                 `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁时长',
                 `start_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁开始时间',
