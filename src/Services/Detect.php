@@ -145,9 +145,7 @@ final class Detect
                 $user->last_detect_ban_time = Tools::toDateTime(time());
                 $user->save();
                 $DetectBanLog = new DetectBanLog();
-                $DetectBanLog->user_name = $user->user_name;
                 $DetectBanLog->user_id = $user->id;
-                $DetectBanLog->email = $user->email;
                 $DetectBanLog->detect_number = $detect_number;
                 $DetectBanLog->ban_time = $_ENV['auto_detect_ban_time'];
                 $DetectBanLog->start_time = strtotime($last_detect_ban_time);

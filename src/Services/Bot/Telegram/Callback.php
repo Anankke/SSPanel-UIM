@@ -731,17 +731,21 @@ final class Callback
                     'callback_data' => 'user.subscribe|json',
                 ],
                 [
-                    'text' => 'Shadowsocks SIP008',
+                    'text' => 'SIP008',
                     'callback_data' => 'user.subscribe|sip008',
                 ],
             ],
             [
                 [
+                    'text' => 'SingBox',
+                    'callback_data' => 'user.subscribe|singbox',
+                ],
+                [
                     'text' => 'Shadowsocks',
                     'callback_data' => 'user.subscribe|ss',
                 ],
                 [
-                    'text' => 'Shadowsocks SIP002',
+                    'text' => 'SIP002',
                     'callback_data' => 'user.subscribe|sip002',
                 ],
             ],
@@ -763,14 +767,10 @@ final class Callback
             ],
         ];
 
-        if (! Config::obtain('enable_traditional_sub')) {
-            unset($keyboard[1]);
-            unset($keyboard[2]);
-        }
-
         if (! Config::obtain('enable_ss_sub')) {
             unset($keyboard[0][2]);
-            unset($keyboard[1]);
+            unset($keyboard[1][1]);
+            unset($keyboard[1][2]);
         }
 
         if (! Config::obtain('enable_v2_sub')) {
@@ -815,23 +815,24 @@ final class Callback
             $sendMessage = [];
 
             $UniversalSub_Url = SubController::getUniversalSubLink($this->user);
-            $TraditionalSub_Url = SubController::getTraditionalSubLink($this->user);
 
             $text = match ($CallbackDataExplode[1]) {
-                'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL .
-                    '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
                 'json' => 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL .
                     '<code>' . $UniversalSub_Url . '/json</code>' . PHP_EOL . PHP_EOL,
-                'sip008' => 'Shadowsocks SIP008 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                'clash' => 'Clash 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
+                'singbox' => 'SingBox 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/singbox</code>' . PHP_EOL . PHP_EOL,
+                'sip008' => 'SIP008 通用订阅地址：' . PHP_EOL . PHP_EOL .
                     '<code>' . $UniversalSub_Url . '/sip008</code>' . PHP_EOL . PHP_EOL,
-                'ss' => 'Shadowsocks 传统订阅地址：' . PHP_EOL . PHP_EOL .
-                    '<code>' . $TraditionalSub_Url . '?ss=1</code>' . PHP_EOL . PHP_EOL,
-                'sip002' => 'Shadowsocks SIP002 传统订阅地址：' . PHP_EOL . PHP_EOL .
-                    '<code>' . $TraditionalSub_Url . '?sip002=1</code>' . PHP_EOL . PHP_EOL,
-                'v2' => 'V2Ray 传统订阅地址：' . PHP_EOL . PHP_EOL .
-                    '<code>' . $TraditionalSub_Url . '?v2ray=1</code>' . PHP_EOL . PHP_EOL,
-                'trojan' => 'Trojan 传统订阅地址：' . PHP_EOL . PHP_EOL .
-                    '<code>' . $TraditionalSub_Url . '?trojan=1</code>' . PHP_EOL . PHP_EOL,
+                'ss' => 'Shadowsocks 客户端订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/ss</code>' . PHP_EOL . PHP_EOL,
+                'sip002' => 'SIP002 客户端订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/sip002</code>' . PHP_EOL . PHP_EOL,
+                'v2' => 'V2Ray 客户端订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/v2ray</code>' . PHP_EOL . PHP_EOL,
+                'trojan' => 'Trojan 客户端订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/trojan</code>' . PHP_EOL . PHP_EOL,
                 default => '未知参数' . PHP_EOL . PHP_EOL,
             };
 

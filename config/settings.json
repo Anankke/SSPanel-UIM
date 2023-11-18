@@ -1481,16 +1481,6 @@
     },
     {
         "id": null,
-        "item": "enable_traditional_sub",
-        "value": "1",
-        "class": "subscribe",
-        "is_public": 1,
-        "type": "bool",
-        "default": "1",
-        "mark": "传统订阅系统开关"
-    },
-    {
-        "id": null,
         "item": "enable_ss_sub",
         "value": "1",
         "class": "subscribe",

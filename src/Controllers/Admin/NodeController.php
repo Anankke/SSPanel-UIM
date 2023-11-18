@@ -9,10 +9,11 @@ use App\Models\Config;
 use App\Models\Node;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use SmartyException;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function json_decode;
 use function json_encode;
 use function round;
@@ -48,7 +49,6 @@ final class NodeController extends BaseController
         'max_rate_time',
         'min_rate',
         'min_rate_time',
-        'info',
         'node_group',
         'node_speedlimit',
         'sort',
@@ -60,7 +60,7 @@ final class NodeController extends BaseController
     /**
      * 后台节点页面
      *
-     * @throws Exception
+     * @throws SmartyException
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -74,7 +74,7 @@ final class NodeController extends BaseController
     /**
      * 后台创建节点页面
      *
-     * @throws Exception
+     * @throws SmartyException
      */
     public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -87,8 +87,6 @@ final class NodeController extends BaseController
 
     /**
      * 后台添加节点
-     *
-     * @throws EndpointException
      */
     public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -97,9 +95,6 @@ final class NodeController extends BaseController
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group');
         $node->server = trim($request->getParam('server'));
-
-        $node->updateNodeIp();
-
         $node->traffic_rate = $request->getParam('traffic_rate') ?? 1;
         $node->is_dynamic_rate = $request->getParam('is_dynamic_rate') === 'true' ? 1 : 0;
         $node->dynamic_rate_config = json_encode([
@@ -117,7 +112,6 @@ final class NodeController extends BaseController
             $node->custom_config = '{}';
         }
 
-        $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
@@ -143,7 +137,7 @@ final class NodeController extends BaseController
                         Config::obtain('telegram_add_node_text')
                     )
                 );
-            } catch (Exception $e) {
+            } catch (TelegramSDKException $e) {
                 return $response->withJson([
                     'ret' => 1,
                     'msg' => '添加成功，但 Telegram 通知失败',
@@ -161,6 +155,8 @@ final class NodeController extends BaseController
 
     /**
      * 后台编辑指定节点页面
+     *
+     * @throws SmartyException
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -193,9 +189,6 @@ final class NodeController extends BaseController
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group') ?? 0;
         $node->server = trim($request->getParam('server'));
-
-        $node->updateNodeIp();
-
         $node->traffic_rate = $request->getParam('traffic_rate') ?? 1;
         $node->is_dynamic_rate = $request->getParam('is_dynamic_rate') === 'true' ? 1 : 0;
         $node->dynamic_rate_config = json_encode([
@@ -213,7 +206,6 @@ final class NodeController extends BaseController
             $node->custom_config = '{}';
         }
 
-        $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
@@ -238,7 +230,7 @@ final class NodeController extends BaseController
                         Config::obtain('telegram_update_node_text')
                     )
                 );
-            } catch (Exception $e) {
+            } catch (TelegramSDKException $e) {
                 return $response->withJson([
                     'ret' => 1,
                     'msg' => '修改成功，但 Telegram 通知失败',
@@ -288,7 +280,7 @@ final class NodeController extends BaseController
                         Config::obtain('telegram_delete_node_text')
                     )
                 );
-            } catch (Exception $e) {
+            } catch (TelegramSDKException $e) {
                 return $response->withJson([
                     'ret' => 1,
                     'msg' => '删除成功，但Telegram通知失败',
@@ -304,19 +296,17 @@ final class NodeController extends BaseController
 
     public function copy($request, $response, $args)
     {
-        try {
-            $old_node = Node::find($args['id']);
-            $new_node = new Node();
-            $new_node = $old_node->replicate([
-                'node_bandwidth',
-            ]);
-            $new_node->name .= ' (副本)';
-            $new_node->node_bandwidth = 0;
-            $new_node->save();
-        } catch (Exception $e) {
+        $old_node = Node::find($args['id']);
+        $new_node = $old_node->replicate([
+            'node_bandwidth',
+        ]);
+        $new_node->name .= ' (副本)';
+        $new_node->node_bandwidth = 0;
+
+        if (! $new_node->save()) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage(),
+                'msg' => '复制失败',
             ]);
         }
 

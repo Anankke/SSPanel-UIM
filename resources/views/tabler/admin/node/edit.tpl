@@ -139,12 +139,6 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">备注</label>
-                                <div class="col">
-                                    <input id="info" type="text" class="form-control" value="{$node->info}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">等级</label>
                                 <div class="col">
                                     <input id="node_class" type="text" class="form-control" value="{$node->node_class}">

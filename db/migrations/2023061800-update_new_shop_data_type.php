@@ -14,9 +14,7 @@ return new class() implements MigrationInterface {
         ALTER TABLE announcement MODIFY COLUMN `content` text NOT NULL DEFAULT '' COMMENT '公告内容';
         ALTER TABLE config MODIFY COLUMN `value` varchar(2048) DEFAULT NULL COMMENT '值';
         ALTER TABLE detect_ban_log MODIFY COLUMN `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE detect_ban_log MODIFY COLUMN `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名';
         ALTER TABLE detect_ban_log MODIFY COLUMN `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID';
-        ALTER TABLE detect_ban_log MODIFY COLUMN `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱';
         ALTER TABLE detect_ban_log MODIFY COLUMN `detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次违规次数';
         ALTER TABLE detect_ban_log MODIFY COLUMN `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次封禁时长';
         ALTER TABLE detect_ban_log MODIFY COLUMN `start_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '统计开始时间';
@@ -73,8 +71,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE node MODIFY COLUMN `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点显示';
         ALTER TABLE node MODIFY COLUMN `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址';
         ALTER TABLE node MODIFY COLUMN `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`));
-        ALTER TABLE node MODIFY COLUMN `info` varchar(255) NOT NULL DEFAULT '' COMMENT '节点信息';
-        ALTER TABLE node MODIFY COLUMN `status` varchar(255) NOT NULL DEFAULT '' COMMENT '节点状态';
         ALTER TABLE node MODIFY COLUMN `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型';
         ALTER TABLE node MODIFY COLUMN `traffic_rate` float unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率';
         ALTER TABLE node MODIFY COLUMN `node_class` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点等级';
@@ -165,8 +161,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE user_invite_code MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
         ALTER TABLE user_invite_code MODIFY COLUMN `code` varchar(255) NOT NULL DEFAULT '' COMMENT '邀请码';
         ALTER TABLE user_invite_code MODIFY COLUMN `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID';
-        ALTER TABLE user_invite_code MODIFY COLUMN `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '创建时间';
-        ALTER TABLE user_invite_code MODIFY COLUMN `updated_at` timestamp NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '更新时间';
         ALTER TABLE user_money_log MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
         SET FOREIGN_KEY_CHECKS = 1;");
 

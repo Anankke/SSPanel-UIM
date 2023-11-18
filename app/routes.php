@@ -22,9 +22,7 @@ return static function (Slim\App $app): void {
     // OAuth
     $app->post('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
     $app->get('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
-    // 传统订阅（SS/V2Ray/Trojan etc.）
-    $app->get('/link/{token}', App\Controllers\SubController::class . ':getTraditionalSubContent');
-    // 通用订阅（Json/Clash/SIP008）
+    // 通用订阅
     $app->get('/sub/{token}/{subtype}', App\Controllers\SubController::class . ':getUniversalSubContent');
     // User Center
     $app->group('/user', static function (RouteCollectorProxy $group): void {

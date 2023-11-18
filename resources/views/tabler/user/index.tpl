@@ -135,14 +135,12 @@
                                     &nbsp;通用订阅
                                 </a>
                             </li>
-                            {if $public_setting['enable_traditional_sub']}
-                                <li class="nav-item">
-                                    <a href="#traditional-sub" class="nav-link" data-bs-toggle="tab">
-                                        <i class="ti ti-rss icon"></i>
-                                        &nbsp;传统订阅
-                                    </a>
-                                </li>
-                            {/if}
+                            <li class="nav-item">
+                                <a href="#client-sub" class="nav-link" data-bs-toggle="tab">
+                                    <i class="ti ti-rss icon"></i>
+                                    &nbsp;客户端订阅
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="#windows" class="nav-link" data-bs-toggle="tab">
                                     <i class="ti ti-brand-windows icon"></i>
@@ -220,53 +218,51 @@
                                         </div>
                                     </div>
                                 </div>
-                                {if $public_setting['enable_traditional_sub']}
-                                    <div class="tab-pane show" id="traditional-sub">
-                                        <div>
+                                <div class="tab-pane show" id="client-sub">
+                                    <div>
+                                        {if $public_setting['enable_ss_sub']}
+                                            <p>
+                                                客户端订阅（Shadowsocks）：<code>{$UniversalSub}/ss</code></p>
+                                            <p>
+                                                客户端订阅（SIP002）：<code>{$UniversalSub}/sip002</code>
+                                            </p>
+                                        {/if}
+                                        {if $public_setting['enable_v2_sub']}
+                                            <p>
+                                                客户端订阅（V2Ray）：<code>{$UniversalSub}/v2ray</code>
+                                            </p>
+                                        {/if}
+                                        {if $public_setting['enable_trojan_sub']}
+                                            <p>
+                                                客户端订阅（Trojan）：<code>{$UniversalSub}/trojan</code>
+                                            </p>
+                                        {/if}
+                                        <div class="btn-list justify-content-start">
                                             {if $public_setting['enable_ss_sub']}
-                                                <p>
-                                                    传统订阅（Shadowsocks）：<code>{$TraditionalSub}?ss=1</code></p>
-                                                <p>
-                                                    传统订阅（Shadowsocks SIP002）：<code>{$TraditionalSub}?sip002=1</code>
-                                                </p>
+                                                <a data-clipboard-text="{$UniversalSub}/ss"
+                                                   class="copy btn btn-primary">
+                                                    复制客户端订阅（Shadowsocks）
+                                                </a>
+                                                <a data-clipboard-text="{$UniversalSub}/sip002"
+                                                   class="copy btn btn-primary">
+                                                    复制客户端订阅（SIP002）
+                                                </a>
                                             {/if}
                                             {if $public_setting['enable_v2_sub']}
-                                                <p>
-                                                    传统订阅（V2Ray）：<code>{$TraditionalSub}?v2ray=1</code>
-                                                </p>
+                                                <a data-clipboard-text="{$UniversalSub}/v2ray"
+                                                   class="copy btn btn-primary">
+                                                    复制客户端订阅（V2Ray）
+                                                </a>
                                             {/if}
                                             {if $public_setting['enable_trojan_sub']}
-                                                <p>
-                                                    传统订阅（Trojan）：<code>{$TraditionalSub}?trojan=1</code>
-                                                </p>
+                                                <a data-clipboard-text="{$UniversalSub}/trojan"
+                                                   class="copy btn btn-primary">
+                                                    复制客户端订阅（Trojan）
+                                                </a>
                                             {/if}
-                                            <div class="btn-list justify-content-start">
-                                                {if $public_setting['enable_ss_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?ss=1"
-                                                       class="copy btn btn-primary">
-                                                        复制传统订阅（Shadowsocks）
-                                                    </a>
-                                                    <a data-clipboard-text="{$TraditionalSub}?sip002=1"
-                                                       class="copy btn btn-primary">
-                                                        复制传统订阅（Shadowsocks SIP002）
-                                                    </a>
-                                                {/if}
-                                                {if $public_setting['enable_v2_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?v2ray=1"
-                                                       class="copy btn btn-primary">
-                                                        复制传统订阅（V2Ray）
-                                                    </a>
-                                                {/if}
-                                                {if $public_setting['enable_trojan_sub']}
-                                                    <a data-clipboard-text="{$TraditionalSub}?trojan=1"
-                                                       class="copy btn btn-primary">
-                                                        复制传统订阅（Trojan）
-                                                    </a>
-                                                {/if}
-                                            </div>
                                         </div>
                                     </div>
-                                {/if}
+                                </div>
                                 <div class="tab-pane" id="windows">
                                     <div>
                                         <p>
@@ -274,11 +270,11 @@
                                         </p>
                                         <div class="btn-list justify-content-start">
                                             <a
-                                                    {if $config['enable_r2_client_download']}
-                                                        href="/user/clients/Clash.Verge.exe"
-                                                    {else}
-                                                        href="/clients/Clash.Verge.exe"
-                                                    {/if} class="btn btn-azure">
+                                                {if $config['enable_r2_client_download']}
+                                                    href="/user/clients/Clash.Verge.exe"
+                                                {else}
+                                                    href="/clients/Clash.Verge.exe"
+                                                {/if} class="btn btn-azure">
                                                 下载 Clash Verge
                                             </a>
                                             <a data-clipboard-text="{$UniversalSub}/clash"
@@ -342,13 +338,6 @@
                                         适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash-Android.apk"
-                                        {else}
-                                            href="/clients/Clash-Android.apk"
-                                        {/if} class="btn btn-azure">
-                                            下载 Clash for Android
-                                        </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接

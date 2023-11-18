@@ -27,7 +27,6 @@ final class ClientController extends BaseController
             'Clash.Verge.exe',
             'Clash.Verge_aarch64.dmg',
             'Clash.Verge.AppImage.tar.gz',
-            'Clash-Android.apk',
             'SFA.apk',
             'SFM.zip',
         ];

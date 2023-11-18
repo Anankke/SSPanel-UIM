@@ -18,9 +18,8 @@ final class DetectBanController extends BaseController
         [
             'field' => [
                 'id' => '事件ID',
-                'user_name' => '用户名',
                 'user_id' => '用户ID',
-                'email' => '用户邮箱',
+                'user_name' => '用户名',
                 'detect_number' => '违规次数',
                 'ban_time' => '封禁时长(分钟)',
                 'start_time' => '统计开始时间',
@@ -52,6 +51,7 @@ final class DetectBanController extends BaseController
         $total = DetectBanLog::count();
 
         foreach ($bans as $ban) {
+            $ban->user_name = $ban->userName();
             $ban->start_time = Tools::toDateTime((int) $ban->start_time);
             $ban->end_time = Tools::toDateTime((int) $ban->end_time);
             $ban->ban_end_time = $ban->banEndTime();

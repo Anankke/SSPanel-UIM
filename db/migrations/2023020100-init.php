@@ -30,9 +30,7 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `detect_ban_log` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁记录ID',
-                `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `email` varchar(255) NOT NULL DEFAULT '' COMMENT '用户邮箱',
                 `detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次违规次数',
                 `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁时长',
                 `start_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁开始时间',
@@ -138,8 +136,6 @@ return new class() implements MigrationInterface {
                 `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点显示',
                 `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址',
                 `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`)),
-                `info` varchar(255) NOT NULL DEFAULT '' COMMENT '节点信息',
-                `status` varchar(255) NOT NULL DEFAULT '' COMMENT '节点状态',
                 `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型',
                 `traffic_rate` float unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率',
                 `is_dynamic_rate` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否启用动态流量倍率',
@@ -349,8 +345,6 @@ return new class() implements MigrationInterface {
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `code` varchar(255) NOT NULL DEFAULT '' COMMENT '邀请码',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '创建时间',
-                `updated_at` timestamp NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '更新时间',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `code` (`code`),
                 UNIQUE KEY `user_id` (`user_id`)
