@@ -96,7 +96,7 @@ final class GiftCardController extends BaseController
         }
 
         for ($i = 0; $i < $card_number; $i++) {
-            $card = Tools::genRandomChar($card_length);
+            $card = Tools::genRandomChar((int) $card_length);
             // save to database
             $giftcard = new GiftCard();
             $giftcard->card = $card;

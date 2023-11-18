@@ -38,6 +38,7 @@
         "smarty/smarty": "^4.3.4",
         "srmklive/paypal": "^3.0.27",
         "stripe/stripe-php": "^12.8",
+        "symfony/translation": "^6.3",
         "tronovav/geoip2-update": "^2.3.1",
         "vectorface/googleauthenticator": "^3.0",
         "voku/anti-xss": "^4.1.42"
@@ -64,7 +65,7 @@
             "composer update --ignore-platform-req=ext-posix --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml"
         ],
         "install-dev-windows": [
-            "composer instal --ignore-platform-req=ext-posix --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml"
+            "composer install --ignore-platform-req=ext-posix --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml"
         ]
     },
     "type": "project"
