@@ -296,19 +296,17 @@ final class NodeController extends BaseController
 
     public function copy($request, $response, $args)
     {
-        try {
-            $old_node = Node::find($args['id']);
-            $new_node = new Node();
-            $new_node = $old_node->replicate([
-                'node_bandwidth',
-            ]);
-            $new_node->name .= ' (副本)';
-            $new_node->node_bandwidth = 0;
-            $new_node->save();
-        } catch (Exception $e) {
+        $old_node = Node::find($args['id']);
+        $new_node = $old_node->replicate([
+            'node_bandwidth',
+        ]);
+        $new_node->name .= ' (副本)';
+        $new_node->node_bandwidth = 0;
+
+        if (! $new_node->save()) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage(),
+                'msg' => '复制失败',
             ]);
         }
 

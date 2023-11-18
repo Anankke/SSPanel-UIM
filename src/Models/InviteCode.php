@@ -11,9 +11,6 @@ use Illuminate\Database\Query\Builder;
  * @property int    $id         记录ID
  * @property string $code       邀请码
  * @property int    $user_id    用户ID
- * todo: delete these two properties
- * @property int    $create_at  创建时间
- * @property int    $updated_at 更新时间
  *
  * @mixin Builder
  */

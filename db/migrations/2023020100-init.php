@@ -347,8 +347,6 @@ return new class() implements MigrationInterface {
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `code` varchar(255) NOT NULL DEFAULT '' COMMENT '邀请码',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '创建时间',
-                `updated_at` timestamp NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '更新时间',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `code` (`code`),
                 UNIQUE KEY `user_id` (`user_id`)

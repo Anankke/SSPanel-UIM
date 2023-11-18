@@ -163,8 +163,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE user_invite_code MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
         ALTER TABLE user_invite_code MODIFY COLUMN `code` varchar(255) NOT NULL DEFAULT '' COMMENT '邀请码';
         ALTER TABLE user_invite_code MODIFY COLUMN `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID';
-        ALTER TABLE user_invite_code MODIFY COLUMN `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '创建时间';
-        ALTER TABLE user_invite_code MODIFY COLUMN `updated_at` timestamp NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '更新时间';
         ALTER TABLE user_money_log MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
         SET FOREIGN_KEY_CHECKS = 1;");
 
