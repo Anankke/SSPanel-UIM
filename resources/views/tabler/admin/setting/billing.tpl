@@ -45,6 +45,9 @@
                                 <li class="nav-item">
                                     <a href="#paypal" class="nav-link" data-bs-toggle="tab">PayPal</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#meowpay" class="nav-link" data-bs-toggle="tab">MeowPay</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -298,6 +301,18 @@
                                             <div class="col">
                                                 <input id="paypal_locale" type="text" class="form-control"
                                                        value="{$settings['paypal_locale']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="meowpay">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">MeowPay APP ID</label>
+                                                <div class="col">
+                                                    <input id="meowpay_app_id" type="text" class="form-control"
+                                                           value="{$settings['meowpay_app_id']}">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

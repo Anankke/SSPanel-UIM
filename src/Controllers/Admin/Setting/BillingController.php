@@ -45,6 +45,8 @@ final class BillingController extends BaseController
         'paypal_client_secret',
         'paypal_currency',
         'paypal_locale',
+	// MeowPay
+	'meowpay_app_id',
     ];
 
     /**
