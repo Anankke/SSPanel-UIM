@@ -88,7 +88,10 @@ final class Payback extends Model
 
     public function execute($user_id, $gift_user_id, $order_amount, $adjust_rebate = null): void
     {
-        $gift_user = User::where('id', $gift_user_id)->first();
+        $gift_user = User::where('id', $gift_user_id)
+            ->where('is_banned', 0)
+            ->where('is_shadow_banned', 0)
+            ->first();
 
         if ($gift_user !== null) {
             $rebate_amount = $order_amount * Config::obtain('rebate_ratio');
