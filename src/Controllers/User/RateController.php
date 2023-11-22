@@ -57,7 +57,16 @@ final class RateController extends BaseController
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $antiXss = new AntiXSS();
-        $node = Node::find($antiXss->xss_clean($request->getParam('node_id')));
+        $user = $this->user;
+        $query = Node::query();
+        $query->where('type', 1);
+
+        if (! $user->is_admin) {
+            $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
+            $query->whereIn('node_group', $group);
+        }
+
+        $node = $query->find($antiXss->xss_clean($request->getParam('node_id')));
 
         if ($node === null) {
             return ResponseHelper::error($response, '节点不存在');
