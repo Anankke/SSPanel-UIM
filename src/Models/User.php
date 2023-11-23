@@ -119,7 +119,7 @@ final class User extends Model
             $query->whereIn('node_group', $group);
         }
 
-        return where(static function ($query): void {
+        return $query->where(static function ($query): void {
             $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
         })->orderBy('node_class')
             ->orderBy('name')

@@ -31,7 +31,6 @@ jobs:
         php vendor/bin/phpunit
 
   unit-test-php83:
-    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
