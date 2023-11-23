@@ -9,6 +9,7 @@ use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -106,6 +107,23 @@ final class User extends Model
     public function getSs2022Pk($len): string
     {
         return Tools::genSs2022UserPk($this->passwd, $len);
+    }
+
+    public function getUserFrontEndNodes(): Collection
+    {
+        $query = Node::query();
+        $query->where('type', 1);
+
+        if (! $this->is_admin) {
+            $group = ($this->node_group !== 0 ? [0, $this->node_group] : [0]);
+            $query->whereIn('node_group', $group);
+        }
+
+        return where(static function ($query): void {
+            $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+        })->orderBy('node_class')
+            ->orderBy('name')
+            ->get();
     }
 
     /**
@@ -317,7 +335,9 @@ final class User extends Model
      */
     public function onlineIpCount(): int
     {
-        return OnlineLog::where('user_id', $this->id)->where('last_time', '>', time() - 90)->count();
+        return OnlineLog::where('user_id', $this->id)
+            ->where('last_time', '>', time() - 90)
+            ->count();
     }
 
     /**

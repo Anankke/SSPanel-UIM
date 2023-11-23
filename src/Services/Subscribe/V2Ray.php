@@ -21,7 +21,7 @@ final class V2Ray extends Base
             return $links;
         }
 
-        $nodes_raw = Subscribe::getSubNodes($user);
+        $nodes_raw = Subscribe::getUserSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);
@@ -32,8 +32,7 @@ final class V2Ray extends Base
                 $network = $node_custom_config['network'] ?? '';
                 $header = $node_custom_config['header'] ?? ['type' => 'none'];
                 $header_type = $header['type'] ?? '';
-                $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
-                    $node_custom_config['host'] ?? '';
+                $host = $node_custom_config['header']['request']['headers']['Host'][0] ?? $node_custom_config['host'] ?? '';
                 $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
 
                 $v2rayn_array = [

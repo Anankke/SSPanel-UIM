@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Models\Node;
 use App\Services\DynamicRate;
 use App\Utils\ResponseHelper;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use voku\helper\AntiXSS;
 use function array_fill;
 use function json_encode;
 
@@ -23,50 +21,27 @@ final class RateController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $user = $this->user;
-        $query = Node::query();
-        $query->where('type', 1);
-
-        if (! $user->is_admin) {
-            $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
-            $query->whereIn('node_group', $group);
-        }
-
-        $nodes = $query->orderBy('node_class')->orderBy('name')->get();
-        $all_node = [];
+        $nodes = $this->user->getUserFrontEndNodes();
+        $node_list = [];
 
         foreach ($nodes as $node) {
-            if ($node->node_bandwidth_limit !== 0 && $node->node_bandwidth_limit <= $node->node_bandwidth) {
-                continue;
-            }
-
-            $array_node = [];
-            $array_node['id'] = $node->id;
-            $array_node['name'] = $node->name;
-
-            $all_node[] = $array_node;
+            $node_list[] = [
+                'id' => $node->id,
+                'name' => $node->name,
+            ];
         }
 
         return $response->write(
             $this->view()
-                ->assign('nodes', $all_node)
+                ->assign('nodes', $node_list)
                 ->fetch('user/rate.tpl')
         );
     }
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $user = $this->user;
-        $query = Node::query();
-        $query->where('type', 1);
-
-        if (! $user->is_admin) {
-            $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
-            $query->whereIn('node_group', $group);
-        }
-
-        $node = $query->find($antiXss->xss_clean($request->getParam('node_id')));
+        $nodes = $this->user->getUserFrontEndNodes();
+        $node = $nodes->find($request->getParam('node_id'));
 
         if ($node === null) {
             return ResponseHelper::error($response, '节点不存在');

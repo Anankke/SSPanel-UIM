@@ -18,7 +18,7 @@ final class Clash extends Base
         $clash_config = $_ENV['Clash_Config'];
         $clash_group_indexes = $_ENV['Clash_Group_Indexes'];
         $clash_group_config = $_ENV['Clash_Group_Config'];
-        $nodes_raw = Subscribe::getSubNodes($user);
+        $nodes_raw = Subscribe::getUserSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);

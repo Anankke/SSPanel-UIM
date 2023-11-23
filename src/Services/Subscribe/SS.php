@@ -19,7 +19,7 @@ final class SS extends Base
             return $links;
         }
 
-        $nodes_raw = Subscribe::getSubNodes($user);
+        $nodes_raw = Subscribe::getUserSubNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             if ((int) $node_raw->sort === 0) {

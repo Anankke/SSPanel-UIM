@@ -13,23 +13,28 @@ use App\Services\Subscribe\SIP008;
 use App\Services\Subscribe\SS;
 use App\Services\Subscribe\Trojan;
 use App\Services\Subscribe\V2Ray;
+use Illuminate\Support\Collection;
 
 final class Subscribe
 {
     /**
      * @param $user
      *
-     * @return mixed
+     * @return Collection
      */
-    public static function getSubNodes($user): mixed
+    public static function getUserSubNodes($user): Collection
     {
-        return Node::where('type', 1)
-            ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->node_group])
-            ->where(static function ($query): void {
-                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-            })
-            ->orderBy('node_class')
+        $query = Node::query();
+        $query->where('type', 1)->where('node_class', '<=', $user->class);
+
+        if (! $user->is_admin) {
+            $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
+            $query->whereIn('node_group', $group);
+        }
+
+        return $query->where(static function ($query): void {
+            $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+        })->orderBy('node_class')
             ->orderBy('name')
             ->get();
     }
