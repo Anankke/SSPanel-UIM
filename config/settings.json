@@ -281,6 +281,16 @@
     },
     {
         "id": null,
+        "item": "meowpay_app_id",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "MeowPay应用ID"
+    },
+    {
+        "id": null,
         "item": "email_driver",
         "value": "none",
         "class": "email",
