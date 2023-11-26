@@ -206,7 +206,7 @@ final class Tools
     public static function genSubToken(): string
     {
         $token = self::genRandomChar($_ENV['sub_token_len']);
-        $is_token_used = Link::where('token', $token)->first();
+        $is_token_used = (new Link())->where('token', $token)->first();
 
         if ($is_token_used === null) {
             return $token;
@@ -252,7 +252,7 @@ final class Tools
             return 0;
         }
 
-        $det = User::pluck('port')->toArray();
+        $det = (new User())->pluck('port')->toArray();
         $port = array_diff(range(Config::obtain('min_port'), Config::obtain('max_port')), $det);
         shuffle($port);
 

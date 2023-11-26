@@ -53,14 +53,14 @@ final class OrderController extends BaseController
     {
         $id = $args['id'];
 
-        $order = Order::find($id);
+        $order = (new Order())->find($id);
         $order->product_type_text = $order->productType();
         $order->status_text = $order->status();
         $order->create_time = Tools::toDateTime($order->create_time);
         $order->update_time = Tools::toDateTime($order->update_time);
         $order->content = json_decode($order->product_content);
 
-        $invoice = Invoice::where('order_id', $id)->first();
+        $invoice = (new Invoice())->where('order_id', $id)->first();
         $invoice->status = $invoice->status();
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
@@ -78,7 +78,7 @@ final class OrderController extends BaseController
     public function cancel(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $order_id = $args['id'];
-        $order = Order::find($order_id);
+        $order = (new Order())->find($order_id);
 
         if ($order->status === 'activated') {
             return $response->withJson([
@@ -91,7 +91,7 @@ final class OrderController extends BaseController
         $order->status = 'cancelled';
         $order->save();
 
-        $invoice = Invoice::where('order_id', $order_id)->first();
+        $invoice = (new Invoice())->where('order_id', $order_id)->first();
 
         if ($invoice === null) {
             return $response->withJson([
@@ -124,8 +124,8 @@ final class OrderController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $order_id = $args['id'];
-        Order::find($order_id)->delete();
-        Invoice::where('order_id', $order_id)->first()->delete();
+        (new Order())->find($order_id)->delete();
+        (new Invoice())->where('order_id', $order_id)->first()->delete();
 
         return $response->withJson([
             'ret' => 1,
@@ -135,7 +135,7 @@ final class OrderController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $orders = Order::orderBy('id', 'desc')->get();
+        $orders = (new Order())->orderBy('id', 'desc')->get();
 
         foreach ($orders as $order) {
             $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '"

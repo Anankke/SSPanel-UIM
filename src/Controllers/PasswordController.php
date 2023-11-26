@@ -67,7 +67,7 @@ final class PasswordController extends BaseController
             return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
         }
 
-        $user = User::where('email', $email)->first();
+        $user = (new User())->where('email', $email)->first();
         $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱。';
 
         if ($user !== null) {
@@ -88,7 +88,7 @@ final class PasswordController extends BaseController
     {
         $antiXss = new AntiXSS();
         $token = $antiXss->xss_clean($args['token']);
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
         $email = $redis->get('password_reset:' . $token);
 
         if (! $email) {
@@ -118,14 +118,14 @@ final class PasswordController extends BaseController
             return ResponseHelper::error($response, '密码过短');
         }
 
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
         $email = $redis->get('password_reset:' . $token);
 
         if (! $email) {
             return ResponseHelper::error($response, '链接无效');
         }
 
-        $user = User::where('email', $email)->first();
+        $user = (new User())->where('email', $email)->first();
 
         if ($user === null) {
             return ResponseHelper::error($response, '链接无效');

@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -239,8 +240,8 @@ final class Message
      * @param int $value  搜索值
      * @param string $method 查找列
      */
-    public static function getUser(int $value, string $method = 'im_value')
+    public static function getUser(int $value, string $method = 'im_value'): null|Model|User
     {
-        return User::where('im_type', 4)->where($method, $value)->first();
+        return (new User())->where('im_type', 4)->where($method, $value)->first();
     }
 }

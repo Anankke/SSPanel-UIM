@@ -33,7 +33,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        $coupon = UserCoupon::where('code', $coupon_raw)->first();
+        $coupon = (new UserCoupon())->where('code', $coupon_raw)->first();
 
         if ($coupon === null || ($coupon->expire_time !== 0 && $coupon->expire_time < time())) {
             return $response->withJson([
@@ -42,7 +42,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        $product = Product::where('id', $product_id)->first();
+        $product = (new Product())->where('id', $product_id)->first();
 
         if ($product === null) {
             return $response->withJson([
@@ -71,7 +71,7 @@ final class CouponController extends BaseController
         $use_limit = $limit->use_time;
 
         if ($use_limit > 0) {
-            $user_use_count = Order::where('user_id', $user->id)->where('coupon', $coupon->code)->count();
+            $user_use_count = (new Order())->where('user_id', $user->id)->where('coupon', $coupon->code)->count();
             if ($user_use_count >= $use_limit) {
                 return $response->withJson([
                     'ret' => 0,

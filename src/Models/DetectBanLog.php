@@ -28,7 +28,7 @@ final class DetectBanLog extends Model
      */
     public function user(): ?User
     {
-        return User::find($this->user_id);
+        return (new User())->find($this->user_id);
     }
 
     /**

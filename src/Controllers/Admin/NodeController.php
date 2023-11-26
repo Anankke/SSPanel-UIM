@@ -160,7 +160,7 @@ final class NodeController extends BaseController
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $node = Node::find($args['id']);
+        $node = (new Node())->find($args['id']);
 
         $dynamic_rate_config = json_decode($node->dynamic_rate_config);
         $node->max_rate = $dynamic_rate_config?->max_rate ?? 1;
@@ -184,7 +184,7 @@ final class NodeController extends BaseController
      */
     public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $node = Node::find($args['id']);
+        $node = (new Node())->find($args['id']);
 
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group') ?? 0;
@@ -246,7 +246,7 @@ final class NodeController extends BaseController
 
     public function reset(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $node = Node::find($args['id']);
+        $node = (new Node())->find($args['id']);
         $node->password = Tools::genRandomChar(32);
         $node->save();
 
@@ -261,7 +261,7 @@ final class NodeController extends BaseController
      */
     public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $node = Node::find($args['id']);
+        $node = (new Node())->find($args['id']);
 
         if (! $node->delete()) {
             return $response->withJson([
@@ -296,7 +296,7 @@ final class NodeController extends BaseController
 
     public function copy($request, $response, $args)
     {
-        $old_node = Node::find($args['id']);
+        $old_node = (new Node())->find($args['id']);
         $new_node = $old_node->replicate([
             'node_bandwidth',
         ]);
@@ -321,7 +321,7 @@ final class NodeController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $nodes = Node::orderBy('id', 'desc')->get();
+        $nodes = (new Node())->orderBy('id', 'desc')->get();
 
         foreach ($nodes as $node) {
             $node->op = '<button type="button" class="btn btn-red" id="delete-node-' . $node->id . '" 

@@ -53,8 +53,8 @@ final class LoginLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $logins = LoginIp::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = LoginIp::count();
+        $logins = (new LoginIp())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = (new LoginIp())->count();
 
         foreach ($logins as $login) {
             $login->user_name = $login->userName();

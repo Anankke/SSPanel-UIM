@@ -28,11 +28,10 @@ public/clients/*.*
 
 storage/framework/smarty/cache/*
 storage/framework/smarty/compile/*
-storage/framework/twig/*
-storage/*.*
+storage/framework/twig/cache/*
 !storage/framework/smarty/cache/.gitkeep
 !storage/framework/smarty/compile/.gitkeep
-!storage/framework/twig/.gitkeep
+!storage/framework/twig/cache/.gitkeep
 
 .user.ini
 public/.user.ini

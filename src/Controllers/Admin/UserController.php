@@ -11,12 +11,9 @@ use App\Models\UserMoneyLog;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use function str_replace;
 use const PHP_EOL;
 
@@ -114,9 +111,7 @@ final class UserController extends BaseController
      *
      * @return Response|ResponseInterface
      *
-     * @throws GuzzleException
-     * @throws ClientExceptionInterface
-     * @throws TelegramSDKException
+     * @throws Exception
      */
     public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -132,7 +127,7 @@ final class UserController extends BaseController
             ]);
         }
 
-        $exist = User::where('email', $email)->first();
+        $exist = (new User())->where('email', $email)->first();
 
         if ($exist !== null) {
             return $response->withJson([
@@ -146,7 +141,7 @@ final class UserController extends BaseController
         }
 
         AuthController::registerHelper($response, 'user', $email, $password, '', 0, '', $balance, 1);
-        $user = User::where('email', $email)->first();
+        $user = (new User())->where('email', $email)->first();
 
         if ($ref_by !== '') {
             $user->ref_by = (int) $ref_by;
@@ -164,7 +159,7 @@ final class UserController extends BaseController
      */
     public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $user = User::find($args['id']);
+        $user = (new User())->find($args['id']);
 
         return $response->write(
             $this->view()
@@ -177,7 +172,7 @@ final class UserController extends BaseController
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = (int) $args['id'];
-        $user = User::find($id);
+        $user = (new User())->find($id);
 
         if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
@@ -186,12 +181,12 @@ final class UserController extends BaseController
 
         if ($request->getParam('money') !== '' &&
             $request->getParam('money') !== null &&
-            (float) $request->getParam('money') !== (float) $user->money
+            (float) $request->getParam('money') !== $user->money
         ) {
             $money = (float) $request->getParam('money');
             $diff = $money - $user->money;
             $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-            (new UserMoneyLog())->add($id, (float) $user->money, $money, $diff, $remark);
+            (new UserMoneyLog())->add($id, $user->money, $money, $diff, $remark);
             $user->money = $money;
         }
 
@@ -234,7 +229,7 @@ final class UserController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-        $user = User::find((int) $id);
+        $user = (new User())->find((int) $id);
 
         if (! $user->kill()) {
             return $response->withJson([
@@ -251,7 +246,7 @@ final class UserController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $users = User::orderBy('id', 'desc')->get();
+        $users = (new User())->orderBy('id', 'desc')->get();
 
         foreach ($users as $user) {
             $user->op = '<button type="button" class="btn btn-red" id="delete-user-' . $user->id . '" 

@@ -13,7 +13,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use function time;
 
 final class DocsController extends BaseController
@@ -111,7 +110,7 @@ final class DocsController extends BaseController
      */
     public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $doc = Docs::find($args['id']);
+        $doc = (new Docs())->find($args['id']);
 
         return $response->write(
             $this->view()
@@ -123,11 +122,15 @@ final class DocsController extends BaseController
     /**
      * 后台编辑文档提交
      *
-     * @throws TelegramSDKException
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
      */
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $doc = Docs::find($args['id']);
+        $doc = (new Docs())->find($args['id']);
         $doc->title = $request->getParam('title');
         $doc->content = $request->getParam('content');
         $doc->date = Tools::toDateTime(time());
@@ -150,7 +153,7 @@ final class DocsController extends BaseController
      */
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $doc = Docs::find($args['id']);
+        $doc = (new Docs())->find($args['id']);
 
         if (! $doc->delete()) {
             return $response->withJson([
@@ -170,7 +173,7 @@ final class DocsController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $docs = Docs::orderBy('id', 'asc')->get();
+        $docs = (new Docs())->orderBy('id')->get();
 
         foreach ($docs as $doc) {
             $doc->op = '<button type="button" class="btn btn-red" id="delete-doc-' . $doc->id . '" 

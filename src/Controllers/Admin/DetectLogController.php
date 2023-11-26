@@ -49,8 +49,8 @@ final class DetectLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $logs = DetectLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = DetectLog::count();
+        $logs = (new DetectLog())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = (new DetectLog())->count();
 
         foreach ($logs as $log) {
             $log->user_name = $log->userName();

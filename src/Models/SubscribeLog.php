@@ -34,7 +34,7 @@ final class SubscribeLog extends Model
      */
     public function user(): ?User
     {
-        return User::find($this->user_id);
+        return (new User())->find($this->user_id);
     }
 
     /**
@@ -61,7 +61,7 @@ final class SubscribeLog extends Model
         $this->request_time = time();
 
         if (Config::obtain('notify_new_subscribe') &&
-            SubscribeLog::where('user_id', $this->user_id)
+            (new SubscribeLog())->where('user_id', $this->user_id)
                 ->where('request_ip', 'like', '%' . $this->request_ip . '%')
                 ->count() === 0
         ) {

@@ -40,6 +40,7 @@
         "stripe/stripe-php": "^12.8",
         "symfony/translation": "^6.3.7",
         "tronovav/geoip2-update": "^2.3.1",
+        "twig/twig": "^3.8",
         "vectorface/googleauthenticator": "^3.0",
         "voku/anti-xss": "^4.1.42"
     },

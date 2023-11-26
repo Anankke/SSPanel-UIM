@@ -53,8 +53,8 @@ final class SubLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $subscribes = SubscribeLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = SubscribeLog::count();
+        $subscribes = (new SubscribeLog())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = (new SubscribeLog())->count();
 
         foreach ($subscribes as $subscribe) {
             $subscribe->request_time = Tools::toDateTime($subscribe->request_time);

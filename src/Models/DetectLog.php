@@ -27,7 +27,7 @@ final class DetectLog extends Model
      */
     public function user(): ?User
     {
-        return User::find($this->user_id);
+        return (new User())->find($this->user_id);
     }
 
     /**
@@ -43,7 +43,7 @@ final class DetectLog extends Model
      */
     public function node(): ?Node
     {
-        return Node::find($this->node_id);
+        return (new Node())->find($this->node_id);
     }
 
     /**
@@ -59,7 +59,7 @@ final class DetectLog extends Model
      */
     public function rule(): ?DetectRule
     {
-        return DetectRule::find($this->list_id);
+        return (new DetectRule())->find($this->list_id);
     }
 
     /**

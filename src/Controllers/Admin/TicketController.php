@@ -71,7 +71,7 @@ final class TicketController extends BaseController
             ]);
         }
 
-        $ticket = Ticket::where('id', $id)->first();
+        $ticket = (new Ticket())->where('id', $id)->first();
 
         if ($ticket === null) {
             return $response->withJson([
@@ -90,7 +90,7 @@ final class TicketController extends BaseController
             ],
         ];
 
-        $user = User::find($ticket->userid);
+        $user = (new User())->find($ticket->userid);
 
         Notification::notifyUser(
             $user,
@@ -117,7 +117,7 @@ final class TicketController extends BaseController
     {
         $id = $args['id'];
 
-        $ticket = Ticket::where('id', $id)->first();
+        $ticket = (new Ticket())->where('id', $id)->first();
 
         if ($ticket === null) {
             return $response->withJson([
@@ -138,7 +138,7 @@ final class TicketController extends BaseController
             ],
         ];
 
-        $user = User::find($ticket->userid);
+        $user = (new User())->find($ticket->userid);
 
         Notification::notifyUser(
             $user,
@@ -164,7 +164,7 @@ final class TicketController extends BaseController
     public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-        $ticket = Ticket::where('id', '=', $id)->first();
+        $ticket = (new Ticket())->where('id', '=', $id)->first();
 
         if ($ticket === null) {
             return $response->withRedirect('/admin/ticket');
@@ -190,7 +190,7 @@ final class TicketController extends BaseController
     public function close(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-        $ticket = Ticket::where('id', '=', $id)->first();
+        $ticket = (new Ticket())->where('id', '=', $id)->first();
 
         if ($ticket === null) {
             return $response->withJson([
@@ -221,7 +221,7 @@ final class TicketController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-        Ticket::where('id', '=', $id)->delete();
+        (new Ticket())->where('id', '=', $id)->delete();
 
         return $response->withJson([
             'ret' => 1,
@@ -234,7 +234,7 @@ final class TicketController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $tickets = Ticket::orderBy('id', 'desc')->get();
+        $tickets = (new Ticket())->orderBy('id', 'desc')->get();
 
         foreach ($tickets as $ticket) {
             $ticket->op = '<button type="button" class="btn btn-red" id="delete-ticket" 

@@ -12,6 +12,7 @@ return [
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenGlobals::class,
         PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\TodoSniff::class,
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff::class,
+        PHP_CodeSniffer\Standards\PEAR\Sniffs\WhiteSpace\ObjectOperatorIndentSniff::class,
         PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\GlobalKeywordSniff::class,
         PhpCsFixer\Fixer\Import\OrderedImportsFixer::class,
         SlevomatCodingStandard\Sniffs\Commenting\InlineDocCommentDeclarationSniff::class,

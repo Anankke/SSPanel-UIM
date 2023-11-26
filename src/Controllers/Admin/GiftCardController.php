@@ -118,7 +118,7 @@ final class GiftCardController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $card_id = $args['id'];
-        GiftCard::find($card_id)->delete();
+        (new GiftCard())->find($card_id)->delete();
 
         return $response->withJson([
             'ret' => 1,
@@ -128,7 +128,7 @@ final class GiftCardController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $giftcards = GiftCard::orderBy('id', 'desc')->get();
+        $giftcards = (new GiftCard())->orderBy('id', 'desc')->get();
 
         foreach ($giftcards as $giftcard) {
             $giftcard->op = '<button type="button" class="btn btn-red" id="delete-gift-card-' . $giftcard->id . '" 

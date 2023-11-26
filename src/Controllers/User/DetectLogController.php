@@ -21,7 +21,7 @@ final class DetectLogController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
+        $logs = (new DetectLog())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($logs as $log) {
             $log->node_name = $log->nodeName();

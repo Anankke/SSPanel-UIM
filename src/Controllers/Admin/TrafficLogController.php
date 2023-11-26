@@ -49,8 +49,8 @@ final class TrafficLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $trafficlogs = UserHourlyUsage::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = UserHourlyUsage::count();
+        $trafficlogs = (new UserHourlyUsage())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = (new UserHourlyUsage())->count();
 
         foreach ($trafficlogs as $trafficlog) {
             $trafficlog->traffic = round(Tools::flowToGB($trafficlog->traffic), 2);

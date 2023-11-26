@@ -19,7 +19,7 @@ final class RateLimit
     {
         $ip_limiter = new RedisRateLimiter(
             Rate::perMinute($_ENV['rate_limit_ip']),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -38,7 +38,7 @@ final class RateLimit
     {
         $sub_limiter = new RedisRateLimiter(
             Rate::perMinute($_ENV['rate_limit_sub']),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -57,7 +57,7 @@ final class RateLimit
     {
         $webapi_limiter = new RedisRateLimiter(
             Rate::perMinute($_ENV['rate_limit_webapi']),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -76,7 +76,7 @@ final class RateLimit
     {
         $user_api_limiter = new RedisRateLimiter(
             Rate::perMinute($_ENV['rate_limit_user_api']),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -95,7 +95,7 @@ final class RateLimit
     {
         $admin_api_limiter = new RedisRateLimiter(
             Rate::perMinute($_ENV['rate_limit_admin_api']),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -114,7 +114,7 @@ final class RateLimit
     {
         $email_ip_limiter = new RedisRateLimiter(
             Rate::perHour(Config::obtain('email_request_ip_limit')),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -133,7 +133,7 @@ final class RateLimit
     {
         $email_address_limiter = new RedisRateLimiter(
             Rate::perHour(Config::obtain('email_request_address_limit')),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {
@@ -152,7 +152,7 @@ final class RateLimit
     {
         $ticket_limiter = new RedisRateLimiter(
             Rate::custom(Config::obtain('ticket_limit'), 2592000),
-            Cache::initRedis()
+            (new Cache())->initRedis()
         );
 
         try {

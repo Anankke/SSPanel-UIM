@@ -75,7 +75,7 @@ final class BillingController extends BaseController
             }
         }
 
-        $gateway = Config::where('item', 'payment_gateway')->first();
+        $gateway = (new Config())->where('item', 'payment_gateway')->first();
         $gateway->value = json_encode($gateway_in_use);
 
         if (! $gateway->save()) {
@@ -113,7 +113,7 @@ final class BillingController extends BaseController
 
     public function returnActiveGateways()
     {
-        $payment_gateways = Config::where('item', 'payment_gateway')->first();
+        $payment_gateways = (new Config())->where('item', 'payment_gateway')->first();
         return json_decode($payment_gateways->value);
     }
 }

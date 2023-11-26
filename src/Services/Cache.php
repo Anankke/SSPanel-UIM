@@ -12,7 +12,7 @@ final class Cache
     /**
      * @throws RedisException
      */
-    public static function initRedis(): Redis
+    public function initRedis(): Redis
     {
         $redis = new Redis();
         $redis->connect($_ENV['redis_host'], $_ENV['redis_port']);

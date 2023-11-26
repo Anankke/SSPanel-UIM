@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Services\Bot\Telegram\Message;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use function array_splice;
 use function explode;
 use function trim;
@@ -28,6 +29,9 @@ final class UnbindCommand extends Command
      */
     protected string $description = '[私聊]     解除账户绑定.';
 
+    /**
+     * @throws TelegramSDKException
+     */
     public function handle(): void
     {
         $update = $this->getUpdate();
@@ -61,8 +65,19 @@ final class UnbindCommand extends Command
             $text = '';
 
             if ($message_key === $user->email) {
-                $temp = $user->unbindIM();
-                $text = $temp['msg'];
+                if ($user->unbindIM()) {
+                    $text = '账户解绑成功。';
+                    if (Config::obtain('telegram_unbind_kick_member')) {
+                        $this->telegram->banChatMember(
+                            [
+                                'chat_id' => Config::obtain('telegram_chatid'),
+                                'user_id' => $send_user['id'],
+                            ]
+                        );
+                    }
+                } else {
+                    $text = '账户解绑失败。';
+                }
                 // 回送信息
                 $this->replyWithMessage(
                     [
@@ -70,6 +85,7 @@ final class UnbindCommand extends Command
                         'parse_mode' => 'Markdown',
                     ]
                 );
+
                 return;
             }
 

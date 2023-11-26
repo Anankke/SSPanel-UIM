@@ -19,19 +19,19 @@ final class ProductController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $tabps = Product::where('status', '1')
+        $tabps = (new Product())->where('status', '1')
             ->where('type', 'tabp')
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
 
-        $bandwidths = Product::where('status', '1')
+        $bandwidths = (new Product())->where('status', '1')
             ->where('type', 'bandwidth')
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
 
-        $times = Product::where('status', '1')
+        $times = (new Product())->where('status', '1')
             ->where('type', 'time')
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
 
         foreach ($tabps as $tabp) {

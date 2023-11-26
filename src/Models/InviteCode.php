@@ -21,7 +21,7 @@ final class InviteCode extends Model
 
     public function reward(): void
     {
-        $user = User::where('id', $this->user_id)
+        $user = (new User())->where('id', $this->user_id)
             ->where('is_banned', 0)
             ->where('is_shadow_banned', 0)
             ->first();

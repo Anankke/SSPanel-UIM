@@ -58,7 +58,7 @@ final class SubController extends BaseController
             return ResponseHelper::error($response, $err_msg);
         }
 
-        $link = Link::where('token', $token)->first();
+        $link = (new Link())->where('token', $token)->first();
 
         if ($link === null || ! $link->isValid()) {
             return ResponseHelper::error($response, $err_msg);
@@ -90,7 +90,7 @@ final class SubController extends BaseController
     public static function getUniversalSubLink($user): string
     {
         $userid = $user->id;
-        $token = Link::where('userid', $userid)->first();
+        $token = (new Link())->where('userid', $userid)->first();
 
         if ($token === null) {
             $token = new Link();

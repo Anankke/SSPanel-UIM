@@ -140,7 +140,7 @@ final class CouponController extends BaseController
             ]);
         }
 
-        if ($generate_method === 'char' && UserCoupon::where('code', $code)->count() !== 0) {
+        if ($generate_method === 'char' && (new UserCoupon())->where('code', $code)->count() !== 0) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码已存在',
@@ -150,7 +150,7 @@ final class CouponController extends BaseController
         if ($generate_method === 'char_random') {
             $code .= Tools::genRandomChar();
 
-            if (UserCoupon::where('code', $code)->count() !== 0) {
+            if ((new UserCoupon())->where('code', $code)->count() !== 0) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '出现了一些问题，请稍后重试',
@@ -161,7 +161,7 @@ final class CouponController extends BaseController
         if ($generate_method === 'random') {
             $code = Tools::genRandomChar();
 
-            if (UserCoupon::where('code', $code)->count() !== 0) {
+            if ((new UserCoupon())->where('code', $code)->count() !== 0) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '出现了一些问题，请稍后重试',
@@ -205,7 +205,7 @@ final class CouponController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $coupon_id = $args['id'];
-        UserCoupon::find($coupon_id)->delete();
+        (new UserCoupon())->find($coupon_id)->delete();
 
         return $response->withJson([
             'ret' => 1,
@@ -216,7 +216,7 @@ final class CouponController extends BaseController
     public function disable(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $coupon_id = $args['id'];
-        $coupon = UserCoupon::find($coupon_id)->first();
+        $coupon = (new UserCoupon())->find($coupon_id)->first();
         $limit = json_decode($coupon->limit);
         $limit->disabled = 1;
         $coupon->limit = json_encode($limit);
@@ -233,7 +233,7 @@ final class CouponController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $coupons = UserCoupon::orderBy('id', 'desc')->get();
+        $coupons = (new UserCoupon())->orderBy('id', 'desc')->get();
 
         foreach ($coupons as $coupon) {
             $content = json_decode($coupon->content);

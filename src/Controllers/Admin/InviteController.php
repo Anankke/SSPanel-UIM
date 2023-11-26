@@ -87,9 +87,9 @@ final class InviteController extends BaseController
         }
 
         if (str_contains($userid, '@')) {
-            $user = User::where('email', '=', $userid)->first();
+            $user = (new User())->where('email', '=', $userid)->first();
         } else {
-            $user = User::find((int) $userid);
+            $user = (new User())->find((int) $userid);
         }
 
         if ($user === null) {
@@ -123,9 +123,9 @@ final class InviteController extends BaseController
         }
 
         if (str_contains($request->getParam('userid'), '@')) {
-            $user = User::where('email', '=', $request->getParam('userid'))->first();
+            $user = (new User())->where('email', '=', $request->getParam('userid'))->first();
         } else {
-            $user = User::find((int) $request->getParam('userid'));
+            $user = (new User())->find((int) $request->getParam('userid'));
         }
 
         if ($user === null) {
@@ -148,7 +148,7 @@ final class InviteController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $paybacks = Payback::orderBy('id', 'desc')->get();
+        $paybacks = (new Payback())->orderBy('id', 'desc')->get();
 
         foreach ($paybacks as $payback) {
             $payback->datetime = Tools::toDateTime((int) $payback->datetime);

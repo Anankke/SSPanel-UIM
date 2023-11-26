@@ -310,7 +310,7 @@ final class User extends Model
      */
     public function cleanLink(): void
     {
-        Link::where('userid', $this->id)->delete();
+        (new Link())->where('userid', $this->id)->delete();
     }
 
     /**
@@ -318,7 +318,7 @@ final class User extends Model
      */
     public function clearInviteCodes(): void
     {
-        InviteCode::where('user_id', $this->id)->delete();
+        (new InviteCode())->where('user_id', $this->id)->delete();
     }
 
     /**
@@ -326,7 +326,7 @@ final class User extends Model
      */
     public function getTopUp(): float
     {
-        $number = Paylist::where('userid', $this->id)->sum('number');
+        $number = (new Paylist())->where('userid', $this->id)->sum('number');
         return is_null($number) ? 0.00 : round((float) $number, 2);
     }
 
@@ -335,7 +335,7 @@ final class User extends Model
      */
     public function onlineIpCount(): int
     {
-        return OnlineLog::where('user_id', $this->id)
+        return (new OnlineLog())->where('user_id', $this->id)
             ->where('last_time', '>', time() - 90)
             ->count();
     }
@@ -347,13 +347,13 @@ final class User extends Model
     {
         $uid = $this->id;
 
-        DetectBanLog::where('user_id', $uid)->delete();
-        DetectLog::where('user_id', $uid)->delete();
-        InviteCode::where('user_id', $uid)->delete();
-        OnlineLog::where('user_id', $uid)->delete();
-        Link::where('userid', $uid)->delete();
-        LoginIp::where('userid', $uid)->delete();
-        SubscribeLog::where('user_id', $uid)->delete();
+        (new DetectBanLog())->where('user_id', $uid)->delete();
+        (new DetectLog())->where('user_id', $uid)->delete();
+        (new InviteCode())->where('user_id', $uid)->delete();
+        (new OnlineLog())->where('user_id', $uid)->delete();
+        (new Link())->where('userid', $uid)->delete();
+        (new LoginIp())->where('userid', $uid)->delete();
+        (new SubscribeLog())->where('user_id', $uid)->delete();
 
         return $this->delete();
     }

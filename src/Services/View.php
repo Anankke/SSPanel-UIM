@@ -7,6 +7,8 @@ namespace App\Services;
 use App\Models\Config;
 use Illuminate\Database\DatabaseManager;
 use Smarty;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 final class View
 {
@@ -16,16 +18,9 @@ final class View
     public static function getSmarty(): Smarty
     {
         $smarty = new Smarty(); //实例化smarty
-
         $user = Auth::getUser();
 
-        if ($user->isLogin) {
-            $theme = $user->theme;
-        } else {
-            $theme = $_ENV['theme'];
-        }
-
-        $smarty->settemplatedir(BASE_PATH . '/resources/views/' . $theme . '/'); //设置模板文件存放目录
+        $smarty->settemplatedir(BASE_PATH . '/resources/views/' . self::getTheme($user) . '/'); //设置模板文件存放目录
         $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/'); //设置生成文件存放目录
         $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/'); //设置缓存文件存放目录
         // add config
@@ -34,6 +29,32 @@ final class View
         $smarty->assign('user', $user);
 
         return $smarty;
+    }
+
+    public static function getTwig(): Environment
+    {
+        $loader = new FilesystemLoader(BASE_PATH . '/resources/views/' . self::getTheme($user) . '/');
+
+        $twig = new Environment($loader, [
+            'cache' => BASE_PATH . '/storage/framework/twig/cache/',
+        ]);
+
+        $twig->addGlobal('config', self::getConfig());
+        $twig->addGlobal('public_setting', Config::getPublicConfig());
+        $twig->addGlobal('user', $user);
+
+        return $twig;
+    }
+
+    public static function getTheme($user): string
+    {
+        if ($user->isLogin) {
+            $theme = $user->theme;
+        } else {
+            $theme = $_ENV['theme'];
+        }
+
+        return $theme;
     }
 
     public static function getConfig(): array

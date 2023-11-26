@@ -33,7 +33,7 @@ final class UserController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $request->getQueryParam('node_id');
-        $node = Node::find($node_id);
+        $node = (new Node())->find($node_id);
 
         if ($node === null) {
             return $response->withJson([
@@ -86,7 +86,7 @@ final class UserController extends BaseController
                 )
         ', [$node->node_class, $node->node_group, $node->node_group]);
 
-        $keys_unset = match ((int) $node->sort) {
+        $keys_unset = match ($node->sort) {
             14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
             2 => ['u', 'd', 'transfer_enable', 'method', 'port'],
             1 => ['u', 'd', 'transfer_enable', 'method', 'port', 'uuid'],
@@ -151,7 +151,7 @@ final class UserController extends BaseController
 
         $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
-        $node = Node::find($node_id);
+        $node = (new Node())->find($node_id);
 
         if ($node === null) {
             return $response->withJson([
@@ -179,7 +179,7 @@ final class UserController extends BaseController
                 (int) date('H')
             );
         } else {
-            $rate = (float) $node->traffic_rate;
+            $rate = $node->traffic_rate;
         }
 
         $sum = 0;
@@ -229,7 +229,7 @@ final class UserController extends BaseController
         $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
 
-        if ($node_id === null || ! Node::where('id', $node_id)->exists()) {
+        if ($node_id === null || ! (new Node())->where('id', $node_id)->exists()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => 'Node not found.',
@@ -286,7 +286,7 @@ final class UserController extends BaseController
         $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
 
-        if ($node_id === null || ! Node::where('id', $node_id)->exists()) {
+        if ($node_id === null || ! (new Node())->where('id', $node_id)->exists()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => 'Node not found.',
@@ -297,7 +297,7 @@ final class UserController extends BaseController
             $list_id = (int) $log?->list_id;
             $user_id = (int) $log?->user_id;
 
-            DetectLog::insert([
+            (new DetectLog())->insert([
                 'user_id' => $user_id,
                 'list_id' => $list_id,
                 'node_id' => $node_id,

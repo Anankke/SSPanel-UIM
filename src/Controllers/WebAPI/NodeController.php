@@ -18,7 +18,7 @@ final class NodeController extends BaseController
     public function getInfo(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
-        $node = Node::find($node_id);
+        $node = (new Node())->find($node_id);
 
         if ($node === null) {
             return $response->withJson([
