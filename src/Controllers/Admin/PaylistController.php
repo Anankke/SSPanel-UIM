@@ -47,7 +47,7 @@ final class PaylistController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $paylists = Paylist::orderBy('id', 'desc')->get();
+        $paylists = (new Paylist())->orderBy('id', 'desc')->get();
 
         foreach ($paylists as $paylist) {
             $paylist->status = $paylist->status();

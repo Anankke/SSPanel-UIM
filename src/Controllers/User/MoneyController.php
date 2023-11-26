@@ -23,7 +23,7 @@ final class MoneyController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $moneylogs = UserMoneyLog::where('user_id', $user->id)->orderBy('id', 'desc')->get();
+        $moneylogs = (new UserMoneyLog())->where('user_id', $user->id)->orderBy('id', 'desc')->get();
 
         foreach ($moneylogs as $moneylog) {
             $moneylog->create_time = Tools::toDateTime($moneylog->create_time);
@@ -43,7 +43,7 @@ final class MoneyController extends BaseController
     {
         $antiXss = new AntiXSS();
         $giftcard_raw = $antiXss->xss_clean($request->getParam('giftcard'));
-        $giftcard = GiftCard::where('card', $giftcard_raw)->first();
+        $giftcard = (new GiftCard())->where('card', $giftcard_raw)->first();
 
         if ($giftcard === null || $giftcard->status !== 0) {
             return $response->withJson([

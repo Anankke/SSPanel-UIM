@@ -81,7 +81,7 @@ final class ProductController extends BaseController
     public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-        $product = Product::find($id);
+        $product = (new Product())->find($id);
         $content = json_decode($product->content);
         $limit = json_decode($product->limit);
 
@@ -230,7 +230,7 @@ final class ProductController extends BaseController
         $node_group_required = $request->getParam('node_group_required') ?? '';
         $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
-        $product = Product::find($product_id);
+        $product = (new Product())->find($product_id);
 
         if ($price < 0) {
             return $response->withJson([
@@ -315,7 +315,7 @@ final class ProductController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $product_id = $args['id'];
-        Product::find($product_id)->delete();
+        (new Product())->find($product_id)->delete();
 
         return $response->withJson([
             'ret' => 1,
@@ -326,7 +326,7 @@ final class ProductController extends BaseController
     public function copy(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $old_product_id = $args['id'];
-        $old_product = Product::find($old_product_id);
+        $old_product = (new Product())->find($old_product_id);
 
         $new_product = $old_product->replicate([
             'create_time',
@@ -346,7 +346,7 @@ final class ProductController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $products = Product::orderBy('id', 'desc')->get();
+        $products = (new Product())->orderBy('id', 'desc')->get();
 
         foreach ($products as $product) {
             $product->op = '<button type="button" class="btn btn-red" id="delete-product-' . $product->id . '"

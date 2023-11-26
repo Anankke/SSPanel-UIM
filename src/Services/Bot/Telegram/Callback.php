@@ -333,7 +333,7 @@ final class Callback
         switch ($OpEnd) {
             case 'login_log':
                 // 登录记录
-                $total = LoginIp::where('userid', $this->user->id)
+                $total = (new LoginIp())->where('userid', $this->user->id)
                     ->where('type', '=', 0)
                     ->orderBy('datetime', 'desc')
                     ->take(10)
@@ -361,7 +361,7 @@ final class Callback
                 break;
             case 'usage_log':
                 // 使用记录
-                $logs = OnlineLog::where('user_id', $this->user->id)
+                $logs = (new OnlineLog())->where('user_id', $this->user->id)
                     ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get('ip');
                 $text = '<strong>以下是你账户在线 IP 和地理位置：</strong>' . PHP_EOL . PHP_EOL;
 
@@ -387,7 +387,7 @@ final class Callback
                 break;
             case 'rebate_log':
                 // 返利记录
-                $paybacks = Payback::where('ref_by', $this->user->id)->orderBy('datetime', 'desc')->take(10)->get();
+                $paybacks = (new Payback())->where('ref_by', $this->user->id)->orderBy('datetime', 'desc')->take(10)->get();
                 $text = '<strong>以下是你最近 10 次返利记录：</strong>' . PHP_EOL . PHP_EOL;
 
                 foreach ($paybacks as $payback) {
@@ -412,7 +412,7 @@ final class Callback
             case 'subscribe_log':
                 // 订阅记录
                 if (Config::obtain('subscribe_log')) {
-                    $logs = SubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->take(10)->get();
+                    $logs = (new SubscribeLog())->orderBy('id', 'desc')->where('user_id', $this->user->id)->take(10)->get();
                     $text = '<strong>以下是你最近 10 次订阅记录：</strong>' . PHP_EOL . PHP_EOL;
 
                     foreach ($logs as $log) {
@@ -875,7 +875,7 @@ final class Callback
 
     public function getUserInviteKeyboard(): array
     {
-        $paybacks_sum = Payback::where('ref_by', $this->user->id)->sum('ref_get');
+        $paybacks_sum = (new Payback())->where('ref_by', $this->user->id)->sum('ref_get');
 
         if (is_null($paybacks_sum)) {
             $paybacks_sum = 0;
@@ -927,11 +927,11 @@ final class Callback
 
         if ($OpEnd === 'get') {
             $this->allow_edit_message = false;
-            $code = InviteCode::where('user_id', $this->user->id)->first();
+            $code = (new InviteCode())->where('user_id', $this->user->id)->first();
 
             if ($code === null) {
                 $this->user->addInviteCode();
-                $code = InviteCode::where('user_id', $this->user->id)->first();
+                $code = (new InviteCode())->where('user_id', $this->user->id)->first();
             }
 
             $inviteUrl = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;

@@ -56,8 +56,8 @@ final class OnlineLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $onlines = OnlineLog::where('last_time', '>', time() - 90)->orderByDesc('last_time')->paginate($length, '*', '', $page);
-        $total = OnlineLog::where('last_time', '>', time() - 90)->count();
+        $onlines = (new OnlineLog())->where('last_time', '>', time() - 90)->orderByDesc('last_time')->paginate($length, '*', '', $page);
+        $total = (new OnlineLog())->where('last_time', '>', time() - 90)->count();
 
         foreach ($onlines as $online) {
             $online->user_name = $online->userName();

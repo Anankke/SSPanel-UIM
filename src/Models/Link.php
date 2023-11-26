@@ -20,7 +20,7 @@ final class Link extends Model
 
     public function user(): ?User
     {
-        return User::find($this->attributes['userid']);
+        return (new User())->find($this->attributes['userid']);
     }
 
     public function isValid(): bool

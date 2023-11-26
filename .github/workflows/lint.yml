@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.3
       - run: |
           composer install --no-interaction --no-progress --no-suggest
           php vendor/bin/phpinsights analyse --no-interaction --format=github-action \

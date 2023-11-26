@@ -242,6 +242,6 @@ final class Message
      */
     public static function getUser(int $value, string $method = 'im_value'): null|Model|User
     {
-        return User::where('im_type', 4)->where($method, $value)->first();
+        return (new User())->where('im_type', 4)->where($method, $value)->first();
     }
 }

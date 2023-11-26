@@ -24,7 +24,7 @@ final class Config extends Model
 
     public static function obtain($item): bool|int|string
     {
-        $config = self::where('item', $item)->first();
+        $config = (new Config())->where('item', $item)->first();
 
         return match ($config->type) {
             'bool' => (bool) $config->value,
@@ -36,7 +36,7 @@ final class Config extends Model
     public static function getClass($class): array
     {
         $configs = [];
-        $all_configs = self::where('class', $class)->get();
+        $all_configs = (new Config())->where('class', $class)->get();
 
         foreach ($all_configs as $config) {
             if ($config->type === 'bool') {
@@ -54,7 +54,7 @@ final class Config extends Model
     public static function getPublicConfig(): array
     {
         $configs = [];
-        $all_configs = self::where('is_public', '1')->get();
+        $all_configs = (new Config())->where('is_public', '1')->get();
 
         foreach ($all_configs as $config) {
             if ($config->type === 'bool') {
@@ -71,7 +71,7 @@ final class Config extends Model
 
     public static function set($item, $value): bool
     {
-        $config = self::where('item', $item)->first();
+        $config = (new Config())->where('item', $item)->first();
 
         if ($config->tpye === 'array') {
             $config->value = json_encode($value);

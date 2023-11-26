@@ -53,7 +53,7 @@ final class InvoiceController extends BaseController
         $antiXss = new AntiXSS();
         $id = $antiXss->xss_clean($args['id']);
 
-        $invoice = Invoice::where('user_id', $this->user->id)->where('id', $id)->first();
+        $invoice = (new Invoice())->where('user_id', $this->user->id)->where('id', $id)->first();
 
         if ($invoice === null) {
             return $response->withRedirect('/user/invoice');
@@ -62,7 +62,7 @@ final class InvoiceController extends BaseController
         $paylist = [];
 
         if ($invoice->status === 'paid_gateway') {
-            $paylist = Paylist::where('invoice_id', $invoice->id)->where('status', 1)->first();
+            $paylist = (new Paylist())->where('invoice_id', $invoice->id)->where('status', 1)->first();
         }
 
         $invoice->status_text = $invoice->status();
@@ -86,7 +86,7 @@ final class InvoiceController extends BaseController
         $antiXss = new AntiXSS();
         $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
 
-        $invoice = Invoice::where('user_id', $this->user->id)->where('id', $invoice_id)->first();
+        $invoice = (new Invoice())->where('user_id', $this->user->id)->where('id', $invoice_id)->first();
 
         if ($invoice === null) {
             return $response->withJson([
@@ -136,7 +136,7 @@ final class InvoiceController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $invoices = Invoice::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
+        $invoices = (new Invoice())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($invoices as $invoice) {
             $invoice->op = '<a class="btn btn-blue" href="/user/invoice/' . $invoice->id . '/view">查看</a>';

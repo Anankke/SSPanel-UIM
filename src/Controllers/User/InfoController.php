@@ -68,7 +68,7 @@ final class InfoController extends BaseController
             return $response->withJson($check_res);
         }
 
-        $exist_user = User::where('email', $new_email)->first();
+        $exist_user = (new User())->where('email', $new_email)->first();
 
         if ($exist_user !== null) {
             return ResponseHelper::error($response, '邮箱已经被使用了');

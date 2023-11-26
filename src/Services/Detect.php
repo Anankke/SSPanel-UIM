@@ -29,7 +29,7 @@ final class Detect
      */
     public static function gfw(): void
     {
-        $nodes = Node::where('type', 1)->where('node_ip', '!=', '')->where('online', 1)->get();
+        $nodes = (new Node())->where('type', 1)->where('node_ip', '!=', '')->where('online', 1)->get();
 
         foreach ($nodes as $node) {
             $api_url = str_replace(
@@ -106,7 +106,7 @@ final class Detect
 
     public static function ban(): void
     {
-        $new_logs = DetectLog::where('status', '=', 0)->orderBy('id')->get();
+        $new_logs = (new DetectLog())->where('status', '=', 0)->orderBy('id')->get();
         $user_logs = [];
 
         foreach ($new_logs as $log) {
@@ -119,7 +119,7 @@ final class Detect
 
         foreach ($user_logs as $userid => $value) {
             // 执行封禁
-            $user = User::find($userid);
+            $user = (new User())->find($userid);
 
             if ($user === null) {
                 continue;
@@ -134,7 +134,7 @@ final class Detect
             $user->all_detect_number += $value;
             $user->save();
 
-            $last_DetectBanLog = DetectBanLog::where('user_id', $userid)->orderBy('id', 'desc')->first();
+            $last_DetectBanLog = (new DetectBanLog())->where('user_id', $userid)->orderBy('id', 'desc')->first();
             $last_all_detect_number = ((int) $last_DetectBanLog?->all_detect_number);
             $detect_number = $user->all_detect_number - $last_all_detect_number;
 
@@ -158,10 +158,10 @@ final class Detect
         echo Tools::toDateTime(time()) . ' 审计封禁检查结束' . PHP_EOL;
 
         // 审计封禁解封
-        $banned_users = User::where('is_banned', 1)->where('banned_reason', 'DetectBan')->get();
+        $banned_users = (new User())->where('is_banned', 1)->where('banned_reason', 'DetectBan')->get();
 
         foreach ($banned_users as $user) {
-            $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
+            $logs = (new DetectBanLog())->where('user_id', $user->id)->orderBy('id', 'desc')->first();
             if ($logs !== null && ($logs->end_time + $logs->ban_time * 60) <= time()) {
                 $user->is_banned = 0;
                 $user->banned_reason = '';

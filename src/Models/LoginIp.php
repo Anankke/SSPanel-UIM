@@ -31,7 +31,7 @@ final class LoginIp extends Model
      */
     public function user(): ?User
     {
-        return User::find($this->userid);
+        return (new User())->find($this->userid);
     }
 
     /**
@@ -69,11 +69,11 @@ final class LoginIp extends Model
 
             if (Config::obtain('notify_new_login') &&
                 $user_id !== 0 &&
-                LoginIp::where('userid', $user_id)->where('ip', $this->ip)->count() === 0
+                (new LoginIp())->where('userid', $user_id)->where('ip', $this->ip)->count() === 0
             ) {
                 try {
                     Notification::notifyUser(
-                        User::where('id', $user_id)->first(),
+                        (new User())->where('id', $user_id)->first(),
                         $_ENV['appName'] . '-新登录通知',
                         '你的账号于 ' . date('Y-m-d H:i:s') . ' 通过 ' . $this->ip . ' 地址登录了用户面板',
                     );

@@ -24,7 +24,7 @@ final class DocsController extends BaseController
             return $response->withRedirect('/user');
         }
 
-        $docs = Docs::orderBy('id', 'desc')->get();
+        $docs = (new Docs())->orderBy('id', 'desc')->get();
 
         return $response->write(
             $this->view()
@@ -44,7 +44,7 @@ final class DocsController extends BaseController
         }
 
         $id = $args['id'];
-        $doc = Docs::find($id);
+        $doc = (new Docs())->find($id);
 
         return $response->write(
             $this->view()

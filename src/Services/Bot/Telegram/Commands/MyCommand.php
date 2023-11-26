@@ -60,7 +60,7 @@ final class MyCommand extends Command
             'username' => $message->getFrom()->getUsername(),
         ];
 
-        $user = User::where('im_type', 4)->where('im_value', $send_user['id'])->first();
+        $user = (new User())->where('im_type', 4)->where('im_value', $send_user['id'])->first();
 
         if ($user === null) {
             // 回送信息

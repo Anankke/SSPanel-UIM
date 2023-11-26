@@ -21,7 +21,7 @@ final class SubLogController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $logs = SubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
+        $logs = (new SubscribeLog())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($logs as $log) {
             $log->request_time = Tools::toDateTime($log->request_time);

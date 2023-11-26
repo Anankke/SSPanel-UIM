@@ -47,8 +47,8 @@ final class DetectBanController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $bans = DetectBanLog::orderBy('id', 'desc')->paginate($length, '*', '', $page);
-        $total = DetectBanLog::count();
+        $bans = (new DetectBanLog())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $total = (new DetectBanLog())->count();
 
         foreach ($bans as $ban) {
             $ban->user_name = $ban->userName();

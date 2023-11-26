@@ -10,9 +10,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
-/*
- * Notification Service
- */
 final class Notification
 {
     /**
@@ -22,7 +19,7 @@ final class Notification
      */
     public static function notifyAdmin($title = '', $msg = '', $template = 'warn.tpl'): void
     {
-        $admins = User::where('is_admin', 1)->get();
+        $admins = (new User())->where('is_admin', 1)->get();
 
         foreach ($admins as $admin) {
             if ($admin->contact_method === 1 || $admin->im_type === 0) {

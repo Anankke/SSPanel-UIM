@@ -24,30 +24,30 @@ final class Payback extends Model
 
     public function user(): \Illuminate\Database\Eloquent\Model|User|null
     {
-        return User::where('id', $this->userid)->first();
+        return (new User())->where('id', $this->userid)->first();
     }
 
     public function getUserNameAttribute(): string
     {
-        return User::where('id', $this->userid)->first() === null ? '已注销' :
-            User::where('id', $this->userid)->first()->user_name;
+        return (new User())->where('id', $this->userid)->first() === null ? '已注销' :
+            (new User())->where('id', $this->userid)->first()->user_name;
     }
 
     public function refUser(): \Illuminate\Database\Eloquent\Model|User|null
     {
-        return User::where('id', $this->ref_by)->first();
+        return (new User())->where('id', $this->ref_by)->first();
     }
 
     public function getRefUserNameAttribute(): string
     {
-        return User::where('id', $this->ref_by)->first() === null ? '已注销' :
-            User::where('id', $this->ref_by)->first()->user_name;
+        return (new User())->where('id', $this->ref_by)->first() === null ? '已注销' :
+            (new User())->where('id', $this->ref_by)->first()->user_name;
     }
 
     public function rebate($user_id, $order_amount): void
     {
         $configs = Config::getClass('ref');
-        $user = User::where('id', $user_id)->first();
+        $user = (new User())->where('id', $user_id)->first();
         $gift_user_id = $user->ref_by;
         // 判断
         $invite_rebate_mode = (string) $configs['invite_rebate_mode'];
@@ -88,7 +88,7 @@ final class Payback extends Model
 
     public function execute($user_id, $gift_user_id, $order_amount, $adjust_rebate = null): void
     {
-        $gift_user = User::where('id', $gift_user_id)
+        $gift_user = (new User())->where('id', $gift_user_id)
             ->where('is_banned', 0)
             ->where('is_shadow_banned', 0)
             ->first();

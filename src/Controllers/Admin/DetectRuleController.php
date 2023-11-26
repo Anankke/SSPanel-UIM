@@ -96,7 +96,7 @@ final class DetectRuleController extends BaseController
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $id = $args['id'];
-        $rule = DetectRule::find($id);
+        $rule = (new DetectRule())->find($id);
         if (! $rule->delete()) {
             return $response->withJson([
                 'ret' => 0,
@@ -111,7 +111,7 @@ final class DetectRuleController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $rules = DetectRule::orderBy('id', 'desc')->get();
+        $rules = (new DetectRule())->orderBy('id', 'desc')->get();
 
         foreach ($rules as $rule) {
             $rule->op = '<button type="button" class="btn btn-red" id="delete-rule-' . $rule->id .

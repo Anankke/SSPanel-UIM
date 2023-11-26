@@ -78,7 +78,7 @@ EOL;
                 $jobs->sendTelegramDailyJob();
             }
 
-            Config::where('item', 'last_daily_job_time')->update([
+            (new Config())->where('item', 'last_daily_job_time')->update([
                 'value' => mktime(
                     Config::obtain('daily_job_hour'),
                     Config::obtain('daily_job_minute'),

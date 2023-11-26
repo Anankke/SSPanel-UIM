@@ -71,7 +71,7 @@ final class OrderController extends BaseController
             return $response->withRedirect('/user/product');
         }
 
-        $product = Product::where('id', $product_id)->first();
+        $product = (new Product())->where('id', $product_id)->first();
         $product->type_text = $product->type();
         $product->content = json_decode($product->content);
 
@@ -90,7 +90,7 @@ final class OrderController extends BaseController
         $antiXss = new AntiXSS();
         $id = $antiXss->xss_clean($args['id']);
 
-        $order = Order::where('user_id', $this->user->id)->where('id', $id)->first();
+        $order = (new Order())->where('user_id', $this->user->id)->where('id', $id)->first();
 
         if ($order === null) {
             return $response->withRedirect('/user/order');
@@ -102,7 +102,7 @@ final class OrderController extends BaseController
         $order->update_time = Tools::toDateTime($order->update_time);
         $order->content = json_decode($order->product_content);
 
-        $invoice = Invoice::where('order_id', $id)->first();
+        $invoice = (new Invoice())->where('order_id', $id)->first();
         $invoice->status = $invoice->status();
         $invoice->create_time = Tools::toDateTime($invoice->create_time);
         $invoice->update_time = Tools::toDateTime($invoice->update_time);
@@ -123,7 +123,7 @@ final class OrderController extends BaseController
         $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
         $product_id = $antiXss->xss_clean($request->getParam('product_id'));
 
-        $product = Product::find($product_id);
+        $product = (new Product())->find($product_id);
 
         if ($product === null || $product->stock === 0) {
             return $response->withJson([
@@ -143,7 +143,7 @@ final class OrderController extends BaseController
         }
 
         if ($coupon_raw !== '') {
-            $coupon = UserCoupon::where('code', $coupon_raw)->first();
+            $coupon = (new UserCoupon())->where('code', $coupon_raw)->first();
 
             if ($coupon === null || ($coupon->expire_time !== 0 && $coupon->expire_time < time())) {
                 return $response->withJson([
@@ -171,7 +171,7 @@ final class OrderController extends BaseController
             $coupon_use_limit = $coupon_limit->use_time;
 
             if ($coupon_use_limit > 0) {
-                $user_use_count = Order::where('user_id', $user->id)->where('coupon', $coupon->code)->count();
+                $user_use_count = (new Order())->where('user_id', $user->id)->where('coupon', $coupon->code)->count();
                 if ($user_use_count >= $coupon_use_limit) {
                     return $response->withJson([
                         'ret' => 0,
@@ -222,7 +222,7 @@ final class OrderController extends BaseController
         }
 
         if ($product_limit->new_user_required !== 0) {
-            $order_count = Order::where('user_id', $user->id)->count();
+            $order_count = (new Order())->where('user_id', $user->id)->count();
             if ($order_count > 0) {
                 return $response->withJson([
                     'ret' => 0,
@@ -291,13 +291,13 @@ final class OrderController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $orders = Order::orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
+        $orders = (new Order())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($orders as $order) {
             $order->op = '<a class="btn btn-blue" href="/user/order/' . $order->id . '/view">查看</a>';
 
             if ($order->status === 'pending_payment') {
-                $invoice_id = Invoice::where('order_id', $order->id)->first()->id;
+                $invoice_id = (new Invoice())->where('order_id', $order->id)->first()->id;
                 $order->op .= '
                 <a class="btn btn-red" href="/user/invoice/' . $invoice_id . '/view">支付</a>';
             }

@@ -75,7 +75,7 @@ final class AuthController extends BaseController
         $rememberMe = $request->getParam('remember_me') === 'true' ? 1 : 0;
         $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
         $redir = Cookie::get('redir') === '' ? $antiXss->xss_clean(Cookie::get('redir')) : '/user';
-        $user = User::where('email', $email)->first();
+        $user = (new User())->where('email', $email)->first();
         $loginIp = new LoginIp();
 
         if ($user === null) {
@@ -172,7 +172,7 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
             }
 
-            $user = User::where('email', $email)->first();
+            $user = (new User())->where('email', $email)->first();
 
             if ($user !== null) {
                 return ResponseHelper::error($response, '此邮箱已经注册');
@@ -263,7 +263,7 @@ final class AuthController extends BaseController
         $user->ref_by = 0;
 
         if ($code !== '') {
-            $invite = InviteCode::where('code', $code)->first();
+            $invite = (new InviteCode())->where('code', $code)->first();
             $invite->reward();
             $user->ref_by = $invite->user_id;
             $user->money = Config::obtain('invitation_to_register_balance_reward');
@@ -338,13 +338,13 @@ final class AuthController extends BaseController
         }
 
         if ($code !== '') {
-            $user_invite = InviteCode::where('code', $code)->first();
+            $user_invite = (new InviteCode())->where('code', $code)->first();
 
             if ($user_invite === null) {
                 return ResponseHelper::error($response, '邀请码无效');
             }
 
-            $gift_user = User::where('id', $user_invite->user_id)->first();
+            $gift_user = (new User())->where('id', $user_invite->user_id)->first();
 
             if ($gift_user === null || $gift_user->invite_num === 0) {
                 return ResponseHelper::error($response, '邀请码无效');
@@ -361,7 +361,7 @@ final class AuthController extends BaseController
             return $response->withJson($check_res);
         }
         // check email
-        $user = User::where('email', $email)->first();
+        $user = (new User())->where('email', $email)->first();
 
         if ($user !== null) {
             return ResponseHelper::error($response, '邮箱已经被注册了');

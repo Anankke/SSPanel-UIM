@@ -38,7 +38,7 @@ final class TicketController extends BaseController
             return $response->withRedirect('/user');
         }
 
-        $tickets = Ticket::where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
+        $tickets = (new Ticket())->where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
 
         foreach ($tickets as $ticket) {
             $ticket->status = $ticket->status();
@@ -131,7 +131,7 @@ final class TicketController extends BaseController
             ]);
         }
 
-        $ticket = Ticket::where('id', $id)->where('userid', $this->user->id)->first();
+        $ticket = (new Ticket())->where('id', $id)->where('userid', $this->user->id)->first();
 
         if ($ticket === null) {
             return $response->withJson([
@@ -181,7 +181,7 @@ final class TicketController extends BaseController
         }
 
         $id = $args['id'];
-        $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
+        $ticket = (new Ticket())->where('id', '=', $id)->where('userid', $this->user->id)->first();
 
         if ($ticket === null) {
             return $response->withRedirect('/user/ticket');

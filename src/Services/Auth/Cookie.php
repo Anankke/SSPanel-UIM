@@ -14,7 +14,7 @@ final class Cookie extends Base
 {
     public function login($uid, $time): void
     {
-        $user = User::find($uid);
+        $user = (new User())->find($uid);
         $expire_in = $time + time();
 
         CookieUtils::setWithDomain([
@@ -55,7 +55,7 @@ final class Cookie extends Base
 
         if ($_ENV['enable_login_bind_ip']) {
             $remote_ip = $_SERVER['REMOTE_ADDR'];
-            $node = Node::where('node_ip', $remote_ip)->first();
+            $node = (new Node())->where('node_ip', $remote_ip)->first();
 
             if ($node === null && $ipHash !== Hash::ipHash($remote_ip, $uid, $expire_in)) {
                 return $user;
@@ -70,7 +70,7 @@ final class Cookie extends Base
             }
         }
 
-        $user = User::find($uid);
+        $user = (new User())->find($uid);
 
         if ($user === null) {
             $user = new User();

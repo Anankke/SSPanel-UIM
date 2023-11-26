@@ -103,7 +103,7 @@ final class AnnController extends BaseController
         }
 
         if ($email_notify) {
-            $users = User::where('class', '>=', $email_notify_class)
+            $users = (new User())->where('class', '>=', $email_notify_class)
                 ->get();
 
             foreach ($users as $user) {
@@ -143,7 +143,7 @@ final class AnnController extends BaseController
      */
     public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $ann = Ann::find($args['id']);
+        $ann = (new Ann())->find($args['id']);
         return $response->write(
             $this->view()
                 ->assign('ann', $ann)
@@ -156,7 +156,7 @@ final class AnnController extends BaseController
      */
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $ann = Ann::find($args['id']);
+        $ann = (new Ann())->find($args['id']);
         $ann->content = (string) $request->getParam('content');
         $ann->date = Tools::toDateTime(time());
 
@@ -189,7 +189,7 @@ final class AnnController extends BaseController
      */
     public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $ann = Ann::find($args['id']);
+        $ann = (new Ann())->find($args['id']);
         if (! $ann->delete()) {
             return $response->withJson([
                 'ret' => 0,
@@ -207,7 +207,7 @@ final class AnnController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $anns = Ann::orderBy('id')->get();
+        $anns = (new Ann())->orderBy('id')->get();
 
         foreach ($anns as $ann) {
             $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
