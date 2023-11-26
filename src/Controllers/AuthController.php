@@ -19,14 +19,12 @@ use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use voku\helper\AntiXSS;
 use function array_rand;
 use function date;
@@ -56,9 +54,11 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @throws ClientExceptionInterface
-     * @throws GuzzleException
-     * @throws TelegramSDKException
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
      */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -179,7 +179,7 @@ final class AuthController extends BaseController
             }
 
             $code = Tools::genRandomChar(6);
-            $redis = Cache::initRedis();
+            $redis = (new Cache())->initRedis();
             $redis->setex('email_verify:' . $code, Config::obtain('email_verify_code_ttl'), $email);
 
             try {
@@ -215,9 +215,6 @@ final class AuthController extends BaseController
      *
      * @return ResponseInterface
      *
-     * @throws ClientExceptionInterface
-     * @throws GuzzleException
-     * @throws TelegramSDKException
      * @throws Exception
      */
     public static function registerHelper(
@@ -311,10 +308,8 @@ final class AuthController extends BaseController
      *
      * @return Response|ResponseInterface
      *
-     * @throws ClientExceptionInterface
-     * @throws GuzzleException
      * @throws RedisException
-     * @throws TelegramSDKException
+     * @throws Exception
      */
     public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -381,7 +376,7 @@ final class AuthController extends BaseController
         }
 
         if (Config::obtain('reg_email_verify')) {
-            $redis = Cache::initRedis();
+            $redis = (new Cache())->initRedis();
             $email_verify_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
             $email_verify = $redis->get('email_verify:' . $email_verify_code);
 

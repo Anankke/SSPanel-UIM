@@ -106,7 +106,7 @@ final class Detect
 
     public static function ban(): void
     {
-        $new_logs = DetectLog::where('status', '=', 0)->orderBy('id', 'asc')->get();
+        $new_logs = DetectLog::where('status', '=', 0)->orderBy('id')->get();
         $user_logs = [];
 
         foreach ($new_logs as $log) {

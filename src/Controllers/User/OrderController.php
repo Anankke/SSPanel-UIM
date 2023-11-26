@@ -206,7 +206,7 @@ final class OrderController extends BaseController
 
         $product_limit = json_decode($product->limit);
 
-        if ($product_limit->class_required !== '' && (int) $user->class < (int) $product_limit->class_required) {
+        if ($product_limit->class_required !== '' && $user->class < (int) $product_limit->class_required) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => self::$err_msg,
@@ -214,7 +214,7 @@ final class OrderController extends BaseController
         }
 
         if ($product_limit->node_group_required !== ''
-            && (int) $user->node_group !== (int) $product_limit->node_group_required) {
+            && $user->node_group !== (int) $product_limit->node_group_required) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => self::$err_msg,

@@ -13,7 +13,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use function time;
 
 final class DocsController extends BaseController
@@ -123,7 +122,11 @@ final class DocsController extends BaseController
     /**
      * 后台编辑文档提交
      *
-     * @throws TelegramSDKException
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
      */
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -170,7 +173,7 @@ final class DocsController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $docs = Docs::orderBy('id', 'asc')->get();
+        $docs = Docs::orderBy('id')->get();
 
         foreach ($docs as $doc) {
             $doc->op = '<button type="button" class="btn btn-red" id="delete-doc-' . $doc->id . '" 

@@ -17,7 +17,7 @@ final class Password
      */
     public static function sendResetEmail($email): void
     {
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
         $token = Tools::genRandomChar(64);
 
         $redis->setex('password_reset:' . $token, Config::obtain('email_password_reset_ttl'), $email);

@@ -82,7 +82,7 @@ final class PayPal extends Base
             ]);
         }
 
-        $exchange_amount = Exchange::exchange($price, 'CNY', Config::obtain('paypal_currency'));
+        $exchange_amount = (new Exchange())->exchange($price, 'CNY', Config::obtain('paypal_currency'));
 
         $order_data = [
             'intent' => 'CAPTURE',

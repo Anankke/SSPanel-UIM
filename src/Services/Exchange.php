@@ -16,7 +16,7 @@ final class Exchange
      * @throws GuzzleException
      * @throws RedisException
      */
-    public static function exchange(float $amount, string $from, string $to): float
+    public function exchange(float $amount, string $from, string $to): float
     {
         return round($amount * self::getExchangeRate($from, $to), 2);
     }
@@ -25,9 +25,9 @@ final class Exchange
      * @throws GuzzleException
      * @throws RedisException
      */
-    public static function getExchangeRate(string $from, string $to): float
+    public function getExchangeRate(string $from, string $to): float
     {
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
         $rate = $redis->get('exchange_rate:' . $from . '_' . $to);
 
         if (! $rate) {

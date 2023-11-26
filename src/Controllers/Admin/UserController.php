@@ -11,12 +11,9 @@ use App\Models\UserMoneyLog;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use function str_replace;
 use const PHP_EOL;
 
@@ -114,9 +111,7 @@ final class UserController extends BaseController
      *
      * @return Response|ResponseInterface
      *
-     * @throws GuzzleException
-     * @throws ClientExceptionInterface
-     * @throws TelegramSDKException
+     * @throws Exception
      */
     public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -186,12 +181,12 @@ final class UserController extends BaseController
 
         if ($request->getParam('money') !== '' &&
             $request->getParam('money') !== null &&
-            (float) $request->getParam('money') !== (float) $user->money
+            (float) $request->getParam('money') !== $user->money
         ) {
             $money = (float) $request->getParam('money');
             $diff = $money - $user->money;
             $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-            (new UserMoneyLog())->add($id, (float) $user->money, $money, $diff, $remark);
+            (new UserMoneyLog())->add($id, $user->money, $money, $diff, $remark);
             $user->money = $money;
         }
 

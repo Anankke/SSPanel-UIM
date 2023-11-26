@@ -88,7 +88,7 @@ final class PasswordController extends BaseController
     {
         $antiXss = new AntiXSS();
         $token = $antiXss->xss_clean($args['token']);
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
         $email = $redis->get('password_reset:' . $token);
 
         if (! $email) {
@@ -118,7 +118,7 @@ final class PasswordController extends BaseController
             return ResponseHelper::error($response, '密码过短');
         }
 
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
         $email = $redis->get('password_reset:' . $token);
 
         if (! $email) {

@@ -58,10 +58,6 @@ final class LoginIp extends Model
      * @param int $user_id User ID
      *
      * @return void
-     *
-     * @throws GuzzleException
-     * @throws ClientExceptionInterface
-     * @throws TelegramSDKException
      */
     public function collectLoginIP(string $ip, int $type = 0, int $user_id = 0): void
     {

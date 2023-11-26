@@ -42,17 +42,17 @@ final class Analytics
         return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
-    public static function getTotalUser()
+    public static function getTotalUser(): int
     {
         return User::count();
     }
 
-    public static function getCheckinUser()
+    public static function getCheckinUser(): int
     {
         return User::where('last_check_in_time', '>', 0)->count();
     }
 
-    public static function getTodayCheckinUser()
+    public static function getTodayCheckinUser(): int
     {
         return User::where('last_check_in_time', '>', strtotime('today'))->count();
     }
@@ -122,22 +122,22 @@ final class Analytics
         return Tools::flowToGB(User::sum('transfer_enable'));
     }
 
-    public static function getTotalNode()
+    public static function getTotalNode(): int
     {
         return Node::where('node_heartbeat', '>', 0)->count();
     }
 
-    public static function getAliveNode()
+    public static function getAliveNode(): int
     {
         return Node::where('node_heartbeat', '>', time() - 90)->count();
     }
 
-    public static function getInactiveUser()
+    public static function getInactiveUser(): int
     {
         return User::where('is_inactive', 1)->count();
     }
 
-    public static function getActiveUser()
+    public static function getActiveUser(): int
     {
         return User::where('is_inactive', 0)->count();
     }

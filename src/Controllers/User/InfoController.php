@@ -79,7 +79,7 @@ final class InfoController extends BaseController
         }
 
         if (Config::obtain('reg_email_verify')) {
-            $redis = Cache::initRedis();
+            $redis = (new Cache())->initRedis();
             $email_verify_code = $request->getParam('emailcode');
             $email_verify = $redis->get('email_verify:' . $email_verify_code);
 

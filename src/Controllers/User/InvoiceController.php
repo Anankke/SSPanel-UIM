@@ -117,7 +117,7 @@ final class InvoiceController extends BaseController
 
         (new UserMoneyLog())->add(
             $user->id,
-            (float) $money_before,
+            $money_before,
             (float) $user->money,
             -$invoice->price,
             '支付账单 #' . $invoice->id

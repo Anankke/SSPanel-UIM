@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use PHPUnit\Framework\TestCase;
 use function date_default_timezone_set;
 
@@ -11,6 +12,7 @@ class ToolsTest extends TestCase
 {
     /**
      * @covers App\Utils\Tools::getIpLocation
+     * @throws InvalidDatabaseException
      */
     public function testGetIpLocation()
     {

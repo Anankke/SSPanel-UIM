@@ -22,7 +22,7 @@ final class Payback extends Model
     protected $connection = 'default';
     protected $table = 'payback';
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Model|User|null
     {
         return User::where('id', $this->userid)->first();
     }
@@ -33,7 +33,7 @@ final class Payback extends Model
             User::where('id', $this->userid)->first()->user_name;
     }
 
-    public function refUser()
+    public function refUser(): \Illuminate\Database\Eloquent\Model|User|null
     {
         return User::where('id', $this->ref_by)->first();
     }

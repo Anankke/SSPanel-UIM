@@ -68,7 +68,11 @@ final class AnnController extends BaseController
     /**
      * 后台添加公告
      *
-     * @throws TelegramSDKException
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
      */
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -203,7 +207,7 @@ final class AnnController extends BaseController
      */
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $anns = Ann::orderBy('id', 'asc')->get();
+        $anns = Ann::orderBy('id')->get();
 
         foreach ($anns as $ann) {
             $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement-' . $ann->id . '" 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use function strlen;
 
@@ -11,6 +12,7 @@ class MFATest extends TestCase
 {
     /**
      * @covers App\Services\MFA::generateGaToken
+     * @throws Exception
      */
     public function testGenerateGaToken()
     {

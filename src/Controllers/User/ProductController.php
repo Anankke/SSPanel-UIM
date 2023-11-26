@@ -21,17 +21,17 @@ final class ProductController extends BaseController
     {
         $tabps = Product::where('status', '1')
             ->where('type', 'tabp')
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
 
         $bandwidths = Product::where('status', '1')
             ->where('type', 'bandwidth')
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
 
         $times = Product::where('status', '1')
             ->where('type', 'time')
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
 
         foreach ($tabps as $tabp) {

@@ -72,7 +72,7 @@ final class MoneyController extends BaseController
 
         (new UserMoneyLog())->add(
             $user->id,
-            (float) $money_before,
+            $money_before,
             (float) $user->money,
             $giftcard->balance,
             '礼品卡充值 ' . $giftcard->card

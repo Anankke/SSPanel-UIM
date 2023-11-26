@@ -68,7 +68,7 @@ final class StripeCard extends Base
         $pl->tradeno = $trade_no;
         $pl->save();
 
-        $exchange_amount = Exchange::exchange($price, 'CNY', Config::obtain('stripe_currency'));
+        $exchange_amount = (new Exchange())->exchange($price, 'CNY', Config::obtain('stripe_currency'));
 
         Stripe::setApiKey(Config::obtain('stripe_sk'));
         $session = null;

@@ -54,7 +54,7 @@ final class OAuthController extends BaseController
     public function slack(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
 
         if ($request->getParam('code') === null) {
             $state = Tools::genRandomChar(16);
@@ -127,7 +127,7 @@ final class OAuthController extends BaseController
     public function discord(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $redis = Cache::initRedis();
+        $redis = (new Cache())->initRedis();
 
         if ($request->getParam('code') === null) {
             $state = Tools::genRandomChar(16);

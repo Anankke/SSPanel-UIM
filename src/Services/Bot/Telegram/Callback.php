@@ -11,8 +11,10 @@ use App\Models\LoginIp;
 use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\SubscribeLog;
+use App\Models\User;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Telegram\Bot\Api;
@@ -38,7 +40,7 @@ final class Callback
     /**
      * 触发用户
      */
-    private $user;
+    private null|Model|User $user;
 
     /**
      * 触发用户TG信息
