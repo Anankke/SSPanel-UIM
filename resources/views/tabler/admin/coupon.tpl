@@ -120,7 +120,7 @@
             locale: "zh"
         });
 
-        var table = $('#data_table').DataTable({
+        let table = $('#data_table').DataTable({
             ajax: {
                 url: '/admin/coupon/ajax',
                 type: 'POST',

@@ -88,6 +88,11 @@
                         qrcode.makeCode(res.data[key]);
                     }
 
+                    if (key === "last-checkin-time") {
+                        document.getElementById("check-in").innerHTML = "已签到"
+                        document.getElementById("check-in").disabled = true;
+                    }
+
                     let element = document.getElementById(key);
 
                     if (element) {

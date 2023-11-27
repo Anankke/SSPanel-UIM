@@ -542,7 +542,7 @@
                                     {/if}
                                 </p>
                                 <p>
-                                    上次签到时间：<code>{$user->lastCheckInTime()}</code>
+                                    上次签到时间：<code id="last-checkin-time">{$user->lastCheckInTime()}</code>
                                 </p>
                             </div>
                             <div class="card-footer">

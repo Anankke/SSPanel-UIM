@@ -1,9 +1,9 @@
 {if $public_setting['live_chat'] === 'tawk'}
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API ||{}, Tawk_LoadStart = new Date();
+    <script>
+        let Tawk_API = Tawk_API ||{}, Tawk_LoadStart = new Date();
         (function () {
-            var id = "{$public_setting['tawk_id']}";
-            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            let id = "{$public_setting['tawk_id']}";
+            let s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
             s1.async = true;
             s1.src = 'https://embed.tawk.to/' + id + '/default';
             s1.setAttribute('crossorigin', '*');
@@ -13,7 +13,8 @@
 {/if}
 
 {if $public_setting['live_chat'] === 'crisp'}
-    <script type="text/javascript"> window.$crisp = [];
+    <script>
+        window.$crisp = [];
         window.CRISP_WEBSITE_ID = "{$public_setting["crisp_id"]}";
         (function () {
             d = document;
@@ -70,7 +71,7 @@
                 return e._h ? e._h.apply(null, n) : e._q.push(n)
             }
 
-            var e = {
+            let e = {
                 _q: [],
                 _h: null,
                 _v: "2.0",
@@ -91,7 +92,7 @@
                     i(["call", c.call(arguments)])
                 },
                 init: function () {
-                    var n = t.createElement("script");
+                    let n = t.createElement("script");
                     n.async = !0,
                         n.type = "text/javascript",
                         n.src = "https://cdn.livechatinc.com/tracking.js",
@@ -105,13 +106,13 @@
 {/if}
 
 {if $public_setting['live_chat'] === 'mylivechat'}
-    <script type="text/javascript">
+    <script>
         (() => {
-            var hccid = "{$public_setting['mylivechat_id']}";
-            var nt = document.createElement("script");
+            let hccid = "{$public_setting['mylivechat_id']}";
+            let nt = document.createElement("script");
             nt.async = true;
             nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid;
-            var ct = document.getElementsByTagName("script")[0];
+            let ct = document.getElementsByTagName("script")[0];
             ct.parentNode.insertBefore(nt, ct);
         })();
     </script>

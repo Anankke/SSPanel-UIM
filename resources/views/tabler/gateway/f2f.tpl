@@ -12,7 +12,7 @@
 </div>
 
 <script>
-    var pid = 0;
+    let pid = 0;
 
     function f2fpay() {
         $.ajax({

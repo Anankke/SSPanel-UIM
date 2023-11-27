@@ -48,7 +48,7 @@
 
     <script>
         document.body.addEventListener("drawChart", function(evt) {
-            var chart = window.ApexCharts && new ApexCharts(document.getElementById('rate-chart'), {
+            let chart = window.ApexCharts && new ApexCharts(document.getElementById('rate-chart'), {
                 chart: {
                     type: "bar",
                     fontFamily: 'inherit',

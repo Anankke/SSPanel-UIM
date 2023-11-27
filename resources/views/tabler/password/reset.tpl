@@ -86,7 +86,7 @@
 {if $public_setting['captcha_provider'] === 'geetest'}
     <script src="https://static.geetest.com/v4/gt4.js"></script>
     <script>
-        var geetest_result = '';
+        let geetest_result = '';
         initGeetest4({
             captchaId: '{$captcha['geetest_id']}',
             product: 'float',

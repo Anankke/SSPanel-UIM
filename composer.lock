@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b90c6c01b6b2836ce21293a49dfe7719",
+    "content-hash": "c5e34897c527b5b28198dd1190c9cded",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.288.1",
+            "version": "3.290.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a1dfa12c7165de0b731ae8074c4ba1f3ae733f89"
+                "reference": "7726a0dc30a70f2ccf0e2fae3836d6ca6edb2881"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a1dfa12c7165de0b731ae8074c4ba1f3ae733f89",
-                "reference": "a1dfa12c7165de0b731ae8074c4ba1f3ae733f89",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7726a0dc30a70f2ccf0e2fae3836d6ca6edb2881",
+                "reference": "7726a0dc30a70f2ccf0e2fae3836d6ca6edb2881",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.288.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.290.0"
             },
-            "time": "2023-11-22T19:35:38+00:00"
+            "time": "2023-11-27T20:01:41+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1962,16 +1962,16 @@
         },
         {
             "name": "mailgun/mailgun-php",
-            "version": "v3.6.1",
+            "version": "v3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailgun/mailgun-php.git",
-                "reference": "c5162d1f569ade72aa9f80f10ba2b5e63ff2e221"
+                "reference": "888d70f20c93278ea525c448d88a9f114b5649ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/c5162d1f569ade72aa9f80f10ba2b5e63ff2e221",
-                "reference": "c5162d1f569ade72aa9f80f10ba2b5e63ff2e221",
+                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/888d70f20c93278ea525c448d88a9f114b5649ae",
+                "reference": "888d70f20c93278ea525c448d88a9f114b5649ae",
                 "shasum": ""
             },
             "require": {
@@ -2017,9 +2017,9 @@
             "description": "The Mailgun SDK provides methods for all API functions.",
             "support": {
                 "issues": "https://github.com/mailgun/mailgun-php/issues",
-                "source": "https://github.com/mailgun/mailgun-php/tree/v3.6.1"
+                "source": "https://github.com/mailgun/mailgun-php/tree/v3.6.2"
             },
-            "time": "2023-10-27T12:22:03+00:00"
+            "time": "2023-11-27T10:37:06+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -7629,16 +7629,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.24.3",
+            "version": "1.24.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "12f01d214f1c73b9c91fdb3b1c415e4c70652083"
+                "reference": "6bd0c26f3786cd9b7c359675cb789e35a8e07496"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/12f01d214f1c73b9c91fdb3b1c415e4c70652083",
-                "reference": "12f01d214f1c73b9c91fdb3b1c415e4c70652083",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/6bd0c26f3786cd9b7c359675cb789e35a8e07496",
+                "reference": "6bd0c26f3786cd9b7c359675cb789e35a8e07496",
                 "shasum": ""
             },
             "require": {
@@ -7670,9 +7670,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.3"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.4"
             },
-            "time": "2023-11-18T20:15:32+00:00"
+            "time": "2023-11-26T18:29:22+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

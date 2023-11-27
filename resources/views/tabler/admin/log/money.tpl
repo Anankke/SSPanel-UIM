@@ -38,7 +38,7 @@
     </div>
 
     <script>
-        var table = $('#data_table').DataTable({
+        let table = $('#data_table').DataTable({
             ajax: {
                 url: '/admin/money/ajax',
                 type: 'POST',

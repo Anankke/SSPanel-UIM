@@ -38,7 +38,7 @@
     </div>
 
     <script>
-        var table = $('#data_table').DataTable({
+        let table = $('#data_table').DataTable({
             ajax: {
                 url: '/admin/gateway/ajax',
                 type: 'POST',
