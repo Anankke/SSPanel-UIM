@@ -1,7 +1,5 @@
 {include file='user/header.tpl'}
 
-<script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
-
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -91,13 +89,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        let clipboard = new ClipboardJS('.copy');
-        clipboard.on('success', function (e) {
-            $('#success-message').text('已复制到剪切板');
-            $('#success-dialog').modal('show');
-        });
-    </script>
 
     {include file='user/footer.tpl'}

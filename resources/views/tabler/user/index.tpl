@@ -1,7 +1,5 @@
 {include file='user/header.tpl'}
 
-<script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
-
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -585,34 +583,26 @@
         </div>
     </div>
 
-    <script>
-        let clipboard = new ClipboardJS('.copy');
-        clipboard.on('success', function (e) {
-            $('#success-message').text('已复制到剪切板');
-            $('#success-dialog').modal('show');
-        });
-    </script>
-
     {if $public_setting['enable_checkin_captcha'] && $user->isAbleToCheckin()}
-    {if $public_setting['captcha_provider'] === 'turnstile'}
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    {/if}
-    {if $public_setting['captcha_provider'] === 'geetest'}
-        <script src="https://static.geetest.com/v4/gt4.js"></script>
-        <script>
-            let geetest_result = '';
-            initGeetest4({
-                captchaId: '{$captcha['geetest_id']}',
-                product: 'float',
-                language: "zho",
-                riskType: 'slide'
-            }, function (geetest) {
-                geetest.appendTo("#geetest");
-                geetest.onSuccess(function () {
-                    geetest_result = geetest.getValidate();
+        {if $public_setting['captcha_provider'] === 'turnstile'}
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        {/if}
+        {if $public_setting['captcha_provider'] === 'geetest'}
+            <script src="https://static.geetest.com/v4/gt4.js"></script>
+            <script>
+                let geetest_result = '';
+                initGeetest4({
+                    captchaId: '{$captcha['geetest_id']}',
+                    product: 'float',
+                    language: "zho",
+                    riskType: 'slide'
+                }, function (geetest) {
+                    geetest.appendTo("#geetest");
+                    geetest.onSuccess(function () {
+                        geetest_result = geetest.getValidate();
+                    });
                 });
-            });
-        </script>
-    {/if}
+            </script>
+        {/if}
     {/if}
     {include file='user/footer.tpl'}
