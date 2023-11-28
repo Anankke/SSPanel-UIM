@@ -1,17 +1,3 @@
-{if $public_setting['live_chat'] === 'tawk'}
-    <script>
-        let Tawk_API = Tawk_API ||{}, Tawk_LoadStart = new Date();
-        (function () {
-            let id = "{$public_setting['tawk_id']}";
-            let s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/' + id + '/default';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-{/if}
-
 {if $public_setting['live_chat'] === 'crisp'}
     <script>
         window.$crisp = [];
@@ -44,7 +30,7 @@
         window.__lc = window.__lc ||
         {
         };
-        window.__lc.license = "{$public_setting['livechat_id']}";
+        window.__lc.license = "{$public_setting['livechat_license']}";
         window.__lc.params = [
             {
                 name: '用户编号', value: '{$user->id}'
@@ -102,18 +88,5 @@
             !n.__lc.asyncInit && e.init(),
                 n.LiveChatWidget = n.LiveChatWidget || e
         }(window, document, [].slice))
-    </script>
-{/if}
-
-{if $public_setting['live_chat'] === 'mylivechat'}
-    <script>
-        (() => {
-            let hccid = "{$public_setting['mylivechat_id']}";
-            let nt = document.createElement("script");
-            nt.async = true;
-            nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid;
-            let ct = document.getElementsByTagName("script")[0];
-            ct.parentNode.insertBefore(nt, ct);
-        })();
     </script>
 {/if}
