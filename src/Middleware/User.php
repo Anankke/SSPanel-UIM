@@ -15,7 +15,7 @@ use function in_array;
 use function str_contains;
 use function time;
 
-final class Auth implements MiddlewareInterface
+final class User implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

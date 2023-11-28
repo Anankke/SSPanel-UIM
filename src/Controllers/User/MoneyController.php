@@ -12,7 +12,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use voku\helper\AntiXSS;
 use function time;
 
 final class MoneyController extends BaseController
@@ -41,8 +40,7 @@ final class MoneyController extends BaseController
 
     public function applyGiftCard(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $giftcard_raw = $antiXss->xss_clean($request->getParam('giftcard'));
+        $giftcard_raw = $this->antiXss->xss_clean($request->getParam('giftcard'));
         $giftcard = (new GiftCard())->where('card', $giftcard_raw)->first();
 
         if ($giftcard === null || $giftcard->status !== 0) {

@@ -18,7 +18,6 @@ use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use voku\helper\AntiXSS;
 use function array_merge;
 use function count;
 use function json_decode;
@@ -78,24 +77,22 @@ final class TicketController extends BaseController
             ]);
         }
 
-        $antiXss = new AntiXSS();
-
         $content = [
             [
                 'comment_id' => 0,
                 'commenter_name' => $this->user->user_name,
-                'comment' => $antiXss->xss_clean($comment),
+                'comment' => $this->antiXss->xss_clean($comment),
                 'datetime' => time(),
             ],
         ];
 
         $ticket = new Ticket();
-        $ticket->title = $antiXss->xss_clean($title);
+        $ticket->title = $this->antiXss->xss_clean($title);
         $ticket->content = json_encode($content);
         $ticket->userid = $this->user->id;
         $ticket->datetime = time();
         $ticket->status = 'open_wait_admin';
-        $ticket->type = $antiXss->xss_clean($type);
+        $ticket->type = $this->antiXss->xss_clean($type);
         $ticket->save();
 
         if (Config::obtain('mail_ticket')) {
@@ -140,14 +137,12 @@ final class TicketController extends BaseController
             ]);
         }
 
-        $antiXss = new AntiXSS();
-
         $content_old = json_decode($ticket->content, true);
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
                 'commenter_name' => $this->user->user_name,
-                'comment' => $antiXss->xss_clean($comment),
+                'comment' => $this->antiXss->xss_clean($comment),
                 'datetime' => time(),
             ],
         ];

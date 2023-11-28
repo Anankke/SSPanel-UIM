@@ -11,7 +11,6 @@ use App\Models\UserCoupon;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use voku\helper\AntiXSS;
 use function explode;
 use function in_array;
 use function json_decode;
@@ -21,9 +20,8 @@ final class CouponController extends BaseController
 {
     public function check(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
-        $product_id = $antiXss->xss_clean($request->getParam('product_id'));
+        $coupon_raw = $this->antiXss->xss_clean($request->getParam('coupon'));
+        $product_id = $this->antiXss->xss_clean($request->getParam('product_id'));
         $invalid_coupon_msg = '优惠码无效';
 
         if ($coupon_raw === '') {

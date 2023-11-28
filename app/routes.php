@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Middleware\Admin;
-use App\Middleware\Auth;
 use App\Middleware\Guest;
 use App\Middleware\NodeToken;
+use App\Middleware\User;
 use Slim\Routing\RouteCollectorProxy;
 
 return static function (Slim\App $app): void {
@@ -24,7 +24,8 @@ return static function (Slim\App $app): void {
     $app->get('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
     // 通用订阅
     $app->get('/sub/{token}/{subtype}', App\Controllers\SubController::class . ':getUniversalSubContent');
-    // User Center
+
+    // User
     $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');
         $group->get('/', App\Controllers\UserController::class . ':index');
@@ -106,7 +107,7 @@ return static function (Slim\App $app): void {
         $group->get('/clients/{name}', App\Controllers\User\ClientController::class . ':getClients');
         // 登出
         $group->get('/logout', App\Controllers\UserController::class . ':logout');
-    })->add(new Auth());
+    })->add(new User());
 
     $app->group('/payment', static function (RouteCollectorProxy $group): void {
         $group->get('/notify/{type}', App\Services\Payment::class . ':notify');

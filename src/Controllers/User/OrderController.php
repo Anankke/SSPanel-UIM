@@ -15,7 +15,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use voku\helper\AntiXSS;
 use function explode;
 use function in_array;
 use function json_decode;
@@ -59,8 +58,7 @@ final class OrderController extends BaseController
      */
     public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $product_id = $antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
+        $product_id = $this->antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
         $redir = Cookie::get('redir');
 
         if ($redir !== null) {
@@ -87,8 +85,7 @@ final class OrderController extends BaseController
      */
     public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $id = $antiXss->xss_clean($args['id']);
+        $id = $this->antiXss->xss_clean($args['id']);
 
         $order = (new Order())->where('user_id', $this->user->id)->where('id', $id)->first();
 
@@ -119,9 +116,8 @@ final class OrderController extends BaseController
 
     public function process(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $coupon_raw = $antiXss->xss_clean($request->getParam('coupon'));
-        $product_id = $antiXss->xss_clean($request->getParam('product_id'));
+        $coupon_raw = $this->antiXss->xss_clean($request->getParam('coupon'));
+        $product_id = $this->antiXss->xss_clean($request->getParam('product_id'));
 
         $product = (new Product())->find($product_id);
 

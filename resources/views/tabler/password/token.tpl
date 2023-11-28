@@ -11,9 +11,6 @@
         <div class="card card-md">
             <div class="card-body">
                 <h2 class="card-title text-center mb-4">设置新密码</h2>
-                <p class="text-secondary mb-4">
-                    请在下方设置账户新的登录密码
-                </p>
                 <div class="mb-3">
                     <label class="form-label">新密码</label>
                     <input id="password" type="password" class="form-control" placeholder="请输入新密码">
@@ -23,7 +20,11 @@
                     <input id="repasswd" type="password" class="form-control" placeholder="请再次输入新密码">
                 </div>
                 <div class="form-footer">
-                    <button id="reset" class="btn btn-primary w-100">
+                    <button id="reset" class="btn btn-primary w-100"
+                            hx-post="{ location.pathname }" hx-swap="none"
+                            hx-vals='js:{
+                            password: document.getElementById("password").value,
+                            repasswd: document.getElementById("repasswd").value, }'>
                         <i class="ti ti-key icon"></i>
                         重置
                     </button>
@@ -35,28 +36,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    $("#reset").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: location.pathname,
-            dataType: "json",
-            data: {
-                password: $('#password').val(),
-                repasswd: $('#repasswd').val(),
-            },
-            success: function (data) {
-                if (data.ret === 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
-                }
-            }
-        })
-    });
-</script>
 
 {include file='footer.tpl'}

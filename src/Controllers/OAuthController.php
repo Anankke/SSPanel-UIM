@@ -19,7 +19,6 @@ use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use SmartyException;
-use voku\helper\AntiXSS;
 use function hash;
 use function hash_hmac;
 use function implode;
@@ -245,9 +244,7 @@ final class OAuthController extends BaseController
             return ResponseHelper::error($response, self::$err_msg);
         }
 
-        $antiXss = new AntiXSS();
-
-        $telegram_id = $antiXss->xss_clean($user_auth['id']);
+        $telegram_id = $this->antiXss->xss_clean($user_auth['id']);
         $user = $this->user;
 
         if ((new User())->where('im_type', 4)->where('im_value', $telegram_id)->first() !== null ||
