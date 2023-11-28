@@ -28,12 +28,12 @@
             <br>
             <p class="empty-title"><a href="https://github.com/Anankke/SSPanel-Uim">GitHub Repo</a></p>
             <br>
-            <p class="empty-title"><a href="https://github.com/sspanel-uim">项目组页面</a></p>
+            <p class="empty-title"><a href="https://github.com/sspanel-uim">GitHub Org</a></p>
             <br>
             <p class="empty-title">SSPanel-UIM 的存在离不开以下开源项目</p>
-            <p><a href="https://github.com/smarty-php/smarty">Smarty template engine</a></p>
             <p><a href="https://github.com/slimphp/Slim">Slim Framework</a></p>
             <p><a href="https://github.com/tabler/tabler">Tabler</a></p>
+            <p><a href="https://github.com/twigphp/Twig">Twig</a></p>
             <br>
             <p>This product includes GeoLite2 data created by MaxMind, available from
                 <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>

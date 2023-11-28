@@ -224,7 +224,7 @@
     });
 
     $("#save-product").click(function () {
-        var emptyFields = $('input[required]').filter(function () {
+        let emptyFields = $('input[required]').filter(function () {
             return $(this).val() === '';
         });
 

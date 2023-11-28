@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Middleware\Admin;
-use App\Middleware\Auth;
 use App\Middleware\Guest;
 use App\Middleware\NodeToken;
+use App\Middleware\User;
 use Slim\Routing\RouteCollectorProxy;
 
 return static function (Slim\App $app): void {
@@ -24,7 +24,8 @@ return static function (Slim\App $app): void {
     $app->get('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
     // 通用订阅
     $app->get('/sub/{token}/{subtype}', App\Controllers\SubController::class . ':getUniversalSubContent');
-    // User Center
+
+    // User
     $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');
         $group->get('/', App\Controllers\UserController::class . ':index');
@@ -106,7 +107,7 @@ return static function (Slim\App $app): void {
         $group->get('/clients/{name}', App\Controllers\User\ClientController::class . ':getClients');
         // 登出
         $group->get('/logout', App\Controllers\UserController::class . ':logout');
-    })->add(new Auth());
+    })->add(new User());
 
     $app->group('/payment', static function (RouteCollectorProxy $group): void {
         $group->get('/notify/{type}', App\Services\Payment::class . ':notify');
@@ -253,7 +254,7 @@ return static function (Slim\App $app): void {
         $group->get('/giftcard', App\Controllers\Admin\GiftCardController::class . ':index');
         $group->post('/giftcard', App\Controllers\Admin\GiftCardController::class . ':add');
         $group->post('/giftcard/ajax', App\Controllers\Admin\GiftCardController::class . ':ajax');
-        $group->delete('/giftcard/{id}', App\Controllers\Admin\GiftCardController::class . ':delete');
+        $group->delete('/giftcard/{id:[0-9]+}', App\Controllers\Admin\GiftCardController::class . ':delete');
         // 商品
         $group->get('/product', App\Controllers\Admin\ProductController::class . ':index');
         $group->get('/product/create', App\Controllers\Admin\ProductController::class . ':create');
@@ -267,7 +268,7 @@ return static function (Slim\App $app): void {
         $group->get('/order', App\Controllers\Admin\OrderController::class . ':index');
         $group->get('/order/{id:[0-9]+}/view', App\Controllers\Admin\OrderController::class . ':detail');
         $group->post('/order/{id:[0-9]+}/cancel', App\Controllers\Admin\OrderController::class . ':cancel');
-        $group->delete('/order/{id}', App\Controllers\Admin\OrderController::class . ':delete');
+        $group->delete('/order/{id:[0-9]+}', App\Controllers\Admin\OrderController::class . ':delete');
         $group->post('/order/ajax', App\Controllers\Admin\OrderController::class . ':ajax');
         // 账单
         $group->get('/invoice', App\Controllers\Admin\InvoiceController::class . ':index');
@@ -288,6 +289,7 @@ return static function (Slim\App $app): void {
 
     // WebAPI V2(Aka Node API V1)
     //$app->group('/node/api/v1', function (RouteCollectorProxy $group): void {
+    //    $group->get('/heartbeat', App\Controllers\Api\NodeApiV1Controller::class . ':getHeartbeat');
     //    $group->get('/info', App\Controllers\Api\NodeApiV1Controller::class . ':getInfo');
     //    $group->get('/user', App\Controllers\Api\NodeApiV1Controller::class . ':getUser');
     //    $group->get('/detect_rule', App\Controllers\Api\NodeApiV1Controller::class . ':getDetectRule');
@@ -299,7 +301,7 @@ return static function (Slim\App $app): void {
     // WebAPI
     $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
         // 节点
-        $group->get('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
+        $group->get('/nodes/{id:[0-9]+}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户
         $group->get('/users', App\Controllers\WebAPI\UserController::class . ':index');
         $group->post('/users/traffic', App\Controllers\WebAPI\UserController::class . ':addTraffic');

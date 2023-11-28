@@ -31,9 +31,9 @@
                     {if $public_setting['reg_mode'] !== 'close' }
                         <div class="mb-3">
                             <div class="input-group input-group-flat">
-                                <input id="code" type="text" class="form-control"
+                                <input id="invite_code" type="text" class="form-control"
                                        placeholder="注册邀请码{if $public_setting['reg_mode'] === 'open'}（可选）{else}（必填）{/if}"
-                                       value="{$code}">
+                                       value="{$invite_code}">
                             </div>
                         </div>
                     {/if}
@@ -41,7 +41,11 @@
                         <div class="mb-3">
                             <div class="input-group mb-2">
                                 <input id="emailcode" type="text" class="form-control" placeholder="邮箱验证码">
-                                <button id="email-verify" class="btn text-blue" type="button">获取</button>
+                                <button id="send-verify-email" class="btn text-blue" type="button"
+                                        hx-post="/auth/send" hx-swap="none"
+                                        hx-vals='js:{ email: document.getElementById("email").value }'>
+                                    获取
+                                </button>
                             </div>
                         </div>
                     {/if}
@@ -53,25 +57,36 @@
                                 </span>
                         </label>
                     </div>
-                    {if $public_setting['enable_reg_captcha']}
-                        {if $public_setting['captcha_provider'] === 'turnstile'}
-                            <div class="mb-3">
-                                <div class="input-group mb-3">
-                                    <div id="cf-turnstile" class="cf-turnstile"
-                                         data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
-                                </div>
-                            </div>
+                    <div class="mb-3">
+                        <div class="input-group mb-3">
+                        {if $public_setting['enable_reg_captcha']}
+                            {include file='captcha_div.tpl'}
                         {/if}
-                        {if $public_setting['captcha_provider'] === 'geetest'}
-                            <div class="mb-3">
-                                <div class="input-group mb-3">
-                                    <div id="geetest"></div>
-                                </div>
-                            </div>
-                        {/if}
-                    {/if}
+                        </div>
+                    </div>
                     <div class="form-footer">
-                        <button id="confirm-register" type="submit" class="btn btn-primary w-100">注册新账户</button>
+                        <button id="register" class="btn btn-primary w-100"
+                                hx-post="/auth/register" hx-swap="none" hx-vals='js:{
+                                    {if $public_setting['reg_email_verify']}
+                                        emailcode: document.getElementById("emailcode").value,
+                                    {/if}
+                                    {if $public_setting['enable_reg_captcha']}
+                                        {if $public_setting['captcha_provider'] === 'turnstile'}
+                                            turnstile: document.querySelector("[name=cf-turnstile-response]").value,
+                                        {/if}
+                                        {if $public_setting['captcha_provider'] === 'geetest'}
+                                            geetest: geetest_result,
+                                        {/if}
+                                    {/if}
+                                    name: document.getElementById("name").value,
+                                    email: document.getElementById("email").value,
+                                    passwd: document.getElementById("passwd").value,
+                                    repasswd: document.getElementById("repasswd").value,
+                                    invite_code: document.getElementById("invite_code").value,
+                                    tos: document.getElementById("tos").checked,
+                                 }'>
+                            注册新账户
+                        </button>
                     </div>
                 </div>
             {else}
@@ -86,87 +101,8 @@
     </div>
 </div>
 
-<script>
-    {if $public_setting['reg_email_verify']}
-    $("#email-verify").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/auth/send',
-            dataType: "json",
-            data: {
-                email: $('#email').val(),
-            },
-            success: function (data) {
-                if (data.ret === 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
-                }
-            }
-        })
-    });
-    {/if}
-
-    $("#confirm-register").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/auth/register',
-            dataType: "json",
-            data: {
-                {if $public_setting['reg_email_verify']}
-                emailcode: $('#emailcode').val(),
-                {/if}
-                tos: $('#tos').prop('checked'), // true / false (string)
-                code: $('#code').val(),
-                name: $('#name').val(),
-                email: $('#email').val(),
-                passwd: $('#passwd').val(),
-                repasswd: $('#repasswd').val(),
-                {if $public_setting['enable_reg_captcha']}
-                {if $public_setting['captcha_provider'] === 'turnstile'}
-                turnstile: $('input[name=cf-turnstile-response]').val(),
-                {/if}
-                {if $public_setting['captcha_provider'] === 'geetest'}
-                geetest: geetest_result,
-                {/if}
-                {/if}
-            },
-            success: function (data) {
-                if (data.ret === 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                    window.setTimeout(location.href = data.redir, {$config['jump_delay']});
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
-                }
-            }
-        })
-    });
-</script>
-
 {if $public_setting['enable_reg_captcha']}
-{if $public_setting['captcha_provider'] === 'turnstile'}
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    {include file='captcha_js.tpl'}
 {/if}
-{if $public_setting['captcha_provider'] === 'geetest'}
-    <script src="https://static.geetest.com/v4/gt4.js"></script>
-    <script>
-        var geetest_result = '';
-        initGeetest4({
-            captchaId: '{$captcha['geetest_id']}',
-            product: 'float',
-            language: "zho",
-            riskType: 'slide'
-        }, function (geetest) {
-            geetest.appendTo("#geetest");
-            geetest.onSuccess(function () {
-                geetest_result = geetest.getValidate();
-            });
-        });
-    </script>
-{/if}
-{/if}
+
 {include file='footer.tpl'}

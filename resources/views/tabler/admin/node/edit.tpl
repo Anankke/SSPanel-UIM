@@ -210,14 +210,14 @@
 </div>
 
 <script>
-    var clipboard = new ClipboardJS('.copy');
+    let clipboard = new ClipboardJS('.copy');
     clipboard.on('success', function (e) {
         $('#success-noreload-message').text('已复制到剪切板');
         $('#success-noreload-dialog').modal('show');
     });
 
     const container = document.getElementById('custom_config');
-    var options = {
+    let options = {
         modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);

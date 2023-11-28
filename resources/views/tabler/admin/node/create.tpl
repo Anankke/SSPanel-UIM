@@ -178,7 +178,7 @@
 
 <script>
     const container = document.getElementById('custom_config');
-    var options = {
+    let options = {
         modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);

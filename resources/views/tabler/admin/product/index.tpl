@@ -29,7 +29,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="table-responsive">
-                            <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
+                            <table id="data-table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                 <tr>
                                     {foreach $details['field'] as $key => $value}
@@ -46,7 +46,7 @@
     </div>
 
     <script>
-        var table = $('#data_table').DataTable({
+        let table = new DataTable('#data-table', {
             ajax: {
                 url: '/admin/product/ajax',
                 type: 'POST',

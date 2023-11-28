@@ -9,6 +9,7 @@ use App\Services\Auth;
 use App\Services\View;
 use Smarty;
 use Twig\Environment;
+use voku\helper\AntiXSS;
 
 abstract class BaseController
 {
@@ -28,11 +29,17 @@ abstract class BaseController
     protected User $user;
 
     /**
+     * @var AntiXSS
+     */
+    protected AntiXSS $antiXss;
+
+    /**
      * Construct page renderer
      */
     public function __construct()
     {
         $this->user = Auth::getUser();
+        $this->antiXss = new AntiXSS();
     }
 
     /**

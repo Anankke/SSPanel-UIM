@@ -14,7 +14,7 @@
     <!-- JS files -->
     <script src="/assets/js/fuck.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/qrcode_js@latest/qrcode.min.js"></script>
-    <script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
+    <script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/htmx.org@latest/dist/htmx.min.js"></script>
     <style>
         .home-subtitle {

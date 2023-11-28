@@ -154,9 +154,12 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, (string) $checkin['msg']);
         }
 
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
+        return $response->withJson([
             'ret' => 1,
             'msg' => $checkin['msg'],
+            'data' => [
+                'last-checkin-time' => $this->user->lastCheckInTime(),
+            ],
         ]);
     }
 

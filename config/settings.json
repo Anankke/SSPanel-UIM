@@ -1041,16 +1041,6 @@
     },
     {
         "id": null,
-        "item": "tawk_id",
-        "value": "",
-        "class": "support",
-        "is_public": 1,
-        "type": "string",
-        "default": "",
-        "mark": "tawk_id"
-    },
-    {
-        "id": null,
         "item": "crisp_id",
         "value": "",
         "class": "support",
@@ -1061,23 +1051,13 @@
     },
     {
         "id": null,
-        "item": "livechat_id",
+        "item": "livechat_license",
         "value": "",
         "class": "support",
         "is_public": 1,
         "type": "string",
         "default": "",
-        "mark": "livechat_id"
-    },
-    {
-        "id": null,
-        "item": "mylivechat_id",
-        "value": "",
-        "class": "support",
-        "is_public": 1,
-        "type": "string",
-        "default": "",
-        "mark": "mylivechat_id"
+        "mark": "livechat_license"
     },
     {
         "id": null,

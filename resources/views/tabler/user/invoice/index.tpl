@@ -1,7 +1,6 @@
 {include file='user/header.tpl'}
 
-<link href="//cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet"/>
-<script src="//cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<link href="//cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.css" rel="stylesheet"/>
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -24,7 +23,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="table-responsive">
-                            <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
+                            <table id="data-table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                 <tr>
                                     {foreach $details['field'] as $key => $value}
@@ -40,8 +39,11 @@
         </div>
     </div>
 
+    <script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.js"></script>
+
     <script>
-        let table = $('#data_table').DataTable({
+        let table = new DataTable('#data-table', {
             ajax: {
                 url: '/user/invoice/ajax',
                 type: 'POST',

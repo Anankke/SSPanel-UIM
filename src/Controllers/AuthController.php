@@ -25,7 +25,6 @@ use Ramsey\Uuid\Uuid;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use voku\helper\AntiXSS;
 use function array_rand;
 use function date;
 use function explode;
@@ -69,12 +68,11 @@ final class AuthController extends BaseController
             ]);
         }
 
-        $antiXss = new AntiXSS();
-        $code = $antiXss->xss_clean($request->getParam('code'));
+        $mfa_code = $this->antiXss->xss_clean($request->getParam('mfa_code'));
         $passwd = $request->getParam('passwd');
         $rememberMe = $request->getParam('remember_me') === 'true' ? 1 : 0;
-        $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
-        $redir = Cookie::get('redir') === '' ? $antiXss->xss_clean(Cookie::get('redir')) : '/user';
+        $email = strtolower(trim($this->antiXss->xss_clean($request->getParam('email'))));
+        $redir = $this->antiXss->xss_clean(Cookie::get('redir')) ?? '/user';
         $user = (new User())->where('email', $email)->first();
         $loginIp = new LoginIp();
 
@@ -96,7 +94,7 @@ final class AuthController extends BaseController
             ]);
         }
 
-        if ($user->ga_enable && (strlen($code) !== 6 || ! MFA::verifyGa($user, $code))) {
+        if ($user->ga_enable && (strlen($mfa_code) !== 6 || ! MFA::verifyGa($user, $mfa_code))) {
             $loginIp->collectLoginIP($_SERVER['REMOTE_ADDR'], 1, $user->id);
 
             return $response->withJson([
@@ -117,10 +115,9 @@ final class AuthController extends BaseController
         $user->last_login_time = time();
         $user->save();
 
-        return $response->withJson([
+        return $response->withHeader('HX-Redirect', $redir)->withJson([
             'ret' => 1,
             'msg' => '登录成功',
-            'redir' => $redir,
         ]);
     }
 
@@ -135,12 +132,11 @@ final class AuthController extends BaseController
             $captcha = Captcha::generate();
         }
 
-        $antiXss = new AntiXSS();
-        $code = $antiXss->xss_clean($request->getParam('code'));
+        $invite_code = $this->antiXss->xss_clean($request->getParam('code'));
 
         return $response->write(
             $this->view()
-                ->assign('code', $code)
+                ->assign('invite_code', $invite_code)
                 ->assign('base_url', $_ENV['baseUrl'])
                 ->assign('captcha', $captcha)
                 ->fetch('auth/register.tpl')
@@ -153,8 +149,7 @@ final class AuthController extends BaseController
     public function sendVerify(ServerRequest $request, Response $response, $next): Response|ResponseInterface
     {
         if (Config::obtain('reg_email_verify')) {
-            $antiXss = new AntiXSS();
-            $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
+            $email = strtolower(trim($this->antiXss->xss_clean($request->getParam('email'))));
 
             if ($email === '') {
                 return ResponseHelper::error($response, '未填写邮箱');
@@ -178,9 +173,9 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '此邮箱已经注册');
             }
 
-            $code = Tools::genRandomChar(6);
+            $email_code = Tools::genRandomChar(6);
             $redis = (new Cache())->initRedis();
-            $redis->setex('email_verify:' . $code, Config::obtain('email_verify_code_ttl'), $email);
+            $redis->setex('email_verify:' . $email_code, Config::obtain('email_verify_code_ttl'), $email);
 
             try {
                 Mail::send(
@@ -188,7 +183,7 @@ final class AuthController extends BaseController
                     $_ENV['appName'] . '- 验证邮件',
                     'verify_code.tpl',
                     [
-                        'code' => $code,
+                        'code' => $email_code,
                         'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
                     ]
                 );
@@ -207,7 +202,7 @@ final class AuthController extends BaseController
      * @param $name
      * @param $email
      * @param $passwd
-     * @param $code
+     * @param $invite_code
      * @param $imtype
      * @param $imvalue
      * @param $money
@@ -217,18 +212,18 @@ final class AuthController extends BaseController
      *
      * @throws Exception
      */
-    public static function registerHelper(
+    public function registerHelper(
         Response $response,
         $name,
         $email,
         $passwd,
-        $code,
+        $invite_code,
         $imtype,
         $imvalue,
         $money,
         $is_admin_reg
     ): ResponseInterface {
-        $redir = Cookie::get('redir') ?? '/user';
+        $redir = $this->antiXss->xss_clean(Cookie::get('redir')) ?? '/user';
         $configs = Config::getClass('reg');
         // do reg user
         $user = new User();
@@ -262,8 +257,8 @@ final class AuthController extends BaseController
 
         $user->ref_by = 0;
 
-        if ($code !== '') {
-            $invite = (new InviteCode())->where('code', $code)->first();
+        if ($invite_code !== '') {
+            $invite = (new InviteCode())->where('code', $invite_code)->first();
             $invite->reward();
             $user->ref_by = $invite->user_id;
             $user->money = Config::obtain('invitation_to_register_balance_reward');
@@ -291,10 +286,9 @@ final class AuthController extends BaseController
             Auth::login($user->id, 3600);
             (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
 
-            return $response->withJson([
+            return $response->withHeader('HX-Redirect', $redir)->withJson([
                 'ret' => 1,
                 'msg' => '注册成功！正在进入登录界面',
-                'redir' => $redir,
             ]);
         }
 
@@ -321,24 +315,23 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试。');
         }
 
-        $antiXss = new AntiXSS();
         $tos = $request->getParam('tos') === 'true' ? 1 : 0;
-        $email = strtolower(trim($antiXss->xss_clean($request->getParam('email'))));
-        $name = $antiXss->xss_clean($request->getParam('name'));
+        $email = strtolower(trim($this->antiXss->xss_clean($request->getParam('email'))));
+        $name = $this->antiXss->xss_clean($request->getParam('name'));
         $passwd = $request->getParam('passwd');
         $repasswd = $request->getParam('repasswd');
-        $code = $antiXss->xss_clean(trim($request->getParam('code')));
+        $invite_code = $this->antiXss->xss_clean(trim($request->getParam('invite_code')));
         // Check TOS agreement
         if (! $tos) {
             return ResponseHelper::error($response, '请同意服务条款');
         }
         // Check Invite Code
-        if ($code === '' && Config::obtain('reg_mode') === 'invite') {
+        if ($invite_code === '' && Config::obtain('reg_mode') === 'invite') {
             return ResponseHelper::error($response, '邀请码不能为空');
         }
 
-        if ($code !== '') {
-            $user_invite = (new InviteCode())->where('code', $code)->first();
+        if ($invite_code !== '') {
+            $user_invite = (new InviteCode())->where('code', $invite_code)->first();
 
             if ($user_invite === null) {
                 return ResponseHelper::error($response, '邀请码无效');
@@ -377,7 +370,7 @@ final class AuthController extends BaseController
 
         if (Config::obtain('reg_email_verify')) {
             $redis = (new Cache())->initRedis();
-            $email_verify_code = trim($antiXss->xss_clean($request->getParam('emailcode')));
+            $email_verify_code = trim($this->antiXss->xss_clean($request->getParam('emailcode')));
             $email_verify = $redis->get('email_verify:' . $email_verify_code);
 
             if (! $email_verify) {
@@ -387,7 +380,7 @@ final class AuthController extends BaseController
             $redis->del('email_verify:' . $email_verify_code);
         }
 
-        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0);
+        return $this->registerHelper($response, $name, $email, $passwd, $invite_code, $imtype, $imvalue, 0, 0);
     }
 
     public function logout(ServerRequest $request, Response $response, $next): Response

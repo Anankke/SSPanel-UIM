@@ -16,7 +16,6 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use voku\helper\AntiXSS;
 use function in_array;
 use function strtotime;
 
@@ -34,7 +33,7 @@ final class SubController extends BaseController
      * @throws RedisException
      * @throws TelegramSDKException
      */
-    public static function getUniversalSubContent($request, $response, $args): ResponseInterface
+    public function getUniversalSubContent($request, $response, $args): ResponseInterface
     {
         $err_msg = '订阅链接无效';
 
@@ -48,8 +47,7 @@ final class SubController extends BaseController
             return ResponseHelper::error($response, $err_msg);
         }
 
-        $antiXss = new AntiXSS();
-        $token = $antiXss->xss_clean($args['token']);
+        $token = $this->antiXss->xss_clean($args['token']);
 
         if ($_ENV['enable_rate_limit'] &&
             (! RateLimit::checkIPLimit($request->getServerParam('REMOTE_ADDR')) ||
@@ -79,7 +77,7 @@ final class SubController extends BaseController
         . '; expire=' . strtotime($user->class_expire);
 
         if (Config::obtain('subscribe_log')) {
-            (new SubscribeLog())->add($user, $subtype, $antiXss->xss_clean($request->getHeaderLine('User-Agent')));
+            (new SubscribeLog())->add($user, $subtype, $this->antiXss->xss_clean($request->getHeaderLine('User-Agent')));
         }
 
         return $response->withHeader('Subscription-Userinfo', $sub_details)

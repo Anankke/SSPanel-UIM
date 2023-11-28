@@ -12,10 +12,8 @@ final class SupportController extends BaseController
 {
     private static array $update_field = [
         'live_chat',
-        'tawk_id',
         'crisp_id',
-        'livechat_id',
-        'mylivechat_id',
+        'livechat_license',
         // Ticket
         'enable_ticket',
         'mail_ticket',

@@ -14,7 +14,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use voku\helper\AntiXSS;
 use function json_decode;
 use function time;
 
@@ -50,8 +49,7 @@ final class InvoiceController extends BaseController
      */
     public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $id = $antiXss->xss_clean($args['id']);
+        $id = $this->antiXss->xss_clean($args['id']);
 
         $invoice = (new Invoice())->where('user_id', $this->user->id)->where('id', $id)->first();
 
@@ -83,8 +81,7 @@ final class InvoiceController extends BaseController
 
     public function payBalance(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $antiXss = new AntiXSS();
-        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
 
         $invoice = (new Invoice())->where('user_id', $this->user->id)->where('id', $invoice_id)->first();
 
