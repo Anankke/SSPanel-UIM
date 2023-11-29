@@ -13,6 +13,7 @@ use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use voku\helper\AntiXSS;
 use function get_called_class;
 use function in_array;
 use function json_decode;
@@ -20,6 +21,8 @@ use function time;
 
 abstract class Base
 {
+    protected AntiXSS $antiXss;
+
     abstract public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface;
 
     abstract public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface;
