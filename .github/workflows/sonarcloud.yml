@@ -21,7 +21,7 @@ jobs:
       - name: Setup PHP with Xdebug
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           coverage: xdebug
       - name: Install dependencies with composer
         run: composer update --no-ansi --no-interaction --no-progress
