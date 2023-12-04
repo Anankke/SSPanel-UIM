@@ -16,7 +16,7 @@
         "ext-zip": "*",
         "anankke/omnipay-alipay": "^3.1.3",
         "aws/aws-sdk-php": "^3.293.2",
-        "geoip2/geoip2": "^2.13",
+        "geoip2/geoip2": "^3.0",
         "guzzlehttp/guzzle": "^7.8",
         "guzzlehttp/psr7": "^2.6.1",
         "illuminate/database": "^10.34.2",
