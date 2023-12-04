@@ -15,7 +15,7 @@
         "ext-yaml": "*",
         "ext-zip": "*",
         "anankke/omnipay-alipay": "^3.1.3",
-        "aws/aws-sdk-php": "^3.291.0",
+        "aws/aws-sdk-php": "^3.293.2",
         "geoip2/geoip2": "^2.13",
         "guzzlehttp/guzzle": "^7.8",
         "guzzlehttp/psr7": "^2.6.1",
@@ -24,14 +24,14 @@
         "irazasyed/telegram-bot-sdk": "^3.13",
         "lcobucci/jwt": "^5.2",
         "league/omnipay": "^3.2.1",
-        "mailgun/mailgun-php": "^3.6.2",
+        "mailgun/mailgun-php": "^3.6.3",
         "nikolaposa/rate-limit": "^3.0",
         "openai-php/client": "^0.7.10",
         "ozdemir/datatables": "^2.3.7",
         "phpmailer/phpmailer": "^6.9.1",
         "postal/postal": "^2",
         "ramsey/uuid": "^4.7.5",
-        "sendgrid/sendgrid": "^8.0.1",
+        "sendgrid/sendgrid": "^8.1.0",
         "sentry/sdk": "^3.5",
         "slim/http": "^1.3",
         "slim/slim": "^4.12",
@@ -59,7 +59,7 @@
     },
     "require-dev": {
         "nunomaduro/phpinsights": "*",
-        "phpunit/phpunit": "^10.4.2"
+        "phpunit/phpunit": "^10.5.1"
     },
     "scripts": {
         "update-dev-windows": [

@@ -93,6 +93,7 @@ final class User extends Model
      * @var array
      */
     protected $casts = [
+        'money' => 'float',
         'port' => 'int',
         'node_speedlimit' => 'float',
         'daily_mail_enable' => 'int',
