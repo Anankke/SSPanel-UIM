@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ef8e259b1374393f8cbb0e2f5ab87e6",
+    "content-hash": "eb4635f44a1d600f52a22e9805d9395b",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -4851,16 +4851,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v12.8.0",
+            "version": "v13.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "6b6f4a775ad46fee4b1df2df4fdfa574365b1621"
+                "reference": "a688c0ee7c0a2d162dee5c80b85d017cdd8d5e37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6b6f4a775ad46fee4b1df2df4fdfa574365b1621",
-                "reference": "6b6f4a775ad46fee4b1df2df4fdfa574365b1621",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a688c0ee7c0a2d162dee5c80b85d017cdd8d5e37",
+                "reference": "a688c0ee7c0a2d162dee5c80b85d017cdd8d5e37",
                 "shasum": ""
             },
             "require": {
@@ -4904,9 +4904,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v12.8.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.5.0"
             },
-            "time": "2023-10-16T18:04:12+00:00"
+            "time": "2023-11-30T18:11:45+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

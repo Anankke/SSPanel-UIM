@@ -37,7 +37,7 @@
         "slim/slim": "^4.12",
         "smarty/smarty": "^4.3.4",
         "srmklive/paypal": "^3.0.27",
-        "stripe/stripe-php": "^12.8",
+        "stripe/stripe-php": "^13.5",
         "symfony/translation": "^6.4",
         "tronovav/geoip2-update": "^2.3.1",
         "twig/twig": "^3.8",
