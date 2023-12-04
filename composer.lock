@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ef8e259b1374393f8cbb0e2f5ab87e6",
+    "content-hash": "043d7484cc137bbf310fe14437c0a066",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -2675,16 +2675,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.7.10",
+            "version": "v0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "f9af25d7d7bd8e58f60ada6c30f1c93d65c73833"
+                "reference": "d0e4996f6446ced6ad35ec0ea6af20e3596c648f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/f9af25d7d7bd8e58f60ada6c30f1c93d65c73833",
-                "reference": "f9af25d7d7bd8e58f60ada6c30f1c93d65c73833",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/d0e4996f6446ced6ad35ec0ea6af20e3596c648f",
+                "reference": "d0e4996f6446ced6ad35ec0ea6af20e3596c648f",
                 "shasum": ""
             },
             "require": {
@@ -2699,15 +2699,15 @@
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.8.0",
                 "guzzlehttp/psr7": "^2.6.1",
-                "laravel/pint": "^1.13.2",
-                "nunomaduro/collision": "^7.9.0",
-                "pestphp/pest": "^2.19.2",
-                "pestphp/pest-plugin-arch": "^2.3.3",
-                "pestphp/pest-plugin-mock": "^2.0.0",
-                "pestphp/pest-plugin-type-coverage": "^2.2.0",
-                "phpstan/phpstan": "^1.10.35",
+                "laravel/pint": "^1.13.6",
+                "mockery/mockery": "^1.6.6",
+                "nunomaduro/collision": "^7.10.0",
+                "pestphp/pest": "^2.25.0",
+                "pestphp/pest-plugin-arch": "^2.4.1",
+                "pestphp/pest-plugin-type-coverage": "^2.5.0",
+                "phpstan/phpstan": "^1.10.44",
                 "rector/rector": "^0.16.0",
-                "symfony/var-dumper": "^6.3.4"
+                "symfony/var-dumper": "^6.3.8"
             },
             "type": "library",
             "autoload": {
@@ -2747,7 +2747,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.7.10"
+                "source": "https://github.com/openai-php/client/tree/v0.8.0"
             },
             "funding": [
                 {
@@ -2763,7 +2763,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-14T13:39:26+00:00"
+            "time": "2023-11-23T14:04:47+00:00"
         },
         {
             "name": "ozdemir/datatables",

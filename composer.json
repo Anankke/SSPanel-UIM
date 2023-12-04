@@ -26,7 +26,7 @@
         "league/omnipay": "^3.2.1",
         "mailgun/mailgun-php": "^3.6.3",
         "nikolaposa/rate-limit": "^3.0",
-        "openai-php/client": "^0.7.10",
+        "openai-php/client": "^0.8.0",
         "ozdemir/datatables": "^2.3.7",
         "phpmailer/phpmailer": "^6.9.1",
         "postal/postal": "^2",
