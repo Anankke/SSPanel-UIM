@@ -133,7 +133,7 @@ return new class() implements MigrationInterface {
             CREATE TABLE `node` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '节点ID',
                 `name` varchar(255) NOT NULL DEFAULT '' COMMENT '节点名称',
-                `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点显示',
+                `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点启用',
                 `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址',
                 `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`)),
                 `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型',

@@ -23,18 +23,18 @@
 
 ## 简介
 
-SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan 协议设计的多用途代理服务销售管理系统。
+SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan / TUIC 协议设计的多用途代理服务销售管理系统。
 
 ## 特性
 
 - 集成 支付宝当面付，PayPal，Stripe 等多种支付系统
-- 支持多种邮件服务，内置队列功能，无需第三方组件即可使用
+- 支持多种邮件服务，内置邮件队列功能，无需第三方组件即可使用
 - 内置基于 Bootstrap 5 的 tabler 主题，模板引擎支持
 - 支持 Shadowsocks 2022，TUIC 等最新代理协议
 - 通用订阅接口，一键 json/clash/sip008/sing-box 格式订阅下发
-- 自定义节点配置，模块化订阅系统，支持多种传统订阅模式
-- 重构的商店系统，支持多种计费模式，包括但不限于包年包月，按量计费，接入类型计费等
-- 重构的定时任务系统，再也不需要麻烦地配置 crontab，一个命令即可完成所有定时任务
+- 自定义节点配置，模块化订阅系统，支持多种客户端专用订阅格式
+- 重构的商店系统，支持包括但不限于包年包月，按量计费，接入类型计费等计费模式
+- 重构的定时任务系统，一个命令即可自动完成所有定时任务
 
 ## 安装
 
@@ -42,8 +42,8 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 
 - Git
 - Nginx（必须使用 HTTPS/HTTPS is REQUIRED）
-- PHP 8.1+ （强烈推荐开启 OPcache /OPcache is highly recommended）
-- MariaDB 10.6+（关闭严格模式，不兼容 MySQL/Disable strict mode, DO NOT USE MySQL）
+- PHP 8.2+ （强烈推荐开启 OPcache /OPcache is highly recommended）
+- MariaDB 10.11+（关闭严格模式，不兼容 MySQL/Disable strict mode, DO NOT USE MySQL）
 - Redis 7.0+
 
 我们推荐用户在开始使用之前有一定程度的 PHP 和 Linux 使用知识，能够至少正确识别使用中所出现的问题并在 issue 中提供所需的信息。
@@ -61,12 +61,6 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 SSPanel-UIM 不单单是一个面板，它还包括了一系列周边项目来帮助你更好的使用它。
 
 你可以在 [SSPanel UIM 项目组](https://github.com/sspanel-uim) 的页面查看由我们的开发者维护的其他项目。
-
-## 贡献
-
-[功能请求 & 问题回报](https://github.com/Anankke/SSPanel-Uim/issues/new) | [Fork & Pull Request](https://github.com/Anankke/SSPanel-Uim/fork) | [文档 Repo](https://github.com/sspanel-uim/Wiki) | [贡献者列表](https://wiki.sspanel.org/#/contributors)
-
-SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档和代码改进，问题和错误报告。
 
 ## 支持开发者
 

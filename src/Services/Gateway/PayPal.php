@@ -21,10 +21,11 @@ use voku\helper\AntiXSS;
 
 final class PayPal extends Base
 {
-    private array $gateway_config;
+    protected array $gateway_config;
 
     public function __construct()
     {
+        $this->antiXss = new AntiXSS();
         $configs = Config::getClass('billing');
 
         $this->gateway_config = [
@@ -69,10 +70,8 @@ final class PayPal extends Base
      */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $antiXss = new AntiXSS();
-
-        $price = $antiXss->xss_clean($request->getParam('price'));
-        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        $price = $this->antiXss->xss_clean($request->getParam('price'));
+        $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         $trade_no = self::generateGuid();
 
         if ($price <= 0) {
@@ -121,9 +120,7 @@ final class PayPal extends Base
      */
     public function notify($request, $response, $args): ResponseInterface
     {
-        $antiXss = new AntiXSS();
-
-        $order_id = $antiXss->xss_clean($request->getParam('order_id'));
+        $order_id = $this->antiXss->xss_clean($request->getParam('order_id'));
 
         $pp = new PayPalClient($this->gateway_config);
         $pp->getAccessToken();

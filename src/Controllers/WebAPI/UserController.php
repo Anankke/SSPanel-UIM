@@ -42,6 +42,13 @@ final class UserController extends BaseController
             ]);
         }
 
+        if ($node->type === 0) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Node is not enabled.',
+            ]);
+        }
+
         $node->update(['node_heartbeat' => time()]);
 
         if ($node->node_bandwidth_limit !== 0 && $node->node_bandwidth_limit <= $node->node_bandwidth) {
@@ -160,6 +167,13 @@ final class UserController extends BaseController
             ]);
         }
 
+        if ($node->type === 0) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Node is not enabled.',
+            ]);
+        }
+
         $pdo = DB::getPdo();
         $stat = $pdo->prepare('
                 UPDATE user SET last_use_time = UNIX_TIMESTAMP(),
@@ -228,11 +242,19 @@ final class UserController extends BaseController
 
         $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
+        $node = (new Node())->find($node_id);
 
-        if ($node_id === null || ! (new Node())->where('id', $node_id)->exists()) {
+        if ($node === null) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => 'Node not found.',
+            ]);
+        }
+
+        if ($node->type === 0) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Node is not enabled.',
             ]);
         }
 
@@ -285,11 +307,19 @@ final class UserController extends BaseController
 
         $data = $data->data;
         $node_id = $request->getQueryParam('node_id');
+        $node = (new Node())->find($node_id);
 
-        if ($node_id === null || ! (new Node())->where('id', $node_id)->exists()) {
+        if ($node === null) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => 'Node not found.',
+            ]);
+        }
+
+        if ($node->type === 0) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Node is not enabled.',
             ]);
         }
 

@@ -28,6 +28,7 @@ final class Epay extends Base
 
     public function __construct()
     {
+        $this->antiXss = new AntiXSS();
         $this->epay['apiurl'] = Config::obtain('epay_url');//易支付API地址
         $this->epay['partner'] = Config::obtain('epay_pid');//易支付商户pid
         $this->epay['key'] = Config::obtain('epay_key');//易支付商户Key
@@ -53,12 +54,10 @@ final class Epay extends Base
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $antiXss = new AntiXSS();
-
-        $price = $antiXss->xss_clean($request->getParam('price'));
-        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        $price = $this->antiXss->xss_clean($request->getParam('price'));
+        $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         // EPay 特定参数
-        $type = $antiXss->xss_clean($request->getParam('type'));
+        $type = $this->antiXss->xss_clean($request->getParam('type'));
 
         if ($price <= 0) {
             return $response->withJson([

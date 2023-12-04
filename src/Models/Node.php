@@ -15,7 +15,7 @@ use const DNS_AAAA;
 /**
  * @property int    $id                      节点ID
  * @property string $name                    节点名称
- * @property int    $type                    节点显示
+ * @property int    $type                    节点启用
  * @property string $server                  节点地址
  * @property string $custom_config           自定义配置
  * @property int    $sort                    节点类型

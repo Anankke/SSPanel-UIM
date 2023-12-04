@@ -19,6 +19,11 @@ use voku\helper\AntiXSS;
 
 final class AopF2F extends Base
 {
+    public function __construct()
+    {
+        $this->antiXss = new AntiXSS();
+    }
+
     public static function _name(): string
     {
         return 'f2f';
@@ -36,10 +41,8 @@ final class AopF2F extends Base
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $antiXss = new AntiXSS();
-
-        $price = $antiXss->xss_clean($request->getParam('amount'));
-        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        $price = $this->antiXss->xss_clean($request->getParam('amount'));
+        $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         $trade_no = self::generateGuid();
 
         if ($price <= 0) {

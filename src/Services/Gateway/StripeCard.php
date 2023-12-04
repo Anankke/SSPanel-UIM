@@ -23,6 +23,11 @@ use voku\helper\AntiXSS;
 
 final class StripeCard extends Base
 {
+    public function __construct()
+    {
+        $this->antiXss = new AntiXSS();
+    }
+
     public static function _name(): string
     {
         return 'stripe';
@@ -44,10 +49,8 @@ final class StripeCard extends Base
      */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $antiXss = new AntiXSS();
-
-        $price = $antiXss->xss_clean($request->getParam('price'));
-        $invoice_id = $antiXss->xss_clean($request->getParam('invoice_id'));
+        $price = $this->antiXss->xss_clean($request->getParam('price'));
+        $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         $trade_no = self::generateGuid();
 
         if ($price < Config::obtain('stripe_min_recharge') ||
@@ -118,9 +121,7 @@ final class StripeCard extends Base
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
     {
-        $antiXss = new AntiXSS();
-
-        $session_id = $antiXss->xss_clean($request->getParam('session_id'));
+        $session_id = $this->antiXss->xss_clean($request->getParam('session_id'));
 
         $stripe = new StripeClient(Config::obtain('stripe_sk'));
         $session = null;
