@@ -10,7 +10,6 @@ use App\Models\SubscribeLog;
 use App\Services\RateLimit;
 use App\Services\Subscribe;
 use App\Utils\ResponseHelper;
-use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -33,10 +32,9 @@ final class SubController extends BaseController
      * @throws RedisException
      * @throws TelegramSDKException
      */
-    public function getUniversalSubContent($request, $response, $args): ResponseInterface
+    public function index($request, $response, $args): ResponseInterface
     {
         $err_msg = '订阅链接无效';
-
         $subtype = $args['subtype'];
         $subtype_list = ['json', 'clash', 'sip008', 'singbox', 'sip002', 'ss', 'v2ray', 'trojan'];
 
@@ -83,20 +81,5 @@ final class SubController extends BaseController
         return $response->withHeader('Subscription-Userinfo', $sub_details)
             ->withHeader('Content-Type', $content_type)
             ->write($sub_info);
-    }
-
-    public static function getUniversalSubLink($user): string
-    {
-        $userid = $user->id;
-        $token = (new Link())->where('userid', $userid)->first();
-
-        if ($token === null) {
-            $token = new Link();
-            $token->userid = $userid;
-            $token->token = Tools::genSubToken();
-            $token->save();
-        }
-
-        return $_ENV['subUrl'] . '/sub/' . $token->token;
     }
 }
