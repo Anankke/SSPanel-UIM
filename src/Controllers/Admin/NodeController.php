@@ -31,7 +31,8 @@ final class NodeController extends BaseController
             'type' => '状态',
             'sort' => '类型',
             'traffic_rate' => '倍率',
-            'is_dynamic_rate' => '启用动态流量倍率',
+            'is_dynamic_rate' => '动态倍率',
+            'dynamic_rate_type' => '动态倍率计算方式',
             'node_class' => '等级',
             'node_group' => '组别',
             'node_bandwidth_limit' => '流量限制/GB',
@@ -45,6 +46,7 @@ final class NodeController extends BaseController
         'server',
         'traffic_rate',
         'is_dynamic_rate',
+        'dynamic_rate_type',
         'max_rate',
         'max_rate_time',
         'min_rate',
@@ -97,6 +99,7 @@ final class NodeController extends BaseController
         $node->server = trim($request->getParam('server'));
         $node->traffic_rate = $request->getParam('traffic_rate') ?? 1;
         $node->is_dynamic_rate = $request->getParam('is_dynamic_rate') === 'true' ? 1 : 0;
+        $node->dynamic_rate_type = $request->getParam('dynamic_rate_type') ?? 0;
         $node->dynamic_rate_config = json_encode([
             'max_rate' => $request->getParam('max_rate') ?? 1,
             'max_rate_time' => $request->getParam('max_rate_time') ?? 3,
@@ -191,6 +194,7 @@ final class NodeController extends BaseController
         $node->server = trim($request->getParam('server'));
         $node->traffic_rate = $request->getParam('traffic_rate') ?? 1;
         $node->is_dynamic_rate = $request->getParam('is_dynamic_rate') === 'true' ? 1 : 0;
+        $node->dynamic_rate_type = $request->getParam('dynamic_rate_type') ?? 0;
         $node->dynamic_rate_config = json_encode([
             'max_rate' => $request->getParam('max_rate') ?? 1,
             'max_rate_time' => $request->getParam('max_rate_time') ?? 0,

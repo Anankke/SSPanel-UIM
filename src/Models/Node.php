@@ -21,6 +21,7 @@ use const DNS_AAAA;
  * @property int    $sort                    节点类型
  * @property float  $traffic_rate            流量倍率
  * @property int    $is_dynamic_rate         是否启用动态流量倍率
+ * @property int    $dynamic_rate_type       动态流量倍率计算方式
  * @property string $dynamic_rate_config     动态流量倍率配置
  * @property int    $node_class              节点等级
  * @property float  $node_speedlimit         节点限速
@@ -85,6 +86,15 @@ final class Node extends Model
     public function isDynamicRate(): string
     {
         return $this->is_dynamic_rate ? '是' : '否';
+    }
+
+    public function dynamicRateType(): string
+    {
+        return match ($this->dynamic_rate_type) {
+            0 => 'Logistic',
+            1 => 'Linear',
+            default => '未知',
+        };
     }
 
     /**

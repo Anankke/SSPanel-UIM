@@ -185,12 +185,19 @@ final class UserController extends BaseController
 
         if ($node->is_dynamic_rate) {
             $dynamic_rate_config = json_decode($node->dynamic_rate_config);
+
+            $dynamic_rate_type = match ($node->dynamic_rate_type) {
+                1 => 'linear',
+                default => 'logistic',
+            };
+
             $rate = DynamicRate::getRateByTime(
                 (float) $dynamic_rate_config?->max_rate,
                 (int) $dynamic_rate_config?->max_rate_time,
                 (float) $dynamic_rate_config?->min_rate,
                 (int) $dynamic_rate_config?->min_rate_time,
-                (int) date('H')
+                (int) date('H'),
+                $dynamic_rate_type
             );
         } else {
             $rate = $node->traffic_rate;

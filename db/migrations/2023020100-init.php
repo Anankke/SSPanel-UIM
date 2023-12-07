@@ -139,6 +139,7 @@ return new class() implements MigrationInterface {
                 `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型',
                 `traffic_rate` float unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率',
                 `is_dynamic_rate` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否启用动态流量倍率',
+                `dynamic_rate_type` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '动态流量倍率计算方式',
                 `dynamic_rate_config` longtext NOT NULL DEFAULT '{}' COMMENT '动态流量倍率配置' CHECK (json_valid(`custom_config`)),
                 `node_class` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点等级',
                 `node_speedlimit` double unsigned NOT NULL DEFAULT 0 COMMENT '节点限速',

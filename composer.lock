@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.293.3",
+            "version": "3.293.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a4b5523d5bde20fbaa35f439f8ca57ab2b4a753d"
+                "reference": "f2002e52b382b45231da3f9552033f769acfebd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a4b5523d5bde20fbaa35f439f8ca57ab2b4a753d",
-                "reference": "a4b5523d5bde20fbaa35f439f8ca57ab2b4a753d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f2002e52b382b45231da3f9552033f769acfebd8",
+                "reference": "f2002e52b382b45231da3f9552033f769acfebd8",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.293.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.293.5"
             },
-            "time": "2023-12-04T19:09:01+00:00"
+            "time": "2023-12-06T19:09:15+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1200,7 +1200,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1255,7 +1255,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1301,7 +1301,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1352,7 +1352,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1400,16 +1400,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "0a6c86fb795f28dc5656f2a7b38348d5b1a0a64d"
+                "reference": "3368e28e7ecc5b66fc749104ce75982971823216"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/0a6c86fb795f28dc5656f2a7b38348d5b1a0a64d",
-                "reference": "0a6c86fb795f28dc5656f2a7b38348d5b1a0a64d",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/3368e28e7ecc5b66fc749104ce75982971823216",
+                "reference": "3368e28e7ecc5b66fc749104ce75982971823216",
                 "shasum": ""
             },
             "require": {
@@ -1465,11 +1465,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-11-28T14:31:58+00:00"
+            "time": "2023-12-04T22:26:42+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1515,7 +1515,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1565,16 +1565,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.34.2",
+            "version": "v10.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "88960c790553fb24aa0c52b9a0b58fab04ea6fc3"
+                "reference": "84fd6e3a041c93bf8dca1349caf994023ee5c9e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/88960c790553fb24aa0c52b9a0b58fab04ea6fc3",
-                "reference": "88960c790553fb24aa0c52b9a0b58fab04ea6fc3",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/84fd6e3a041c93bf8dca1349caf994023ee5c9e0",
+                "reference": "84fd6e3a041c93bf8dca1349caf994023ee5c9e0",
                 "shasum": ""
             },
             "require": {
@@ -1632,7 +1632,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-11-27T16:17:31+00:00"
+            "time": "2023-12-04T22:26:42+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
@@ -4140,28 +4140,27 @@
         },
         {
             "name": "sendgrid/php-http-client",
-            "version": "3.14.4",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sendgrid/php-http-client.git",
-                "reference": "6d589564522be290c7d7c18e51bcd8b03aeaf0b6"
+                "reference": "84fe926f3d2ac3454f088c9a06ebdc398cc3727e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sendgrid/php-http-client/zipball/6d589564522be290c7d7c18e51bcd8b03aeaf0b6",
-                "reference": "6d589564522be290c7d7c18e51bcd8b03aeaf0b6",
+                "url": "https://api.github.com/repos/sendgrid/php-http-client/zipball/84fe926f3d2ac3454f088c9a06ebdc398cc3727e",
+                "reference": "84fe926f3d2ac3454f088c9a06ebdc398cc3727e",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=5.6"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "phpunit/phpunit": "^5.7 || ^6.5",
-                "sebastian/version": "^1.0.6",
+                "phpunit/phpunit": "^9",
                 "squizlabs/php_codesniffer": "~2.0"
             },
             "suggest": {
@@ -4197,23 +4196,22 @@
                 "sendgrid"
             ],
             "support": {
-                "issues": "https://github.com/sendgrid/php-http-client/issues",
-                "source": "https://github.com/sendgrid/php-http-client/tree/3.14.4"
+                "source": "https://github.com/sendgrid/php-http-client/tree/4.1.0"
             },
-            "time": "2022-03-09T20:21:55+00:00"
+            "time": "2023-12-01T05:16:21+00:00"
         },
         {
             "name": "sendgrid/sendgrid",
-            "version": "8.1.0",
+            "version": "8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sendgrid/sendgrid-php.git",
-                "reference": "550c3f606750911a0d8a8d58b7e20b436a2a6180"
+                "reference": "08514e75789f192c034fdcf18efe6d8b1a7c91da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/550c3f606750911a0d8a8d58b7e20b436a2a6180",
-                "reference": "550c3f606750911a0d8a8d58b7e20b436a2a6180",
+                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/08514e75789f192c034fdcf18efe6d8b1a7c91da",
+                "reference": "08514e75789f192c034fdcf18efe6d8b1a7c91da",
                 "shasum": ""
             },
             "require": {
@@ -4222,7 +4220,7 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "php": ">=7.3",
-                "sendgrid/php-http-client": "~3.10",
+                "sendgrid/php-http-client": "4.1.0",
                 "starkbank/ecdsa": "0.*"
             },
             "replace": {
@@ -4263,9 +4261,9 @@
                 "twilio sendgrid"
             ],
             "support": {
-                "source": "https://github.com/sendgrid/sendgrid-php/tree/8.1.0"
+                "source": "https://github.com/sendgrid/sendgrid-php/tree/8.1.1"
             },
-            "time": "2023-12-01T05:16:22+00:00"
+            "time": "2023-12-06T07:11:08+00:00"
         },
         {
             "name": "sentry/sdk",
@@ -7992,16 +7990,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.1",
+            "version": "10.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d5d9dca6a902d05b34c4bcbc7c1636ce1dc25408"
+                "reference": "5aedff46afba98dddecaa12349ec044d9103d4fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d5d9dca6a902d05b34c4bcbc7c1636ce1dc25408",
-                "reference": "d5d9dca6a902d05b34c4bcbc7c1636ce1dc25408",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5aedff46afba98dddecaa12349ec044d9103d4fe",
+                "reference": "5aedff46afba98dddecaa12349ec044d9103d4fe",
                 "shasum": ""
             },
             "require": {
@@ -8073,7 +8071,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.1"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.2"
             },
             "funding": [
                 {
@@ -8089,7 +8087,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-01T16:57:05+00:00"
+            "time": "2023-12-05T14:54:33+00:00"
         },
         {
             "name": "psr/cache",
