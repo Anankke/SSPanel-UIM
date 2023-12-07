@@ -103,6 +103,15 @@
                                 </span>
                             </div>
                             <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">动态流量倍率计算方式</label>
+                                <div class="col">
+                                    <select id="dynamic_rate_type" class="col form-select" value="{$node->dynamic_rate_type}">
+                                        <option value="0" {if $node->dynamic_rate_type === 0}selected{/if}>Logistic</option>
+                                        <option value="1" {if $node->dynamic_rate_type === 1}selected{/if}>Linear</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">最大倍率</label>
                                 <div class="col">
                                     <input id="max_rate" type="text" class="form-control" value="{$node->max_rate}">

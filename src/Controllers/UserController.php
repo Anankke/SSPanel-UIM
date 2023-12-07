@@ -13,6 +13,7 @@ use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Services\Auth;
 use App\Services\Captcha;
+use App\Services\Subscribe;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
@@ -43,7 +44,7 @@ final class UserController extends BaseController
                 ->assign('ann', (new Ann())->orderBy('date', 'desc')->first())
                 ->assign('captcha', $captcha)
                 ->assign('class_expire_days', $class_expire_days)
-                ->assign('UniversalSub', SubController::getUniversalSubLink($this->user))
+                ->assign('UniversalSub', Subscribe::getUniversalSubLink($this->user))
                 ->fetch('user/index.tpl')
         );
     }

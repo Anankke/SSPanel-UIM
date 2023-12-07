@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Bot\Telegram;
 
-use App\Controllers\SubController;
 use App\Models\Config;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
@@ -12,6 +11,7 @@ use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\SubscribeLog;
 use App\Models\User;
+use App\Services\Subscribe;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Eloquent\Model;
@@ -816,7 +816,7 @@ final class Callback
 
             $sendMessage = [];
 
-            $UniversalSub_Url = SubController::getUniversalSubLink($this->user);
+            $UniversalSub_Url = Subscribe::getUniversalSubLink($this->user);
 
             $text = match ($CallbackDataExplode[1]) {
                 'json' => 'Json 通用订阅地址：' . PHP_EOL . PHP_EOL .

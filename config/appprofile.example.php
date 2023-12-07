@@ -41,10 +41,6 @@ $_ENV['SingBox_Config'] = [
                 'mode' => 'and',
                 'rules' => [
                     [
-                        'geosite' => 'google@cn',
-                        'invert' => true,
-                    ],
-                    [
                         'geosite' => [
                             'cn',
                         ],
@@ -136,10 +132,6 @@ $_ENV['SingBox_Config'] = [
                 'mode' => 'and',
                 'rules' => [
                     [
-                        'geosite' => 'google@cn',
-                        'invert' => true,
-                    ],
-                    [
                         'geosite' => [
                             'cn',
                         ],
@@ -156,7 +148,7 @@ $_ENV['SingBox_Config'] = [
     ],
     'experimental' => [
         'clash_api' => [
-            'external_controller' => '0.0.0.0:9090',
+            'external_controller' => '127.0.0.1:9090',
             'store_mode' => true,
             'store_selected' => true,
             'cache_id' => '',

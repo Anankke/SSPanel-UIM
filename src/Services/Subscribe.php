@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Link;
 use App\Models\Node;
 use App\Services\Subscribe\Clash;
 use App\Services\Subscribe\Json;
@@ -13,10 +14,26 @@ use App\Services\Subscribe\SIP008;
 use App\Services\Subscribe\SS;
 use App\Services\Subscribe\Trojan;
 use App\Services\Subscribe\V2Ray;
+use App\Utils\Tools;
 use Illuminate\Support\Collection;
 
 final class Subscribe
 {
+    public static function getUniversalSubLink($user): string
+    {
+        $userid = $user->id;
+        $token = (new Link())->where('userid', $userid)->first();
+
+        if ($token === null) {
+            $token = new Link();
+            $token->userid = $userid;
+            $token->token = Tools::genSubToken();
+            $token->save();
+        }
+
+        return $_ENV['subUrl'] . '/sub/' . $token->token;
+    }
+
     /**
      * @param $user
      *
@@ -39,6 +56,11 @@ final class Subscribe
             ->get();
     }
 
+    public static function getContent($user, $type): string
+    {
+        return self::getClient($type)->getContent($user);
+    }
+
     public static function getClient($type): Json|SS|SIP002|V2Ray|Trojan|Clash|SIP008|SingBox
     {
         return match ($type) {
@@ -51,10 +73,5 @@ final class Subscribe
             'singbox' => new SingBox(),
             default => new Json(),
         };
-    }
-
-    public static function getContent($user, $type): string
-    {
-        return self::getClient($type)->getContent($user);
     }
 }
