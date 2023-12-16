@@ -343,6 +343,13 @@
                                         适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/CMFA.apk"
+                                        {else}
+                                            href="/clients/CMFA.apk"
+                                        {/if} class="btn btn-azure">
+                                            下载 Clash.Meta For Android
+                                        </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
