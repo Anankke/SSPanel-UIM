@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Models\Config;
 use App\Models\SubscribeLog;
 use App\Utils\Tools;
 use Exception;
@@ -28,6 +29,7 @@ final class SubLogController extends BaseController
         }
 
         return $response->write($this->view()
+            ->assign('subscribe_log_retention_days', Config::obtain('subscribe_log_retention_days'))
             ->assign('logs', $logs)
             ->fetch('user/subscribe_log.tpl'));
     }
