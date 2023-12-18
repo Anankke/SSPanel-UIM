@@ -57,13 +57,13 @@ final class MenuCommand extends Command
             // 回送信息
             return $this->replyWithMessage(
                 [
-                    'text' => $reply['text'],
+                    'text' => $reply['text'] ?? 'Hi!',
                     'parse_mode' => 'Markdown',
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => json_encode(
                         [
-                            'inline_keyboard' => $reply['keyboard'],
+                            'inline_keyboard' => $reply['keyboard'] ?? [],
                         ]
                     ),
                 ]
