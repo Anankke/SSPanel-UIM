@@ -9,7 +9,7 @@
                         <span class="home-title">订阅记录</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">在最近 {$config['subscribeLog_keep_days']} 天内所有的订阅记录</span>
+                        <span class="home-subtitle">在最近 {$subscribe_log_retention_days} 天内所有的订阅记录</span>
                     </div>
                 </div>
             </div>

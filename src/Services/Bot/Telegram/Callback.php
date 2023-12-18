@@ -743,15 +743,19 @@ final class Callback
                     'callback_data' => 'user.subscribe|singbox',
                 ],
                 [
+                    'text' => 'V2RayJson',
+                    'callback_data' => 'user.subscribe|v2rayjson',
+                ],
+                [
                     'text' => 'Shadowsocks',
                     'callback_data' => 'user.subscribe|ss',
                 ],
+            ],
+            [
                 [
                     'text' => 'SIP002',
                     'callback_data' => 'user.subscribe|sip002',
                 ],
-            ],
-            [
                 [
                     'text' => 'V2Ray',
                     'callback_data' => 'user.subscribe|v2',
@@ -825,6 +829,8 @@ final class Callback
                     '<code>' . $UniversalSub_Url . '/clash</code>' . PHP_EOL . PHP_EOL,
                 'singbox' => 'SingBox 通用订阅地址：' . PHP_EOL . PHP_EOL .
                     '<code>' . $UniversalSub_Url . '/singbox</code>' . PHP_EOL . PHP_EOL,
+                'v2rayjson' => 'V2RayJson 通用订阅地址：' . PHP_EOL . PHP_EOL .
+                    '<code>' . $UniversalSub_Url . '/v2rayjson</code>' . PHP_EOL . PHP_EOL,
                 'sip008' => 'SIP008 通用订阅地址：' . PHP_EOL . PHP_EOL .
                     '<code>' . $UniversalSub_Url . '/sip008</code>' . PHP_EOL . PHP_EOL,
                 'ss' => 'Shadowsocks 客户端订阅地址：' . PHP_EOL . PHP_EOL .

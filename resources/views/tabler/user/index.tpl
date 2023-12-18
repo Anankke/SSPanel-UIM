@@ -189,6 +189,9 @@
                                         <p>
                                             通用订阅（sing-box）：<code>{$UniversalSub}/singbox</code>
                                         </p>
+                                        <p>
+                                            通用订阅（v2rayjson）：<code>{$UniversalSub}/v2rayjson</code>
+                                        </p>
                                         {if $public_setting['enable_ss_sub']}
                                             <p>
                                                 通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
@@ -206,6 +209,10 @@
                                             <a data-clipboard-text="{$UniversalSub}/singbox"
                                                class="copy btn btn-primary">
                                                 复制通用订阅（sing-box）
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/v2rayjson"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（v2rayjson）
                                             </a>
                                             {if $public_setting['enable_ss_sub']}
                                                 <a data-clipboard-text="{$UniversalSub}/sip008"
@@ -336,6 +343,13 @@
                                         适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/CMFA.apk"
+                                        {else}
+                                            href="/clients/CMFA.apk"
+                                        {/if} class="btn btn-azure">
+                                            下载 Clash.Meta For Android
+                                        </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接

@@ -21,6 +21,18 @@
             ]
         },
         {
+            "name": "Clash.Meta For Android",
+            "tagMethod": "github_release",
+            "gitRepo": "MetaCubeX/ClashMetaForAndroid",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "cmfa-%tagName1%-meta-universal-release.apk ",
+                    "saveName": "CMFA.apk"
+                }
+            ]
+        },
+        {
             "name": "sing-box",
             "tagMethod": "github_release",
             "gitRepo": "SagerNet/sing-box",
