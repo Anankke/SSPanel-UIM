@@ -2457,30 +2457,30 @@
         },
         {
             "name": "nikolaposa/rate-limit",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikolaposa/rate-limit.git",
-                "reference": "4fe2e3e13db2148b9cd4c593a4dd285668f8da38"
+                "reference": "fa5d32ff5a31566a8839fa556c51930c0a7b467e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikolaposa/rate-limit/zipball/4fe2e3e13db2148b9cd4c593a4dd285668f8da38",
-                "reference": "4fe2e3e13db2148b9cd4c593a4dd285668f8da38",
+                "url": "https://api.github.com/repos/nikolaposa/rate-limit/zipball/fa5d32ff5a31566a8839fa556c51930c0a7b467e",
+                "reference": "fa5d32ff5a31566a8839fa556c51930c0a7b467e",
                 "shasum": ""
             },
             "require": {
                 "beberlei/assert": "^3.2",
-                "php": "^7.4 || ^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
                 "ext-apcu": ">=5.1.12",
                 "ext-redis": "*",
-                "friendsofphp/php-cs-fixer": "^2.17",
-                "phpstan/phpstan": "^0.12.10",
-                "phpstan/phpstan-beberlei-assert": "^0.12.2",
-                "phpstan/phpstan-phpunit": "^0.12.6",
-                "phpunit/phpunit": "^8.0",
+                "friendsofphp/php-cs-fixer": "3.44",
+                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan-beberlei-assert": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "phpunit/phpunit": "^10.5",
                 "predis/predis": "^1.1"
             },
             "suggest": {
@@ -2492,7 +2492,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -2518,9 +2518,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikolaposa/rate-limit/issues",
-                "source": "https://github.com/nikolaposa/rate-limit/tree/3.0.0"
+                "source": "https://github.com/nikolaposa/rate-limit/tree/3.1.0"
             },
-            "time": "2021-10-31T11:03:26+00:00"
+            "time": "2023-12-29T22:51:49+00:00"
         },
         {
             "name": "omnipay/common",
