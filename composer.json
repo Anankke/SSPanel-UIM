@@ -24,7 +24,7 @@
         "irazasyed/telegram-bot-sdk": "^3.13",
         "lcobucci/jwt": "^5.2",
         "league/omnipay": "^3.2.1",
-        "mailgun/mailgun-php": "^3.6.3",
+        "mailgun/mailgun-php": "^4.0",
         "nikolaposa/rate-limit": "^3.0",
         "openai-php/client": "^0",
         "ozdemir/datatables": "^2.3.7",

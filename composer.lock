@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9da81b5aa6d2908d2c465e277de35f2d",
+    "content-hash": "976e7c6f24a475652e0c52b051cac816",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -463,23 +463,23 @@
         },
         {
             "name": "clue/stream-filter",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/stream-filter.git",
-                "reference": "d6169430c7731d8509da7aecd0af756a5747b78e"
+                "reference": "049509fef80032cb3f051595029ab75b49a3c2f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/stream-filter/zipball/d6169430c7731d8509da7aecd0af756a5747b78e",
-                "reference": "d6169430c7731d8509da7aecd0af756a5747b78e",
+                "url": "https://api.github.com/repos/clue/stream-filter/zipball/049509fef80032cb3f051595029ab75b49a3c2f7",
+                "reference": "049509fef80032cb3f051595029ab75b49a3c2f7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.3 || ^5.7 || ^4.8.36"
+                "phpunit/phpunit": "^9.6 || ^5.7 || ^4.8.36"
             },
             "type": "library",
             "autoload": {
@@ -501,7 +501,7 @@
                 }
             ],
             "description": "A simple and modern approach to stream filtering in PHP",
-            "homepage": "https://github.com/clue/php-stream-filter",
+            "homepage": "https://github.com/clue/stream-filter",
             "keywords": [
                 "bucket brigade",
                 "callback",
@@ -513,7 +513,7 @@
             ],
             "support": {
                 "issues": "https://github.com/clue/stream-filter/issues",
-                "source": "https://github.com/clue/stream-filter/tree/v1.6.0"
+                "source": "https://github.com/clue/stream-filter/tree/v1.7.0"
             },
             "funding": [
                 {
@@ -525,7 +525,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-21T13:15:14+00:00"
+            "time": "2023-12-20T15:40:13+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1973,16 +1973,16 @@
         },
         {
             "name": "mailgun/mailgun-php",
-            "version": "v3.6.3",
+            "version": "v4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailgun/mailgun-php.git",
-                "reference": "3dbdc2f220fa64e78e903477efa22858c72509be"
+                "reference": "454ab2bcfb8c585b5ea8fbaa70079b99fd25039e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/3dbdc2f220fa64e78e903477efa22858c72509be",
-                "reference": "3dbdc2f220fa64e78e903477efa22858c72509be",
+                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/454ab2bcfb8c585b5ea8fbaa70079b99fd25039e",
+                "reference": "454ab2bcfb8c585b5ea8fbaa70079b99fd25039e",
                 "shasum": ""
             },
             "require": {
@@ -2028,9 +2028,9 @@
             "description": "The Mailgun SDK provides methods for all API functions.",
             "support": {
                 "issues": "https://github.com/mailgun/mailgun-php/issues",
-                "source": "https://github.com/mailgun/mailgun-php/tree/v3.6.3"
+                "source": "https://github.com/mailgun/mailgun-php/tree/v4.0"
             },
-            "time": "2023-12-01T10:04:01+00:00"
+            "time": "2023-12-16T19:47:29+00:00"
         },
         {
             "name": "maxmind-db/reader",
