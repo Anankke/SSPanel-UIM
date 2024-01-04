@@ -142,7 +142,14 @@ return static function (Slim\App $app): void {
         $group->get('/node/create', App\Controllers\Admin\NodeController::class . ':create');
         $group->post('/node', App\Controllers\Admin\NodeController::class . ':add');
         $group->get('/node/{id:[0-9]+}/edit', App\Controllers\Admin\NodeController::class . ':edit');
-        $group->post('/node/{id:[0-9]+}/reset', App\Controllers\Admin\NodeController::class . ':reset');
+        $group->post(
+            '/node/{id:[0-9]+}/reset_password',
+            App\Controllers\Admin\NodeController::class . ':resetPassword'
+        );
+        $group->post(
+            '/node/{id:[0-9]+}/reset_bandwidth',
+            App\Controllers\Admin\NodeController::class . ':resetBandwidth'
+        );
         $group->post('/node/{id:[0-9]+}/copy', App\Controllers\Admin\NodeController::class . ':copy');
         $group->put('/node/{id:[0-9]+}', App\Controllers\Admin\NodeController::class . ':update');
         $group->delete('/node/{id:[0-9]+}', App\Controllers\Admin\NodeController::class . ':delete');
@@ -246,10 +253,22 @@ return static function (Slim\App $app): void {
         $group->get('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':index');
         $group->post('/setting/support', App\Controllers\Admin\Setting\SupportController::class . ':save');
         // 设置测试
-        $group->post('/setting/test/email', App\Controllers\Admin\Setting\EmailController::class . ':testEmail');
-        $group->post('/setting/test/telegram', App\Controllers\Admin\Setting\ImController::class . ':testTelegram');
-        $group->post('/setting/test/discord', App\Controllers\Admin\Setting\ImController::class . ':testDiscord');
-        $group->post('/setting/test/slack', App\Controllers\Admin\Setting\ImController::class . ':testSlack');
+        $group->post(
+            '/setting/test/email',
+            App\Controllers\Admin\Setting\EmailController::class . ':testEmail'
+        );
+        $group->post(
+            '/setting/test/telegram',
+            App\Controllers\Admin\Setting\ImController::class . ':testTelegram'
+        );
+        $group->post(
+            '/setting/test/discord',
+            App\Controllers\Admin\Setting\ImController::class . ':testDiscord'
+        );
+        $group->post(
+            '/setting/test/slack',
+            App\Controllers\Admin\Setting\ImController::class . ':testSlack'
+        );
         // 礼品卡
         $group->get('/giftcard', App\Controllers\Admin\GiftCardController::class . ':index');
         $group->post('/giftcard', App\Controllers\Admin\GiftCardController::class . ':add');

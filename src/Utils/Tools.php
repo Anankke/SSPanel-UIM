@@ -15,6 +15,7 @@ use function array_flip;
 use function base64_encode;
 use function bin2hex;
 use function closedir;
+use function count;
 use function date;
 use function explode;
 use function filter_var;
@@ -49,42 +50,42 @@ final class Tools
      * @param string $ip
      *
      * @return string
-     *
-     * @throws InvalidDatabaseException
      */
     public static function getIpLocation(string $ip): string
     {
-        $err_msg = '';
+        $data = 'GeoIP2 服务未配置';
         $city = null;
         $country = null;
 
-        if ($_ENV['maxmind_license_key'] === '') {
-            $err_msg = 'GeoIP2 服务未配置';
-        } else {
-            $geoip = new GeoIP2();
+        if ($_ENV['maxmind_license_key'] !== '') {
+            try {
+                $geoip = new GeoIP2();
+            } catch (InvalidDatabaseException $e) {
+                return $data;
+            }
 
             try {
                 $city = $geoip->getCity($ip);
-            } catch (AddressNotFoundException $e) {
+            } catch (AddressNotFoundException|InvalidDatabaseException $e) {
                 $city = '未知城市';
             }
 
             try {
                 $country = $geoip->getCountry($ip);
-            } catch (AddressNotFoundException $e) {
+            } catch (AddressNotFoundException|InvalidDatabaseException $e) {
                 $country = '未知国家';
             }
         }
 
         if ($city !== null) {
-            return $city . ', ' . $country;
+            $data = $city . ', ' . $country;
         }
 
         if ($country !== null) {
-            return $country;
+            $data = $country;
         }
 
-        return $err_msg;
+        return $data;
     }
 
     /**
@@ -159,9 +160,9 @@ final class Tools
         return round(pow(1000, $base - floor($base)), $precision) . $units[floor($base)];
     }
 
-    //虽然名字是toMB，但是实际上功能是from MB to B
-
     /**
+     * 虽然名字是toMB，但是实际上功能是from MB to B
+     *
      * @param $traffic
      *
      * @return int
@@ -171,9 +172,9 @@ final class Tools
         return (int) $traffic * 1048576;
     }
 
-    //虽然名字是toGB，但是实际上功能是from GB to B
-
     /**
+     * 虽然名字是toGB，但是实际上功能是from GB to B
+     *
      * @param $traffic
      *
      * @return int
@@ -422,6 +423,7 @@ final class Tools
 
     /**
      * 判断是否 JSON
+     * TODO: Remove this function when PHP 8.3 is minimum requirement and replace it with native function
      *
      * @param string $string
      *
