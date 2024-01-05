@@ -32,12 +32,14 @@ $_ENV['db_collation'] = 'utf8mb4_unicode_ci';
 $_ENV['db_prefix']    = '';
 
 //Redis设置-------------------------------------------------------------------------------------------
-$_ENV['redis_host']     = '127.0.0.1';        //Redis地址
-$_ENV['redis_port']     = 6379;               //Redis端口
-$_ENV['redis_timeout']  = 2;                  //Redis连接超时时间，单位秒
-$_ENV['redis_username'] = '';                 //Redis用户名，留空则不使用用户名连接
-$_ENV['redis_password'] = '';                 //Redis密码，留空则无密码
-$_ENV['redis_ssl']      = false;              //是否使用SSL连接Redis，如果使用了SSL，那么Redis端口应为Redis实例的TLS端口
+$_ENV['redis_host']            = '127.0.0.1';    //Redis地址，使用unix domain socket时填写文件路径
+$_ENV['redis_port']            = 6379;           //Redis端口，使用unix domain socket时填写-1
+$_ENV['redis_connect_timeout'] = 2.0;            //Redis连接超时时间，单位秒
+$_ENV['redis_read_timeout']    = 8.0;            //Redis读取超时时间，单位秒
+$_ENV['redis_username']        = '';             //Redis用户名，留空则不使用用户名连接
+$_ENV['redis_password']        = '';             //Redis密码，留空则无密码
+$_ENV['redis_ssl']             = false;          //是否使用SSL连接Redis，如果使用了SSL，那么Redis端口应为Redis实例的TLS端口
+$_ENV['redis_ssl_context']     = [];             //使用SSL时的上下文选项，参考 https://www.php.net/manual/zh/context.ssl.php
 
 //Rate Limit设置--------------------------------------------------------------------------------------------
 $_ENV['enable_rate_limit']    = true;            //是否开启请求限制
