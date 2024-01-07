@@ -53,44 +53,14 @@ $_ENV['SingBox_Config'] = [
                 'tag' => 'local',
                 'address' => 'local',
             ],
-            [
-                'tag' => 'cloudflare',
-                'address' => 'https://1.1.1.1/dns-query',
-                'address_resolver' => 'local',
-            ],
-            [
-                'tag' => 'dnspod',
-                'address' => 'https://1.12.12.12/dns-query',
-                'detour' => 'direct',
-            ],
         ],
         'rules' => [
             [
                 'outbound' => 'any',
-                'server' => 'dnspod',
-            ],
-            [
-                'clash_mode' => 'Direct',
-                'server' => 'dnspod',
-            ],
-            [
-                'clash_mode' => 'Global',
-                'server' => 'cloudflare',
-            ],
-            [
-                'type' => 'logical',
-                'mode' => 'and',
-                'rules' => [
-                    [
-                        'geosite' => [
-                            'cn',
-                        ],
-                    ],
-                ],
-                'server' => 'dnspod',
+                'server' => 'local',
             ],
         ],
-        'final' => 'cloudflare',
+        'final' => 'local',
         'strategy' => 'prefer_ipv6',
     ],
     'inbounds' => [
@@ -132,33 +102,16 @@ $_ENV['SingBox_Config'] = [
             'type' => 'block',
             'tag' => 'block',
         ],
-        [
-            'type' => 'dns',
-            'tag' => 'dns',
-        ],
     ],
     'route' => [
-        'geoip' => [
-            'download_url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/MetaCubeX/meta-rules-dat@release/geoip-lite.db',
-            'download_detour' => 'direct',
-        ],
-        'geosite' => [
-            'download_url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/MetaCubeX/meta-rules-dat@release/geosite-lite.db',
-            'download_detour' => 'direct',
-        ],
         'rules' => [
-            [
-                'protocol' => 'dns',
-                'outbound' => 'dns',
-            ],
-            [
-                'network' => 'udp',
-                'port' => 53,
-                'outbound' => 'dns',
-            ],
             [
                 'clash_mode' => 'Direct',
                 'outbound' => 'direct',
+            ],
+            [
+                'clash_mode' => 'Rule',
+                'outbound' => 'default',
             ],
             [
                 'clash_mode' => 'Global',
@@ -169,30 +122,43 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'block',
             ],
             [
-                'type' => 'logical',
-                'mode' => 'and',
-                'rules' => [
-                    [
-                        'geosite' => [
-                            'cn',
-                        ],
-                        'geoip' => [
-                            'cn',
-                            'private',
-                        ],
-                    ],
-                ],
+                'ip_is_private' => true,
                 'outbound' => 'direct',
+            ],
+            [
+                'rule_set' => 'geoip-cn',
+                'outbound' => 'direct',
+            ],
+            [
+                'rule_set' => 'geosite-cn',
+                'outbound' => 'direct',
+            ],
+        ],
+        'rule_set' => [
+            [
+                'tag' => 'geoip-cn',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs',
+                'download_detour' => 'direct',
+            ],
+            [
+                'tag' => 'geosite-cn',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
+                'download_detour' => 'direct',
             ],
         ],
         'auto_detect_interface' => true,
     ],
     'experimental' => [
+        'cache_file' => [
+            'enabled' => true,
+            'cache_id' => '',
+        ],
         'clash_api' => [
             'external_controller' => '127.0.0.1:9090',
-            'store_mode' => true,
-            'store_selected' => true,
-            'cache_id' => '',
         ],
     ],
 ];

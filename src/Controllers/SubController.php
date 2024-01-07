@@ -75,7 +75,11 @@ final class SubController extends BaseController
         . '; expire=' . strtotime($user->class_expire);
 
         if (Config::obtain('subscribe_log')) {
-            (new SubscribeLog())->add($user, $subtype, $this->antiXss->xss_clean($request->getHeaderLine('User-Agent')));
+            (new SubscribeLog())->add(
+                $user,
+                $subtype,
+                $this->antiXss->xss_clean($request->getHeaderLine('User-Agent'))
+            );
         }
 
         return $response->withHeader('Subscription-Userinfo', $sub_details)

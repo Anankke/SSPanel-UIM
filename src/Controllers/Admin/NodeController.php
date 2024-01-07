@@ -102,9 +102,9 @@ final class NodeController extends BaseController
         $node->dynamic_rate_type = $request->getParam('dynamic_rate_type') ?? 0;
         $node->dynamic_rate_config = json_encode([
             'max_rate' => $request->getParam('max_rate') ?? 1,
-            'max_rate_time' => $request->getParam('max_rate_time') ?? 3,
+            'max_rate_time' => $request->getParam('max_rate_time') ?? 22,
             'min_rate' => $request->getParam('min_rate') ?? 1,
-            'min_rate_time' => $request->getParam('min_rate_time') ?? 22,
+            'min_rate_time' => $request->getParam('min_rate_time') ?? 3,
         ]);
 
         $custom_config = $request->getParam('custom_config') ?? '{}';
@@ -167,11 +167,11 @@ final class NodeController extends BaseController
 
         $dynamic_rate_config = json_decode($node->dynamic_rate_config);
         $node->max_rate = $dynamic_rate_config?->max_rate ?? 1;
-        $node->max_rate_time = $dynamic_rate_config?->max_rate_time ?? 3;
+        $node->max_rate_time = $dynamic_rate_config?->max_rate_time ?? 22;
         $node->min_rate = $dynamic_rate_config?->min_rate ?? 1;
-        $node->min_rate_time = $dynamic_rate_config?->min_rate_time ?? 22;
+        $node->min_rate_time = $dynamic_rate_config?->min_rate_time ?? 3;
 
-        $node->node_bandwidth = Tools::flowToGB($node->node_bandwidth);
+        $node->node_bandwidth = Tools::autoBytes($node->node_bandwidth);
         $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
 
         return $response->write(
@@ -248,7 +248,7 @@ final class NodeController extends BaseController
         ]);
     }
 
-    public function reset(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function resetPassword(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         $node = (new Node())->find($args['id']);
         $node->password = Tools::genRandomChar(32);
@@ -257,6 +257,18 @@ final class NodeController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '重置节点通讯密钥成功',
+        ]);
+    }
+
+    public function resetBandwidth(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    {
+        $node = (new Node())->find($args['id']);
+        $node->node_bandwidth = 0;
+        $node->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '重置节点流量成功',
         ]);
     }
 

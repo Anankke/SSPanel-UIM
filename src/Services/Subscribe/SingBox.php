@@ -34,7 +34,8 @@ final class SingBox extends Base
 
                     break;
                 case 1:
-                    $ss_2022_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $ss_2022_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
 
                     $pk_len = match ($method) {
@@ -56,7 +57,8 @@ final class SingBox extends Base
 
                     break;
                 case 2:
-                    $tuic_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $tuic_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $congestion_control = $node_custom_config['congestion_control'] ?? 'bbr';
@@ -81,7 +83,8 @@ final class SingBox extends Base
 
                     break;
                 case 11:
-                    $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $v2_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $transport = ($node_custom_config['network'] ?? '') === 'tcp' ? '' : $node_custom_config['network'];
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
@@ -113,7 +116,8 @@ final class SingBox extends Base
 
                     break;
                 case 14:
-                    $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $trojan_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
                     $transport = $node_custom_config['network'] ?? '';
@@ -158,7 +162,7 @@ final class SingBox extends Base
         }
 
         $singbox_config['outbounds'] = array_merge($singbox_config['outbounds'], $nodes);
-        $singbox_config['experimental']['clash_api']['cache_id'] = $_ENV['appName'];
+        $singbox_config['experimental']['cache_file']['cache_id'] = $_ENV['appName'];
 
         return json_encode($singbox_config);
     }
