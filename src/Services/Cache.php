@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Redis;
-use RedisException;
 
 final class Cache
 {
-    /**
-     * @throws RedisException
-     */
     public function initRedis(): Redis
     {
         return new Redis(self::getRedisConfig());
@@ -29,11 +25,12 @@ final class Cache
         if ($_ENV['redis_username'] !== '') {
             $config['auth']['user'] = $_ENV['redis_username'];
         }
+
         if ($_ENV['redis_password'] !== '') {
             $config['auth']['pass'] = $_ENV['redis_password'];
         }
 
-        if ($_ENV['redis_ssl'] === true) {
+        if ($_ENV['redis_ssl']) {
             $config['ssl'] = $_ENV['redis_ssl_context'];
         }
 
