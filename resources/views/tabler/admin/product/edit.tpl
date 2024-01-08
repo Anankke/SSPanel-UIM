@@ -155,7 +155,7 @@
                                     <span class="col">仅限新用户购买</span>
                                     <span class="col-auto">
                                         <label class="form-check form-check-single form-switch">
-                                            <input id="new_user_requried" class="form-check-input" type="checkbox"
+                                            <input id="new_user_required" class="form-check-input" type="checkbox"
                                                    {if $limit->new_user_required === 1}checked="" {/if}>
                                         </label>
                                     </span>
