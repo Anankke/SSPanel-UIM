@@ -40,8 +40,8 @@
     <script>
         let table = new DataTable('#data-table', {
             "serverSide": true,
-            "searching": false,
-            "ordering": false,
+            "searching": true,
+            "ordering": true,
             ajax: {
                 url: '/admin/login/ajax',
                 type: 'POST',
@@ -59,6 +59,12 @@
                     data: '{$key}'
                 },
                 {/foreach}
+            ],
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: [3]
+                },
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +

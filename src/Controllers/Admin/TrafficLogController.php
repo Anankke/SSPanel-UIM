@@ -11,7 +11,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use function round;
 
 final class TrafficLogController extends BaseController
 {
@@ -49,19 +48,39 @@ final class TrafficLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $trafficlogs = (new UserHourlyUsage())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $traffic_log = UserHourlyUsage::query();
+
+        $search = $request->getParam('search')['value'];
+
+        if ($search !== '') {
+            $traffic_log->where('user_id', '=', $search);
+        }
+
+        $order = $request->getParam('order')[0]['dir'];
+
+        if ($request->getParam('order')[0]['column'] !== '0') {
+            $order_by = $request->getParam('columns')[$request->getParam('order')[0]['column']]['data'];
+
+            $traffic_log->orderBy($order_by, $order)->orderBy('id', 'desc');
+        } else {
+            $traffic_log->orderBy('id', $order);
+        }
+
+        $filtered = $traffic_log->count();
         $total = (new UserHourlyUsage())->count();
 
+        $trafficlogs = $traffic_log->paginate($length, '*', '', $page);
+
         foreach ($trafficlogs as $trafficlog) {
-            $trafficlog->traffic = round(Tools::flowToGB($trafficlog->traffic), 2);
-            $trafficlog->hourly_usage = round(Tools::flowToGB($trafficlog->hourly_usage), 2);
+            $trafficlog->traffic = Tools::flowToGB($trafficlog->traffic);
+            $trafficlog->hourly_usage = Tools::flowToGB($trafficlog->hourly_usage);
             $trafficlog->datetime = Tools::toDateTime((int) $trafficlog->datetime);
         }
 
         return $response->withJson([
             'draw' => $draw,
             'recordsTotal' => $total,
-            'recordsFiltered' => $total,
+            'recordsFiltered' => $filtered,
             'trafficlogs' => $trafficlogs,
         ]);
     }

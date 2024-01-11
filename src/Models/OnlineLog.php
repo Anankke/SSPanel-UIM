@@ -46,11 +46,6 @@ final class OnlineLog extends Model
         return $ip;
     }
 
-    public function userName(): string
-    {
-        return (new User())->where('id', $this->user_id)->value('user_name');
-    }
-
     public function nodeName(): string
     {
         return (new Node())->where('id', $this->node_id)->value('name');

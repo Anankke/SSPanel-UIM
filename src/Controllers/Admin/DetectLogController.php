@@ -19,14 +19,10 @@ final class DetectLogController extends BaseController
             'field' => [
                 'id' => '事件ID',
                 'user_id' => '用户ID',
-                'user_name' => '用户名',
                 'node_id' => '节点ID',
                 'node_name' => '节点名',
                 'list_id' => '规则ID',
                 'rule_name' => '规则名',
-                'rule_text' => '规则描述',
-                'rule_regex' => '规则正则表达式',
-                'rule_type' => '规则类型',
                 'datetime' => '时间',
             ],
         ];
@@ -49,23 +45,41 @@ final class DetectLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $logs = (new DetectLog())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $detect_log = DetectLog::query();
+
+        $search = $request->getParam('search')['value'];
+
+        if ($search !== '') {
+            $detect_log->where('user_id', '=', $search)
+                ->orWhere('list_id', '=', $search)
+                ->orWhere('node_id', '=', $search);
+        }
+
+        $order = $request->getParam('order')[0]['dir'];
+
+        if ($request->getParam('order')[0]['column'] !== '0') {
+            $order_field = self::$details['field'][$request->getParam('order')[0]['column']];
+
+            $detect_log->orderBy($order_field, $order)->orderBy('id', 'desc');
+        } else {
+            $detect_log->orderBy('id', $order);
+        }
+
+        $filtered = $detect_log->count();
         $total = (new DetectLog())->count();
 
+        $logs = $detect_log->paginate($length, '*', '', $page);
+
         foreach ($logs as $log) {
-            $log->user_name = $log->userName();
             $log->node_name = $log->nodeName();
             $log->rule_name = $log->ruleName();
-            $log->rule_text = $log->ruleText();
-            $log->rule_regex = $log->ruleRegex();
-            $log->rule_type = $log->ruleType();
             $log->datetime = Tools::toDateTime((int) $log->datetime);
         }
 
         return $response->withJson([
             'draw' => $draw,
             'recordsTotal' => $total,
-            'recordsFiltered' => $total,
+            'recordsFiltered' => $filtered,
             'logs' => $logs,
         ]);
     }

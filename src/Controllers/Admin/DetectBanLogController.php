@@ -12,14 +12,13 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
-final class DetectBanController extends BaseController
+final class DetectBanLogController extends BaseController
 {
     private static array $details =
         [
             'field' => [
                 'id' => '事件ID',
                 'user_id' => '用户ID',
-                'user_name' => '用户名',
                 'detect_number' => '违规次数',
                 'ban_time' => '封禁时长(分钟)',
                 'start_time' => '统计开始时间',
@@ -47,11 +46,30 @@ final class DetectBanController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $bans = (new DetectBanLog())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $detect_ban_log = DetectBanLog::query();
+
+        $search = $request->getParam('search')['value'];
+
+        if ($search !== '') {
+            $detect_ban_log->where('user_id', '=', $search);
+        }
+
+        $order = $request->getParam('order')[0]['dir'];
+
+        if ($request->getParam('order')[0]['column'] !== '0') {
+            $order_field = self::$details['field'][$request->getParam('order')[0]['column']];
+
+            $detect_ban_log->orderBy($order_field, $order)->orderBy('id', 'desc');
+        } else {
+            $detect_ban_log->orderBy('id', $order);
+        }
+
+        $filtered = $detect_ban_log->count();
         $total = (new DetectBanLog())->count();
 
+        $bans = $detect_ban_log->paginate($length, '*', '', $page);
+
         foreach ($bans as $ban) {
-            $ban->user_name = $ban->userName();
             $ban->start_time = Tools::toDateTime((int) $ban->start_time);
             $ban->end_time = Tools::toDateTime((int) $ban->end_time);
             $ban->ban_end_time = $ban->banEndTime();
@@ -60,7 +78,7 @@ final class DetectBanController extends BaseController
         return $response->withJson([
             'draw' => $draw,
             'recordsTotal' => $total,
-            'recordsFiltered' => $total,
+            'recordsFiltered' => $filtered,
             'bans' => $bans,
         ]);
     }
