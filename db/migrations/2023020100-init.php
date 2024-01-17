@@ -238,8 +238,8 @@ return new class() implements MigrationInterface {
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `type` varchar(255) NOT NULL DEFAULT '' COMMENT '获取的订阅类型',
                 `request_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '请求IP',
-                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA',
                 `request_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '请求时间',
+                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

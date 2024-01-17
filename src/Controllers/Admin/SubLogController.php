@@ -38,7 +38,7 @@ final class SubLogController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$details)
-                ->fetch('admin/log/subscribe.tpl')
+                ->fetch('admin/log/sub.tpl')
         );
     }
 
@@ -53,8 +53,31 @@ final class SubLogController extends BaseController
         $page = $request->getParam('start') / $length + 1;
         $draw = $request->getParam('draw');
 
-        $subscribes = (new SubscribeLog())->orderBy('id', 'desc')->paginate($length, '*', '', $page);
+        $sub_log = SubscribeLog::query();
+
+        $search = $request->getParam('search')['value'];
+
+        if ($search !== '') {
+            $sub_log->where('user_id', '=', $search)
+                ->orWhere('type', 'LIKE', "%{$search}%")
+                ->orWhere('request_ip', 'LIKE', "%{$search}%")
+                ->orWhere('request_user_agent', 'LIKE', "%{$search}%");
+        }
+
+        $order = $request->getParam('order')[0]['dir'];
+
+        if ($request->getParam('order')[0]['column'] !== '0') {
+            $order_by = $request->getParam('columns')[$request->getParam('order')[0]['column']]['data'];
+
+            $sub_log->orderBy($order_by, $order)->orderBy('id', 'desc');
+        } else {
+            $sub_log->orderBy('id', $order);
+        }
+
+        $filtered = $sub_log->count();
         $total = (new SubscribeLog())->count();
+
+        $subscribes = $sub_log->paginate($length, '*', '', $page);
 
         foreach ($subscribes as $subscribe) {
             $subscribe->request_time = Tools::toDateTime($subscribe->request_time);
@@ -64,7 +87,7 @@ final class SubLogController extends BaseController
         return $response->withJson([
             'draw' => $draw,
             'recordsTotal' => $total,
-            'recordsFiltered' => $total,
+            'recordsFiltered' => $filtered,
             'subscribes' => $subscribes,
         ]);
     }

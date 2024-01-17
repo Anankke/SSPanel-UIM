@@ -35,14 +35,6 @@ final class LoginIp extends Model
     }
 
     /**
-     * 登录用户名
-     */
-    public function userName(): string
-    {
-        return $this->user() === null ? '用户不存在' : $this->user()->user_name;
-    }
-
-    /**
      * 登录成功与否
      */
     public function type(): string

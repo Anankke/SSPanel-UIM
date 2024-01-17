@@ -7,4 +7,4 @@ declare(strict_types=1);
  */
 
 const BASE_PATH = __DIR__ . '/..';
-const VERSION = '2023.6';
+const VERSION = '2023.7';

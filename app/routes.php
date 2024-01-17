@@ -46,9 +46,8 @@ return static function (Slim\App $app): void {
         // 动态倍率
         $group->get('/rate', App\Controllers\User\RateController::class . ':index');
         $group->post('/rate', App\Controllers\User\RateController::class . ':ajax');
-        // 审计规则
+        // 审计
         $group->get('/detect', App\Controllers\User\DetectRuleController::class . ':index');
-        // 审计记录
         $group->get('/detect/log', App\Controllers\User\DetectLogController::class . ':index');
         // 工单
         $group->get('/ticket', App\Controllers\User\TicketController::class . ':index');
@@ -180,7 +179,7 @@ return static function (Slim\App $app): void {
         $group->put('/docs/{id:[0-9]+}', App\Controllers\Admin\DocsController::class . ':update');
         $group->delete('/docs/{id:[0-9]+}', App\Controllers\Admin\DocsController::class . ':delete');
         $group->post('/docs/ajax', App\Controllers\Admin\DocsController::class . ':ajax');
-        // 审计
+        // 审计规则
         $group->get('/detect', App\Controllers\Admin\DetectRuleController::class . ':index');
         $group->get('/detect/create', App\Controllers\Admin\DetectRuleController::class . ':create');
         $group->post('/detect/add', App\Controllers\Admin\DetectRuleController::class . ':add');
@@ -190,8 +189,8 @@ return static function (Slim\App $app): void {
         $group->get('/detect/log', App\Controllers\Admin\DetectLogController::class . ':index');
         $group->post('/detect/log/ajax', App\Controllers\Admin\DetectLogController::class . ':ajax');
         // 审计封禁日志
-        $group->get('/detect/ban', App\Controllers\Admin\DetectBanController::class . ':index');
-        $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanController::class . ':ajax');
+        $group->get('/detect/ban', App\Controllers\Admin\DetectBanLogController::class . ':index');
+        $group->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajax');
         // User
         $group->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $group->get('/user/{id:[0-9]+}/edit', App\Controllers\Admin\UserController::class . ':edit');
@@ -296,6 +295,20 @@ return static function (Slim\App $app): void {
         $group->post('/invoice/ajax', App\Controllers\Admin\InvoiceController::class . ':ajax');
     })->add(new Admin());
 
+    // WebAPI
+    $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
+        // 节点
+        $group->get('/nodes/{id:[0-9]+}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
+        // 用户
+        $group->get('/users', App\Controllers\WebAPI\UserController::class . ':index');
+        $group->post('/users/traffic', App\Controllers\WebAPI\UserController::class . ':addTraffic');
+        $group->post('/users/aliveip', App\Controllers\WebAPI\UserController::class . ':addAliveIp');
+        $group->post('/users/detectlog', App\Controllers\WebAPI\UserController::class . ':addDetectLog');
+        // 审计 & 杂七杂八的功能
+        $group->get('/func/detect_rules', App\Controllers\WebAPI\FuncController::class . ':getDetectRules');
+        $group->get('/func/ping', App\Controllers\WebAPI\FuncController::class . ':ping');
+    })->add(new NodeToken());
+
     // Admin REST API
     //$app->group('/admin/api/v1', function (RouteCollectorProxy $group): void {
     //    $group->post('/{action}', App\Controllers\Api\AdminApiV1Controller::class . ':actionHandler');
@@ -316,18 +329,4 @@ return static function (Slim\App $app): void {
     //    $group->post('/user/online_ip', App\Controllers\Api\NodeApiV1Controller::class . ':addUserOnlineIp');
     //    $group->post('/user/detect_log', App\Controllers\Api\NodeApiV1Controller::class . ':addUserDetectLog');
     //})->add(new NodeApi());
-
-    // WebAPI
-    $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
-        // 节点
-        $group->get('/nodes/{id:[0-9]+}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
-        // 用户
-        $group->get('/users', App\Controllers\WebAPI\UserController::class . ':index');
-        $group->post('/users/traffic', App\Controllers\WebAPI\UserController::class . ':addTraffic');
-        $group->post('/users/aliveip', App\Controllers\WebAPI\UserController::class . ':addAliveIp');
-        $group->post('/users/detectlog', App\Controllers\WebAPI\UserController::class . ':addDetectLog');
-        // 审计 & 杂七杂八的功能
-        $group->get('/func/detect_rules', App\Controllers\WebAPI\FuncController::class . ':getDetectRules');
-        $group->get('/func/ping', App\Controllers\WebAPI\FuncController::class . ':ping');
-    })->add(new NodeToken());
 };

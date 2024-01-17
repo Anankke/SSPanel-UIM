@@ -40,8 +40,8 @@
     <script>
         let table = new DataTable('#data-table', {
             "serverSide": true,
-            "searching": false,
-            "ordering": false,
+            "searching": true,
+            "ordering": true,
             ajax: {
                 url: '/admin/traffic/ajax',
                 type: 'POST',

@@ -24,22 +24,6 @@ final class DetectBanLog extends Model
     protected $table = 'detect_ban_log';
 
     /**
-     * 用户
-     */
-    public function user(): ?User
-    {
-        return (new User())->find($this->user_id);
-    }
-
-    /**
-     * 用户名
-     */
-    public function userName(): string
-    {
-        return $this->user() === null ? '用户不存在' : $this->user()->user_name;
-    }
-
-    /**
      * 封禁结束时间
      */
     public function banEndTime(): string
