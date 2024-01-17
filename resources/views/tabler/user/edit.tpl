@@ -286,9 +286,10 @@
                                                         <button id="modify-login-passwd" class="btn btn-primary ms-auto"
                                                                 hx-post="/user/password" hx-swap="none"
                                                                 hx-vals='js:{
-                                                                pwd: document.getElementById("new-password").value
-                                                                repwd: document.getElementById("repeat-new-password").value
-                                                                oldpwd: document.getElementById("password").value }'>
+                                                                    pwd: document.getElementById("new-password").value,
+                                                                    repwd: document.getElementById("repeat-new-password").value,
+                                                                    oldpwd: document.getElementById("password").value
+                                                                }'>
                                                             修改
                                                         </button>
                                                     </div>
