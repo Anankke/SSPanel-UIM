@@ -125,14 +125,16 @@ final class UserController extends BaseController
         }
 
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code;
-        $rebate_ratio_per = Config::obtain('rebate_ratio') * 100;
+        $invite_reward_rate = Config::obtain('invite_reward_rate') * 100;
 
-        return $response->write($this->view()
-            ->assign('paybacks', $paybacks)
-            ->assign('invite_url', $invite_url)
-            ->assign('paybacks_sum', $paybacks_sum)
-            ->assign('rebate_ratio_per', $rebate_ratio_per)
-            ->fetch('user/invite.tpl'));
+        return $response->write(
+            $this->view()
+                ->assign('paybacks', $paybacks)
+                ->assign('invite_url', $invite_url)
+                ->assign('paybacks_sum', $paybacks_sum)
+                ->assign('invite_reward_rate', $invite_reward_rate)
+                ->fetch('user/invite.tpl')
+        );
     }
 
     public function checkin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
@@ -186,9 +188,11 @@ final class UserController extends BaseController
     {
         $user = $this->user;
 
-        return $response->write($this->view()
-            ->assign('banned_reason', $user->banned_reason)
-            ->fetch('user/banned.tpl'));
+        return $response->write(
+            $this->view()
+                ->assign('banned_reason', $user->banned_reason)
+                ->fetch('user/banned.tpl')
+        );
     }
 
     public function logout(ServerRequest $request, Response $response, array $args): Response

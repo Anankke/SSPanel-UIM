@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\Payback;
 use App\Models\User;
 use App\Models\UserMoneyLog;
+use App\Utils\Tools;
 
 final class Reward
 {

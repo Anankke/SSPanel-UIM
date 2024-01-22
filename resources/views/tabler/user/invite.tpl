@@ -25,8 +25,7 @@
                                 <div class="card-body">
                                     <h3 class="card-title">邀请规则</h3>
                                     <ul>
-                                        <li>邀请注册的用户在账单确认后，你可获得其账单金额的 <code>{$rebate_ratio_per}
-                                                %</code>
+                                        <li>邀请注册的用户在账单确认后，你可获得其账单金额的 <code>{$invite_reward_rate}%</code>
                                             作为返利
                                         </li>
                                         <li>部分商品的返利比例可能不遵循上面的比例</li>

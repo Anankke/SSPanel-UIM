@@ -239,15 +239,15 @@ final class AuthController extends BaseController
         $user->port = Tools::getSsPort();
         $user->u = 0;
         $user->d = 0;
-        $user->method = $configs['sign_up_for_method'];
+        $user->method = $configs['reg_method'];
         $user->forbidden_ip = Config::obtain('reg_forbidden_ip');
         $user->forbidden_port = Config::obtain('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
-        $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
+        $user->transfer_enable = Tools::toGB($configs['reg_traffic']);
         $user->auto_reset_day = Config::obtain('free_user_reset_day');
         $user->auto_reset_bandwidth = Config::obtain('free_user_reset_bandwidth');
-        $user->daily_mail_enable = $configs['sign_up_for_daily_report'];
+        $user->daily_mail_enable = $configs['reg_daily_report'];
 
         if ($money > 0) {
             $user->money = $money;
@@ -267,10 +267,10 @@ final class AuthController extends BaseController
 
         $user->ga_token = MFA::generateGaToken();
         $user->ga_enable = 0;
-        $user->class_expire = date('Y-m-d H:i:s', time() + (int) $configs['sign_up_for_class_time'] * 86400);
-        $user->class = $configs['sign_up_for_class'];
-        $user->node_iplimit = $configs['connection_ip_limit'];
-        $user->node_speedlimit = $configs['connection_rate_limit'];
+        $user->class = $configs['reg_class'];
+        $user->class_expire = date('Y-m-d H:i:s', time() + (int) $configs['reg_class_time'] * 86400);
+        $user->node_iplimit = $configs['reg_ip_limit'];
+        $user->node_speedlimit = $configs['reg_speed_limit'];
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];

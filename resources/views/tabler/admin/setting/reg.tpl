@@ -80,13 +80,13 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">默认接收每日用量邮件推送</label>
                                             <div class="col">
-                                                <select id="sign_up_for_daily_report" class="col form-select"
-                                                        value="{$settings['sign_up_for_daily_report']}">
+                                                <select id="reg_daily_report" class="col form-select"
+                                                        value="{$settings['reg_daily_report']}">
                                                     <option value="0"
-                                                            {if ! $settings['sign_up_for_daily_report']}selected{/if}>关闭
+                                                            {if ! $settings['reg_daily_report']}selected{/if}>关闭
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['sign_up_for_daily_report']}selected{/if}>开启
+                                                            {if $settings['reg_daily_report']}selected{/if}>开启
                                                     </option>
                                                 </select>
                                             </div>
@@ -121,8 +121,8 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">注册时赠送的流量（GB）</label>
                                             <div class="col">
-                                                <input id="sign_up_for_free_traffic" type="text" class="form-control"
-                                                       value="{$settings['sign_up_for_free_traffic']}">
+                                                <input id="reg_traffic" type="text" class="form-control"
+                                                       value="{$settings['reg_traffic']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -142,24 +142,24 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">注册时设定的等级</label>
+                                            <label class="form-label col-3 col-form-label">注册等级</label>
                                             <div class="col">
-                                                <input id="sign_up_for_class" type="text" class="form-control"
-                                                       value="{$settings['sign_up_for_class']}">
+                                                <input id="reg_class" type="text" class="form-control"
+                                                       value="{$settings['reg_class']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">注册时设定的等级过期时间（天）</label>
+                                            <label class="form-label col-3 col-form-label">注册等级过期时间（天）</label>
                                             <div class="col">
-                                                <input id="sign_up_for_class_time" type="text" class="form-control"
-                                                       value="{$settings['sign_up_for_class_time']}">
+                                                <input id="reg_class_time" type="text" class="form-control"
+                                                       value="{$settings['reg_class_time']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">默认加密</label>
                                             <div class="col">
-                                                <input id="sign_up_for_method" type="text" class="form-control"
-                                                       value="{$settings['sign_up_for_method']}">
+                                                <input id="reg_method" type="text" class="form-control"
+                                                       value="{$settings['reg_method']}">
                                             </div>
                                         </div>
                                     </div>
@@ -167,25 +167,17 @@
                                 <div class="tab-pane" id="limit">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">邀请链接使用次数限制</label>
-                                            <div class="col">
-                                                <input id="sign_up_for_invitation_codes" type="text"
-                                                       class="form-control"
-                                                       value="{$settings['sign_up_for_invitation_codes']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">连接 IP 限制</label>
                                             <div class="col">
-                                                <input id="connection_ip_limit" type="text" class="form-control"
-                                                       value="{$settings['connection_ip_limit']}">
+                                                <input id="reg_ip_limit" type="text" class="form-control"
+                                                       value="{$settings['reg_ip_limit']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">使用速率限制</label>
                                             <div class="col">
-                                                <input id="connection_rate_limit" type="text" class="form-control"
-                                                       value="{$settings['connection_rate_limit']}">
+                                                <input id="reg_speed_limit" type="text" class="form-control"
+                                                       value="{$settings['reg_speed_limit']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
