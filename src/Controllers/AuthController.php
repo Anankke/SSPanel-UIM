@@ -245,7 +245,6 @@ final class AuthController extends BaseController
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
         $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
-        $user->invite_num = $configs['sign_up_for_invitation_codes'];
         $user->auto_reset_day = Config::obtain('free_user_reset_day');
         $user->auto_reset_bandwidth = Config::obtain('free_user_reset_bandwidth');
         $user->daily_mail_enable = $configs['sign_up_for_daily_report'];
@@ -337,15 +336,15 @@ final class AuthController extends BaseController
         }
 
         if ($invite_code !== '') {
-            $user_invite = (new InviteCode())->where('code', $invite_code)->first();
+            $invite = (new InviteCode())->where('code', $invite_code)->first();
 
-            if ($user_invite === null) {
+            if ($invite === null) {
                 return ResponseHelper::error($response, '邀请码无效');
             }
 
-            $gift_user = (new User())->where('id', $user_invite->user_id)->first();
+            $ref_user = (new User())->where('id', $invite->user_id)->first();
 
-            if ($gift_user === null || $gift_user->invite_num === 0) {
+            if ($ref_user === null) {
                 return ResponseHelper::error($response, '邀请码无效');
             }
         }

@@ -170,13 +170,6 @@
                                 <span>邀请注册</span>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">可用邀请数量</label>
-                                <div class="col">
-                                    <input id="invite_num" type="text" class="form-control"
-                                           value="{$edit_user->invite_num}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
                                 <label class="form-label col-4 col-form-label">邀请人</label>
                                 <div class="col">
                                     <input id="ref_by" type="text" class="form-control" value="{$edit_user->ref_by}">
