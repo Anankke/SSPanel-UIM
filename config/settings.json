@@ -1191,57 +1191,57 @@
     },
     {
         "id": null,
-        "item": "sign_up_for_free_traffic",
+        "item": "reg_traffic",
         "value": "0",
         "class": "reg",
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "注册时赠送的流量（GB）"
+        "mark": "注册流量（GB）"
     },
     {
         "id": null,
-        "item": "connection_ip_limit",
+        "item": "reg_ip_limit",
         "value": "0",
         "class": "reg",
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "注册时设定的连接 IP 限制"
+        "mark": "注册连接 IP 限制"
     },
     {
         "id": null,
-        "item": "connection_rate_limit",
+        "item": "reg_speed_limit",
         "value": "0",
         "class": "reg",
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "注册时设定的使用速率限制"
+        "mark": "注册速率限制"
     },
     {
         "id": null,
-        "item": "sign_up_for_class",
+        "item": "reg_class",
         "value": "0",
         "class": "reg",
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "注册时设定的等级"
+        "mark": "注册等级"
     },
     {
         "id": null,
-        "item": "sign_up_for_class_time",
-        "value": "7",
+        "item": "reg_class_time",
+        "value": "0",
         "class": "reg",
         "is_public": 0,
         "type": "int",
-        "default": "7",
-        "mark": "注册时设定的等级过期时间（天）"
+        "default": "0",
+        "mark": "注册等级过期时间（天）"
     },
     {
         "id": null,
-        "item": "sign_up_for_method",
+        "item": "reg_method",
         "value": "aes-128-gcm",
         "class": "reg",
         "is_public": 0,
@@ -1251,23 +1251,13 @@
     },
     {
         "id": null,
-        "item": "sign_up_for_daily_report",
+        "item": "reg_daily_report",
         "value": "0",
         "class": "reg",
         "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "注册后是否默认接收每日用量邮件推送"
-    },
-    {
-        "id": null,
-        "item": "sign_up_for_invitation_codes",
-        "value": "10",
-        "class": "reg",
-        "is_public": 0,
-        "type": "int",
-        "default": "10",
-        "mark": "初始邀请注册链接使用次数限制"
+        "mark": "是否默认接收每日用量邮件推送"
     },
     {
         "id": null,
