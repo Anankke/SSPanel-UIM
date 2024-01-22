@@ -40,7 +40,6 @@ use const PHP_EOL;
  * @property int    $last_check_in_time 最后签到时间
  * @property int    $last_login_time 最后登录时间
  * @property string $reg_date 注册时间
- * @property int    $invite_num 可用邀请次数
  * @property float  $money 账户余额
  * @property int    $ref_by 邀请人ID
  * @property string $method Shadowsocks加密方式
@@ -184,16 +183,6 @@ final class User extends Model
         $code->save();
 
         return $code->code;
-    }
-
-    /**
-     * 添加邀请次数
-     */
-    public function addInviteNum(int $num): bool
-    {
-        $this->invite_num += $num;
-
-        return $this->save();
     }
 
     /**

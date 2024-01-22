@@ -76,7 +76,6 @@ final class UserController extends BaseController
         'banned_reason',
         'is_shadow_banned',
         'transfer_enable',
-        'invite_num',
         'ref_by',
         'class_expire',
         'node_group',
@@ -199,7 +198,6 @@ final class UserController extends BaseController
         $user->banned_reason = $request->getParam('banned_reason');
         $user->is_shadow_banned = $request->getParam('is_shadow_banned') === 'true' ? 1 : 0;
         $user->transfer_enable = Tools::autoBytesR($request->getParam('transfer_enable'));
-        $user->invite_num = $request->getParam('invite_num');
         $user->ref_by = $request->getParam('ref_by');
         $user->class_expire = $request->getParam('class_expire');
         $user->node_group = $request->getParam('node_group');

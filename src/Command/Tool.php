@@ -371,7 +371,6 @@ EOL;
             $user->u = 0;
             $user->d = 0;
             $user->transfer_enable = 0;
-            $user->invite_num = 0;
             $user->ref_by = 0;
             $user->is_admin = 1;
             $user->reg_date = date('Y-m-d H:i:s');

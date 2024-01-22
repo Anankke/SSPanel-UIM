@@ -213,11 +213,9 @@ return static function (Slim\App $app): void {
         // 订阅日志
         $group->get('/subscribe', App\Controllers\Admin\SubLogController::class . ':index');
         $group->post('/subscribe/ajax', App\Controllers\Admin\SubLogController::class . ':ajax');
-        // 邀请日志
-        $group->get('/invite', App\Controllers\Admin\InviteController::class . ':index');
-        $group->post('/invite/update_invite', App\Controllers\Admin\InviteController::class . ':update');
-        $group->post('/invite/add_invite', App\Controllers\Admin\InviteController::class . ':add');
-        $group->post('/invite/ajax', App\Controllers\Admin\InviteController::class . ':ajax');
+        // 返利日志
+        $group->get('/payback', App\Controllers\Admin\PaybackController::class . ':index');
+        $group->post('/payback/ajax', App\Controllers\Admin\PaybackController::class . ':ajax');
         // 流量日志
         $group->get('/traffic', App\Controllers\Admin\TrafficLogController::class . ':index');
         $group->post('/traffic/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajax');

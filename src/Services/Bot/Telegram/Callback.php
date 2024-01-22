@@ -890,11 +890,11 @@ final class Callback
         $invite = Config::getClass('ref');
 
         $text = [
-            '<strong>你每邀请 1 位用户注册：</strong>',
+            '<strong>你每邀请 <code>1</code> 位用户注册：</strong>',
             '',
-            '- 你会获得 <strong>' . $invite['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励。',
-            '- 对方将获得 <strong>' . $invite['invitation_to_register_balance_reward'] . ' 元</strong> 初始账户余额。',
-            '- 对方充值时你还会获得对方充值金额的 <strong>' . $invite['rebate_ratio'] * 100 . '%</strong> 的返利。',
+            '- 你会获得 <code>' . Config::obtain('invite_reg_money_reward') . 'G</code> 流量奖励。',
+            '- 对方将获得 <code>' . Config::obtain('invite_reg_traffic_reward') . ' 元</code> 初始账户余额。',
+            '- 对方支付账单时你会获得对方账单金额的 <code>' . Config::obtain('invite_reward_rate') * 100 . '%</code> 的返利。',
             '',
             '已获得返利：' . $paybacks_sum . ' 元。',
         ];

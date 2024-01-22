@@ -198,6 +198,7 @@ return new class() implements MigrationInterface {
                 `userid` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `ref_by` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '推荐人ID',
                 `ref_get` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '推荐人获得金额',
+                `invoice_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账单ID',
                 `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -276,7 +277,6 @@ return new class() implements MigrationInterface {
                 `last_check_in_time` int(11) unsigned DEFAULT 0 COMMENT '最后签到时间',
                 `last_login_time` int(11) unsigned DEFAULT 0 COMMENT '最后登录时间',
                 `reg_date` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '注册时间',
-                `invite_num` int(11) NOT NULL DEFAULT 0 COMMENT '可用邀请次数',
                 `money` decimal(10,2) NOT NULL DEFAULT 0.00 COMMENT '账户余额',
                 `ref_by` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '邀请人ID',
                 `method` varchar(255) NOT NULL DEFAULT 'aes-128-gcm' COMMENT 'Shadowsocks加密方式',

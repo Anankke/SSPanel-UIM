@@ -11,14 +11,13 @@ use Exception;
 final class RefController extends BaseController
 {
     private static array $update_field = [
-        'invitation_to_register_balance_reward',
-        'invitation_to_register_traffic_reward',
-        'invitation_mode',
-        'invite_rebate_mode',
-        'rebate_ratio',
-        'rebate_frequency_limit',
-        'rebate_amount_limit',
-        'rebate_time_range_limit',
+        'invite_reg_money_reward',
+        'invite_reg_traffic_reward',
+        'invite_mode',
+        'invite_reward_mode',
+        'invite_reward_rate',
+        'invite_reward_count_limit',
+        'invite_reward_total_limit',
     ];
 
     /**
