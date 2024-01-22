@@ -11,8 +11,8 @@ use Exception;
 final class RefController extends BaseController
 {
     private static array $update_field = [
-        'invitation_to_register_balance_reward',
-        'invitation_to_register_traffic_reward',
+        'invite_reg_money_reward',
+        'invite_reg_traffic_reward',
         'invite_mode',
         'invite_reward_mode',
         'invite_reward_rate',

@@ -45,17 +45,17 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">被邀请者初始账户余额（元）</label>
                                             <div class="col">
-                                                <input id="invitation_to_register_balance_reward" type="text"
+                                                <input id="invite_reg_money_reward" type="text"
                                                        class="form-control"
-                                                       value="{$settings['invitation_to_register_balance_reward']}">
+                                                       value="{$settings['invite_reg_money_reward']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">邀请者流量奖励（GB）</label>
                                             <div class="col">
-                                                <input id="invitation_to_register_traffic_reward" type="text"
+                                                <input id="invite_reg_traffic_reward" type="text"
                                                        class="form-control"
-                                                       value="{$settings['invitation_to_register_traffic_reward']}">
+                                                       value="{$settings['invite_reg_traffic_reward']}">
                                             </div>
                                         </div>
                                     </div>

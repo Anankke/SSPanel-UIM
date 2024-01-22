@@ -14,6 +14,7 @@ use App\Services\Captcha;
 use App\Services\Mail;
 use App\Services\MFA;
 use App\Services\RateLimit;
+use App\Services\Reward;
 use App\Utils\Cookie;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
@@ -259,9 +260,10 @@ final class AuthController extends BaseController
 
         if ($invite_code !== '') {
             $invite = (new InviteCode())->where('code', $invite_code)->first();
-            $invite->reward();
-            $user->ref_by = $invite->user_id;
-            $user->money = Config::obtain('invitation_to_register_balance_reward');
+
+            if ($invite !== null) {
+                $user->ref_by = $invite->user_id;
+            }
         }
 
         $user->ga_token = MFA::generateGaToken();
@@ -283,6 +285,10 @@ final class AuthController extends BaseController
         }
 
         if ($user->save() && ! $is_admin_reg) {
+            if ($user->ref_by !== 0) {
+                Reward::issueRegReward($user->id, $user->ref_by);
+            }
+
             Auth::login($user->id, 3600);
             (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
 

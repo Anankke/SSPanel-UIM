@@ -189,9 +189,9 @@
                                     <i class="ti ti-rss"></i>&nbsp;
                                     订阅
                                 </a>
-                                <a class="dropdown-item" href="/admin/invite">
+                                <a class="dropdown-item" href="/admin/payback">
                                     <i class="ti ti-friends"></i>&nbsp;
-                                    邀请
+                                    返利
                                 </a>
                                 <a class="dropdown-item" href="/admin/money">
                                     <i class="ti ti-coin"></i>&nbsp;

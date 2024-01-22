@@ -79,4 +79,38 @@ final class Reward
             );
         }
     }
+
+    public static function issueRegReward($user_id, $ref_user_id): void
+    {
+        $invite_reg_money_reward = Config::obtain('invite_reg_money_reward');
+        $invite_reg_traffic_reward = Config::obtain('invite_reg_traffic_reward');
+
+        $user = (new User())->where('id', $user_id)->first();
+
+        $ref_user = (new User())->where('id', $ref_user_id)
+            ->where('is_banned', 0)
+            ->where('is_shadow_banned', 0)
+            ->first();
+
+        if ($user !== null && $ref_user !== null) {
+            if ($invite_reg_money_reward !== 0) {
+                $money_before = $user->money;
+                $user->money += $invite_reg_money_reward;
+                $user->save();
+                // 添加余额记录
+                (new UserMoneyLog())->add(
+                    $user->id,
+                    (float) $money_before,
+                    (float) $user->money,
+                    $invite_reg_money_reward,
+                    '被用户 #' . $ref_user_id . ' 邀请注册奖励',
+                );
+            }
+
+            if ($invite_reg_traffic_reward !== 0) {
+                $ref_user->transfer_enable += Tools::toGB($invite_reg_traffic_reward);
+                $ref_user->save();
+            }
+        }
+    }
 }

@@ -1271,22 +1271,22 @@
     },
     {
         "id": null,
-        "item": "invitation_to_register_balance_reward",
-        "value": "1",
+        "item": "invite_reg_money_reward",
+        "value": "0",
         "class": "ref",
         "is_public": 1,
         "type": "int",
-        "default": "1",
+        "default": "0",
         "mark": "邀请注册余额奖励（元）"
     },
     {
         "id": null,
-        "item": "invitation_to_register_traffic_reward",
-        "value": "10",
+        "item": "invite_reg_traffic_reward",
+        "value": "0",
         "class": "ref",
         "is_public": 1,
         "type": "int",
-        "default": "10",
+        "default": "0",
         "mark": "邀请注册流量奖励（GB）"
     },
     {
