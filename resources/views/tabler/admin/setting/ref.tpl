@@ -65,14 +65,14 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">邀请模式</label>
                                             <div class="col">
-                                                <select id="invitation_mode" class="col form-select"
-                                                        value="{$settings['invitation_mode']}">
+                                                <select id="invite_mode" class="col form-select"
+                                                        value="{$settings['invite_mode']}">
                                                     <option value="reg_only"
-                                                            {if $settings['invitation_mode'] === 'reg_only'}selected{/if}>
+                                                            {if $settings['invite_mode'] === 'reg_only'}selected{/if}>
                                                         不返利
                                                     </option>
-                                                    <option value="after_paid"
-                                                            {if $settings['invitation_mode'] === 'after_paid'}selected{/if}>
+                                                    <option value="reward"
+                                                            {if $settings['invite_mode'] === 'reward'}selected{/if}>
                                                         被邀请用户支付账单时返利
                                                     </option>
                                                 </select>
@@ -81,23 +81,15 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">返利模式</label>
                                             <div class="col">
-                                                <select id="invite_rebate_mode" class="col form-select"
-                                                        value="{$settings['invite_rebate_mode']}">
-                                                    <option value="continued"
-                                                            {if $settings['invite_rebate_mode'] === 'continued'}selected{/if}>
-                                                        持续返利
+                                                <select id="invite_reward_mode" class="col form-select"
+                                                        value="{$settings['invite_reward_mode']}">
+                                                    <option value="reward_count"
+                                                            {if $settings['invite_reward_mode'] === 'reward_count'}selected{/if}>
+                                                        限制返利次数
                                                     </option>
-                                                    <option value="limit_frequency"
-                                                            {if $settings['invite_rebate_mode'] === 'limit_frequency'}selected{/if}>
-                                                        限制邀请人能从被邀请人身上获得的返利次数
-                                                    </option>
-                                                    <option value="limit_amount"
-                                                            {if $settings['invite_rebate_mode'] === 'limit_amount'}selected{/if}>
-                                                        限制邀请人能从被邀请人身上获得的返利金额
-                                                    </option>
-                                                    <option value="limit_time_range"
-                                                            {if $settings['invite_rebate_mode'] === 'limit_time_range'}selected{/if}>
-                                                        限制邀请人能从被邀请人身上获得返利的时间范围
+                                                    <option value="reward_total"
+                                                            {if $settings['invite_reward_mode'] === 'reward_total'}selected{/if}>
+                                                        限制返利金额
                                                     </option>
                                                 </select>
                                             </div>
@@ -105,29 +97,22 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">返利比例，10% 填 0.1</label>
                                             <div class="col">
-                                                <input id="rebate_ratio" type="text" class="form-control"
-                                                       value="{$settings['rebate_ratio']}">
+                                                <input id="invite_reward_rate" type="text" class="form-control"
+                                                       value="{$settings['invite_reward_rate']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">返利时间范围（天）</label>
+                                            <label class="form-label col-3 col-form-label">返利次数限制</label>
                                             <div class="col">
-                                                <input id="rebate_time_range_limit" type="text" class="form-control"
-                                                       value="{$settings['rebate_time_range_limit']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">返利次数</label>
-                                            <div class="col">
-                                                <input id="rebate_frequency_limit" type="text" class="form-control"
-                                                       value="{$settings['rebate_frequency_limit']}">
+                                                <input id="invite_reward_count_limit" type="text" class="form-control"
+                                                       value="{$settings['invite_reward_count_limit']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">返利金额限制</label>
                                             <div class="col">
-                                                <input id="rebate_amount_limit" type="text" class="form-control"
-                                                       value="{$settings['rebate_amount_limit']}">
+                                                <input id="invite_reward_total_limit" type="text" class="form-control"
+                                                       value="{$settings['invite_reward_total_limit']}">
                                             </div>
                                         </div>
                                     </div>

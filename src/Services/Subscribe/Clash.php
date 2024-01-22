@@ -44,7 +44,8 @@ final class Clash extends Base
 
                     break;
                 case 1:
-                    $ss_2022_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $ss_2022_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
 
                     $pk_len = match ($method) {
@@ -68,7 +69,8 @@ final class Clash extends Base
 
                     break;
                 case 2:
-                    $tuic_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $tuic_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $host = $node_custom_config['host'] ?? '';
                     $congestion_control = $node_custom_config['congestion_control'] ?? 'bbr';
                     // Only Clash.Meta core has TUIC support
@@ -87,10 +89,11 @@ final class Clash extends Base
 
                     break;
                 case 11:
-                    $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $v2_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
-                    $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? '';
+                    $network = $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['header']['request']['headers']['Host'][0] ??
                         $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
@@ -127,7 +130,8 @@ final class Clash extends Base
 
                     break;
                 case 14:
-                    $trojan_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
+                    $trojan_port = $node_custom_config['offset_port_user'] ??
+                        ($node_custom_config['offset_port_node'] ?? 443);
                     $network = $node_custom_config['header']['type'] ?? $node_custom_config['network'] ?? 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;

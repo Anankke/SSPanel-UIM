@@ -198,6 +198,7 @@ return new class() implements MigrationInterface {
                 `userid` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `ref_by` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '推荐人ID',
                 `ref_get` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '推荐人获得金额',
+                `invoice_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账单ID',
                 `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

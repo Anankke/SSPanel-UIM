@@ -1291,47 +1291,27 @@
     },
     {
         "id": null,
-        "item": "invitation_mode",
-        "value": "after_paid",
+        "item": "invite_mode",
+        "value": "reg_only",
         "class": "ref",
         "is_public": 0,
         "type": "string",
-        "default": "after_paid",
+        "default": "reg_only",
         "mark": "邀请模式"
     },
     {
         "id": null,
-        "item": "invite_rebate_mode",
-        "value": "limit_amount",
+        "item": "invite_reward_mode",
+        "value": "reward_count",
         "class": "ref",
         "is_public": 0,
         "type": "string",
-        "default": "limit_amount",
+        "default": "reward_count",
         "mark": "返利模式"
     },
     {
         "id": null,
-        "item": "rebate_frequency_limit",
-        "value": "3",
-        "class": "ref",
-        "is_public": 0,
-        "type": "string",
-        "default": "3",
-        "mark": "返利总次数限制"
-    },
-    {
-        "id": null,
-        "item": "rebate_amount_limit",
-        "value": "100",
-        "class": "ref",
-        "is_public": 0,
-        "type": "int",
-        "default": "100",
-        "mark": "返利总金额限制"
-    },
-    {
-        "id": null,
-        "item": "rebate_ratio",
+        "item": "invite_reward_rate",
         "value": "0.2",
         "class": "ref",
         "is_public": 1,
@@ -1341,13 +1321,23 @@
     },
     {
         "id": null,
-        "item": "rebate_time_range_limit",
-        "value": "180",
+        "item": "invite_reward_count_limit",
+        "value": "1",
+        "class": "ref",
+        "is_public": 0,
+        "type": "string",
+        "default": "1",
+        "mark": "返利次数限制"
+    },
+    {
+        "id": null,
+        "item": "invite_reward_total_limit",
+        "value": "50",
         "class": "ref",
         "is_public": 0,
         "type": "int",
-        "default": "180",
-        "mark": "返利时间范围限制（天）"
+        "default": "50",
+        "mark": "返利金额限制"
     },
     {
         "id": null,

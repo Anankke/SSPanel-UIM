@@ -26,6 +26,7 @@ final class InviteController extends BaseController
                 'ref_by' => '获利用户ID',
                 'ref_user_name' => '获利用户名',
                 'ref_get' => '获利金额',
+                'invoice_id' => '账单ID',
                 'datetime' => '时间',
             ],
             'update_dialog' => [
