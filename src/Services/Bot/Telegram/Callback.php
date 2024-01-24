@@ -892,8 +892,8 @@ final class Callback
         $text = [
             '<strong>你每邀请 <code>1</code> 位用户注册：</strong>',
             '',
-            '- 你会获得 <code>' . Config::obtain('invite_reg_money_reward') . 'G</code> 流量奖励。',
-            '- 对方将获得 <code>' . Config::obtain('invite_reg_traffic_reward') . '元</code> 初始账户余额。',
+            '- 你会获得 <code>' . Config::obtain('invite_reg_traffic_reward') . 'G</code> 流量奖励。',
+            '- 对方将获得 <code>' . Config::obtain('invite_reg_money_reward') . '元</code> 初始账户余额。',
             '- 对方支付账单时你会获得对方账单金额的 <code>' . Config::obtain('invite_reward_rate') * 100 . '%</code> 的返利。',
             '',
             '已获得返利：' . $paybacks_sum . ' 元。',
