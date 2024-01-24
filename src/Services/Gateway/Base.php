@@ -108,7 +108,7 @@ abstract class Base
         if (in_array($key, $active_gateways)) {
             return true;
         }
-        
+
         return false;
     }
 }
