@@ -205,10 +205,6 @@
                                     <i class="ti ti-router"></i>&nbsp;
                                     在线IP
                                 </a>
-                                <a class="dropdown-item" href="/admin/traffic">
-                                    <i class="ti ti-arrows-up-down"></i>&nbsp;
-                                    流量使用
-                                </a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

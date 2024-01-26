@@ -21,6 +21,10 @@ final class DetectLogController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
+        if (! Config::obtain('display_detect_log')) {
+            return $response->withRedirect('/user');
+        }
+
         $logs = (new DetectLog())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($logs as $log) {

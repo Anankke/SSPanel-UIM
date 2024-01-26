@@ -189,9 +189,9 @@ final class Tools
      *
      * @return float
      */
-    public static function flowToGB($traffic): float
+    public static function flowToMB($traffic): float
     {
-        return round($traffic / 1073741824, 2);
+        return round($traffic / 1048576, 2);
     }
 
     /**
@@ -199,9 +199,9 @@ final class Tools
      *
      * @return float
      */
-    public static function flowToMB($traffic): float
+    public static function flowToGB($traffic): float
     {
-        return round($traffic / 1048576, 2);
+        return round($traffic / 1073741824, 2);
     }
 
     public static function genSubToken(): string

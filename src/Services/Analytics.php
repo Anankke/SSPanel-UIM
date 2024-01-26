@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\HourlyUsage;
 use App\Models\Node;
 use App\Models\Paylist;
 use App\Models\User;
 use App\Utils\Tools;
+use function array_fill;
+use function date;
 use function floatval;
 use function is_null;
+use function json_decode;
 use function round;
 use function strtotime;
 use function time;
@@ -141,5 +145,19 @@ final class Analytics
     public static function getActiveUser(): int
     {
         return (new User())->where('is_inactive', 0)->count();
+    }
+
+    public static function getUserHourlyUsage(int $user_id, string $date): array
+    {
+        $hourly_usage = (new HourlyUsage())->where('user_id', $user_id)->where('date', $date)->first();
+
+        return $hourly_usage ? json_decode($hourly_usage->usage, true) : array_fill(0, 24, 0);
+    }
+
+    public static function getUserTodayHourlyUsage(int $user_id): array
+    {
+        $date = date('Y-m-d');
+
+        return self::getUserHourlyUsage($user_id, $date);
     }
 }
