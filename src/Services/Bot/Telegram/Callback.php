@@ -11,6 +11,7 @@ use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Models\SubscribeLog;
 use App\Models\User;
+use App\Services\Reward;
 use App\Services\Subscribe;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
@@ -981,10 +982,20 @@ final class Callback
      */
     public function userCheckin(): void
     {
-        $checkin = $this->user->checkin();
+        if ($this->user->isAbleToCheckin()) {
+            $traffic = Reward::issueCheckinReward($this->user->id);
+
+            if (! $traffic) {
+                $msg = '签到失败';
+            } else {
+                $msg = '获得了 ' . $traffic . 'MB 流量.';
+            }
+        } else {
+            $msg = '你今天已经签到过了';
+        }
 
         $this->answerCallbackQuery([
-            'text' => $checkin['msg'],
+            'text' => $msg,
             'show_alert' => true,
         ]);
         // 回送信息
@@ -1006,7 +1017,7 @@ final class Callback
         }
 
         $this->replyWithMessage([
-            'text' => $temp['text'] . PHP_EOL . PHP_EOL . $checkin['msg'],
+            'text' => $temp['text'] . PHP_EOL . PHP_EOL . $msg,
             'reply_to_message_id' => $this->message_id,
             'parse_mode' => 'Markdown',
             'reply_markup' => json_encode(

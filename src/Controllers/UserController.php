@@ -13,6 +13,7 @@ use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Services\Auth;
 use App\Services\Captcha;
+use App\Services\Reward;
 use App\Services\Subscribe;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
@@ -139,7 +140,7 @@ final class UserController extends BaseController
 
     public function checkin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if (! $_ENV['enable_checkin']) {
+        if (! Config::obtain('enable_checkin') || ! $this->user->isAbleToCheckin()) {
             return ResponseHelper::error($response, '暂时还不能签到');
         }
 
@@ -151,17 +152,17 @@ final class UserController extends BaseController
             }
         }
 
-        $checkin = $this->user->checkin();
+        $traffic = Reward::issueCheckinReward($this->user->id);
 
-        if (! $checkin['ok']) {
-            return ResponseHelper::error($response, (string) $checkin['msg']);
+        if (! $traffic) {
+            return ResponseHelper::error($response, '签到失败');
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => $checkin['msg'],
+            'msg' => '获得了 ' . $traffic . 'MB 流量',
             'data' => [
-                'last-checkin-time' => $this->user->lastCheckInTime(),
+                'last-checkin-time' => Tools::toDateTime(time()),
             ],
         ]);
     }

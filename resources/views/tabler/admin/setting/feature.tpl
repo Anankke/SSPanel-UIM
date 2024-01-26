@@ -36,6 +36,9 @@
                                 <li class="nav-item">
                                     <a href="#log" class="nav-link" data-bs-toggle="tab">用户日志</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#checkin" class="nav-link" data-bs-toggle="tab">签到</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -169,6 +172,38 @@
                                                         开启
                                                     </option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="checkin">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">启用签到</label>
+                                            <div class="col">
+                                                <select id="enable_checkin" class="col form-select"
+                                                        value="{$settings['enable_checkin']}">
+                                                    <option value="0" {if ! $settings['enable_checkin']}selected{/if}>
+                                                        关闭
+                                                    </option>
+                                                    <option value="1" {if $settings['enable_checkin']}selected{/if}>开启
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">签到最少流量（MB）</label>
+                                            <div class="col">
+                                                <input id="checkin_min" type="text" class="form-control"
+                                                       value="{$settings['checkin_min']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">签到最多流量（MB）</label>
+                                            <div class="col">
+                                                <input id="checkin_max" type="text"
+                                                       class="form-control"
+                                                       value="{$settings['checkin_max']}">
                                             </div>
                                         </div>
                                     </div>

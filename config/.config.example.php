@@ -54,11 +54,6 @@ $_ENV['mail_filter']        = 0;            //0: 关闭; 1: 白名单模式; 2; 
 $_ENV['mail_filter_list']   = [];
 
 //已注册用户设置---------------------------------------------------------------------------------------
-#基础
-$_ENV['enable_checkin']             = true;         //是否啓用簽到功能
-$_ENV['checkinMin']                 = 1;            //用户签到最少流量 单位MB
-$_ENV['checkinMax']                 = 50;           //用户签到最多流量
-
 #高级
 $_ENV['class_expire_reset_traffic'] = 0;            //等级到期时重置为的流量值，单位GB，小于0时不重置
 $_ENV['enable_kill']                = true;         //是否允许用户注销账户

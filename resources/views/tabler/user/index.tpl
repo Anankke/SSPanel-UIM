@@ -531,7 +531,7 @@
                         </div>
                     </div>
                 </div>
-                {if $config['enable_checkin']}
+                {if $public_setting['enable_checkin']}
                     <div class="col-lg-6 col-sm-12">
                         <div class="card">
                             <div class="card-stamp">
@@ -543,14 +543,14 @@
                                 <h3 class="card-title">每日签到</h3>
                                 <p>
                                     签到可领取
-                                    {if $config['checkinMin'] !== $config['checkinMax']}
+                                    {if $public_setting['checkin_min'] !== $public_setting['checkin_max']}
                                         &nbsp;
-                                        <code>{$config['checkinMin']} MB</code>
+                                        <code>{$public_setting['checkin_min']} MB</code>
                                         至
-                                        <code>{$config['checkinMax']} MB</code>
+                                        <code>{$public_setting['checkin_max']} MB</code>
                                         范围内的流量
                                     {else}
-                                        <code>{$config['checkinMin']} MB</code>
+                                        <code>{$public_setting['checkin_min']} MB</code>
                                     {/if}
                                 </p>
                                 <p>
