@@ -49,11 +49,6 @@ EOL;
             $jobs->detectNodeOffline();
         }
 
-        // Run traffic log job
-        if ($minute === 0 && Config::obtain('traffic_log')) {
-            $jobs->addTrafficLog();
-        }
-
         // Run daily job
         if ($hour === Config::obtain('daily_job_hour') &&
             $minute === Config::obtain('daily_job_minute') &&

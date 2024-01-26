@@ -105,8 +105,14 @@
                                         </a>
                                         {if $public_setting['subscribe_log']}
                                             <a class="dropdown-item" href="/user/subscribe">
-                                                <i class="ti ti-rss"></i></i>&nbsp;
-                                                订阅
+                                                <i class="ti ti-rss"></i>&nbsp;
+                                                订阅日志
+                                            </a>
+                                        {/if}
+                                        {if $public_setting['traffic_log']}
+                                            <a class="dropdown-item" href="/user/traffic">
+                                                <i class="ti ti-traffic-lights"></i>&nbsp;
+                                                流量日志
                                             </a>
                                         {/if}
                                         <a class="dropdown-item" href="/user/invite">

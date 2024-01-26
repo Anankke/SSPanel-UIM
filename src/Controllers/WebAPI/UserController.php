@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controllers\WebAPI;
 
 use App\Controllers\BaseController;
+use App\Models\Config;
 use App\Models\DetectLog;
+use App\Models\HourlyUsage;
 use App\Models\Node;
 use App\Services\DB;
 use App\Services\DynamicRate;
@@ -204,6 +206,7 @@ final class UserController extends BaseController
         }
 
         $sum = 0;
+        $is_traffic_log = Config::obtain('traffic_log');
 
         foreach ($data as $log) {
             $u = $log?->u;
@@ -211,7 +214,11 @@ final class UserController extends BaseController
             $user_id = $log?->user_id;
 
             if ($user_id) {
-                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), (int) ($u + $d), (int) ($u + $d), $user_id]);
+                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), (int) ($u + $d), (int) ($u + $d), (int) $user_id]);
+            }
+
+            if ($is_traffic_log) {
+                (new HourlyUsage())->add((int) $user_id, (int) ($u + $d));
             }
 
             $sum += $u + $d;

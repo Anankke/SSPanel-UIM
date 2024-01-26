@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Services\IM;
 use App\Utils\Hash;
 use App\Utils\Tools;
-use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
@@ -16,7 +15,6 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use function date;
 use function is_null;
 use function md5;
-use function random_int;
 use function round;
 use function time;
 use const PHP_EOL;
@@ -292,7 +290,7 @@ final class User extends Model
      */
     public function isAbleToCheckin(): bool
     {
-        return date('Ymd') !== date('Ymd', $this->last_check_in_time);
+        return date('Ymd') !== date('Ymd', $this->last_check_in_time) && ! $this->is_shadow_banned;
     }
 
     /**
@@ -346,34 +344,6 @@ final class User extends Model
         (new SubscribeLog())->where('user_id', $uid)->delete();
 
         return $this->delete();
-    }
-
-    /**
-     * 签到
-     */
-    public function checkin(): array
-    {
-        $return = [
-            'ok' => true,
-        ];
-
-        if (! $this->isAbleToCheckin() || $this->is_shadow_banned) {
-            $return['ok'] = false;
-            $return['msg'] = '签到失败，请稍后再试';
-        } else {
-            try {
-                $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
-            } catch (Exception $e) {
-                $traffic = 0;
-            }
-
-            $this->transfer_enable += Tools::toMB($traffic);
-            $this->last_check_in_time = time();
-            $this->save();
-            $return['msg'] = '获得了 ' . $traffic . 'MB 流量.';
-        }
-
-        return $return;
     }
 
     public function unbindIM(): bool

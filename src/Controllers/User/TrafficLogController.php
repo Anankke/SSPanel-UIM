@@ -6,14 +6,15 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
-use App\Models\SubscribeLog;
+use App\Services\Analytics;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function json_encode;
 
-final class SubLogController extends BaseController
+final class TrafficLogController extends BaseController
 {
     /**
      * 订阅记录
@@ -22,19 +23,19 @@ final class SubLogController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        if (! Config::obtain('subscribe_log')) {
+        if (! Config::obtain('traffic_log')) {
             return $response->withRedirect('/user');
         }
 
-        $logs = (new SubscribeLog())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
+        $logs = [];
+        $hourly_usage = Analytics::getUserTodayHourlyUsage($this->user->id);
 
-        foreach ($logs as $log) {
-            $log->request_time = Tools::toDateTime($log->request_time);
+        foreach ($hourly_usage as $hour => $usage) {
+            $logs[] = Tools::flowToMB((int) $usage);
         }
 
         return $response->write($this->view()
-            ->assign('subscribe_log_retention_days', Config::obtain('subscribe_log_retention_days'))
-            ->assign('logs', $logs)
-            ->fetch('user/subscribe_log.tpl'));
+            ->assign('logs', json_encode($logs))
+            ->fetch('user/traffic_log.tpl'));
     }
 }

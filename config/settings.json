@@ -1431,6 +1431,36 @@
     },
     {
         "id": null,
+        "item": "enable_checkin",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "签到开关"
+    },
+    {
+        "id": null,
+        "item": "checkin_min",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "int",
+        "default": "1",
+        "mark": "签到最少流量"
+    },
+    {
+        "id": null,
+        "item": "checkin_max",
+        "value": "50",
+        "class": "feature",
+        "is_public": 1,
+        "type": "int",
+        "default": "50",
+        "mark": "签到最多流量"
+    },
+    {
+        "id": null,
         "item": "enable_forced_replacement",
         "value": "1",
         "class": "subscribe",

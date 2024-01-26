@@ -63,10 +63,6 @@ final class View
             'appName' => $_ENV['appName'],
             'baseUrl' => $_ENV['baseUrl'],
 
-            'enable_checkin' => $_ENV['enable_checkin'],
-            'checkinMin' => $_ENV['checkinMin'],
-            'checkinMax' => $_ENV['checkinMax'],
-
             'jump_delay' => $_ENV['jump_delay'],
 
             'enable_kill' => $_ENV['enable_kill'],

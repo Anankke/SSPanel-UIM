@@ -92,6 +92,15 @@ return new class() implements MigrationInterface {
                 KEY `id` (`id`),
                 KEY `status` (`status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            
+            CREATE TABLE `hourly_usage` (
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
+                `date` date NOT NULL DEFAULT 0 COMMENT '记录日期',
+                `usage` longtext NOT NULL DEFAULT '{}' COMMENT '流量用量' CHECK (json_valid(`usage`)),
+                PRIMARY KEY (`id`),
+                KEY `user_id` (`user_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `invoice` (
                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账单ID',
@@ -330,16 +339,6 @@ return new class() implements MigrationInterface {
                 KEY `id` (`id`),
                 KEY `code` (`code`),
                 KEY `expire_time` (`expire_time`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-            CREATE TABLE `user_hourly_usage` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `traffic` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '当前总流量',
-                `hourly_usage` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '过去一小时流量',
-                `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '记录时间',
-                PRIMARY KEY (`id`),
-                KEY `user_id` (`user_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `user_invite_code` (
