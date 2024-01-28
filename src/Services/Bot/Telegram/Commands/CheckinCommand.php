@@ -66,7 +66,7 @@ final class CheckinCommand extends Command
             );
         } else {
             if ($user->isAbleToCheckin()) {
-                $traffic = Reward::issueCheckinReward($this->user->id);
+                $traffic = Reward::issueCheckinReward($user->id);
 
                 if (! $traffic) {
                     $msg = '签到失败';

@@ -12,7 +12,6 @@ class ToolsTest extends TestCase
 {
     /**
      * @covers App\Utils\Tools::getIpLocation
-     * @throws InvalidDatabaseException
      */
     public function testGetIpLocation()
     {

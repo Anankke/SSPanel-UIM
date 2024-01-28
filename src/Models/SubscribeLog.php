@@ -9,7 +9,6 @@ use App\Utils\Tools;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;
-use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function time;
@@ -44,7 +43,7 @@ final class SubscribeLog extends Model
     {
         try {
             return Tools::getIpLocation($this->request_ip);
-        } catch (InvalidDatabaseException|Exception $e) {
+        } catch (Exception $e) {
             return '未知';
         }
     }
