@@ -16,7 +16,7 @@ final class V2RayJson extends Base
     {
         $nodes = [];
         $v2rayjson_config = $_ENV['V2RayJson_Config'];
-        $nodes_raw = Subscribe::getUserSubNodes($user);
+        $nodes_raw = Subscribe::getUserNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);

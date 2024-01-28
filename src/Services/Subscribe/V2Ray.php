@@ -21,7 +21,7 @@ final class V2Ray extends Base
             return $links;
         }
 
-        $nodes_raw = Subscribe::getUserSubNodes($user);
+        $nodes_raw = Subscribe::getUserNodes($user);
 
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = json_decode($node_raw->custom_config, true);

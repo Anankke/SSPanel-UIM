@@ -8,15 +8,12 @@ use App\Services\IM;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function date;
-use function is_null;
 use function md5;
 use function round;
-use function time;
 use const PHP_EOL;
 
 /**
@@ -107,23 +104,6 @@ final class User extends Model
         return Tools::genSs2022UserPk($this->passwd, $len);
     }
 
-    public function getUserFrontEndNodes(): Collection
-    {
-        $query = Node::query();
-        $query->where('type', 1);
-
-        if (! $this->is_admin) {
-            $group = ($this->node_group !== 0 ? [0, $this->node_group] : [0]);
-            $query->whereIn('node_group', $group);
-        }
-
-        return $query->where(static function ($query): void {
-            $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-        })->orderBy('node_class')
-            ->orderBy('name')
-            ->get();
-    }
-
     /**
      * DiceBear 头像
      */
@@ -171,19 +151,6 @@ final class User extends Model
     }
 
     /**
-     * 生成邀请码
-     */
-    public function addInviteCode(): string
-    {
-        $code = new InviteCode();
-        $code->code = Tools::genRandomChar(10);
-        $code->user_id = $this->id;
-        $code->save();
-
-        return $code->code;
-    }
-
-    /**
      * 生成新的 API Token
      */
     public function generateApiToken(): bool
@@ -215,17 +182,6 @@ final class User extends Model
     public function totalTraffic(): string
     {
         return Tools::autoBytes($this->transfer_total);
-    }
-
-    /*
-     * 已用流量占总流量的百分比
-     */
-    public function trafficUsagePercent(): float
-    {
-        return $this->transfer_enable === 0 ?
-            0
-            :
-            round(($this->u + $this->d) / $this->transfer_enable, 2) * 100;
     }
 
     /*
@@ -310,25 +266,6 @@ final class User extends Model
     }
 
     /**
-     * 累计充值金额
-     */
-    public function getTopUp(): float
-    {
-        $number = (new Paylist())->where('userid', $this->id)->sum('number');
-        return is_null($number) ? 0.00 : round((float) $number, 2);
-    }
-
-    /**
-     * 在线 IP 个数
-     */
-    public function onlineIpCount(): int
-    {
-        return (new OnlineLog())->where('user_id', $this->id)
-            ->where('last_time', '>', time() - 90)
-            ->count();
-    }
-
-    /**
      * 销户
      */
     public function kill(): bool
@@ -350,6 +287,7 @@ final class User extends Model
     {
         $this->im_type = 0;
         $this->im_value = '';
+
         return $this->save();
     }
 

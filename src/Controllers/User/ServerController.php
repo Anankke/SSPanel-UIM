@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Services\Subscribe;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -18,7 +19,7 @@ final class ServerController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $nodes = $this->user->getUserFrontEndNodes();
+        $nodes = Subscribe::getUserNodes($this->user, true);
         $node_list = [];
 
         foreach ($nodes as $node) {

@@ -37,13 +37,18 @@ final class Subscribe
 
     /**
      * @param $user
+     * @param bool $show_all_nodes
      *
      * @return Collection
      */
-    public static function getUserSubNodes($user): Collection
+    public static function getUserNodes($user, bool $show_all_nodes = false): Collection
     {
         $query = Node::query();
-        $query->where('type', 1)->where('node_class', '<=', $user->class);
+        $query->where('type', 1);
+
+        if (! $show_all_nodes) {
+            $query->where('node_class', '<=', $user->class);
+        }
 
         if (! $user->is_admin) {
             $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);

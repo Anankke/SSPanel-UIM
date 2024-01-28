@@ -6,6 +6,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
+use App\Models\InviteCode;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
@@ -240,7 +241,7 @@ final class InfoController extends BaseController
     {
         $user = $this->user;
         $user->clearInviteCodes();
-        $code = $this->user->addInviteCode();
+        $code = (new InviteCode())->add($user->id);
 
         return $response->withJson([
             'ret' => 1,
