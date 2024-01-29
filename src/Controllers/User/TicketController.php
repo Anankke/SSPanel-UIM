@@ -14,7 +14,6 @@ use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
-use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -53,7 +52,6 @@ final class TicketController extends BaseController
     }
 
     /**
-     * @throws RedisException
      * @throws ClientExceptionInterface
      * @throws TelegramSDKException
      * @throws GuzzleException

@@ -76,7 +76,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span class="bg-twitter text-white avatar">
+                                            <span class="bg-azure text-white avatar">
                                                 <i class="ti ti-devices-pc icon"></i>
                                             </span>
                                         </div>
@@ -101,7 +101,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span class="bg-facebook text-white avatar">
+                                            <span class="bg-indigo text-white avatar">
                                                 <i class="ti ti-rocket icon"></i>
                                             </span>
                                         </div>

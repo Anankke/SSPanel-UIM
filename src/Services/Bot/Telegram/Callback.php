@@ -937,8 +937,7 @@ final class Callback
             $code = (new InviteCode())->where('user_id', $this->user->id)->first();
 
             if ($code === null) {
-                $this->user->addInviteCode();
-                $code = (new InviteCode())->where('user_id', $this->user->id)->first();
+                $code = (new InviteCode())->add($this->user->id);
             }
 
             $inviteUrl = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;

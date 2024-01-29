@@ -10,10 +10,10 @@ jobs:
     outputs:
       php: ${{ steps.filter.outputs.php }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: dorny/paths-filter@v2
+    - uses: dorny/paths-filter@v3
       id: filter
       with:
         filters: |
@@ -24,7 +24,7 @@ jobs:
     if: ${{ needs.php-file-changed.outputs.php == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: shivammathur/setup-php@v2

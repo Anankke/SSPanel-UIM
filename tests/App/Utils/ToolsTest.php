@@ -12,7 +12,6 @@ class ToolsTest extends TestCase
 {
     /**
      * @covers App\Utils\Tools::getIpLocation
-     * @throws InvalidDatabaseException
      */
     public function testGetIpLocation()
     {
@@ -140,6 +139,23 @@ class ToolsTest extends TestCase
     }
 
     /**
+     * @covers App\Utils\Tools::getDir
+     */
+    public function testGetDir()
+    {
+        // Scenario 1: Valid directory
+        $dir1 = 'tests/testDir';
+        $expected1 = ['emptyDir', 'file1', 'file2', 'file3']; // Replace with actual expected result
+        $result1 = Tools::getDir($dir1);
+        $this->assertEqualsCanonicalizing($expected1, $result1);
+
+        // Scenario 2: Directory with .gitkeep
+        $dir2 = 'tests/testDir/emptyDir';
+        $result2 = Tools::getDir($dir2);
+        $this->assertEqualsCanonicalizing(['.gitkeep'], $result2);
+    }
+
+    /**
      * @covers App\Utils\Tools::isParamValidate
      */
     public function testIsParamValidate()
@@ -149,12 +165,52 @@ class ToolsTest extends TestCase
     }
 
     /**
-     * @covers App\Utils\Tools::isEmail
+     * @covers App\Utils\Tools::getSsMethod
      */
-    public function testIsEmail()
+    public function testGetSsMethod()
     {
-        $this->assertTrue(Tools::isEmail('test@example.com'));
-        $this->assertFalse(Tools::isEmail('test@example'));
+        // Scenario 1: ss_obfs
+        $expected1 = [
+            'simple_obfs_http',
+            'simple_obfs_http_compatible',
+            'simple_obfs_tls',
+            'simple_obfs_tls_compatible',
+        ];
+        $result1 = Tools::getSsMethod('ss_obfs');
+        $this->assertEquals($expected1, $result1);
+
+        // Scenario 2: default
+        $expected2 = [
+            'aes-128-gcm',
+            'aes-192-gcm',
+            'aes-256-gcm',
+            'chacha20-ietf-poly1305',
+            'xchacha20-ietf-poly1305',
+        ];
+        $result2 = Tools::getSsMethod('default');
+        $this->assertEquals($expected2, $result2);
+
+        // Scenario 3: Random string
+        $expected3 = [
+            'aes-128-gcm',
+            'aes-192-gcm',
+            'aes-256-gcm',
+            'chacha20-ietf-poly1305',
+            'xchacha20-ietf-poly1305',
+        ];
+        $result3 = Tools::getSsMethod('randomString');
+        $this->assertEquals($expected3, $result3);
+
+        // Scenario 4: Empty string
+        $expected4 = [
+            'aes-128-gcm',
+            'aes-192-gcm',
+            'aes-256-gcm',
+            'chacha20-ietf-poly1305',
+            'xchacha20-ietf-poly1305',
+        ];
+        $result4 = Tools::getSsMethod('');
+        $this->assertEquals($expected4, $result4);
     }
 
     /**
@@ -173,6 +229,15 @@ class ToolsTest extends TestCase
 
         $this->assertEquals($expected1, Tools::isEmailLegal($email1));
         $this->assertEquals($expected2, Tools::isEmailLegal($email2));
+    }
+
+    /**
+     * @covers App\Utils\Tools::isEmail
+     */
+    public function testIsEmail()
+    {
+        $this->assertTrue(Tools::isEmail('test@example.com'));
+        $this->assertFalse(Tools::isEmail('test@example'));
     }
 
     /**
@@ -209,5 +274,6 @@ class ToolsTest extends TestCase
     {
         $this->assertTrue(Tools::isJson('{}'));
         $this->assertFalse(Tools::isJson('[]'));
+        $this->assertFalse(Tools::isJson('what the'));
     }
 }

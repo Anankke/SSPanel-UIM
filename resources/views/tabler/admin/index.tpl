@@ -172,7 +172,7 @@
                 grid: {
                     strokeDashArray: 3,
                 },
-                colors: ["#0780cf", "#009db2", "#fa6d1d"],
+                colors: [tabler.getColor("azure"), tabler.getColor("cyan"), tabler.getColor("orange")],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -212,7 +212,7 @@
                 grid: {
                     strokeDashArray: 2,
                 },
-                colors: ["#71ae46", "#d85d2a"],
+                colors: [tabler.getColor("lime"), tabler.getColor("red")],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -252,7 +252,7 @@
                 grid: {
                     strokeDashArray: 4,
                 },
-                colors: ["#f59311", "#6ca30f"],
+                colors: [tabler.getColor("yellow"), tabler.getColor("lime")],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -292,6 +292,7 @@
                 grid: {
                     strokeDashArray: 3,
                 },
+                colors: [tabler.getColor("green"), tabler.getColor("lime"), tabler.getColor("yellow")],
                 legend: {
                     show: true,
                     position: 'bottom',

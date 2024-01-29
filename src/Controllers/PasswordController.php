@@ -40,9 +40,6 @@ final class PasswordController extends BaseController
         );
     }
 
-    /**
-     * @throws RedisException
-     */
     public function handleReset(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (Config::obtain('enable_reset_password_captcha')) {

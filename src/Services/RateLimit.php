@@ -8,13 +8,9 @@ use App\Models\Config;
 use RateLimit\Exception\LimitExceeded;
 use RateLimit\Rate;
 use RateLimit\RedisRateLimiter;
-use RedisException;
 
 final class RateLimit
 {
-    /**
-     * @throws RedisException
-     */
     public static function checkIPLimit(string $request_ip): bool
     {
         $ip_limiter = new RedisRateLimiter(
@@ -31,9 +27,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkSubLimit(string $sub_token): bool
     {
         $sub_limiter = new RedisRateLimiter(
@@ -50,9 +43,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkWebAPILimit(string $web_api_token): bool
     {
         $webapi_limiter = new RedisRateLimiter(
@@ -69,9 +59,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkUserAPILimit(string $user_api_token): bool
     {
         $user_api_limiter = new RedisRateLimiter(
@@ -88,9 +75,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkAdminAPILimit(string $admin_api_token): bool
     {
         $admin_api_limiter = new RedisRateLimiter(
@@ -107,9 +91,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkEmailIpLimit(string $request_ip): bool
     {
         $email_ip_limiter = new RedisRateLimiter(
@@ -126,9 +107,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkEmailAddressLimit(string $request_address): bool
     {
         $email_address_limiter = new RedisRateLimiter(
@@ -145,9 +123,6 @@ final class RateLimit
         return true;
     }
 
-    /**
-     * @throws RedisException
-     */
     public static function checkTicketLimit(int $user_id): bool
     {
         $ticket_limiter = new RedisRateLimiter(

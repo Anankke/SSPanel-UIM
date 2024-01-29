@@ -6,6 +6,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Services\DynamicRate;
+use App\Services\Subscribe;
 use App\Utils\ResponseHelper;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -21,7 +22,7 @@ final class RateController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $nodes = $this->user->getUserFrontEndNodes();
+        $nodes = Subscribe::getUserNodes($this->user);
         $node_list = [];
 
         foreach ($nodes as $node) {
@@ -40,7 +41,7 @@ final class RateController extends BaseController
 
     public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
-        $nodes = $this->user->getUserFrontEndNodes();
+        $nodes = Subscribe::getUserNodes($this->user);
         $node = $nodes->find($request->getParam('node_id'));
 
         if ($node === null) {
