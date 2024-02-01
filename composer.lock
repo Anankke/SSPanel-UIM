@@ -6254,16 +6254,16 @@
         },
         {
             "name": "vectorface/googleauthenticator",
-            "version": "v3.1",
+            "version": "v3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Vectorface/GoogleAuthenticator.git",
-                "reference": "139fd0b6c28094f5d13f2ac8c71f9ff4f3e3d589"
+                "reference": "c98adc40a5a1df104693d16908de74b85e107a1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Vectorface/GoogleAuthenticator/zipball/139fd0b6c28094f5d13f2ac8c71f9ff4f3e3d589",
-                "reference": "139fd0b6c28094f5d13f2ac8c71f9ff4f3e3d589",
+                "url": "https://api.github.com/repos/Vectorface/GoogleAuthenticator/zipball/c98adc40a5a1df104693d16908de74b85e107a1d",
+                "reference": "c98adc40a5a1df104693d16908de74b85e107a1d",
                 "shasum": ""
             },
             "require": {
@@ -6307,7 +6307,7 @@
                 "issues": "https://github.com/Vectorface/GoogleAuthenticator/issues",
                 "source": "https://github.com/Vectorface/GoogleAuthenticator"
             },
-            "time": "2024-01-10T21:14:16+00:00"
+            "time": "2024-01-31T13:05:32+00:00"
         },
         {
             "name": "voku/anti-xss",
