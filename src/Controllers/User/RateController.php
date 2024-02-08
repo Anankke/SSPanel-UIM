@@ -13,6 +13,8 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function array_fill;
+use function count;
+use function json_decode;
 use function json_encode;
 
 final class RateController extends BaseController
@@ -32,9 +34,16 @@ final class RateController extends BaseController
             ];
         }
 
+        if (count($node_list) === 0) {
+            $node_list[] = [
+                'id' => 0,
+                'name' => '暂无节点',
+            ];
+        }
+
         return $response->write(
             $this->view()
-                ->assign('nodes', $node_list)
+                ->assign('node_list', $node_list)
                 ->fetch('user/rate.tpl')
         );
     }

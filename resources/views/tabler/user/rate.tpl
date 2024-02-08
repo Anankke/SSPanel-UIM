@@ -26,9 +26,9 @@
                                 <div class="ms-auto">
                                     <div class="dropdown">
                                         <a id="dropdown-toggle" class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">{$nodes[0]['name']}</a>
+                                           aria-haspopup="true" aria-expanded="false">{$node_list[0]['name']}</a>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            {foreach $nodes as $node}
+                                            {foreach $node_list as $node}
                                             <a class="dropdown-item" hx-post="/user/rate" hx-swap="none"
                                                 hx-vals='{ "node_id": "{$node['id']}" }'>
                                                 {$node['name']}
