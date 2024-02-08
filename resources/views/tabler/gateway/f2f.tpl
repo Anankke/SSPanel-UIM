@@ -13,6 +13,7 @@
 
 <script>
     let pid = 0;
+    let f2fQrcode = $('#f2fpay-button');
 
     function f2fpay() {
         $.ajax({
@@ -25,9 +26,9 @@
             },
             success: (data) => {
                 if (data.ret === 1) {
-                    $('#f2fpay-button').remove();
+                    f2fQrcode.remove();
                     pid = data.pid;
-                    $('#f2f-qrcode').append('<div class="text-center"><p>手机支付宝扫描支付</p></div>');
+                    f2fQrcode.append('<div class="text-center"><p>手机支付宝扫描支付</p></div>');
                     new QRCode("f2f-qrcode", {
                         text: data.qrcode,
                         width: 200,
@@ -36,8 +37,8 @@
                         colorLight: '#ffffff',
                         correctLevel: QRCode.CorrectLevel.H,
                     });
-                    $('#f2f-qrcode').append('<div class="text-center my-3"><p>支付成功后请手动刷新页面</p></div>');
-                    $('#f2f-qrcode').attr('href', data.qrcode);
+                    f2fQrcode.append('<div class="text-center my-3"><p>支付成功后请手动刷新页面</p></div>');
+                    f2fQrcode.attr('href', data.qrcode);
                 } else {
                     $('#fail-message').text(data.msg);
                     $('#fail-dialog').modal('show');

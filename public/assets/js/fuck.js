@@ -5,7 +5,7 @@
     const hasMime = function (option, value) {
         const mimeTypes = navigator.mimeTypes;
         for (const mt in mimeTypes) {
-            if (mimeTypes[mt][option] == value) {
+            if (mimeTypes[mt][option] === value) {
                 return true;
             }
         }
@@ -66,12 +66,6 @@
         typeof navigator['connection']['saveData'] == 'undefined'
     ) {
         is360 = true;
-    }
-
-    for (const key in navigator.plugins) {
-        if (navigator.plugins[key].filename == 'internal-nacl-plugin') {
-            is360 = true;
-        }
     }
 
     if (

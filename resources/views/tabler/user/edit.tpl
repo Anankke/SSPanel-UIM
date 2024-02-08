@@ -537,22 +537,24 @@
         });
 
         {if $user->im_type === 0 && $user->im_value === ''}
+        let oauthProvider = $('#oauth-provider');
+
         $("#imtype").on('change', function () {
             if ($(this).val() === '0') {
-                $('#oauth-provider').empty();
+                oauthProvider.empty();
             } else if ($(this).val() === '1') {
-                $('#oauth-provider').empty();
-                $('#oauth-provider').append(
+                oauthProvider.empty();
+                oauthProvider.append(
                     "<a id='bind-slack' class='btn btn-azure ms-auto'>绑定 Slack</a>"
                 );
             } else if ($(this).val() === '2') {
-                $('#oauth-provider').empty();
-                $('#oauth-provider').append(
+                oauthProvider.empty();
+                oauthProvider.append(
                     "<a id='bind-discord' class='btn btn-indigo ms-auto'>绑定 Discord</a>"
                 );
             } else if ($(this).val() === '4') {
-                $('#oauth-provider').empty();
-                $('#oauth-provider').append(
+                oauthProvider.empty();
+                oauthProvider.append(
                     '<script async src=\"https://telegram.org/js/telegram-widget.js?22\"' +
                     ' data-telegram-login=\"' + "{$public_setting['telegram_bot']}" +
                     '\" data-size=\"large" data-onauth=\"onTelegramAuth(user)\"' +
@@ -561,34 +563,24 @@
             }
         });
 
-        $('#oauth-provider').on('click', '#bind-slack', function () {
+        oauthProvider.on('click', '#bind-slack', function () {
             $.ajax({
                 type: "POST",
                 url: "/oauth/slack",
                 dataType: "json",
                 success: function (data) {
-                    if (data.ret === 1) {
-                        window.location.replace(data.redir);
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
+                    handleOauthResult(data, 'slack')
                 }
             })
         });
 
-        $('#oauth-provider').on('click', '#bind-discord', function () {
+        oauthProvider.on('click', '#bind-discord', function () {
             $.ajax({
                 type: "POST",
                 url: "/oauth/discord",
                 dataType: "json",
                 success: function (data) {
-                    if (data.ret === 1) {
-                        window.location.replace(data.redir);
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
+                    handleOauthResult(data, 'discord')
                 }
             })
         });
@@ -602,15 +594,23 @@
                     user: JSON.stringify(user),
                 },
                 success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#error-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
+                    handleOauthResult(data, 'telegram')
                 }
             })
+        }
+
+        function handleOauthResult(data, type = 'telegram') {
+            if (data.ret === 1) {
+                if (type === 'telegram') {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                } else {
+                    window.location.replace(data.redir);
+                }
+            } else {
+                $('#error-message').text(data.msg);
+                $('#fail-dialog').modal('show');
+            }
         }
         {/if}
     </script>
