@@ -3,7 +3,7 @@
         {
             "name": "Clash Verge",
             "tagMethod": "github_release",
-            "gitRepo": "zzzgydi/clash-verge",
+            "gitRepo": "clash-verge-rev/clash-verge-rev",
             "savePath": "public/clients/",
             "downloads": [
                 {
