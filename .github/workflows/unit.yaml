@@ -8,7 +8,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  php-file-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      php: ${{ steps.filter.outputs.php }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            php:
+              - '**/*.php'
+
   unit-test-php82:
+    needs: php-file-changed
+    if: ${{ needs.php-file-changed.outputs.php == 'true' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -20,6 +37,8 @@ jobs:
         php vendor/bin/phpunit
 
   unit-test-php83:
+    needs: php-file-changed
+    if: ${{ needs.php-file-changed.outputs.php == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
