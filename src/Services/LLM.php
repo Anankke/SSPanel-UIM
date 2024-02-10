@@ -22,7 +22,8 @@ final class LLM
 
         return match ($_ENV['llm_backend']) {
             'openai' => self::textPromptGPT($q),
-            'palm' => self::textPromptPaLM($q),
+            'google-ai' => self::textPromptGoogleAI($q),
+            'vertex-ai' => self::textPromptVertexAI($q),
             'huggingface' => self::textPromptHF($q),
             'cf-workers-ai' => self::textPromptCF($q),
             default => 'No LLM backend configured',
@@ -53,56 +54,53 @@ final class LLM
     /**
      * @throws GuzzleException
      */
-    public static function textPromptPaLM(string $q): string
+    public static function textPromptGoogleAI(string $q): string
     {
-        if ($_ENV['palm_api_key'] === '') {
-            return 'PaLM API key not set';
+        if ($_ENV['google_ai_api_key'] === '') {
+            return 'Google AI API key not set';
         }
 
         $client = new Client();
 
-        $api_url = 'https://generativelanguage.googleapis.com/v1beta3/models/' .
-            $_ENV['palm_text_model'] . ':generateText?key=' . $_ENV['palm_api_key'];
+        $api_url = 'https://generativelanguage.googleapis.com/v1/models/' .
+            $_ENV['google_ai_model_id'] . ':generateContent?key=' . $_ENV['google_ai_api_key'];
 
         $headers = [
             'Content-Type' => 'application/json',
         ];
 
         $data = [
-            'prompt' => [
-                'text' => $q,
+            'contents' => [
+                'parts' => [
+                    [
+                        'text' => $q,
+                    ],
+                ],
             ],
-            'temperature' => 1,
-            'candidate_count' => 1,
-            'top_k' => 40,
-            'top_p' => 0.95,
-            'max_output_tokens' => 1024,
-            'stop_sequences' => [
+            'generationConfig' => [
+                'temperature' => 1,
+                'topK' => 1,
+                'topP' => 1,
+                'candidateCount' => 1,
+                'maxOutputTokens' => 2048,
+                'stopSequences' => [],
             ],
-            'safety_settings' => [
+            'safetySettings' => [
                 [
-                    'category' => 'HARM_CATEGORY_DEROGATORY',
-                    'threshold' => 3,
+                    'category' => 'HARM_CATEGORY_HARASSMENT',
+                    'threshold' => 'BLOCK_NONE',
                 ],
                 [
-                    'category' => 'HARM_CATEGORY_TOXICITY',
-                    'threshold' => 3,
+                    'category' => 'HARM_CATEGORY_HATE_SPEECH',
+                    'threshold' => 'BLOCK_NONE',
                 ],
                 [
-                    'category' => 'HARM_CATEGORY_VIOLENCE',
-                    'threshold' => 3,
+                    'category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                    'threshold' => 'BLOCK_NONE',
                 ],
                 [
-                    'category' => 'HARM_CATEGORY_SEXUAL',
-                    'threshold' => 3,
-                ],
-                [
-                    'category' => 'HARM_CATEGORY_MEDICAL',
-                    'threshold' => 3,
-                ],
-                [
-                    'category' => 'HARM_CATEGORY_DANGEROUS',
-                    'threshold' => 3,
+                    'category' => 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                    'threshold' => 'BLOCK_NONE',
                 ],
             ],
         ];
@@ -113,7 +111,72 @@ final class LLM
             'timeout' => 10,
         ])->getBody()->getContents());
 
-        return $response->candidates[0]->output;
+        return $response->candidates[0]->content->parts[0]->text;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public static function textPromptVertexAI(string $q): string
+    {
+        if ($_ENV['vertex_ai_access_token'] === '') {
+            return 'Vertex AI API key not set';
+        }
+
+        $client = new Client();
+
+        $api_url = 'https://' . $_ENV['vertex_ai_location'] .'-aiplatform.googleapis.com/v1/projects/' .
+            $_ENV['vertex_ai_project_id'] . '/locations/' . $_ENV['vertex_ai_location'] . '/publishers/google/models/' .
+            $_ENV['vertex_ai_model_id'] . ':streamGenerateContent';
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $_ENV['vertex_ai_access_token'],
+            'Content-Type' => 'application/json',
+        ];
+
+        $data = [
+            'contents' => [
+                'parts' => [
+                    [
+                        'text' => $q,
+                    ],
+                ],
+            ],
+            'generationConfig' => [
+                'temperature' => 1,
+                'topK' => 1,
+                'topP' => 1,
+                'candidateCount' => 1,
+                'maxOutputTokens' => 2048,
+                'stopSequences' => [],
+            ],
+            'safetySettings' => [
+                [
+                    'category' => 'HARM_CATEGORY_HARASSMENT',
+                    'threshold' => 'BLOCK_NONE',
+                ],
+                [
+                    'category' => 'HARM_CATEGORY_HATE_SPEECH',
+                    'threshold' => 'BLOCK_NONE',
+                ],
+                [
+                    'category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                    'threshold' => 'BLOCK_NONE',
+                ],
+                [
+                    'category' => 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                    'threshold' => 'BLOCK_NONE',
+                ],
+            ],
+        ];
+
+        $response = json_decode($client->post($api_url, [
+            'headers' => $headers,
+            'json' => $data,
+            'timeout' => 10,
+        ])->getBody()->getContents());
+
+        return $response->candidates[0]->content->parts[0]->text;
     }
 
     /**

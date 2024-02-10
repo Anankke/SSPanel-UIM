@@ -103,13 +103,18 @@ $_ENV['maxmind_license_key'] = '';
 $_ENV['geoip_locale']        = 'en';
 
 // Large language model powered ticket reply and more
-$_ENV['llm_backend'] = 'openai'; // openai/palm/huggingface/cf-workers-ai
+$_ENV['llm_backend'] = 'openai'; // openai/google-ai/huggingface/cf-workers-ai
 // OpenAI ChatGPT
 $_ENV['openai_api_key'] = '';
-$_ENV['openai_model']   = 'gpt-3.5-turbo-1106';
-// Google PaLM API
-$_ENV['palm_api_key']    = '';
-$_ENV['palm_text_model'] = 'text-bison-001';
+$_ENV['openai_model']   = 'gpt-4-turbo-preview';
+// Google AI API
+$_ENV['google_ai_api_key']  = '';
+$_ENV['google_ai_model_id'] = 'gemini-pro';
+// Vertex AI API
+$_ENV['vertex_ai_access_token']  = '';
+$_ENV['vertex_ai_location'] = 'us-central1';
+$_ENV['vertex_ai_model_id'] = 'gemini-pro';
+$_ENV['vertex_ai_project_id'] = '';
 // Hugging Face Inference API
 $_ENV['huggingface_api_key']      = '';
 $_ENV['huggingface_endpoint_url'] = '';

@@ -368,7 +368,7 @@ return new class() implements MigrationInterface {
 
     public function down(): int
     {
-        echo "No reverse operation for initial migration\n";
+        echo 'No reverse operation for initial migration' . PHP_EOL . PHP_EOL;
 
         return 2023020100;
     }

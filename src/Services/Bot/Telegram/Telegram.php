@@ -11,14 +11,14 @@ use Psr\Http\Message\RequestInterface;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
-final class Process
+final class Telegram
 {
     /**
      * @throws InvalidDatabaseException
      * @throws TelegramSDKException
      * @throws GuzzleException
      */
-    public static function index(RequestInterface $request): void
+    public static function process(RequestInterface $request): void
     {
         $bot = new Api(Config::obtain('telegram_token'));
 
