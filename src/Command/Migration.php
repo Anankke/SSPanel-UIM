@@ -29,13 +29,13 @@ END;
     public function boot(): void
     {
         $reverse = false;
+        $current = 0;
+        $latest = 0;
         $min_version = 0;
         $max_version = 0;
         $target = $this->argv[2] ?? 0;
 
-        if ($target === 'new') {
-            $current = 0;
-        } else {
+        if ($target !== 'new') {
             $current = Config::obtain('db_version');
         }
 
@@ -49,6 +49,7 @@ END;
                 $max_version = PHP_INT_MAX;
             } else {
                 echo 'Database is not empty, do not use "new" as version.' . PHP_EOL;
+
                 return;
             }
         } elseif (is_numeric($target)) {
@@ -64,6 +65,7 @@ END;
             }
         } else {
             echo 'Illegal version argument.' . PHP_EOL;
+
             return;
         }
 
@@ -81,12 +83,20 @@ END;
                 $version = (int) explode('-', $file, 1)[0];
                 echo 'Found migration version ' . $version;
 
-                if ($version <= $min_version || $version > $max_version) {
+                if ($version > $latest) {
+                    $latest = $version;
+                }
+
+                if ($version <= $min_version ||
+                    $version > $max_version ||
+                    ($target === 'new' && $version !== 2023020100)
+                ) {
                     echo '...skip' . PHP_EOL;
                     continue;
                 }
 
                 echo PHP_EOL;
+
                 $object = require_once BASE_PATH . '/db/migrations/' . $file;
 
                 if ($object instanceof MigrationInterface) {
@@ -96,15 +106,18 @@ END;
         }
 
         echo PHP_EOL;
+        echo 'Latest database version ' . $latest . PHP_EOL . PHP_EOL;
 
         if ($reverse) {
             krsort($queue);
+
             foreach ($queue as $version => $object) {
                 echo 'Reverse on ' . $version . PHP_EOL;
                 $current = $object->down();
             }
         } else {
             ksort($queue);
+
             foreach ($queue as $version => $object) {
                 echo 'Forward to ' . $version . PHP_EOL;
                 $current = $object->up();
@@ -118,7 +131,13 @@ END;
         };
 
         $stat = DB::getPdo()->prepare($sql);
-        $stat->execute([$current]);
+
+        if ($target === 'new') {
+            $stat->execute([$latest]);
+        } else {
+            $stat->execute([$current]);
+        }
+
         $count = count($queue);
 
         echo 'Migration completed. ' . $count . ' file(s) processed.' . PHP_EOL
