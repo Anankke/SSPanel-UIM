@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83bf52eacfb53b29ac9e01022e19a0bf",
+    "content-hash": "cb81eb357e69b4ed5d997458ce65a411",
     "packages": [
         {
             "name": "anankke/omnipay-alipay",
@@ -1977,16 +1977,16 @@
         },
         {
             "name": "mailgun/mailgun-php",
-            "version": "v4.0.1",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailgun/mailgun-php.git",
-                "reference": "c1832496b479708ca47276459268d454e557319d"
+                "reference": "85e598f9d0a62a978c668b689cc2169f0a4d2c59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/c1832496b479708ca47276459268d454e557319d",
-                "reference": "c1832496b479708ca47276459268d454e557319d",
+                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/85e598f9d0a62a978c668b689cc2169f0a4d2c59",
+                "reference": "85e598f9d0a62a978c668b689cc2169f0a4d2c59",
                 "shasum": ""
             },
             "require": {
@@ -2032,9 +2032,9 @@
             "description": "The Mailgun SDK provides methods for all API functions.",
             "support": {
                 "issues": "https://github.com/mailgun/mailgun-php/issues",
-                "source": "https://github.com/mailgun/mailgun-php/tree/v4.0.1"
+                "source": "https://github.com/mailgun/mailgun-php/tree/v4.1.0"
             },
-            "time": "2024-01-08T19:37:43+00:00"
+            "time": "2024-02-10T13:46:20+00:00"
         },
         {
             "name": "maxmind-db/reader",

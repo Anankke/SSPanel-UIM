@@ -108,8 +108,13 @@ $_ENV['llm_backend'] = 'openai'; // openai/google-ai/huggingface/cf-workers-ai
 $_ENV['openai_api_key'] = '';
 $_ENV['openai_model']   = 'gpt-4-turbo-preview';
 // Google AI API
-$_ENV['google_ai_api_key']    = '';
-$_ENV['google_ai_text_model'] = 'gemini-pro';
+$_ENV['google_ai_api_key']  = '';
+$_ENV['google_ai_model_id'] = 'gemini-pro';
+// Vertex AI API
+$_ENV['vertex_ai_access_token']  = '';
+$_ENV['vertex_ai_location'] = 'us-central1';
+$_ENV['vertex_ai_model_id'] = 'gemini-pro';
+$_ENV['vertex_ai_project_id'] = '';
 // Hugging Face Inference API
 $_ENV['huggingface_api_key']      = '';
 $_ENV['huggingface_endpoint_url'] = '';
