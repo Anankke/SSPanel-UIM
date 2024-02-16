@@ -49,11 +49,11 @@ abstract class Base
 
     public function getStatus(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $p = (new Paylist())->where('tradeno', $_POST['pid'])->first();
+        $paylist = (new Paylist())->where('tradeno', $_POST['pid'])->first();
 
         return $response->withJson([
             'ret' => 1,
-            'result' => $p->satatus,
+            'result' => $paylist->status,
         ]);
     }
 
