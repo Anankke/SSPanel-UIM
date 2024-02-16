@@ -57,8 +57,7 @@ final class Subscribe
 
         return $query->where(static function ($query): void {
             $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
-        })->orderBy('node_class')
-            ->orderBy('name')
+        })->orderBy('name')
             ->get();
     }
 
