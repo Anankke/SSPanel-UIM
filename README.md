@@ -24,7 +24,7 @@
 
 ## 简介 / TL;DR
 
-SSPanel UIM 是一款专为 Shadowsocks / V2Ray / Trojan / TUIC 协议设计的多用途代理服务销售管理系统。  
+SSPanel UIM 是一款专为 Shadowsocks(包括 2022 Edition) / V2Ray / Trojan / TUIC 协议设计的多用途代理服务销售管理系统。  
 SSPanel UIM is a multi-purpose proxy service sales management system designed for Shadowsocks / V2Ray / Trojan / TUIC protocol.
 
 ## 特性 / Features
@@ -33,12 +33,13 @@ SSPanel UIM is a multi-purpose proxy service sales management system designed fo
 - 支持多种邮件服务，内置邮件队列功能，无需第三方组件即可使用
 - 内置基于 Bootstrap 5 的 tabler 主题，模板引擎支持
 - 支持 Shadowsocks 2022，TUIC 等最新代理协议
-- 通用订阅接口，一键 json/clash/sip008/sing-box 格式订阅下发
+- 通用订阅接口，一键 json/clash/sip008/sing-box/v2ray-json 格式订阅下发
 - 自定义节点配置，模块化订阅系统，支持多种客户端专用订阅格式
 - 重构的商店系统，支持包括但不限于包年包月，按量计费，接入类型计费等计费模式
 - 重构的定时任务系统，一个命令即可自动完成所有定时任务
 - 深度集成大型语言模型（Large Language Model），支持工单智能回复，文档生成等功能
 - 一键对接 OpenAI，Gemini Pro，Hugging Face Hosted API 和 Cloudflare Workers AI 等人工智能服务
+
 
 
 - Integrate multiple payment systems such as Alipay F2F, PayPal, Stripe, etc.
@@ -50,6 +51,7 @@ SSPanel UIM is a multi-purpose proxy service sales management system designed fo
 - Refactored store system, support billing modes including but not limited to annual/monthly, pay-as-you-go, access type billing, etc.
 - Refactored scheduled task system, one command can automatically complete all scheduled tasks
 - Deep integration of large language models, support intelligent reply to ticket, document generation and other functions
+- One-click access to OpenAI, Gemini Pro, Hugging Face Hosted API, Cloudflare Workers AI and other artificial intelligence services
 
 ## 安装 / Installation
 

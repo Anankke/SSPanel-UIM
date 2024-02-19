@@ -25,7 +25,10 @@ return new class() implements MigrationInterface {
                 `type` varchar(255) DEFAULT NULL COMMENT '配置值类型',
                 `default` varchar(255) DEFAULT NULL COMMENT '默认值',
                 `mark` varchar(255) DEFAULT NULL COMMENT '备注',
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                KEY `item` (`item`),
+                KEY `class` (`class`),
+                KEY `is_public` (`is_public`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `detect_ban_log` (
@@ -99,7 +102,8 @@ return new class() implements MigrationInterface {
                 `date` date NOT NULL DEFAULT 0 COMMENT '记录日期',
                 `usage` longtext NOT NULL DEFAULT '{}' COMMENT '流量用量' CHECK (json_valid(`usage`)),
                 PRIMARY KEY (`id`),
-                KEY `user_id` (`user_id`)
+                KEY `user_id` (`user_id`),
+                KEY `date` (`date`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `invoice` (
@@ -163,9 +167,12 @@ return new class() implements MigrationInterface {
                 `gfw_block` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否被GFW封锁',
                 `password` varchar(255) NOT NULL DEFAULT '' COMMENT '后端连接密码',
                 PRIMARY KEY (`id`),
+                UNIQUE KEY `password` (`password`),
                 KEY `type` (`type`),
                 KEY `sort` (`sort`),
+                KEY `is_dynamic_rate` (`is_dynamic_rate`),
                 KEY `node_class` (`node_class`),
+                KEY `bandwidthlimit_resetday` (`bandwidthlimit_resetday`),
                 KEY `node_group` (`node_group`),
                 KEY `online` (`online`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -179,7 +186,8 @@ return new class() implements MigrationInterface {
                 `last_time` int(11) unsigned NOT NULL COMMENT '最后在线时间',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY (`user_id`, `ip`),
-                KEY (`last_time`)
+                KEY `node_id` (`node_id`),
+                KEY `last_time` (`last_time`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `order` (
@@ -209,7 +217,10 @@ return new class() implements MigrationInterface {
                 `ref_get` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '推荐人获得金额',
                 `invoice_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账单ID',
                 `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                KEY `userid` (`userid`),
+                KEY `ref_by` (`ref_by`),
+                KEY `invoice_id` (`invoice_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `paylist` (
@@ -222,7 +233,10 @@ return new class() implements MigrationInterface {
                 `gateway` varchar(255) NOT NULL DEFAULT '' COMMENT '支付网关',
                 `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 PRIMARY KEY (`id`),
-                KEY `userid` (`userid`)
+                UNIQUE KEY `tradeno` (`tradeno`),
+                KEY `userid` (`userid`),
+                KEY `status` (`status`),
+                KEY `invoice_id` (`invoice_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `product` (
@@ -251,7 +265,8 @@ return new class() implements MigrationInterface {
                 `request_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '请求时间',
                 `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA',
                 PRIMARY KEY (`id`),
-                KEY `user_id` (`user_id`)
+                KEY `user_id` (`user_id`),
+                KEY `type` (`type`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `ticket` (
@@ -259,12 +274,13 @@ return new class() implements MigrationInterface {
                 `title` varchar(255) NOT NULL DEFAULT '' COMMENT '工单标题',
                 `content` longtext NOT NULL DEFAULT '{}' COMMENT '工单内容' CHECK (json_valid(`content`)),
                 `userid` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
-                `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 `status` varchar(255) NOT NULL DEFAULT '' COMMENT '工单状态',
                 `type` varchar(255) NOT NULL DEFAULT '' COMMENT '工单类型',
+                `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 PRIMARY KEY (`id`),
                 KEY `userid` (`userid`),
-                KEY `status` (`status`)
+                KEY `status` (`status`),
+                KEY `type` (`type`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `user` (
@@ -318,12 +334,13 @@ return new class() implements MigrationInterface {
                 `is_inactive` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否处于闲置状态',
                 `locale` varchar(16) NOT NULL DEFAULT 'zh-TW' COMMENT '显示语言',
                 PRIMARY KEY (`id`),
-                UNIQUE KEY `uuid` (`uuid`),
                 UNIQUE KEY `email` (`email`),
+                UNIQUE KEY `uuid` (`uuid`),
                 UNIQUE KEY `ga_token` (`ga_token`),
                 UNIQUE KEY `api_token` (`api_token`),
                 KEY `is_admin` (`is_admin`),
                 KEY `is_banned` (`is_banned`),
+                KEY `is_shadow_banned` (`is_shadow_banned`),
                 KEY `is_inactive` (`is_inactive`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
