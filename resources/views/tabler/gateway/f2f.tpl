@@ -12,7 +12,6 @@
 </div>
 
 <script>
-    let pid = 0;
     let f2fQrcode = $('#f2fpay-button');
 
     function f2fpay() {
@@ -27,7 +26,6 @@
             success: (data) => {
                 if (data.ret === 1) {
                     f2fQrcode.remove();
-                    pid = data.pid;
                     f2fQrcode.append('<div class="text-center"><p>手机支付宝扫描支付</p></div>');
                     new QRCode("f2f-qrcode", {
                         text: data.qrcode,

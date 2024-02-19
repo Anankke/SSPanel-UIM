@@ -29,6 +29,26 @@ final class DB extends Manager
 
     public static function getConfig(): array
     {
+        if ($_ENV['enable_db_rw_split']) {
+            return [
+                'driver' => $_ENV['db_driver'],
+                'read' => [
+                    'host' => $_ENV['read_db_hosts'],
+                ],
+                'write' => [
+                    'host' => $_ENV['write_db_host'],
+                ],
+                'sticky' => true,
+                'database' => $_ENV['db_database'],
+                'username' => $_ENV['db_username'],
+                'password' => $_ENV['db_password'],
+                'charset' => $_ENV['db_charset'],
+                'collation' => $_ENV['db_collation'],
+                'prefix' => $_ENV['db_prefix'],
+                'port' => $_ENV['db_port'],
+            ];
+        }
+
         return [
             'driver' => $_ENV['db_driver'],
             'host' => $_ENV['db_host'],
