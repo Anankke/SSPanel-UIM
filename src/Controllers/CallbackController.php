@@ -39,8 +39,10 @@ final class CallbackController extends BaseController
 
         if (Config::obtain('enable_telegram') && $token === Config::obtain('telegram_request_token')) {
             Telegram::process($request);
+
             return $response->withStatus(204);
         }
+
         return $response->withStatus(400);
     }
 }
