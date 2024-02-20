@@ -77,12 +77,12 @@ final class Tools
             }
         }
 
-        if ($city !== null) {
-            $data = $city . ', ' . $country;
-        }
-
         if ($country !== null) {
             $data = $country;
+        }
+
+        if ($city !== null) {
+            $data = $city . ', ' . $country;
         }
 
         return $data;
