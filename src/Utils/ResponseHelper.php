@@ -50,7 +50,7 @@ final class ResponseHelper
     public static function successWithDataEtag(
         RequestInterface $request,
         ResponseInterface $response,
-        mixed $data
+        array $data
     ): ResponseInterface {
         $etag = 'W/"' . hash('xxh64', (string) json_encode($data)) . '"';
 
@@ -58,7 +58,10 @@ final class ResponseHelper
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETag', $etag)->withJson($data);
+        return $response->withHeader('ETag', $etag)->withJson([
+            'ret' => 1,
+            'data' => $data,
+        ]);
     }
 
     public static function error(Response $response, string $msg = ''): ResponseInterface
