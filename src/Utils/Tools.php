@@ -89,8 +89,10 @@ final class Tools
         }
         
         if ($country == 'China') {
+		if (filter_var($ip, \FILTER_VALIDATE_IP,\FILTER_FLAG_IPV4)) {
 		$data = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
 		}
+	}
         
         return $data;
     }
