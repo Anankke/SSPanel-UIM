@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\Link;
 use App\Models\User;
 use App\Services\GeoIP2;
+use App\Utils\QQWry;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use function array_diff;
@@ -56,7 +57,9 @@ final class Tools
         $data = 'GeoIP2 服务未配置';
         $city = null;
         $country = null;
-
+        $iplocation = new QQWry();
+        $location = $iplocation->getlocation($ip);
+	
         if ($_ENV['maxmind_license_key'] !== '') {
             try {
                 $geoip = new GeoIP2();
@@ -84,7 +87,11 @@ final class Tools
         if ($city !== null) {
             $data = $city . ', ' . $country;
         }
-
+        
+        if ($country == 'China') {
+		$data = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+		}
+        
         return $data;
     }
 
