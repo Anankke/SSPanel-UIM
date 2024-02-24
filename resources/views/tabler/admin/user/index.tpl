@@ -104,7 +104,7 @@
                 dataSrc: 'users'
             },
             "autoWidth": false,
-            'iDisplayLength': 10,
+            'iDisplayLength': 100,
             'scrollX': true,
             'order': [
                 [1, 'asc']
