@@ -32,7 +32,12 @@ final class GeoIP2
         $record = $this?->city_reader?->city($ip);
         return $record?->city?->names[$_ENV['geoip_locale']] ?? $record?->city?->name;
     }
-
+	
+    public function getState(string $ip): ?string
+    {
+        $record = $this?->city_reader?->city($ip);
+        return $record?->mostSpecificSubdivision?->names[$_ENV['geoip_locale']] ?? $record?->mostSpecificSubdivision?->name;
+    }
     /**
      * @throws AddressNotFoundException
      * @throws InvalidDatabaseException

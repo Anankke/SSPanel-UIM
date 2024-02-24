@@ -57,6 +57,7 @@ final class Tools
         $data = 'GeoIP2 服务未配置';
         $city = null;
         $country = null;
+        $state = null;
         $iplocation = new QQWry();
         $location = $iplocation->getlocation($ip);
 	
@@ -72,6 +73,11 @@ final class Tools
             } catch (AddressNotFoundException|InvalidDatabaseException $e) {
                 $city = '未知城市';
             }
+            try {
+                $state = $geoip->getState($ip);
+            } catch (AddressNotFoundException|InvalidDatabaseException $e) {
+                $state = '未知州';
+            }
 
             try {
                 $country = $geoip->getCountry($ip);
@@ -84,15 +90,27 @@ final class Tools
             $data = $country;
         }
 
-        if ($city !== null) {
-            $data = $city . ', ' . $country;
+        if ($state !== null) {
+            $data = $state . ', ' . $country;
         }
-        
-        if ($country == 'China') {
-		if (filter_var($ip, \FILTER_VALIDATE_IP,\FILTER_FLAG_IPV4)) {
-		$data = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+		
+        if ($city !== null) {
+			if ($state == null) {
+				$data = $city . ', ' . $country;
+			} 
 		}
-	}
+		
+        if ($city !== null) {
+			if ($state !== null) {
+				$data = $city . ', ' . $state . ', ' . $country;
+			} 
+		}
+		
+        if ($country == 'China') {
+			if (filter_var($ip, \FILTER_VALIDATE_IP,\FILTER_FLAG_IPV4)) {
+				$data = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+			}
+		}
         
         return $data;
     }
