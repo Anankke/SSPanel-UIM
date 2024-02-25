@@ -48,7 +48,7 @@
                 dataSrc: 'logins.data'
             },
             "autoWidth": false,
-            'iDisplayLength': 10,
+            'iDisplayLength': 100,
             'scrollX': true,
             'order': [
                 [0, 'desc']
