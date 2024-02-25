@@ -58,6 +58,7 @@
         }
     },
     "require-dev": {
+        "dg/bypass-finals": "^1.6",
         "nunomaduro/phpinsights": "*",
         "phpunit/phpunit": "^10|^11"
     },

@@ -24,8 +24,6 @@ final class ResponseHelper
      * @param Response $response
      * @param string $msg
      * @param array $data
-     *
-     * @return ResponseInterface
      */
     public static function successWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
     {
@@ -44,13 +42,11 @@ final class ResponseHelper
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @param mixed $data
-     *
-     * @return ResponseInterface
      */
     public static function successWithDataEtag(
         RequestInterface $request,
         ResponseInterface $response,
-        mixed $data
+        array $data
     ): ResponseInterface {
         $etag = 'W/"' . hash('xxh64', (string) json_encode($data)) . '"';
 
@@ -58,7 +54,10 @@ final class ResponseHelper
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETag', $etag)->withJson($data);
+        return $response->withHeader('ETag', $etag)->withJson([
+            'ret' => 1,
+            'data' => $data,
+        ]);
     }
 
     public static function error(Response $response, string $msg = ''): ResponseInterface
@@ -73,8 +72,6 @@ final class ResponseHelper
      * @param Response $response
      * @param string $msg
      * @param array $data
-     *
-     * @return ResponseInterface
      */
     public static function errorWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
     {

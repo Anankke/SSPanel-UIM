@@ -71,8 +71,6 @@ final class AnnController extends BaseController
      * @param ServerRequest $request
      * @param Response $response
      * @param array $args
-     *
-     * @return Response|ResponseInterface
      */
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

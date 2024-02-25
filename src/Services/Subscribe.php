@@ -38,8 +38,6 @@ final class Subscribe
     /**
      * @param $user
      * @param bool $show_all_nodes
-     *
-     * @return Collection
      */
     public static function getUserNodes($user, bool $show_all_nodes = false): Collection
     {

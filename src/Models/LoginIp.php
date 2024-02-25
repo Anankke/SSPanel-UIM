@@ -48,8 +48,6 @@ final class LoginIp extends Model
      * @param string $ip IP
      * @param int $type 1 = failed, 0 = success
      * @param int $user_id User ID
-     *
-     * @return void
      */
     public function collectLoginIP(string $ip, int $type = 0, int $user_id = 0): void
     {

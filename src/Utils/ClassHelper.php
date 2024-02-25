@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use function array_filter;
+use function array_keys;
 use function is_null;
+use function strtoupper;
 
 final class ClassHelper
 {
@@ -15,7 +18,6 @@ final class ClassHelper
     {
         self::$composer = null;
         self::$classes = [];
-
         self::$composer = require __DIR__ . '/../../vendor/autoload.php';
 
         if (! is_null(self::$composer)) {

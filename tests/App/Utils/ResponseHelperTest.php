@@ -99,7 +99,7 @@ class ResponseHelperTest extends TestCase
         $result = ResponseHelper::successWithDataEtag($request, $response, $data);
 
         $this->assertEquals(200, $result->getStatusCode());
-        $this->assertEquals('{"foo":"bar"}', (string) $result->getBody());
+        $this->assertEquals('{"ret":1,"data":{"foo":"bar"}}', (string) $result->getBody());
         $this->assertEquals('W/"e929f5f04818d7ec"', $result->getHeaderLine('ETag'));
     }
 }
