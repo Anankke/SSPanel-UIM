@@ -31,8 +31,6 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -104,6 +102,16 @@ final class UserController extends BaseController
                 }
             }
 
+            if ($user_raw->node_iplimit !== 0 &&
+                $user_raw->node_iplimit <
+                (new OnlineLog())
+                    ->where('user_id', $user_raw->id)
+                    ->where('last_time', '>', time() - 90)
+                    ->count()
+            ) {
+                continue;
+            }
+
             if ($node->sort === 1) {
                 $method = json_decode($node->custom_config)->method ?? '2022-blake3-aes-128-gcm';
 
@@ -132,8 +140,6 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -221,8 +227,6 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -250,7 +254,7 @@ final class UserController extends BaseController
 
             if (Tools::isIPv4($ip)) {
                 // convert IPv4 Address to IPv4-mapped IPv6 Address
-                $ip = "::ffff:{$ip}";
+                $ip = '::ffff:' . $ip;
             } elseif (! Tools::isIPv6($ip)) {
                 // either IPv4 or IPv6 Address
                 continue;
@@ -278,8 +282,6 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

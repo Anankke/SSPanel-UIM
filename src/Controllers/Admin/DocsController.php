@@ -125,8 +125,6 @@ final class DocsController extends BaseController
      * @param ServerRequest $request
      * @param Response $response
      * @param array $args
-     *
-     * @return Response|ResponseInterface
      */
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

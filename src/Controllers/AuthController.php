@@ -57,8 +57,6 @@ final class AuthController extends BaseController
      * @param ServerRequest $request
      * @param Response $response
      * @param array $args
-     *
-     * @return Response|ResponseInterface
      */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
@@ -209,8 +207,6 @@ final class AuthController extends BaseController
      * @param $money
      * @param $is_admin_reg
      *
-     * @return ResponseInterface
-     *
      * @throws Exception
      */
     public function registerHelper(
@@ -304,8 +300,6 @@ final class AuthController extends BaseController
      * @param ServerRequest $request
      * @param Response $response
      * @param array $args
-     *
-     * @return Response|ResponseInterface
      *
      * @throws RedisException
      * @throws Exception

@@ -24,8 +24,6 @@ final class ResponseHelper
      * @param Response $response
      * @param string $msg
      * @param array $data
-     *
-     * @return ResponseInterface
      */
     public static function successWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
     {
@@ -44,8 +42,6 @@ final class ResponseHelper
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @param mixed $data
-     *
-     * @return ResponseInterface
      */
     public static function successWithDataEtag(
         RequestInterface $request,
@@ -76,8 +72,6 @@ final class ResponseHelper
      * @param Response $response
      * @param string $msg
      * @param array $data
-     *
-     * @return ResponseInterface
      */
     public static function errorWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
     {
