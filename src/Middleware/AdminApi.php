@@ -16,10 +16,8 @@ final class AdminApi
      * @param ServerRequest $request
      * @param Response $response
      * @param callable $next
-     *
-     * @return ResponseInterface
      */
-    public function __invoke($request, $response, $next)
+    public function __invoke($request, $response, $next): ResponseInterface
     {
     }
 }

@@ -9,7 +9,8 @@ use App\Models\Config;
 use App\Models\DetectLog;
 use App\Models\HourlyUsage;
 use App\Models\Node;
-use App\Services\DB;
+use App\Models\OnlineLog;
+use App\Models\User;
 use App\Services\DynamicRate;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
@@ -17,6 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function count;
+use function date;
 use function is_array;
 use function json_decode;
 use function time;
@@ -29,8 +31,6 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -38,62 +38,50 @@ final class UserController extends BaseController
         $node = (new Node())->find($node_id);
 
         if ($node === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node not found.',
-            ]);
+            return ResponseHelper::error($response, 'Node not found.');
         }
 
         if ($node->type === 0) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node is not enabled.',
-            ]);
+            return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
         $node->update(['node_heartbeat' => time()]);
 
         if ($node->node_bandwidth_limit !== 0 && $node->node_bandwidth_limit <= $node->node_bandwidth) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node out of bandwidth.',
-            ]);
+            return ResponseHelper::error($response, 'Node out of bandwidth.');
         }
 
-        $users_raw = DB::select('
-            SELECT
-                user.id,
-                user.u,
-                user.d,
-                user.transfer_enable,
-                user.node_speedlimit,
-                user.node_iplimit,
-                user.method,
-                user.port,
-                user.passwd,
-                user.uuid,
-                IF(online_log.count IS NULL, 0, online_log.count) AS alive_ip
-            FROM
-                user LEFT JOIN (
-                    SELECT
-                        user_id, COUNT(*) AS count
-                    FROM
-                        online_log
-                    WHERE
-                        last_time > UNIX_TIMESTAMP() - 90
-                    GROUP BY
-                        user_id
-                ) AS online_log ON online_log.user_id = user.id
-            WHERE
-                user.is_banned = 0
-                AND user.class_expire > CURRENT_TIMESTAMP()
-                AND (
-                    (
-                        user.class >= ?
-                        AND IF(? = 0, 1, user.node_group = ?)
-                    ) OR user.is_admin = 1
-                )
-        ', [$node->node_class, $node->node_group, $node->node_group]);
+        $users_raw = (new User())->where(
+            'is_banned',
+            0
+        )->where(
+            'class_expire',
+            '>',
+            date('Y-m-d H:i:s')
+        )->where(
+            static function ($query) use ($node): void {
+                $query->where('class', '>=', $node->node_class)
+                    ->where(static function ($query) use ($node): void {
+                        if ($node->node_group !== 0) {
+                            $query->where('node_group', $node->node_group);
+                        }
+                    });
+            }
+        )->orWhere(
+            'is_admin',
+            1
+        )->get([
+            'id',
+            'u',
+            'd',
+            'transfer_enable',
+            'node_speedlimit',
+            'node_iplimit',
+            'method',
+            'port',
+            'passwd',
+            'uuid',
+        ]);
 
         $keys_unset = match ($node->sort) {
             14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
@@ -114,6 +102,16 @@ final class UserController extends BaseController
                 }
             }
 
+            if ($user_raw->node_iplimit !== 0 &&
+                $user_raw->node_iplimit <
+                (new OnlineLog())
+                    ->where('user_id', $user_raw->id)
+                    ->where('last_time', '>', time() - 90)
+                    ->count()
+            ) {
+                continue;
+            }
+
             if ($node->sort === 1) {
                 $method = json_decode($node->custom_config)->method ?? '2022-blake3-aes-128-gcm';
 
@@ -129,13 +127,11 @@ final class UserController extends BaseController
                 unset($user_raw->$key);
             }
 
+            $user_raw->alive_ip = 0;
             $users[] = $user_raw;
         }
 
-        return ResponseHelper::successWithDataEtag($request, $response, [
-            'ret' => 1,
-            'data' => $users,
-        ]);
+        return ResponseHelper::successWithDataEtag($request, $response, $users);
     }
 
     /**
@@ -144,18 +140,13 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
 
         if (! $data || ! is_array($data->data)) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Invalid data.',
-            ]);
+            return ResponseHelper::error($response, 'Invalid data.');
         }
 
         $data = $data->data;
@@ -163,27 +154,14 @@ final class UserController extends BaseController
         $node = (new Node())->find($node_id);
 
         if ($node === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node not found.',
-            ]);
+            return ResponseHelper::error($response, 'Node not found.');
         }
 
         if ($node->type === 0) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node is not enabled.',
-            ]);
+            return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
-        $pdo = DB::getPdo();
-        $stat = $pdo->prepare('
-                UPDATE user SET last_use_time = UNIX_TIMESTAMP(),
-                u = u + ?,
-                d = d + ?,
-                transfer_total = transfer_total + ?,
-                transfer_today = transfer_today + ? WHERE id = ?
-        ');
+        $rate = 1;
 
         if ($node->is_dynamic_rate) {
             $dynamic_rate_config = json_decode($node->dynamic_rate_config);
@@ -214,7 +192,18 @@ final class UserController extends BaseController
             $user_id = $log?->user_id;
 
             if ($user_id) {
-                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), (int) ($u + $d), (int) ($u + $d), (int) $user_id]);
+                $billed_u = $u * $rate;
+                $billed_d = $d * $rate;
+
+                $user = (new User())->find($user_id);
+
+                $user->update([
+                    'last_use_time' => time(),
+                    'u' => $user->u + $billed_u,
+                    'd' => $user->d + $billed_d,
+                    'transfer_total' => $user->transfer_total + $u + $d,
+                    'transfer_today' => $user->transfer_today + $billed_u + $billed_d,
+                ]);
             }
 
             if ($is_traffic_log) {
@@ -224,14 +213,12 @@ final class UserController extends BaseController
             $sum += $u + $d;
         }
 
-        $node->increment('node_bandwidth', $sum);
-        $node->online_user = count($data) - 1;
-        $node->save();
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => 'ok',
+        $node->update([
+            'node_bandwidth' => $node->node_bandwidth + $sum,
+            'online_user' => count($data) - 1,
         ]);
+
+        return ResponseHelper::success($response, 'ok');
     }
 
     /**
@@ -240,18 +227,13 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
 
         if (! $data || ! is_array($data->data)) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Invalid data.',
-            ]);
+            return ResponseHelper::error($response, 'Invalid data.');
         }
 
         $data = $data->data;
@@ -259,24 +241,12 @@ final class UserController extends BaseController
         $node = (new Node())->find($node_id);
 
         if ($node === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node not found.',
-            ]);
+            return ResponseHelper::error($response, 'Node not found.');
         }
 
         if ($node->type === 0) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node is not enabled.',
-            ]);
+            return ResponseHelper::error($response, 'Node is not enabled.');
         }
-
-        $stat = DB::getPdo()->prepare('
-            INSERT INTO online_log (user_id, ip, node_id, first_time, last_time)
-                VALUES (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())
-                ON DUPLICATE KEY UPDATE node_id = ?, last_time = UNIX_TIMESTAMP()
-        ');
 
         foreach ($data as $log) {
             $ip = (string) $log?->ip;
@@ -284,19 +254,26 @@ final class UserController extends BaseController
 
             if (Tools::isIPv4($ip)) {
                 // convert IPv4 Address to IPv4-mapped IPv6 Address
-                $ip = "::ffff:{$ip}";
+                $ip = '::ffff:' . $ip;
             } elseif (! Tools::isIPv6($ip)) {
                 // either IPv4 or IPv6 Address
                 continue;
             }
 
-            $stat->execute([$user_id, $ip, $node_id, $node_id]);
+            (new OnlineLog())->upsert(
+                [
+                    'user_id' => $user_id,
+                    'ip' => $ip,
+                    'node_id' => $node_id,
+                    'first_time' => time(),
+                    'last_time' => time(),
+                ],
+                ['user_id', 'ip'],
+                ['node_id', 'last_time']
+            );
         }
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => 'ok',
-        ]);
+        return ResponseHelper::success($response, 'ok');
     }
 
     /**
@@ -305,18 +282,13 @@ final class UserController extends BaseController
      * @param ServerRequest   $request
      * @param Response  $response
      * @param array     $args
-     *
-     * @return ResponseInterface
      */
     public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody()->__toString());
 
         if (! $data || ! is_array($data->data)) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Invalid data.',
-            ]);
+            return ResponseHelper::error($response, 'Invalid data.');
         }
 
         $data = $data->data;
@@ -324,17 +296,11 @@ final class UserController extends BaseController
         $node = (new Node())->find($node_id);
 
         if ($node === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node not found.',
-            ]);
+            return ResponseHelper::error($response, 'Node not found.');
         }
 
         if ($node->type === 0) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Node is not enabled.',
-            ]);
+            return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
         foreach ($data as $log) {
@@ -349,9 +315,6 @@ final class UserController extends BaseController
             ]);
         }
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => 'ok',
-        ]);
+        return ResponseHelper::success($response, 'ok');
     }
 }

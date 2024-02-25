@@ -108,8 +108,6 @@ final class UserController extends BaseController
      * @param Response $response
      * @param array $args
      *
-     * @return Response|ResponseInterface
-     *
      * @throws Exception
      */
     public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface

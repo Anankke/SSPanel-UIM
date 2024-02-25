@@ -20,4 +20,8 @@
             <directory>src</directory>
         </include>
     </source>
+
+    <php>
+        <cookie name="testKey" value="testValue"/>
+    </php>
 </phpunit>

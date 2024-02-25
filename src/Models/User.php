@@ -96,8 +96,6 @@ final class User extends Model
 
     /**
      * @param $len
-     *
-     * @return string
      */
     public function getSs2022Pk($len): string
     {

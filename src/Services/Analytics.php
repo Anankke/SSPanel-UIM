@@ -24,8 +24,6 @@ final class Analytics
      * 获取累计收入
      *
      * @param string $req
-     *
-     * @return float
      */
     public static function getIncome(string $req): float
     {
@@ -72,7 +70,7 @@ final class Analytics
         return Tools::autoBytes((new User())->sum('transfer_today'));
     }
 
-    public static function getRawTodayTrafficUsage()
+    public static function getRawTodayTrafficUsage(): int
     {
         return (new User())->sum('transfer_today');
     }
@@ -87,7 +85,7 @@ final class Analytics
         return Tools::autoBytes((new User())->sum('u') + (new User())->sum('d') - (new User())->sum('transfer_today'));
     }
 
-    public static function getRawLastTrafficUsage()
+    public static function getRawLastTrafficUsage(): int
     {
         return (new User())->sum('u') + (new User())->sum('d') - (new User())->sum('transfer_today');
     }
@@ -102,7 +100,7 @@ final class Analytics
         return Tools::autoBytes((new User())->sum('transfer_enable') - (new User())->sum('u') - (new User())->sum('d'));
     }
 
-    public static function getRawUnusedTrafficUsage()
+    public static function getRawUnusedTrafficUsage(): int
     {
         return (new User())->sum('transfer_enable') - (new User())->sum('u') - (new User())->sum('d');
     }
@@ -117,7 +115,7 @@ final class Analytics
         return Tools::autoBytes((new User())->sum('transfer_enable'));
     }
 
-    public static function getRawTotalTraffic()
+    public static function getRawTotalTraffic(): int
     {
         return (new User())->sum('transfer_enable');
     }

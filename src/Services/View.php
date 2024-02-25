@@ -62,14 +62,10 @@ final class View
         return [
             'appName' => $_ENV['appName'],
             'baseUrl' => $_ENV['baseUrl'],
-
             'jump_delay' => $_ENV['jump_delay'],
-
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],
-
             'enable_r2_client_download' => $_ENV['enable_r2_client_download'],
-
             'jsdelivr_url' => $_ENV['jsdelivr_url'],
         ];
     }
