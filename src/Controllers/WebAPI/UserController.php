@@ -54,10 +54,10 @@ final class UserController extends BaseController
         $users_raw = (new User())->where(
             'is_banned',
             0
-        )->where(
+/*         )->where(
             'class_expire',
             '>',
-            date('Y-m-d H:i:s')
+            date('Y-m-d H:i:s') */
         )->where(
             static function ($query) use ($node): void {
                 $query->where('class', '>=', $node->node_class)
