@@ -43,6 +43,8 @@ return static function (Slim\App $app): void {
         $group->get('/banned', App\Controllers\UserController::class . ':banned');
         // 节点
         $group->get('/server', App\Controllers\User\ServerController::class . ':index');
+        //流媒体解锁
+        $group->get('/media', App\Controllers\UserController::class . ':media');
         // 动态倍率
         $group->get('/rate', App\Controllers\User\RateController::class . ':index');
         $group->post('/rate', App\Controllers\User\RateController::class . ':ajax');
@@ -294,6 +296,8 @@ return static function (Slim\App $app): void {
 
     // WebAPI
     $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
+        // 流媒体检测
+        $group->post('/media/save_report', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点
         $group->get('/nodes/{id:[0-9]+}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户

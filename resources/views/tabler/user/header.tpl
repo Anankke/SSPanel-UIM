@@ -136,6 +136,10 @@
                                     <i class="ti ti-chart-bar"></i>&nbsp;
                                     流量倍率
                                 </a>
+                                <a class="dropdown-item" href="/user/media">
+                                    <i class="ti ti-key"></i>&nbsp;
+                                    流媒体解锁
+                                </a>
                                 {if $public_setting['traffic_log']}
                                     <a class="dropdown-item" href="/user/traffic">
                                         <i class="ti ti-traffic-lights"></i>&nbsp;

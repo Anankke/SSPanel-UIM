@@ -9,6 +9,8 @@ use App\Models\Config;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\Node;
+use App\Models\StreamMedia;
+use App\Services\DB;
 use App\Models\OnlineLog;
 use App\Models\Payback;
 use App\Services\Auth;
@@ -137,7 +139,49 @@ final class UserController extends BaseController
                 ->fetch('user/invite.tpl')
         );
     }
+	
+    /**
+     * @throws Exception
+     */	
+    public function media(ServerRequest $request, Response $response, array $args)
+    {
+        $results = [];
+        $pdo = DB::getPdo();
+        $nodes = $pdo->query('SELECT DISTINCT node_id FROM stream_media');
 
+        foreach ($nodes as $node_id) {
+            $node = Node::where('id', $node_id)->first();
+
+            $unlock = StreamMedia::where('node_id', $node_id)
+                ->orderBy('id', 'desc')
+                ->where('created_at', '>', \time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                ->first();
+
+            if ($unlock !== null && $node !== null) {
+                $details = \json_decode($unlock->result, true);
+                //$details = str_replace('Originals Only', '仅限自制', $details);
+                //$details = str_replace('Oversea Only', '仅限海外', $details);
+
+                foreach ($details as $key => $value) {
+                    $info = [
+                        'node_name' => $node->name,
+                        'created_at' => $unlock->created_at,
+                        'unlock_item' => $details,
+                    ];
+                }
+
+                array_push($results, $info);
+            }
+        }
+		
+        $node_names = array_column($results, 'node_name');
+        array_multisort($node_names, SORT_ASC, $results);
+
+        return $response->write($this->view()
+            ->assign('results', $results)
+            ->fetch('user/media.tpl'));
+    }
+	
     public function checkin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (! Config::obtain('enable_checkin') || ! $this->user->isAbleToCheckin()) {

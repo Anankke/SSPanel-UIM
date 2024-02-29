@@ -14,6 +14,7 @@ use App\Models\Node;
 use App\Models\OnlineLog;
 use App\Models\Order;
 use App\Models\Paylist;
+use App\Models\StreamMedia;
 use App\Models\SubscribeLog;
 use App\Models\User;
 use App\Services\IM\Telegram;
@@ -49,6 +50,7 @@ final class Cron
         (new DetectLog())->where('datetime', '<', time() - 86400 * 3)->delete();
         (new EmailQueue())->where('time', '<', time() - 86400)->delete();
         (new OnlineLog())->where('last_time', '<', time() - 86400)->delete();
+        (new StreamMedia())->where('created_at', '<', \time() - 86400 * 3)->delete();
 
         echo Tools::toDateTime(time()) . ' 数据库清理完成' . PHP_EOL;
     }
