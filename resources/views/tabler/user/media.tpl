@@ -1,4 +1,5 @@
 {include file='user/header.tpl'}
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">
@@ -35,12 +36,12 @@
                                     {foreach $results as $result}
                                         <tr>
                                             <td>{$result['node_name']}</td>
-                                            <td>{$result['unlock_item']['YouTube']}</td>
-                                            <td>{$result['unlock_item']['Netflix']}</td>
-                                            <td>{$result['unlock_item']['DisneyPlus']}</td>
-                                            <td>{$result['unlock_item']['OpenAI']}</td>                                                                                      
-                                            <td>{$result['unlock_item']['BBC']}</td>
-                                            <td>{$result['unlock_item']['Abema']}</td>
+                                            <td><span class="">{$result['unlock_item']['YouTube']}</span></td>
+                                            <td><span class="">{$result['unlock_item']['Netflix']}</span></td>
+                                            <td><span class="">{$result['unlock_item']['DisneyPlus']}</span></td>
+                                            <td><span class="">{$result['unlock_item']['OpenAI']}</span></td>                                                                                      
+                                            <td><span class="">{$result['unlock_item']['BBC']}</span></td>
+                                            <td><span class="">{$result['unlock_item']['Abema']}</span></td>
                                             <td>{date('Y-m-d H:i:s', $result['created_at'])}</td>
                                         </tr>
                                     {/foreach}
@@ -52,5 +53,12 @@
             </div>
         </div>
     </div>
-    
+<script>
+$(document).ready(function(){
+    $('td > span:contains("Yes")').addClass('badge bg-green-lt');
+    $('td > span:contains("No")').addClass('badge bg-red-lt');
+    $('td > span:contains("Only")').addClass('badge bg-purple-lt');
+    $('td > span:contains("Unknow")').addClass('badge bg-yellow-lt');
+});
+</script> 
 {include file='user/footer.tpl'}
