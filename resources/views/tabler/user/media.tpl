@@ -38,7 +38,7 @@
                                             <td>{$result['node_name']}</td>
                                             <td><span class="">{$result['unlock_item']['YouTube']}</span></td>
                                             <td><span class="">{$result['unlock_item']['Netflix']}</span></td>
-                                            <td><span class="">{$result['unlock_item']['DisneyPlus']}</span></td>
+                                            <td><span class="">{$result['unlock_item']['Disney+']}</span></td>
                                             <td><span class="">{$result['unlock_item']['OpenAI']}</span></td>                                                                                      
                                             <td><span class="">{$result['unlock_item']['BBC']}</span></td>
                                             <td><span class="">{$result['unlock_item']['Abema']}</span></td>
@@ -58,7 +58,7 @@ $(document).ready(function(){
     $('td > span:contains("Yes")').addClass('badge bg-green-lt');
     $('td > span:contains("No")').addClass('badge bg-red-lt');
     $('td > span:contains("Only")').addClass('badge bg-purple-lt');
-    $('td > span:contains("Unknow")').addClass('badge bg-yellow-lt');
+    $('td > span:contains("Failed")').addClass('badge bg-yellow-lt');
 });
 </script> 
 {include file='user/footer.tpl'}

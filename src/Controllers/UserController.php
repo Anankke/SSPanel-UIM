@@ -159,7 +159,7 @@ final class UserController extends BaseController
 
             if ($unlock !== null && $node !== null) {
                 $details = \json_decode($unlock->result, true);
-                $details = str_replace('No (Originals Only)', 'Originals Only', $details);
+                //$details = str_replace('No (Originals Only)', 'Originals Only', $details);
                 //$details = str_replace('Yes (Oversea Only)', 'Oversea Only', $details);
 
                 foreach ($details as $key => $value) {
