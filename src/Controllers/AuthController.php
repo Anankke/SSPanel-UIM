@@ -53,11 +53,6 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
-    /**
-     * @param ServerRequest $request
-     * @param Response $response
-     * @param array $args
-     */
     public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {
         if (Config::obtain('enable_login_captcha') && ! Captcha::verify($request->getParams())) {
@@ -197,16 +192,6 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @param Response $response
-     * @param $name
-     * @param $email
-     * @param $passwd
-     * @param $invite_code
-     * @param $imtype
-     * @param $imvalue
-     * @param $money
-     * @param $is_admin_reg
-     *
      * @throws Exception
      */
     public function registerHelper(
@@ -297,10 +282,6 @@ final class AuthController extends BaseController
     }
 
     /**
-     * @param ServerRequest $request
-     * @param Response $response
-     * @param array $args
-     *
      * @throws RedisException
      * @throws Exception
      */

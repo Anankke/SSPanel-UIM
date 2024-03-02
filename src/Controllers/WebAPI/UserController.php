@@ -27,10 +27,6 @@ final class UserController extends BaseController
 {
     /**
      * GET /mod_mu/users
-     *
-     * @param ServerRequest   $request
-     * @param Response  $response
-     * @param array     $args
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -136,10 +132,6 @@ final class UserController extends BaseController
 
     /**
      * POST /mod_mu/users/traffic
-     *
-     * @param ServerRequest   $request
-     * @param Response  $response
-     * @param array     $args
      */
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -223,10 +215,6 @@ final class UserController extends BaseController
 
     /**
      * POST /mod_mu/users/aliveip
-     *
-     * @param ServerRequest   $request
-     * @param Response  $response
-     * @param array     $args
      */
     public function addAliveIp(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
@@ -278,10 +266,6 @@ final class UserController extends BaseController
 
     /**
      * POST /mod_mu/users/detectlog
-     *
-     * @param ServerRequest   $request
-     * @param Response  $response
-     * @param array     $args
      */
     public function addDetectLog(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

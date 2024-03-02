@@ -8,9 +8,6 @@ use App\Models\Config;
 use SendGrid as SG;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\TypeException;
-use function base64_encode;
-use function basename;
-use function file_get_contents;
 
 final class SendGrid extends Base
 {
@@ -32,25 +29,12 @@ final class SendGrid extends Base
     /**
      * @throws TypeException
      */
-    public function send($to, $subject, $text, $files): void
+    public function send($to, $subject, $body): void
     {
         $this->email->setSubject($subject);
         $this->email->addTo($to);
-        $this->email->addContent('text/html', $text);
+        $this->email->addContent('text/html', $body);
 
-        if ($files !== []) {
-            foreach ($files as $file_raw) {
-                $this->email->addAttachment(
-                    base64_encode(file_get_contents($file_raw)),
-                    'application/octet-stream',
-                    basename($file_raw),
-                    'attachment',
-                    'attachment'
-                );
-            }
-        }
-
-        $response = $this->sg->send($this->email);
-        echo $response->body();
+        $this->sg->send($this->email);
     }
 }

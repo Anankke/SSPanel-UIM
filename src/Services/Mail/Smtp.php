@@ -20,18 +20,16 @@ final class Smtp extends Base
         $configs = Config::getClass('email');
 
         $mail = new PHPMailer();
-        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
-        $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = $configs['smtp_host'];                  // Specify main and backup SMTP servers
-        $mail->Port = $configs['smtp_port'];                  // TCP port to connect to
-        $mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $mail->CharSet = 'UTF-8';                             // Set utf-8 character set
-        $mail->Username = $configs['smtp_username'];          // SMTP username
-        $mail->Password = $configs['smtp_password'];          // SMTP password
+        $mail->isSMTP();
+        $mail->Host = $configs['smtp_host'];
+        $mail->Port = $configs['smtp_port'];
+        $mail->SMTPAuth = ! ($configs['smtp_username'] === '' && $configs['smtp_password'] === '');
+        $mail->CharSet = 'UTF-8';
+        $mail->Username = $configs['smtp_username'];
+        $mail->Password = $configs['smtp_password'];
         $mail->setFrom($configs['smtp_sender'], $configs['smtp_name']);
 
         if ($configs['smtp_ssl']) {
-            // Enable TLS encryption, `ssl` also accepted
             $mail->SMTPSecure = ($configs['smtp_port'] === '587' ? 'tls' : 'ssl');
         }
 
@@ -45,22 +43,14 @@ final class Smtp extends Base
     /**
      * @throws Exception
      */
-    public function send($to, $subject, $text, $files): void
+    public function send($to, $subject, $body): void
     {
         $mail = $this->mail;
         $mail->addAddress($to);     // Add a recipient
         $mail->isHTML();
         $mail->Subject = $subject;
-        $mail->Body = $text;
+        $mail->Body = $body;
 
-        if ($files !== []) {
-            foreach ($files as $file_raw) {
-                $mail->addAttachment($file_raw);
-            }
-        }
-
-        if (! $mail->send()) {
-            throw new Exception($mail->ErrorInfo);
-        }
+        $mail->send();
     }
 }

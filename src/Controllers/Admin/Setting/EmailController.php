@@ -46,6 +46,10 @@ final class EmailController extends BaseController
         'postal_key',
         'postal_sender',
         'postal_name',
+        // Mailchimp
+        'mailchimp_key',
+        'mailchimp_from_email',
+        'mailchimp_from_name',
     ];
 
     /**

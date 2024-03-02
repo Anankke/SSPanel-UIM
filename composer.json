@@ -23,6 +23,7 @@
         "illuminate/pagination": "^10.44.0",
         "irazasyed/telegram-bot-sdk": "^3",
         "lcobucci/jwt": "^5",
+        "mailchimp/transactional": "^1.0",
         "mailgun/mailgun-php": "^4",
         "nikolaposa/rate-limit": "^3",
         "openai-php/client": "^0",

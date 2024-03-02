@@ -121,10 +121,6 @@ final class DocsController extends BaseController
 
     /**
      * 后台编辑文档提交
-     *
-     * @param ServerRequest $request
-     * @param Response $response
-     * @param array $args
      */
     public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

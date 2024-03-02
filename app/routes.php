@@ -318,7 +318,7 @@ return static function (Slim\App $app): void {
 
     // WebAPI V2(Aka Node API V1)
     //$app->group('/node/api/v1', function (RouteCollectorProxy $group): void {
-    //    $group->get('/heartbeat', App\Controllers\Api\NodeApiV1Controller::class . ':getHeartbeat');
+    //    $group->put('/heartbeat', App\Controllers\Api\NodeApiV1Controller::class . ':getHeartbeat');
     //    $group->get('/info', App\Controllers\Api\NodeApiV1Controller::class . ':getInfo');
     //    $group->get('/user', App\Controllers\Api\NodeApiV1Controller::class . ':getUser');
     //    $group->get('/detect_rule', App\Controllers\Api\NodeApiV1Controller::class . ':getDetectRule');

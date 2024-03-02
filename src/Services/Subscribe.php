@@ -35,10 +35,6 @@ final class Subscribe
         return $_ENV['subUrl'] . '/sub/' . $token->token;
     }
 
-    /**
-     * @param $user
-     * @param bool $show_all_nodes
-     */
     public static function getUserNodes($user, bool $show_all_nodes = false): Collection
     {
         $query = Node::query();

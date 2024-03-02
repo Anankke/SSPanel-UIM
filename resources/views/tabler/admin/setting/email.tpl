@@ -40,10 +40,10 @@
                                     <a href="#smtp" class="nav-link" data-bs-toggle="tab">SMTP</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#sendgrid" class="nav-link" data-bs-toggle="tab">Sendgrid</a>
+                                    <a href="#mailgun" class="nav-link" data-bs-toggle="tab">Mailgun</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#mailgun" class="nav-link" data-bs-toggle="tab">Mailgun</a>
+                                    <a href="#sendgrid" class="nav-link" data-bs-toggle="tab">Sendgrid</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#postal" class="nav-link" data-bs-toggle="tab">Postal</a>
@@ -51,6 +51,8 @@
                                 <li class="nav-item">
                                     <a href="#ses" class="nav-link" data-bs-toggle="tab">AWS SES</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#mailchimp" class="nav-link" data-bs-toggle="tab">Mailchimp</a>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -68,13 +70,13 @@
                                                     <option value="smtp"
                                                             {if $settings['email_driver'] === "smtp"}selected{/if}>smtp
                                                     </option>
-                                                    <option value="sendgrid"
-                                                            {if $settings['email_driver'] === "sendgrid"}selected{/if}>
-                                                        sendgrid
-                                                    </option>
                                                     <option value="mailgun"
                                                             {if $settings['email_driver'] === "mailgun"}selected{/if}>
                                                         mailgun
+                                                    </option>
+                                                    <option value="sendgrid"
+                                                            {if $settings['email_driver'] === "sendgrid"}selected{/if}>
+                                                        sendgrid
                                                     </option>
                                                     <option value="postal"
                                                             {if $settings['email_driver'] === "postal"}selected{/if}>
@@ -82,6 +84,9 @@
                                                     </option>
                                                     <option value="ses"
                                                             {if $settings['email_driver'] === "ses"}selected{/if}>ses
+                                                    </option>
+                                                    <option value="mailchimp"
+                                                            {if $settings['email_driver'] === "mailchimp"}selected{/if}>ses
                                                     </option>
                                                 </select>
                                             </div>
@@ -214,31 +219,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="sendgrid">
-                                    <div class="card-body">
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Sendgrid 密钥</label>
-                                            <div class="col">
-                                                <input id="sendgrid_key" type="text" class="form-control"
-                                                       value="{$settings['sendgrid_key']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Sendgrid 发信地址</label>
-                                            <div class="col">
-                                                <input id="sendgrid_sender" type="text" class="form-control"
-                                                       value="{$settings['sendgrid_sender']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Sendgrid 发件人名称</label>
-                                            <div class="col">
-                                                <input id="sendgrid_name" type="text" class="form-control"
-                                                       value="{$settings['sendgrid_name']}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="tab-pane" id="mailgun">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
@@ -267,6 +247,31 @@
                                             <div class="col">
                                                 <input id="mailgun_sender_name" type="text" class="form-control"
                                                        value="{$settings['mailgun_sender_name']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="sendgrid">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Sendgrid 密钥</label>
+                                            <div class="col">
+                                                <input id="sendgrid_key" type="text" class="form-control"
+                                                       value="{$settings['sendgrid_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Sendgrid 发信地址</label>
+                                            <div class="col">
+                                                <input id="sendgrid_sender" type="text" class="form-control"
+                                                       value="{$settings['sendgrid_sender']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Sendgrid 发件人名称</label>
+                                            <div class="col">
+                                                <input id="sendgrid_name" type="text" class="form-control"
+                                                       value="{$settings['sendgrid_name']}">
                                             </div>
                                         </div>
                                     </div>
@@ -331,6 +336,31 @@
                                             <div class="col">
                                                 <input id="aws_ses_sender" type="text" class="form-control"
                                                        value="{$settings['aws_ses_sender']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="mailchimp">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Mailchimp API密钥</label>
+                                            <div class="col">
+                                                <input id="mailchimp_key" type="text" class="form-control"
+                                                       value="{$settings['mailchimp_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Mailchimp发件邮箱</label>
+                                            <div class="col">
+                                                <input id="mailchimp_from_email" type="text" class="form-control"
+                                                       value="{$settings['mailchimp_from_email']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Mailchimp发件人名称</label>
+                                            <div class="col">
+                                                <input id="mailchimp_from_name" type="text" class="form-control"
+                                                       value="{$settings['mailchimp_from_name']}">
                                             </div>
                                         </div>
                                     </div>

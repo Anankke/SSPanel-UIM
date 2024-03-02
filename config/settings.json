@@ -521,6 +521,36 @@
     },
     {
         "id": null,
+        "item": "mailchimp_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Mailchimp API密钥"
+    },
+    {
+        "id": null,
+        "item": "mailchimp_from_email",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Mailchimp Email"
+    },
+    {
+        "id": null,
+        "item": "mailchimp_from_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Mailchimp Sender"
+    },
+    {
+        "id": null,
         "item": "email_verify_code_ttl",
         "value": "3600",
         "class": "email",
