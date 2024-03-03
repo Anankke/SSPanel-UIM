@@ -48,9 +48,15 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">服务器IP</label>
+                                <label class="form-label col-3 col-form-label">IPv4地址</label>
                                 <div class="col">
-                                    <input id="node_ip" type="text" class="form-control" value="{$node->node_ip}" disabled>
+                                    <input type="text" class="form-control" value="{$node->ipv4}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">IPv6地址</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" value="{$node->ipv6}" disabled>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">

@@ -20,11 +20,6 @@ final class ResponseHelper
         ]);
     }
 
-    /**
-     * @param Response $response
-     * @param string $msg
-     * @param array $data
-     */
     public static function successWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
     {
         return $response->withJson([
@@ -39,8 +34,6 @@ final class ResponseHelper
      *
      * **Note**: `RequestInterface` or `ResponseInterface` shouldn't be modified before/after calling this function.
      *
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
      * @param mixed $data
      */
     public static function successWithDataEtag(
@@ -68,11 +61,6 @@ final class ResponseHelper
         ]);
     }
 
-    /**
-     * @param Response $response
-     * @param string $msg
-     * @param array $data
-     */
     public static function errorWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
     {
         return $response->withJson([

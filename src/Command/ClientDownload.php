@@ -62,10 +62,6 @@ final class ClientDownload extends Command
 
     /**
      * 下载远程文件
-     *
-     * @param string $fileName
-     * @param string $savePath
-     * @param string $url
      */
     private function getSourceFile(string $fileName, string $savePath, string $url): bool
     {
@@ -98,8 +94,6 @@ final class ClientDownload extends Command
     /**
      * 获取 GitHub 常规 Release
      *
-     * @param string $repo
-     *
      * @throws GuzzleException
      */
     private function getLatestReleaseTagName(string $repo): string
@@ -116,8 +110,6 @@ final class ClientDownload extends Command
 
     /**
      * 获取 GitHub Pre-Release
-     *
-     * @param string $repo
      *
      * @throws GuzzleException
      */
@@ -190,11 +182,6 @@ final class ClientDownload extends Command
         );
     }
 
-    /**
-     * @param $name
-     * @param $taskName
-     * @param $tagName
-     */
     private static function getNames($name, $taskName, $tagName): array|string
     {
         return str_replace(

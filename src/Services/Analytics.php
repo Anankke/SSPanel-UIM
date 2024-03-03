@@ -22,8 +22,6 @@ final class Analytics
 {
     /**
      * 获取累计收入
-     *
-     * @param string $req
      */
     public static function getIncome(string $req): float
     {

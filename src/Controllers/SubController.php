@@ -21,10 +21,6 @@ use function strtotime;
 final class SubController extends BaseController
 {
     /**
-     * @param $request
-     * @param $response
-     * @param $args
-     *
      * @throws ClientExceptionInterface
      * @throws GuzzleException
      * @throws RedisException

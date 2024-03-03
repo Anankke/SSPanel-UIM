@@ -54,9 +54,7 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="d-flex">
-                                                <!-- 工单状态标签 -->
                                                 <span class="status status-grey">{$ticket->status}</span>
-                                                <!-- 工单类型标签 -->
                                                 <span class="status status-grey">{$ticket->type}</span>
                                                 <a href="/user/ticket/{$ticket->id}/view"
                                                    class="btn btn-primary ms-auto">查看</a>
@@ -109,8 +107,8 @@
                     <button id="create-ticket-button" class="btn btn-primary" data-bs-dismiss="modal"
                             hx-post="/user/ticket" hx-swap="none"
                             hx-vals='js:{
-                            title: document.getElementById("ticket-title").value
-                            comment: document.getElementById("ticket-comment").value
+                            title: document.getElementById("ticket-title").value,
+                            comment: document.getElementById("ticket-comment").value,
                             type: document.getElementById("ticket-type").value }'>
                         创建
                     </button>

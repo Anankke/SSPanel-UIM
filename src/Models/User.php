@@ -94,9 +94,6 @@ final class User extends Model
         'ref_by' => 'int',
     ];
 
-    /**
-     * @param $len
-     */
     public function getSs2022Pk($len): string
     {
         return Tools::genSs2022UserPk($this->passwd, $len);

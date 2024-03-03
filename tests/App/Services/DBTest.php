@@ -15,7 +15,6 @@ class DBTest extends TestCase
     {
         // Scenario 1: enable_db_rw_split is true
         $_ENV['enable_db_rw_split'] = true;
-        $_ENV['db_driver'] = 'mysql';
         $_ENV['read_db_hosts'] = 'localhost';
         $_ENV['write_db_host'] = 'localhost';
         $_ENV['db_database'] = 'test_db';

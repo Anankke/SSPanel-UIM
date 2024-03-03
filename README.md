@@ -40,8 +40,6 @@ SSPanel UIM is a multi-purpose proxy service sales management system designed fo
 - 深度集成大型语言模型（Large Language Model），支持工单智能回复，文档生成等功能
 - 一键对接 OpenAI，Gemini Pro，Hugging Face Hosted API 和 Cloudflare Workers AI 等人工智能服务
 
-
-
 - Integrate multiple payment systems such as Alipay F2F, PayPal, Stripe, etc.
 - Support multiple mail services, built-in mail queue function, no third-party components are required to use
 - Built-in tabler theme based on Bootstrap 5, template engine support

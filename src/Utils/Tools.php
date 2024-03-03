@@ -46,8 +46,6 @@ final class Tools
 {
     /**
      * 查询IP归属
-     *
-     * @param string $ip
      */
     public static function getIpLocation(string $ip): string
     {
@@ -88,9 +86,6 @@ final class Tools
 
     /**
      * 根据流量值自动转换单位输出
-     *
-     * @param $size
-     * @param int $precision
      */
     public static function autoBytes($size, int $precision = 2): string
     {
@@ -110,8 +105,6 @@ final class Tools
 
     /**
      * 根据含单位的流量值转换 B 输出
-     *
-     * @param $size
      */
     public static function autoBytesR($size): ?int
     {
@@ -132,9 +125,6 @@ final class Tools
 
     /**
      * 根据速率值自动转换单位输出
-     *
-     * @param $size
-     * @param int $precision
      */
     public static function autoMbps($size, int $precision = 2): string
     {
@@ -154,8 +144,6 @@ final class Tools
 
     /**
      * 虽然名字是toMB，但是实际上功能是from MB to B
-     *
-     * @param $traffic
      */
     public static function toMB($traffic): int
     {
@@ -164,25 +152,17 @@ final class Tools
 
     /**
      * 虽然名字是toGB，但是实际上功能是from GB to B
-     *
-     * @param $traffic
      */
     public static function toGB($traffic): int
     {
         return (int) $traffic * 1073741824;
     }
 
-    /**
-     * @param $traffic
-     */
     public static function flowToMB($traffic): float
     {
         return round($traffic / 1048576, 2);
     }
 
-    /**
-     * @param $traffic
-     */
     public static function flowToGB($traffic): float
     {
         return round($traffic / 1073741824, 2);
@@ -275,10 +255,6 @@ final class Tools
         return $dirArray;
     }
 
-    /**
-     * @param $type
-     * @param $str
-     */
     public static function isParamValidate($type, $str): bool
     {
         $list = self::getSsMethod($type);
@@ -352,9 +328,6 @@ final class Tools
         }
     }
 
-    /**
-     * @param $input
-     */
     public static function isEmail($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_EMAIL)) {
@@ -364,9 +337,6 @@ final class Tools
         return true;
     }
 
-    /**
-     * @param $input
-     */
     public static function isIPv4($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -376,9 +346,6 @@ final class Tools
         return true;
     }
 
-    /**
-     * @param $input
-     */
     public static function isIPv6($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
@@ -388,9 +355,6 @@ final class Tools
         return true;
     }
 
-    /**
-     * @param $input
-     */
     public static function isInt($input): bool
     {
         if (! filter_var($input, FILTER_VALIDATE_INT)) {
@@ -403,8 +367,6 @@ final class Tools
     /**
      * 判断是否 JSON
      * TODO: Remove this function when PHP 8.3 is minimum requirement and replace it with native function
-     *
-     * @param string $string
      */
     public static function isJson(string $string): bool
     {

@@ -6,6 +6,7 @@ namespace App\Services;
 
 use Exception;
 use Illuminate\Database\Capsule\Manager;
+use const PHP_EOL;
 
 final class DB extends Manager
 {
@@ -17,7 +18,11 @@ final class DB extends Manager
             $db->addConnection(self::getConfig());
             $db->getConnection()->getPdo();
         } catch (Exception $e) {
-            die('Could not connect to main database: ' . $e->getMessage());
+            if ($_ENV['debug']) {
+                die('Databse Error' . PHP_EOL . 'Reason: ' . $e->getMessage());
+            }
+
+            die('Databse Error');
         }
 
         $db->setAsGlobal();
@@ -31,7 +36,7 @@ final class DB extends Manager
     {
         if ($_ENV['enable_db_rw_split']) {
             return [
-                'driver' => $_ENV['db_driver'],
+                'driver' => 'mysql',
                 'read' => [
                     'host' => $_ENV['read_db_hosts'],
                 ],
@@ -50,7 +55,7 @@ final class DB extends Manager
         }
 
         return [
-            'driver' => $_ENV['db_driver'],
+            'driver' => 'mysql',
             'host' => $_ENV['db_host'],
             'unix_socket' => $_ENV['db_socket'],
             'database' => $_ENV['db_database'],

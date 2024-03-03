@@ -112,7 +112,7 @@ END;
             krsort($queue);
 
             foreach ($queue as $version => $object) {
-                echo 'Reverse on ' . $version . PHP_EOL;
+                echo 'Rollback to ' . $version . PHP_EOL;
                 $current = $object->down();
             }
         } else {
@@ -141,6 +141,6 @@ END;
         $count = count($queue);
 
         echo 'Migration completed. ' . $count . ' file(s) processed.' . PHP_EOL
-            . 'Current version: ' . $current . PHP_EOL;
+            . 'Current database version: ' . $current . PHP_EOL;
     }
 }

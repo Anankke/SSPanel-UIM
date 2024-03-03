@@ -8,13 +8,12 @@ use App\Models\Config;
 use Exception;
 use Mailgun\Mailgun as MG;
 use Psr\Http\Client\ClientExceptionInterface;
-use function basename;
 
 final class Mailgun extends Base
 {
     private MG $mg;
-    private mixed $domain;
-    private mixed $sender;
+    private string $domain;
+    private string $sender;
 
     public function __construct()
     {
@@ -29,22 +28,13 @@ final class Mailgun extends Base
      * @throws Exception
      * @throws ClientExceptionInterface
      */
-    public function send($to, $subject, $text, $files): void
+    public function send($to, $subject, $body): void
     {
-        $inline = [];
-
-        if ($files !== []) {
-            foreach ($files as $file_raw) {
-                $inline[] = ['filePath' => $file_raw, 'filename' => basename($file_raw)];
-            }
-        }
-
         $this->mg->messages()->send($this->domain, [
             'from' => $this->sender,
             'to' => $to,
             'subject' => $subject,
-            'html' => $text,
-            'inline' => $inline,
+            'html' => $body,
         ]);
     }
 }

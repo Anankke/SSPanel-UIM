@@ -67,10 +67,6 @@ final class AnnController extends BaseController
 
     /**
      * 后台添加公告
-     *
-     * @param ServerRequest $request
-     * @param Response $response
-     * @param array $args
      */
     public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

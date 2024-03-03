@@ -7,8 +7,6 @@ namespace App\Services\Mail;
 use App\Models\Config;
 use Postal\Client;
 use Postal\Send\Message;
-use function basename;
-use function mime_content_type;
 
 final class Postal extends Base
 {
@@ -26,18 +24,12 @@ final class Postal extends Base
         $this->message->replyTo($configs['postal_sender']);
     }
 
-    public function send($to, $subject, $text, $files): void
+    public function send($to, $subject, $body): void
     {
         $this->message->subject($subject);
         $this->message->to($to);
-        $this->message->plainBody($text);
-        $this->message->htmlBody($text);
-
-        if ($files !== []) {
-            foreach ($files as $file_raw) {
-                $this->message->attach(basename($file_raw), mime_content_type($file_raw), $file_raw);
-            }
-        }
+        $this->message->plainBody($body);
+        $this->message->htmlBody($body);
 
         $this->client->send->message($this->message);
     }
