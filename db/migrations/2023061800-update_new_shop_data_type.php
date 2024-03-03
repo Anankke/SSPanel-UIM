@@ -80,7 +80,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE node MODIFY COLUMN `bandwidthlimit_resetday` tinyint(2) unsigned NOT NULL DEFAULT 0 COMMENT '流量重置日';
         ALTER TABLE node MODIFY COLUMN `node_heartbeat` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点心跳';
         ALTER TABLE node MODIFY COLUMN `online_user` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点在线用户';
-        ALTER TABLE node MODIFY COLUMN `node_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '节点IP';
         ALTER TABLE node MODIFY COLUMN `node_group` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点群组';
         ALTER TABLE node MODIFY COLUMN `online` tinyint(1) NOT NULL DEFAULT 1 COMMENT '在线状态';
         ALTER TABLE node MODIFY COLUMN `gfw_block` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否被GFW封锁';

@@ -29,12 +29,13 @@ final class Detect
      */
     public static function gfw(): void
     {
-        $nodes = (new Node())->where('type', 1)->where('node_ip', '!=', '')->where('online', 1)->get();
+        $nodes = (new Node())->where('type', 1)
+            ->where('ipv4', '!=', '127.0.0.1')->where('online', 1)->get();
 
         foreach ($nodes as $node) {
             $api_url = str_replace(
                 ['{ip}', '{port}'],
-                [$node->node_ip, $_ENV['detect_gfw_port']],
+                [$node->ipv4, $_ENV['detect_gfw_port']],
                 $_ENV['detect_gfw_url']
             );
 

@@ -30,7 +30,8 @@ use const DNS_AAAA;
  * @property int    $bandwidthlimit_resetday 流量重置日
  * @property int    $node_heartbeat          节点心跳
  * @property int    $online_user             节点在线用户
- * @property string $node_ip                 节点IP
+ * @property string $ipv4                    IPv4地址
+ * @property string $ipv6                    IPv6地址
  * @property int    $node_group              节点群组
  * @property int    $online                  在线状态
  * @property int    $gfw_block               是否被GFW封锁
@@ -100,7 +101,7 @@ final class Node extends Model
     /**
      * 获取节点在线状态
      *
-     * @return int 0 = new node OR -1 = offline OR 1 = online
+     * @return int 0 = new node, -1 = offline, 1 = online
      */
     public function getNodeOnlineStatus(): int
     {
@@ -112,14 +113,20 @@ final class Node extends Model
      */
     public function updateNodeIp(): void
     {
-        if (Tools::isIPv4($this->server) || Tools::isIPv6($this->server)) {
-            $this->node_ip = $this->server;
+        if (Tools::isIPv4($this->server)) {
+            $this->ipv4 = $this->server;
+            $this->ipv6 = '::1';
+        } elseif (Tools::isIPv6($this->server)) {
+            $this->ipv4 = '127.0.0.1';
+            $this->ipv6 = $this->server;
         } else {
             try {
                 $result = dns_get_record($this->server, DNS_A + DNS_AAAA);
-                $this->node_ip = $result[0]['ip'] ?? $result[0]['ipv6'] ?? $this->server;
+                $this->ipv4 = $result[0]['ip'] ?? '127.0.0.1';
+                $this->ipv6 = $result[1]['ipv6'] ?? '::1';
             } catch (Exception $e) {
-                $this->node_ip = $this->server;
+                $this->ipv4 = '127.0.0.1';
+                $this->ipv6 = '::1';
             }
         }
     }

@@ -55,7 +55,9 @@ final class NodeToken implements MiddlewareInterface
         if ($_ENV['checkNodeIp']) {
             $ip = $request->getServerParam('REMOTE_ADDR');
 
-            if ($ip !== '127.0.0.1' && ! (new Node())->where('node_ip', $ip)->exists()) {
+            if ($ip !== '127.0.0.1' && $ip !== '::1' && $ip !== '0:0:0:0:0:0:0:1' &&
+                ! (new Node())->where('ipv4', $ip)->orWhere('ipv6', $ip)->exists()
+            ) {
                 return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                     'ret' => 0,
                     'msg' => 'Invalid request IP.',
