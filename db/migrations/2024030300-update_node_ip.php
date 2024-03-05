@@ -9,8 +9,8 @@ return new class() implements MigrationInterface {
     public function up(): int
     {
         DB::getPdo()->exec("
-            ALTER TABLE node ADD COLUMN IF NOT EXISTS `ipv4` INET4 NOT NULL DEFAULT '127.0.0.1' COMMENT 'IPv4地址';
-            ALTER TABLE node ADD COLUMN IF NOT EXISTS `ipv6` INET6 NOT NULL DEFAULT '::1' COMMENT 'IPv6地址';
+            ALTER TABLE node ADD COLUMN IF NOT EXISTS `ipv4` inet4 NOT NULL DEFAULT '127.0.0.1' COMMENT 'IPv4地址';
+            ALTER TABLE node ADD COLUMN IF NOT EXISTS `ipv6` inet6 NOT NULL DEFAULT '::1' COMMENT 'IPv6地址';
             ALTER TABLE node DROP COLUMN IF EXISTS `node_ip`;
         ");
 

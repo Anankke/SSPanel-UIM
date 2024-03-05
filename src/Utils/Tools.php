@@ -189,14 +189,25 @@ final class Tools
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
-    public static function genSs2022UserPk($passwd, $len): string
+    public static function genSs2022UserPk(string $passwd, string $method): string|false
     {
-        $passwd_hash = hash('sha256', $passwd);
+        $ss2022_methods = [
+            '2022-blake3-aes-128-gcm',
+            '2022-blake3-aes-256-gcm',
+            '2022-blake3-chacha8-poly1305',
+            '2022-blake3-chacha12-poly1305',
+            '2022-blake3-chacha20-poly1305',
+        ];
 
-        $pk = match ($len) {
-            16 => mb_strcut($passwd_hash, 0, 16),
-            32 => mb_strcut($passwd_hash, 0, 32),
-            default => $passwd_hash,
+        if (! in_array($method, $ss2022_methods)) {
+            return false;
+        }
+
+        $passwd_hash = hash('sha3-256', $passwd);
+
+        $pk = match ($method) {
+            '2022-blake3-aes-128-gcm' => mb_strcut($passwd_hash, 0, 16),
+            default => mb_strcut($passwd_hash, 0, 32),
         };
 
         return base64_encode($pk);

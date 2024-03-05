@@ -45,7 +45,8 @@ final class Tool extends Command
 │ ├─ resetNodeBandwidth      - 重置所有节点流量
 │ ├─ resetPort               - 重置所有用户端口
 │ ├─ resetBandwidth          - 重置所有用户流量
-│ ├─ resetPassword           - 重置所有用户密码
+│ ├─ resetPassword           - 重置所有用户登录密码
+│ ├─ resetPasswd             - 重置所有用户连接密码
 │ ├─ clearSubToken           - 清除用户 Sub Token
 │ ├─ generateUUID            - 为所有用户生成新的 UUID
 │ ├─ generateGa              - 为所有用户生成新的 Ga Secret
@@ -240,7 +241,7 @@ EOL;
     }
 
     /**
-     * 重置所有用户密码
+     * 重置所有用户登录密码
      */
     public function resetPassword(): void
     {
@@ -251,7 +252,22 @@ EOL;
             $user->save();
         }
 
-        echo '已重置所有用户密码' . PHP_EOL;
+        echo '已重置所有用户登录密码' . PHP_EOL;
+    }
+
+    /**
+     * 重置所有用户连接密码
+     */
+    public function resetPasswd(): void
+    {
+        $users = ModelsUser::all();
+
+        foreach ($users as $user) {
+            $user->passwd = Tools::genRandomChar(16);
+            $user->save();
+        }
+
+        echo '已重置所有用户连接密码' . PHP_EOL;
     }
 
     /**

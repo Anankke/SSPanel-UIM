@@ -201,7 +201,6 @@ final class UserController extends BaseController
         $user->node_speedlimit = $request->getParam('node_speedlimit');
         $user->node_iplimit = $request->getParam('node_iplimit');
         $user->port = $request->getParam('port');
-        $user->passwd = $request->getParam('passwd');
         $user->method = $request->getParam('method');
         $user->forbidden_ip = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
         $user->forbidden_port = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
