@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\IM;
-use App\Utils\Hash;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;
@@ -133,16 +132,6 @@ final class User extends Model
     public function lastCheckInTime(): string
     {
         return $this->last_check_in_time === 0 ? '从未签到' : Tools::toDateTime($this->last_check_in_time);
-    }
-
-    /**
-     * 更新密码
-     */
-    public function updatePassword(string $pwd): bool
-    {
-        $this->pass = Hash::passwordHash($pwd);
-
-        return $this->save();
     }
 
     /**

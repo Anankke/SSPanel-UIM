@@ -144,28 +144,30 @@ final class InfoController extends BaseController
 
     public function updatePassword(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $oldpwd = $request->getParam('oldpwd');
-        $pwd = $request->getParam('pwd');
-        $repwd = $request->getParam('repwd');
+        $password = $request->getParam('password');
+        $new_password = $request->getParam('new_password');
+        $confirm_new_password = $request->getParam('confirm_new_password');
         $user = $this->user;
 
-        if ($oldpwd === '' || $pwd === '' || $repwd === '') {
+        if ($password === '' || $new_password === '' || $confirm_new_password === '') {
             return ResponseHelper::error($response, '密码不能为空');
         }
 
-        if (! Hash::checkPassword($user->pass, $oldpwd)) {
+        if (! Hash::checkPassword($user->pass, $password)) {
             return ResponseHelper::error($response, '旧密码错误');
         }
 
-        if ($pwd !== $repwd) {
+        if ($new_password !== $confirm_new_password) {
             return ResponseHelper::error($response, '两次输入不符合');
         }
 
-        if (strlen($pwd) < 8) {
+        if (strlen($new_password) < 8) {
             return ResponseHelper::error($response, '密码太短啦');
         }
 
-        if (! $user->updatePassword($pwd)) {
+        $user->pass = Hash::passwordHash($new_password);
+
+        if (! $user->save()) {
             return ResponseHelper::error($response, '修改失败');
         }
 
@@ -312,13 +314,9 @@ final class InfoController extends BaseController
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $passwd = $request->getParam('passwd');
+        $password = $request->getParam('password');
 
-        if ($passwd === '') {
-            return ResponseHelper::error($response, '密码不能为空');
-        }
-
-        if (! Hash::checkPassword($user->pass, $passwd)) {
+        if ($password === '' || ! Hash::checkPassword($user->pass, $password)) {
             return ResponseHelper::error($response, '密码错误');
         }
 
@@ -328,7 +326,7 @@ final class InfoController extends BaseController
 
             return $response->withHeader('HX-Refresh', 'true')->withJson([
                 'ret' => 1,
-                'msg' => '你的帐号已被送去古拉格劳动改造，再见',
+                'msg' => '你将被送去古拉格接受劳动改造，再见',
             ]);
         }
 

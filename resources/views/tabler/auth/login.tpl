@@ -23,7 +23,7 @@
                             </span>
                     </label>
                     <div class="input-group input-group-flat">
-                        <input id="passwd" type="password" class="form-control" autocomplete="off">
+                        <input id="password" type="password" class="form-control" autocomplete="off">
                     </div>
                 </div>
                 <div class="mb-2">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <button id="login" class="btn btn-primary w-100"
+                    <button class="btn btn-primary w-100"
                             hx-post="/auth/login" hx-swap="none" hx-vals='js:{
                                 {if $public_setting['enable_login_captcha']}
                                     {if $public_setting['captcha_provider'] === 'turnstile'}
@@ -55,7 +55,7 @@
                                     {/if}
                                 {/if}
                                 email: document.getElementById("email").value,
-                                passwd: document.getElementById("passwd").value,
+                                password: document.getElementById("password").value,
                                 mfa_code: document.getElementById("mfa_code").value,
                                 remember_me: document.getElementById("remember_me").checked,
                              }'>
