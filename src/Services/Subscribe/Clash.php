@@ -57,13 +57,14 @@ final class Clash extends Base
 
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
+                    $server_key = $node_custom_config['server_key'] ?? '';
 
                     $node = [
                         'name' => $node_raw->name,
                         'type' => 'ss',
                         'server' => $node_raw->server,
                         'port' => (int) $ss_2022_port,
-                        'password' => $user_pk,
+                        'password' => $server_key === '' ? $user_pk : $server_key . ':' .$user_pk,
                         'cipher' => $method,
                         'udp' => (bool) $udp,
                     ];
