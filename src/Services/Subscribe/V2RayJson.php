@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Subscribe;
 
 use App\Services\Subscribe;
+use App\Utils\Tools;
 use function array_filter;
 use function array_merge;
 use function json_decode;
@@ -38,13 +39,14 @@ final class V2RayJson extends Base
                 case 1:
                     $ss_2022_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $method = $node_custom_config['method'] ?? '2022-blake3-aes-128-gcm';
+                    $user_pk = Tools::genSs2022UserPk($user->passwd, $method);
 
-                    $pk_len = match ($method) {
-                        '2022-blake3-aes-128-gcm' => 16,
-                        default => 32,
-                    };
+                    if (! $user_pk) {
+                        $node = [];
+                        break;
+                    }
 
-                    $user_pk = $user->getSs2022Pk($pk_len);
+                    $server_key = $node_custom_config['server_key'] ?? '';
 
                     $node = [
                         'protocol' => 'shadowsocks2022',
@@ -52,7 +54,7 @@ final class V2RayJson extends Base
                             'address' => $node_raw->server,
                             'port' => (int) $ss_2022_port,
                             'method' => $user->method,
-                            'psk' => $user_pk,
+                            'psk' => $server_key === '' ? $user_pk : $server_key . ':' .$user_pk,
                         ],
                         'tag' => $node_raw->name,
                     ];

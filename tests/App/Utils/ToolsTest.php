@@ -119,10 +119,17 @@ class ToolsTest extends TestCase
     public function testGenSs2022UserPk()
     {
         $passwd = 'password';
-        $length = 16;
-        $pk = Tools::genSs2022UserPk($passwd, $length);
+        $method = '2022-blake3-aes-128-gcm';
+        $pk = Tools::genSs2022UserPk($passwd, $method);
         $this->assertIsString($pk);
-        $this->assertEquals('NWU4ODQ4OThkYTI4MDQ3MQ==', $pk);
+        $this->assertEquals('YzAwNjdkNGFmNGU4N2YwMA==', $pk);
+        $method = '2022-blake3-aes-256-gcm';
+        $pk = Tools::genSs2022UserPk($passwd, $method);
+        $this->assertIsString($pk);
+        $this->assertEquals('YzAwNjdkNGFmNGU4N2YwMGRiYWM2M2I2MTU2ODI4MjM=', $pk);
+        $method = 'bomb_three_gorges_dam';
+        $pk = Tools::genSs2022UserPk($passwd, $method);
+        $this->assertFalse($pk);
     }
 
     /**

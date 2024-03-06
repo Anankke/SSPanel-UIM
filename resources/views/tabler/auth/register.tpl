@@ -20,12 +20,12 @@
                     </div>
                     <div class="mb-3">
                         <div class="input-group input-group-flat">
-                            <input id="passwd" type="password" class="form-control" placeholder="登录密码">
+                            <input id="password" type="password" class="form-control" placeholder="登录密码">
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="input-group input-group-flat">
-                            <input id="repasswd" type="password" class="form-control" placeholder="重复登录密码">
+                            <input id="confirm_password" type="password" class="form-control" placeholder="重复登录密码">
                         </div>
                     </div>
                     {if $public_setting['reg_mode'] !== 'close' }
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="form-footer">
-                        <button id="register" class="btn btn-primary w-100"
+                        <button class="btn btn-primary w-100"
                                 hx-post="/auth/register" hx-swap="none" hx-vals='js:{
                                     {if $public_setting['reg_email_verify']}
                                         emailcode: document.getElementById("emailcode").value,
@@ -80,8 +80,8 @@
                                     {/if}
                                     name: document.getElementById("name").value,
                                     email: document.getElementById("email").value,
-                                    passwd: document.getElementById("passwd").value,
-                                    repasswd: document.getElementById("repasswd").value,
+                                    password: document.getElementById("password").value,
+                                    confirm_password: document.getElementById("confirm_password").value,
                                     invite_code: document.getElementById("invite_code").value,
                                     tos: document.getElementById("tos").checked,
                                  }'>

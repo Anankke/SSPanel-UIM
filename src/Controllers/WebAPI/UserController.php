@@ -110,13 +110,13 @@ final class UserController extends BaseController
 
             if ($node->sort === 1) {
                 $method = json_decode($node->custom_config)->method ?? '2022-blake3-aes-128-gcm';
+                $user_pk = Tools::genSs2022UserPk($user_raw->passwd, $method);
 
-                $pk_len = match ($method) {
-                    '2022-blake3-aes-128-gcm' => 16,
-                    default => 32,
-                };
+                if (! $user_pk) {
+                    continue;
+                }
 
-                $user_raw->passwd = Tools::genSs2022UserPk($user_raw->passwd, $pk_len);
+                $user_raw->passwd = $user_pk;
             }
 
             foreach ($keys_unset as $key) {

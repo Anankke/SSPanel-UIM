@@ -17,14 +17,14 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">再次输入新密码</label>
-                    <input id="repasswd" type="password" class="form-control" placeholder="请再次输入新密码">
+                    <input id="confirm_password" type="password" class="form-control" placeholder="请再次输入新密码">
                 </div>
                 <div class="form-footer">
-                    <button id="reset" class="btn btn-primary w-100"
+                    <button class="btn btn-primary w-100"
                             hx-post="{ location.pathname }" hx-swap="none"
                             hx-vals='js:{
                             password: document.getElementById("password").value,
-                            repasswd: document.getElementById("repasswd").value, }'>
+                            confirm_password: document.getElementById("confirm_password").value, }'>
                         <i class="ti ti-key icon"></i>
                         重置
                     </button>

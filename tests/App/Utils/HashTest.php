@@ -16,10 +16,11 @@ class HashTest extends TestCase
     {
         $_ENV['key'] = 'cookie_key';
         $passHash = 'password';
-        $expire_in = '1 hour';
+        $expire_in = 69420;
         $result = Hash::cookieHash($passHash, $expire_in);
         $this->assertIsString($result);
         $this->assertEquals(45, strlen($result));
+        $this->assertEquals('e91053c4a7d6cc7fa5eb900b1ad96df484483ceace12a', $result);
     }
 
     /**
@@ -29,11 +30,12 @@ class HashTest extends TestCase
     {
         $_ENV['key'] = 'cookie_key';
         $ip = '192.168.0.1';
-        $uid = 'user_id';
-        $expire_in = '1 hour';
+        $uid = 69;
+        $expire_in = 69420;
         $result = Hash::ipHash($ip, $uid, $expire_in);
         $this->assertIsString($result);
         $this->assertEquals(45, strlen($result));
+        $this->assertEquals('522b51095b778f9f107153f75be554be1f8a8f2c1f4b4', $result);
     }
 
     /**
@@ -43,17 +45,17 @@ class HashTest extends TestCase
     {
         $_ENV['key'] = 'cookie_key';
         $device = 'Firefox/119.0';
-        $uid = 'user_id';
-        $expire_in = '1 hour';
+        $uid = 69;
+        $expire_in = 69420;
         $result = Hash::deviceHash($device, $uid, $expire_in);
         $this->assertIsString($result);
         $this->assertEquals(45, strlen($result));
+        $this->assertEquals('1fd5a37cc8769c01a49f6eb9c167dc6ee6cc842913dba', $result);
     }
 
     /**
      * @covers App\Utils\Hash::checkPassword
      * @covers App\Utils\Hash::passwordHash
-     * @covers App\Utils\Hash::md5WithSalt
      * @covers App\Utils\Hash::sha256WithSalt
      * @covers App\Utils\Hash::sha3WithSalt
      */
@@ -65,9 +67,21 @@ class HashTest extends TestCase
         $hashedPassword = Hash::passwordHash($password);
         $this->assertTrue(Hash::checkPassword($hashedPassword, $password));
         $this->assertFalse(Hash::checkPassword($hashedPassword, 'wrong_password'));
-        $this->assertIsString(Hash::passwordHash($password));
-        $this->assertIsString(Hash::md5WithSalt($password));
-        $this->assertIsString(Hash::sha256WithSalt($password));
-        $this->assertIsString(Hash::sha3WithSalt($password));
+        $_ENV['pwdMethod'] = 'argon2i';
+        $hashedPassword = Hash::passwordHash($password);
+        $this->assertTrue(Hash::checkPassword($hashedPassword, $password));
+        $this->assertFalse(Hash::checkPassword($hashedPassword, 'wrong_password'));
+        $_ENV['pwdMethod'] = 'argon2id';
+        $hashedPassword = Hash::passwordHash($password);
+        $this->assertTrue(Hash::checkPassword($hashedPassword, $password));
+        $this->assertFalse(Hash::checkPassword($hashedPassword, 'wrong_password'));
+        $_ENV['pwdMethod'] = 'sha256';
+        $hashedPassword = Hash::passwordHash($password);
+        $this->assertTrue(Hash::checkPassword($hashedPassword, $password));
+        $this->assertFalse(Hash::checkPassword($hashedPassword, 'wrong_password'));
+        $_ENV['pwdMethod'] = 'sha3';
+        $hashedPassword = Hash::passwordHash($password);
+        $this->assertTrue(Hash::checkPassword($hashedPassword, $password));
+        $this->assertFalse(Hash::checkPassword($hashedPassword, 'wrong_password'));
     }
 }

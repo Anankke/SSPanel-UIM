@@ -223,7 +223,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">密码</label>
                                 <div class="col">
-                                    <input id="passwd" type="text" class="form-control" value="{$edit_user->passwd}">
+                                    <input id="passwd" type="text" class="form-control" value="{$edit_user->passwd}" disabled/>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
