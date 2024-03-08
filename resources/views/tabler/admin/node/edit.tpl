@@ -216,7 +216,7 @@
                                     </div>
                                 </div>
                                 <label class="form-label col-form-label">
-                                    通讯密钥用于 WebAPI 节点模式鉴权，如需更改请点击重置
+                                    通讯密钥用于 NodeAPI 鉴权，如需更改请点击重置
                                 </label>
                             </div>
                         </div>

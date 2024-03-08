@@ -124,16 +124,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.300.11",
+            "version": "3.300.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b1c05a5d3cb429aa5d9ffa69066ce46e3d7aca52"
+                "reference": "b1eb7307d30ebcfa4e156971f658c2d177434db3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b1c05a5d3cb429aa5d9ffa69066ce46e3d7aca52",
-                "reference": "b1c05a5d3cb429aa5d9ffa69066ce46e3d7aca52",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b1eb7307d30ebcfa4e156971f658c2d177434db3",
+                "reference": "b1eb7307d30ebcfa4e156971f658c2d177434db3",
                 "shasum": ""
             },
             "require": {
@@ -213,9 +213,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.11"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.13"
             },
-            "time": "2024-03-05T19:08:14+00:00"
+            "time": "2024-03-07T19:14:04+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -747,16 +747,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "5.0.5",
+            "version": "5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "739fc545bfade2470765219dc2a615a6f1e94987"
+                "reference": "0cc00f0626b73bc71a1ea17af01387d0ac75e046"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/739fc545bfade2470765219dc2a615a6f1e94987",
-                "reference": "739fc545bfade2470765219dc2a615a6f1e94987",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/0cc00f0626b73bc71a1ea17af01387d0ac75e046",
+                "reference": "0cc00f0626b73bc71a1ea17af01387d0ac75e046",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +810,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code/issues",
-                "source": "https://github.com/endroid/qr-code/tree/5.0.5"
+                "source": "https://github.com/endroid/qr-code/tree/5.0.7"
             },
             "funding": [
                 {
@@ -818,7 +818,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-03T18:17:54+00:00"
+            "time": "2024-03-08T11:24:40+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -1728,16 +1728,16 @@
         },
         {
             "name": "jean85/pretty-package-versions",
-            "version": "2.0.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jean85/pretty-package-versions.git",
-                "reference": "ae547e455a3d8babd07b96966b17d7fd21d9c6af"
+                "reference": "f9fdd29ad8e6d024f52678b570e5593759b550b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jean85/pretty-package-versions/zipball/ae547e455a3d8babd07b96966b17d7fd21d9c6af",
-                "reference": "ae547e455a3d8babd07b96966b17d7fd21d9c6af",
+                "url": "https://api.github.com/repos/Jean85/pretty-package-versions/zipball/f9fdd29ad8e6d024f52678b570e5593759b550b4",
+                "reference": "f9fdd29ad8e6d024f52678b570e5593759b550b4",
                 "shasum": ""
             },
             "require": {
@@ -1745,9 +1745,9 @@
                 "php": "^7.1|^8.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.17",
+                "friendsofphp/php-cs-fixer": "^3.2",
                 "jean85/composer-provided-replaced-stub-package": "^1.0",
-                "phpstan/phpstan": "^0.12.66",
+                "phpstan/phpstan": "^1.4",
                 "phpunit/phpunit": "^7.5|^8.5|^9.4",
                 "vimeo/psalm": "^4.3"
             },
@@ -1781,9 +1781,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Jean85/pretty-package-versions/issues",
-                "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.5"
+                "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.6"
             },
-            "time": "2021-10-08T21:21:46+00:00"
+            "time": "2024-03-08T09:58:59+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -2775,16 +2775,16 @@
         },
         {
             "name": "php-http/message",
-            "version": "1.16.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/message.git",
-                "reference": "47a14338bf4ebd67d317bf1144253d7db4ab55fd"
+                "reference": "5997f3289332c699fa2545c427826272498a2088"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/message/zipball/47a14338bf4ebd67d317bf1144253d7db4ab55fd",
-                "reference": "47a14338bf4ebd67d317bf1144253d7db4ab55fd",
+                "url": "https://api.github.com/repos/php-http/message/zipball/5997f3289332c699fa2545c427826272498a2088",
+                "reference": "5997f3289332c699fa2545c427826272498a2088",
                 "shasum": ""
             },
             "require": {
@@ -2838,9 +2838,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/message/issues",
-                "source": "https://github.com/php-http/message/tree/1.16.0"
+                "source": "https://github.com/php-http/message/tree/1.16.1"
             },
-            "time": "2023-05-17T06:43:38+00:00"
+            "time": "2024-03-07T13:22:09+00:00"
         },
         {
             "name": "php-http/multipart-stream-builder",
@@ -4024,16 +4024,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "4.6.0",
+            "version": "4.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "30d98a460ab10f7b7032d76c62da5b1ce6c0765d"
+                "reference": "5a94184175e5830b589bf923da8c9c3af2c0f409"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/30d98a460ab10f7b7032d76c62da5b1ce6c0765d",
-                "reference": "30d98a460ab10f7b7032d76c62da5b1ce6c0765d",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5a94184175e5830b589bf923da8c9c3af2c0f409",
+                "reference": "5a94184175e5830b589bf923da8c9c3af2c0f409",
                 "shasum": ""
             },
             "require": {
@@ -4097,7 +4097,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/4.6.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/4.6.1"
             },
             "funding": [
                 {
@@ -4109,7 +4109,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-02-13T11:32:56+00:00"
+            "time": "2024-03-08T08:18:09+00:00"
         },
         {
             "name": "slim/http",
@@ -6216,16 +6216,16 @@
         },
         {
             "name": "composer/pcre",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/pcre.git",
-                "reference": "00104306927c7a0919b4ced2aaa6782c1e61a3c9"
+                "reference": "4775f35b2d70865807c89d32c8e7385b86eb0ace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/pcre/zipball/00104306927c7a0919b4ced2aaa6782c1e61a3c9",
-                "reference": "00104306927c7a0919b4ced2aaa6782c1e61a3c9",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/4775f35b2d70865807c89d32c8e7385b86eb0ace",
+                "reference": "4775f35b2d70865807c89d32c8e7385b86eb0ace",
                 "shasum": ""
             },
             "require": {
@@ -6267,7 +6267,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/pcre/issues",
-                "source": "https://github.com/composer/pcre/tree/3.1.1"
+                "source": "https://github.com/composer/pcre/tree/3.1.2"
             },
             "funding": [
                 {
@@ -6283,7 +6283,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-11T07:11:09+00:00"
+            "time": "2024-03-07T15:38:35+00:00"
         },
         {
             "name": "composer/semver",
