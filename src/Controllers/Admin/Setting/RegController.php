@@ -25,8 +25,6 @@ final class RegController extends BaseController
         'reg_method',
         'reg_ip_limit',
         'reg_speed_limit',
-        'reg_forbidden_ip',
-        'reg_forbidden_port',
     ];
 
     /**

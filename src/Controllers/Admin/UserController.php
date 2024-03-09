@@ -14,8 +14,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use function str_replace;
-use const PHP_EOL;
 
 final class UserController extends BaseController
 {
@@ -87,8 +85,6 @@ final class UserController extends BaseController
         'port',
         'passwd',
         'method',
-        'forbidden_ip',
-        'forbidden_port',
     ];
 
     /**
@@ -202,8 +198,6 @@ final class UserController extends BaseController
         $user->node_iplimit = $request->getParam('node_iplimit');
         $user->port = $request->getParam('port');
         $user->method = $request->getParam('method');
-        $user->forbidden_ip = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
-        $user->forbidden_port = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
 
         if (! $user->save()) {
             return $response->withJson([

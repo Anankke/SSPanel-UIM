@@ -221,8 +221,6 @@ final class AuthController extends BaseController
         $user->u = 0;
         $user->d = 0;
         $user->method = $configs['reg_method'];
-        $user->forbidden_ip = Config::obtain('reg_forbidden_ip');
-        $user->forbidden_port = Config::obtain('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
         $user->transfer_enable = Tools::toGB($configs['reg_traffic']);

@@ -1151,26 +1151,6 @@
     },
     {
         "id": null,
-        "item": "reg_forbidden_ip",
-        "value": "127.0.0.0/8,::1/128",
-        "class": "reg",
-        "is_public": 0,
-        "type": "string",
-        "default": "127.0.0.0/8,::1/128",
-        "mark": "注册时默认禁止访问IP列表"
-    },
-    {
-        "id": null,
-        "item": "reg_forbidden_port",
-        "value": "",
-        "class": "reg",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "注册时默认禁止访问端口列表"
-    },
-    {
-        "id": null,
         "item": "random_group",
         "value": "0",
         "class": "reg",

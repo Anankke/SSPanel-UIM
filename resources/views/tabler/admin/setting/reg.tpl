@@ -180,20 +180,6 @@
                                                        value="{$settings['reg_speed_limit']}">
                                             </div>
                                         </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">禁止访问的 IP 列表</label>
-                                            <div class="col">
-                                                <input id="reg_forbidden_ip" type="text" class="form-control"
-                                                       value="{$settings['reg_forbidden_ip']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">禁止访问的端口列表</label>
-                                            <div class="col">
-                                                <input id="reg_forbidden_port" type="text" class="form-control"
-                                                       value="{$settings['reg_forbidden_port']}">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
