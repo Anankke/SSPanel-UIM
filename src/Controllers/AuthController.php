@@ -216,7 +216,7 @@ final class AuthController extends BaseController
         $user->pass = Hash::passwordHash($password);
         $user->passwd = Tools::genRandomChar(16);
         $user->uuid = Uuid::uuid4();
-        $user->api_token = Uuid::uuid4();
+        $user->api_token = Tools::genRandomChar(32);
         $user->port = Tools::getSsPort();
         $user->u = 0;
         $user->d = 0;

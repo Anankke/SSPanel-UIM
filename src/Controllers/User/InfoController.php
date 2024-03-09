@@ -201,7 +201,7 @@ final class InfoController extends BaseController
     public function resetApiToken(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $user->api_token = Uuid::uuid4();
+        $user->api_token = Tools::genRandomChar(32);
 
         if (! $user->save()) {
             return ResponseHelper::error($response, '重置失败');
