@@ -188,6 +188,22 @@
                                                        value="{$settings['detect_inactive_user_use_days']}">
                                             </div>
                                         </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">是否启用移除闲置账号订阅链接与邀请码</label>
+                                            <div class="col">
+                                                <select id="remove_inactive_user_link_and_invite" class="col form-select"
+                                                        value="{$settings['remove_inactive_user_link_and_invite']}">
+                                                    <option value="0"
+                                                            {if ! $settings['remove_inactive_user_link_and_invite']}selected{/if}>
+                                                        关闭
+                                                    </option>
+                                                    <option value="1"
+                                                            {if $settings['remove_inactive_user_link_and_invite']}selected{/if}>
+                                                        开启
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

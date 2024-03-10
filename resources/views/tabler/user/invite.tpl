@@ -43,7 +43,7 @@
                                 <div class="card-footer">
                                     <div class="d-flex">
                                         <button id="reset-url" class="btn text-red btn-link"
-                                                hx-post="/user/invite_reset" hx-swap="none">
+                                                hx-post="/user/invite/reset" hx-swap="none">
                                             重置
                                         </button>
                                         <button data-clipboard-text="{$invite_url}"

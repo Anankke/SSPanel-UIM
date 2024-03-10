@@ -38,7 +38,9 @@ return static function (Slim\App $app): void {
         $group->get('/docs/{id:[0-9]+}/view', App\Controllers\User\DocsController::class . ':detail');
         // 个人资料
         $group->get('/profile', App\Controllers\UserController::class . ':profile');
-        $group->get('/invite', App\Controllers\UserController::class . ':invite');
+        // Invite
+        $group->get('/invite', App\Controllers\User\InviteController::class . ':index');
+        $group->post('/invite/reset', App\Controllers\User\InviteController::class . ':reset');
         // 封禁
         $group->get('/banned', App\Controllers\UserController::class . ':banned');
         // 节点
@@ -65,7 +67,6 @@ return static function (Slim\App $app): void {
         $group->post('/apitoken_reset', App\Controllers\User\InfoController::class . ':resetApiToken');
         $group->post('/method', App\Controllers\User\InfoController::class . ':updateMethod');
         $group->post('/url_reset', App\Controllers\User\InfoController::class . ':resetURL');
-        $group->post('/invite_reset', App\Controllers\User\InfoController::class . ':resetInviteURL');
         $group->post('/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
         $group->post('/contact_method', App\Controllers\User\InfoController::class . ':updateContactMethod');
         $group->post('/theme', App\Controllers\User\InfoController::class . ':updateTheme');

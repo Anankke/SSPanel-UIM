@@ -393,6 +393,18 @@ final class Cron
         echo Tools::toDateTime(time()) . ' 等待中订单处理完成' . PHP_EOL;
     }
 
+    public static function removeInactiveUserLinkAndInvite(): void
+    {
+        $inactive_users = (new User())->where('is_inactive', 1)->get();
+
+        foreach ($inactive_users as $user) {
+            $user->removeLink();
+            $user->removeInvite();
+        }
+
+        echo Tools::toDateTime(time()) . ' Successfully removed inactive user\'s Link and Invite' . PHP_EOL;
+    }
+
     public static function resetNodeBandwidth(): void
     {
         (new Node())->where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);

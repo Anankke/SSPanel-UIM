@@ -22,6 +22,7 @@ final class CronController extends BaseController
         'detect_inactive_user_checkin_days',
         'detect_inactive_user_login_days',
         'detect_inactive_user_use_days',
+        'remove_inactive_user_link_and_invite',
     ];
 
     /**

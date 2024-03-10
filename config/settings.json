@@ -1601,6 +1601,16 @@
     },
     {
         "id": null,
+        "item": "remove_inactive_user_link_and_invite",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable remove link and invite of inactive user"
+    },
+    {
+        "id": null,
         "item": "daily_job_hour",
         "value": "0",
         "class": "cron",

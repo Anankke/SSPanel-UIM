@@ -6,11 +6,9 @@ namespace App\Controllers;
 
 use App\Models\Ann;
 use App\Models\Config;
-use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\Node;
 use App\Models\OnlineLog;
-use App\Models\Payback;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Reward;
@@ -97,44 +95,6 @@ final class UserController extends BaseController
             $this->view()
                 ->assign('anns', $anns)
                 ->fetch('user/announcement.tpl')
-        );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function invite(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
-    {
-        $code = (new InviteCode())->where('user_id', $this->user->id)->first()?->code;
-
-        if ($code === null) {
-            $code = (new InviteCode())->add($this->user->id);
-        }
-
-        $paybacks = (new Payback())->where('ref_by', $this->user->id)
-            ->orderBy('id', 'desc')
-            ->get();
-
-        foreach ($paybacks as $payback) {
-            $payback->datetime = Tools::toDateTime($payback->datetime);
-        }
-
-        $paybacks_sum = (new Payback())->where('ref_by', $this->user->id)->sum('ref_get');
-
-        if (! $paybacks_sum) {
-            $paybacks_sum = 0;
-        }
-
-        $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code;
-        $invite_reward_rate = Config::obtain('invite_reward_rate') * 100;
-
-        return $response->write(
-            $this->view()
-                ->assign('paybacks', $paybacks)
-                ->assign('invite_url', $invite_url)
-                ->assign('paybacks_sum', $paybacks_sum)
-                ->assign('invite_reward_rate', $invite_reward_rate)
-                ->fetch('user/invite.tpl')
         );
     }
 

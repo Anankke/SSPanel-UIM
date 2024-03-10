@@ -6,6 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AuthController;
 use App\Controllers\BaseController;
+use App\Models\Config;
 use App\Models\User;
 use App\Models\UserMoneyLog;
 use App\Utils\Hash;
@@ -165,7 +166,10 @@ final class UserController extends BaseController
 
         if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
-            $user->cleanLink();
+
+            if (Config::obtain('enable_forced_replacement')) {
+                $user->removeLink();
+            }
         }
 
         if ($request->getParam('money') !== '' &&

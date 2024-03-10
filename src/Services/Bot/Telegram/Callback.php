@@ -540,7 +540,7 @@ final class Callback
         switch ($OpEnd) {
             case 'update_link':
                 // 重置订阅链接
-                $this->user->cleanLink();
+                $this->user->removeLink();
 
                 $this->answerCallbackQuery([
                     'text' => '订阅链接重置成功，请在下方重新更新订阅。',

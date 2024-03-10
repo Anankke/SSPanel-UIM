@@ -226,7 +226,7 @@ final class User extends Model
     /**
      * 删除用户的订阅链接
      */
-    public function cleanLink(): void
+    public function removeLink(): void
     {
         (new Link())->where('userid', $this->id)->delete();
     }
@@ -234,7 +234,7 @@ final class User extends Model
     /**
      * 删除用户的邀请码
      */
-    public function clearInviteCodes(): void
+    public function removeInvite(): void
     {
         (new InviteCode())->where('user_id', $this->id)->delete();
     }

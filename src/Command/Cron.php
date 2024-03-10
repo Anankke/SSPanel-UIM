@@ -63,6 +63,10 @@ EOL;
                 $jobs->detectInactiveUser();
             }
 
+            if (Config::obtain('remove_inactive_user_link_and_invite')) {
+                $jobs->removeInactiveUserLinkAndInvite();
+            }
+
             if (Config::obtain('telegram_diary')) {
                 $jobs->sendTelegramDiary();
             }
