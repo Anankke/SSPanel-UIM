@@ -322,7 +322,8 @@ EOL;
         $users = ModelsUser::all();
 
         foreach ($users as $user) {
-            $user->generateApiToken();
+            $user->api_token = Tools::genRandomChar(32);
+            $user->save();
         }
 
         echo '已为所有用户生成新的 Api Token' . PHP_EOL;
@@ -382,7 +383,7 @@ EOL;
             $user->pass = Hash::passwordHash($passwd);
             $user->passwd = Tools::genRandomChar(16);
             $user->uuid = Uuid::uuid4();
-            $user->api_token = Uuid::uuid4();
+            $user->api_token = Tools::genRandomChar(32);
             $user->port = Tools::getSsPort();
             $user->u = 0;
             $user->d = 0;

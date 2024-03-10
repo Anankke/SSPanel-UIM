@@ -379,25 +379,8 @@
                                 </div>
                                 <div class="tab-pane" id="ios">
                                     <p>
-                                        适用于 Clash 兼容客户端的订阅：<code>{$UniversalSub}/clash</code>
-                                    </p>
-                                    <p>
                                         适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
                                     </p>
-                                    <div class="btn-list justify-content-start">
-                                        <a href="https://apps.apple.com/app/stash/id1596063349" target="_blank"
-                                           class="btn btn-azure">
-                                            购买 Stash
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="stash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Stash
-                                        </a>
-                                    </div>
                                     <div class="btn-list justify-content-start my-2">
                                         <a href="https://apps.apple.com/app/sing-box/id6451272673" target="_blank"
                                            class="btn btn-azure">

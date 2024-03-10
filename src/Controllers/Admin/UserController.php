@@ -6,6 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AuthController;
 use App\Controllers\BaseController;
+use App\Models\Config;
 use App\Models\User;
 use App\Models\UserMoneyLog;
 use App\Utils\Hash;
@@ -14,8 +15,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use function str_replace;
-use const PHP_EOL;
 
 final class UserController extends BaseController
 {
@@ -87,8 +86,6 @@ final class UserController extends BaseController
         'port',
         'passwd',
         'method',
-        'forbidden_ip',
-        'forbidden_port',
     ];
 
     /**
@@ -169,7 +166,10 @@ final class UserController extends BaseController
 
         if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
-            $user->cleanLink();
+
+            if (Config::obtain('enable_forced_replacement')) {
+                $user->removeLink();
+            }
         }
 
         if ($request->getParam('money') !== '' &&
@@ -202,8 +202,6 @@ final class UserController extends BaseController
         $user->node_iplimit = $request->getParam('node_iplimit');
         $user->port = $request->getParam('port');
         $user->method = $request->getParam('method');
-        $user->forbidden_ip = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
-        $user->forbidden_port = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
 
         if (! $user->save()) {
             return $response->withJson([

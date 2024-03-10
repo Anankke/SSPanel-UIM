@@ -8,10 +8,9 @@ use App\Services\IM;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;
-use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function date;
-use function md5;
+use function hash;
 use function round;
 use const PHP_EOL;
 
@@ -57,8 +56,6 @@ use const PHP_EOL;
  * @property int    $is_shadow_banned 是否处于账户异常状态
  * @property int    $expire_notified 过期提醒
  * @property int    $traffic_notified 流量提醒
- * @property string $forbidden_ip 禁止访问IP
- * @property string $forbidden_port 禁止访问端口
  * @property int    $auto_reset_day 自动重置流量日
  * @property float  $auto_reset_bandwidth 自动重置流量
  * @property string $api_token API 密钥
@@ -93,17 +90,20 @@ final class User extends Model
         'ref_by' => 'int',
     ];
 
-    public function getSs2022Pk($len): string
-    {
-        return Tools::genSs2022UserPk($this->passwd, $len);
-    }
-
     /**
      * DiceBear 头像
      */
     public function getDiceBearAttribute(): string
     {
-        return 'https://api.dicebear.com/7.x/identicon/svg?seed=' . md5($this->email);
+        return 'https://api.dicebear.com/7.x/identicon/svg?seed=' . hash('sha3-256', $this->email);
+    }
+
+    /**
+     * User identifier
+     */
+    public function getIdentifierAttribute(): string
+    {
+        return hash('sha3-256', $this->id . ':' . $this->email);
     }
 
     /**
@@ -132,16 +132,6 @@ final class User extends Model
     public function lastCheckInTime(): string
     {
         return $this->last_check_in_time === 0 ? '从未签到' : Tools::toDateTime($this->last_check_in_time);
-    }
-
-    /**
-     * 生成新的 API Token
-     */
-    public function generateApiToken(): bool
-    {
-        $this->api_token = Uuid::uuid4();
-
-        return $this->save();
     }
 
     /*
@@ -236,7 +226,7 @@ final class User extends Model
     /**
      * 删除用户的订阅链接
      */
-    public function cleanLink(): void
+    public function removeLink(): void
     {
         (new Link())->where('userid', $this->id)->delete();
     }
@@ -244,7 +234,7 @@ final class User extends Model
     /**
      * 删除用户的邀请码
      */
-    public function clearInviteCodes(): void
+    public function removeInvite(): void
     {
         (new InviteCode())->where('user_id', $this->id)->delete();
     }

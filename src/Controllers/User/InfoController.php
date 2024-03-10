@@ -6,7 +6,6 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
-use App\Models\InviteCode;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
@@ -130,9 +129,7 @@ final class InfoController extends BaseController
 
     public function unbindIM(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $user = $this->user;
-
-        if (! $user->unbindIM()) {
+        if (! $this->user->unbindIM()) {
             return ResponseHelper::error($response, '解绑失败');
         }
 
@@ -172,7 +169,7 @@ final class InfoController extends BaseController
         }
 
         if (Config::obtain('enable_forced_replacement')) {
-            $user->cleanLink();
+            $user->removeLink();
         }
 
         return ResponseHelper::success($response, '修改成功');
@@ -201,7 +198,7 @@ final class InfoController extends BaseController
     public function resetApiToken(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
-        $user->api_token = Uuid::uuid4();
+        $user->api_token = Tools::genRandomChar(32);
 
         if (! $user->save()) {
             return ResponseHelper::error($response, '重置失败');
@@ -233,25 +230,9 @@ final class InfoController extends BaseController
 
     public function resetURL(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $user = $this->user;
-        $user->cleanLink();
+        $this->user->removeLink();
 
         return ResponseHelper::success($response, '重置成功');
-    }
-
-    public function resetInviteURL(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $user = $this->user;
-        $user->clearInviteCodes();
-        $code = (new InviteCode())->add($user->id);
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '重置成功',
-            'data' => [
-                'invite-url' => $_ENV['baseUrl'] . '/auth/register?code=' . $code,
-            ],
-        ]);
     }
 
     public function updateDailyMail(ServerRequest $request, Response $response, array $args): ResponseInterface

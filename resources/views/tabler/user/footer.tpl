@@ -106,7 +106,11 @@
                     let element = document.getElementById(key);
 
                     if (element) {
-                        element.innerHTML = res.data[key];
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = res.data[key];
+                        } else {
+                            element.innerHTML = res.data[key];
+                        }
                     }
                 }
             }

@@ -133,7 +133,7 @@ final class PasswordController extends BaseController
         }
 
         if (Config::obtain('enable_forced_replacement')) {
-            $user->cleanLink();
+            $user->removeLink();
         }
 
         $redis->del('password_reset:' . $token);
