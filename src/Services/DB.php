@@ -36,7 +36,7 @@ final class DB extends Manager
     {
         if ($_ENV['enable_db_rw_split']) {
             return [
-                'driver' => 'mysql',
+                'driver' => 'mariadb',
                 'read' => [
                     'host' => $_ENV['read_db_hosts'],
                 ],
@@ -55,7 +55,7 @@ final class DB extends Manager
         }
 
         return [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => $_ENV['db_host'],
             'unix_socket' => $_ENV['db_socket'],
             'database' => $_ENV['db_database'],

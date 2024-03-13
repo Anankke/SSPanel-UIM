@@ -58,8 +58,8 @@ SSPanel UIM requires the following programs to be installed and run normally:
 
 - Git
 - Nginx（必须使用 HTTPS/HTTPS is REQUIRED）
-- PHP 8.2+ （强烈推荐开启 OPcache /OPcache is highly recommended）
-- MariaDB 10.11+（关闭严格模式，不兼容 MySQL/Disable strict mode, DO NOT USE MySQL）
+- PHP 8.2+ （强烈推荐开启 OPcache+JIT /OPcache+JIT is highly recommended）
+- MariaDB 10.11+（关闭严格模式/Disable strict mode）
 - Redis 7.0+
 
 ## 文档 / Documentation
