@@ -82,17 +82,12 @@ You can view other projects maintained by our developers on the [SSPanel-UIM Dev
 
 ### M1Screw
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O850UEH)
+<a href="https://www.patreon.com/catdev"><img src=".github/PATREON.png" width="300"></a>
 
-<a href="https://www.vultr.com/?ref=8941355-8H"><img src="https://www.vultr.com/media/logo_onwhite.svg" alt="Vultr" width="200" align="left" style="background-color:#2e3136"/></a>
+<a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
 
-<br>
-<br>
+<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c"><img src=".github/do.png" width="300"></a>
 
-<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge"  align="left" /></a>
-
-<br>
-<br>
 
 ## 赞助商 / Sponsors
 
