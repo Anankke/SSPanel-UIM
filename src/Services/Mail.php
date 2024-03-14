@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Config;
+use App\Services\Mail\AlibabaCloud;
 use App\Services\Mail\Mailchimp;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\NullMail;
@@ -21,10 +22,11 @@ use Smarty;
  */
 final class Mail
 {
-    public static function getClient(): Mailchimp|Mailgun|NullMail|Postal|SendGrid|Ses|Smtp
+    public static function getClient(): AlibabaCloud|Mailchimp|Mailgun|NullMail|Postal|SendGrid|Ses|Smtp
     {
         $driver = Config::obtain('email_driver');
         return match ($driver) {
+            'alibabacloud' => new AlibabaCloud(),
             'mailchimp' => new Mailchimp(),
             'mailgun' => new Mailgun(),
             'postal' => new Postal(),

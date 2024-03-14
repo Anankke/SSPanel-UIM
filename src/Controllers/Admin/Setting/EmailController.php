@@ -50,6 +50,12 @@ final class EmailController extends BaseController
         'mailchimp_key',
         'mailchimp_from_email',
         'mailchimp_from_name',
+        // Alibaba Cloud
+        'alibabacloud_dm_access_key_id',
+        'alibabacloud_dm_access_key_secret',
+        'alibabacloud_dm_endpoint',
+        'alibabacloud_dm_account_name',
+        'alibabacloud_dm_from_alias',
     ];
 
     /**

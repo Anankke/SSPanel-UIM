@@ -14,6 +14,7 @@
         "ext-xml": "*",
         "ext-yaml": "*",
         "ext-zip": "*",
+        "alibabacloud/dm-20170622": "^1.2",
         "alipaysdk/openapi": "*@dev",
         "aws/aws-sdk-php": "^3",
         "geoip2/geoip2": "^3",

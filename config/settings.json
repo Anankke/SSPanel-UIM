@@ -551,6 +551,56 @@
     },
     {
         "id": null,
+        "item": "alibabacloud_dm_access_key_id",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Access Key ID"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_access_key_secret",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Access Key Secret"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_endpoint",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Endpoint"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_account_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Account Name"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_from_alias",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM From Alias"
+    },
+    {
+        "id": null,
         "item": "email_verify_code_ttl",
         "value": "3600",
         "class": "email",
