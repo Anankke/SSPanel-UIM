@@ -24,8 +24,7 @@ final class Mail
 {
     public static function getClient(): AlibabaCloud|Mailchimp|Mailgun|NullMail|Postal|SendGrid|Ses|Smtp
     {
-        $driver = Config::obtain('email_driver');
-        return match ($driver) {
+        return match (Config::obtain('email_driver')) {
             'alibabacloud' => new AlibabaCloud(),
             'mailchimp' => new Mailchimp(),
             'mailgun' => new Mailgun(),
