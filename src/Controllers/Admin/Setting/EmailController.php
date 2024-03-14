@@ -37,9 +37,9 @@ final class EmailController extends BaseController
         'sendgrid_sender',
         'sendgrid_name',
         // AWS SES
-        'aws_access_key_id',
-        'aws_secret_access_key',
-        'aws_region',
+        'aws_ses_access_key_id',
+        'aws_ses_access_key_secret',
+        'aws_ses_region',
         'aws_ses_sender',
         // Postal
         'postal_host',

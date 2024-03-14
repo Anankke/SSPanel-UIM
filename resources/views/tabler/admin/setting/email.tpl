@@ -323,22 +323,22 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">Access Key ID</label>
                                             <div class="col">
-                                                <input id="aws_access_key_id" type="text" class="form-control"
-                                                       value="{$settings['aws_access_key_id']}">
+                                                <input id="aws_ses_access_key_id" type="text" class="form-control"
+                                                       value="{$settings['aws_ses_access_key_id']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">Access Key Secret</label>
                                             <div class="col">
-                                                <input id="aws_secret_access_key" type="text" class="form-control"
-                                                       value="{$settings['aws_secret_access_key']}">
+                                                <input id="aws_ses_access_key_secret" type="text" class="form-control"
+                                                       value="{$settings['aws_ses_access_key_secret']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">Region</label>
                                             <div class="col">
-                                                <input id="aws_region" type="text" class="form-control"
-                                                       value="{$settings['aws_region']}">
+                                                <input id="aws_ses_region" type="text" class="form-control"
+                                                       value="{$settings['aws_ses_region']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">

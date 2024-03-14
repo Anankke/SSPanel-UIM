@@ -17,10 +17,10 @@ final class Ses extends Base
 
         $ses = new SesClient([
             'credentials' => [
-                'key' => $configs['aws_access_key_id'],
-                'secret' => $configs['aws_secret_access_key'],
+                'key' => $configs['aws_ses_access_key_id'],
+                'secret' => $configs['aws_ses_access_key_secret'],
             ],
-            'region' => $configs['aws_region'],
+            'region' => $configs['aws_ses_region'],
             'version' => 'latest',
         ]);
 
