@@ -38,7 +38,7 @@ SSPanel UIM is a multi-purpose proxy service sales management system designed fo
 - 重构的商店系统，支持包括但不限于包年包月，按量计费，接入类型计费等计费模式
 - 重构的定时任务系统，一个命令即可自动完成所有定时任务
 - 深度集成大型语言模型（Large Language Model），支持工单智能回复，文档生成等功能
-- 一键对接 OpenAI，Gemini Pro，Hugging Face Hosted API 和 Cloudflare Workers AI 等人工智能服务
+- 一键对接 OpenAI，Google AI，Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI 和 Anthropic 等大型语言模型服务
 
 - Integrate multiple payment systems such as Alipay F2F, PayPal, Stripe, etc.
 - Support multiple mail services, built-in mail queue function, no third-party components are required to use
@@ -49,7 +49,7 @@ SSPanel UIM is a multi-purpose proxy service sales management system designed fo
 - Refactored store system, support billing modes including but not limited to annual/monthly, pay-as-you-go, access type billing, etc.
 - Refactored scheduled task system, one command can automatically complete all scheduled tasks
 - Deep integration of large language models, support intelligent reply to ticket, document generation and other functions
-- One-click access to OpenAI, Gemini Pro, Hugging Face Hosted API, Cloudflare Workers AI and other artificial intelligence services
+- One-click access to OpenAI, Google AI, Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI and Anthropic and other large language model services
 
 ## 安装 / Installation
 
@@ -58,8 +58,8 @@ SSPanel UIM requires the following programs to be installed and run normally:
 
 - Git
 - Nginx（必须使用 HTTPS/HTTPS is REQUIRED）
-- PHP 8.2+ （强烈推荐开启 OPcache /OPcache is highly recommended）
-- MariaDB 10.11+（关闭严格模式，不兼容 MySQL/Disable strict mode, DO NOT USE MySQL）
+- PHP 8.2+ （强烈推荐开启 OPcache+JIT /OPcache+JIT is highly recommended）
+- MariaDB 10.11+（关闭严格模式/Disable strict mode）
 - Redis 7.0+
 
 ## 文档 / Documentation
@@ -82,17 +82,12 @@ You can view other projects maintained by our developers on the [SSPanel-UIM Dev
 
 ### M1Screw
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O850UEH)
+<a href="https://www.patreon.com/catdev"><img src=".github/PATREON.png" width="300"></a>
 
-<a href="https://www.vultr.com/?ref=8941355-8H"><img src="https://www.vultr.com/media/logo_onwhite.svg" alt="Vultr" width="200" align="left" style="background-color:#2e3136"/></a>
+<a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
 
-<br>
-<br>
+<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c"><img src=".github/do.png" width="300"></a>
 
-<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge"  align="left" /></a>
-
-<br>
-<br>
 
 ## 赞助商 / Sponsors
 

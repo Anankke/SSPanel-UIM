@@ -106,17 +106,17 @@ $_ENV['maxmind_license_key'] = '';
 $_ENV['geoip_locale']        = 'en';
 
 // Large language model powered ticket reply and more
-$_ENV['llm_backend'] = 'openai'; // openai/google-ai/huggingface/cf-workers-ai
+$_ENV['llm_backend'] = 'openai'; // openai/google-ai/huggingface/cf-workers-ai/anthropic
 // OpenAI ChatGPT
 $_ENV['openai_api_key'] = '';
 $_ENV['openai_model']   = 'gpt-4-turbo-preview';
 // Google AI API
 $_ENV['google_ai_api_key']  = '';
-$_ENV['google_ai_model_id'] = 'gemini-pro';
+$_ENV['google_ai_model_id'] = 'gemini-1.5-pro-latest';
 // Vertex AI API
 $_ENV['vertex_ai_access_token']  = '';
 $_ENV['vertex_ai_location'] = 'us-central1';
-$_ENV['vertex_ai_model_id'] = 'gemini-pro';
+$_ENV['vertex_ai_model_id'] = 'gemini-1.0-pro';
 $_ENV['vertex_ai_project_id'] = '';
 // Hugging Face Inference API
 $_ENV['huggingface_api_key']      = '';
@@ -125,6 +125,9 @@ $_ENV['huggingface_endpoint_url'] = '';
 $_ENV['cf_workers_ai_account_id'] = '';
 $_ENV['cf_workers_ai_api_token']  = '';
 $_ENV['cf_workers_ai_model_id']   = '@cf/meta/llama-2-7b-chat-int8';
+// Anthropic
+$_ENV['anthropic_api_key'] = '';
+$_ENV['anthropic_model_id'] = 'claude-3-opus-20240229';
 
 // ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
 $_ENV['github_access_token'] = '';

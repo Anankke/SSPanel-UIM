@@ -53,6 +53,10 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="#mailchimp" class="nav-link" data-bs-toggle="tab">Mailchimp</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#alibabacloud" class="nav-link" data-bs-toggle="tab">AlibabaCloud DM</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -83,10 +87,16 @@
                                                         postal
                                                     </option>
                                                     <option value="ses"
-                                                            {if $settings['email_driver'] === "ses"}selected{/if}>ses
+                                                            {if $settings['email_driver'] === "ses"}selected{/if}>
+                                                        ses
                                                     </option>
                                                     <option value="mailchimp"
-                                                            {if $settings['email_driver'] === "mailchimp"}selected{/if}>ses
+                                                            {if $settings['email_driver'] === "mailchimp"}selected{/if}>
+                                                        mailchimp
+                                                    </option>
+                                                    <option value="alibabacloud"
+                                                            {if $settings['email_driver'] === "alibabacloud"}selected{/if}>
+                                                        alibabacloud
                                                     </option>
                                                 </select>
                                             </div>
@@ -138,28 +148,28 @@
                                 <div class="tab-pane" id="smtp">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">SMTP 主机地址</label>
+                                            <label class="form-label col-3 col-form-label">Host</label>
                                             <div class="col">
                                                 <input id="smtp_host" type="text" class="form-control"
                                                        value="{$settings['smtp_host']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">SMTP 用户名</label>
+                                            <label class="form-label col-3 col-form-label">Username</label>
                                             <div class="col">
                                                 <input id="smtp_username" type="text" class="form-control"
                                                        value="{$settings['smtp_username']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">SMTP 密码</label>
+                                            <label class="form-label col-3 col-form-label">Password</label>
                                             <div class="col">
                                                 <input id="smtp_password" type="text" class="form-control"
                                                        value="{$settings['smtp_password']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">SMTP 端口</label>
+                                            <label class="form-label col-3 col-form-label">Port</label>
                                             <div class="col">
                                                 <select id="smtp_port" class="col form-select"
                                                         value="{$settings['smtp_port']}">
@@ -185,33 +195,33 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">SMTP 发件人名称</label>
+                                            <label class="form-label col-3 col-form-label">Name</label>
                                             <div class="col">
                                                 <input id="smtp_name" type="text" class="form-control"
                                                        value="{$settings['smtp_name']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">SMTP 发信地址</label>
+                                            <label class="form-label col-3 col-form-label">Sener</label>
                                             <div class="col">
                                                 <input id="smtp_sender" type="text" class="form-control"
                                                        value="{$settings['smtp_sender']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">是否使用 TLS/SSL</label>
+                                            <label class="form-label col-3 col-form-label">Enable TLS/SSL</label>
                                             <div class="col">
                                                 <select id="smtp_ssl" class="col form-select"
                                                         value="{$settings['smtp_ssl']}">
-                                                    <option value="0" {if ! $settings['smtp_ssl']}selected{/if}>关闭
+                                                    <option value="0" {if ! $settings['smtp_ssl']}selected{/if}>False
                                                     </option>
-                                                    <option value="1" {if $settings['smtp_ssl']}selected{/if}>开启
+                                                    <option value="1" {if $settings['smtp_ssl']}selected{/if}>True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">客户邮件副本接收邮箱</label>
+                                            <label class="form-label col-3 col-form-label">BBC</label>
                                             <div class="col">
                                                 <input id="smtp_bbc" type="text" class="form-control"
                                                        value="{$settings['smtp_bbc']}">
@@ -222,28 +232,28 @@
                                 <div class="tab-pane" id="mailgun">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailgun 密钥</label>
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
                                             <div class="col">
                                                 <input id="mailgun_key" type="text" class="form-control"
                                                        value="{$settings['mailgun_key']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailgun 域名</label>
+                                            <label class="form-label col-3 col-form-label">Domain</label>
                                             <div class="col">
                                                 <input id="mailgun_domain" type="text" class="form-control"
                                                        value="{$settings['mailgun_domain']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailgun 发信地址</label>
+                                            <label class="form-label col-3 col-form-label">Sender</label>
                                             <div class="col">
                                                 <input id="mailgun_sender" type="text" class="form-control"
                                                        value="{$settings['mailgun_sender']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailgun 发信人名称</label>
+                                            <label class="form-label col-3 col-form-label">Sender Name</label>
                                             <div class="col">
                                                 <input id="mailgun_sender_name" type="text" class="form-control"
                                                        value="{$settings['mailgun_sender_name']}">
@@ -254,21 +264,21 @@
                                 <div class="tab-pane" id="sendgrid">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Sendgrid 密钥</label>
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
                                             <div class="col">
                                                 <input id="sendgrid_key" type="text" class="form-control"
                                                        value="{$settings['sendgrid_key']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Sendgrid 发信地址</label>
+                                            <label class="form-label col-3 col-form-label">Sender</label>
                                             <div class="col">
                                                 <input id="sendgrid_sender" type="text" class="form-control"
                                                        value="{$settings['sendgrid_sender']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Sendgrid 发件人名称</label>
+                                            <label class="form-label col-3 col-form-label">Name</label>
                                             <div class="col">
                                                 <input id="sendgrid_name" type="text" class="form-control"
                                                        value="{$settings['sendgrid_name']}">
@@ -279,28 +289,28 @@
                                 <div class="tab-pane" id="postal">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Postal API地址</label>
+                                            <label class="form-label col-3 col-form-label">Host</label>
                                             <div class="col">
                                                 <input id="postal_host" type="text" class="form-control"
                                                        value="{$settings['postal_host']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Postal API密钥</label>
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
                                             <div class="col">
                                                 <input id="postal_key" type="text" class="form-control"
                                                        value="{$settings['postal_key']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Postal发件邮箱</label>
+                                            <label class="form-label col-3 col-form-label">Sender</label>
                                             <div class="col">
                                                 <input id="postal_sender" type="text" class="form-control"
                                                        value="{$settings['postal_sender']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Postal发件人名称</label>
+                                            <label class="form-label col-3 col-form-label">Name</label>
                                             <div class="col">
                                                 <input id="postal_name" type="text" class="form-control"
                                                        value="{$settings['postal_name']}">
@@ -311,28 +321,28 @@
                                 <div class="tab-pane" id="ses">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">AWS 密钥 ID</label>
+                                            <label class="form-label col-3 col-form-label">Access Key ID</label>
                                             <div class="col">
-                                                <input id="aws_access_key_id" type="text" class="form-control"
-                                                       value="{$settings['aws_access_key_id']}">
+                                                <input id="aws_ses_access_key_id" type="text" class="form-control"
+                                                       value="{$settings['aws_ses_access_key_id']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">AWS 密钥</label>
+                                            <label class="form-label col-3 col-form-label">Access Key Secret</label>
                                             <div class="col">
-                                                <input id="aws_secret_access_key" type="text" class="form-control"
-                                                       value="{$settings['aws_secret_access_key']}">
+                                                <input id="aws_ses_access_key_secret" type="text" class="form-control"
+                                                       value="{$settings['aws_ses_access_key_secret']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">AWS 区域</label>
+                                            <label class="form-label col-3 col-form-label">Region</label>
                                             <div class="col">
-                                                <input id="aws_region" type="text" class="form-control"
-                                                       value="{$settings['aws_region']}">
+                                                <input id="aws_ses_region" type="text" class="form-control"
+                                                       value="{$settings['aws_ses_region']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">AWS SES 发信地址</label>
+                                            <label class="form-label col-3 col-form-label">Sender</label>
                                             <div class="col">
                                                 <input id="aws_ses_sender" type="text" class="form-control"
                                                        value="{$settings['aws_ses_sender']}">
@@ -343,24 +353,63 @@
                                 <div class="tab-pane" id="mailchimp">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailchimp API密钥</label>
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
                                             <div class="col">
                                                 <input id="mailchimp_key" type="text" class="form-control"
                                                        value="{$settings['mailchimp_key']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailchimp发件邮箱</label>
+                                            <label class="form-label col-3 col-form-label">From Email</label>
                                             <div class="col">
                                                 <input id="mailchimp_from_email" type="text" class="form-control"
                                                        value="{$settings['mailchimp_from_email']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Mailchimp发件人名称</label>
+                                            <label class="form-label col-3 col-form-label">From Name</label>
                                             <div class="col">
                                                 <input id="mailchimp_from_name" type="text" class="form-control"
                                                        value="{$settings['mailchimp_from_name']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="alibabacloud">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Access Key ID</label>
+                                            <div class="col">
+                                                <input id="alibabacloud_dm_access_key_id" type="text" class="form-control"
+                                                       value="{$settings['alibabacloud_dm_access_key_id']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Access Key Secret</label>
+                                            <div class="col">
+                                                <input id="alibabacloud_dm_access_key_secret" type="text" class="form-control"
+                                                       value="{$settings['alibabacloud_dm_access_key_secret']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Endpoint</label>
+                                            <div class="col">
+                                                <input id="alibabacloud_dm_endpoint" type="text" class="form-control"
+                                                       value="{$settings['alibabacloud_dm_endpoint']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Account Name</label>
+                                            <div class="col">
+                                                <input id="alibabacloud_dm_account_name" type="text" class="form-control"
+                                                       value="{$settings['alibabacloud_dm_account_name']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">From Alias</label>
+                                            <div class="col">
+                                                <input id="alibabacloud_dm_from_alias" type="text" class="form-control"
+                                                       value="{$settings['alibabacloud_dm_from_alias']}">
                                             </div>
                                         </div>
                                     </div>

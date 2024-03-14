@@ -481,7 +481,7 @@
     },
     {
         "id": null,
-        "item": "aws_access_key_id",
+        "item": "aws_ses_access_key_id",
         "value": "",
         "class": "email",
         "is_public": 0,
@@ -491,7 +491,7 @@
     },
     {
         "id": null,
-        "item": "aws_secret_access_key",
+        "item": "aws_ses_access_key_secret",
         "value": "",
         "class": "email",
         "is_public": 0,
@@ -501,7 +501,7 @@
     },
     {
         "id": null,
-        "item": "aws_region",
+        "item": "aws_ses_region",
         "value": "",
         "class": "email",
         "is_public": 0,
@@ -517,7 +517,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "aws ses发送者"
+        "mark": "AWS SES Sender"
     },
     {
         "id": null,
@@ -527,7 +527,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "Mailchimp API密钥"
+        "mark": "Mailchimp Api Key"
     },
     {
         "id": null,
@@ -537,7 +537,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "Mailchimp Email"
+        "mark": "Mailchimp From Email"
     },
     {
         "id": null,
@@ -547,7 +547,57 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "Mailchimp Sender"
+        "mark": "Mailchimp From Name"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_access_key_id",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Access Key ID"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_access_key_secret",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Access Key Secret"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_endpoint",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Endpoint"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_account_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Account Name"
+    },
+    {
+        "id": null,
+        "item": "alibabacloud_dm_from_alias",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM From Alias"
     },
     {
         "id": null,

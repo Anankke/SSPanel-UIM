@@ -26,7 +26,7 @@ class DBTest extends TestCase
         $_ENV['db_port'] = '3306';
 
         $expected1 = [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'read' => [
                 'host' => 'localhost',
             ],
@@ -52,7 +52,7 @@ class DBTest extends TestCase
         $_ENV['db_socket'] = '/tmp/mysql.sock';
 
         $expected2 = [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => 'localhost',
             'unix_socket' => '/tmp/mysql.sock',
             'database' => 'test_db',
