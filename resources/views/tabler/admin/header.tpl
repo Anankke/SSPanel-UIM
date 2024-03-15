@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <meta name="format-detection" content="telephone=no"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>{$config['appName']}</title>
     <!-- CSS files -->
     <link href="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="//{$config['jsdelivr_url']}/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet"/>
-    <link href="//cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.css" rel="stylesheet"/>
     <!-- JS files -->
     <script src="//{$config['jsdelivr_url']}/npm/qrcode_js@latest/qrcode.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;

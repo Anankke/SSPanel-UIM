@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.300.17",
+            "version": "3.301.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ddd93079be1646e7db727d078f4c5beee1ddb052"
+                "reference": "a0173e793f244eeedd0a47d40437a3bb9d8f05b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ddd93079be1646e7db727d078f4c5beee1ddb052",
-                "reference": "ddd93079be1646e7db727d078f4c5beee1ddb052",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a0173e793f244eeedd0a47d40437a3bb9d8f05b8",
+                "reference": "a0173e793f244eeedd0a47d40437a3bb9d8f05b8",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.17"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.0"
             },
-            "time": "2024-03-13T18:08:32+00:00"
+            "time": "2024-03-14T18:09:12+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1028,16 +1028,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "3ce240142f6d59b808dd65c1f52f7a1c252e6cfd"
+                "reference": "18fc0ab083a48f85bfee31f3786537353b8a8403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/3ce240142f6d59b808dd65c1f52f7a1c252e6cfd",
-                "reference": "3ce240142f6d59b808dd65c1f52f7a1c252e6cfd",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/18fc0ab083a48f85bfee31f3786537353b8a8403",
+                "reference": "18fc0ab083a48f85bfee31f3786537353b8a8403",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1084,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.4.1"
+                "source": "https://github.com/composer/ca-bundle/tree/1.4.2"
             },
             "funding": [
                 {
@@ -1100,7 +1100,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-23T10:16:52+00:00"
+            "time": "2024-03-14T13:20:33+00:00"
         },
         {
             "name": "dasprid/enum",
@@ -1703,16 +1703,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "1a81a4ba053807ee5602e0dd27e9d8f5e779fc06"
+                "reference": "6a5cd843d209a270587d62c40d797ea35e47ed5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/1a81a4ba053807ee5602e0dd27e9d8f5e779fc06",
-                "reference": "1a81a4ba053807ee5602e0dd27e9d8f5e779fc06",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/6a5cd843d209a270587d62c40d797ea35e47ed5d",
+                "reference": "6a5cd843d209a270587d62c40d797ea35e47ed5d",
                 "shasum": ""
             },
             "require": {
@@ -1754,11 +1754,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-12T18:40:10+00:00"
+            "time": "2024-03-13T20:54:13+00:00"
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1804,7 +1804,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1855,7 +1855,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1903,7 +1903,7 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1971,7 +1971,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -2017,7 +2017,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -2067,7 +2067,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v11.0.5",
+            "version": "v11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -5029,16 +5029,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.13.0",
+            "version": "v13.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "8dc58bab25f222a74d1157d4ca9e9e48451dd0c1"
+                "reference": "d569265e79dc82329dadea1b1088a0a29c7a8a76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/8dc58bab25f222a74d1157d4ca9e9e48451dd0c1",
-                "reference": "8dc58bab25f222a74d1157d4ca9e9e48451dd0c1",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d569265e79dc82329dadea1b1088a0a29c7a8a76",
+                "reference": "d569265e79dc82329dadea1b1088a0a29c7a8a76",
                 "shasum": ""
             },
             "require": {
@@ -5082,9 +5082,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.13.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.14.0"
             },
-            "time": "2024-02-29T20:22:15+00:00"
+            "time": "2024-03-14T21:12:02+00:00"
         },
         {
             "name": "symfony/clock",
