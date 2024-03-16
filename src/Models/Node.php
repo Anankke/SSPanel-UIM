@@ -61,6 +61,11 @@ final class Node extends Model
         };
     }
 
+    public function getConnectionTypeAttribute(): int
+    {
+        return $this->ipv6 !== '::1' && $this->ipv4 !== '127.0.0.1' ? 2 : ($this->ipv4 !== '127.0.0.1' ? 0 : 1);
+    }
+
     /**
      * 节点是否显示和隐藏
      */
