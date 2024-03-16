@@ -9,6 +9,7 @@ use Illuminate\Database\DatabaseManager;
 use Smarty;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use const BASE_PATH;
 
 final class View
 {
