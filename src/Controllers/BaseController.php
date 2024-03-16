@@ -10,6 +10,8 @@ use App\Services\View;
 use Smarty;
 use Twig\Environment;
 use voku\helper\AntiXSS;
+use function microtime;
+use function round;
 
 abstract class BaseController
 {
@@ -55,7 +57,10 @@ abstract class BaseController
                 View::$connection
                     ->connection('default')
                     ->getQueryLog()
-            )->assign('optTime', (microtime(true) - View::$beginTime) * 1000);
+            )->assign(
+                'optTime',
+                round((microtime(true) - View::$beginTime) * 1000, 2)
+            );
         }
 
         return $this->view;
@@ -75,7 +80,10 @@ abstract class BaseController
                     ->connection('default')
                     ->getQueryLog()
             );
-            $this->twig->addGlobal('optTime', (microtime(true) - View::$beginTime) * 1000);
+            $this->twig->addGlobal(
+                'optTime',
+                round((microtime(true) - View::$beginTime) * 1000, 2)
+            );
         }
 
         return $this->twig;

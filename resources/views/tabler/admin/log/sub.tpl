@@ -37,63 +37,26 @@
         </div>
     </div>
 
+    {include file='datatable.tpl'}
+
     <script>
-        let table = new DataTable('#data-table', {
-            "serverSide": true,
-            "searching": true,
-            "ordering": true,
-            ajax: {
-                url: '/admin/subscribe/ajax',
-                type: 'POST',
-                dataSrc: 'subscribes.data'
+        tableConfig.serverSide = true;
+        tableConfig.ajax = {
+            url: '/admin/subscribe/ajax',
+            type: 'POST',
+            dataSrc: 'subscribes.data'
+        };
+        tableConfig.order = [
+            [0, 'desc']
+        ];
+        tableConfig.columnDefs = [
+            {
+                orderable: false,
+                targets: [4]
             },
-            "autoWidth": false,
-            'iDisplayLength': 10,
-            'scrollX': true,
-            'order': [
-                [0, 'desc']
-            ],
-            columns: [
-                {foreach $details['field'] as $key => $value}
-                {
-                    data: '{$key}'
-                },
-                {/foreach}
-            ],
-            columnDefs: [
-                {
-                    orderable: false,
-                    targets: [4]
-                },
-            ],
-            "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row card-footer d-flex d-flexalign-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            language: {
-                "sProcessing": "处理中...",
-                "sLengthMenu": "显示 _MENU_ 条",
-                "sZeroRecords": "没有匹配结果",
-                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
-                "sInfoFiltered": "（在 _MAX_ 项中查找）",
-                "sInfoPostFix": "",
-                "sSearch": "<i class=\"ti ti-search\"></i> ",
-                "sUrl": "",
-                "sEmptyTable": "表中数据为空",
-                "sLoadingRecords": "载入中...",
-                "sInfoThousands": ",",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "<i class=\"titi-arrow-left\"></i>",
-                    "sNext": "<i class=\"ti ti-arrow-right\"><i>",
-                    "sLast": "末页"
-                },
-                "oAria": {
-                    "sSortAscending": ": 以升序排列此列",
-                    "sSortDescending": ": 以降序排列此列"
-                }
-            },
-        });
+        ];
+
+        let table = new DataTable('#data-table', tableConfig);
 
         function loadTable() {
             table;

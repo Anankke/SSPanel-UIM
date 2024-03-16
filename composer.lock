@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.300.17",
+            "version": "3.301.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ddd93079be1646e7db727d078f4c5beee1ddb052"
+                "reference": "0a910d2b35e7087337cdf3569dc9b6ce232aafba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ddd93079be1646e7db727d078f4c5beee1ddb052",
-                "reference": "ddd93079be1646e7db727d078f4c5beee1ddb052",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0a910d2b35e7087337cdf3569dc9b6ce232aafba",
+                "reference": "0a910d2b35e7087337cdf3569dc9b6ce232aafba",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.17"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.1"
             },
-            "time": "2024-03-13T18:08:32+00:00"
+            "time": "2024-03-15T18:14:42+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1028,28 +1028,28 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "3ce240142f6d59b808dd65c1f52f7a1c252e6cfd"
+                "reference": "0c5ccfcfea312b5c5a190a21ac5cef93f74baf99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/3ce240142f6d59b808dd65c1f52f7a1c252e6cfd",
-                "reference": "3ce240142f6d59b808dd65c1f52f7a1c252e6cfd",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/0c5ccfcfea312b5c5a190a21ac5cef93f74baf99",
+                "reference": "0c5ccfcfea312b5c5a190a21ac5cef93f74baf99",
                 "shasum": ""
             },
             "require": {
                 "ext-openssl": "*",
                 "ext-pcre": "*",
-                "php": "^5.3.2 || ^7.0 || ^8.0"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.55",
+                "phpstan/phpstan": "^1.10",
                 "psr/log": "^1.0",
                 "symfony/phpunit-bridge": "^4.2 || ^5",
-                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
+                "symfony/process": "^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "type": "library",
             "extra": {
@@ -1084,7 +1084,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.4.1"
+                "source": "https://github.com/composer/ca-bundle/tree/1.5.0"
             },
             "funding": [
                 {
@@ -1100,7 +1100,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-23T10:16:52+00:00"
+            "time": "2024-03-15T14:00:32+00:00"
         },
         {
             "name": "dasprid/enum",
@@ -1703,16 +1703,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "1a81a4ba053807ee5602e0dd27e9d8f5e779fc06"
+                "reference": "6a5cd843d209a270587d62c40d797ea35e47ed5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/1a81a4ba053807ee5602e0dd27e9d8f5e779fc06",
-                "reference": "1a81a4ba053807ee5602e0dd27e9d8f5e779fc06",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/6a5cd843d209a270587d62c40d797ea35e47ed5d",
+                "reference": "6a5cd843d209a270587d62c40d797ea35e47ed5d",
                 "shasum": ""
             },
             "require": {
@@ -1754,11 +1754,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-12T18:40:10+00:00"
+            "time": "2024-03-13T20:54:13+00:00"
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1804,7 +1804,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1855,7 +1855,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1903,16 +1903,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "4ed34edc7d7980971b3657842efe72280903a63d"
+                "reference": "c04b70c3a439fbc1ee804b9ce195671d17f3c729"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/4ed34edc7d7980971b3657842efe72280903a63d",
-                "reference": "4ed34edc7d7980971b3657842efe72280903a63d",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/c04b70c3a439fbc1ee804b9ce195671d17f3c729",
+                "reference": "c04b70c3a439fbc1ee804b9ce195671d17f3c729",
                 "shasum": ""
             },
             "require": {
@@ -1967,11 +1967,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-12T18:18:48+00:00"
+            "time": "2024-03-15T21:04:19+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -2017,7 +2017,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -2067,7 +2067,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v11.0.5",
+            "version": "v11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -3449,16 +3449,16 @@
         },
         {
             "name": "php-http/promise",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/promise.git",
-                "reference": "2916a606d3b390f4e9e8e2b8dd68581508be0f07"
+                "reference": "fc85b1fba37c169a69a07ef0d5a8075770cc1f83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/promise/zipball/2916a606d3b390f4e9e8e2b8dd68581508be0f07",
-                "reference": "2916a606d3b390f4e9e8e2b8dd68581508be0f07",
+                "url": "https://api.github.com/repos/php-http/promise/zipball/fc85b1fba37c169a69a07ef0d5a8075770cc1f83",
+                "reference": "fc85b1fba37c169a69a07ef0d5a8075770cc1f83",
                 "shasum": ""
             },
             "require": {
@@ -3495,9 +3495,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/promise/issues",
-                "source": "https://github.com/php-http/promise/tree/1.3.0"
+                "source": "https://github.com/php-http/promise/tree/1.3.1"
             },
-            "time": "2024-01-04T18:49:48+00:00"
+            "time": "2024-03-15T13:55:21+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -5029,16 +5029,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.13.0",
+            "version": "v13.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "8dc58bab25f222a74d1157d4ca9e9e48451dd0c1"
+                "reference": "d569265e79dc82329dadea1b1088a0a29c7a8a76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/8dc58bab25f222a74d1157d4ca9e9e48451dd0c1",
-                "reference": "8dc58bab25f222a74d1157d4ca9e9e48451dd0c1",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d569265e79dc82329dadea1b1088a0a29c7a8a76",
+                "reference": "d569265e79dc82329dadea1b1088a0a29c7a8a76",
                 "shasum": ""
             },
             "require": {
@@ -5082,9 +5082,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.13.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.14.0"
             },
-            "time": "2024-02-29T20:22:15+00:00"
+            "time": "2024-03-14T21:12:02+00:00"
         },
         {
             "name": "symfony/clock",

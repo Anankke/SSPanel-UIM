@@ -1,6 +1,6 @@
 {include file='admin/header.tpl'}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
 
 <div class="page-wrapper">
     <div class="container-xl">

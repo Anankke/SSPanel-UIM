@@ -28,6 +28,7 @@ final class ServerController extends BaseController
                 'name' => $node->name,
                 'class' => (int) $node->node_class,
                 'color' => $node->color,
+                'connection_type' => $node->connection_type,
                 'sort' => $node->sort(),
                 'online_user' => $node->online_user,
                 'online' => $node->getNodeOnlineStatus(),
