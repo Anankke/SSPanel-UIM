@@ -185,49 +185,53 @@ final class Cron
 
     public static function processEmailQueue(): void
     {
-        //记录当前时间戳
-        $timestamp = time();
-        //邮件队列处理
-        while (true) {
-            if (time() - $timestamp > 299) {
-                echo Tools::toDateTime(time()) . '邮件队列处理超时，已跳过' . PHP_EOL;
-                break;
-            }
-
-            DB::beginTransaction();
-            $email_queues_raw = DB::select('SELECT * FROM email_queue LIMIT 1 FOR UPDATE SKIP LOCKED');
-
-            if (count($email_queues_raw) === 0) {
-                DB::commit();
-                break;
-            }
-
-            $email_queues = array_map(static function ($value) {
-                return (array) $value;
-            }, $email_queues_raw);
-            $email_queue = $email_queues[0];
-            echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
-            DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
-
-            if (Tools::isEmail($email_queue['to_email'])) {
-                try {
-                    Mail::send(
-                        $email_queue['to_email'],
-                        $email_queue['subject'],
-                        $email_queue['template'],
-                        json_decode($email_queue['array'])
-                    );
-                } catch (Exception|ClientExceptionInterface $e) {
-                    echo $e->getMessage();
+        if ((new EmailQueue())->count() === 0) {
+            echo Tools::toDateTime(time()) . ' 邮件队列为空' . PHP_EOL;
+        } else {
+            //记录当前时间戳
+            $timestamp = time();
+            //邮件队列处理
+            while (true) {
+                if (time() - $timestamp > 299) {
+                    echo Tools::toDateTime(time()) . '邮件队列处理超时，已跳过' . PHP_EOL;
+                    break;
                 }
-            } else {
-                echo $email_queue['to_email'] . ' 邮箱格式错误，已跳过' . PHP_EOL;
+
+                DB::beginTransaction();
+                $email_queues_raw = DB::select('SELECT * FROM email_queue LIMIT 1 FOR UPDATE SKIP LOCKED');
+
+                if (count($email_queues_raw) === 0) {
+                    DB::commit();
+                    break;
+                }
+
+                $email_queues = array_map(static function ($value) {
+                    return (array) $value;
+                }, $email_queues_raw);
+                $email_queue = $email_queues[0];
+                echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
+                DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
+
+                if (Tools::isEmail($email_queue['to_email'])) {
+                    try {
+                        Mail::send(
+                            $email_queue['to_email'],
+                            $email_queue['subject'],
+                            $email_queue['template'],
+                            json_decode($email_queue['array'])
+                        );
+                    } catch (Exception|ClientExceptionInterface $e) {
+                        echo $e->getMessage();
+                    }
+                } else {
+                    echo $email_queue['to_email'] . ' 邮箱格式错误，已跳过' . PHP_EOL;
+                }
+
+                DB::commit();
             }
 
-            DB::commit();
+            echo Tools::toDateTime(time()) . ' 邮件队列处理完成' . PHP_EOL;
         }
-
-        echo Tools::toDateTime(time()) . ' 邮件队列处理完成' . PHP_EOL;
     }
 
     public static function processTabpOrderActivation(): void
@@ -414,7 +418,7 @@ final class Cron
 
     public static function resetTodayTraffic(): void
     {
-        User::query()->update(['transfer_today' => 0]);
+        (new User())->update(['transfer_today' => 0]);
 
         echo Tools::toDateTime(time()) . ' 重设用户每日流量完成' . PHP_EOL;
     }
