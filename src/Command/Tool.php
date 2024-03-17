@@ -45,6 +45,7 @@ final class Tool extends Command
 │ ├─ resetNodeBandwidth      - 重置所有节点流量
 │ ├─ resetPort               - 重置所有用户端口
 │ ├─ resetBandwidth          - 重置所有用户流量
+│ ├─ resetTodayBandwidth     - 重置今日流量
 │ ├─ resetPassword           - 重置所有用户登录密码
 │ ├─ resetPasswd             - 重置所有用户连接密码
 │ ├─ clearSubToken           - 清除用户 Sub Token
@@ -238,6 +239,16 @@ EOL;
         ]);
 
         echo '已重置所有用户流量' . PHP_EOL;
+    }
+
+    /**
+     * 重置今日流量
+     */
+    public function resetTodayBandwidth(): void
+    {
+        (new ModelsUser())->query()->update(['transfer_today' => 0]);
+
+        echo '已重置今日流量' . PHP_EOL;
     }
 
     /**

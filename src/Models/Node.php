@@ -63,6 +63,7 @@ final class Node extends Model
 
     public function getConnectionTypeAttribute(): int
     {
+        // 0 = IPv4, 1 = IPv6, 2 = DualStack
         return $this->ipv6 !== '::1' && $this->ipv4 !== '127.0.0.1' ? 2 : ($this->ipv4 !== '127.0.0.1' ? 0 : 1);
     }
 
