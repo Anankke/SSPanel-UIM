@@ -84,7 +84,7 @@
         }
 
         function cancelOrder(order_id) {
-            $('#notice-message').text('确定取消此订单？');
+            $('#notice-message').text('确定取消此订单？如果关联账单已支付，将会退款至用户余额。');
             $('#notice-dialog').modal('show');
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
