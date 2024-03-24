@@ -657,6 +657,24 @@
         "mark": "极验密钥"
     },
     {
+        "item": "hcaptcha_sitekey",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "hCaptcha Site Key"
+    },
+    {
+        "item": "hcaptcha_secret",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "hCaptcha Secret"
+    },
+    {
         "item": "enable_telegram",
         "value": "0",
         "class": "im",

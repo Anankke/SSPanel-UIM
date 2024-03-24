@@ -22,6 +22,9 @@ final class CaptchaController extends BaseController
         // Geetest
         'geetest_id',
         'geetest_key',
+        // hCaptcha
+        'hcaptcha_sitekey',
+        'hcaptcha_secret',
     ];
 
     /**

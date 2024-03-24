@@ -58,7 +58,7 @@
                     <div class="mb-3">
                         <div class="input-group mb-3">
                         {if $public_setting['enable_reg_captcha']}
-                            {include file='captcha_div.tpl'}
+                            {include file='captcha/div.tpl'}
                         {/if}
                         </div>
                     </div>
@@ -69,12 +69,7 @@
                                         emailcode: document.getElementById("emailcode").value,
                                     {/if}
                                     {if $public_setting['enable_reg_captcha']}
-                                        {if $public_setting['captcha_provider'] === 'turnstile'}
-                                            turnstile: document.querySelector("[name=cf-turnstile-response]").value,
-                                        {/if}
-                                        {if $public_setting['captcha_provider'] === 'geetest'}
-                                            geetest: geetest_result,
-                                        {/if}
+                                        {include file='captcha/ajax.tpl'}
                                     {/if}
                                     name: document.getElementById("name").value,
                                     email: document.getElementById("email").value,
@@ -100,7 +95,7 @@
 </div>
 
 {if $public_setting['enable_reg_captcha']}
-    {include file='captcha_js.tpl'}
+    {include file='captcha/js.tpl'}
 {/if}
 
 {include file='footer.tpl'}

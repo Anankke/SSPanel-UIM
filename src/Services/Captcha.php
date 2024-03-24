@@ -21,6 +21,9 @@ final class Captcha
             'geetest' => [
                 'geetest_id' => Config::obtain('geetest_id'),
             ],
+            'hcaptcha' => [
+                'hcaptcha_sitekey' => Config::obtain('hcaptcha_sitekey'),
+            ],
             default => [],
         };
     }
@@ -57,6 +60,7 @@ final class Captcha
                         echo $e->getMessage();
                     }
                 }
+
                 break;
             case 'geetest':
                 if (isset($param['geetest'])) {
@@ -98,6 +102,32 @@ final class Captcha
                         $result = true;
                     }
                 }
+
+                break;
+            case 'hcaptcha':
+                if (isset($param['hcaptcha'])) {
+                    $hcaptcha_url = 'https://hcaptcha.com/siteverify';
+
+                    $hcaptcha_headers = [
+                        'Content-Type' => 'application/x-www-form-urlencoded',
+                    ];
+
+                    $hcaptcha_body = [
+                        'secret' => Config::obtain('hcaptcha_secret'),
+                        'response' => $param['hcaptcha'],
+                    ];
+
+                    try {
+                        $result = json_decode($client->post($hcaptcha_url, [
+                            'headers' => $hcaptcha_headers,
+                            'form_params' => $hcaptcha_body,
+                            'timeout' => 3,
+                        ])->getBody()->getContents())->success;
+                    } catch (GuzzleException $e) {
+                        echo $e->getMessage();
+                    }
+                }
+
                 break;
             default:
                 return false;
