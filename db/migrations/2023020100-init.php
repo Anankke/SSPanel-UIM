@@ -10,21 +10,21 @@ return new class() implements MigrationInterface {
     {
         DB::getPdo()->exec(
             "CREATE TABLE `announcement` (
-                `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '公告ID',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '公告ID',
                 `date` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '公告日期',
-                `content` text NOT NULL DEFAULT '' COMMENT '公告内容',
+                `content` longtext NOT NULL DEFAULT '' COMMENT '公告内容',
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `config` (
-                `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-                `item` varchar(255) DEFAULT NULL COMMENT '配置项',
-                `value` varchar(2048) DEFAULT NULL COMMENT '配置值',
-                `class` varchar(255) DEFAULT 'default' COMMENT '配置类别',
-                `is_public` int(11) DEFAULT 0 COMMENT '是否为公共参数',
-                `type` varchar(255) DEFAULT NULL COMMENT '配置值类型',
-                `default` varchar(255) DEFAULT NULL COMMENT '默认值',
-                `mark` varchar(255) DEFAULT NULL COMMENT '备注',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '配置ID',
+                `item` varchar(255) NOT NULL DEFAULT '' COMMENT '配置项',
+                `value` varchar(2048) NOT NULL DEFAULT '' COMMENT '配置值',
+                `class` varchar(16) NOT NULL DEFAULT '' COMMENT '配置类别',
+                `is_public` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否为公共参数',
+                `type` varchar(16) NOT NULL DEFAULT '' COMMENT '配置值类型',
+                `default` varchar(2048) NOT NULL DEFAULT '' COMMENT '默认值',
+                `mark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
                 PRIMARY KEY (`id`),
                 KEY `item` (`item`),
                 KEY `class` (`class`),
@@ -32,7 +32,7 @@ return new class() implements MigrationInterface {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `detect_ban_log` (
-                `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁记录ID',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁记录ID',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `detect_number` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '本次违规次数',
                 `ban_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '封禁时长',
@@ -61,8 +61,8 @@ return new class() implements MigrationInterface {
                 `status` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '状态',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`),
-                KEY `node_id` (`node_id`),
-                KEY `list_id` (`list_id`)
+                KEY `list_id` (`list_id`),
+                KEY `node_id` (`node_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `docs` (
@@ -107,7 +107,7 @@ return new class() implements MigrationInterface {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `invoice` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账单ID',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '账单ID',
                 `user_id` bigint(20) unsigned DEFAULT 0 COMMENT '归属用户ID',
                 `order_id` bigint(20) unsigned DEFAULT 0 COMMENT '订单ID',
                 `content` longtext DEFAULT '{}' COMMENT '账单内容' CHECK (json_valid(`content`)),
@@ -124,7 +124,7 @@ return new class() implements MigrationInterface {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `link` (
-                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `token` varchar(255) NOT NULL DEFAULT '' COMMENT '订阅token',
                 `userid` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 PRIMARY KEY (`id`),
@@ -264,10 +264,13 @@ return new class() implements MigrationInterface {
                 `type` varchar(255) NOT NULL DEFAULT '' COMMENT '获取的订阅类型',
                 `request_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '请求IP',
                 `request_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '请求时间',
-                `request_user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT '请求UA',
+                `request_user_agent` varchar(1024) NOT NULL DEFAULT '' COMMENT '请求UA',
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`),
-                KEY `type` (`type`)
+                KEY `type` (`type`),
+                KEY `request_ip` (`request_ip`),
+                KEY `request_time` (`request_time`),
+                KEY `request_user_agent` (`request_user_agent`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `ticket` (
@@ -345,7 +348,7 @@ return new class() implements MigrationInterface {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `user_coupon` (
-                `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '优惠码ID',
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '优惠码ID',
                 `code` varchar(255) NOT NULL DEFAULT '' COMMENT '优惠码',
                 `content` longtext NOT NULL DEFAULT '{}' COMMENT '优惠码内容' CHECK (json_valid(`content`)),
                 `limit` longtext NOT NULL DEFAULT '{}' COMMENT '优惠码限制' CHECK (json_valid(`limit`)),
@@ -354,7 +357,7 @@ return new class() implements MigrationInterface {
                 `expire_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '过期时间',
                 PRIMARY KEY (`id`),
                 KEY `id` (`id`),
-                KEY `code` (`code`),
+                UNIQUE KEY `code` (`code`),
                 KEY `expire_time` (`expire_time`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

@@ -18,6 +18,18 @@
                     <div class="mb-3">
                         <input id="email" type="email" class="form-control" placeholder="电子邮箱">
                     </div>
+                    {if $public_setting['reg_email_verify']}
+                    <div class="mb-3">
+                        <div class="input-group mb-2">
+                            <input id="emailcode" type="text" class="form-control" placeholder="邮箱验证码">
+                            <button id="send-verify-email" class="btn text-blue" type="button"
+                                    hx-post="/auth/send" hx-swap="none" hx-disabled-elt="this"
+                                    hx-vals='js:{ email: document.getElementById("email").value }'>
+                                获取
+                            </button>
+                        </div>
+                    </div>
+                    {/if}
                     <div class="mb-3">
                         <div class="input-group input-group-flat">
                             <input id="password" type="password" class="form-control" placeholder="登录密码">
@@ -28,27 +40,13 @@
                             <input id="confirm_password" type="password" class="form-control" placeholder="重复登录密码">
                         </div>
                     </div>
-                    {if $public_setting['reg_mode'] !== 'close' }
-                        <div class="mb-3">
-                            <div class="input-group input-group-flat">
-                                <input id="invite_code" type="text" class="form-control"
-                                       placeholder="注册邀请码{if $public_setting['reg_mode'] === 'open'}（可选）{else}（必填）{/if}"
-                                       value="{$invite_code}">
-                            </div>
+                    <div class="mb-3">
+                        <div class="input-group input-group-flat">
+                            <input id="invite_code" type="text" class="form-control"
+                                   placeholder="注册邀请码{if $public_setting['reg_mode'] === 'open'}（可选）{else}（必填）{/if}"
+                                   value="{$invite_code}">
                         </div>
-                    {/if}
-                    {if $public_setting['reg_email_verify']}
-                        <div class="mb-3">
-                            <div class="input-group mb-2">
-                                <input id="emailcode" type="text" class="form-control" placeholder="邮箱验证码">
-                                <button id="send-verify-email" class="btn text-blue" type="button"
-                                        hx-post="/auth/send" hx-swap="none"
-                                        hx-vals='js:{ email: document.getElementById("email").value }'>
-                                    获取
-                                </button>
-                            </div>
-                        </div>
-                    {/if}
+                    </div>
                     <div class="mb-3">
                         <label class="form-check">
                             <input id="tos" type="checkbox" class="form-check-input"/>
@@ -60,7 +58,7 @@
                     <div class="mb-3">
                         <div class="input-group mb-3">
                         {if $public_setting['enable_reg_captcha']}
-                            {include file='captcha_div.tpl'}
+                            {include file='captcha/div.tpl'}
                         {/if}
                         </div>
                     </div>
@@ -71,12 +69,7 @@
                                         emailcode: document.getElementById("emailcode").value,
                                     {/if}
                                     {if $public_setting['enable_reg_captcha']}
-                                        {if $public_setting['captcha_provider'] === 'turnstile'}
-                                            turnstile: document.querySelector("[name=cf-turnstile-response]").value,
-                                        {/if}
-                                        {if $public_setting['captcha_provider'] === 'geetest'}
-                                            geetest: geetest_result,
-                                        {/if}
+                                        {include file='captcha/ajax.tpl'}
                                     {/if}
                                     name: document.getElementById("name").value,
                                     email: document.getElementById("email").value,
@@ -102,7 +95,7 @@
 </div>
 
 {if $public_setting['enable_reg_captcha']}
-    {include file='captcha_js.tpl'}
+    {include file='captcha/js.tpl'}
 {/if}
 
 {include file='footer.tpl'}

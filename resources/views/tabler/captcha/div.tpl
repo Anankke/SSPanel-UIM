@@ -4,3 +4,6 @@
 {if $public_setting['captcha_provider'] === 'geetest'}
     <div id="geetest"></div>
 {/if}
+{if $public_setting['captcha_provider'] === 'hcaptcha'}
+    <div class="h-captcha" data-sitekey="{$captcha['hcaptcha_sitekey']}"></div>
+{/if}

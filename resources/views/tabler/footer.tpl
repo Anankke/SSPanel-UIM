@@ -59,6 +59,10 @@
         let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
         let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
 
+        if (evt.detail.elt.id === 'send-verify-email') {
+            document.getElementById('send-verify-email').disabled = true;
+        }
+
         if (res.ret === 1) {
             document.getElementById("success-message").innerHTML = res.msg;
             successDialog.show();

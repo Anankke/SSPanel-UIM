@@ -32,6 +32,6 @@ return new class() implements MigrationInterface {
 
     public function down(): int
     {
-        return 2024012700;
+        return 2024021900;
     }
 };

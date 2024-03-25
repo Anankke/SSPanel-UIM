@@ -546,18 +546,14 @@
                                         <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
                                     {else}
                                         {if $public_setting['enable_checkin_captcha']}
-                                            {include file='captcha_div.tpl'}
+                                            {include file='captcha/div.tpl'}
                                         {/if}
                                         <button id="check-in" class="btn btn-primary ms-auto"
-                                                hx-post="/user/checkin" hx-swap="none"
+                                                hx-post="/user/checkin" hx-swap="none" hx-vals='js:{
                                                 {if $public_setting['enable_checkin_captcha']}
-                                                    {if $public_setting['captcha_provider'] === 'turnstile'}
-                                                        hx-vals='js:{ turnstile: document.querySelector("[name=cf-turnstile-response]").value }'
-                                                    {/if}
-                                                    {if $public_setting['captcha_provider'] === 'geetest'}
-                                                        hx-vals='js:{ geetest: geetest_result }'
-                                                    {/if}
-                                                {/if}>
+                                                    {include file='captcha/ajax.tpl'}
+                                                {/if}
+                                                }'>
                                             签到
                                         </button>
                                     {/if}
@@ -571,7 +567,7 @@
     </div>
 
     {if $public_setting['enable_checkin_captcha'] && $user->isAbleToCheckin()}
-        {include file='captcha_js.tpl'}
+        {include file='captcha/js.tpl'}
     {/if}
 
     {include file='user/footer.tpl'}

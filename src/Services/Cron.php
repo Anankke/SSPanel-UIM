@@ -416,14 +416,14 @@ final class Cron
         echo Tools::toDateTime(time()) . ' 重设节点流量完成' . PHP_EOL;
     }
 
-    public static function resetTodayTraffic(): void
+    public static function resetTodayBandwidth(): void
     {
-        (new User())->update(['transfer_today' => 0]);
+        (new User())->query()->update(['transfer_today' => 0]);
 
         echo Tools::toDateTime(time()) . ' 重设用户每日流量完成' . PHP_EOL;
     }
 
-    public static function resetFreeUserTraffic(): void
+    public static function resetFreeUserBandwidth(): void
     {
         $freeUsers = (new User())->where('class', 0)
             ->where('auto_reset_day', date('d'))->get();

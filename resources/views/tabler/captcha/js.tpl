@@ -18,3 +18,6 @@
         });
     </script>
 {/if}
+{if $public_setting['captcha_provider'] === 'hcaptcha'}
+    <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
+{/if}

@@ -19,16 +19,12 @@ use function count;
 use function date;
 use function fgets;
 use function file_get_contents;
-use function file_put_contents;
 use function fwrite;
 use function in_array;
 use function json_decode;
-use function json_encode;
 use function method_exists;
 use function strtolower;
 use function trim;
-use const JSON_PRETTY_PRINT;
-use const JSON_UNESCAPED_UNICODE;
 use const PHP_EOL;
 use const STDIN;
 use const STDOUT;
@@ -39,12 +35,12 @@ final class Tool extends Command
 ├─=: php xcat Tool [选项]
 │ ├─ setTelegram             - 设置 Telegram 机器人
 │ ├─ resetSetting            - 使用默认值覆盖数据库配置
-│ ├─ exportSetting           - 导出数据库配置
 │ ├─ importSetting           - 导入数据库配置
 │ ├─ resetNodePassword       - 重置所有节点通讯密钥
 │ ├─ resetNodeBandwidth      - 重置所有节点流量
 │ ├─ resetPort               - 重置所有用户端口
 │ ├─ resetBandwidth          - 重置所有用户流量
+│ ├─ resetTodayBandwidth     - 重置今日流量
 │ ├─ resetPassword           - 重置所有用户登录密码
 │ ├─ resetPasswd             - 重置所有用户连接密码
 │ ├─ clearSubToken           - 清除用户 Sub Token
@@ -98,24 +94,6 @@ EOL;
         echo '已使用默认值覆盖所有数据库设置' . PHP_EOL;
     }
 
-    public function exportSetting(): void
-    {
-        $settings = Config::all();
-
-        foreach ($settings as $setting) {
-            // 因为主键自增所以即便设置为 null 也会在导入时自动分配 id
-            // 同时避免多位开发者 pull request 时 settings.json 文件 id 重复所可能导致的冲突
-            $setting->id = null;
-            // 避免开发者调试配置泄露
-            $setting->value = $setting->default;
-        }
-
-        $json_settings = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        file_put_contents('./config/settings.json', $json_settings);
-
-        echo '已导出所有数据库设置' . PHP_EOL;
-    }
-
     public function importSetting(): void
     {
         $json_settings = file_get_contents('./config/settings.json');
@@ -133,7 +111,6 @@ EOL;
 
             if ($query === null) {
                 $new_item = new Config();
-                $new_item->id = null;
                 $new_item->item = $item['item'];
                 $new_item->value = $item['value'];
                 $new_item->class = $item['class'];
@@ -238,6 +215,16 @@ EOL;
         ]);
 
         echo '已重置所有用户流量' . PHP_EOL;
+    }
+
+    /**
+     * 重置今日流量
+     */
+    public function resetTodayBandwidth(): void
+    {
+        (new ModelsUser())->query()->update(['transfer_today' => 0]);
+
+        echo '已重置今日流量' . PHP_EOL;
     }
 
     /**

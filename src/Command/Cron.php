@@ -56,7 +56,7 @@ EOL;
         ) {
             $jobs->cleanDb();
             $jobs->resetNodeBandwidth();
-            $jobs->resetFreeUserTraffic();
+            $jobs->resetFreeUserBandwidth();
             $jobs->sendDailyTrafficReport();
 
             if (Config::obtain('enable_detect_inactive_user')) {
@@ -71,7 +71,7 @@ EOL;
                 $jobs->sendTelegramDiary();
             }
 
-            $jobs->resetTodayTraffic();
+            $jobs->resetTodayBandwidth();
 
             if (Config::obtain('telegram_daily_job')) {
                 $jobs->sendTelegramDailyJob();
