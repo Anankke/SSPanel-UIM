@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\View;
-use Smarty;
+use Smarty\Smarty;
 use Twig\Environment;
 use voku\helper\AntiXSS;
 use function microtime;

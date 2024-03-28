@@ -8,7 +8,7 @@ use App\Services\Auth;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use SmartyException;
+use Smarty\Exception as SmartyException;
 
 final class HomeController extends BaseController
 {
