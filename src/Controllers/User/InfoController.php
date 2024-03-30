@@ -9,6 +9,7 @@ use App\Models\Config;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
+use App\Services\Filter;
 use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
@@ -60,10 +61,10 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        $check_res = Tools::isEmailLegal($new_email);
+        $email_check = Filter::checkEmailFilter($email);
 
-        if ($check_res['ret'] !== 1) {
-            return $response->withJson($check_res);
+        if (! $email_check) {
+            return ResponseHelper::error($response, '无效的邮箱');
         }
 
         $exist_user = (new User())->where('email', $new_email)->first();

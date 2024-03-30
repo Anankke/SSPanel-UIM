@@ -221,24 +221,6 @@ class ToolsTest extends TestCase
     }
 
     /**
-     * @covers App\Utils\Tools::isEmailLegal
-     */
-    public function testIsEmailLegal()
-    {
-        $_ENV['mail_filter'] = 1;
-        $_ENV['mail_filter_list'] = ['example.com'];
-
-        $email1 = 'test@example.com';
-        $email2 = 'test@example.org';
-
-        $expected1 = ['ret' => 1];
-        $expected2 = ['ret' => 0, 'msg' => '邮箱域名 example.org 无效，请更换邮件地址'];
-
-        $this->assertEquals($expected1, Tools::isEmailLegal($email1));
-        $this->assertEquals($expected2, Tools::isEmailLegal($email2));
-    }
-
-    /**
      * @covers App\Utils\Tools::isEmail
      */
     public function testIsEmail()

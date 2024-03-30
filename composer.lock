@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.301.9",
+            "version": "3.302.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "23eda9eeb6c44a3ed6a12951b61020dc6048f7f5"
+                "reference": "cb343ed4fc5d86c0ddf8e948f0271052f183f937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/23eda9eeb6c44a3ed6a12951b61020dc6048f7f5",
-                "reference": "23eda9eeb6c44a3ed6a12951b61020dc6048f7f5",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cb343ed4fc5d86c0ddf8e948f0271052f183f937",
+                "reference": "cb343ed4fc5d86c0ddf8e948f0271052f183f937",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.302.0"
             },
-            "time": "2024-03-27T18:26:04+00:00"
+            "time": "2024-03-29T18:07:04+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1703,7 +1703,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1758,7 +1758,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1804,7 +1804,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1855,7 +1855,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1903,16 +1903,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "1789c7522ca0fcd5a1979ec980fb9a1636d1197a"
+                "reference": "3e4e41b278146ad645ccc5901ccaf343efd850ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/1789c7522ca0fcd5a1979ec980fb9a1636d1197a",
-                "reference": "1789c7522ca0fcd5a1979ec980fb9a1636d1197a",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/3e4e41b278146ad645ccc5901ccaf343efd850ea",
+                "reference": "3e4e41b278146ad645ccc5901ccaf343efd850ea",
                 "shasum": ""
             },
             "require": {
@@ -1967,11 +1967,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-25T16:55:47+00:00"
+            "time": "2024-03-28T14:12:19+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -2017,7 +2017,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -2067,16 +2067,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v11.1.0",
+            "version": "v11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "0bdb04e24289f2a92e6d5e01c385b9cc8343696d"
+                "reference": "9fdd4fc622524787185264faeadfe14f2f0e356b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/0bdb04e24289f2a92e6d5e01c385b9cc8343696d",
-                "reference": "0bdb04e24289f2a92e6d5e01c385b9cc8343696d",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/9fdd4fc622524787185264faeadfe14f2f0e356b",
+                "reference": "9fdd4fc622524787185264faeadfe14f2f0e356b",
                 "shasum": ""
             },
             "require": {
@@ -2137,7 +2137,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-25T16:55:47+00:00"
+            "time": "2024-03-27T16:39:25+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
@@ -2762,16 +2762,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "b4272c2e78d30f9085b079aedb692b2da879b313"
+                "reference": "2d69b6de67e2a3c0652d0c9dfcfda8b4563c4cee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b4272c2e78d30f9085b079aedb692b2da879b313",
-                "reference": "b4272c2e78d30f9085b079aedb692b2da879b313",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2d69b6de67e2a3c0652d0c9dfcfda8b4563c4cee",
+                "reference": "2d69b6de67e2a3c0652d0c9dfcfda8b4563c4cee",
                 "shasum": ""
             },
             "require": {
@@ -2864,7 +2864,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-27T21:37:24+00:00"
+            "time": "2024-03-28T12:59:49+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -3189,16 +3189,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.19.2",
+            "version": "1.19.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb"
+                "reference": "0700efda8d7526335132360167315fdab3aeb599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
-                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/0700efda8d7526335132360167315fdab3aeb599",
+                "reference": "0700efda8d7526335132360167315fdab3aeb599",
                 "shasum": ""
             },
             "require": {
@@ -3222,7 +3222,8 @@
                 "php-http/httplug": "^1.0 || ^2.0",
                 "php-http/message-factory": "^1.0",
                 "phpspec/phpspec": "^5.1 || ^6.1 || ^7.3",
-                "symfony/phpunit-bridge": "^6.2"
+                "sebastian/comparator": "^3.0.5 || ^4.0.8",
+                "symfony/phpunit-bridge": "^6.4.4 || ^7.0.1"
             },
             "type": "composer-plugin",
             "extra": {
@@ -3261,9 +3262,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.19.2"
+                "source": "https://github.com/php-http/discovery/tree/1.19.4"
             },
-            "time": "2023-11-30T16:49:05+00:00"
+            "time": "2024-03-29T13:00:05+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -4854,16 +4855,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "4fec27ccc274ff615df13612637160264b343bd9"
+                "reference": "bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/4fec27ccc274ff615df13612637160264b343bd9",
-                "reference": "4fec27ccc274ff615df13612637160264b343bd9",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9",
+                "reference": "bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9",
                 "shasum": ""
             },
             "require": {
@@ -4918,9 +4919,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v5.0.1"
+                "source": "https://github.com/smarty-php/smarty/tree/v5.0.2"
             },
-            "time": "2024-03-27T22:05:16+00:00"
+            "time": "2024-03-28T10:23:18+00:00"
         },
         {
             "name": "srmklive/paypal",
@@ -5033,16 +5034,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.15.0",
+            "version": "v13.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "22963c3596eb198e3dd56fbd95d7de9bc4d44f8f"
+                "reference": "b122efcf4ee02256e4a9ae60783cbf1c3f702503"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/22963c3596eb198e3dd56fbd95d7de9bc4d44f8f",
-                "reference": "22963c3596eb198e3dd56fbd95d7de9bc4d44f8f",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b122efcf4ee02256e4a9ae60783cbf1c3f702503",
+                "reference": "b122efcf4ee02256e4a9ae60783cbf1c3f702503",
                 "shasum": ""
             },
             "require": {
@@ -5086,9 +5087,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.15.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.16.0"
             },
-            "time": "2024-03-21T21:05:10+00:00"
+            "time": "2024-03-28T19:17:08+00:00"
         },
         {
             "name": "symfony/clock",
@@ -8282,16 +8283,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.15",
+            "version": "10.5.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "86376e05e8745ed81d88232ff92fee868247b07b"
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86376e05e8745ed81d88232ff92fee868247b07b",
-                "reference": "86376e05e8745ed81d88232ff92fee868247b07b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
                 "shasum": ""
             },
             "require": {
@@ -8363,7 +8364,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.15"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.16"
             },
             "funding": [
                 {
@@ -8379,7 +8380,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-22T04:17:47+00:00"
+            "time": "2024-03-28T10:08:10+00:00"
         },
         {
             "name": "psr/cache",
