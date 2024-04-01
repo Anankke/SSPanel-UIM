@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "610d76a6a2b0c7ce5ee421d330e55391",
+    "content-hash": "39ab430ad43a297c4e1b232afd979153",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -4854,35 +4854,39 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v4.5.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "42b869e3a098b1c8ee07922ccded0e5a5dceadcd"
+                "reference": "bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/42b869e3a098b1c8ee07922ccded0e5a5dceadcd",
-                "reference": "42b869e3a098b1c8ee07922ccded0e5a5dceadcd",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9",
+                "reference": "bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": "^7.2 || ^8.0",
+                "symfony/polyfill-mbstring": "^1.27"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.5 || ^7.5",
-                "smarty/smarty-lexer": "^3.1"
+                "smarty/smarty-lexer": "^4.0.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
-                "classmap": [
-                    "libs/"
-                ]
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Smarty\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4914,9 +4918,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v4.5.1"
+                "source": "https://github.com/smarty-php/smarty/tree/v5.0.2"
             },
-            "time": "2024-03-18T14:19:07+00:00"
+            "time": "2024-03-28T10:23:18+00:00"
         },
         {
             "name": "srmklive/paypal",
