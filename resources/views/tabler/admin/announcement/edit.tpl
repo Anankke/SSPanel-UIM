@@ -46,6 +46,8 @@
             selector: '#tinymce',
             menubar: false,
             statusbar: false,
+            base_url: '//cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/',
+            suffix: '.min',
             plugins:
                 'advlist autolink lists link image charmap preview anchor ' +
                 'searchreplace visualblocks code fullscreen ' +
