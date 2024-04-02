@@ -63,6 +63,7 @@ final class Epay extends Base
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         // EPay 特定参数
         $type = $this->antiXss->xss_clean($request->getParam('type'));
+        $redir = $this->antiXss->xss_clean($request->getParam('redir'));
 
         if ($price <= 0) {
             return $response->withJson([
@@ -95,7 +96,7 @@ final class Epay extends Base
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
             'notify_url' => $_ENV['baseUrl'] . '/payment/notify/epay',
-            'return_url' => $_ENV['baseUrl'] . '/user/payment/return/epay',
+            'return_url' => $redir,
             'name' => $pl->tradeno,
             'money' => $price,
             'sitename' => $_ENV['appName'],
@@ -153,13 +154,11 @@ final class Epay extends Base
             if ($trade_status === 'TRADE_SUCCESS') {
                 $this->postPayment($out_trade_no);
 
-                return $response->withJson(['state' => 'success', 'msg' => '支付成功']);
+                return $response->withJson(['state' => 'success', 'msg' => 'Payment success']);
             }
-
-            return $response->withJson(['state' => 'fail', 'msg' => '支付失败']);
         }
 
-        return $response->write('非法请求');
+        return $response->withJson(['state' => 'fail', 'msg' => 'Payment failed']);
     }
 
     /**
@@ -168,21 +167,5 @@ final class Epay extends Base
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/epay.tpl');
-    }
-
-    public function getReturnHTML($request, $response, $args): ResponseInterface
-    {
-        $money = $_GET['money'];
-
-        $html = <<<HTML
-            你已成功充值 {$money} 元，正在跳转..
-            <script>
-                setTimeout(function() {
-                    location.href="/user/invoice";
-                },500)
-            </script>
-            HTML;
-
-        return $response->write($html);
     }
 }
