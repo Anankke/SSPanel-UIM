@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\Config;
-use App\Models\Link;
 use App\Models\User;
 use App\Services\GeoIP2;
 use GeoIp2\Exception\AddressNotFoundException;
@@ -169,14 +168,7 @@ final class Tools
 
     public static function genSubToken(): string
     {
-        $token = self::genRandomChar($_ENV['sub_token_len']);
-        $is_token_used = (new Link())->where('token', $token)->first();
-
-        if ($is_token_used === null) {
-            return $token;
-        }
-
-        return "couldn't alloc token";
+        return self::genRandomChar(max($_ENV['sub_token_len'], 8));
     }
 
     public static function genRandomChar(int $length = 8): string
