@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
 use App\Services\Captcha;
+use App\Services\Filter;
 use App\Services\Mail;
 use App\Services\MFA;
 use App\Services\RateLimit;
@@ -150,9 +151,10 @@ final class AuthController extends BaseController
             }
 
             // check email format
-            $check_res = Tools::isEmailLegal($email);
-            if ($check_res['ret'] === 0) {
-                return $response->withJson($check_res);
+            $email_check = Filter::checkEmailFilter($email);
+
+            if (! $email_check) {
+                return ResponseHelper::error($response, '无效的邮箱');
             }
 
             if (! RateLimit::checkEmailIpLimit($request->getServerParam('REMOTE_ADDR')) ||
@@ -334,16 +336,16 @@ final class AuthController extends BaseController
         $imvalue = '';
 
         // check email format
-        $check_res = Tools::isEmailLegal($email);
+        $email_check = Filter::checkEmailFilter($email);
 
-        if ($check_res['ret'] === 0) {
-            return $response->withJson($check_res);
+        if (! $email_check) {
+            return ResponseHelper::error($response, '无效的邮箱');
         }
         // check email
         $user = (new User())->where('email', $email)->first();
 
         if ($user !== null) {
-            return ResponseHelper::error($response, '邮箱已经被注册了');
+            return ResponseHelper::error($response, '无效的邮箱');
         }
 
         if (Config::obtain('reg_email_verify')) {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Models\Config;
-use App\Models\Link;
 use App\Models\User;
 use App\Services\GeoIP2;
 use GeoIp2\Exception\AddressNotFoundException;
@@ -17,7 +16,6 @@ use function bin2hex;
 use function closedir;
 use function count;
 use function date;
-use function explode;
 use function filter_var;
 use function floor;
 use function hash;
@@ -170,14 +168,7 @@ final class Tools
 
     public static function genSubToken(): string
     {
-        $token = self::genRandomChar($_ENV['sub_token_len']);
-        $is_token_used = (new Link())->where('token', $token)->first();
-
-        if ($is_token_used === null) {
-            return $token;
-        }
-
-        return "couldn't alloc token";
+        return self::genRandomChar(max($_ENV['sub_token_len'], 8));
     }
 
     public static function genRandomChar(int $length = 8): string
@@ -295,49 +286,6 @@ final class Tools
                 'xchacha20-ietf-poly1305',
             ],
         };
-    }
-
-    /**
-     * @param $email
-     *
-     * @return array
-     */
-    public static function isEmailLegal($email): array
-    {
-        $res = [];
-        $res['ret'] = 0;
-
-        if (! self::isEmail($email)) {
-            $res['msg'] = '邮箱不规范';
-            return $res;
-        }
-
-        $mail_suffix = explode('@', $email)[1];
-        $mail_filter_list = $_ENV['mail_filter_list'];
-
-        switch ($_ENV['mail_filter']) {
-            case 1:
-                // 白名单
-                if (in_array($mail_suffix, $mail_filter_list)) {
-                    $res['ret'] = 1;
-                } else {
-                    $res['msg'] = '邮箱域名 ' . $mail_suffix . ' 无效，请更换邮件地址';
-                }
-
-                return $res;
-            case 2:
-                // 黑名单
-                if (! in_array($mail_suffix, $mail_filter_list)) {
-                    $res['ret'] = 1;
-                } else {
-                    $res['msg'] = '邮箱域名 ' . $mail_suffix . ' 无效，请更换邮件地址';
-                }
-
-                return $res;
-            default:
-                $res['ret'] = 1;
-                return $res;
-        }
     }
 
     public static function isEmail($input): bool

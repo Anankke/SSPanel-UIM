@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use SmartyException;
+use Smarty\Exception as SmartyException;
 use function hash;
 use function hash_hmac;
 use function implode;

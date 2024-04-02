@@ -36,7 +36,7 @@
         "sentry/sdk": "^4",
         "slim/http": "^1",
         "slim/slim": "^4",
-        "smarty/smarty": "^4",
+        "smarty/smarty": "^5",
         "srmklive/paypal": "^3",
         "stripe/stripe-php": "^13",
         "symfony/http-client": "^7",

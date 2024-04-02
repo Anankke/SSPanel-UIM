@@ -9,7 +9,6 @@ use App\Models\Docs;
 use App\Services\LLM;
 use App\Utils\Tools;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -90,7 +89,11 @@ final class DocsController extends BaseController
     /**
      * 使用LLM生成文档
      *
-     * @throws GuzzleException
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return Response|ResponseInterface
      */
     public function generate(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
     {

@@ -15,7 +15,7 @@ use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
-use Smarty;
+use Smarty\Smarty;
 
 /*
  * Mail Service
@@ -42,9 +42,9 @@ final class Mail
     public static function genHtml($template, $ary): false|string
     {
         $smarty = new Smarty();
-        $smarty->settemplatedir(BASE_PATH . '/resources/email/');
-        $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/');
-        $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/');
+        $smarty->setTemplateDir(BASE_PATH . '/resources/email/');
+        $smarty->setCompileDir(BASE_PATH . '/storage/framework/smarty/compile/');
+        $smarty->setCacheDir(BASE_PATH . '/storage/framework/smarty/cache/');
         $smarty->assign('config', View::getConfig());
 
         foreach ($ary as $key => $value) {

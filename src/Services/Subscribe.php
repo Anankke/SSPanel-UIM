@@ -56,12 +56,12 @@ final class Subscribe
             ->get();
     }
 
-    public static function getContent($user, $type): string
+    public static function getContent($user, string $type): string
     {
         return self::getClient($type)->getContent($user);
     }
 
-    public static function getClient($type): Json|SS|SIP002|V2Ray|Trojan|Clash|SIP008|SingBox|V2RayJson
+    public static function getClient(string $type): Json|SS|SIP002|V2Ray|Trojan|Clash|SIP008|SingBox|V2RayJson
     {
         return match ($type) {
             'ss' => new SS(),

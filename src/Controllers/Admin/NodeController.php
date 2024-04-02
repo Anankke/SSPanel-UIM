@@ -12,7 +12,7 @@ use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use SmartyException;
+use Smarty\Exception as SmartyException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function json_decode;
 use function json_encode;
