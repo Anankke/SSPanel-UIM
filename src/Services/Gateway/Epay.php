@@ -15,12 +15,17 @@ use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Gateway\Epay\EpayNotify;
 use App\Services\Gateway\Epay\EpaySubmit;
+use App\Services\Gateway\Epay\EpayTool;
 use App\Services\View;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+use function json_decode;
+use function trim;
 
 final class Epay extends Base
 {
@@ -94,12 +99,37 @@ final class Epay extends Base
             'name' => $pl->tradeno,
             'money' => $price,
             'sitename' => $_ENV['appName'],
+            'clientip' => $_SERVER['REMOTE_ADDR'],
         ];
 
         $epaySubmit = new EpaySubmit($this->epay);
-        $html_text = $epaySubmit->buildRequestForm($data);
+        $data['sign'] = $epaySubmit->buildRequestMysign(EpayTool::argSort($data));
+        $data['sign_type'] = $this->epay['sign_type'];
+        $client = new Client();
 
-        return $response->write($html_text);
+        try {
+            $res = $client->request('POST', $this->epay['apiurl'] . 'mapi.php', ['form_params' => $data]);
+
+            if ($res->getStatusCode() !== 200) {
+                throw new Exception();
+            }
+
+            $resData = json_decode($res->getBody()->__toString(), true);
+
+            if ($resData['code'] !== 1 || ! isset($resData['payurl'])) {
+                throw new Exception();
+            }
+
+            return $response->withHeader('HX-Redirect', $resData['payurl'])->withJson([
+                'ret' => 1,
+                'msg' => '订单发起成功，正在跳转到支付页面...',
+            ]);
+        } catch (Exception|GuzzleException) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '请求支付失败',
+            ]);
+        }
     }
 
     public function notify($request, $response, $args): ResponseInterface
