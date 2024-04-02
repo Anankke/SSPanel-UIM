@@ -93,7 +93,7 @@ final class Epay extends Base
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
             'notify_url' => $_ENV['baseUrl'] . '/payment/notify/epay',
-            'return_url' => "https://" . $_SERVER['HTTP_HOST'] . '/user/payment/return/epay',
+            'return_url' => 'https://' . $_SERVER['HTTP_HOST'] . '/user/payment/return/epay',
             'name' => $pl->tradeno,
             'money' => $price,
             'sitename' => $_ENV['appName'],
@@ -110,7 +110,7 @@ final class Epay extends Base
                 throw new Exception(self::$err_msg);
             }
             $resData = json_decode((string) $res->getBody(), true);
-            if ($resData['code'] !== 1 || empty($resData['payurl'])) {
+            if ($resData['code'] !== 1 || ! isset($resData['payurl'])) {
                 throw new Exception(self::$err_msg);
             }
             return $response->withJson([
