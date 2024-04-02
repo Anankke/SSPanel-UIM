@@ -29,7 +29,7 @@ final class UserCoupon extends Model
      */
     public function type(): string
     {
-        return match (json_decode($this->content)) {
+        return match (json_decode($this->content)->type ?? null) {
             'percentage' => '百分比',
             'fixed' => '固定金额',
             default => '未知',
