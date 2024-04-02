@@ -15,8 +15,10 @@ use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Gateway\Epay\EpayNotify;
 use App\Services\Gateway\Epay\EpaySubmit;
+use App\Services\Gateway\Epay\EpayTool;
 use App\Services\View;
 use Exception;
+use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -25,6 +27,7 @@ use voku\helper\AntiXSS;
 final class Epay extends Base
 {
     protected array $epay = [];
+    private static string $err_msg = '请求支付失败';
 
     public function __construct()
     {
@@ -90,16 +93,37 @@ final class Epay extends Base
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
             'notify_url' => $_ENV['baseUrl'] . '/payment/notify/epay',
-            'return_url' => $_ENV['baseUrl'] . '/user/payment/return/epay',
+            'return_url' => "https://" . $_SERVER['HTTP_HOST'] . '/user/payment/return/epay',
             'name' => $pl->tradeno,
             'money' => $price,
             'sitename' => $_ENV['appName'],
+            'clientip' => $_SERVER['REMOTE_ADDR'],
         ];
 
         $epaySubmit = new EpaySubmit($this->epay);
-        $html_text = $epaySubmit->buildRequestForm($data);
-
-        return $response->write($html_text);
+        $data['sign'] = $epaySubmit->buildRequestMysign(EpayTool::argSort($data));
+        $data['sign_type'] = $this->epay['sign_type'];
+        $client = new Client();
+        try {
+            $res = $client->request('POST', $this->epay['apiurl'] . 'mapi.php', ['form_params' => $data]);
+            if ($res->getStatusCode() !== 200) {
+                throw new Exception(self::$err_msg);
+            }
+            $resData = json_decode((string) $res->getBody(), true);
+            if ($resData['code'] !== 1 || empty($resData['payurl'])) {
+                throw new Exception(self::$err_msg);
+            }
+            return $response->withJson([
+                'ret' => 1,
+                'url' => $resData['payurl'],
+                'msg' => '订单发起成功，正在跳转到支付页面...',
+            ]);
+        } catch (Exception) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => self::$err_msg,
+            ]);
+        }
     }
 
     public function notify($request, $response, $args): ResponseInterface
