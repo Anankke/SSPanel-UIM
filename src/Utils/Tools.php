@@ -186,7 +186,8 @@ final class Tools
             $length = 2;
         }
 
-        return bin2hex(openssl_random_pseudo_bytes($length / 2));
+        $randomString = bin2hex(openssl_random_pseudo_bytes((int) ceil($length / 2)));
+        return substr($randomString, 0, $length);
     }
 
     public static function genSs2022UserPk(string $passwd, string $method): string|false
