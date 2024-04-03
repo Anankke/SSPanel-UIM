@@ -14,6 +14,7 @@
     <script src="//{$config['jsdelivr_url']}/npm/qrcode_js@latest/qrcode.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/clipboard@latest/dist/clipboard.min.js"></script>
     <script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
+    <script src="//{$config['jsdelivr_url']}/npm/htmx.org@latest/dist/htmx.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;
@@ -53,9 +54,13 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                         {if $user->is_dark_mode}
-                            <a id="switch_theme_mode" class="dropdown-item">浅色模式</a>
+                            <a class="dropdown-item" hx-post="/user/switch_theme_mode" hx-swap="none">
+                                浅色模式
+                            </a>
                         {else}
-                            <a id="switch_theme_mode" class="dropdown-item">深色模式</a>
+                            <a class="dropdown-item" hx-post="/user/switch_theme_mode" hx-swap="none">
+                                深色模式
+                            </a>
                         {/if}
                         <a href="/user/logout" class="dropdown-item">登出</a>
                     </div>

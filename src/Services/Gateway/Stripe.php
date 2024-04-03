@@ -17,11 +17,13 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
-use Stripe\Stripe;
-use Stripe\StripeClient;
+use Stripe\Exception\SignatureVerificationException;
+use Stripe\Stripe as StripeSDK;
+use Stripe\Webhook;
+use UnexpectedValueException;
 use voku\helper\AntiXSS;
 
-final class StripeCard extends Base
+final class Stripe extends Base
 {
     public function __construct()
     {
@@ -69,11 +71,12 @@ final class StripeCard extends Base
         $pl->total = $price;
         $pl->invoice_id = $invoice_id;
         $pl->tradeno = $trade_no;
+        $pl->gateway = self::_readableName();
         $pl->save();
 
         $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', Config::obtain('stripe_currency'));
 
-        Stripe::setApiKey(Config::obtain('stripe_sk'));
+        StripeSDK::setApiKey(Config::obtain('stripe_sk'));
         $session = null;
 
         try {
@@ -84,7 +87,7 @@ final class StripeCard extends Base
                         'price_data' => [
                             'currency' => Config::obtain('stripe_currency'),
                             'product_data' => [
-                                'name' => 'Account Recharge',
+                                'name' => 'Invoice #' . $invoice_id,
                             ],
                             'unit_amount' => (int) $exchange_amount,
                         ],
@@ -92,9 +95,13 @@ final class StripeCard extends Base
                     ],
                 ],
                 'mode' => 'payment',
-                'client_reference_id' => $trade_no,
-                'success_url' => self::getUserReturnUrl() . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice',
+                'payment_intent_data' => [
+                    'metadata' => [
+                        'trade_no' => $trade_no,
+                    ],
+                ],
+                'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
+                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
             ]);
         } catch (ApiErrorException $e) {
             return $response->withJson([
@@ -103,12 +110,47 @@ final class StripeCard extends Base
             ]);
         }
 
-        return $response->withRedirect($session->url);
+        return $response->withHeader('HX-Redirect', $session->url)->withJson([
+            'ret' => 1,
+            'msg' => '订单发起成功，正在跳转到支付页面...',
+        ]);
     }
 
-    public function notify($request, $response, $args): ResponseInterface
+    public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        return $response->write('ok');
+        try {
+            $event = Webhook::constructEvent(
+                $request->getBody()->getContents(),
+                $request->getHeaderLine('Stripe-Signature'),
+                Config::obtain('stripe_endpoint_secret')
+            );
+        } catch (UnexpectedValueException) {
+            return $response->withStatus(400)->withJson([
+                'ret' => 0,
+                'msg' => 'Unexpected Value error',
+            ]);
+        } catch (SignatureVerificationException) {
+            return $response->withStatus(400)->withJson([
+                'ret' => 0,
+                'msg' => 'Signature Verification error',
+            ]);
+        }
+
+        $payment_intent = $event->data->object;
+
+        if ($event->type === 'payment_intent.succeeded' && $payment_intent->status === 'succeeded') {
+            $this->postPayment($payment_intent->metadata->trade_no);
+
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => 'Payment success',
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => 'Payment failed',
+        ]);
     }
 
     /**
@@ -117,28 +159,5 @@ final class StripeCard extends Base
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/stripe.tpl');
-    }
-
-    public function getReturnHTML($request, $response, $args): ResponseInterface
-    {
-        $session_id = $this->antiXss->xss_clean($request->getParam('session_id'));
-
-        $stripe = new StripeClient(Config::obtain('stripe_sk'));
-        $session = null;
-
-        try {
-            $session = $stripe->checkout->sessions->retrieve($session_id, []);
-        } catch (ApiErrorException $e) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => 'Stripe API error',
-            ]);
-        }
-
-        if ($session !== null && $session->payment_status === 'paid') {
-            $this->postPayment($session->client_reference_id);
-        }
-
-        return $response->withRedirect($_ENV['baseUrl'] . '/user/invoice');
     }
 }

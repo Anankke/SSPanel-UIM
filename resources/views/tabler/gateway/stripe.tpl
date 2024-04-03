@@ -3,7 +3,7 @@
 
 <div class="card-inner">
     <h4>
-        Stripe 银行卡
+        Stripe
     </h4>
     <p class="card-heading"></p>
     <p>可以使用带有

@@ -8,6 +8,12 @@ use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Services\Payment;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
+use Slim\Http\ServerRequest;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Stripe;
+use Stripe\WebhookEndpoint;
 use function json_decode;
 use function json_encode;
 
@@ -21,13 +27,12 @@ final class BillingController extends BaseController
         'f2f_pay_private_key',
         'f2f_pay_notify_url',
         // Stripe
+        'stripe_api_key',
+        'stripe_endpoint_secret',
+        'stripe_currency',
         'stripe_card',
         'stripe_alipay',
         'stripe_wechat',
-        'stripe_currency',
-        'stripe_pk',
-        'stripe_sk',
-        'stripe_webhook_key',
         'stripe_min_recharge',
         'stripe_max_recharge',
         // EPay
@@ -50,7 +55,7 @@ final class BillingController extends BaseController
     /**
      * @throws Exception
      */
-    public function index($request, $response, $args)
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $settings = Config::getClass('billing');
 
@@ -64,12 +69,13 @@ final class BillingController extends BaseController
         );
     }
 
-    public function save($request, $response, $args)
+    public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $gateway_in_use = [];
 
         foreach (self::returnGatewaysList() as $value) {
             $payment_enable = $request->getParam($value);
+
             if ($payment_enable === 'true') {
                 $gateway_in_use[] = $value;
             }
@@ -100,6 +106,32 @@ final class BillingController extends BaseController
         ]);
     }
 
+    public function setStripeWebhook(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $stripe_api_key = $request->getParam('stripe_api_key');
+
+        Stripe::setApiKey($stripe_api_key);
+
+        try {
+            WebhookEndpoint::create([
+                'url' => $_ENV['baseUrl'] . '/payment/notify/stripe',
+                'enabled_events' => [
+                    'payment_intent.succeeded',
+                ],
+            ]);
+
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '设置 Stripe Webhook 成功',
+            ]);
+        } catch (ApiErrorException) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '设置 Stripe Webhook 失败',
+            ]);
+        }
+    }
+
     public function returnGatewaysList(): array
     {
         $result = [];
@@ -114,6 +146,7 @@ final class BillingController extends BaseController
     public function returnActiveGateways()
     {
         $payment_gateways = (new Config())->where('item', 'payment_gateway')->first();
+
         return json_decode($payment_gateways->value);
     }
 }

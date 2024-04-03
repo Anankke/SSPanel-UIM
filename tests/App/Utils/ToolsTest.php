@@ -131,6 +131,10 @@ class ToolsTest extends TestCase
         $randomString = Tools::genRandomChar($length);
         $this->assertIsString($randomString);
         $this->assertEquals($length, strlen($randomString));
+        $length = 9;
+        $randomString = Tools::genRandomChar($length);
+        $this->assertIsString($randomString);
+        $this->assertEquals($length, strlen($randomString));
         $length = 1;
         $randomString = Tools::genRandomChar($length);
         $this->assertIsString($randomString);

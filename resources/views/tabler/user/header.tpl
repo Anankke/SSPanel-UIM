@@ -55,13 +55,11 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                         {if $user->is_dark_mode}
-                            <a id="switch-theme-mode" class="dropdown-item"
-                               hx-post="/user/switch_theme_mode" hx-swap="none">
+                            <a class="dropdown-item" hx-post="/user/switch_theme_mode" hx-swap="none">
                                 浅色模式
                             </a>
                         {else}
-                            <a id="switch_theme_mode" class="dropdown-item"
-                               hx-post="/user/switch_theme_mode" hx-swap="none">
+                            <a class="dropdown-item" hx-post="/user/switch_theme_mode" hx-swap="none">
                                 深色模式
                             </a>
                         {/if}

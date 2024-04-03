@@ -9,10 +9,12 @@ use App\Models\User;
 use App\Services\GeoIP2;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use Random\RandomException;
 use function array_diff;
 use function array_flip;
 use function base64_encode;
 use function bin2hex;
+use function ceil;
 use function closedir;
 use function count;
 use function date;
@@ -23,10 +25,11 @@ use function in_array;
 use function is_numeric;
 use function json_decode;
 use function log;
+use function max;
 use function mb_strcut;
 use function opendir;
-use function openssl_random_pseudo_bytes;
 use function pow;
+use function random_bytes;
 use function range;
 use function readdir;
 use function round;
@@ -171,13 +174,18 @@ final class Tools
         return self::genRandomChar(max($_ENV['sub_token_len'], 8));
     }
 
-    public static function genRandomChar(int $length = 8): string
+    public static function genRandomChar(int $length = 8): string|false
     {
         if ($length <= 2) {
             $length = 2;
         }
 
-        $randomString = bin2hex(openssl_random_pseudo_bytes((int) ceil($length / 2)));
+        try {
+            $randomString = bin2hex(random_bytes((int) ceil($length / 2)));
+        } catch (RandomException $e) {
+            return false;
+        }
+
         return substr($randomString, 0, $length);
     }
 
