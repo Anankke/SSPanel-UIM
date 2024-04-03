@@ -95,7 +95,7 @@ final class Epay extends Base
             'pid' => trim($this->epay['partner']),
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
-            'notify_url' => $_ENV['baseUrl'] . '/payment/notify/epay',
+            'notify_url' => self::getCallbackUrl(),
             'return_url' => $redir,
             'name' => $pl->tradeno,
             'money' => $price,
@@ -139,20 +139,8 @@ final class Epay extends Base
         $verify_result = $epayNotify->verifyNotify();
 
         if ($verify_result) {
-            $out_trade_no = $_GET['out_trade_no'];
-            $type = $_GET['type'];
-
-            $type = match ($type) {
-                'qqpay' => 'QQ',
-                'wxpay' => 'WeChat',
-                'epusdt' => 'USDT',
-                default => 'Alipay',
-            };
-
-            $trade_status = $_GET['trade_status'];
-
-            if ($trade_status === 'TRADE_SUCCESS') {
-                $this->postPayment($out_trade_no);
+            if ($_GET['trade_status'] === 'TRADE_SUCCESS') {
+                $this->postPayment($_GET['out_trade_no']);
 
                 return $response->withJson(['state' => 'success', 'msg' => 'Payment success']);
             }

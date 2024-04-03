@@ -54,40 +54,31 @@
         "mark": "当面付自定义回调地址"
     },
     {
+        "item": "stripe_api_key",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Stripe API Key"
+    },
+    {
+        "item": "stripe_endpoint_secret",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Stripe Endpoint Secret"
+    },
+    {
         "item": "stripe_currency",
         "value": "USD",
         "class": "billing",
         "is_public": 0,
         "type": "string",
         "default": "USD",
-        "mark": "货币代码"
-    },
-    {
-        "item": "stripe_sk",
-        "value": "stripe_sk",
-        "class": "billing",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "stripe_sk"
-    },
-    {
-        "item": "stripe_pk",
-        "value": "stripe_pk",
-        "class": "billing",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "stripe_pk"
-    },
-    {
-        "item": "stripe_webhook_key",
-        "value": "stripe_webhook_key",
-        "class": "billing",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "web_hook密钥"
+        "mark": "Stripe Currency"
     },
     {
         "item": "stripe_min_recharge",
@@ -96,7 +87,7 @@
         "is_public": 1,
         "type": "int",
         "default": "10",
-        "mark": "最低充值限额"
+        "mark": "Stripe minimum recharge amount"
     },
     {
         "item": "stripe_max_recharge",
@@ -105,7 +96,7 @@
         "is_public": 1,
         "type": "int",
         "default": "1000",
-        "mark": "最高充值限额"
+        "mark": "Stripe maximum recharge amount"
     },
     {
         "item": "stripe_card",
@@ -114,7 +105,7 @@
         "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "银行卡支付"
+        "mark": "Stripe Card Payment"
     },
     {
         "item": "stripe_alipay",
@@ -123,7 +114,7 @@
         "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "支付宝支付"
+        "mark": "Stripe Alipay Payment"
     },
     {
         "item": "stripe_wechat",
@@ -132,7 +123,7 @@
         "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "微信支付"
+        "mark": "Stripe WeChat Payment"
     },
     {
         "item": "epay_url",

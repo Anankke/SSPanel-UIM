@@ -231,6 +231,10 @@ return static function (Slim\App $app): void {
         // 设置中心
         $group->get('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':index');
         $group->post('/setting/billing', App\Controllers\Admin\Setting\BillingController::class . ':save');
+        $group->post(
+            '/setting/billing/set_stripe_webhook',
+            App\Controllers\Admin\Setting\BillingController::class . ':setStripeWebhook'
+        );
         $group->get('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':index');
         $group->post('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':save');
         $group->get('/setting/cron', App\Controllers\Admin\Setting\CronController::class . ':index');

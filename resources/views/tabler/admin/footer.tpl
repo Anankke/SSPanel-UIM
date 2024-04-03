@@ -112,22 +112,23 @@
 </div>
 <!-- js -->
 <script>
-    $("#switch_theme_mode").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/user/switch_theme_mode",
-            dataType: "json",
-            success: function (data) {
-                if (data.ret === 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                    window.setTimeout("location.reload()", {$config['jump_delay']});
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
-                }
-            }
-        })
+    let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
+    let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
+
+    htmx.on("htmx:afterRequest", function(evt) {
+        if (evt.detail.xhr.getResponseHeader('HX-Refresh') === 'true' ||
+            evt.detail.xhr.getResponseHeader('HX-Trigger'))
+        {
+            return;
+        }
+
+        if (res.ret === 1) {
+            document.getElementById("success-message").innerHTML = res.msg;
+            successDialog.show();
+        } else {
+            document.getElementById("fail-message").innerHTML = res.msg;
+            failDialog.show();
+        }
     });
 
     $("#success-confirm").click(function () {

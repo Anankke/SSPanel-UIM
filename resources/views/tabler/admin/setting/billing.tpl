@@ -104,6 +104,36 @@
                                 <div class="tab-pane" id="stripe">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">API Key</label>
+                                            <div class="col">
+                                                <input id="stripe_api_key" type="text" class="form-control"
+                                                       value="{$settings['stripe_api_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Endpoint Secret</label>
+                                            <div class="col">
+                                                <input id="stripe_endpoint_secret" type="text" class="form-control"
+                                                       value="{$settings['stripe_endpoint_secret']}">
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-primary"
+                                                        hx-post="/admin/setting/billing/set_stripe_webhook" hx-swap="none"
+                                                        hx-vals='js:{
+                                                            stripe_api_key: document.getElementById("stripe_api_key").value
+                                                        }'>
+                                                    Set Webhook
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">网关货币</label>
+                                            <div class="col">
+                                                <input id="stripe_currency" type="text" class="form-control"
+                                                       value="{$settings['stripe_currency']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">银行卡支付</label>
                                             <div class="col">
                                                 <select id="stripe_card" class="col form-select"
@@ -139,13 +169,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">网关货币</label>
-                                            <div class="col">
-                                                <input id="stripe_currency" type="text" class="form-control"
-                                                       value="{$settings['stripe_currency']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">最低充值限额（整数）</label>
                                             <div class="col">
                                                 <input id="stripe_min_recharge" type="text" class="form-control"
@@ -157,27 +180,6 @@
                                             <div class="col">
                                                 <input id="stripe_max_recharge" type="text" class="form-control"
                                                        value="{$settings['stripe_max_recharge']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">公钥</label>
-                                            <div class="col">
-                                                <input id="stripe_pk" type="text" class="form-control"
-                                                       value="{$settings['stripe_pk']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">私钥</label>
-                                            <div class="col">
-                                                <input id="stripe_sk" type="text" class="form-control"
-                                                       value="{$settings['stripe_sk']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">WebHook密钥</label>
-                                            <div class="col">
-                                                <input id="stripe_webhook_key" type="text" class="form-control"
-                                                       value="{$settings['stripe_webhook_key']}">
                                             </div>
                                         </div>
                                     </div>

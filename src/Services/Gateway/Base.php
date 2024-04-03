@@ -59,7 +59,7 @@ abstract class Base
 
     abstract public static function getPurchaseHTML(): string;
 
-    public function postPayment($trade_no): void
+    public function postPayment(string $trade_no): void
     {
         $paylist = (new Paylist())->where('tradeno', $trade_no)->first();
 
@@ -100,7 +100,7 @@ abstract class Base
         return $_ENV['baseUrl'] . '/user/payment/return/' . get_called_class()::_name();
     }
 
-    protected static function getActiveGateway($key): bool
+    protected static function getActiveGateway(string $key): bool
     {
         $payment_gateways = (new Config())->where('item', 'payment_gateway')->first();
         $active_gateways = json_decode($payment_gateways->value);
