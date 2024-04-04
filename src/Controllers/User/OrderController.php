@@ -39,8 +39,6 @@ final class OrderController extends BaseController
         ],
     ];
 
-    private static string $err_msg = '订单创建失败';
-
     /**
      * @throws Exception
      */
@@ -124,7 +122,7 @@ final class OrderController extends BaseController
         if ($product === null || $product->stock === 0) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => self::$err_msg,
+                'msg' => '商品不存在或库存不足',
             ]);
         }
 
@@ -134,7 +132,7 @@ final class OrderController extends BaseController
         if ($user->is_shadow_banned) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => self::$err_msg,
+                'msg' => '商品不存在或库存不足',
             ]);
         }
 
@@ -144,7 +142,7 @@ final class OrderController extends BaseController
             if ($coupon === null || ($coupon->expire_time !== 0 && $coupon->expire_time < time())) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => self::$err_msg,
+                    'msg' => '优惠码不存在或已过期',
                 ]);
             }
 
@@ -153,14 +151,14 @@ final class OrderController extends BaseController
             if ($coupon_limit->disabled) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => self::$err_msg,
+                    'msg' => '优惠码已被禁用',
                 ]);
             }
 
             if ($coupon_limit->product_id !== '' && ! in_array($product_id, explode(',', $coupon_limit->product_id))) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => self::$err_msg,
+                    'msg' => '优惠码不适用于此商品',
                 ]);
             }
 
@@ -171,7 +169,7 @@ final class OrderController extends BaseController
                 if ($user_use_count >= $coupon_use_limit) {
                     return $response->withJson([
                         'ret' => 0,
-                        'msg' => self::$err_msg,
+                        'msg' => '优惠码使用次数已达上限',
                     ]);
                 }
             }
@@ -185,7 +183,7 @@ final class OrderController extends BaseController
             if ($coupon_total_use_limit > 0 && $coupon->use_count >= $coupon_total_use_limit) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => self::$err_msg,
+                    'msg' => '优惠码使用次数已达上限',
                 ]);
             }
 
@@ -205,7 +203,7 @@ final class OrderController extends BaseController
         if ($product_limit->class_required !== '' && $user->class < (int) $product_limit->class_required) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => self::$err_msg,
+                'msg' => '您的账户等级不足，无法购买此商品',
             ]);
         }
 
@@ -213,7 +211,7 @@ final class OrderController extends BaseController
             && $user->node_group !== (int) $product_limit->node_group_required) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => self::$err_msg,
+                'msg' => '您所在的用户组无法购买此商品',
             ]);
         }
 
@@ -222,7 +220,7 @@ final class OrderController extends BaseController
             if ($order_count > 0) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => self::$err_msg,
+                    'msg' => '此商品仅限新用户购买',
                 ]);
             }
         }
