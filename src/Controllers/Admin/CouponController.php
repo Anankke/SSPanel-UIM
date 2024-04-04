@@ -102,7 +102,7 @@ final class CouponController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -114,7 +114,7 @@ final class CouponController extends BaseController
     /**
      * 添加优惠码
      */
-    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $code = $request->getParam('code');
         $type = $request->getParam('type');
@@ -202,7 +202,7 @@ final class CouponController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $coupon_id = $args['id'];
         (new UserCoupon())->find($coupon_id)->delete();
@@ -213,7 +213,7 @@ final class CouponController extends BaseController
         ]);
     }
 
-    public function disable(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function disable(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $coupon_id = $args['id'];
         $coupon = (new UserCoupon())->find($coupon_id)->first();
@@ -231,7 +231,7 @@ final class CouponController extends BaseController
     /**
      * 后台商品优惠码页面 AJAX
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $coupons = (new UserCoupon())->orderBy('id', 'desc')->get();
 

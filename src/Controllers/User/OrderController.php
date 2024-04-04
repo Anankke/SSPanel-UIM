@@ -42,7 +42,7 @@ final class OrderController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -54,7 +54,7 @@ final class OrderController extends BaseController
     /**
      * @throws Exception
      */
-    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $product_id = $this->antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
         $redir = Cookie::get('redir');
@@ -81,7 +81,7 @@ final class OrderController extends BaseController
     /**
      * @throws Exception
      */
-    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function detail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $this->antiXss->xss_clean($args['id']);
 
@@ -112,7 +112,7 @@ final class OrderController extends BaseController
         );
     }
 
-    public function process(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function process(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $coupon_raw = $this->antiXss->xss_clean($request->getParam('coupon'));
         $product_id = $this->antiXss->xss_clean($request->getParam('product_id'));
@@ -283,7 +283,7 @@ final class OrderController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $orders = (new Order())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 

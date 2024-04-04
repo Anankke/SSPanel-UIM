@@ -30,7 +30,7 @@ final class InfoController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
         $methods = Tools::getSsMethod('method');
@@ -47,7 +47,7 @@ final class InfoController extends BaseController
     /**
      * @throws RedisException
      */
-    public function updateEmail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function updateEmail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $new_email = $this->antiXss->xss_clean($request->getParam('newemail'));
         $user = $this->user;
@@ -272,7 +272,7 @@ final class InfoController extends BaseController
         return ResponseHelper::success($response, '修改成功');
     }
 
-    public function updateTheme(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function updateTheme(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $theme = $this->antiXss->xss_clean($request->getParam('theme'));
         $user = $this->user;

@@ -21,7 +21,7 @@ final class TrafficLogController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! Config::obtain('traffic_log')) {
             return $response->withRedirect('/user');

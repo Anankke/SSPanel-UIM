@@ -54,7 +54,7 @@ final class AuthController extends BaseController
             ->fetch('auth/login.tpl'));
     }
 
-    public function loginHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function loginHandle(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (Config::obtain('enable_login_captcha') && ! Captcha::verify($request->getParams())) {
             return $response->withJson([
@@ -119,7 +119,7 @@ final class AuthController extends BaseController
     /**
      * @throws Exception
      */
-    public function register(ServerRequest $request, Response $response, $next): Response|ResponseInterface
+    public function register(ServerRequest $request, Response $response, $next): ResponseInterface
     {
         $captcha = [];
 
@@ -141,7 +141,7 @@ final class AuthController extends BaseController
     /**
      * @throws RedisException
      */
-    public function sendVerify(ServerRequest $request, Response $response, $next): Response|ResponseInterface
+    public function sendVerify(ServerRequest $request, Response $response, $next): ResponseInterface
     {
         if (Config::obtain('reg_email_verify')) {
             $email = strtolower(trim($this->antiXss->xss_clean($request->getParam('email'))));
@@ -285,7 +285,7 @@ final class AuthController extends BaseController
      * @throws RedisException
      * @throws Exception
      */
-    public function registerHandle(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function registerHandle(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (Config::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '未开放注册。');

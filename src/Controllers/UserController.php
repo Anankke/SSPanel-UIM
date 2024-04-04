@@ -28,7 +28,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
         $class_expire_days = $this->user->class > 0 ?
@@ -51,7 +51,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function profile(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function profile(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         // 登录IP
         $logins = (new LoginIp())->where('userid', $this->user->id)
@@ -87,7 +87,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function announcement(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function announcement(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $anns = (new Ann())->orderBy('date', 'desc')->get();
 
@@ -98,7 +98,7 @@ final class UserController extends BaseController
         );
     }
 
-    public function checkin(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function checkin(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! Config::obtain('enable_checkin') || ! $this->user->isAbleToCheckin()) {
             return ResponseHelper::error($response, '暂时还不能签到');
@@ -127,7 +127,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function switchThemeMode(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function switchThemeMode(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $user->is_dark_mode = $user->is_dark_mode === 1 ? 0 : 1;
@@ -145,7 +145,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function banned(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function banned(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
 

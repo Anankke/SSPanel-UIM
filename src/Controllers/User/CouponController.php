@@ -18,7 +18,7 @@ use function time;
 
 final class CouponController extends BaseController
 {
-    public function check(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function check(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $coupon_raw = $this->antiXss->xss_clean($request->getParam('coupon'));
         $product_id = $this->antiXss->xss_clean($request->getParam('product_id'));

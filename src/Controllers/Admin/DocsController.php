@@ -31,7 +31,7 @@ final class DocsController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -45,7 +45,7 @@ final class DocsController extends BaseController
      *
      * @throws Exception
      */
-    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -56,7 +56,7 @@ final class DocsController extends BaseController
     /**
      * 后台添加文档
      */
-    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $title = $request->getParam('title');
         $content = $request->getParam('content');
@@ -93,9 +93,9 @@ final class DocsController extends BaseController
      * @param Response $response
      * @param array $args
      *
-     * @return Response|ResponseInterface
+     * @return ResponseInterface
      */
-    public function generate(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function generate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $content = LLM::genTextResponse($request->getParam('question'));
 
@@ -111,7 +111,7 @@ final class DocsController extends BaseController
      *
      * @throws Exception
      */
-    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $doc = (new Docs())->find($args['id']);
 
@@ -125,7 +125,7 @@ final class DocsController extends BaseController
     /**
      * 后台编辑文档提交
      */
-    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $doc = (new Docs())->find($args['id']);
         $doc->title = $request->getParam('title');
@@ -148,7 +148,7 @@ final class DocsController extends BaseController
     /**
      * 后台删除文档
      */
-    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $doc = (new Docs())->find($args['id']);
 
@@ -168,7 +168,7 @@ final class DocsController extends BaseController
     /**
      * 后台文档页面 AJAX
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $docs = (new Docs())->orderBy('id')->get();
 

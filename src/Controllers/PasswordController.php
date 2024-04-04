@@ -25,7 +25,7 @@ final class PasswordController extends BaseController
     /**
      * @throws Exception
      */
-    public function reset(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function reset(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
 

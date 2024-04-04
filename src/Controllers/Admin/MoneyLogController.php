@@ -32,7 +32,7 @@ final class MoneyLogController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -44,7 +44,7 @@ final class MoneyLogController extends BaseController
     /**
      * 后台用户余额记录页面 AJAX
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $money_logs = (new UserMoneyLog())->orderBy('id', 'desc')->get();
 

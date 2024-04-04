@@ -248,7 +248,7 @@ final class NodeController extends BaseController
         ]);
     }
 
-    public function resetPassword(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function resetPassword(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node = (new Node())->find($args['id']);
         $node->password = Tools::genRandomChar(32);
@@ -260,7 +260,7 @@ final class NodeController extends BaseController
         ]);
     }
 
-    public function resetBandwidth(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function resetBandwidth(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node = (new Node())->find($args['id']);
         $node->node_bandwidth = 0;

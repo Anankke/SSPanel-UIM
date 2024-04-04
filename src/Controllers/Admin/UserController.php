@@ -91,7 +91,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -103,7 +103,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $email = $request->getParam('email');
         $ref_by = $request->getParam('ref_by');
@@ -147,7 +147,7 @@ final class UserController extends BaseController
     /**
      * @throws Exception
      */
-    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = (new User())->find($args['id']);
 
@@ -159,7 +159,7 @@ final class UserController extends BaseController
         );
     }
 
-    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = (int) $args['id'];
         $user = (new User())->find($id);
@@ -215,7 +215,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $user = (new User())->find((int) $id);
@@ -233,7 +233,7 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $users = (new User())->orderBy('id', 'desc')->get();
 

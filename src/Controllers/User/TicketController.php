@@ -30,7 +30,7 @@ final class TicketController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): ?ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! Config::obtain('enable_ticket')) {
             return $response->withRedirect('/user');

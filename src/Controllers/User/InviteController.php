@@ -19,7 +19,7 @@ final class InviteController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $code = (new InviteCode())->where('user_id', $this->user->id)->first()?->code;
 

@@ -58,7 +58,7 @@ final class GiftCardController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -67,7 +67,7 @@ final class GiftCardController extends BaseController
         );
     }
 
-    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $card_number = $request->getParam('card_number') ?? 0;
         $card_value = $request->getParam('card_value') ?? 0;
@@ -115,7 +115,7 @@ final class GiftCardController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $card_id = $args['id'];
         (new GiftCard())->find($card_id)->delete();
@@ -126,7 +126,7 @@ final class GiftCardController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $giftcards = (new GiftCard())->orderBy('id', 'desc')->get();
 

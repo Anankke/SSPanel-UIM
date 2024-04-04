@@ -143,7 +143,7 @@ final class BillingController extends BaseController
         return $result;
     }
 
-    public function returnActiveGateways()
+    public function returnActiveGateways(): ?array
     {
         $payment_gateways = (new Config())->where('item', 'payment_gateway')->first();
 
