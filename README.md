@@ -21,20 +21,20 @@
 
 ## TL;DR
 
-SSPanel UIM is a multi-purpose proxy service sales management system designed for Shadowsocks / V2Ray / Trojan / TUIC protocol.
+SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks / V2Ray / Trojan / TUIC protocol.
 
 ## Features
 
 - Integrate multiple payment systems such as Alipay F2F, PayPal, Stripe, etc.
 - Support multiple mail services, built-in mail queue function, no third-party components are required to use
 - Built-in tabler theme based on Bootstrap 5, template engine support
-- Support Shadowsocks 2022, TUIC and other latest proxy protocols
+- Support Shadowsocks 2022, TUIC, and other latest proxy protocols
 - Universal subscription interface, one-click json/clash/sip008/sing-box format subscription distribution
 - Custom node configuration, modular subscription system, support multiple client-specific subscription formats
 - Refactored store system, support billing modes including but not limited to annual/monthly, pay-as-you-go, access type billing, etc.
 - Refactored scheduled task system, one command can automatically complete all scheduled tasks
-- Deep integration of large language models, support intelligent reply to ticket, document generation and other functions
-- One-click access to OpenAI, Google AI, Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI and Anthropic and other large language model services
+- Deep integration of large language models, support intelligent replies to tickets, document generation, and other functions
+- One-click access to OpenAI, Google AI, Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI, Anthropic, and other large language model services
 
 ## Installation
 

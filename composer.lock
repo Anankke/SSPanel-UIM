@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.303.2",
+            "version": "3.303.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c087819351de027791d830ffc7f45195488ae988"
+                "reference": "3389ceccdc8e78d38bf60c6648d7da9768a86d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c087819351de027791d830ffc7f45195488ae988",
-                "reference": "c087819351de027791d830ffc7f45195488ae988",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3389ceccdc8e78d38bf60c6648d7da9768a86d9b",
+                "reference": "3389ceccdc8e78d38bf60c6648d7da9768a86d9b",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.303.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.303.3"
             },
-            "time": "2024-04-03T18:08:21+00:00"
+            "time": "2024-04-04T18:11:56+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -5034,16 +5034,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.16.0",
+            "version": "v13.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "b122efcf4ee02256e4a9ae60783cbf1c3f702503"
+                "reference": "24d3d9ed8406e10d24452af44597300173655f69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b122efcf4ee02256e4a9ae60783cbf1c3f702503",
-                "reference": "b122efcf4ee02256e4a9ae60783cbf1c3f702503",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/24d3d9ed8406e10d24452af44597300173655f69",
+                "reference": "24d3d9ed8406e10d24452af44597300173655f69",
                 "shasum": ""
             },
             "require": {
@@ -5087,9 +5087,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.16.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.17.0"
             },
-            "time": "2024-03-28T19:17:08+00:00"
+            "time": "2024-04-04T22:16:10+00:00"
         },
         {
             "name": "symfony/clock",
@@ -8283,16 +8283,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.16",
+            "version": "10.5.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd"
+                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
-                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1f736a473d21957ead7e94fcc029f571895abf5",
+                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5",
                 "shasum": ""
             },
             "require": {
@@ -8364,7 +8364,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.16"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.17"
             },
             "funding": [
                 {
@@ -8380,7 +8380,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-28T10:08:10+00:00"
+            "time": "2024-04-05T04:39:01+00:00"
         },
         {
             "name": "psr/cache",
