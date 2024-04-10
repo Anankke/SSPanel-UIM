@@ -157,8 +157,8 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '无效的邮箱');
             }
 
-            if (! RateLimit::checkEmailIpLimit($request->getServerParam('REMOTE_ADDR')) ||
-                ! RateLimit::checkEmailAddressLimit($email)
+            if (! (new RateLimit())->checkRateLimit('email_request_ip', $request->getServerParam('REMOTE_ADDR')) ||
+                ! (new RateLimit())->checkRateLimit('email_request_address', $email)
             ) {
                 return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
             }
