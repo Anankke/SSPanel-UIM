@@ -7,6 +7,9 @@ namespace App\Controllers\Admin\Setting;
 use App\Controllers\BaseController;
 use App\Models\Config;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 final class FeatureController extends BaseController
 {
@@ -29,7 +32,7 @@ final class FeatureController extends BaseController
     /**
      * @throws Exception
      */
-    public function index($request, $response, $args)
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $settings = Config::getClass('feature');
 
@@ -41,7 +44,7 @@ final class FeatureController extends BaseController
         );
     }
 
-    public function save($request, $response, $args)
+    public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         foreach (self::$update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {

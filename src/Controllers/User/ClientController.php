@@ -13,7 +13,7 @@ use function in_array;
 
 final class ClientController extends BaseController
 {
-    public function getClients(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function getClients(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $clientName = $this->antiXss->xss_clean($args['name']);
 

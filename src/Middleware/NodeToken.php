@@ -33,8 +33,8 @@ final class NodeToken implements MiddlewareInterface
         $antiXss = new AntiXSS();
 
         if ($_ENV['enable_rate_limit'] &&
-            (! RateLimit::checkIPLimit($request->getServerParam('REMOTE_ADDR')) ||
-                ! RateLimit::checkWebAPILimit($antiXss->xss_clean($key)))
+            (! (new RateLimit())->checkRateLimit('webapi_ip', $request->getServerParam('REMOTE_ADDR')) ||
+                ! (new RateLimit())->checkRateLimit('webapi_key', $antiXss->xss_clean($key)))
         ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,

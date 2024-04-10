@@ -25,7 +25,7 @@ final class PasswordController extends BaseController
     /**
      * @throws Exception
      */
-    public function reset(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function reset(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
 
@@ -56,8 +56,8 @@ final class PasswordController extends BaseController
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        if (! RateLimit::checkEmailIpLimit($request->getServerParam('REMOTE_ADDR')) ||
-            ! RateLimit::checkEmailAddressLimit($email)
+        if (! (new RateLimit())->checkRateLimit('email_request_ip', $request->getServerParam('REMOTE_ADDR')) ||
+            ! (new RateLimit())->checkRateLimit('email_request_address', $email)
         ) {
             return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
         }

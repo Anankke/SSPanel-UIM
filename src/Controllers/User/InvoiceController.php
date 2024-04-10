@@ -35,7 +35,7 @@ final class InvoiceController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -47,7 +47,7 @@ final class InvoiceController extends BaseController
     /**
      * @throws Exception
      */
-    public function detail(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function detail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $this->antiXss->xss_clean($args['id']);
 
@@ -79,7 +79,7 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function payBalance(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function payBalance(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
 
@@ -131,7 +131,7 @@ final class InvoiceController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $invoices = (new Invoice())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 

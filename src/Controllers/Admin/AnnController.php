@@ -42,7 +42,7 @@ final class AnnController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -56,7 +56,7 @@ final class AnnController extends BaseController
      *
      * @throws Exception
      */
-    public function create(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function create(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -68,7 +68,7 @@ final class AnnController extends BaseController
     /**
      * 后台添加公告
      */
-    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $email_notify_class = (int) $request->getParam('email_notify_class');
         $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;
@@ -135,7 +135,7 @@ final class AnnController extends BaseController
      *
      * @throws Exception
      */
-    public function edit(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $ann = (new Ann())->find($args['id']);
         return $response->write(
@@ -148,7 +148,7 @@ final class AnnController extends BaseController
     /**
      * 后台编辑公告提交
      */
-    public function update(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $ann = (new Ann())->find($args['id']);
         $ann->content = (string) $request->getParam('content');
@@ -181,7 +181,7 @@ final class AnnController extends BaseController
     /**
      * 后台删除公告
      */
-    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $ann = (new Ann())->find($args['id']);
         if (! $ann->delete()) {
@@ -199,7 +199,7 @@ final class AnnController extends BaseController
     /**
      * 后台公告页面 AJAX
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $anns = (new Ann())->orderBy('id')->get();
 

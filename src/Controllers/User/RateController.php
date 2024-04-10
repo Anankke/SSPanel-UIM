@@ -22,7 +22,7 @@ final class RateController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $nodes = Subscribe::getUserNodes($this->user);
         $node_list = [];
@@ -48,7 +48,7 @@ final class RateController extends BaseController
         );
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $nodes = Subscribe::getUserNodes($this->user);
         $node = $nodes->find($request->getParam('node_id'));

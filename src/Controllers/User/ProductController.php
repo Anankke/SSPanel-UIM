@@ -17,7 +17,7 @@ final class ProductController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $tabps = (new Product())->where('status', '1')
             ->where('type', 'tabp')

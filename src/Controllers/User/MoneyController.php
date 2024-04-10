@@ -38,7 +38,7 @@ final class MoneyController extends BaseController
         );
     }
 
-    public function applyGiftCard(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function applyGiftCard(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $giftcard_raw = $this->antiXss->xss_clean($request->getParam('giftcard'));
         $giftcard = (new GiftCard())->where('card', $giftcard_raw)->first();

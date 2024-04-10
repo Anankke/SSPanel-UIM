@@ -33,7 +33,7 @@ final class PaylistController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -45,7 +45,7 @@ final class PaylistController extends BaseController
     /**
      * 后台网关记录页面 AJAX
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $paylists = (new Paylist())->orderBy('id', 'desc')->get();
 

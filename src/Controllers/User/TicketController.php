@@ -30,7 +30,7 @@ final class TicketController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): ?ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! Config::obtain('enable_ticket')) {
             return $response->withRedirect('/user');
@@ -64,7 +64,7 @@ final class TicketController extends BaseController
 
         if (! Config::obtain('enable_ticket') ||
             $this->user->is_shadow_banned ||
-            ! RateLimit::checkTicketLimit($this->user->id) ||
+            ! (new RateLimit())->checkRateLimit('ticket', (string) $this->user->id) ||
             $title === '' ||
             $comment === '' ||
             $type === ''

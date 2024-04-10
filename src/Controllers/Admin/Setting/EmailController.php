@@ -8,6 +8,9 @@ use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Services\Mail;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 use Throwable;
 
 final class EmailController extends BaseController
@@ -61,7 +64,7 @@ final class EmailController extends BaseController
     /**
      * @throws Exception
      */
-    public function index($request, $response, $args)
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $settings = Config::getClass('email');
 
@@ -73,7 +76,7 @@ final class EmailController extends BaseController
         );
     }
 
-    public function save($request, $response, $args)
+    public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         foreach (self::$update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {
@@ -90,7 +93,7 @@ final class EmailController extends BaseController
         ]);
     }
 
-    public function testEmail($request, $response, $args)
+    public function testEmail(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $to = $request->getParam('recipient');
 

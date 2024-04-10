@@ -59,7 +59,7 @@ final class DetectRuleController extends BaseController
     /**
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -71,7 +71,7 @@ final class DetectRuleController extends BaseController
     /**
      * @throws TelegramSDKException
      */
-    public function add(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $rule = new DetectRule();
         $rule->name = $request->getParam('name');
@@ -93,7 +93,7 @@ final class DetectRuleController extends BaseController
         ]);
     }
 
-    public function delete(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $rule = (new DetectRule())->find($id);
@@ -109,7 +109,7 @@ final class DetectRuleController extends BaseController
         ]);
     }
 
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $rules = (new DetectRule())->orderBy('id', 'desc')->get();
 

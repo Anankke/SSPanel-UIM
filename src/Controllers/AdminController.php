@@ -17,7 +17,7 @@ final class AdminController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $today_income = Analytics::getIncome('today');
         $yesterday_income = Analytics::getIncome('yesterday');

@@ -34,7 +34,7 @@ final class PaybackController extends BaseController
      *
      * @throws Exception
      */
-    public function index(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -46,7 +46,7 @@ final class PaybackController extends BaseController
     /**
      * 后台登录记录页面 AJAX
      */
-    public function ajax(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $paybacks = (new Payback())->orderBy('id', 'desc')->get();
 

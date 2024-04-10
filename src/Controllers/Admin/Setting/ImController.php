@@ -11,6 +11,9 @@ use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 final class ImController extends BaseController
@@ -64,7 +67,7 @@ final class ImController extends BaseController
     /**
      * @throws Exception
      */
-    public function index($request, $response, $args)
+    public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $settings = Config::getClass('im');
 
@@ -76,7 +79,7 @@ final class ImController extends BaseController
         );
     }
 
-    public function save($request, $response, $args)
+    public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         foreach (self::$update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {
@@ -93,7 +96,7 @@ final class ImController extends BaseController
         ]);
     }
 
-    public function testTelegram($request, $response, $args)
+    public function testTelegram(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         try {
             (new Telegram())->send(
@@ -113,7 +116,7 @@ final class ImController extends BaseController
         ]);
     }
 
-    public function testDiscord($request, $response, $args)
+    public function testDiscord(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         try {
             (new Discord())->send(
@@ -133,7 +136,7 @@ final class ImController extends BaseController
         ]);
     }
 
-    public function testSlack($request, $response, $args)
+    public function testSlack(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         try {
             (new Slack())->send(

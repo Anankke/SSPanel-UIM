@@ -44,6 +44,15 @@ final class Invoice extends Model
         };
     }
 
+    public function type(): string
+    {
+        return match ($this->type) {
+            'product' => '商品',
+            'topup' => '充值',
+            default => '未知',
+        };
+    }
+
     public function refundToBalance(): void
     {
         if (in_array($this->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {

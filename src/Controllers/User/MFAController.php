@@ -16,7 +16,7 @@ use Slim\Http\ServerRequest;
  */
 final class MFAController extends BaseController
 {
-    public function checkGa(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function checkGa(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $code = $request->getParam('code');
 
@@ -40,7 +40,7 @@ final class MFAController extends BaseController
         ]);
     }
 
-    public function setGa(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function setGa(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $enable = $request->getParam('enable');
 
@@ -71,7 +71,7 @@ final class MFAController extends BaseController
     /**
      * @throws Exception
      */
-    public function resetGa(ServerRequest $request, Response $response, array $args): Response|ResponseInterface
+    public function resetGa(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $user->ga_token = MFA::generateGaToken();

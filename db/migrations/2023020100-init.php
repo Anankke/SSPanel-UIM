@@ -108,16 +108,18 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `invoice` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '账单ID',
-                `user_id` bigint(20) unsigned DEFAULT 0 COMMENT '归属用户ID',
-                `order_id` bigint(20) unsigned DEFAULT 0 COMMENT '订单ID',
-                `content` longtext DEFAULT '{}' COMMENT '账单内容' CHECK (json_valid(`content`)),
-                `price` double unsigned DEFAULT 0 COMMENT '账单金额',
-                `status` varchar(255) DEFAULT '' COMMENT '账单状态',
-                `create_time` int(11) unsigned DEFAULT 0 COMMENT '创建时间',
-                `update_time` int(11) unsigned DEFAULT 0 COMMENT '更新时间',
-                `pay_time` int(11) unsigned DEFAULT 0 COMMENT '支付时间',
+                `type` varchar(255) NOT NULL DEFAULT 'product' COMMENT '类型',
+                `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '归属用户ID',
+                `order_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '订单ID',
+                `content` longtext NOT NULL DEFAULT '{}' COMMENT '账单内容' CHECK (json_valid(`content`)),
+                `price` double unsigned NOT NULL DEFAULT 0 COMMENT '账单金额',
+                `status` varchar(255) NOT NULL DEFAULT '' COMMENT '账单状态',
+                `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
+                `update_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '更新时间',
+                `pay_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '支付时间',
                 PRIMARY KEY (`id`),
                 KEY `id` (`id`),
+                KEY `type` (`type`),
                 KEY `user_id` (`user_id`),
                 KEY `order_id` (`order_id`),
                 KEY `status` (`status`)
@@ -150,7 +152,7 @@ return new class() implements MigrationInterface {
                 `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址',
                 `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`)),
                 `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型',
-                `traffic_rate` float unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率',
+                `traffic_rate` double unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率',
                 `is_dynamic_rate` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否启用动态流量倍率',
                 `dynamic_rate_type` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '动态流量倍率计算方式',
                 `dynamic_rate_config` longtext NOT NULL DEFAULT '{}' COMMENT '动态流量倍率配置' CHECK (json_valid(`custom_config`)),
@@ -207,6 +209,7 @@ return new class() implements MigrationInterface {
                 KEY `id` (`id`),
                 KEY `user_id` (`user_id`),
                 KEY `product_id` (`product_id`),
+                KEY `product_type` (`product_type`),
                 KEY `status` (`status`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
