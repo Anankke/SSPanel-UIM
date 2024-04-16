@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39ab430ad43a297c4e1b232afd979153",
+    "content-hash": "bb79de1b57be0eca9cd7fa5c4c2e1e6c",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -186,16 +186,16 @@
         },
         {
             "name": "alibabacloud/dm-20170622",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alibabacloud-sdk-php/dm-20170622.git",
-                "reference": "a5efe273e9651b53ed648a806d3f653217d733a2"
+                "reference": "400f9de65896f7fd2b854bb6a6c51bfe5d56e324"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alibabacloud-sdk-php/dm-20170622/zipball/a5efe273e9651b53ed648a806d3f653217d733a2",
-                "reference": "a5efe273e9651b53ed648a806d3f653217d733a2",
+                "url": "https://api.github.com/repos/alibabacloud-sdk-php/dm-20170622/zipball/400f9de65896f7fd2b854bb6a6c51bfe5d56e324",
+                "reference": "400f9de65896f7fd2b854bb6a6c51bfe5d56e324",
                 "shasum": ""
             },
             "require": {
@@ -223,9 +223,9 @@
             ],
             "description": "Alibaba Cloud Dm (20170622) SDK Library for PHP",
             "support": {
-                "source": "https://github.com/alibabacloud-sdk-php/dm-20170622/tree/1.2.1"
+                "source": "https://github.com/alibabacloud-sdk-php/dm-20170622/tree/1.2.2"
             },
-            "time": "2024-02-20T17:15:43+00:00"
+            "time": "2024-04-10T17:15:45+00:00"
         },
         {
             "name": "alibabacloud/endpoint-util",
@@ -510,12 +510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/alipay/alipay-sdk-php-all.git",
-                "reference": "3b86882423995c15992c277ffeb1c8e8b2a4a6c3"
+                "reference": "0f286297fe8bdd05594b11714ff4521e49a1e738"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alipay/alipay-sdk-php-all/zipball/3b86882423995c15992c277ffeb1c8e8b2a4a6c3",
-                "reference": "3b86882423995c15992c277ffeb1c8e8b2a4a6c3",
+                "url": "https://api.github.com/repos/alipay/alipay-sdk-php-all/zipball/0f286297fe8bdd05594b11714ff4521e49a1e738",
+                "reference": "0f286297fe8bdd05594b11714ff4521e49a1e738",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +564,7 @@
             "support": {
                 "source": "https://github.com/alipay/alipay-sdk-php-all/tree/master"
             },
-            "time": "2024-03-27T06:32:49+00:00"
+            "time": "2024-04-16T07:11:33+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.304.1",
+            "version": "3.304.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6dac9b3257873a807ac73f6dc4418bdc49a5d9db"
+                "reference": "20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6dac9b3257873a807ac73f6dc4418bdc49a5d9db",
-                "reference": "6dac9b3257873a807ac73f6dc4418bdc49a5d9db",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386",
+                "reference": "20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.4"
             },
-            "time": "2024-04-09T19:25:27+00:00"
+            "time": "2024-04-12T18:06:45+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1703,7 +1703,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1758,7 +1758,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1804,7 +1804,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1855,7 +1855,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1903,16 +1903,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "d9eabd0bb1d05b05f6d045b0e1d1d8e008e40eb1"
+                "reference": "ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/d9eabd0bb1d05b05f6d045b0e1d1d8e008e40eb1",
-                "reference": "d9eabd0bb1d05b05f6d045b0e1d1d8e008e40eb1",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b",
+                "reference": "ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b",
                 "shasum": ""
             },
             "require": {
@@ -1967,11 +1967,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-09T14:34:24+00:00"
+            "time": "2024-04-10T14:52:18+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -2017,7 +2017,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -2067,7 +2067,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v11.3.0",
+            "version": "v11.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -2283,16 +2283,16 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "5.2.0",
+            "version": "5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "0ba88aed12c04bd2ed9924f500673f32b67a6211"
+                "reference": "08071d8d2c7f4b00222cc4b1fb6aa46990a80f83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/0ba88aed12c04bd2ed9924f500673f32b67a6211",
-                "reference": "0ba88aed12c04bd2ed9924f500673f32b67a6211",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/08071d8d2c7f4b00222cc4b1fb6aa46990a80f83",
+                "reference": "08071d8d2c7f4b00222cc4b1fb6aa46990a80f83",
                 "shasum": ""
             },
             "require": {
@@ -2340,7 +2340,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/5.2.0"
+                "source": "https://github.com/lcobucci/jwt/tree/5.3.0"
             },
             "funding": [
                 {
@@ -2352,7 +2352,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-11-20T21:17:42+00:00"
+            "time": "2024-04-11T23:07:54+00:00"
         },
         {
             "name": "league/event",
@@ -2989,21 +2989,21 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.8.4",
+            "version": "v0.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "00470f5fedd7b08ee4860959d6952f0be0ec48a0"
+                "reference": "0f755fafa4d3f8d5c8ed964d3166d078fac0605a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/00470f5fedd7b08ee4860959d6952f0be0ec48a0",
-                "reference": "00470f5fedd7b08ee4860959d6952f0be0ec48a0",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/0f755fafa4d3f8d5c8ed964d3166d078fac0605a",
+                "reference": "0f755fafa4d3f8d5c8ed964d3166d078fac0605a",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1.0",
-                "php-http/discovery": "^1.19.2",
+                "php-http/discovery": "^1.19.4",
                 "php-http/multipart-stream-builder": "^1.3.0",
                 "psr/http-client": "^1.0.3",
                 "psr/http-client-implementation": "^1.0.1",
@@ -3013,15 +3013,15 @@
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.8.1",
                 "guzzlehttp/psr7": "^2.6.2",
-                "laravel/pint": "^1.13.7",
-                "mockery/mockery": "^1.6.7",
+                "laravel/pint": "^1.15.0",
+                "mockery/mockery": "^1.6.11",
                 "nunomaduro/collision": "^7.10.0",
-                "pestphp/pest": "^2.30.0",
-                "pestphp/pest-plugin-arch": "^2.6",
-                "pestphp/pest-plugin-type-coverage": "^2.7.0",
-                "phpstan/phpstan": "^1.10.55",
-                "rector/rector": "^0.16.0",
-                "symfony/var-dumper": "^6.4.2"
+                "pestphp/pest": "^2.34.6",
+                "pestphp/pest-plugin-arch": "^2.7",
+                "pestphp/pest-plugin-type-coverage": "^2.8.1",
+                "phpstan/phpstan": "^1.10.66",
+                "rector/rector": "^1.0.4",
+                "symfony/var-dumper": "^6.4.4"
             },
             "type": "library",
             "autoload": {
@@ -3061,7 +3061,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.8.4"
+                "source": "https://github.com/openai-php/client/tree/v0.8.5"
             },
             "funding": [
                 {
@@ -3077,50 +3077,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-07T07:57:38+00:00"
-        },
-        {
-            "name": "ozdemir/datatables",
-            "version": "2.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/n1crack/datatables.git",
-                "reference": "7d8d51dccc1647fc68d3b6f90453e3f8b8b8bf9d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/n1crack/datatables/zipball/7d8d51dccc1647fc68d3b6f90453e3f8b8b8bf9d",
-                "reference": "7d8d51dccc1647fc68d3b6f90453e3f8b8b8bf9d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0|^8.0|^9.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ozdemir\\Datatables\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yusuf Özdemir",
-                    "email": "yusuf@ozdemir.be"
-                }
-            ],
-            "description": "PHP Library to handle server-side processing for Datatables, in a fast and simple way.",
-            "support": {
-                "issues": "https://github.com/n1crack/datatables/issues",
-                "source": "https://github.com/n1crack/datatables/tree/2.3.7"
-            },
-            "time": "2023-05-29T10:42:49+00:00"
+            "time": "2024-04-15T19:11:23+00:00"
         },
         {
             "name": "php-http/client-common",
@@ -4578,16 +4535,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "4.6.1",
+            "version": "4.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "5a94184175e5830b589bf923da8c9c3af2c0f409"
+                "reference": "d6769b2a5e6bf19ed3bbfbf52328ceaf8e6fcb1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5a94184175e5830b589bf923da8c9c3af2c0f409",
-                "reference": "5a94184175e5830b589bf923da8c9c3af2c0f409",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/d6769b2a5e6bf19ed3bbfbf52328ceaf8e6fcb1f",
+                "reference": "d6769b2a5e6bf19ed3bbfbf52328ceaf8e6fcb1f",
                 "shasum": ""
             },
             "require": {
@@ -4651,7 +4608,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/4.6.1"
+                "source": "https://github.com/getsentry/sentry-php/tree/4.7.0"
             },
             "funding": [
                 {
@@ -4663,7 +4620,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-03-08T08:18:09+00:00"
+            "time": "2024-04-10T13:22:13+00:00"
         },
         {
             "name": "slim/http",
@@ -5038,16 +4995,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.18.0",
+            "version": "v14.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "02abb043b103766f4ed920642ae56ffdc58c7467"
+                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/02abb043b103766f4ed920642ae56ffdc58c7467",
-                "reference": "02abb043b103766f4ed920642ae56ffdc58c7467",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b9308aea15e5cdad3d906c3bba726ff95079554c",
+                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c",
                 "shasum": ""
             },
             "require": {
@@ -5091,9 +5048,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.18.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v14.1.0"
             },
-            "time": "2024-04-09T21:08:04+00:00"
+            "time": "2024-04-11T23:07:41+00:00"
         },
         {
             "name": "symfony/clock",
@@ -8288,16 +8245,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.17",
+            "version": "10.5.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5"
+                "reference": "835df1709ac6c968ba34bf23f3c30e5d5a266de8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1f736a473d21957ead7e94fcc029f571895abf5",
-                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/835df1709ac6c968ba34bf23f3c30e5d5a266de8",
+                "reference": "835df1709ac6c968ba34bf23f3c30e5d5a266de8",
                 "shasum": ""
             },
             "require": {
@@ -8369,7 +8326,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.17"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.18"
             },
             "funding": [
                 {
@@ -8385,7 +8342,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-05T04:39:01+00:00"
+            "time": "2024-04-14T07:05:31+00:00"
         },
         {
             "name": "psr/cache",

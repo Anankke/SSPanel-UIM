@@ -36,7 +36,7 @@ final class RateLimit
 
         try {
             $limiter->limit($value);
-        } catch (LimitExceeded $e) {
+        } catch (LimitExceeded) {
             return false;
         }
 

@@ -183,7 +183,7 @@ final class AuthController extends BaseController
                         'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
                     ]
                 );
-            } catch (Exception|ClientExceptionInterface $e) {
+            } catch (Exception|ClientExceptionInterface) {
                 return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
 

@@ -131,7 +131,7 @@ final class Node extends Model
                 $result = dns_get_record($this->server, DNS_A + DNS_AAAA);
                 $this->ipv4 = $result[0]['ip'] ?? '127.0.0.1';
                 $this->ipv6 = $result[1]['ipv6'] ?? '::1';
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $this->ipv4 = '127.0.0.1';
                 $this->ipv6 = '::1';
             }

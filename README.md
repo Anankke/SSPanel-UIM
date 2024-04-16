@@ -62,7 +62,7 @@ You can view other projects maintained by our developers on the [SSPanel-UIM Dev
 
 ### M1Screw
 
-<a href="https://www.patreon.com/catdev"><img src=".github/PATREON.png" width="300"></a>
+<a href="https://www.patreon.com/catdev"><img src=".github/patreon.png" width="300"></a>
 
 <a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
 

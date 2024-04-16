@@ -140,7 +140,7 @@ final class NodeController extends BaseController
                         Config::obtain('telegram_add_node_text')
                     )
                 );
-            } catch (TelegramSDKException $e) {
+            } catch (TelegramSDKException) {
                 return $response->withJson([
                     'ret' => 1,
                     'msg' => '添加成功，但 Telegram 通知失败',
@@ -234,7 +234,7 @@ final class NodeController extends BaseController
                         Config::obtain('telegram_update_node_text')
                     )
                 );
-            } catch (TelegramSDKException $e) {
+            } catch (TelegramSDKException) {
                 return $response->withJson([
                     'ret' => 1,
                     'msg' => '修改成功，但 Telegram 通知失败',
@@ -296,7 +296,7 @@ final class NodeController extends BaseController
                         Config::obtain('telegram_delete_node_text')
                     )
                 );
-            } catch (TelegramSDKException $e) {
+            } catch (TelegramSDKException) {
                 return $response->withJson([
                     'ret' => 1,
                     'msg' => '删除成功，但Telegram通知失败',
