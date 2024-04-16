@@ -87,7 +87,7 @@ final class Message
 
         $member = [
             'id' => $new_chat_member->getId(),
-            'name' => $new_chat_member->getFirstName() . ' Message.php' . $new_chat_member->getLastName(),
+            'name' => $new_chat_member->getFirstName() . ' ' . $new_chat_member->getLastName(),
         ];
 
         if ($new_chat_member->getUsername() === Config::obtain('telegram_bot')) {
@@ -96,13 +96,6 @@ final class Message
                 &&
                 ! in_array($this->chat_id, json_decode(Config::obtain('group_id_allowed_to_join')))) {
                 // 退群
-
-                $this->replyWithMessage(
-                    [
-                        'text' => '不约，叔叔我们不约.',
-                    ]
-                );
-
                 self::sendPost(
                     'kickChatMember',
                     [
@@ -131,7 +124,7 @@ final class Message
             ) {
                 $this->replyWithMessage(
                     [
-                        'text' => '由于 ' . $member['name'] . ' 未绑定账户，将被移除。',
+                        'text' => $member['name'] . ' 未绑定 Telegram 账户，将被移除。',
                     ]
                 );
 
@@ -196,9 +189,9 @@ final class Message
     public static function getUserTitle(User $user): string
     {
         if ($user->class > 0) {
-            $text = '尊敬的 VIP ' . $user->class . ' 你好：';
+            $text = '付费用户你好：';
         } else {
-            $text = '尊敬的用户你好：';
+            $text = '免费用户你好：';
         }
 
         return $text;
@@ -236,10 +229,9 @@ final class Message
      * 搜索用户
      *
      * @param int $value  搜索值
-     * @param string $method 查找列
      */
-    public static function getUser(int $value, string $method = 'im_value'): null|Model|User
+    public static function getUser(int $value): null|Model|User
     {
-        return (new User())->where('im_type', 4)->where($method, $value)->first();
+        return (new User())->where('im_type', 4)->where('im_value', $value)->first();
     }
 }

@@ -27,7 +27,7 @@ final class UnbindCommand extends Command
     /**
      * @var string Command Description
      */
-    protected string $description = '[私聊]     解除账户绑定.';
+    protected string $description = '[私聊] 解除账户绑定';
 
     /**
      * @throws TelegramSDKException
@@ -109,10 +109,10 @@ final class UnbindCommand extends Command
 
     public function sendText(): string
     {
-        $text = '以 `/unbind example@qq.com` 的形式发送进行解绑.';
+        $text = '以 `/unbind example@gmail.com` 的形式发送进行解绑。';
 
         if (Config::obtain('telegram_unbind_kick_member')) {
-            $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，你解绑账户将会被自动移出用户群.';
+            $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，你解绑账户将会被自动移出用户群。';
         }
 
         return $text;
