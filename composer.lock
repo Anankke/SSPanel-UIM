@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.304.4",
+            "version": "3.304.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386"
+                "reference": "c9a02677b00e28133915afd451a1c8c3726474b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386",
-                "reference": "20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c9a02677b00e28133915afd451a1c8c3726474b7",
+                "reference": "c9a02677b00e28133915afd451a1c8c3726474b7",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.5"
             },
-            "time": "2024-04-12T18:06:45+00:00"
+            "time": "2024-04-16T19:20:23+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1703,16 +1703,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "aee944e8220588756e21aa4c30eebd5f6481e453"
+                "reference": "19c6554c7eba0efabc3f8aa4c434815b7f6b4b7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/aee944e8220588756e21aa4c30eebd5f6481e453",
-                "reference": "aee944e8220588756e21aa4c30eebd5f6481e453",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/19c6554c7eba0efabc3f8aa4c434815b7f6b4b7d",
+                "reference": "19c6554c7eba0efabc3f8aa4c434815b7f6b4b7d",
                 "shasum": ""
             },
             "require": {
@@ -1754,11 +1754,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-04T17:36:49+00:00"
+            "time": "2024-04-15T15:26:05+00:00"
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1804,7 +1804,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1855,7 +1855,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1903,16 +1903,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b"
+                "reference": "aa4171c74d3bac4500128aedc6084377e2e4b950"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b",
-                "reference": "ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/aa4171c74d3bac4500128aedc6084377e2e4b950",
+                "reference": "aa4171c74d3bac4500128aedc6084377e2e4b950",
                 "shasum": ""
             },
             "require": {
@@ -1967,11 +1967,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-10T14:52:18+00:00"
+            "time": "2024-04-16T14:29:11+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -2017,16 +2017,16 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
-                "reference": "ab541626a692597278bae9dabaf7ae3c3657e035"
+                "reference": "0752b63f17105b7de8fa3dea12acd3c4099db21e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/pagination/zipball/ab541626a692597278bae9dabaf7ae3c3657e035",
-                "reference": "ab541626a692597278bae9dabaf7ae3c3657e035",
+                "url": "https://api.github.com/repos/illuminate/pagination/zipball/0752b63f17105b7de8fa3dea12acd3c4099db21e",
+                "reference": "0752b63f17105b7de8fa3dea12acd3c4099db21e",
                 "shasum": ""
             },
             "require": {
@@ -2063,20 +2063,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-02T13:11:56+00:00"
+            "time": "2024-04-16T14:29:11+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v11.3.1",
+            "version": "v11.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "0794cd2077e57cabe9dead2b081e7e20f71e4ffe"
+                "reference": "e7de8b8aa7658c827c48c99212927695848540b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/0794cd2077e57cabe9dead2b081e7e20f71e4ffe",
-                "reference": "0794cd2077e57cabe9dead2b081e7e20f71e4ffe",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/e7de8b8aa7658c827c48c99212927695848540b8",
+                "reference": "e7de8b8aa7658c827c48c99212927695848540b8",
                 "shasum": ""
             },
             "require": {
@@ -2137,7 +2137,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-09T14:13:50+00:00"
+            "time": "2024-04-15T12:21:59+00:00"
         },
         {
             "name": "irazasyed/telegram-bot-sdk",
@@ -4995,16 +4995,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v14.1.0",
+            "version": "v14.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c"
+                "reference": "6b77ba6b2f8791dabc5404befd6c0ead59203892"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b9308aea15e5cdad3d906c3bba726ff95079554c",
-                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/6b77ba6b2f8791dabc5404befd6c0ead59203892",
+                "reference": "6b77ba6b2f8791dabc5404befd6c0ead59203892",
                 "shasum": ""
             },
             "require": {
@@ -5048,9 +5048,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v14.1.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v14.2.0"
             },
-            "time": "2024-04-11T23:07:41+00:00"
+            "time": "2024-04-16T15:58:21+00:00"
         },
         {
             "name": "symfony/clock",
@@ -6367,30 +6367,37 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.8.0",
+            "version": "v3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9d15f0ac07f44dc4217883ec6ae02fd555c6f71d"
+                "reference": "856cb5a6cfd6f3e4dc1f6c9a8f54e259503f7cf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9d15f0ac07f44dc4217883ec6ae02fd555c6f71d",
-                "reference": "9d15f0ac07f44dc4217883ec6ae02fd555c6f71d",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/856cb5a6cfd6f3e4dc1f6c9a8f54e259503f7cf3",
+                "reference": "856cb5a6cfd6f3e4dc1f6c9a8f54e259503f7cf3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-mbstring": "^1.3",
                 "symfony/polyfill-php80": "^1.22"
             },
             "require-dev": {
                 "psr/container": "^1.0|^2.0",
-                "symfony/phpunit-bridge": "^5.4.9|^6.3|^7.0"
+                "symfony/phpunit-bridge": "^5.4.9|^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/Resources/core.php",
+                    "src/Resources/debug.php",
+                    "src/Resources/escaper.php",
+                    "src/Resources/string_loader.php"
+                ],
                 "psr-4": {
                     "Twig\\": "src/"
                 }
@@ -6423,7 +6430,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.8.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.9.2"
             },
             "funding": [
                 {
@@ -6435,7 +6442,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-21T18:54:41+00:00"
+            "time": "2024-04-17T14:16:25+00:00"
         },
         {
             "name": "vectorface/googleauthenticator",
@@ -7230,16 +7237,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.53.0",
+            "version": "v3.54.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "69a19093a9ded8d1baac62ed6c009b8bc148d008"
+                "reference": "2aecbc8640d7906c38777b3dcab6f4ca79004d08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/69a19093a9ded8d1baac62ed6c009b8bc148d008",
-                "reference": "69a19093a9ded8d1baac62ed6c009b8bc148d008",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/2aecbc8640d7906c38777b3dcab6f4ca79004d08",
+                "reference": "2aecbc8640d7906c38777b3dcab6f4ca79004d08",
                 "shasum": ""
             },
             "require": {
@@ -7311,7 +7318,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.53.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.54.0"
             },
             "funding": [
                 {
@@ -7319,7 +7326,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-08T15:03:00+00:00"
+            "time": "2024-04-17T08:12:13+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -8245,16 +8252,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.18",
+            "version": "10.5.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "835df1709ac6c968ba34bf23f3c30e5d5a266de8"
+                "reference": "c726f0de022368f6ed103e452a765d3304a996a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/835df1709ac6c968ba34bf23f3c30e5d5a266de8",
-                "reference": "835df1709ac6c968ba34bf23f3c30e5d5a266de8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c726f0de022368f6ed103e452a765d3304a996a4",
+                "reference": "c726f0de022368f6ed103e452a765d3304a996a4",
                 "shasum": ""
             },
             "require": {
@@ -8326,7 +8333,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.18"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.19"
             },
             "funding": [
                 {
@@ -8342,7 +8349,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-14T07:05:31+00:00"
+            "time": "2024-04-17T14:06:18+00:00"
         },
         {
             "name": "psr/cache",
