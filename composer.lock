@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.304.5",
+            "version": "3.304.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c9a02677b00e28133915afd451a1c8c3726474b7"
+                "reference": "02abf9b8e2afbdf281e28757c582049d3db16df7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c9a02677b00e28133915afd451a1c8c3726474b7",
-                "reference": "c9a02677b00e28133915afd451a1c8c3726474b7",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/02abf9b8e2afbdf281e28757c582049d3db16df7",
+                "reference": "02abf9b8e2afbdf281e28757c582049d3db16df7",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.6"
             },
-            "time": "2024-04-16T19:20:23+00:00"
+            "time": "2024-04-17T18:27:31+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -4353,16 +4353,16 @@
         },
         {
             "name": "sendgrid/php-http-client",
-            "version": "4.1.0",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sendgrid/php-http-client.git",
-                "reference": "84fe926f3d2ac3454f088c9a06ebdc398cc3727e"
+                "reference": "ec09bcfccabeb21d69e245a1e1c0e51f2813fc35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sendgrid/php-http-client/zipball/84fe926f3d2ac3454f088c9a06ebdc398cc3727e",
-                "reference": "84fe926f3d2ac3454f088c9a06ebdc398cc3727e",
+                "url": "https://api.github.com/repos/sendgrid/php-http-client/zipball/ec09bcfccabeb21d69e245a1e1c0e51f2813fc35",
+                "reference": "ec09bcfccabeb21d69e245a1e1c0e51f2813fc35",
                 "shasum": ""
             },
             "require": {
@@ -4409,22 +4409,22 @@
                 "sendgrid"
             ],
             "support": {
-                "source": "https://github.com/sendgrid/php-http-client/tree/4.1.0"
+                "source": "https://github.com/sendgrid/php-http-client/tree/4.1.1"
             },
-            "time": "2023-12-01T05:16:21+00:00"
+            "time": "2023-12-14T08:50:59+00:00"
         },
         {
             "name": "sendgrid/sendgrid",
-            "version": "8.1.1",
+            "version": "8.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sendgrid/sendgrid-php.git",
-                "reference": "08514e75789f192c034fdcf18efe6d8b1a7c91da"
+                "reference": "6700d2cf50df38915fa2d9a03affbca58c48599f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/08514e75789f192c034fdcf18efe6d8b1a7c91da",
-                "reference": "08514e75789f192c034fdcf18efe6d8b1a7c91da",
+                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/6700d2cf50df38915fa2d9a03affbca58c48599f",
+                "reference": "6700d2cf50df38915fa2d9a03affbca58c48599f",
                 "shasum": ""
             },
             "require": {
@@ -4433,7 +4433,7 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "php": ">=7.3",
-                "sendgrid/php-http-client": "4.1.0",
+                "sendgrid/php-http-client": "~4.1",
                 "starkbank/ecdsa": "0.*"
             },
             "replace": {
@@ -4474,9 +4474,9 @@
                 "twilio sendgrid"
             ],
             "support": {
-                "source": "https://github.com/sendgrid/sendgrid-php/tree/8.1.1"
+                "source": "https://github.com/sendgrid/sendgrid-php/tree/8.1.2"
             },
-            "time": "2023-12-06T07:11:08+00:00"
+            "time": "2024-04-18T11:09:09+00:00"
         },
         {
             "name": "sentry/sdk",
@@ -6367,16 +6367,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.9.2",
+            "version": "v3.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "856cb5a6cfd6f3e4dc1f6c9a8f54e259503f7cf3"
+                "reference": "a842d75fed59cdbcbd3a3ad7fb9eb768fc350d58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/856cb5a6cfd6f3e4dc1f6c9a8f54e259503f7cf3",
-                "reference": "856cb5a6cfd6f3e4dc1f6c9a8f54e259503f7cf3",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a842d75fed59cdbcbd3a3ad7fb9eb768fc350d58",
+                "reference": "a842d75fed59cdbcbd3a3ad7fb9eb768fc350d58",
                 "shasum": ""
             },
             "require": {
@@ -6430,7 +6430,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.9.2"
+                "source": "https://github.com/twigphp/Twig/tree/v3.9.3"
             },
             "funding": [
                 {
@@ -6442,7 +6442,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-17T14:16:25+00:00"
+            "time": "2024-04-18T11:59:33+00:00"
         },
         {
             "name": "vectorface/googleauthenticator",

@@ -1,7 +1,5 @@
 {include file='admin/header.tpl'}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.0/tinymce.min.js"></script>
-
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -21,7 +19,7 @@
                             <i class="icon ti ti-robot"></i>
                             AI 文档生成
                         </button>
-                        <button id="create-doc" href="#" class="btn btn-primary">
+                        <button id="create" href="#" class="btn btn-primary">
                             <i class="icon ti ti-device-floppy"></i>
                             保存
                         </button>
@@ -71,26 +69,9 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let options = {
-            selector: '#tinymce',
-            menubar: false,
-            statusbar: false,
-            plugins:
-                'advlist autolink lists link image charmap preview anchor searchreplace visualblocks ' +
-                'code insertdatetime media table',
-            toolbar: 'undo redo | bold italic backcolor link | styles | fontsize | lineheight | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | removeformat',
-            content_style: 'body { font-size: 14px; }',
-            {if $user->is_dark_mode}
-            skin: 'oxide-dark',
-            content_css: 'dark',
-            {/if}
-        }
-        tinyMCE.init(options);
-    })
+{include file='tinymce.tpl'}
 
+<script>
     $("#generate").click(function () {
         $.ajax({
             url: "/admin/docs/generate",
@@ -112,14 +93,14 @@
         })
     });
 
-    $("#create-doc").click(function () {
+    $("#create").click(function () {
         $.ajax({
             url: '/admin/docs',
             type: 'POST',
             dataType: "json",
             data: {
                 title: $("#title").val(),
-                content: tinyMCE.get('tinymce').getContent(),
+                content: tinyMCE.activeEditor.getContent(),
             },
             success: function (data) {
                 if (data.ret === 1) {
