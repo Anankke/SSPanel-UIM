@@ -7,7 +7,6 @@
 <br>
 <br>
 
-[![License](https://img.shields.io/github/license/SSPanel-UIM/SSPanel-UIM-Dev?style=flat-square)](https://github.com/SSPanel-UIM/SSPanel-UIM-Dev/blob/dev/LICENSE)
 ![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-UIM/SSPanel-UIM-Dev?style=flat-square)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Anankke/SSPanel-Uim?style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-UIM/SSPanel-UIM-Dev/lint.yml?branch=dev&label=lint&style=flat-square)
@@ -21,7 +20,7 @@
 
 ## TL;DR
 
-SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks / V2Ray / Trojan / TUIC protocol.
+SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
 ## Features
 
@@ -50,19 +49,19 @@ SSPanel UIM requires the following programs to be installed and run normally:
 
 > We install, we update, we develop
 
-[SSPanel UIM Wiki (zh)](https://wiki.sspanel.org), here you can find answers to most questions.
+[SSPanel UIM Wiki](https://wiki.sspanel.org)
 
 ## Related Projects
 
 SSPanel-UIM is not just a panel, it also includes a series of peripheral projects to help you use it better.
 
-You can view other projects maintained by our developers on the [SSPanel-UIM Dev Team](https://github.com/sspanel-uim) page.
+You can view other projects maintained by our developers on the [SSPanel-UIM Project](https://github.com/SSPanel-UIM) page.
 
 ## Support Developers
 
 ### M1Screw
 
-<a href="https://www.patreon.com/catdev"><img src=".github/PATREON.png" width="300"></a>
+<a href="https://www.patreon.com/catdev"><img src=".github/patreon.png" width="300"></a>
 
 <a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
 

@@ -43,7 +43,7 @@ final class SubscribeLog extends Model
     {
         try {
             return Tools::getIpLocation($this->request_ip);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return '未知';
         }
     }

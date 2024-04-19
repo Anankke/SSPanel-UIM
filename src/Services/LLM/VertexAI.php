@@ -21,7 +21,7 @@ final class VertexAI extends Base
 
         $client = new Client();
 
-        $api_url = 'https://' . $_ENV['vertex_ai_location'] .'-aiplatform.googleapis.com/v1/projects/' .
+        $api_url = 'https://' . $_ENV['vertex_ai_location'] . '-aiplatform.googleapis.com/v1/projects/' .
             $_ENV['vertex_ai_project_id'] . '/locations/' . $_ENV['vertex_ai_location'] . '/publishers/google/models/' .
             $_ENV['vertex_ai_model_id'] . ':streamGenerateContent';
 

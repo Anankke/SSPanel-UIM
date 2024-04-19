@@ -2,10 +2,8 @@ name: PHP Unit Tests
 
 on:
   push:
-    branches: [ "dev" ]
   pull_request:
-    branches: [ "dev" ]
-  workflow_dispatch:
+    types: [ opened, reopened, synchronize ]
 
 jobs:
   php-file-changed:
@@ -23,7 +21,7 @@ jobs:
             php:
               - '**/*.php'
 
-  unit-test-php82:
+  php8.2:
     needs: php-file-changed
     if: ${{ needs.php-file-changed.outputs.php == 'true' }}
     runs-on: ubuntu-latest
@@ -33,10 +31,10 @@ jobs:
       with:
         php-version: 8.2
     - run: |
-        composer install --no-interaction --no-progress --no-suggest
+        composer install --no-interaction --no-progress --no-suggest --quiet
         php vendor/bin/phpunit
 
-  unit-test-php83:
+  php8.3:
     needs: php-file-changed
     if: ${{ needs.php-file-changed.outputs.php == 'true' }}
     runs-on: ubuntu-latest
@@ -46,5 +44,5 @@ jobs:
         with:
           php-version: 8.3
       - run: |
-          composer install --no-interaction --no-progress --no-suggest
+          composer install --no-interaction --no-progress --no-suggest --quiet
           php vendor/bin/phpunit

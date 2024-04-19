@@ -68,7 +68,7 @@ final class PasswordController extends BaseController
         if ($user !== null) {
             try {
                 Password::sendResetEmail($email);
-            } catch (ClientExceptionInterface|RedisException $e) {
+            } catch (ClientExceptionInterface|RedisException) {
                 $msg = '邮件发送失败';
             }
         }

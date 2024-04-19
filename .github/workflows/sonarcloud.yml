@@ -2,10 +2,8 @@ name: SonarCloud
 
 on:
   push:
-    branches: [ "dev" ]
   pull_request:
-    branches: [ "dev" ]
-  workflow_dispatch:
+    types: [ opened, reopened, synchronize ]
 
 permissions:
   pull-requests: read
@@ -24,7 +22,7 @@ jobs:
           php-version: '8.3'
           coverage: xdebug
       - name: Install dependencies with composer
-        run: composer update --no-ansi --no-interaction --no-progress
+        run: composer update --no-interaction --no-progress --no-suggest --quiet
       - name: Run tests with phpunit/phpunit
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
       - name: Fix code coverage paths
@@ -32,7 +30,7 @@ jobs:
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args:

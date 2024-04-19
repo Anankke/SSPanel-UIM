@@ -116,7 +116,7 @@ final class AnnController extends BaseController
         if (Config::obtain('enable_telegram')) {
             try {
                 (new Telegram())->sendHtml(0, '新公告：' . PHP_EOL . $content);
-            } catch (TelegramSDKException $e) {
+            } catch (TelegramSDKException) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功，Telegram发送失败' : '公告添加成功，Telegram发送失败',
@@ -164,7 +164,7 @@ final class AnnController extends BaseController
         if (Config::obtain('enable_telegram')) {
             try {
                 (new Telegram())->sendHtml(0, '公告更新：' . PHP_EOL . $request->getParam('content'));
-            } catch (TelegramSDKException $e) {
+            } catch (TelegramSDKException) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '公告更新成功，Telegram发送失败',

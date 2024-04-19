@@ -134,7 +134,7 @@ final class Reward
         } else {
             try {
                 $traffic = random_int($checkin_min, $checkin_max);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $traffic = 0;
             }
         }

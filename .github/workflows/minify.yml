@@ -13,25 +13,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT }}
-      - name: Auto Minify Tabler Theme CSS file
-        uses: nizarmah/auto-minify@master
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Auto minify tabler theme CSS file
+        uses: nizarmah/auto-minify@v3
         with:
           directory: 'public/theme/tabler/css'
-      - name: Auto Minify Tabler Theme JS file
-        uses: nizarmah/auto-minify@master
+      - name: Auto minify tabler theme JS file
+        uses: nizarmah/auto-minify@v3
         with:
           directory: 'public/theme/tabler/js'
-      - name: Auto Minify CSS file
-        uses: nizarmah/auto-minify@master
+      - name: Auto minify asset CSS file
+        uses: nizarmah/auto-minify@v3
         with:
           directory: 'public/assets/css'
-      - name: Auto Minify JS file
-        uses: nizarmah/auto-minify@master
+      - name: Auto minify asset JS file
+        uses: nizarmah/auto-minify@v3
         with:
           directory: 'public/assets/js'
       - name: Auto committing minified files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           repository: 'public'
-          commit_message: "Github Action: Auto Minified Theme CSS/JS Files"
+          commit_message: "chore: auto minified theme CSS/JS files"

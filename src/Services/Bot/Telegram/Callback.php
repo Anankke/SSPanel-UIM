@@ -987,7 +987,7 @@ final class Callback
             if (! $traffic) {
                 $msg = '签到失败';
             } else {
-                $msg = '获得了 ' . $traffic . 'MB 流量.';
+                $msg = '获得了 ' . $traffic . 'MB 流量';
             }
         } else {
             $msg = '你今天已经签到过了';

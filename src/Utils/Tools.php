@@ -57,19 +57,19 @@ final class Tools
         if ($_ENV['maxmind_license_key'] !== '') {
             try {
                 $geoip = new GeoIP2();
-            } catch (InvalidDatabaseException $e) {
+            } catch (InvalidDatabaseException) {
                 return $data;
             }
 
             try {
                 $city = $geoip->getCity($ip);
-            } catch (AddressNotFoundException|InvalidDatabaseException $e) {
+            } catch (AddressNotFoundException|InvalidDatabaseException) {
                 $city = '未知城市';
             }
 
             try {
                 $country = $geoip->getCountry($ip);
-            } catch (AddressNotFoundException|InvalidDatabaseException $e) {
+            } catch (AddressNotFoundException|InvalidDatabaseException) {
                 $country = '未知国家';
             }
         }
@@ -182,7 +182,7 @@ final class Tools
 
         try {
             $randomString = bin2hex(random_bytes((int) ceil($length / 2)));
-        } catch (RandomException $e) {
+        } catch (RandomException) {
             return false;
         }
 
