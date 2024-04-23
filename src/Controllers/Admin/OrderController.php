@@ -172,7 +172,7 @@ final class OrderController extends BaseController
             }
 
             $order->op .= '
-            <a class="btn btn-blue" href="/admin/order/' . $order->id . '/view">查看</a>';
+            <a class="btn btn-primary" href="/admin/order/' . $order->id . '/view">查看</a>';
             $order->product_type = $order->productType();
             $order->status = $order->status();
             $order->create_time = Tools::toDateTime($order->create_time);

@@ -207,6 +207,10 @@
                                     <i class="ti ti-router"></i>&nbsp;
                                     在线IP
                                 </a>
+                                <a class="dropdown-item" href="/admin/syslog">
+                                    <i class="ti ti-settings"></i>&nbsp;
+                                    系统日志
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

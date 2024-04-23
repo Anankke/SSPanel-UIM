@@ -26,6 +26,7 @@
         "lcobucci/jwt": "^5",
         "mailchimp/transactional": "^1",
         "mailgun/mailgun-php": "^4",
+        "monolog/monolog": "^3",
         "nikolaposa/rate-limit": "^3",
         "openai-php/client": "^0",
         "phpmailer/phpmailer": "^6",

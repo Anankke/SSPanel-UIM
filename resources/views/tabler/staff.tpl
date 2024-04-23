@@ -26,11 +26,10 @@
             <br>
             <p class="empty-title"><a href="https://wiki.sspanel.org/#/contributors">贡献者清单</a></p>
             <br>
-            <p class="empty-title"><a href="https://github.com/Anankke/SSPanel-Uim">GitHub Repo</a></p>
-            <br>
-            <p class="empty-title"><a href="https://github.com/sspanel-uim">GitHub Org</a></p>
+            <p class="empty-title"><a href="https://github.com/SSPanel-UIM">GitHub Project</a></p>
             <br>
             <p class="empty-title">SSPanel-UIM 的存在离不开以下开源项目</p>
+            <p><a href="https://github.com/illuminate/database">Eloquent ORM</a></p>
             <p><a href="https://github.com/slimphp/Slim">Slim Framework</a></p>
             <p><a href="https://github.com/tabler/tabler">Tabler</a></p>
             <p><a href="https://github.com/twigphp/Twig">Twig</a></p>

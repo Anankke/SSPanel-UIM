@@ -353,7 +353,7 @@ final class ProductController extends BaseController
              onclick="deleteProduct(' . $product->id . ')">删除</button>
             <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '"
              onclick="copyProduct(' . $product->id . ')">复制</button>
-            <a class="btn btn-blue" href="/admin/product/' . $product->id . '/edit">编辑</a>';
+            <a class="btn btn-primary" href="/admin/product/' . $product->id . '/edit">编辑</a>';
             $product->type = $product->type();
             $product->status = $product->status();
             $product->create_time = Tools::toDateTime($product->create_time);

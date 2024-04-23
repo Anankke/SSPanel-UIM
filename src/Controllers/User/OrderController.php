@@ -288,7 +288,7 @@ final class OrderController extends BaseController
         $orders = (new Order())->orderBy('id', 'desc')->where('user_id', $this->user->id)->get();
 
         foreach ($orders as $order) {
-            $order->op = '<a class="btn btn-blue" href="/user/order/' . $order->id . '/view">查看</a>';
+            $order->op = '<a class="btn btn-primary" href="/user/order/' . $order->id . '/view">查看</a>';
 
             if ($order->status === 'pending_payment') {
                 $invoice_id = (new Invoice())->where('order_id', $order->id)->first()->id;

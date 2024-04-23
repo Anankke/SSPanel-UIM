@@ -345,7 +345,7 @@ final class NodeController extends BaseController
             onclick="deleteNode(' . $node->id . ')">删除</button>
             <button type="button" class="btn btn-orange" id="copy-node-' . $node->id . '" 
             onclick="copyNode(' . $node->id . ')">复制</button>
-            <a class="btn btn-blue" href="/admin/node/' . $node->id . '/edit">编辑</a>';
+            <a class="btn btn-primary" href="/admin/node/' . $node->id . '/edit">编辑</a>';
             $node->type = $node->type();
             $node->sort = $node->sort();
             $node->is_dynamic_rate = $node->isDynamicRate();

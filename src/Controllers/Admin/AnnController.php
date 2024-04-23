@@ -206,7 +206,7 @@ final class AnnController extends BaseController
         foreach ($anns as $ann) {
             $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
             onclick="deleteAnn(' . $ann->id . ')">删除</button>
-            <a class="btn btn-blue" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
+            <a class="btn btn-primary" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
         }
 
         return $response->withJson([

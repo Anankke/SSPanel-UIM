@@ -114,7 +114,7 @@ final class InvoiceController extends BaseController
         $invoices = (new Invoice())->orderBy('id', 'desc')->get();
 
         foreach ($invoices as $invoice) {
-            $invoice->op = '<a class="btn btn-blue" href="/admin/invoice/' . $invoice->id . '/view">查看</a>';
+            $invoice->op = '<a class="btn btn-primary" href="/admin/invoice/' . $invoice->id . '/view">查看</a>';
             $invoice->status = $invoice->status();
             $invoice->create_time = Tools::toDateTime($invoice->create_time);
             $invoice->update_time = Tools::toDateTime($invoice->update_time);

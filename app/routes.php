@@ -225,6 +225,10 @@ return static function (Slim\App $app): void {
         // 支付网关日志
         $group->get('/gateway', App\Controllers\Admin\PaylistController::class . ':index');
         $group->post('/gateway/ajax', App\Controllers\Admin\PaylistController::class . ':ajax');
+        // 系统日志
+        $group->get('/syslog', App\Controllers\Admin\SysLogController::class . ':index');
+        $group->get('/syslog/{id:[0-9]+}/view', App\Controllers\Admin\SysLogController::class . ':detail');
+        $group->post('/syslog/ajax', App\Controllers\Admin\SysLogController::class . ':ajax');
         // 系统状态
         $group->get('/system', App\Controllers\Admin\SystemController::class . ':index');
         $group->post('/system/check_update', App\Controllers\Admin\SystemController::class . ':checkUpdate');

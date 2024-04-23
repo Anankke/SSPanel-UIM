@@ -247,7 +247,7 @@ final class TicketController extends BaseController
             }
 
             $ticket->op .= '
-            <a class="btn btn-blue" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
+            <a class="btn btn-primary" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
             $ticket->status = $ticket->status();
             $ticket->type = $ticket->type();
             $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);

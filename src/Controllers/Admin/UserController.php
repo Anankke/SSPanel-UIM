@@ -240,7 +240,7 @@ final class UserController extends BaseController
         foreach ($users as $user) {
             $user->op = '<button type="button" class="btn btn-red" id="delete-user-' . $user->id . '" 
             onclick="deleteUser(' . $user->id . ')">删除</button>
-            <a class="btn btn-blue" href="/admin/user/' . $user->id . '/edit">编辑</a>';
+            <a class="btn btn-primary" href="/admin/user/' . $user->id . '/edit">编辑</a>';
             $user->transfer_enable = $user->enableTraffic();
             $user->transfer_used = $user->usedTraffic();
             $user->is_admin = $user->is_admin === 1 ? '是' : '否';
