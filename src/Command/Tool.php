@@ -15,6 +15,7 @@ use Exception;
 use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use tronovav\GeoIP2Update\Client;
 use function count;
 use function date;
 use function fgets;
@@ -25,6 +26,7 @@ use function json_decode;
 use function method_exists;
 use function strtolower;
 use function trim;
+use const BASE_PATH;
 use const PHP_EOL;
 use const STDIN;
 use const STDOUT;
@@ -33,22 +35,23 @@ final class Tool extends Command
 {
     public string $description = <<<EOL
 ├─=: php xcat Tool [选项]
-│ ├─ setTelegram             - 设置 Telegram 机器人
-│ ├─ resetSetting            - 使用默认值覆盖数据库配置
-│ ├─ importSetting           - 导入数据库配置
-│ ├─ resetNodePassword       - 重置所有节点通讯密钥
-│ ├─ resetNodeBandwidth      - 重置所有节点流量
-│ ├─ resetPort               - 重置所有用户端口
-│ ├─ resetBandwidth          - 重置所有用户流量
-│ ├─ resetTodayBandwidth     - 重置今日流量
-│ ├─ resetPassword           - 重置所有用户登录密码
-│ ├─ resetPasswd             - 重置所有用户连接密码
-│ ├─ clearSubToken           - 清除用户 Sub Token
-│ ├─ generateUUID            - 为所有用户生成新的 UUID
-│ ├─ generateGa              - 为所有用户生成新的 Ga Secret
-│ ├─ generateApiToken        - 为所有用户生成新的 API Token
-│ ├─ setTheme                - 为所有用户设置新的主题
-│ ├─ createAdmin             - 创建管理员帐号
+│ ├─ setTelegram         - 设置 Telegram 机器人
+│ ├─ resetSetting        - 使用默认值覆盖数据库配置
+│ ├─ importSetting       - 导入数据库配置
+│ ├─ resetNodePassword   - 重置所有节点通讯密钥
+│ ├─ resetNodeBandwidth  - 重置所有节点流量
+│ ├─ resetPort           - 重置所有用户端口
+│ ├─ resetBandwidth      - 重置所有用户流量
+│ ├─ resetTodayBandwidth - 重置今日流量
+│ ├─ resetPassword       - 重置所有用户登录密码
+│ ├─ resetPasswd         - 重置所有用户连接密码
+│ ├─ clearSubToken       - 清除用户 Sub Token
+│ ├─ generateUUID        - 为所有用户生成新的 UUID
+│ ├─ generateGa          - 为所有用户生成新的 Ga Secret
+│ ├─ generateApiToken    - 为所有用户生成新的 API Token
+│ ├─ setTheme            - 为所有用户设置新的主题
+│ ├─ createAdmin         - 创建管理员帐号
+│ └─ updateGeoIP2        - 更新 GeoLite2 数据库
 
 EOL;
 
@@ -397,6 +400,29 @@ EOL;
             }
         } else {
             echo '已取消创建' . PHP_EOL;
+        }
+    }
+
+    public function updateGeoIP2(): void
+    {
+        if ($_ENV['maxmind_license_key'] !== '') {
+            echo '正在更新 GeoIP2 数据库...' . PHP_EOL;
+
+            $client = new Client([
+                'license_key' => $_ENV['maxmind_license_key'],
+                'dir' => BASE_PATH . '/storage/',
+                'editions' => ['GeoLite2-City', 'GeoLite2-Country'],
+            ]);
+
+            try {
+                $client->run();
+                echo '成功更新 GeoIP2 数据库。' . PHP_EOL;
+            } catch (Exception $e) {
+                echo '更新 GeoIP2 数据库失败。' . PHP_EOL;
+                echo $e->getMessage() . PHP_EOL;
+            }
+        } else {
+            echo '请在 .config.php 中配置 maxmind_license_key' . PHP_EOL;
         }
     }
 }
