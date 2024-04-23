@@ -67,6 +67,10 @@ final class SubController extends BaseController
         . '; download=' . $user->d
         . '; total=' . $user->transfer_enable
         . '; expire=' . strtotime($user->class_expire);
+        // Clash specific
+        $sub_content_disposition = 'attachment; filename=' . $_ENV['appName'];
+        $sub_profile_update_interval = 6;
+        $sub_profile_web_page_url = $_ENV['baseUrl'];
 
         if (Config::obtain('subscribe_log')) {
             (new SubscribeLog())->add(
@@ -74,6 +78,15 @@ final class SubController extends BaseController
                 $subtype,
                 $this->antiXss->xss_clean($request->getHeaderLine('User-Agent'))
             );
+        }
+
+        if ($subtype === 'clash') {
+            return $response->withHeader('Subscription-Userinfo', $sub_details)
+                ->withHeader('Content-Disposition', $sub_content_disposition)
+                ->withHeader('Profile-Update-Interval', $sub_profile_update_interval)
+                ->withHeader('Profile-Web-Page-Url', $sub_profile_web_page_url)
+                ->withHeader('Content-Type', $content_type)
+                ->write($sub_info);
         }
 
         return $response->withHeader('Subscription-Userinfo', $sub_details)
