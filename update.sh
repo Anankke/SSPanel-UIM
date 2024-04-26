@@ -1,9 +1,6 @@
 #!/usr/bin/bash
 
 cat << "EOF"
-SSPanel-UIM update script
-Author: M1Screw
-Github: https://github.com/sspanel-uim/SSPanel-Uim-Dev
 Usage:
 ./update.sh dev --> Upgrade to the latest development version
 ./update.sh release $release_version $db_version --> Upgrade to the release version with the specified database version
