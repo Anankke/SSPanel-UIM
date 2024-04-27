@@ -1,26 +1,18 @@
-<img src="public/images/uim-logo-round_192x192.png" alt="logo" width="150" height="150" align="left" />
+<img src=".github/next_1000.png" alt="next" align="center"/>
 
-<h1>SSPanel UIM</h1>
+![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-NeXT/NeXT-Panel-Dev?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-NeXT/NeXT-Panel-Dev/lint.yml?branch=dev&label=lint&style=flat-square)
+![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/SSPanel-NeXT_NeXT-Panel-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
+![Sonar Coverage](https://img.shields.io/sonar/coverage/SSPanel-NeXT_NeXT-Panel-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 
-> Across the Great Wall we can reach every corner in the world
-
-<br>
-<br>
-
-![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-UIM/SSPanel-UIM-Dev?style=flat-square)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Anankke/SSPanel-Uim?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-UIM/SSPanel-UIM-Dev/lint.yml?branch=dev&label=lint&style=flat-square)
-![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/sspanel-uim_SSPanel-Uim-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
-![Sonar Coverage](https://img.shields.io/sonar/coverage/sspanel-uim_SSPanel-Uim-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
-
-[![Release](https://img.shields.io/badge/Telegram-Release-blue?style=flat-square)](https://t.me/sspanel_uim)
-[![Dev](https://img.shields.io/badge/Telegram-Dev-blue?style=flat-square)](https://t.me/sspanel_uim_dev)
+[![Main](https://img.shields.io/badge/Telegram-Release-blue?style=flat-square)](https://t.me/sspanel_next)
+[![Dev](https://img.shields.io/badge/Telegram-Dev-blue?style=flat-square)](https://t.me/sspanel_next_dev)
 [![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
 [![Dev Blog](https://img.shields.io/badge/Dev-Blog-blue?style=flat-square)](https://blog.sspanel.org)
 
 ## TL;DR
 
-SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
+NeXT Panel is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
 ## Features
 
@@ -37,7 +29,7 @@ SSPanel UIM is a multi-purpose proxy service management system designed for Shad
 
 ## Installation
 
-SSPanel UIM requires the following programs to be installed and run normally:
+NeXT Panel requires the following programs to be installed and run normally:
 
 - Git
 - Nginx（HTTPS is REQUIRED）
@@ -47,30 +39,17 @@ SSPanel UIM requires the following programs to be installed and run normally:
 
 ## Documentation
 
-> We install, we update, we develop
-
-[SSPanel UIM Wiki](https://wiki.sspanel.org)
-
-## Related Projects
-
-SSPanel-UIM is not just a panel, it also includes a series of peripheral projects to help you use it better.
-
-You can view other projects maintained by our developers on the [SSPanel-UIM Project](https://github.com/SSPanel-UIM) page.
+[NeXT Panel Docs](https://wiki.sspanel.org)
 
 ## Support Developers
 
-### M1Screw
+### Cat
 
 <a href="https://www.patreon.com/catdev"><img src=".github/patreon.png" width="300"></a>
 
 <a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
 
 <a href="https://www.digitalocean.com/?refcode=50f1a3b6244c"><img src=".github/do.png" width="300"></a>
-
-
-## Sponsors
-
-[![](.github/jetbrains.png)](https://www.jetbrains.com/?from=SSPanel-UIM)
 
 ## License
 
