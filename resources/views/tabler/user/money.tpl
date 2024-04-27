@@ -15,6 +15,11 @@
                 <div class="col-auto">
                     <div class="btn-list">
                         <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                           data-bs-target="#topup">
+                            <i class="icon ti ti-plus"></i>
+                            余额充值
+                        </a>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
                            data-bs-target="#apply-giftcard-dialog">
                             <i class="icon ti ti-cash-banknote"></i>
                             兑换礼品卡
@@ -82,6 +87,36 @@
                             hx-post="/user/giftcard" hx-swap="none"
                             hx-vals='js:{ giftcard: document.getElementById("giftcard").value }'>
                         兑换
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="topup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">余额充值</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3 row">
+                        <div class="col">
+                            <input id="topup_amount" type="number" step="0.01" class="form-control"
+                                   placeholder="请输入要充值的金额">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="apply-topup" class="btn btn-primary" data-bs-dismiss="modal"
+                            hx-post="/user/order/create" hx-swap="none"
+                            hx-vals='js:{
+                                amount: document.getElementById("topup_amount").value,
+                                type: "topup"
+                            }'>
+                        充值
                     </button>
                 </div>
             </div>

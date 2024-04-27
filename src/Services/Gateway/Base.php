@@ -71,7 +71,7 @@ abstract class Base
 
         $invoice = (new Invoice())->where('id', $paylist?->invoice_id)->first();
 
-        if ($invoice?->status === 'unpaid' && (int) $invoice?->price === (int) $paylist?->total) {
+        if (($invoice?->status === 'unpaid' || $invoice?->status === 'partially_paid') && (int) $invoice?->price === (int) $paylist?->total) {
             $invoice->status = 'paid_gateway';
             $invoice->update_time = time();
             $invoice->pay_time = time();
@@ -79,7 +79,7 @@ abstract class Base
         }
 
         $user = (new User())->find($paylist?->userid);
-        // 返利
+
         if ($user !== null && $user->ref_by > 0 && Config::obtain('invite_mode') === 'reward') {
             Reward::issuePaybackReward($user->id, $user->ref_by, $paylist->total, $paylist->invoice_id);
         }
