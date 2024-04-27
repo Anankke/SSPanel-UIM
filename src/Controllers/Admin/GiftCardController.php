@@ -131,7 +131,7 @@ final class GiftCardController extends BaseController
         $giftcards = (new GiftCard())->orderBy('id', 'desc')->get();
 
         foreach ($giftcards as $giftcard) {
-            $giftcard->op = '<button type="button" class="btn btn-red" id="delete-gift-card-' . $giftcard->id . '" 
+            $giftcard->op = '<button class="btn btn-red" id="delete-gift-card-' . $giftcard->id . '" 
         onclick="deleteGiftCard(' . $giftcard->id . ')">删除</button>';
             $giftcard->status = $giftcard->status();
             $giftcard->create_time = Tools::toDateTime((int) $giftcard->create_time);

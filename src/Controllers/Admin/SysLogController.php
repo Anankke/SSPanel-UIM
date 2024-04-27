@@ -104,7 +104,7 @@ final class SysLogController extends BaseController
 
         foreach ($syslogs as $log) {
             $log->op =
-                '<button type="button" <a class="btn btn-primary" href="/admin/syslog/' . $log->id . '/view">查看</a>';
+                '<a class="btn btn-primary" href="/admin/syslog/' . $log->id . '/view">查看</a>';
             $log->message = strlen($log->message) > 25 ?
                 substr($log->message, 0, 25) . '...' : $log->message;
             $log->level = $log->level();

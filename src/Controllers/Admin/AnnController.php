@@ -204,7 +204,7 @@ final class AnnController extends BaseController
         $anns = (new Ann())->orderBy('id')->get();
 
         foreach ($anns as $ann) {
-            $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
+            $ann->op = '<button class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
             onclick="deleteAnn(' . $ann->id . ')">删除</button>
             <a class="btn btn-primary" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
         }

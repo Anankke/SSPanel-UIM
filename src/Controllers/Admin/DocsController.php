@@ -173,7 +173,7 @@ final class DocsController extends BaseController
         $docs = (new Docs())->orderBy('id')->get();
 
         foreach ($docs as $doc) {
-            $doc->op = '<button type="button" class="btn btn-red" id="delete-doc-' . $doc->id . '" 
+            $doc->op = '<button class="btn btn-red" id="delete-doc-' . $doc->id . '" 
             onclick="deleteDoc(' . $doc->id . ')">删除</button>
             <a class="btn btn-primary" href="/admin/docs/' . $doc->id . '/edit">编辑</a>';
         }

@@ -237,12 +237,12 @@ final class TicketController extends BaseController
         $tickets = (new Ticket())->orderBy('id', 'desc')->get();
 
         foreach ($tickets as $ticket) {
-            $ticket->op = '<button type="button" class="btn btn-red" id="delete-ticket" 
+            $ticket->op = '<button class="btn btn-red" id="delete-ticket" 
             onclick="deleteTicket(' . $ticket->id . ')">删除</button>';
 
             if ($ticket->status !== 'closed') {
                 $ticket->op .= '
-                <button type="button" class="btn btn-orange" id="close-ticket" 
+                <button class="btn btn-orange" id="close-ticket" 
                 onclick="closeTicket(' . $ticket->id . ')">关闭</button>';
             }
 
