@@ -238,7 +238,7 @@ final class UserController extends BaseController
         $users = (new User())->orderBy('id', 'desc')->get();
 
         foreach ($users as $user) {
-            $user->op = '<button type="button" class="btn btn-red" id="delete-user-' . $user->id . '" 
+            $user->op = '<button class="btn btn-red" id="delete-user-' . $user->id . '" 
             onclick="deleteUser(' . $user->id . ')">删除</button>
             <a class="btn btn-primary" href="/admin/user/' . $user->id . '/edit">编辑</a>';
             $user->transfer_enable = $user->enableTraffic();

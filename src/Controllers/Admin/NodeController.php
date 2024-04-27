@@ -341,9 +341,9 @@ final class NodeController extends BaseController
         $nodes = (new Node())->orderBy('id', 'desc')->get();
 
         foreach ($nodes as $node) {
-            $node->op = '<button type="button" class="btn btn-red" id="delete-node-' . $node->id . '" 
+            $node->op = '<button class="btn btn-red" id="delete-node-' . $node->id . '" 
             onclick="deleteNode(' . $node->id . ')">删除</button>
-            <button type="button" class="btn btn-orange" id="copy-node-' . $node->id . '" 
+            <button class="btn btn-orange" id="copy-node-' . $node->id . '" 
             onclick="copyNode(' . $node->id . ')">复制</button>
             <a class="btn btn-primary" href="/admin/node/' . $node->id . '/edit">编辑</a>';
             $node->type = $node->type();

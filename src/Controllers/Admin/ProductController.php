@@ -349,9 +349,9 @@ final class ProductController extends BaseController
         $products = (new Product())->orderBy('id', 'desc')->get();
 
         foreach ($products as $product) {
-            $product->op = '<button type="button" class="btn btn-red" id="delete-product-' . $product->id . '"
+            $product->op = '<button class="btn btn-red" id="delete-product-' . $product->id . '"
              onclick="deleteProduct(' . $product->id . ')">删除</button>
-            <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '"
+            <button class="btn btn-orange" id="copy-product-' . $product->id . '"
              onclick="copyProduct(' . $product->id . ')">复制</button>
             <a class="btn btn-primary" href="/admin/product/' . $product->id . '/edit">编辑</a>';
             $product->type = $product->type();

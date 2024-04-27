@@ -114,7 +114,7 @@ final class DetectRuleController extends BaseController
         $rules = (new DetectRule())->orderBy('id', 'desc')->get();
 
         foreach ($rules as $rule) {
-            $rule->op = '<button type="button" class="btn btn-red" id="delete-rule-' . $rule->id .
+            $rule->op = '<button class="btn btn-red" id="delete-rule-' . $rule->id .
                 '" onclick="deleteRule(' . $rule->id . ')">删除</button>';
             $rule->type = $rule->type();
         }

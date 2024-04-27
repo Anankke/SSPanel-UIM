@@ -162,12 +162,12 @@ final class OrderController extends BaseController
         $orders = (new Order())->orderBy('id', 'desc')->get();
 
         foreach ($orders as $order) {
-            $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '"
+            $order->op = '<button class="btn btn-red" id="delete-order-' . $order->id . '"
              onclick="deleteOrder(' . $order->id . ')">删除</button>';
 
             if (in_array($order->status, ['pending_payment', 'pending_activation'])) {
                 $order->op .= '
-                <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '"
+                <button class="btn btn-orange" id="cancel-order-' . $order->id . '"
                  onclick="cancelOrder(' . $order->id . ')">取消</button>';
             }
 
