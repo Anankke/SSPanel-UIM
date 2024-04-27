@@ -25,7 +25,7 @@ SSPanel UIM requires the following programs to be installed and run normally:
 
 强烈建议用以上服务器环境，mysql安装不上，因为有些数据字段没有，网上教程关于mysql的都不用看了。
 
-面板用SSPANEL 节点用XRARY 可以使用  其他节点服务正在尝试，感兴趣的折腾  不想折腾的 直接移步 https://www.frelink.top 看看演示站效果或使用
+面板用SSPANEL 节点用XRARY 可以使用  其他节点服务正在尝试，感兴趣的折腾  不想折腾的 直接移步 <a href="https://www.frelink.top">frelink</a> 看看演示站效果或使用
 
 ## License
 
