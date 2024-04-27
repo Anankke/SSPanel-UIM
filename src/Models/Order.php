@@ -50,6 +50,7 @@ final class Order extends Model
             'tabp' => '时间流量包',
             'time' => '时间包',
             'bandwidth' => '流量包',
+            'topup' => '充值',
             default => '其他',
         };
     }

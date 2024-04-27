@@ -118,7 +118,11 @@ final class Epay extends Base
             $resData = json_decode($res->getBody()->__toString(), true);
 
             if ($resData['code'] !== 1 || ! isset($resData['payurl'])) {
-                throw new Exception();
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => $resData['msg'] ?? '请求支付失败',
+                    //TODO: use syslog to log this error
+                ]);
             }
 
             return $response->withHeader('HX-Redirect', $resData['payurl'])->withJson([
@@ -128,7 +132,7 @@ final class Epay extends Base
         } catch (Exception|GuzzleException) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '请求支付失败',
+                'msg' => '请求支付失败，网关错误',
             ]);
         }
     }

@@ -162,6 +162,7 @@
                 type: 'POST',
                 dataType: "json",
                 data: {
+                    type: 'product',
                     coupon: $('#coupon').val(),
                     product_id: {$product->id},
                 },

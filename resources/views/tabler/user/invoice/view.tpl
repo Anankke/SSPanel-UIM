@@ -24,7 +24,7 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
-                {if $invoice->status === 'unpaid'}
+                {if $invoice->status === 'unpaid' || $invoice->status === 'partially_paid'}
                 <div class="col-sm-12 col-md-6 col-lg-9">
                     {else}
                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -94,8 +94,9 @@
                             </div>
                         </div>
                     </div>
-                    {if $invoice->status === 'unpaid'}
+                    {if $invoice->status === 'unpaid' || $invoice->status === 'partially_paid'}
                         <div class="col-sm-12 col-md-6 col-lg-3">
+                            {if $invoice->type !== 'topup'}
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">余额支付</h3>
@@ -111,6 +112,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {/if}
                             {if count($payments) > 0}
                                 <div class="card my-3">
                                     <div class="card-header">
@@ -133,6 +135,7 @@
         </div>
 
         <script>
+            {if $invoice->type !== 'topup'}
             $("#pay-balance").click(function () {
                 $.ajax({
                     url: '/user/invoice/pay_balance',
@@ -145,9 +148,6 @@
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
-                            setTimeout(function () {
-                                $(location).attr('href', '/user/invoice');
-                            }, {$config['jump_delay']});
                         } else {
                             $('#fail-message').text(data.msg);
                             $('#fail-dialog').modal('show');
@@ -155,6 +155,7 @@
                     }
                 })
             });
+            {/if}
         </script>
 
         {include file='user/footer.tpl'}

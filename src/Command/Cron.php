@@ -37,6 +37,7 @@ EOL;
         $jobs->processTabpOrderActivation();
         $jobs->processBandwidthOrderActivation();
         $jobs->processTimeOrderActivation();
+        $jobs->processTopupOrderActivation();
 
         // Run user related jobs
         $jobs->expirePaidUserAccount();
