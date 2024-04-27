@@ -7,22 +7,11 @@
 <br>
 <br>
 
-## TL;DR
+## 简介
 
 SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
-## Features
-
-- Integrate multiple payment systems such as Alipay F2F, PayPal, Stripe, etc.
-- Support multiple mail services, built-in mail queue function, no third-party components are required to use
-- Built-in tabler theme based on Bootstrap 5, template engine support
-- Support Shadowsocks 2022, TUIC, and other latest proxy protocols
-- Universal subscription interface, one-click json/clash/sip008/sing-box format subscription distribution
-- Custom node configuration, modular subscription system, support multiple client-specific subscription formats
-- Refactored store system, support billing modes including but not limited to annual/monthly, pay-as-you-go, access type billing, etc.
-- Refactored scheduled task system, one command can automatically complete all scheduled tasks
-- Deep integration of large language models, support intelligent replies to tickets, document generation, and other functions
-- One-click access to OpenAI, Google AI, Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI, Anthropic, and other large language model services
+本项目是由 SSPanel UIM FORK过来的，在运行的过程中修复了一些问题，有兴趣的可以加入T群共同研究。
 
 ## Installation
 
@@ -34,20 +23,9 @@ SSPanel UIM requires the following programs to be installed and run normally:
 - MariaDB 10.11+（Disable strict mode）
 - Redis 7.0+
 
-## Support Developers
+强烈建议用以上服务器环境，mysql安装不上，因为有些数据字段没有，网上教程关于mysql的都不用看了。
 
-### Cat
-
-<a href="https://www.patreon.com/catdev"><img src=".github/patreon.png" width="300"></a>
-
-<a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
-
-<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c"><img src=".github/do.png" width="300"></a>
-
-
-## Sponsors
-
-[![](.github/jetbrains.png)](https://www.jetbrains.com/?from=SSPanel-UIM)
+面板用SSPANEL 节点用XRARY 可以使用  其他节点服务正在尝试，感兴趣的折腾  不想折腾的 直接移步 https://www.frelink.top 看看演示站效果或使用
 
 ## License
 
