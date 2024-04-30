@@ -6,10 +6,9 @@ namespace App\Services\Subscribe;
 
 use App\Services\Subscribe;
 use App\Utils\Tools;
+use Symfony\Component\Yaml\Yaml;
 use function array_merge;
 use function json_decode;
-use function yaml_emit;
-use const YAML_UTF8_ENCODING;
 
 final class Clash extends Base
 {
@@ -181,9 +180,6 @@ final class Clash extends Base
             'proxies' => $nodes,
         ];
 
-        return yaml_emit(
-            array_merge($clash_config, $clash_nodes, $clash_group_config),
-            YAML_UTF8_ENCODING
-        );
+        return Yaml::dump(array_merge($clash_config, $clash_nodes, $clash_group_config));
     }
 }
