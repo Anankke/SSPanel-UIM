@@ -77,6 +77,7 @@ final class SubController extends BaseController
         }
 
         return $response->withHeader('Subscription-Userinfo', $sub_details)
+            ->withHeader('profile-web-page-url', $_ENV['subUrl'])
             ->withHeader('Content-Type', $content_type)
             ->write($sub_info);
     }
