@@ -114,7 +114,11 @@
                             </div>
                             {/if}
                             {if count($payments) > 0}
+                                {if $invoice->type !== 'topup'}
                                 <div class="card my-3">
+                                {else}
+                                <div class="card">
+                                {/if}
                                     <div class="card-header">
                                         <h3 class="card-title">网关支付</h3>
                                     </div>
