@@ -11,11 +11,11 @@ use App\Models\User as ModelsUser;
 use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\Tools;
+use danielsreichenbach\GeoIP2Update\Client;
 use Exception;
 use Ramsey\Uuid\Uuid;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use tronovav\GeoIP2Update\Client;
 use function count;
 use function date;
 use function fgets;
@@ -51,7 +51,7 @@ final class Tool extends Command
 │ ├─ generateApiToken    - 为所有用户生成新的 API Token
 │ ├─ setTheme            - 为所有用户设置新的主题
 │ ├─ createAdmin         - 创建管理员帐号
-│ └─ updateGeoIP2        - 更新 GeoLite2 数据库
+│ └─ updateGeoIP2        - 更新 GeoIP2 数据库
 
 EOL;
 
@@ -405,10 +405,11 @@ EOL;
 
     public function updateGeoIP2(): void
     {
-        if ($_ENV['maxmind_license_key'] !== '') {
-            echo '正在更新 GeoIP2 数据库...' . PHP_EOL;
+        if ($_ENV['maxmind_account_id'] !== '' && $_ENV['maxmind_license_key'] !== '') {
+            echo 'Updating GeoIP2 database...' . PHP_EOL;
 
             $client = new Client([
+                'account_id' => $_ENV['maxmind_account_id'],
                 'license_key' => $_ENV['maxmind_license_key'],
                 'dir' => BASE_PATH . '/storage/',
                 'editions' => ['GeoLite2-City', 'GeoLite2-Country'],
@@ -416,13 +417,13 @@ EOL;
 
             try {
                 $client->run();
-                echo '成功更新 GeoIP2 数据库。' . PHP_EOL;
+                echo 'Successfully updated GeoIP2 database.' . PHP_EOL;
             } catch (Exception $e) {
-                echo '更新 GeoIP2 数据库失败。' . PHP_EOL;
+                echo 'Update GeoIP2 database failed.' . PHP_EOL;
                 echo $e->getMessage() . PHP_EOL;
             }
         } else {
-            echo '请在 .config.php 中配置 maxmind_license_key' . PHP_EOL;
+            echo 'Please configure maxmind_account_id & maxmind_license_key in config/.config.php' . PHP_EOL;
         }
     }
 }
