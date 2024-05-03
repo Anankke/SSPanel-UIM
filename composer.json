@@ -41,7 +41,7 @@
         "stripe/stripe-php": "^14",
         "symfony/http-client": "^7",
         "symfony/translation": "^7",
-        "tronovav/geoip2-update": "^2",
+        "danielsreichenbach/geoip2-update": "^2",
         "twig/twig": "^3",
         "vectorface/googleauthenticator": "^3",
         "voku/anti-xss": "^4"

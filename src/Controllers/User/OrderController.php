@@ -250,7 +250,8 @@ final class OrderController extends BaseController
         $order->update_time = time();
         $order->save();
 
-        $invoice_content = [
+        $invoice_content = [];
+        $invoice_content[] = [
             'content_id' => 0,
             'name' => $product->name,
             'price' => $product->price,
@@ -320,7 +321,8 @@ final class OrderController extends BaseController
         $order->update_time = time();
         $order->save();
 
-        $invoice_content = [
+        $invoice_content = [];
+        $invoice_content[] = [
             'content_id' => 0,
             'name' => '余额充值',
             'price' => $amount,
