@@ -1,7 +1,5 @@
 {include file='admin/header.tpl'}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.0/tinymce.min.js"></script>
-
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -16,7 +14,7 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <button id="save-doc" href="#" class="btn btn-primary">
+                        <button id="save" href="#" class="btn btn-primary">
                             <i class="icon ti ti-device-floppy"></i>
                             保存
                         </button>
@@ -46,27 +44,10 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let options = {
-            selector: '#tinymce',
-            menubar: false,
-            statusbar: false,
-            plugins:
-                'advlist autolink lists link image charmap preview anchor searchreplace visualblocks ' +
-                'code insertdatetime media table',
-            toolbar: 'undo redo | bold italic backcolor link | styles | fontsize | lineheight | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | removeformat',
-            content_style: 'body { font-size: 14px; }',
-            {if $user->is_dark_mode}
-            skin: 'oxide-dark',
-            content_css: 'dark',
-            {/if}
-        }
-        tinyMCE.init(options);
-    })
+{include file='tinymce.tpl'}
 
-    $("#save-doc").click(function () {
+<script>
+    $("#save").click(function () {
         $.ajax({
             url: '/admin/docs/' + {$doc->id},
             type: 'PUT',

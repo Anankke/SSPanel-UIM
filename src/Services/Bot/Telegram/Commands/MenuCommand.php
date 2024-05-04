@@ -23,7 +23,7 @@ final class MenuCommand extends Command
     /**
      * @var string Command Description
      */
-    protected string $description = '[私聊]     用户主菜单、个人中心.';
+    protected string $description = '[私聊] 个人中心';
 
     /**
      * {@inheritdoc}

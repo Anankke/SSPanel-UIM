@@ -95,7 +95,7 @@ final class User extends Model
      */
     public function getDiceBearAttribute(): string
     {
-        return 'https://api.dicebear.com/7.x/identicon/svg?seed=' . hash('sha3-256', $this->email);
+        return 'https://api.dicebear.com/8.x/identicon/svg?seed=' . hash('sha3-256', $this->email);
     }
 
     /**

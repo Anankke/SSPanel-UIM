@@ -45,10 +45,6 @@ final class Stripe extends Base
         return 'Stripe';
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws RedisException
-     */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $price = $this->antiXss->xss_clean($request->getParam('price'));
@@ -65,8 +61,8 @@ final class Stripe extends Base
         }
 
         $user = Auth::getUser();
-        $pl = new Paylist();
 
+        $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
         $pl->invoice_id = $invoice_id;
@@ -74,7 +70,14 @@ final class Stripe extends Base
         $pl->gateway = self::_readableName();
         $pl->save();
 
-        $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', Config::obtain('stripe_currency'));
+        try {
+            $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', Config::obtain('stripe_currency'));
+        } catch (GuzzleException|RedisException) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '汇率获取失败',
+            ]);
+        }
 
         StripeSDK::setApiKey(Config::obtain('stripe_sk'));
         $session = null;
@@ -103,7 +106,7 @@ final class Stripe extends Base
                 'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
                 'cancel_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
             ]);
-        } catch (ApiErrorException $e) {
+        } catch (ApiErrorException) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => 'Stripe API error',

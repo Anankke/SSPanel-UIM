@@ -23,7 +23,7 @@ final class HelpCommand extends Command
     /**
      * @var string Command Description
      */
-    protected string $description = '[群组/私聊] 系统中可用的所有命令.';
+    protected string $description = '[群组/私聊] 系统中可用的所有指令';
 
     public function handle(): void
     {
@@ -41,7 +41,7 @@ final class HelpCommand extends Command
 
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $commands = $this->telegram->getCommands();
-        $text = '系统中可用的所有命令.';
+        $text = '系统中可用的所有指令：';
         $text .= PHP_EOL . PHP_EOL;
 
         foreach ($commands as $name => $handler) {

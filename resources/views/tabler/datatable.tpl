@@ -1,5 +1,5 @@
-<link href="//cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.css" rel="stylesheet"/>
-<script src="//cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script>
+<link href="//cdn.datatables.net/v/bs5/dt-2.0.4/datatables.min.css" rel="stylesheet"/>
+<script src="//cdn.datatables.net/v/bs5/dt-2.0.4/datatables.min.js"></script>
 
 <script>
     let tableConfig = {

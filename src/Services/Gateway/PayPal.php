@@ -63,11 +63,6 @@ final class PayPal extends Base
         return 'PayPal';
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws RedisException
-     * @throws Throwable
-     */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $price = $this->antiXss->xss_clean($request->getParam('price'));
@@ -81,7 +76,14 @@ final class PayPal extends Base
             ]);
         }
 
-        $exchange_amount = (new Exchange())->exchange($price, 'CNY', Config::obtain('paypal_currency'));
+        try {
+            $exchange_amount = (new Exchange())->exchange($price, 'CNY', Config::obtain('paypal_currency'));
+        } catch (GuzzleException|RedisException) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '汇率获取失败',
+            ]);
+        }
 
         $order_data = [
             'intent' => 'CAPTURE',
@@ -96,36 +98,44 @@ final class PayPal extends Base
             ],
         ];
 
-        $pp = new PayPalClient($this->gateway_config);
-        $pp->getAccessToken();
-
-        $order = $pp->createOrder($order_data);
+        try {
+            $pp = new PayPalClient($this->gateway_config);
+            $pp->getAccessToken();
+            $order = $pp->createOrder($order_data);
+        } catch (Throwable) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'PayPal API Error',
+            ]);
+        }
 
         $user = Auth::getUser();
-        $pl = new Paylist();
 
+        $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
         $pl->invoice_id = $invoice_id;
         $pl->tradeno = $trade_no;
         $pl->gateway = self::_readableName();
-
         $pl->save();
 
         return $response->withJson($order);
     }
 
-    /**
-     * @throws Throwable
-     */
     public function notify($request, $response, $args): ResponseInterface
     {
         $order_id = $this->antiXss->xss_clean($request->getParam('order_id'));
 
-        $pp = new PayPalClient($this->gateway_config);
-        $pp->getAccessToken();
-
-        $result = $pp->capturePaymentOrder($order_id);
+        try {
+            $pp = new PayPalClient($this->gateway_config);
+            $pp->getAccessToken();
+            $result = $pp->capturePaymentOrder($order_id);
+        } catch (Throwable) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'PayPal API Error',
+            ]);
+        }
 
         if (isset($result['status']) && $result['status'] === 'COMPLETED') {
             $this->postPayment($result['purchase_units'][0]['reference_id']);

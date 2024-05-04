@@ -1,22 +1,37 @@
-name: Lockdown
+name: Lockdown Issue & PR
+
 on:
   issues:
     types: [opened]
   issue_comment:
     types: [created]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  closeAndlock:
+  issueLockdown:
+    if: ${{ github.event_name == 'issues' }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      pull-requests: write
-
     steps:
     - name: Close & Lock Issue
       run: |
         gh issue close --reason "not planned" ${{ github.event.issue.number }}
         gh issue lock --reason "spam" ${{ github.event.issue.number }}
+      env:
+        GH_REPO: ${{ github.repository }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  prLockdown:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+    - name: Close & Lock PR
+      run: |
+        gh pr close ${{ github.event.pull_request.number }}
+        gh pr lock ${{ github.event.pull_request.number }}
       env:
         GH_REPO: ${{ github.repository }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -31,6 +31,6 @@ jobs:
         with:
           php-version: 8.3
       - run: |
-          composer install --no-interaction --no-progress --no-suggest
+          composer install --no-interaction --no-progress --no-suggest --quiet
           php vendor/bin/phpinsights analyse --no-interaction --format=github-action \
           --min-style=100 --min-architecture=100 --min-quality=100

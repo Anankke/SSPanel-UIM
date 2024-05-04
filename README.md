@@ -7,21 +7,9 @@
 <br>
 <br>
 
-[![License](https://img.shields.io/github/license/SSPanel-UIM/SSPanel-UIM-Dev?style=flat-square)](https://github.com/SSPanel-UIM/SSPanel-UIM-Dev/blob/dev/LICENSE)
-![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-UIM/SSPanel-UIM-Dev?style=flat-square)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Anankke/SSPanel-Uim?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-UIM/SSPanel-UIM-Dev/lint.yml?branch=dev&label=lint&style=flat-square)
-![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/sspanel-uim_SSPanel-Uim-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
-![Sonar Coverage](https://img.shields.io/sonar/coverage/sspanel-uim_SSPanel-Uim-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
-
-[![Release](https://img.shields.io/badge/Telegram-Release-blue?style=flat-square)](https://t.me/sspanel_uim)
-[![Dev](https://img.shields.io/badge/Telegram-Dev-blue?style=flat-square)](https://t.me/sspanel_uim_dev)
-[![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
-[![Dev Blog](https://img.shields.io/badge/Dev-Blog-blue?style=flat-square)](https://blog.sspanel.org)
-
 ## TL;DR
 
-SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks / V2Ray / Trojan / TUIC protocol.
+SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
 ## Features
 
@@ -45,29 +33,6 @@ SSPanel UIM requires the following programs to be installed and run normally:
 - PHP 8.2+ （OPcache+JIT is highly recommended）
 - MariaDB 10.11+（Disable strict mode）
 - Redis 7.0+
-
-## Documentation
-
-> We install, we update, we develop
-
-[SSPanel UIM Wiki (zh)](https://wiki.sspanel.org), here you can find answers to most questions.
-
-## Related Projects
-
-SSPanel-UIM is not just a panel, it also includes a series of peripheral projects to help you use it better.
-
-You can view other projects maintained by our developers on the [SSPanel-UIM Dev Team](https://github.com/sspanel-uim) page.
-
-## Support Developers
-
-### M1Screw
-
-<a href="https://www.patreon.com/catdev"><img src=".github/PATREON.png" width="300"></a>
-
-<a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
-
-<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c"><img src=".github/do.png" width="300"></a>
-
 
 ## Sponsors
 

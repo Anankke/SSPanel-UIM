@@ -23,7 +23,7 @@ final class CheckinCommand extends Command
     /**
      * @var string Command Description
      */
-    protected string $description = '[群组/私聊] 每日签到.';
+    protected string $description = '[群组/私聊] 每日签到';
 
     /**
      * {@inheritdoc}
@@ -71,7 +71,7 @@ final class CheckinCommand extends Command
                 if (! $traffic) {
                     $msg = '签到失败';
                 } else {
-                    $msg = '获得了 ' . $traffic . 'MB 流量.';
+                    $msg = '获得了 ' . $traffic . 'MB 流量';
                 }
             } else {
                 $msg = '你今天已经签到过了';

@@ -14,7 +14,7 @@
         "ext-xml": "*",
         "ext-yaml": "*",
         "ext-zip": "*",
-        "alibabacloud/dm-20170622": "^1.2",
+        "alibabacloud/dm-20170622": "^1",
         "alipaysdk/openapi": "*@dev",
         "aws/aws-sdk-php": "^3",
         "geoip2/geoip2": "^3",
@@ -28,7 +28,6 @@
         "mailgun/mailgun-php": "^4",
         "nikolaposa/rate-limit": "^3",
         "openai-php/client": "^0",
-        "ozdemir/datatables": "^2",
         "phpmailer/phpmailer": "^6",
         "postal/postal": "^2",
         "ramsey/uuid": "^4",
@@ -38,7 +37,7 @@
         "slim/slim": "^4",
         "smarty/smarty": "^5",
         "srmklive/paypal": "^3",
-        "stripe/stripe-php": "^13",
+        "stripe/stripe-php": "^14",
         "symfony/http-client": "^7",
         "symfony/translation": "^7",
         "tronovav/geoip2-update": "^2",
@@ -60,7 +59,7 @@
         }
     },
     "require-dev": {
-        "dg/bypass-finals": "^1.6",
+        "dg/bypass-finals": "^1",
         "nunomaduro/phpinsights": "*",
         "phpunit/phpunit": "^10"
     },
