@@ -1,4 +1,4 @@
-<img src=".github/next_1000.png" alt="next" align="center"/>
+<img src=".github/next_1000.png" alt="next" width="600"/>
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-NeXT/NeXT-Panel-Dev?style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-NeXT/NeXT-Panel-Dev/lint.yml?branch=dev&label=lint&style=flat-square)
@@ -8,11 +8,10 @@
 [![Main](https://img.shields.io/badge/Telegram-Release-blue?style=flat-square)](https://t.me/sspanel_next)
 [![Dev](https://img.shields.io/badge/Telegram-Dev-blue?style=flat-square)](https://t.me/sspanel_next_dev)
 [![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
-[![Dev Blog](https://img.shields.io/badge/Dev-Blog-blue?style=flat-square)](https://blog.sspanel.org)
 
 ## TL;DR
 
-NeXT Panel is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
+NeXT Panel is a multipurpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
 ## Features
 
@@ -32,24 +31,26 @@ NeXT Panel is a multi-purpose proxy service management system designed for Shado
 NeXT Panel requires the following programs to be installed and run normally:
 
 - Git
-- Nginx（HTTPS is REQUIRED）
-- PHP 8.2+ （OPcache+JIT is highly recommended）
+- Nginx（HTTPS configured）
+- PHP 8.2+ （OPcache+JIT enabled）
+- PHP Redis extension 6.0+
 - MariaDB 10.11+（Disable strict mode）
 - Redis 7.0+
 
 ## Documentation
 
-[NeXT Panel Docs](https://wiki.sspanel.org)
+[NeXT Panel Docs](https://docs.sspanel.org)
 
 ## Support Developers
 
-### Cat
+Sadly, there is no three-letter agency that wants to sponsor this project yet(/s), so the development is driven by the community and unpaid volunteers.
+Nothing will be put behind the paywall or require a donation to use, but the CI/Linux Mirror/CDN server doesn't grow on trees, if you are interested in supporting the project, you can support devs using the following methods:
 
-<a href="https://www.patreon.com/catdev"><img src=".github/patreon.png" width="300"></a>
+<a href="https://www.patreon.com/catdev">Patreon (One time or monthly)</a>
 
-<a href="https://www.vultr.com/?ref=8941355-8H"><img src=".github/vultr.png" width="300"></a>
+<a href="https://www.vultr.com/?ref=8941355-8H">Vultr Ref Link (They have GPU VMs which is quite useful for your little AI project)</a>
 
-<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c"><img src=".github/do.png" width="300"></a>
+<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c">DO Ref Link</a>
 
 ## License
 
