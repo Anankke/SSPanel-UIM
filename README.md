@@ -11,7 +11,7 @@
 
 SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
-本项目是由 SSPanel UIM FORK过来的，在运行的过程中修复了一些问题，有兴趣的可以加入T群共同研究。
+本项目是由 SSPanel UIM FORK过来的，在运行的过程中修复了一些问题，有兴趣的可以加入T群共同研究，学习用节点、梯子。
 
 ## Installation
 
@@ -21,11 +21,11 @@ SSPanel UIM requires the following programs to be installed and run normally:
 - Nginx（HTTPS is REQUIRED）
 - PHP 8.2+ （OPcache+JIT is highly recommended）
 - MariaDB 10.11+（Disable strict mode）
-- Redis 7.0+
+- Redis 7.2+
 
 强烈建议用以上服务器环境，mysql安装不上，因为有些数据字段没有，网上教程关于mysql的都不用看了。
 
-面板用SSPANEL 节点用XRARY 可以使用  其他节点服务正在尝试，感兴趣的折腾  不想折腾的 直接移步 <a href="https://www.frelink.top">frelink</a> 看看演示站效果或使用
+面板用SSPANEL 节点用XRARY  其他节点服务正在尝试，感兴趣的折腾  不想折腾的 直接移步 <a href="https://www.frelink.top">frelink</a> 看看演示站效果或使用
 
 ## License
 
