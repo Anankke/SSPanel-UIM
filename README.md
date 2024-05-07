@@ -5,8 +5,7 @@
 ![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/SSPanel-NeXT_NeXT-Panel-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 ![Sonar Coverage](https://img.shields.io/sonar/coverage/SSPanel-NeXT_NeXT-Panel-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 
-[![Main](https://img.shields.io/badge/Telegram-Release-blue?style=flat-square)](https://t.me/sspanel_next)
-[![Dev](https://img.shields.io/badge/Telegram-Dev-blue?style=flat-square)](https://t.me/sspanel_next_dev)
+[![X (formerly Twitter)](https://img.shields.io/twitter/url?url=https%3A%2F%2Ftwitter.com%2FSSPanel_NeXT)](https://twitter.com/SSPanel_NeXT)
 [![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
 
 ## TL;DR

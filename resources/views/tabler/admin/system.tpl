@@ -23,7 +23,7 @@
                         <div class="card-body">
                             <table class="table table-transparent table-responsive">
                                 <tr>
-                                    <td>SSPanel-UIM 版本</td>
+                                    <td>NeXT Panel 版本</td>
                                     <td class="text-end" id="version"><a href="#" id="version_check">{$version} </a>
                                     </td>
                                 </tr>
@@ -50,12 +50,17 @@
                 type: 'POST',
                 dataType: "json",
                 success: function (data) {
-                    if (data.is_upto_date) {
-                        $('.badge').remove();
-                        $('#version').append('<span class="badge bg-green text-green-fg">已是最新版本</span>');
+                    if (data.ret === 1) {
+                        if (data.is_up_to_date) {
+                            $('.badge').remove();
+                            $('#version').append('<span class="badge bg-green text-green-fg">已是最新版本</span>');
+                        } else {
+                            $('.badge').remove();
+                            $('#version').append('<span class="badge bg-red text-red-fg">有新版本 ' + data.latest_version + ' 可用</span>');
+                        }
                     } else {
-                        $('.badge').remove();
-                        $('#version').append('<span class="badge bg-red text-red-fg">有新版本 ' + data.latest_version + ' 可用</span>');
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
                     }
                 }
             })

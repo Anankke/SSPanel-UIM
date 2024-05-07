@@ -93,15 +93,8 @@
             <div class="col-lg-auto ms-lg-auto">
                 <ul class="list-inline list-inline-dots mb-0">
                     <li class="list-inline-item">
-                        Powered by <a href="/staff" class="link-secondary">SSPanel-UIM</a>
+                        Powered by <a href="/staff" class="link-secondary">NeXT Panel</a>
                         <!-- 删除staff是不尊重每一位开发者的行为 -->
-                    </li>
-                </ul>
-            </div>
-            <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-                <ul class="list-inline list-inline-dots mb-0">
-                    <li class="list-inline-item">
-                        Theme by <a href="https://tabler.io/" class="link-secondary">Tabler</a>
                     </li>
                 </ul>
             </div>
