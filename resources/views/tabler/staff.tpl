@@ -5,7 +5,7 @@
     <div class="container-tight my-auto">
         <div class="empty">
             <p class="empty-title">MIT License</p>
-            <p class="empty-subtitle">&copy;2019 SSPanel UIM</p>
+            <p class="empty-subtitle">&copy;2024 NeXT Panel Team</p>
             <p>Permission is hereby granted, free of charge, to any person obtaining a copy
                 of this software and associated documentation files (the "Software"), to deal
                 in the Software without restriction, including without limitation the rights
@@ -24,11 +24,9 @@
                 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
                 SOFTWARE.</p>
             <br>
-            <p class="empty-title"><a href="https://wiki.sspanel.org/#/contributors">贡献者清单</a></p>
+            <p class="empty-title"><a href="https://github.com/SSPanel-NeXT/NeXT-Panel">GitHub Project</a></p>
             <br>
-            <p class="empty-title"><a href="https://github.com/SSPanel-UIM">GitHub Project</a></p>
-            <br>
-            <p class="empty-title">SSPanel-UIM 的存在离不开以下开源项目</p>
+            <p class="empty-title">NeXT Panel 的存在离不开以下开源项目</p>
             <p><a href="https://github.com/illuminate/database">Eloquent ORM</a></p>
             <p><a href="https://github.com/slimphp/Slim">Slim Framework</a></p>
             <p><a href="https://github.com/tabler/tabler">Tabler</a></p>
