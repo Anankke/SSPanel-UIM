@@ -23,7 +23,7 @@ final class Notification
 
         foreach ($admins as $admin) {
             if ($admin->contact_method === 1 || $admin->im_type === 0) {
-                Mail::send(
+                (new EmailQueue())->add(
                     $admin->email,
                     $title,
                     $template,
@@ -47,13 +47,16 @@ final class Notification
     public static function notifyUser($user, $title = '', $msg = '', $template = 'warn.tpl'): void
     {
         if ($user->contact_method === 1 || $user->im_type === 0) {
-            $array = [
-                'user' => $user,
-                'title' => $title,
-                'text' => $msg,
-            ];
-
-            (new EmailQueue())->add($user->email, $title, $template, $array);
+            (new EmailQueue())->add(
+                $user->email,
+                $title,
+                $template,
+                [
+                    'user' => $user,
+                    'title' => $title,
+                    'text' => $msg,
+                ]
+            );
         } else {
             IM::send($user->im_value, $msg, $user->im_type);
         }
@@ -69,13 +72,16 @@ final class Notification
 
         foreach ($users as $user) {
             if ($user->contact_method === 1 || $user->im_type === 0) {
-                $array = [
-                    'user' => $user,
-                    'title' => $title,
-                    'text' => $msg,
-                ];
-
-                (new EmailQueue())->add($user->email, $title, $template, $array);
+                (new EmailQueue())->add(
+                    $user->email,
+                    $title,
+                    $template,
+                    [
+                        'user' => $user,
+                        'title' => $title,
+                        'text' => $msg,
+                    ]
+                );
             } else {
                 IM::send($user->im_value, $msg, $user->im_type);
             }
