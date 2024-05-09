@@ -99,7 +99,7 @@ $_ENV['enable_login_bind_device'] = true; //是否将登陆线程和设备绑定
 $_ENV['rememberMeDuration'] = 7;          //登录时记住账号时长天数
 $_ENV['timeZone'] = 'Asia/Taipei';        //需使用 PHP 兼容的时区格式
 $_ENV['theme'] = 'tabler';                //默认主题
-$_ENV['locale'] = 'zh-TW';                //Default language, zh_CN, zh_TW, en_US, ja_JP
+$_ENV['locale'] = 'zh_TW';                //Default language, zh_CN, zh_TW, en_US, ja_JP
 $_ENV['jump_delay'] = 1200;               //跳转延时，单位ms
 $_ENV['keep_connect'] = false;            // 流量耗尽用户限速至 1Mbps
 

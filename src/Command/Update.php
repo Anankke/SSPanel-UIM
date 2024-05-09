@@ -19,7 +19,7 @@ use const PHP_EOL;
 final class Update extends Command
 {
     public string $description = <<< END
-├─=: php xcat Update         - 更新并迁移配置
+├─=: php xcat Update - 更新并迁移配置
 END;
 
     public function boot(): void
