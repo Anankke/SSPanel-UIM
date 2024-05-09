@@ -50,6 +50,7 @@ final class Tool extends Command
 │ ├─ generateGa          - 为所有用户生成新的 Ga Secret
 │ ├─ generateApiToken    - 为所有用户生成新的 API Token
 │ ├─ setTheme            - 为所有用户设置新的主题
+│ ├─ setLocale           - 为所有用户设置新的语言
 │ ├─ createAdmin         - 创建管理员帐号
 │ └─ updateGeoIP2        - 更新 GeoIP2 数据库
 
@@ -334,6 +335,23 @@ EOL;
         }
 
         echo '已为所有用户设置新的主题: ' . $theme . PHP_EOL;
+    }
+
+    /**
+     * Set locale for all users
+     */
+    public function setLocale(): void
+    {
+        fwrite(STDOUT, 'Please input the new locale: ');
+        $locale = trim(fgets(STDIN));
+        $users = ModelsUser::all();
+
+        foreach ($users as $user) {
+            $user->locale = $locale;
+            $user->save();
+        }
+
+        echo 'Set locale for all users successfully.' . PHP_EOL;
     }
 
     /**

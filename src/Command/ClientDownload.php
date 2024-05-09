@@ -29,7 +29,7 @@ use const PHP_OS;
 
 final class ClientDownload extends Command
 {
-    public string $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
+    public string $description = '├─=: php xcat ClientDownload - 更新客户端' . PHP_EOL;
     private Client $client;
     private string $basePath = BASE_PATH . '/';
     private array $version;
