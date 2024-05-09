@@ -19,29 +19,23 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 final class ImController extends BaseController
 {
     private static array $update_field = [
+        // TODO: rename these to im service independent
+        'telegram_add_node',
+        'telegram_update_node',
+        'telegram_delete_node',
+        'telegram_node_gfwed',
+        'telegram_node_ungfwed',
+        'telegram_node_online',
+        'telegram_node_offline',
+        'telegram_daily_job',
+        'telegram_diary',
+        // Telegram
         'enable_telegram',
         'telegram_token',
         'telegram_chatid',
+        'enable_telegram_group_notify',
         'telegram_bot',
         'telegram_request_token',
-        'telegram_add_node',
-        'telegram_add_node_text',
-        'telegram_update_node',
-        'telegram_update_node_text',
-        'telegram_delete_node',
-        'telegram_delete_node_text',
-        'telegram_node_gfwed',
-        'telegram_node_gfwed_text',
-        'telegram_node_ungfwed',
-        'telegram_node_ungfwed_text',
-        'telegram_node_offline',
-        'telegram_node_offline_text',
-        'telegram_node_online',
-        'telegram_node_online_text',
-        'telegram_daily_job',
-        'telegram_daily_job_text',
-        'telegram_diary',
-        'telegram_diary_text',
         'telegram_unbind_kick_member',
         'telegram_group_bound_user',
         'enable_welcome_message',
@@ -49,15 +43,20 @@ final class ImController extends BaseController
         'allow_to_join_new_groups',
         'group_id_allowed_to_join',
         'help_any_command',
-        'user_not_bind_reply',
+        // Discord
         'discord_bot_token',
         'discord_client_id',
         'discord_client_secret',
         'discord_guild_id',
+        'discord_channel_id',
+        'enable_discord_channel_notify',
+        // Slack
         'slack_token',
         'slack_client_id',
         'slack_client_secret',
         'slack_team_id',
+        'slack_channel_id',
+        'enable_slack_channel_notify',
     ];
 
     private static string $test_msg = '这是一条测试消息';

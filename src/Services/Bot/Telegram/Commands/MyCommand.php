@@ -7,6 +7,7 @@ namespace App\Services\Bot\Telegram\Commands;
 use App\Models\Config;
 use App\Models\User;
 use App\Services\Bot\Telegram\Message;
+use App\Services\I18n;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function json_encode;
@@ -66,7 +67,7 @@ final class MyCommand extends Command
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text' => Config::obtain('user_not_bind_reply'),
+                    'text' => I18n::trans('bot.user_not_bind', $_ENV['locale']),
                     'reply_to_message_id' => $message_id,
                     'parse_mode' => 'Markdown',
                 ]

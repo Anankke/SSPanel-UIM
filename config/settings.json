@@ -690,7 +690,16 @@
         "is_public": 0,
         "type": "int",
         "default": "-1",
-        "mark": "Telegram 群组会话 ID"
+        "mark": "Telegram Group ID"
+    },
+    {
+        "item": "enable_telegram_group_notify",
+        "value": "0",
+        "class": "im",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable Telegram group notify"
     },
     {
         "item": "telegram_bot",
@@ -720,15 +729,6 @@
         "mark": "是否启用Telegram机器人添加节点通知"
     },
     {
-        "item": "telegram_add_node_text",
-        "value": "%node_name% 已被添加",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 已被添加",
-        "mark": "Telegram机器人添加节点通知文本"
-    },
-    {
         "item": "telegram_update_node",
         "value": "1",
         "class": "im",
@@ -736,15 +736,6 @@
         "type": "bool",
         "default": "1",
         "mark": "是否启用Telegram机器人修改节点通知"
-    },
-    {
-        "item": "telegram_update_node_text",
-        "value": "%node_name% 已被修改",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 已被修改",
-        "mark": "Telegram机器人修改节点通知文本"
     },
     {
         "item": "telegram_delete_node",
@@ -756,15 +747,6 @@
         "mark": "是否启用Telegram机器人删除节点通知"
     },
     {
-        "item": "telegram_delete_node_text",
-        "value": "%node_name% 被刪除了",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 被刪除了",
-        "mark": "Telegram机器人删除节点通知文本"
-    },
-    {
         "item": "telegram_node_gfwed",
         "value": "1",
         "class": "im",
@@ -772,15 +754,6 @@
         "type": "bool",
         "default": "1",
         "mark": "是否启用Telegram机器人节点被墙通知"
-    },
-    {
-        "item": "telegram_node_gfwed_text",
-        "value": "喵喵喵~ %node_name% 节点被墙了喵~",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "喵喵喵~ %node_name% 节点被墙了喵~",
-        "mark": "Telegram机器人节点被墙通知"
     },
     {
         "item": "telegram_node_ungfwed",
@@ -792,15 +765,6 @@
         "mark": "是否启用Telegram机器人节点被墙恢复通知"
     },
     {
-        "item": "telegram_node_ungfwed_text",
-        "value": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
-        "mark": "Telegram机器人节点被墙恢复文本"
-    },
-    {
         "item": "telegram_node_online",
         "value": "1",
         "class": "im",
@@ -808,15 +772,6 @@
         "type": "bool",
         "default": "1",
         "mark": "是否启用Telegram机器人节点恢复上线通知"
-    },
-    {
-        "item": "telegram_node_online_text",
-        "value": "%node_name% 被修好了",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 被修好了",
-        "mark": "Telegram机器人节点恢复上线通知文本"
     },
     {
         "item": "telegram_node_offline",
@@ -828,15 +783,6 @@
         "mark": "是否启用Telegram机器人节点离线通知"
     },
     {
-        "item": "telegram_node_offline_text",
-        "value": "%node_name% 出现了一些故障",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 出现了一些故障",
-        "mark": "Telegram机器人节点离线通知文本"
-    },
-    {
         "item": "telegram_daily_job",
         "value": "1",
         "class": "im",
@@ -846,15 +792,6 @@
         "mark": "是否启用Telegram机器人每日任务通知"
     },
     {
-        "item": "telegram_daily_job_text",
-        "value": "成功执行每日任务",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "成功执行每日任务",
-        "mark": "Telegram机器人每日任务通知文本"
-    },
-    {
         "item": "telegram_diary",
         "value": "1",
         "class": "im",
@@ -862,15 +799,6 @@
         "type": "bool",
         "default": "1",
         "mark": "是否启用Telegram机器人系统运行状况通知"
-    },
-    {
-        "item": "telegram_diary_text",
-        "value": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
-        "mark": "Telegram机器人系统运行状况通知文本"
     },
     {
         "item": "telegram_unbind_kick_member",
@@ -889,15 +817,6 @@
         "type": "bool",
         "default": "0",
         "mark": "是否仅允许已绑定Telegram账户的用户加入群组"
-    },
-    {
-        "item": "enable_welcome_message",
-        "value": "0",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "Telegram 机器人发送欢迎消息"
     },
     {
         "item": "telegram_group_quiet",
@@ -936,13 +855,13 @@
         "mark": "允许任意未知的命令触发 /help 的回复"
     },
     {
-        "item": "user_not_bind_reply",
-        "value": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "item": "enable_welcome_message",
+        "value": "0",
         "class": "im",
         "is_public": 0,
-        "type": "string",
-        "default": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
-        "mark": "未绑定账户的回复"
+        "type": "bool",
+        "default": "0",
+        "mark": "Telegram 机器人发送欢迎消息"
     },
     {
         "item": "discord_bot_token",
@@ -981,6 +900,24 @@
         "mark": "Discord Guild ID"
     },
     {
+        "item": "discord_channel_id",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Discord Channel ID"
+    },
+    {
+        "item": "enable_discord_channel_notify",
+        "value": "0",
+        "class": "im",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable Discord channel notify"
+    },
+    {
         "item": "slack_token",
         "value": "",
         "class": "im",
@@ -1015,6 +952,24 @@
         "type": "string",
         "default": "",
         "mark": "Slack Team ID"
+    },
+    {
+        "item": "slack_channel_id",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Slack Channel ID"
+    },
+    {
+        "item": "enable_slack_channel_notify",
+        "value": "0",
+        "class": "im",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable Slack channel notify"
     },
     {
         "item": "crisp_id",

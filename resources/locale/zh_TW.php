@@ -18,5 +18,7 @@ return [
         'daily_job_run' => '成功執行每日任務',
         'diary' => '今日簽到人數：%getTodayCheckinUser%' . PHP_EOL . '今日使用總流量：%lastday_total%',
         'user_not_bind' => '您未綁定本站帳號，您可以進入網站的 **資料編輯**，在右下方綁定您的帳號。',
+        'user_join_welcome_free' => '歡迎 %user_name%',
+        'user_join_welcome_paid' => '歡迎 VIP%user_class% 使用者 %user_name% 加入群組',
     ],
 ];

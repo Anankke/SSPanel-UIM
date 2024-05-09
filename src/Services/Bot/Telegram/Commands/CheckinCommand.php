@@ -6,6 +6,7 @@ namespace App\Services\Bot\Telegram\Commands;
 
 use App\Models\Config;
 use App\Services\Bot\Telegram\Message;
+use App\Services\I18n;
 use App\Services\Reward;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -53,13 +54,14 @@ final class CheckinCommand extends Command
         $send_user = [
             'id' => $message->getFrom()->getId(),
         ];
+
         $user = Message::getUser($send_user['id']);
 
         if ($user === null) {
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text' => Config::obtain('user_not_bind_reply'),
+                    'text' => I18n::trans('bot.user_not_bind', $_ENV['locale']),
                     'parse_mode' => 'Markdown',
                     'reply_to_message_id' => $message->getMessageId(),
                 ]
