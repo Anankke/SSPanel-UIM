@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Models\Node;
+use App\Services\I18n;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
@@ -137,7 +138,7 @@ final class NodeController extends BaseController
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::obtain('telegram_add_node_text')
+                        I18n::trans('bot.node_added', $_ENV['locale'])
                     )
                 );
             } catch (TelegramSDKException) {
@@ -231,7 +232,7 @@ final class NodeController extends BaseController
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::obtain('telegram_update_node_text')
+                        I18n::trans('bot.node_updated', $_ENV['locale'])
                     )
                 );
             } catch (TelegramSDKException) {
@@ -293,7 +294,7 @@ final class NodeController extends BaseController
                     str_replace(
                         '%node_name%',
                         $node->name,
-                        Config::obtain('telegram_delete_node_text')
+                        I18n::trans('bot.node_deleted', $_ENV['locale'])
                     )
                 );
             } catch (TelegramSDKException) {

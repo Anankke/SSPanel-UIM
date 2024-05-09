@@ -103,7 +103,7 @@ final class Cron
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
-                        Config::obtain('telegram_node_offline_text')
+                        I18n::trans('bot.node_offline', $_ENV['locale'])
                     );
 
                     try {
@@ -135,7 +135,7 @@ final class Cron
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
-                        Config::obtain('telegram_node_online_text')
+                        I18n::trans('bot.node_online', $_ENV['locale'])
                     );
 
                     try {
@@ -630,7 +630,7 @@ final class Cron
      */
     public static function sendTelegramDailyJob(): void
     {
-        (new Telegram())->send(0, Config::obtain('telegram_daily_job_text'));
+        (new Telegram())->send(0, I18n::trans('bot.daily_job_run', $_ENV['locale']));
 
         echo Tools::toDateTime(time()) . ' 成功发送 Telegram 每日任务提示' . PHP_EOL;
     }
@@ -651,7 +651,7 @@ final class Cron
                     Analytics::getTodayCheckinUser(),
                     Analytics::getTodayTrafficUsage(),
                 ],
-                Config::obtain('telegram_diary_text')
+                I18n::trans('bot.diary', $_ENV['locale'])
             )
         );
 

@@ -64,7 +64,7 @@ final class Detect
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
-                        Config::obtain('telegram_node_gfwed_text')
+                        I18n::trans('bot.node_gfwed', $_ENV['locale'])
                     );
 
                     (new Telegram())->send(0, $notice_text);
@@ -93,7 +93,7 @@ final class Detect
                     $notice_text = str_replace(
                         '%node_name%',
                         $node->name,
-                        Config::obtain('telegram_node_ungfwed_text')
+                        I18n::trans('bot.node_ungfwed', $_ENV['locale'])
                     );
 
                     (new Telegram())->send(0, $notice_text);

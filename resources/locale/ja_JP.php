@@ -18,5 +18,7 @@ return [
         'daily_job_run' => '日次タスクの正常な実行',
         'diary' => '今日チェックインした人の数: %getTodayCheckinUser%' . PHP_EOL . '今日使用された合計トラフィック: %lastday_total%',
         'user_not_bind' => 'アカウントをこの Web サイトにバインドしていません。Web サイトの **データ編集** に入り、右下隅でアカウントをバインドできます。',
+        'user_join_welcome_free' => 'ようこそ %user_name%',
+        'user_join_welcome_paid' => 'VIP%user_class% ユーザー %user_name% のグループへの参加を歓迎します',
     ],
 ];

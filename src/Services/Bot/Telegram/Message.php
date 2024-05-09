@@ -6,6 +6,7 @@ namespace App\Services\Bot\Telegram;
 
 use App\Models\Config;
 use App\Models\User;
+use App\Services\I18n;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,7 @@ use function array_merge;
 use function implode;
 use function in_array;
 use function json_decode;
+use function str_replace;
 use const PHP_EOL;
 
 final class Message
@@ -140,12 +142,23 @@ final class Message
             }
 
             if (Config::obtain('enable_welcome_message')) {
-                $text = ($new_user->class > 0 ? '欢迎 VIP' . $new_user->class .
-                    ' 用户 ' . $member['name'] . '加入群组。' : '欢迎 ' . $member['name']);
+                $text = ($new_user->class > 0 ?
+                    I18n::trans('user_join_welcome_paid', $_ENV['locale']) :
+                    I18n::trans('user_join_welcome_free', $_ENV['locale']));
 
                 $this->replyWithMessage(
                     [
-                        'text' => $text,
+                        'text' => str_replace(
+                            [
+                                '%user_name%',
+                                '%user_class%',
+                            ],
+                            [
+                                $member['name'],
+                                $new_user->class,
+                            ],
+                            $text
+                        ),
                     ]
                 );
             }

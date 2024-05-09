@@ -18,5 +18,7 @@ return [
         'daily_job_run' => '成功执行每日任务',
         'diary' => '今日签到人数：%getTodayCheckinUser%' . PHP_EOL . '今日使用总流量：%lastday_total%',
         'user_not_bind' => '您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。',
+        'user_join_welcome_free' => '欢迎 %user_name%',
+        'user_join_welcome_paid' => '欢迎 VIP%user_class% 用户 %user_name% 加入群组',
     ],
 ];

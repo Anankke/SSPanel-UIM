@@ -63,13 +63,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">添加节点通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_add_node_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_add_node_text']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">修改节点通知</label>
                                             <div class="col">
                                                 <select id="telegram_update_node" class="col form-select"
@@ -81,13 +74,6 @@
                                                             {if $settings['telegram_update_node']}selected{/if}>开启
                                                     </option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">修改节点通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_update_node_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_update_node_text']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -105,13 +91,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">删除节点通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_delete_node_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_delete_node_text']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">节点被墙通知</label>
                                             <div class="col">
                                                 <select id="telegram_node_gfwed" class="col form-select"
@@ -123,13 +102,6 @@
                                                             {if $settings['telegram_node_gfwed']}selected{/if}>开启
                                                     </option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点被墙通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_node_gfwed_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_node_gfwed_text']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -147,13 +119,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点被墙恢复通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_node_ungfwed_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_node_ungfwed_text']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">节点离线通知</label>
                                             <div class="col">
                                                 <select id="telegram_node_offline" class="col form-select"
@@ -165,13 +130,6 @@
                                                             {if $settings['telegram_node_offline']}selected{/if}>开启
                                                     </option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点离线通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_node_offline_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_node_offline_text']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -189,13 +147,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点上线通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_node_online_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_node_online_text']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">每日任务通知</label>
                                             <div class="col">
                                                 <select id="telegram_daily_job" class="col form-select"
@@ -210,13 +161,6 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">每日任务通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_daily_job_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_daily_job_text']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">系统运行状况通知</label>
                                             <div class="col">
                                                 <select id="telegram_diary" class="col form-select"
@@ -228,13 +172,6 @@
                                                         开启
                                                     </option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">系统运行状况通知文本</label>
-                                            <div class="col">
-                                                <input id="telegram_diary_text" type="text" class="form-control"
-                                                       value="{$settings['telegram_diary_text']}">
                                             </div>
                                         </div>
                                     </div>
@@ -264,10 +201,26 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Telegram 群组会话 ID</label>
+                                            <label class="form-label col-3 col-form-label">Telegram Group ID</label>
                                             <div class="col">
                                                 <input id="telegram_chatid" type="text" class="form-control"
                                                        value="{$settings['telegram_chatid']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Enable Telegram group notify
+                                            </label>
+                                            <div class="col">
+                                                <select id="enable_telegram_group_notify" class="col form-select"
+                                                        value="{$settings['enable_telegram_group_notify']}">
+                                                    <option value="0" {if ! $settings['enable_telegram_group_notify']}selected{/if}>
+                                                        False
+                                                    </option>
+                                                    <option value="1" {if $settings['enable_telegram_group_notify']}selected{/if}>
+                                                        True
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -385,18 +338,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">未绑定账户的回复</label>
-                                            <div class="col">
-                                                <input id="user_not_bind_reply" type="text" class="form-control"
-                                                       value="{$settings['user_not_bind_reply']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Telegram 用户 ID</label>
+                                            <label class="form-label col-3 col-form-label">Telegram User ID</label>
                                             <input type="text" class="form-control" id="telegram_user_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-telegram" class="btn btn-primary">发送测试信息
+                                                    <button id="test-telegram" class="btn btn-primary">
+                                                        Send Test Message
                                                     </button>
                                                 </div>
                                             </div>
@@ -434,11 +381,35 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Discord 用户 ID</label>
+                                            <label class="form-label col-3 col-form-label">Discord Channel ID</label>
+                                            <div class="col">
+                                                <input id="discord_channel_id" type="text" class="form-control"
+                                                       value="{$settings['discord_channel_id']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Enable Discord channel notify
+                                            </label>
+                                            <div class="col">
+                                                <select id="enable_discord_channel_notify" class="col form-select"
+                                                        value="{$settings['enable_discord_channel_notify']}">
+                                                    <option value="0" {if ! $settings['enable_discord_channel_notify']}selected{/if}>
+                                                        False
+                                                    </option>
+                                                    <option value="1" {if $settings['enable_discord_channel_notify']}selected{/if}>
+                                                        True
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Discord User ID</label>
                                             <input type="text" class="form-control" id="discord_user_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-discord" class="btn btn-primary">发送测试信息
+                                                    <button id="test-discord" class="btn btn-primary">
+                                                        Send Test Message
                                                     </button>
                                                 </div>
                                             </div>
@@ -476,11 +447,35 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Slack 用户 ID</label>
+                                            <label class="form-label col-3 col-form-label">Slack Channel ID</label>
+                                            <div class="col">
+                                                <input id="slack_channel_id" type="text" class="form-control"
+                                                       value="{$settings['slack_channel_id']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Enable Slack channel notify
+                                            </label>
+                                            <div class="col">
+                                                <select id="enable_slack_channel_notify" class="col form-select"
+                                                        value="{$settings['enable_slack_channel_notify']}">
+                                                    <option value="0" {if ! $settings['enable_slack_channel_notify']}selected{/if}>
+                                                        False
+                                                    </option>
+                                                    <option value="1" {if $settings['enable_slack_channel_notify']}selected{/if}>
+                                                        True
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Slack User ID</label>
                                             <input type="text" class="form-control" id="slack_user_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-slack" class="btn btn-primary">发送测试信息
+                                                    <button id="test-slack" class="btn btn-primary">
+                                                        Send Test Message
                                                     </button>
                                                 </div>
                                             </div>
