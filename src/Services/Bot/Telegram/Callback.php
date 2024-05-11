@@ -66,7 +66,7 @@ final class Callback
     /**
      * 触发源信息 ID
      */
-    private $message_id;
+    private int $message_id;
 
     /**
      * 源消息是否可编辑

@@ -8,8 +8,9 @@ use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Models\Node;
 use App\Services\I18n;
-use App\Services\IM\Telegram;
+use App\Services\Notification;
 use App\Utils\Tools;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -131,20 +132,19 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::obtain('telegram_add_node')) {
+        if (Config::obtain('im_bot_group_notify_add_node')) {
             try {
-                (new Telegram())->send(
-                    0,
+                Notification::notifyUserGroup(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
                         I18n::trans('bot.node_added', $_ENV['locale'])
                     )
                 );
-            } catch (TelegramSDKException) {
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '添加成功，但 Telegram 通知失败',
+                    'msg' => '添加成功，但 IM Bot 通知失败',
                     'node_id' => $node->id,
                 ]);
             }
@@ -225,20 +225,19 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::obtain('telegram_update_node')) {
+        if (Config::obtain('im_bot_group_notify_update_node')) {
             try {
-                (new Telegram())->send(
-                    0,
+                Notification::notifyUserGroup(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
                         I18n::trans('bot.node_updated', $_ENV['locale'])
                     )
                 );
-            } catch (TelegramSDKException) {
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '修改成功，但 Telegram 通知失败',
+                    'msg' => '修改成功，但 IM Bot 通知失败',
                 ]);
             }
         }
@@ -287,20 +286,19 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::obtain('telegram_delete_node')) {
+        if (Config::obtain('im_bot_group_notify_delete_node')) {
             try {
-                (new Telegram())->send(
-                    0,
+                Notification::notifyUserGroup(
                     str_replace(
                         '%node_name%',
                         $node->name,
                         I18n::trans('bot.node_deleted', $_ENV['locale'])
                     )
                 );
-            } catch (TelegramSDKException) {
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '删除成功，但Telegram通知失败',
+                    'msg' => '删除成功，但 IM Bot 通知失败',
                 ]);
             }
         }

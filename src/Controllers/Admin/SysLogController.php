@@ -70,8 +70,6 @@ final class SysLogController extends BaseController
 
     /**
      * 系统日志页面 AJAX
-     *
-     * @throws InvalidDatabaseException
      */
     public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface
     {

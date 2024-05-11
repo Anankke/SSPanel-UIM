@@ -17,7 +17,6 @@ use App\Models\Paylist;
 use App\Models\SubscribeLog;
 use App\Models\User;
 use App\Models\UserMoneyLog;
-use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use DateTime;
 use Exception;
@@ -99,17 +98,17 @@ final class Cron
                     echo $e->getMessage() . PHP_EOL;
                 }
 
-                if (Config::obtain('telegram_node_offline')) {
-                    $notice_text = str_replace(
-                        '%node_name%',
-                        $node->name,
-                        I18n::trans('bot.node_offline', $_ENV['locale'])
-                    );
-
+                if (Config::obtain('im_bot_group_notify_node_offline')) {
                     try {
-                        (new Telegram())->send(0, $notice_text);
-                    } catch (TelegramSDKException $e) {
-                        echo $e->getMessage();
+                        Notification::notifyUserGroup(
+                            str_replace(
+                                '%node_name%',
+                                $node->name,
+                                I18n::trans('bot.node_offline', $_ENV['locale'])
+                            ),
+                        );
+                    } catch (TelegramSDKException | GuzzleException $e) {
+                        echo $e->getMessage() . PHP_EOL;
                     }
                 }
 
@@ -131,17 +130,17 @@ final class Cron
                     echo $e->getMessage() . PHP_EOL;
                 }
 
-                if (Config::obtain('telegram_node_online')) {
-                    $notice_text = str_replace(
-                        '%node_name%',
-                        $node->name,
-                        I18n::trans('bot.node_online', $_ENV['locale'])
-                    );
-
+                if (Config::obtain('im_bot_group_notify_node_online')) {
                     try {
-                        (new Telegram())->send(0, $notice_text);
-                    } catch (TelegramSDKException $e) {
-                        echo $e->getMessage();
+                        Notification::notifyUserGroup(
+                            str_replace(
+                                '%node_name%',
+                                $node->name,
+                                I18n::trans('bot.node_online', $_ENV['locale'])
+                            ),
+                        );
+                    } catch (TelegramSDKException | GuzzleException $e) {
+                        echo $e->getMessage() . PHP_EOL;
                     }
                 }
 
@@ -488,32 +487,37 @@ final class Cron
         $today = strtotime('00:00:00');
         $paylists = (new Paylist())->where('status', 1)
             ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->get();
-        $text_html = '<table border=1><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
 
-        foreach ($paylists as $paylist) {
-            $text_html .= '<tr>';
-            $text_html .= '<td>' . $paylist->total . '</td>';
-            $text_html .= '<td>' . $paylist->userid . '</td>';
-            $text_html .= '<td>' . (new User())->find($paylist->userid)->user_name . '</td>';
-            $text_html .= '<td>' . Tools::toDateTime((int) $paylist->datetime) . '</td>';
-            $text_html .= '</tr>';
+        if (count($paylists) > 0) {
+            $text_html = '<table style="border=1;"><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
+
+            foreach ($paylists as $paylist) {
+                $text_html .= '<tr>';
+                $text_html .= '<td>' . $paylist->total . '</td>';
+                $text_html .= '<td>' . $paylist->userid . '</td>';
+                $text_html .= '<td>' . (new User())->find($paylist->userid)->user_name . '</td>';
+                $text_html .= '<td>' . Tools::toDateTime((int) $paylist->datetime) . '</td>';
+                $text_html .= '</tr>';
+            }
+
+            $text_html .= '</table>';
+            $text_html .= '<br>昨日总收入笔数：' . count($paylists) . '<br>昨日总收入金额：' . $paylists->sum('total');
+            echo 'Sending daily finance email to admin user' . PHP_EOL;
+
+            try {
+                Notification::notifyAdmin(
+                    '财务日报',
+                    $text_html,
+                    'finance.tpl'
+                );
+            } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
+                echo $e->getMessage() . PHP_EOL;
+            }
+
+            echo Tools::toDateTime(time()) . ' Successfully sent daily finance email' . PHP_EOL;
+        } else {
+            echo 'No paylist found' . PHP_EOL;
         }
-
-        $text_html .= '</table>';
-        $text_html .= '<br>昨日总收入笔数：' . count($paylists) . '<br>昨日总收入金额：' . $paylists->sum('total');
-        echo 'Sending daily finance email to admin user' . PHP_EOL;
-
-        try {
-            Notification::notifyAdmin(
-                '财务日报',
-                $text_html,
-                'finance.tpl'
-            );
-        } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
-            echo $e->getMessage() . PHP_EOL;
-        }
-
-        echo Tools::toDateTime(time()) . ' 成功发送财务日报' . PHP_EOL;
     }
 
     public static function sendWeeklyFinanceMail(): void
@@ -625,37 +629,40 @@ final class Cron
         echo Tools::toDateTime(time()) . ' 成功发送每日流量报告' . PHP_EOL;
     }
 
-    /**
-     * @throws TelegramSDKException
-     */
-    public static function sendTelegramDailyJob(): void
+    public static function sendDailyJobNotification(): void
     {
-        (new Telegram())->send(0, I18n::trans('bot.daily_job_run', $_ENV['locale']));
+        try {
+            Notification::notifyUserGroup(
+                I18n::trans('bot.daily_job_run', $_ENV['locale'])
+            );
+        } catch (TelegramSDKException | GuzzleException $e) {
+            echo $e->getMessage() . PHP_EOL;
+        }
 
-        echo Tools::toDateTime(time()) . ' 成功发送 Telegram 每日任务提示' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' Successfully sent daily job notification' . PHP_EOL;
     }
 
-    /**
-     * @throws TelegramSDKException
-     */
-    public static function sendTelegramDiary(): void
+    public static function sendDiaryNotification(): void
     {
-        (new Telegram())->send(
-            0,
-            str_replace(
-                [
-                    '%getTodayCheckinUser%',
-                    '%lastday_total%',
-                ],
-                [
-                    Analytics::getTodayCheckinUser(),
-                    Analytics::getTodayTrafficUsage(),
-                ],
-                I18n::trans('bot.diary', $_ENV['locale'])
-            )
-        );
+        try {
+            Notification::notifyUserGroup(
+                str_replace(
+                    [
+                        '%checkin_user%',
+                        '%lastday_total%',
+                    ],
+                    [
+                        Analytics::getTodayCheckinUser(),
+                        Analytics::getTodayTrafficUsage(),
+                    ],
+                    I18n::trans('bot.diary', $_ENV['locale'])
+                )
+            );
+        } catch (TelegramSDKException | GuzzleException $e) {
+            echo $e->getMessage() . PHP_EOL;
+        }
 
-        echo Tools::toDateTime(time()) . ' 成功发送 Telegram 系统运行日志' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' Successfully sent diary notification' . PHP_EOL;
     }
 
     public static function updateNodeIp(): void

@@ -9,15 +9,15 @@ use App\Models\Ann;
 use App\Models\Config;
 use App\Models\EmailQueue;
 use App\Models\User;
-use App\Services\IM\Telegram;
+use App\Services\Notification;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use League\HTMLToMarkdown\HtmlConverter;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function str_replace;
-use function strip_tags;
 use function time;
 use const PHP_EOL;
 
@@ -72,16 +72,7 @@ final class AnnController extends BaseController
     {
         $email_notify_class = (int) $request->getParam('email_notify_class');
         $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;
-
-        $content = strip_tags(
-            str_replace(
-                ['<p>','</p>'],
-                ['','<br><br>'],
-                $request->getParam('content')
-            ),
-            ['br', 'a', 'strong']
-        );
-        $subject = $_ENV['appName'] . ' - 新公告发布';
+        $content = $request->getParam('content');
 
         if ($content !== '') {
             $ann = new Ann();
@@ -96,9 +87,10 @@ final class AnnController extends BaseController
             }
         }
 
-        if ($email_notify) {
+        if ($email_notify && $content !== '') {
             $users = (new User())->where('class', '>=', $email_notify_class)
                 ->get();
+            $subject = $_ENV['appName'] . ' - 新公告发布';
 
             foreach ($users as $user) {
                 (new EmailQueue())->add(
@@ -113,13 +105,16 @@ final class AnnController extends BaseController
             }
         }
 
-        if (Config::obtain('enable_telegram')) {
+        if (Config::obtain('im_bot_group_notify_ann_create') && $content !== '') {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $content = $converter->convert($content);
+
             try {
-                (new Telegram())->sendHtml(0, '新公告：' . PHP_EOL . $content);
-            } catch (TelegramSDKException) {
+                Notification::notifyUserGroup('新公告：' . PHP_EOL . $content);
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功，Telegram发送失败' : '公告添加成功，Telegram发送失败',
+                    'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功，IM Bot 发送失败' : '公告添加成功，IM Bot 发送失败',
                 ]);
             }
         }
@@ -138,6 +133,7 @@ final class AnnController extends BaseController
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $ann = (new Ann())->find($args['id']);
+
         return $response->write(
             $this->view()
                 ->assign('ann', $ann)
@@ -161,13 +157,16 @@ final class AnnController extends BaseController
             ]);
         }
 
-        if (Config::obtain('enable_telegram')) {
+        if (Config::obtain('im_bot_group_notify_ann_update')) {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $content = $converter->convert($ann->content);
+
             try {
-                (new Telegram())->sendHtml(0, '公告更新：' . PHP_EOL . $request->getParam('content'));
-            } catch (TelegramSDKException) {
+                Notification::notifyUserGroup('公告更新：' . PHP_EOL . $content);
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '公告更新成功，Telegram发送失败',
+                    'msg' => '公告更新成功，IM Bot 发送失败',
                 ]);
             }
         }

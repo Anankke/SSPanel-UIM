@@ -6,12 +6,10 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\DetectRule;
-use App\Services\IM\Telegram;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 
 final class DetectRuleController extends BaseController
 {
@@ -68,9 +66,6 @@ final class DetectRuleController extends BaseController
         );
     }
 
-    /**
-     * @throws TelegramSDKException
-     */
     public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $rule = new DetectRule();
@@ -86,7 +81,6 @@ final class DetectRuleController extends BaseController
             ]);
         }
 
-        (new Telegram())->sendMarkdown(0, '有新的审计规则：' . $rule->name);
         return $response->withJson([
             'ret' => 1,
             'msg' => '添加成功',
@@ -97,12 +91,14 @@ final class DetectRuleController extends BaseController
     {
         $id = $args['id'];
         $rule = (new DetectRule())->find($id);
+
         if (! $rule->delete()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '删除失败',
             ]);
         }
+
         return $response->withJson([
             'ret' => 1,
             'msg' => '删除成功',

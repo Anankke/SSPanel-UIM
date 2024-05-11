@@ -34,6 +34,7 @@ final class View
 
     public static function getTwig(): Environment
     {
+        $user = Auth::getUser();
         $loader = new FilesystemLoader(BASE_PATH . '/resources/views/' . self::getTheme($user) . '/');
 
         $twig = new Environment($loader, [

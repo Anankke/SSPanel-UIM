@@ -61,20 +61,16 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        $email_check = Filter::checkEmailFilter($email);
-
-        if (! $email_check) {
+        if (! Filter::checkEmailFilter($new_email)) {
             return ResponseHelper::error($response, '无效的邮箱');
-        }
-
-        $exist_user = (new User())->where('email', $new_email)->first();
-
-        if ($exist_user !== null) {
-            return ResponseHelper::error($response, '邮箱已经被使用了');
         }
 
         if ($new_email === $old_email) {
             return ResponseHelper::error($response, '新邮箱不能和旧邮箱一样');
+        }
+
+        if ((new User())->where('email', $new_email)->first() !== null) {
+            return ResponseHelper::error($response, '邮箱已经被使用了');
         }
 
         if (Config::obtain('reg_email_verify')) {

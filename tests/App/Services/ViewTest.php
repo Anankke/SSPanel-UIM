@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\View;
 use App\Models\User;
 
 final class ViewTest extends TestCase

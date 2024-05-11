@@ -31,7 +31,7 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                                 <li class="nav-item">
-                                    <a href="#notification" class="nav-link active" data-bs-toggle="tab">通知设定</a>
+                                    <a href="#notification" class="nav-link active" data-bs-toggle="tab">Notification</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#telegram" class="nav-link" data-bs-toggle="tab">Telegram Bot</a>
@@ -49,127 +49,197 @@
                                 <div class="tab-pane active show" id="notification">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">添加节点通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node Addition
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_add_node" class="col form-select"
-                                                        value="{$settings['telegram_add_node']}">
+                                                <select id="im_bot_group_notify_add_node" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_add_node']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_add_node']}selected{/if}>关闭
-                                                    </option>
-                                                    <option value="1" {if $settings['telegram_add_node']}selected{/if}>
-                                                        开启
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">修改节点通知</label>
-                                            <div class="col">
-                                                <select id="telegram_update_node" class="col form-select"
-                                                        value="{$settings['telegram_update_node']}">
-                                                    <option value="0"
-                                                            {if ! $settings['telegram_update_node']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_add_node']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['telegram_update_node']}selected{/if}>开启
+                                                            {if $settings['im_bot_group_notify_add_node']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">删除节点通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node Update
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_delete_node" class="col form-select"
-                                                        value="{$settings['telegram_delete_node']}">
+                                                <select id="im_bot_group_notify_update_node" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_update_node']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_delete_node']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_update_node']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['telegram_delete_node']}selected{/if}>开启
+                                                            {if $settings['im_bot_group_notify_update_node']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点被墙通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node Deletion
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_node_gfwed" class="col form-select"
-                                                        value="{$settings['telegram_node_gfwed']}">
+                                                <select id="im_bot_group_notify_delete_node" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_delete_node']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_node_gfwed']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_delete_node']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['telegram_node_gfwed']}selected{/if}>开启
+                                                            {if $settings['im_bot_group_notify_delete_node']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点被墙恢复通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node GFWed
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_node_ungfwed" class="col form-select"
-                                                        value="{$settings['telegram_node_ungfwed']}">
+                                                <select id="im_bot_group_notify_node_gfwed" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_node_gfwed']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_node_ungfwed']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_node_gfwed']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['telegram_node_ungfwed']}selected{/if}>开启
+                                                            {if $settings['im_bot_group_notify_node_gfwed']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点离线通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node UnGFWed
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_node_offline" class="col form-select"
-                                                        value="{$settings['telegram_node_offline']}">
+                                                <select id="im_bot_group_notify_node_ungfwed" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_node_ungfwed']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_node_offline']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_node_ungfwed']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['telegram_node_offline']}selected{/if}>开启
+                                                            {if $settings['im_bot_group_notify_node_ungfwed']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">节点上线通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node Online
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_node_online" class="col form-select"
-                                                        value="{$settings['telegram_node_online']}">
+                                                <select id="im_bot_group_notify_node_online" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_node_online']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_node_online']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_node_online']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['telegram_node_online']}selected{/if}>开启
+                                                            {if $settings['im_bot_group_notify_node_online']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">每日任务通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Node Offline
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_daily_job" class="col form-select"
-                                                        value="{$settings['telegram_daily_job']}">
+                                                <select id="im_bot_group_notify_node_offline" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_node_offline']}">
                                                     <option value="0"
-                                                            {if ! $settings['telegram_daily_job']}selected{/if}>关闭
+                                                            {if ! $settings['im_bot_group_notify_node_offline']}selected{/if}>
+                                                        False
                                                     </option>
-                                                    <option value="1" {if $settings['telegram_daily_job']}selected{/if}>
-                                                        开启
+                                                    <option value="1"
+                                                            {if $settings['im_bot_group_notify_node_offline']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">系统运行状况通知</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Daily Job
+                                            </label>
                                             <div class="col">
-                                                <select id="telegram_diary" class="col form-select"
-                                                        value="{$settings['telegram_diary']}">
-                                                    <option value="0" {if ! $settings['telegram_diary']}selected{/if}>
-                                                        关闭
+                                                <select id="im_bot_group_notify_daily_job" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_daily_job']}">
+                                                    <option value="0"
+                                                            {if ! $settings['im_bot_group_notify_daily_job']}selected{/if}>
+                                                        False
                                                     </option>
-                                                    <option value="1" {if $settings['telegram_diary']}selected{/if}>
-                                                        开启
+                                                    <option value="1"
+                                                            {if $settings['im_bot_group_notify_daily_job']}selected{/if}>
+                                                        True
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                System Dairy
+                                            </label>
+                                            <div class="col">
+                                                <select id="im_bot_group_notify_diary" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_diary']}">
+                                                    <option value="0" {if ! $settings['im_bot_group_notify_diary']}selected{/if}>
+                                                        False
+                                                    </option>
+                                                    <option value="1" {if $settings['im_bot_group_notify_diary']}selected{/if}>
+                                                        True
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Announcement Creation
+                                            </label>
+                                            <div class="col">
+                                                <select id="im_bot_group_notify_ann_create" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_ann_create']}">
+                                                    <option value="0"
+                                                            {if ! $settings['im_bot_group_notify_ann_create']}selected{/if}>
+                                                        False
+                                                    </option>
+                                                    <option value="1"
+                                                            {if $settings['im_bot_group_notify_ann_create']}selected{/if}>
+                                                        True
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Announcement Update
+                                            </label>
+                                            <div class="col">
+                                                <select id="im_bot_group_notify_ann_update" class="col form-select"
+                                                        value="{$settings['im_bot_group_notify_ann_update']}">
+                                                    <option value="0"
+                                                            {if ! $settings['im_bot_group_notify_ann_update']}selected{/if}>
+                                                        False
+                                                    </option>
+                                                    <option value="1"
+                                                            {if $settings['im_bot_group_notify_ann_update']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
@@ -178,21 +248,6 @@
                                 </div>
                                 <div class="tab-pane" id="telegram">
                                     <div class="card-body">
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">是否启用 Telegram
-                                                机器人</label>
-                                            <div class="col">
-                                                <select id="enable_telegram" class="col form-select"
-                                                        value="{$settings['enable_telegram']}">
-                                                    <option value="0" {if ! $settings['enable_telegram']}selected{/if}>
-                                                        关闭
-                                                    </option>
-                                                    <option value="1" {if $settings['enable_telegram']}selected{/if}>
-                                                        开启
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">Bot Token</label>
                                             <div class="col">
@@ -338,8 +393,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Telegram User ID</label>
-                                            <input type="text" class="form-control" id="telegram_user_id" value="">
+                                            <label class="form-label col-3 col-form-label">Telegram Chat ID(Group/DM)</label>
+                                            <input type="text" class="form-control" id="telegram_chat_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
                                                     <button id="test-telegram" class="btn btn-primary">
@@ -404,8 +459,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Discord User ID</label>
-                                            <input type="text" class="form-control" id="discord_user_id" value="">
+                                            <label class="form-label col-3 col-form-label">Discord User ID/Channel ID</label>
+                                            <input type="text" class="form-control" id="discord_channel_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
                                                     <button id="test-discord" class="btn btn-primary">
@@ -470,8 +525,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Slack User ID</label>
-                                            <input type="text" class="form-control" id="slack_user_id" value="">
+                                            <label class="form-label col-3 col-form-label">Slack User ID/Channel ID</label>
+                                            <input type="text" class="form-control" id="slack_channel_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
                                                     <button id="test-slack" class="btn btn-primary">
@@ -518,7 +573,7 @@
                     type: 'POST',
                     dataType: "json",
                     data: {
-                        telegram_user_id: $('#telegram_user_id').val(),
+                        telegram_chat_id: $('#telegram_chat_id').val(),
                     },
                     success: function (data) {
                         if (data.ret === 1) {
@@ -538,7 +593,7 @@
                     type: 'POST',
                     dataType: "json",
                     data: {
-                        discord_user_id: $('#discord_user_id').val(),
+                        discord_channel_id: $('#discord_channel_id').val(),
                     },
                     success: function (data) {
                         if (data.ret === 1) {
@@ -558,7 +613,7 @@
                     type: 'POST',
                     dataType: "json",
                     data: {
-                        slack_user_id: $('#slack_user_id').val(),
+                        slack_channel_id: $('#slack_channel_id').val(),
                     },
                     success: function (data) {
                         if (data.ret === 1) {

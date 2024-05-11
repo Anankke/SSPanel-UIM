@@ -24,6 +24,8 @@ use voku\helper\AntiXSS;
 
 final class AlipayF2F extends Base
 {
+    private AlipayConfig $alipayConfig;
+
     public function __construct()
     {
         $this->antiXss = new AntiXSS();
