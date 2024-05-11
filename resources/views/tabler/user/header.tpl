@@ -39,7 +39,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <img src="/images/uim-logo-round_48x48.png" height="32" alt="SSPanel-UIM Logo"
+                <img src="/images/next-logo.svg" height="32" alt="Next Panel Logo"
                      class="navbar-brand-image" style="filter: none;">
             </h1>
             <div class="navbar-nav flex-row order-md-last">

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.0"
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   preserveAspectRatio="xMidYMid"
+   color-interpolation-filters="sRGB"
+   id="next"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <g
+     id="next-logo"
+     transform="matrix(0.91105813,0,0,0.91105813,11.28003,4.4470934)">
+    <svg
+       version="1.1"
+       id="logo"
+       width="100%"
+       height="100%"
+       style="display:inline;overflow:visible">
+      <path
+         d="m 85,90 a 10,10 0 0 0 -2.24,-6.3 l -65,-80 A 10,10 0 0 0 10,0 10,10 0 0 0 0,10 10,10 0 0 0 2.24,16.31 l 65,80 A 10,10 0 0 0 75,100 10,10 0 0 0 85,90 Z"
+         fill="#df5bd3"
+         id="path2" />
+      <path
+         d="M 85,42.43 V 10 A 10,10 0 0 0 75,0 10,10 0 0 0 65,10 v 32.43 a 10,10 0 0 0 2.24,6.3 10,10 0 0 0 17.76,-6.3 z"
+         fill="#7e5bf6"
+         id="path3" />
+      <path
+         d="M 0,57.57 V 90 A 10,10 0 0 0 10,100 10,10 0 0 0 20,90 V 57.57 A 10,10 0 0 0 17.76,51.27 10,10 0 0 0 0,57.57 Z"
+         fill="#df5bd3"
+         id="path4" />
+    </svg>
+  </g>
+  <defs
+     v-gra="od"
+     id="defs16" />
+</svg>

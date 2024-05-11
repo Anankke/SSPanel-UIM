@@ -13,7 +13,7 @@
                     type: "alipay",
                     redir: window.location.href
                 }'>
-            <img src="/images/alipay.png" height="50px"/>
+            <img src="/images/alipay.svg" height="50px"/>
         </button>
         {/if}
         {if $public_setting['epay_wechat']}
@@ -25,7 +25,7 @@
                     type: "wxpay",
                     redir: window.location.href
                 }'>
-            <img src="/images/wechat.png" height="50px"/>
+            <img src="/images/wechat.svg" height="50px"/>
         </button>
         {/if}
         {if $public_setting['epay_qq']}
@@ -37,7 +37,7 @@
                     type: "qqpay",
                     redir: window.location.href
                 }'>
-            <img src="/images/qqpay.png" height="50px"/>
+            <img src="/images/qq.svg" height="50px"/>
         </button>
         {/if}
         {if $public_setting['epay_usdt']}
@@ -49,7 +49,7 @@
                     type: "usdt",
                     redir: window.location.href
                 }'>
-            <img src="/images/usdt.png" height="50px"/>
+            <img src="/images/tether.svg" height="50px"/>
         </button>
         {/if}
     </form>
