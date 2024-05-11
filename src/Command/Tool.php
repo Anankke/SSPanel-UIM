@@ -14,8 +14,6 @@ use App\Utils\Tools;
 use danielsreichenbach\GeoIP2Update\Client;
 use Exception;
 use Ramsey\Uuid\Uuid;
-use Telegram\Bot\Api;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use function count;
 use function date;
 use function fgets;
@@ -35,7 +33,6 @@ final class Tool extends Command
 {
     public string $description = <<<EOL
 ├─=: php xcat Tool [选项]
-│ ├─ setTelegram         - 设置 Telegram 机器人
 │ ├─ resetSetting        - 使用默认值覆盖数据库配置
 │ ├─ importSetting       - 导入数据库配置
 │ ├─ resetNodePassword   - 重置所有节点通讯密钥
@@ -67,22 +64,6 @@ EOL;
             } else {
                 echo '方法不存在' . PHP_EOL;
             }
-        }
-    }
-
-    /**
-     * @throws TelegramSDKException
-     */
-    public function setTelegram(): void
-    {
-        $WebhookUrl = $_ENV['baseUrl'] . '/callback/telegram?token=' . Config::obtain('telegram_request_token');
-        $telegram = new Api(Config::obtain('telegram_token'));
-        $telegram->removeWebhook();
-
-        if ($telegram->setWebhook(['url' => $WebhookUrl])) {
-            echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
-        } else {
-            echo '设置失败！' . PHP_EOL;
         }
     }
 

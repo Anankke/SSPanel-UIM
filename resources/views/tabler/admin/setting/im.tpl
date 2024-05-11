@@ -254,9 +254,33 @@
                                                 <input id="telegram_token" type="text" class="form-control"
                                                        value="{$settings['telegram_token']}">
                                             </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-primary"
+                                                        hx-post="/admin/setting/im/set_webhook/telegram" hx-swap="none"
+                                                        hx-vals='js:{
+                                                            bot_token: document.getElementById("telegram_token").value,
+                                                            webhook_token: document.getElementById("telegram_request_token").value
+                                                        }'>
+                                                    Set Webhook
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Telegram Group ID</label>
+                                            <label class="form-label col-3 col-form-label">Webhook Token</label>
+                                            <div class="col">
+                                                <input id="telegram_request_token" type="text" class="form-control"
+                                                       value="{$settings['telegram_request_token']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Bot Account Username</label>
+                                            <div class="col">
+                                                <input id="telegram_bot" type="text" class="form-control"
+                                                       value="{$settings['telegram_bot']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Group ID</label>
                                             <div class="col">
                                                 <input id="telegram_chatid" type="text" class="form-control"
                                                        value="{$settings['telegram_chatid']}">
@@ -276,20 +300,6 @@
                                                         True
                                                     </option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Telegram 机器人账号</label>
-                                            <div class="col">
-                                                <input id="telegram_bot" type="text" class="form-control"
-                                                       value="{$settings['telegram_bot']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Telegram Webhook 密钥</label>
-                                            <div class="col">
-                                                <input id="telegram_request_token" type="text" class="form-control"
-                                                       value="{$settings['telegram_request_token']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -397,7 +407,9 @@
                                             <input type="text" class="form-control" id="telegram_chat_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-telegram" class="btn btn-primary">
+                                                    <button id="test-telegram" class="btn btn-primary"
+                                                        hx-post="/admin/setting/test/telegram" hx-swap="none"
+                                                        hx-vals='js:{ telegram_chat_id: document.getElementById("telegram_chat_id").value }'>
                                                         Send Test Message
                                                     </button>
                                                 </div>
@@ -463,7 +475,9 @@
                                             <input type="text" class="form-control" id="discord_channel_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-discord" class="btn btn-primary">
+                                                    <button id="test-discord" class="btn btn-primary"
+                                                        hx-post="/admin/setting/test/discord" hx-swap="none"
+                                                        hx-vals='js:{ discord_channel_id: document.getElementById("discord_channel_id").value }'>
                                                         Send Test Message
                                                     </button>
                                                 </div>
@@ -529,7 +543,9 @@
                                             <input type="text" class="form-control" id="slack_channel_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-slack" class="btn btn-primary">
+                                                    <button id="test-slack" class="btn btn-primary"
+                                                        hx-post="/admin/setting/test/slack" hx-swap="none"
+                                                        hx-vals='js:{ slack_channel_id: document.getElementById("slack_channel_id").value }'>
                                                         Send Test Message
                                                     </button>
                                                 </div>
@@ -559,66 +575,6 @@
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
-
-            $("#test-telegram").click(function () {
-                $.ajax({
-                    url: '/admin/setting/test/telegram',
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        telegram_chat_id: $('#telegram_chat_id').val(),
-                    },
-                    success: function (data) {
-                        if (data.ret === 1) {
-                            $('#success-noreload-message').text(data.msg);
-                            $('#success-noreload-dialog').modal('show');
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
-
-            $("#test-discord").click(function () {
-                $.ajax({
-                    url: '/admin/setting/test/discord',
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        discord_channel_id: $('#discord_channel_id').val(),
-                    },
-                    success: function (data) {
-                        if (data.ret === 1) {
-                            $('#success-noreload-message').text(data.msg);
-                            $('#success-noreload-dialog').modal('show');
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
-
-            $("#test-slack").click(function () {
-                $.ajax({
-                    url: '/admin/setting/test/slack',
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        slack_channel_id: $('#slack_channel_id').val(),
-                    },
-                    success: function (data) {
-                        if (data.ret === 1) {
-                            $('#success-noreload-message').text(data.msg);
-                            $('#success-noreload-dialog').modal('show');
                         } else {
                             $('#fail-message').text(data.msg);
                             $('#fail-dialog').modal('show');

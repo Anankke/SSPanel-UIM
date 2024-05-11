@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80e2b1dd8b3a95458b9e77a57cf55b1f",
+    "content-hash": "ac5ceda957860eaa6035deeb1d458258",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -510,12 +510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/alipay/alipay-sdk-php-all.git",
-                "reference": "7a3573290641ba87dca5973aa2941f40b48d842a"
+                "reference": "dd7fd3debddb1b7cccc90721841ecd75a9e0ad6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alipay/alipay-sdk-php-all/zipball/7a3573290641ba87dca5973aa2941f40b48d842a",
-                "reference": "7a3573290641ba87dca5973aa2941f40b48d842a",
+                "url": "https://api.github.com/repos/alipay/alipay-sdk-php-all/zipball/dd7fd3debddb1b7cccc90721841ecd75a9e0ad6e",
+                "reference": "dd7fd3debddb1b7cccc90721841ecd75a9e0ad6e",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +564,7 @@
             "support": {
                 "source": "https://github.com/alipay/alipay-sdk-php-all/tree/master"
             },
-            "time": "2024-04-25T10:01:48+00:00"
+            "time": "2024-05-11T05:58:19+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -6565,16 +6565,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.9.3",
+            "version": "v3.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "a842d75fed59cdbcbd3a3ad7fb9eb768fc350d58"
+                "reference": "34422f90043aba75e419dd77ee0a86e1688c28ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a842d75fed59cdbcbd3a3ad7fb9eb768fc350d58",
-                "reference": "a842d75fed59cdbcbd3a3ad7fb9eb768fc350d58",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/34422f90043aba75e419dd77ee0a86e1688c28ee",
+                "reference": "34422f90043aba75e419dd77ee0a86e1688c28ee",
                 "shasum": ""
             },
             "require": {
@@ -6628,7 +6628,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.9.3"
+                "source": "https://github.com/twigphp/Twig/tree/v3.10.0"
             },
             "funding": [
                 {
@@ -6640,7 +6640,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-18T11:59:33+00:00"
+            "time": "2024-05-11T07:44:16+00:00"
         },
         {
             "name": "vectorface/googleauthenticator",
