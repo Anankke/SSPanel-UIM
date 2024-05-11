@@ -76,29 +76,29 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         {if $public_setting['reg_email_verify'] && $config['enable_change_email']}
-                                                            <button class="btn btn-link"
-                                                                    hx-post="/user/send" hx-swap="none"
-                                                                    hx-vals='js:{ email: document.getElementById("newemail").value }'>
-                                                                获取验证码
-                                                            </button>
-                                                            <button class="btn btn-primary ms-auto"
-                                                                    hx-post="/user/email" hx-swap="none"
-                                                                    hx-vals='js:{
-                                                                        newemail: document.getElementById("new-email").value,
-                                                                        emailcode: document.getElementById("email-code").value
-                                                                    }'>
-                                                                修改
-                                                            </button>
+                                                        <button class="btn btn-link"
+                                                                hx-post="/user/send" hx-swap="none"
+                                                                hx-vals='js:{ email: document.getElementById("newemail").value }'>
+                                                            获取验证码
+                                                        </button>
+                                                        <button class="btn btn-primary ms-auto"
+                                                                hx-post="/user/email" hx-swap="none"
+                                                                hx-vals='js:{
+                                                                    newemail: document.getElementById("new-email").value,
+                                                                    emailcode: document.getElementById("email-code").value
+                                                                }'>
+                                                            修改
+                                                        </button>
                                                         {elseif $config['enable_change_email']}
-                                                            <button class="btn btn-primary ms-auto"
-                                                                    hx-post="/user/email" hx-swap="none"
-                                                                    hx-vals='js:{ newemail: document.getElementById("new-email").value }'>
-                                                                修改
-                                                            </button>
+                                                        <button class="btn btn-primary ms-auto"
+                                                                hx-post="/user/email" hx-swap="none"
+                                                                hx-vals='js:{ newemail: document.getElementById("new-email").value }'>
+                                                            修改
+                                                        </button>
                                                         {else}
-                                                            <button class="btn btn-primary ms-auto"
-                                                                    disabled>不允许修改
-                                                            </button>
+                                                        <button class="btn btn-primary ms-auto"
+                                                                disabled>不允许修改
+                                                        </button>
                                                         {/if}
                                                     </div>
                                                 </div>

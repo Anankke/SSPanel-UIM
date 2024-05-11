@@ -27,12 +27,8 @@ final class Telegram extends Base
      *
      * @throws TelegramSDKException
      */
-    public function send($to = 0, $msg = ''): void
+    public function send($to, $msg = ''): void
     {
-        if ($to === 0) {
-            $to = Config::obtain('telegram_chatid');
-        }
-
         $msg = str_replace(
             [
                 '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!',
@@ -75,29 +71,6 @@ final class Telegram extends Base
                 ]
             ),
             'parse_mode' => 'HTML',
-            'disable_web_page_preview' => false,
-            'reply_to_message_id' => null,
-            'reply_markup' => null,
-        ];
-
-        $this->bot->sendMessage($sendMessage);
-    }
-
-    /**
-     * 以 Markdown 格式发送讯息，默认给群组发送
-     *
-     * @throws TelegramSDKException
-     */
-    public function sendMarkdown(int $to = 0, string $msg = ''): void
-    {
-        if ($to === 0) {
-            $to = Config::obtain('telegram_chatid');
-        }
-
-        $sendMessage = [
-            'chat_id' => $to,
-            'text' => $msg,
-            'parse_mode' => 'Markdown',
             'disable_web_page_preview' => false,
             'reply_to_message_id' => null,
             'reply_markup' => null,
