@@ -6,5 +6,5 @@ namespace App\Services\IM;
 
 abstract class Base
 {
-    abstract public function send($to, $msg): void;
+    abstract public function send(int $to, string $msg): void;
 }

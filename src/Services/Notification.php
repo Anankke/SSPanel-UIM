@@ -84,7 +84,7 @@ final class Notification
                     ]
                 );
             } else {
-                IM::send($user->im_value, $msg, $user->im_type);
+                IM::send((int) $user->im_value, $msg, $user->im_type);
             }
         }
     }
@@ -93,18 +93,18 @@ final class Notification
      * @throws GuzzleException
      * @throws TelegramSDKException
      */
-    public static function notifyUserGroup($msg = ''): void
+    public static function notifyUserGroup(string $msg = ''): void
     {
         if (Config::obtain('enable_telegram_group_notify')) {
-            IM::send(Config::obtain('telegram_chatid'), $msg, 0);
+            IM::send((int) Config::obtain('telegram_chatid'), $msg, 0);
         }
 
         if (Config::obtain('enable_discord_channel_notify')) {
-            IM::send(Config::obtain('discord_channel_id'), $msg, 1);
+            IM::send((int) Config::obtain('discord_channel_id'), $msg, 1);
         }
 
         if (Config::obtain('enable_slack_channel_notify')) {
-            IM::send(Config::obtain('slack_channel_id'), $msg, 2);
+            IM::send((int) Config::obtain('slack_channel_id'), $msg, 2);
         }
     }
 }

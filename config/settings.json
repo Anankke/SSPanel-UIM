@@ -666,13 +666,103 @@
         "mark": "hCaptcha Secret"
     },
     {
-        "item": "enable_telegram",
+        "item": "im_bot_group_notify_add_node",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Enable IM bot group add node notify"
+    },
+    {
+        "item": "im_bot_group_notify_update_node",
         "value": "0",
         "class": "im",
-        "is_public": 1,
+        "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "是否启用Telegram机器人"
+        "mark": "Enable IM bot group update node notify"
+    },
+    {
+        "item": "im_bot_group_notify_delete_node",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group delete node notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_gfwed",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node gfwed notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_ungfwed",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node ungfwed notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_online",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node online notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_offline",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node offline notify"
+    },
+    {
+        "item": "im_bot_group_notify_daily_job",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Enable IM bot group daily job notify"
+    },
+    {
+        "item": "im_bot_group_notify_diary",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group diary notify"
+    },
+    {
+        "item": "im_bot_group_notify_ann_create",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Enable IM bot group notify when new announcement is created"
+    },
+    {
+        "item": "im_bot_group_notify_ann_update",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group notify when announcement is updated"
     },
     {
         "item": "telegram_token",
@@ -690,7 +780,7 @@
         "is_public": 0,
         "type": "int",
         "default": "-1",
-        "mark": "Telegram Group ID"
+        "mark": "Telegram Chat ID"
     },
     {
         "item": "enable_telegram_group_notify",
@@ -718,87 +808,6 @@
         "type": "string",
         "default": "",
         "mark": "Telegram Webhook 密钥"
-    },
-    {
-        "item": "telegram_add_node",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人添加节点通知"
-    },
-    {
-        "item": "telegram_update_node",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人修改节点通知"
-    },
-    {
-        "item": "telegram_delete_node",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人删除节点通知"
-    },
-    {
-        "item": "telegram_node_gfwed",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点被墙通知"
-    },
-    {
-        "item": "telegram_node_ungfwed",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点被墙恢复通知"
-    },
-    {
-        "item": "telegram_node_online",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点恢复上线通知"
-    },
-    {
-        "item": "telegram_node_offline",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点离线通知"
-    },
-    {
-        "item": "telegram_daily_job",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人每日任务通知"
-    },
-    {
-        "item": "telegram_diary",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人系统运行状况通知"
     },
     {
         "item": "telegram_unbind_kick_member",

@@ -8,6 +8,7 @@ use App\Models\Config;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use function str_replace;
 use const VERSION;
 
 final class Discord extends Base
@@ -25,7 +26,7 @@ final class Discord extends Base
      * @throws GuzzleException
      * @throws Exception
      */
-    public function send($to, $msg): void
+    public function send(int $to, string $msg): void
     {
         $headers = [
             'Authorization' => "Bot {$this->token}",
@@ -55,6 +56,20 @@ final class Discord extends Base
         }
 
         $channel_url = 'https://discord.com/api/v10/channels/' . $to . '/messages';
+
+        $msg = str_replace(
+            [
+                ';',
+                ']',
+                '\\',
+            ],
+            [
+                '\;',
+                '\]',
+                '\\\\',
+            ],
+            $msg
+        );
 
         $msg_body = [
             'content' => $msg,

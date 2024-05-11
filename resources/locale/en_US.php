@@ -16,9 +16,10 @@ return [
         'node_online' => '%node_name% is back online',
         'node_offline' => '%node_name% has gone offline',
         'daily_job_run' => 'Successful execution of daily tasks',
-        'diary' => 'Number of people checking in today: %getTodayCheckinUser%' . PHP_EOL . 'Total traffic used today: %lastday_total%',
+        'diary' => 'Number of people checking in today: %checkin_user%' . PHP_EOL . 'Total traffic used today: %lastday_total%',
         'user_not_bind' => 'You have not bound your account to this website. You can enter the **Edit Account** of the website and bind your account in the lower right corner.',
         'user_join_welcome_free' => 'Welcome %user_name%',
         'user_join_welcome_paid' => 'Welcome VIP%user_class% user %user_name% to join the group',
+        'test_message' => 'Test message',
     ],
 ];

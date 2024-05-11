@@ -6,6 +6,7 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
+use App\Services\I18n;
 use App\Services\IM\Discord;
 use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
@@ -20,17 +21,18 @@ final class ImController extends BaseController
 {
     private static array $update_field = [
         // TODO: rename these to im service independent
-        'telegram_add_node',
-        'telegram_update_node',
-        'telegram_delete_node',
-        'telegram_node_gfwed',
-        'telegram_node_ungfwed',
-        'telegram_node_online',
-        'telegram_node_offline',
-        'telegram_daily_job',
-        'telegram_diary',
+        'im_bot_group_notify_add_node',
+        'im_bot_group_notify_update_node',
+        'im_bot_group_notify_delete_node',
+        'im_bot_group_notify_node_gfwed',
+        'im_bot_group_notify_node_ungfwed',
+        'im_bot_group_notify_node_online',
+        'im_bot_group_notify_node_offline',
+        'im_bot_group_notify_daily_job',
+        'im_bot_group_notify_diary',
+        'im_bot_group_notify_ann_create',
+        'im_bot_group_notify_ann_update',
         // Telegram
-        'enable_telegram',
         'telegram_token',
         'telegram_chatid',
         'enable_telegram_group_notify',
@@ -59,7 +61,6 @@ final class ImController extends BaseController
         'enable_slack_channel_notify',
     ];
 
-    private static string $test_msg = '这是一条测试消息';
     private static string $success_msg = '测试信息发送成功';
     private static string $err_msg = '测试信息发送失败';
 
@@ -99,8 +100,8 @@ final class ImController extends BaseController
     {
         try {
             (new Telegram())->send(
-                $request->getParam('telegram_user_id'),
-                $this::$test_msg,
+                (int) $request->getParam('telegram_chat_id'),
+                I18n::trans('bot.test_message', $_ENV['locale']),
             );
         } catch (TelegramSDKException|Exception $e) {
             return $response->withJson([
@@ -119,8 +120,8 @@ final class ImController extends BaseController
     {
         try {
             (new Discord())->send(
-                $request->getParam('discord_user_id'),
-                $this::$test_msg,
+                (int) $request->getParam('discord_channel_id'),
+                I18n::trans('bot.test_message', $_ENV['locale']),
             );
         } catch (GuzzleException|Exception $e) {
             return $response->withJson([
@@ -131,7 +132,7 @@ final class ImController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '测试信息发送成功',
+            'msg' => $this::$success_msg,
         ]);
     }
 
@@ -139,8 +140,8 @@ final class ImController extends BaseController
     {
         try {
             (new Slack())->send(
-                $request->getParam('slack_user_id'),
-                $this::$test_msg,
+                (int) $request->getParam('slack_channel_id'),
+                I18n::trans('bot.test_message', $_ENV['locale']),
             );
         } catch (GuzzleException|Exception $e) {
             return $response->withJson([
@@ -151,7 +152,7 @@ final class ImController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '测试信息发送成功',
+            'msg' => $this::$success_msg,
         ]);
     }
 }
