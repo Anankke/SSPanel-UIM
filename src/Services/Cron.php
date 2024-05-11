@@ -489,7 +489,8 @@ final class Cron
             ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->get();
 
         if (count($paylists) > 0) {
-            $text_html = '<table style="border=1;"><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
+            $text_html = '<table style="border: 1px solid black; border-collapse: collapse;">
+                <tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
 
             foreach ($paylists as $paylist) {
                 $text_html .= '<tr>';
@@ -626,7 +627,7 @@ final class Cron
             $user->sendDailyNotification($ann_latest);
         }
 
-        echo Tools::toDateTime(time()) . ' 成功发送每日流量报告' . PHP_EOL;
+        echo Tools::toDateTime(time()) . ' Successfully sent daily traffic report' . PHP_EOL;
     }
 
     public static function sendDailyJobNotification(): void

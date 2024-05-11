@@ -293,8 +293,9 @@ final class User extends Model
                     'unused_traffic' => $unused_traffic,
                 ]
             );
-        } else {
+        } elseif ($this->daily_mail_enable === 2 && $this->im_value !== '') {
             echo 'Send daily IM message to user: ' . $this->id . PHP_EOL;
+
             $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
             $text .= '流量总计：' . $enable_traffic . PHP_EOL;
             $text .= '已用流量：' . $used_traffic . PHP_EOL;
