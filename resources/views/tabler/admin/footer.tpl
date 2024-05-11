@@ -22,30 +22,6 @@
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="success-noreload-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-status bg-success"></div>
-            <div class="modal-body text-center py-4">
-                <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
-                <p id="success-noreload-message" class="text-secondary">成功</p>
-            </div>
-            <div class="modal-footer">
-                <div class="w-100">
-                    <div class="row">
-                        <div class="col">
-                            <a id="success-noreload-confirm" href="" class="btn w-100" data-bs-dismiss="modal">
-                                好
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -122,10 +98,6 @@
             document.getElementById("fail-message").innerHTML = res.msg;
             failDialog.show();
         }
-    });
-
-    $("#success-confirm").click(function () {
-        location.reload();
     });
 </script>
 <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>

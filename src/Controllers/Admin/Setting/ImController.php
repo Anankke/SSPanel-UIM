@@ -15,6 +15,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 final class ImController extends BaseController
@@ -93,6 +94,36 @@ final class ImController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '保存成功',
+        ]);
+    }
+
+    public function setWebhook(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $type = $args['type'];
+
+        if ($type === 'telegram') {
+            $webhook_url = $_ENV['baseUrl'] . '/callback/telegram?token=' . $request->getParam('webhook_token');
+
+            try {
+                $telegram = new Api($request->getParam('bot_token'));
+                $telegram->removeWebhook();
+                $telegram->setWebhook(['url' => $webhook_url]);
+
+                return $response->withJson([
+                    'ret' => 1,
+                    'msg' => 'Successfully set Telegram Bot @' . $telegram->getMe()->getUsername(),
+                ]);
+            } catch (TelegramSDKException) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => 'Failed to set Telegram Bot',
+                ]);
+            }
+        }
+
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => 'Unknown bot type',
         ]);
     }
 

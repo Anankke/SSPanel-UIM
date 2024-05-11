@@ -24,7 +24,6 @@ return static function (Slim\App $app): void {
     $app->get('/oauth/{type}', App\Controllers\OAuthController::class . ':index');
     // 通用订阅
     $app->get('/sub/{token}/{subtype}', App\Controllers\SubController::class . ':index');
-
     // User
     $app->group('/user', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\UserController::class . ':index');
@@ -116,7 +115,6 @@ return static function (Slim\App $app): void {
         $group->post('/notify/{type}', App\Services\Payment::class . ':notify');
         $group->post('/status/{type}', App\Services\Payment::class . ':getStatus');
     });
-
     // Auth
     $app->group('/auth', static function (RouteCollectorProxy $group): void {
         $group->get('/login', App\Controllers\AuthController::class . ':login');
@@ -126,7 +124,6 @@ return static function (Slim\App $app): void {
         $group->post('/send', App\Controllers\AuthController::class . ':sendVerify');
         $group->get('/logout', App\Controllers\AuthController::class . ':logout');
     })->add(new Guest());
-
     // Password
     $app->group('/password', static function (RouteCollectorProxy $group): void {
         $group->get('/reset', App\Controllers\PasswordController::class . ':reset');
@@ -134,7 +131,6 @@ return static function (Slim\App $app): void {
         $group->get('/token/{token}', App\Controllers\PasswordController::class . ':token');
         $group->post('/token/{token}', App\Controllers\PasswordController::class . ':handleToken');
     })->add(new Guest());
-
     // Admin
     $app->group('/admin', static function (RouteCollectorProxy $group): void {
         $group->get('', App\Controllers\AdminController::class . ':index');
@@ -249,6 +245,10 @@ return static function (Slim\App $app): void {
         $group->post('/setting/feature', App\Controllers\Admin\Setting\FeatureController::class . ':save');
         $group->get('/setting/im', App\Controllers\Admin\Setting\ImController::class . ':index');
         $group->post('/setting/im', App\Controllers\Admin\Setting\ImController::class . ':save');
+        $group->post(
+            '/setting/im/set_webhook/{type}',
+            App\Controllers\Admin\Setting\ImController::class . ':setWebhook'
+        );
         $group->get('/setting/ref', App\Controllers\Admin\Setting\RefController::class . ':index');
         $group->post('/setting/ref', App\Controllers\Admin\Setting\RefController::class . ':save');
         $group->get('/setting/reg', App\Controllers\Admin\Setting\RegController::class . ':index');
@@ -300,7 +300,6 @@ return static function (Slim\App $app): void {
         $group->post('/invoice/{id:[0-9]+}/mark_paid', App\Controllers\Admin\InvoiceController::class . ':markPaid');
         $group->post('/invoice/ajax', App\Controllers\Admin\InvoiceController::class . ':ajax');
     })->add(new Admin());
-
     // WebAPI
     $app->group('/mod_mu', static function (RouteCollectorProxy $group): void {
         // 节点
