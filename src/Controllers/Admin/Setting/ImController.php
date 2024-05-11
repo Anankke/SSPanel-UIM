@@ -10,6 +10,7 @@ use App\Services\I18n;
 use App\Services\IM\Discord;
 use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
+use App\Utils\Tools;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
@@ -35,10 +36,9 @@ final class ImController extends BaseController
         'im_bot_group_notify_ann_update',
         // Telegram
         'telegram_token',
+        'telegram_bot',
         'telegram_chatid',
         'enable_telegram_group_notify',
-        'telegram_bot',
-        'telegram_request_token',
         'telegram_unbind_kick_member',
         'telegram_group_bound_user',
         'enable_welcome_message',
@@ -97,12 +97,34 @@ final class ImController extends BaseController
         ]);
     }
 
+    public function resetWebhookToken(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $type = $args['type'];
+
+        if ($type === 'telegram') {
+            Config::set('telegram_webhook_token', Tools::genRandomChar(32));
+
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => 'Successfully reset webhook token',
+                'data' => [
+                    'telegram_webhook_token' => Config::obtain('telegram_webhook_token'),
+                ],
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => 'Unknown webhook type',
+        ]);
+    }
+
     public function setWebhook(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $type = $args['type'];
 
         if ($type === 'telegram') {
-            $webhook_url = $_ENV['baseUrl'] . '/callback/telegram?token=' . $request->getParam('webhook_token');
+            $webhook_url = $_ENV['baseUrl'] . '/callback/telegram?token=' . Config::obtain('telegram_webhook_token');
 
             try {
                 $telegram = new Api($request->getParam('bot_token'));
@@ -111,19 +133,19 @@ final class ImController extends BaseController
 
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => 'Successfully set Telegram Bot @' . $telegram->getMe()->getUsername(),
+                    'msg' => 'Successfully set telegram bot @' . $telegram->getMe()->getUsername(),
                 ]);
             } catch (TelegramSDKException) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => 'Failed to set Telegram Bot',
+                    'msg' => 'Failed to set telegram bot',
                 ]);
             }
         }
 
         return $response->withJson([
             'ret' => 0,
-            'msg' => 'Unknown bot type',
+            'msg' => 'Unknown webhook type',
         ]);
     }
 

@@ -774,6 +774,24 @@
         "mark": "Telegram Bot Token"
     },
     {
+        "item": "telegram_webhook_token",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Telegram Webhook Token"
+    },
+    {
+        "item": "telegram_bot",
+        "value": "_bot",
+        "class": "im",
+        "is_public": 1,
+        "type": "string",
+        "default": "_bot",
+        "mark": "Telegram Bot Account Username"
+    },
+    {
         "item": "telegram_chatid",
         "value": "-1",
         "class": "im",
@@ -790,24 +808,6 @@
         "type": "bool",
         "default": "0",
         "mark": "Enable Telegram group notify"
-    },
-    {
-        "item": "telegram_bot",
-        "value": "_bot",
-        "class": "im",
-        "is_public": 1,
-        "type": "string",
-        "default": "_bot",
-        "mark": "Telegram 机器人账号"
-    },
-    {
-        "item": "telegram_request_token",
-        "value": "",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "Telegram Webhook 密钥"
     },
     {
         "item": "telegram_unbind_kick_member",

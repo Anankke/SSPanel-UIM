@@ -258,8 +258,7 @@
                                                 <button class="btn btn-primary"
                                                         hx-post="/admin/setting/im/set_webhook/telegram" hx-swap="none"
                                                         hx-vals='js:{
-                                                            bot_token: document.getElementById("telegram_token").value,
-                                                            webhook_token: document.getElementById("telegram_request_token").value
+                                                            bot_token: document.getElementById("telegram_token").value
                                                         }'>
                                                     Set Webhook
                                                 </button>
@@ -268,8 +267,14 @@
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">Webhook Token</label>
                                             <div class="col">
-                                                <input id="telegram_request_token" type="text" class="form-control"
-                                                       value="{$settings['telegram_request_token']}">
+                                                <input id="telegram_webhook_token" type="text" class="form-control"
+                                                       value="{$settings['telegram_webhook_token']}" disabled>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-primary"
+                                                        hx-post="/admin/setting/im/reset_webhook_token/telegram" hx-swap="none">
+                                                    Reset Webhook Token
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
@@ -407,7 +412,7 @@
                                             <input type="text" class="form-control" id="telegram_chat_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-telegram" class="btn btn-primary"
+                                                    <button class="btn btn-primary"
                                                         hx-post="/admin/setting/test/telegram" hx-swap="none"
                                                         hx-vals='js:{ telegram_chat_id: document.getElementById("telegram_chat_id").value }'>
                                                         Send Test Message
@@ -475,7 +480,7 @@
                                             <input type="text" class="form-control" id="discord_channel_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-discord" class="btn btn-primary"
+                                                    <button class="btn btn-primary"
                                                         hx-post="/admin/setting/test/discord" hx-swap="none"
                                                         hx-vals='js:{ discord_channel_id: document.getElementById("discord_channel_id").value }'>
                                                         Send Test Message
@@ -543,7 +548,7 @@
                                             <input type="text" class="form-control" id="slack_channel_id" value="">
                                             <div class="row my-3">
                                                 <div class="col">
-                                                    <button id="test-slack" class="btn btn-primary"
+                                                    <button class="btn btn-primary"
                                                         hx-post="/admin/setting/test/slack" hx-swap="none"
                                                         hx-vals='js:{ slack_channel_id: document.getElementById("slack_channel_id").value }'>
                                                         Send Test Message

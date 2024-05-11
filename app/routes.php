@@ -246,6 +246,10 @@ return static function (Slim\App $app): void {
         $group->get('/setting/im', App\Controllers\Admin\Setting\ImController::class . ':index');
         $group->post('/setting/im', App\Controllers\Admin\Setting\ImController::class . ':save');
         $group->post(
+            '/setting/im/reset_webhook_token/{type}',
+            App\Controllers\Admin\Setting\ImController::class . ':resetWebhookToken'
+        );
+        $group->post(
             '/setting/im/set_webhook/{type}',
             App\Controllers\Admin\Setting\ImController::class . ':setWebhook'
         );

@@ -80,6 +80,7 @@
 </div>
 </div>
 <!-- js -->
+<script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <script>
     let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
     let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
@@ -91,6 +92,24 @@
             return;
         }
 
+        let res = JSON.parse(evt.detail.xhr.response);
+
+        if (typeof res.data !== 'undefined') {
+            for (let key in res.data) {
+                if (res.data.hasOwnProperty(key)) {
+                    let element = document.getElementById(key);
+
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = res.data[key];
+                        } else {
+                            element.innerHTML = res.data[key];
+                        }
+                    }
+                }
+            }
+        }
+
         if (res.ret === 1) {
             document.getElementById("success-message").innerHTML = res.msg;
             successDialog.show();
@@ -100,7 +119,6 @@
         }
     });
 </script>
-<script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
 
 </body>
