@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a bug report
-title: "[BUG] 在这里填入你所遇到问题的概述"
+title: "[BUG] 在这里填入您所遇到问题的概述"
 labels: bug-user-report
 
 ---
@@ -17,4 +17,4 @@ Commit:
 
 **Bug Info**
 
-Describe the issue you run into. 请描述你遇到的问题。
+Describe the issue you run into. 请描述您遇到的问题。

@@ -25,9 +25,9 @@
                         <div align="center" valign="top"
                              style="padding-bottom:60px;padding-left:20px;padding-right:20px;" class="description">
                             <p class="midText">
-                                你请求的邮箱验证代码为: <b style="color:#505050">{$code}</b> <br>
+                                您请求的邮箱验证代码为: <b style="color:#505050">{$code}</b> <br>
                                 本验证代码在 {$expire} 前有效。<br>
-                                如果此验证码非你本人申请，请忽视此邮件。<br>
+                                如果此验证码非您本人申请，请忽视此邮件。<br>
                             </p>
                         </div>
                     </div>

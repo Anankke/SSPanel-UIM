@@ -59,7 +59,7 @@ final class AuthController extends BaseController
         if (Config::obtain('enable_login_captcha') && ! Captcha::verify($request->getParams())) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '系统无法接受你的验证结果，请刷新页面后重试。',
+                'msg' => '系统无法接受您的验证结果，请刷新页面后重试。',
             ]);
         }
 
@@ -160,7 +160,7 @@ final class AuthController extends BaseController
             if (! (new RateLimit())->checkRateLimit('email_request_ip', $request->getServerParam('REMOTE_ADDR')) ||
                 ! (new RateLimit())->checkRateLimit('email_request_address', $email)
             ) {
-                return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
+                return ResponseHelper::error($response, '您的请求过于频繁，请稍后再试');
             }
 
             $user = (new User())->where('email', $email)->first();
@@ -292,7 +292,7 @@ final class AuthController extends BaseController
         }
 
         if (Config::obtain('enable_reg_captcha') && ! Captcha::verify($request->getParams())) {
-            return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试。');
+            return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
         }
 
         $tos = $request->getParam('tos') === 'true' ? 1 : 0;
@@ -354,7 +354,7 @@ final class AuthController extends BaseController
             $email_verify = $redis->get('email_verify:' . $email_verify_code);
 
             if (! $email_verify) {
-                return ResponseHelper::error($response, '你的邮箱验证码不正确');
+                return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
 
             $redis->del('email_verify:' . $email_verify_code);

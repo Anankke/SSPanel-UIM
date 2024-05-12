@@ -74,7 +74,7 @@ final class CheckinCommand extends Command
                     $msg = '获得了 ' . $traffic . 'MB 流量';
                 }
             } else {
-                $msg = '你今天已经签到过了';
+                $msg = '您今天已经签到过了';
             }
             // 回送信息
             $response = $this->replyWithMessage(

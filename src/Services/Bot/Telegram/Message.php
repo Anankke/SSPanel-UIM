@@ -158,7 +158,7 @@ final class Message
     public static function getUserTrafficInfo(User $user): string
     {
         $text = [
-            '你当前的流量状况：',
+            '您当前的流量状况：',
             '',
             '今日已使用 ' . $user->todayUsedTrafficPercent() . '% ：' . $user->todayUsedTraffic(),
             '之前已使用 ' . $user->lastUsedTrafficPercent() . '% ：' . $user->lastUsedTraffic(),
@@ -189,9 +189,9 @@ final class Message
     public static function getUserTitle(User $user): string
     {
         if ($user->class > 0) {
-            $text = '付费用户你好：';
+            $text = '付费用户您好：';
         } else {
-            $text = '免费用户你好：';
+            $text = '免费用户您好：';
         }
 
         return $text;

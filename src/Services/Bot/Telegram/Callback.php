@@ -211,7 +211,7 @@ final class Callback
         if ($this->user === null && $this->chat_id < 0) {
             // 群组内提示
             $this->answerCallbackQuery([
-                'text' => '你好，你尚未绑定账户，无法进行操作。',
+                'text' => '您好，您尚未绑定账户，无法进行操作。',
                 'show_alert' => true,
             ]);
         }
@@ -237,7 +237,7 @@ final class Callback
                 // 签到
                 if ((int) $Operate[2] !== $this->trigger_user['id']) {
                     $this->answerCallbackQuery([
-                        'text' => '你好，你无法操作他人的账户。',
+                        'text' => '您好，您无法操作他人的账户。',
                         'show_alert' => true,
                     ]);
                 }
@@ -339,7 +339,7 @@ final class Callback
                     ->orderBy('datetime', 'desc')
                     ->take(10)
                     ->get();
-                $text = '<strong>以下是你最近 10 次的登录 IP 和地理位置：</strong>' . PHP_EOL . PHP_EOL;
+                $text = '<strong>以下是您最近 10 次的登录 IP 和地理位置：</strong>' . PHP_EOL . PHP_EOL;
 
                 foreach ($total as $single) {
                     $text .= $single->ip . ' - ' . Tools::getIpLocation($single->ip) . PHP_EOL;
@@ -364,7 +364,7 @@ final class Callback
                 // 使用记录
                 $logs = (new OnlineLog())->where('user_id', $this->user->id)
                     ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get('ip');
-                $text = '<strong>以下是你账户在线 IP 和地理位置：</strong>' . PHP_EOL . PHP_EOL;
+                $text = '<strong>以下是您账户在线 IP 和地理位置：</strong>' . PHP_EOL . PHP_EOL;
 
                 foreach ($logs as $log) {
                     $ip = $log->ip();
@@ -389,7 +389,7 @@ final class Callback
             case 'rebate_log':
                 // 返利记录
                 $paybacks = (new Payback())->where('ref_by', $this->user->id)->orderBy('datetime', 'desc')->take(10)->get();
-                $text = '<strong>以下是你最近 10 次返利记录：</strong>' . PHP_EOL . PHP_EOL;
+                $text = '<strong>以下是您最近 10 次返利记录：</strong>' . PHP_EOL . PHP_EOL;
 
                 foreach ($paybacks as $payback) {
                     $text .= '<code>#' . $payback->id .
@@ -414,7 +414,7 @@ final class Callback
                 // 订阅记录
                 if (Config::obtain('subscribe_log')) {
                     $logs = (new SubscribeLog())->orderBy('id', 'desc')->where('user_id', $this->user->id)->take(10)->get();
-                    $text = '<strong>以下是你最近 10 次订阅记录：</strong>' . PHP_EOL . PHP_EOL;
+                    $text = '<strong>以下是您最近 10 次订阅记录：</strong>' . PHP_EOL . PHP_EOL;
 
                     foreach ($logs as $log) {
                         $text .= '<code>' . Tools::toDateTime($log->request_time) .
@@ -599,7 +599,7 @@ final class Callback
                     if (in_array($CallbackDataExplode[1], $method)) {
                         $temp = $this->user->setMethod($CallbackDataExplode[1]);
                         if ($temp['ok']) {
-                            $text = '你当前的加密方式为：' . $this->user->method . PHP_EOL . PHP_EOL . $temp['msg'];
+                            $text = '您当前的加密方式为：' . $this->user->method . PHP_EOL . PHP_EOL . $temp['msg'];
                         } else {
                             $text = '发生错误，请重新选择。' . PHP_EOL . PHP_EOL . $temp['msg'];
                         }
@@ -624,7 +624,7 @@ final class Callback
                     }
 
                     $keyboard[] = $back[0];
-                    $text = '你当前的加密方式为：' . $this->user->method;
+                    $text = '您当前的加密方式为：' . $this->user->method;
                 }
 
                 $sendMessage = [
@@ -643,7 +643,7 @@ final class Callback
                 $this->allow_edit_message = false;
                 $text = '发送 **/unbind 账户邮箱** 进行解绑。';
                 if (Config::obtain('telegram_unbind_kick_member')) {
-                    $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，你解绑账户将会被自动移出用户群。';
+                    $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群。';
                 }
                 $sendMessage = [
                     'text' => $text,
@@ -656,7 +656,7 @@ final class Callback
             case 'unban':
                 // 群组解封
                 $sendMessage = [
-                    'text' => '如果你已经身处用户群，请勿随意点击解封，否则会导致你被移除出群组。',
+                    'text' => '如果您已经身处用户群，请勿随意点击解封，否则会导致您被移除出群组。',
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => json_encode(
@@ -686,14 +686,14 @@ final class Callback
                 );
 
                 $this->answerCallbackQuery([
-                    'text' => '已提交解封，如你仍无法加入群组，请联系管理员。',
+                    'text' => '已提交解封，如您仍无法加入群组，请联系管理员。',
                     'show_alert' => true,
                 ]);
 
                 break;
             default:
                 $temp = $this->getUserEditKeyboard();
-                $text = '你可在此编辑你的资料或连接信息：' . PHP_EOL . PHP_EOL;
+                $text = '您可在此编辑您的资料或连接信息：' . PHP_EOL . PHP_EOL;
                 $text .= '端口：' . $this->user->port . PHP_EOL;
                 $text .= '密码：' . $this->user->passwd . PHP_EOL;
                 $text .= '加密：' . $this->user->method;
@@ -721,7 +721,7 @@ final class Callback
 
     public function getUserSubscribeKeyboard(): array
     {
-        $text = '选择你想要使用的订阅链接类型：';
+        $text = '选择您想要使用的订阅链接类型：';
 
         $keyboard = [
             [
@@ -891,11 +891,11 @@ final class Callback
         $invite = Config::getClass('ref');
 
         $text = [
-            '<strong>你每邀请 <code>1</code> 位用户注册：</strong>',
+            '<strong>您每邀请 <code>1</code> 位用户注册：</strong>',
             '',
-            '- 你会获得 <code>' . Config::obtain('invite_reg_traffic_reward') . 'G</code> 流量奖励。',
+            '- 您会获得 <code>' . Config::obtain('invite_reg_traffic_reward') . 'G</code> 流量奖励。',
             '- 对方将获得 <code>' . Config::obtain('invite_reg_money_reward') . '元</code> 初始账户余额。',
-            '- 对方支付账单时你会获得对方账单金额的 <code>' . Config::obtain('invite_reward_rate') * 100 . '%</code> 的返利。',
+            '- 对方支付账单时您会获得对方账单金额的 <code>' . Config::obtain('invite_reward_rate') * 100 . '%</code> 的返利。',
             '',
             '已获得返利：' . $paybacks_sum . ' 元。',
         ];
@@ -990,7 +990,7 @@ final class Callback
                 $msg = '获得了 ' . $traffic . 'MB 流量';
             }
         } else {
-            $msg = '你今天已经签到过了';
+            $msg = '您今天已经签到过了';
         }
 
         $this->answerCallbackQuery([

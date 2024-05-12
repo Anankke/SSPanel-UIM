@@ -68,7 +68,7 @@ final class SubscribeLog extends Model
                 Notification::notifyUser(
                     $user,
                     $_ENV['appName'] . '-新订阅通知',
-                    '你的账号于 ' . date('Y-m-d H:i:s') . ' 通过 ' . $this->request_ip . ' 地址订阅了新的节点',
+                    '您的账号于 ' . date('Y-m-d H:i:s') . ' 通过 ' . $this->request_ip . ' 地址订阅了新的节点',
                 );
             } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
                 echo $e->getMessage();

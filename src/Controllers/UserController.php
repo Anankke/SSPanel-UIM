@@ -108,7 +108,7 @@ final class UserController extends BaseController
             $ret = Captcha::verify($request->getParams());
 
             if (! $ret) {
-                return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试');
+                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试');
             }
         }
 

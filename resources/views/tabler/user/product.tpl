@@ -9,7 +9,7 @@
                         <span class="home-title">商品列表</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">浏览你所需要的商品</span>
+                        <span class="home-subtitle">浏览您所需要的商品</span>
                     </div>
                 </div>
             </div>

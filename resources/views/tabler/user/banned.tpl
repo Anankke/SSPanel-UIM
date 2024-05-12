@@ -9,7 +9,7 @@
                         <span class="home-title">账户已被封禁</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">你的账户功能已被停用，并且禁止访问用户中心</span>
+                        <span class="home-subtitle">您的账户功能已被停用，并且禁止访问用户中心</span>
                     </div>
                 </div>
             </div>
@@ -26,9 +26,9 @@
                             </div>
                             {if $banned_reason === 'DetectBan'}
                                 <p class="empty-title">审计封禁</p>
-                                <p class="empty-subtitle text-secondary">你的账户因为触发审计规则而被系统自动封禁</p>
+                                <p class="empty-subtitle text-secondary">您的账户因为触发审计规则而被系统自动封禁</p>
                             {else}
-                                <p class="empty-title">以下是你被封禁的理由</p>
+                                <p class="empty-title">以下是您被封禁的理由</p>
                                 <p class="empty-subtitle text-secondary">{$banned_reason}</p>
                             {/if}
                         </div>

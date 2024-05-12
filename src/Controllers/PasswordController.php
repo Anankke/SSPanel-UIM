@@ -46,7 +46,7 @@ final class PasswordController extends BaseController
             $ret = Captcha::verify($request->getParams());
 
             if (! $ret) {
-                return ResponseHelper::error($response, '系统无法接受你的验证结果，请刷新页面后重试');
+                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试');
             }
         }
 
@@ -59,11 +59,11 @@ final class PasswordController extends BaseController
         if (! (new RateLimit())->checkRateLimit('email_request_ip', $request->getServerParam('REMOTE_ADDR')) ||
             ! (new RateLimit())->checkRateLimit('email_request_address', $email)
         ) {
-            return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
+            return ResponseHelper::error($response, '您的请求过于频繁，请稍后再试');
         }
 
         $user = (new User())->where('email', $email)->first();
-        $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱';
+        $msg = '如果您的账户存在于我们的数据库中，那么重置密码的链接将会发送到您账户所对应的邮箱';
 
         if ($user !== null) {
             try {

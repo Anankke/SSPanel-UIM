@@ -39,7 +39,7 @@
                 <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>
             <br>
             <p class="empty-title">鸣谢</p>
-            <p>所有被引用过代码的开发者，以及所有提交过 PR 的贡献者。当然，还有在使用这份程序的你我Ta。</p>
+            <p>所有被引用过代码的开发者，以及所有提交过 PR 的贡献者。当然，还有在使用这份程序的您我Ta。</p>
         </div>
     </div>
 </div>

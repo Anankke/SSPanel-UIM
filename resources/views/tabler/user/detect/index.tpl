@@ -1,6 +1,6 @@
 {include file='user/header.tpl'}
 
-<!-- 审计规则是用来防止 DMCA 和邮件 Spam，不是用来给用户建墙用的，不要以为你在中国开机场同时把“违法网站”墙了，被抓了能少判哪怕一天的刑期 -->
+<!-- 审计规则是用来防止 DMCA 和邮件 Spam，不是用来给用户建墙用的，不要以为您在中国开机场同时把“违法网站”墙了，被抓了能少判哪怕一天的刑期 -->
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">

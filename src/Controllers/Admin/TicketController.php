@@ -95,7 +95,7 @@ final class TicketController extends BaseController
         Notification::notifyUser(
             $user,
             $_ENV['appName'] . '-工单被回复',
-            '你好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
+            '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。'
         );
 
         $ticket->content = json_encode(array_merge($content_old, $content_new));
@@ -143,7 +143,7 @@ final class TicketController extends BaseController
         Notification::notifyUser(
             $user,
             $_ENV['appName'] . '-工单被回复',
-            '你好，AI 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
+            '您好，AI 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。'
         );
 
         $ticket->content = json_encode(array_merge($content_old, $content_new));

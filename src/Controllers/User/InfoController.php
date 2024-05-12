@@ -83,7 +83,7 @@ final class InfoController extends BaseController
             $email_verify = $redis->get('email_verify:' . $email_verify_code);
 
             if (! $email_verify) {
-                return ResponseHelper::error($response, '你的邮箱验证码不正确');
+                return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
 
             $redis->del('email_verify:' . $email_verify_code);
@@ -308,7 +308,7 @@ final class InfoController extends BaseController
 
             return $response->withHeader('HX-Refresh', 'true')->withJson([
                 'ret' => 1,
-                'msg' => '你将被送去古拉格接受劳动改造，再见',
+                'msg' => '您将被送去古拉格接受劳动改造，再见',
             ]);
         }
 

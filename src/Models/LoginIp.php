@@ -65,7 +65,7 @@ final class LoginIp extends Model
                     Notification::notifyUser(
                         (new User())->where('id', $user_id)->first(),
                         $_ENV['appName'] . '-新登录通知',
-                        '你的账号于 ' . date('Y-m-d H:i:s') . ' 通过 ' . $this->ip . ' 地址登录了用户面板',
+                        '您的账号于 ' . date('Y-m-d H:i:s') . ' 通过 ' . $this->ip . ' 地址登录了用户面板',
                     );
                 } catch (GuzzleException|ClientExceptionInterface|TelegramSDKException $e) {
                     echo $e->getMessage();

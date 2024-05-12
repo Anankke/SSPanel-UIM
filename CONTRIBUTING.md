@@ -51,7 +51,7 @@ Please use the function from PSR-7 like `$request->getParsedBodyParam()`, `getPa
 2. 为每一项新特性或改进创建一个新的分支
 3. 为每一项新特性或改进创建一个独立的 Pull Request 至 dev 分支
 
-我们建议你将不同的新特性置于不同的分支并以不同的 Pull Request 提交，这将有利于我们独立审查代码并独立合并。
+我们建议您将不同的新特性置于不同的分支并以不同的 Pull Request 提交，这将有利于我们独立审查代码并独立合并。
 
 ### 代码风格
 
@@ -60,7 +60,7 @@ Please use the function from PSR-7 like `$request->getParsedBodyParam()`, `getPa
 
 ### Commit 消息
 
-Commit 消息必须简洁地包含你所有的修改。请**不要**仅使用「修复」、「改进」等字样。    
+Commit 消息必须简洁地包含您所有的修改。请**不要**仅使用「修复」、「改进」等字样。    
 在 Commit 消息中请尽量使用**英文**，并且使用以下 Type 标签：
 - feat：新增或修改功能（feature）
 - fix：修补 bug（bug fix）
@@ -78,7 +78,7 @@ Commit 消息必须简洁地包含你所有的修改。请**不要**仅使用「
 
 ### 规范
 
-若你需要新增/修改 Router callback，请依照类似 HomeController 的形式。  
+若您需要新增/修改 Router callback，请依照类似 HomeController 的形式。  
 如无必要，请不要使用`$request->getParam()`并尽量使用 PSR-7 中的`$request->getParsedBodyParam()`、`getParsedBodyParam()`等一系列用于获取参数的方法。
 
 参考资料：    

@@ -25,7 +25,7 @@
                         <div align="center" valign="top"
                              style="padding-bottom:60px;padding-left:20px;padding-right:20px;" class="description">
                             <p class="midText">
-                                这是一封测试邮件。如果你能收到，说明邮件发送配置有效，可以正常工作。
+                                这是一封测试邮件。如果您能收到，说明邮件发送配置有效，可以正常工作。
                             </p>
                         </div>
                     </div>

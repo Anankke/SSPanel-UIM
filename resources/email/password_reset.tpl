@@ -25,7 +25,7 @@
                         <div align="center" valign="top"
                              style="padding-bottom:60px;padding-left:20px;padding-right:20px;" class="description">
                             <p class="midText">
-                                你收到此邮件是因为你在 {$config['appName']} 系统申请了密码重置，如果非本人申请，请忽略此邮件。
+                                您收到此邮件是因为您在 {$config['appName']} 系统申请了密码重置，如果非本人申请，请忽略此邮件。
                                 <br><br>
                                 <a href="{$resetUrl}" style="color:#505050" target="_blank">点击此链接重置密码</a>
                             </p>

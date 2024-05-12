@@ -162,7 +162,7 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">解绑 IM 账户</h3>
                                                     {if $user->im_type === 0}
-                                                        <p>你的账户当前没有绑定任何 IM 服务</p>
+                                                        <p>您的账户当前没有绑定任何 IM 服务</p>
                                                     {else}
                                                         <p>
                                                             当前绑定的 IM 服务：{$user->imType()}
@@ -494,7 +494,7 @@
                         <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                         <h3>删除确认</h3>
                         <div class="text-secondary">
-                            请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除
+                            请确认是否真的要删除您的账户，此操作无法撤销，您的所有账户数据将会被从服务器上彻底删除
                         </div>
                         <div class="py-3">
                             <form>

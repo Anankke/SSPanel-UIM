@@ -9,7 +9,7 @@
                         <span class="home-title">工单记录</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">你可以在这里查看工单消息并添加回复</span>
+                        <span class="home-subtitle">您可以在这里查看工单消息并添加回复</span>
                     </div>
                 </div>
                 {if $ticket->status !== 'closed'}

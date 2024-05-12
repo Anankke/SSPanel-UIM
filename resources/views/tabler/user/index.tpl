@@ -419,7 +419,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="config">
-                                    <p>你的连接信息：</p>
+                                    <p>您的连接信息：</p>
                                     <div class="table-responsive">
                                         <table class="table table-vcenter card-table">
                                             <tbody>
@@ -486,7 +486,7 @@
                                     <a href="/user/product">商店</a>
                                     购买套餐
                                 {else}
-                                    你的 LV. {$user->class} 账户会在 {$class_expire_days} 天后到期（{$user->class_expire}）
+                                    您的 LV. {$user->class} 账户会在 {$class_expire_days} 天后到期（{$user->class_expire}）
                                 {/if}
                             </p>
                         </div>

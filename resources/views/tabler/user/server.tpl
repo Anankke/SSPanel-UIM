@@ -75,7 +75,7 @@
                                                     <div class="card-body">
                                                         <p class="text-secondary">
                                                             <i class="ti ti-info-circle icon text-blue"></i>
-                                                            你当前的账户等级小于节点等级，因此无法使用。可前往 <a
+                                                            您当前的账户等级小于节点等级，因此无法使用。可前往 <a
                                                                     href="/user/product">商品页面</a> 订购时间流量包
                                                         </p>
                                                     </div>
