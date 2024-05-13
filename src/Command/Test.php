@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Services\Cron;
 use App\Services\SysLog\DBHandler;
 use Monolog\Logger;
 use function count;
+use function fgets;
 use function method_exists;
+use function trim;
 use const PHP_EOL;
+use const STDIN;
 
 final class Test extends Command
 {
     public string $description = <<<EOL
 ├─=: php xcat Test [arg]
-│ └─ generateSysLog - 生成系统日志
+│ ├─ sendFinanceMail - 发送财务邮件
+│ └─ generateSysLog  - 生成系统日志
 
 EOL;
 
@@ -29,6 +34,26 @@ EOL;
             } else {
                 echo '方法不存在' . PHP_EOL;
             }
+        }
+    }
+
+    function sendFinanceMail(): void
+    {
+        [,,, $type] = $this->argv;
+        $cron = new Cron();
+
+        switch ($type) {
+            case 'daily':
+                $cron->sendDailyFinanceMail();
+                break;
+            case 'weekly':
+                $cron->sendWeeklyFinanceMail();
+                break;
+            case 'monthly':
+                $cron->sendMonthlyFinanceMail();
+                break;
+            default:
+                echo '请输入正确的参数' . PHP_EOL;
         }
     }
 

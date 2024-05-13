@@ -489,7 +489,7 @@ final class Cron
             ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->get();
 
         if (count($paylists) > 0) {
-            $text_html = '<table style="border: 1px solid black; border-collapse: collapse;">
+            $text_html = '<table style="table, th, td {border: 1px solid black; border-collapse: collapse;}">
                 <tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
 
             foreach ($paylists as $paylist) {
