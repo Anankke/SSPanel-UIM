@@ -351,7 +351,6 @@ EOL;
             echo '(1/3) 请输入管理员邮箱：' . PHP_EOL;
             // get input
             $email = trim(fgets(STDIN));
-
             // write input back
             echo '(2/3) 请输入管理员账户密码：' . PHP_EOL;
             $passwd = trim(fgets(STDIN));

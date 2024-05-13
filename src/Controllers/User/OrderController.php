@@ -215,7 +215,7 @@ final class OrderController extends BaseController
         if ($product_limit->class_required !== '' && $user->class < (int) $product_limit->class_required) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '您的账户等级不足，无法购买此商品',
+                'msg' => '你的账户等级不足，无法购买此商品',
             ]);
         }
 
@@ -223,7 +223,7 @@ final class OrderController extends BaseController
             && $user->node_group !== (int) $product_limit->node_group_required) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '您所在的用户组无法购买此商品',
+                'msg' => '你所在的用户组无法购买此商品',
             ]);
         }
 
