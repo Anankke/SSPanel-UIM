@@ -75,7 +75,7 @@ final class Analytics
 
     public static function getRawGbTodayTrafficUsage(): float
     {
-        return Tools::flowToGB((new User())->sum('transfer_today'));
+        return Tools::bToGB((new User())->sum('transfer_today'));
     }
 
     public static function getLastTrafficUsage(): string
@@ -90,7 +90,7 @@ final class Analytics
 
     public static function getRawGbLastTrafficUsage(): float
     {
-        return Tools::flowToGB((new User())->sum('u') + (new User())->sum('d') - (new User())->sum('transfer_today'));
+        return Tools::bToGB((new User())->sum('u') + (new User())->sum('d') - (new User())->sum('transfer_today'));
     }
 
     public static function getUnusedTrafficUsage(): string
@@ -105,7 +105,7 @@ final class Analytics
 
     public static function getRawGbUnusedTrafficUsage(): float
     {
-        return Tools::flowToGB((new User())->sum('transfer_enable') - (new User())->sum('u') - (new User())->sum('d'));
+        return Tools::bToGB((new User())->sum('transfer_enable') - (new User())->sum('u') - (new User())->sum('d'));
     }
 
     public static function getTotalTraffic(): string
@@ -120,7 +120,7 @@ final class Analytics
 
     public static function getRawGbTotalTraffic(): float
     {
-        return Tools::flowToGB((new User())->sum('transfer_enable'));
+        return Tools::bToGB((new User())->sum('transfer_enable'));
     }
 
     public static function getTotalNode(): int

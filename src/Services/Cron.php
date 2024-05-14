@@ -162,7 +162,7 @@ final class Cron
                 $reset_traffic = $_ENV['class_expire_reset_traffic'];
 
                 if ($reset_traffic >= 0) {
-                    $user->transfer_enable = Tools::toGB($reset_traffic);
+                    $user->transfer_enable = Tools::gbToB($reset_traffic);
                     $text .= '流量已经被重置为' . $reset_traffic . 'GB。';
                 }
 
@@ -273,7 +273,7 @@ final class Cron
                 $user->u = 0;
                 $user->d = 0;
                 $user->transfer_today = 0;
-                $user->transfer_enable = Tools::toGB($content->bandwidth);
+                $user->transfer_enable = Tools::gbToB($content->bandwidth);
                 $user->class = $content->class;
                 $old_class_expire = new DateTime();
                 $user->class_expire = $old_class_expire
@@ -309,7 +309,7 @@ final class Cron
                 // 获取流量包订单内容准备激活
                 $content = json_decode($order->product_content);
                 // 激活流量包
-                $user->transfer_enable += Tools::toGB($content->bandwidth);
+                $user->transfer_enable += Tools::gbToB($content->bandwidth);
                 $user->save();
                 $order->status = 'activated';
                 $order->update_time = time();
@@ -582,7 +582,7 @@ final class Cron
                 $under_limit = true;
                 $unit_text = '%';
             } elseif ($_ENV['notify_limit_mode'] === 'mb' &&
-                Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
+                Tools::bToMB($user_traffic_left) < $_ENV['notify_limit_value']
             ) {
                 $under_limit = true;
                 $unit_text = 'MB';

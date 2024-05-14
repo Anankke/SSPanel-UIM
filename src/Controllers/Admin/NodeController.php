@@ -121,7 +121,7 @@ final class NodeController extends BaseController
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
         $node->node_class = $request->getParam('node_class');
-        $node->node_bandwidth_limit = Tools::toGB($request->getParam('node_bandwidth_limit'));
+        $node->node_bandwidth_limit = Tools::gbToB($request->getParam('node_bandwidth_limit'));
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
         $node->password = Tools::genRandomChar(32);
 
@@ -173,7 +173,7 @@ final class NodeController extends BaseController
         $node->min_rate_time = $dynamic_rate_config?->min_rate_time ?? 3;
 
         $node->node_bandwidth = Tools::autoBytes($node->node_bandwidth);
-        $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
+        $node->node_bandwidth_limit = Tools::bToGB($node->node_bandwidth_limit);
 
         return $response->write(
             $this->view()
@@ -215,7 +215,7 @@ final class NodeController extends BaseController
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
         $node->node_class = $request->getParam('node_class');
-        $node->node_bandwidth_limit = Tools::toGB($request->getParam('node_bandwidth_limit'));
+        $node->node_bandwidth_limit = Tools::gbToB($request->getParam('node_bandwidth_limit'));
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
 
         if (! $node->save()) {
@@ -348,8 +348,8 @@ final class NodeController extends BaseController
             $node->type = $node->type();
             $node->sort = $node->sort();
             $node->is_dynamic_rate = $node->isDynamicRate();
-            $node->node_bandwidth = round(Tools::flowToGB($node->node_bandwidth), 2);
-            $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
+            $node->node_bandwidth = round(Tools::bToGB($node->node_bandwidth), 2);
+            $node->node_bandwidth_limit = Tools::bToGB($node->node_bandwidth_limit);
         }
 
         return $response->withJson([
