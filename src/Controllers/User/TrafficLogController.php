@@ -31,7 +31,7 @@ final class TrafficLogController extends BaseController
         $hourly_usage = Analytics::getUserTodayHourlyUsage($this->user->id);
 
         foreach ($hourly_usage as $hour => $usage) {
-            $logs[] = Tools::flowToMB((int) $usage);
+            $logs[] = Tools::bToMB((int) $usage);
         }
 
         return $response->write($this->view()

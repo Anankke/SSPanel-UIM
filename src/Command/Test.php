@@ -8,11 +8,8 @@ use App\Services\Cron;
 use App\Services\SysLog\DBHandler;
 use Monolog\Logger;
 use function count;
-use function fgets;
 use function method_exists;
-use function trim;
 use const PHP_EOL;
-use const STDIN;
 
 final class Test extends Command
 {
@@ -37,7 +34,7 @@ EOL;
         }
     }
 
-    function sendFinanceMail(): void
+    public function sendFinanceMail(): void
     {
         [,,, $type] = $this->argv;
         $cron = new Cron();

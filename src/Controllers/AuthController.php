@@ -225,7 +225,7 @@ final class AuthController extends BaseController
         $user->method = $configs['reg_method'];
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
-        $user->transfer_enable = Tools::toGB($configs['reg_traffic']);
+        $user->transfer_enable = Tools::gbToB($configs['reg_traffic']);
         $user->auto_reset_day = Config::obtain('free_user_reset_day');
         $user->auto_reset_bandwidth = Config::obtain('free_user_reset_bandwidth');
         $user->daily_mail_enable = $configs['reg_daily_report'];
