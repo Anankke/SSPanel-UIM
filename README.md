@@ -1,4 +1,4 @@
-<img src="public/images/logo_48x48.png" alt="logo" width="150" height="150" align="left" />
+<img src="public/images/logo_96x96.png" alt="logo" width="150" height="150" align="left" />
 
 <h1>SPanel Frelink</h1>
 
