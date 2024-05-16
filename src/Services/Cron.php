@@ -489,8 +489,7 @@ final class Cron
             ->whereBetween('datetime', [strtotime('-1 day', $today), $today])->get();
 
         if (count($paylists) > 0) {
-            $text_html = '<table style="table, th, td {border: 1px solid black; border-collapse: collapse;}">
-                <tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
+            $text_html = '<table><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td></tr>';
 
             foreach ($paylists as $paylist) {
                 $text_html .= '<tr>';
@@ -503,6 +502,17 @@ final class Cron
 
             $text_html .= '</table>';
             $text_html .= '<br>昨日总收入笔数：' . count($paylists) . '<br>昨日总收入金额：' . $paylists->sum('total');
+
+            $text_html = str_replace([
+                '<table>',
+                '<tr>',
+                '<td>',
+            ], [
+                '<table style="width: 100%;border: 1px solid black;border-collapse: collapse;">',
+                '<tr style="border: 1px solid black;padding: 5px;">',
+                '<td style="border: 1px solid black;padding: 5px;">',
+            ], $text_html);
+
             echo 'Sending daily finance email to admin user' . PHP_EOL;
 
             try {
