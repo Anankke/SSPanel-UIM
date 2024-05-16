@@ -36,7 +36,12 @@ EOL;
 
     public function sendFinanceMail(): void
     {
-        [,,, $type] = $this->argv;
+        if (count($this->argv) === 3) {
+            $type = 'daily';
+        } else {
+            [, , , $type] = $this->argv;
+        }
+
         $cron = new Cron();
 
         switch ($type) {

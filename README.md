@@ -10,7 +10,7 @@
 
 ## TL;DR
 
-NeXT Panel is a multipurpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
+NeXT Panel is a multipurpose proxy service management system designed for Shadowsocks(2022) / Vmess / Trojan / TUIC protocol.
 
 ## Features
 
