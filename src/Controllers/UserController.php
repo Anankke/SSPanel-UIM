@@ -6,9 +6,6 @@ namespace App\Controllers;
 
 use App\Models\Ann;
 use App\Models\Config;
-use App\Models\LoginIp;
-use App\Models\Node;
-use App\Models\OnlineLog;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Reward;
@@ -19,7 +16,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use function str_replace;
 use function strtotime;
 use function time;
 
@@ -45,42 +41,6 @@ final class UserController extends BaseController
                 ->assign('class_expire_days', $class_expire_days)
                 ->assign('UniversalSub', Subscribe::getUniversalSubLink($this->user))
                 ->fetch('user/index.tpl')
-        );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function profile(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        // 登录IP
-        $logins = (new LoginIp())->where('userid', $this->user->id)
-            ->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-        $ips = (new OnlineLog())->where('user_id', $this->user->id)
-            ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get();
-
-        foreach ($logins as $login) {
-            $login->datetime = Tools::toDateTime((int) $login->datetime);
-
-            try {
-                $login->location = Tools::getIpLocation($login->ip);
-            } catch (Exception) {
-                $login->location = '未知';
-            }
-        }
-
-        foreach ($ips as $ip) {
-            $ip->ip = str_replace('::ffff:', '', $ip->ip);
-            $ip->location = Tools::getIpLocation($ip->ip);
-            $ip->node_name = (new Node())->where('id', $ip->node_id)->first()->name;
-            $ip->last_time = Tools::toDateTime((int) $ip->last_time);
-        }
-
-        return $response->write(
-            $this->view()
-                ->assign('logins', $logins)
-                ->assign('ips', $ips)
-                ->fetch('user/profile.tpl')
         );
     }
 
