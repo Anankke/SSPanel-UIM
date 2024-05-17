@@ -36,7 +36,7 @@ return static function (Slim\App $app): void {
         $group->get('/docs', App\Controllers\User\DocsController::class . ':index');
         $group->get('/docs/{id:[0-9]+}/view', App\Controllers\User\DocsController::class . ':detail');
         // 个人资料
-        $group->get('/profile', App\Controllers\UserController::class . ':profile');
+        $group->get('/profile', App\Controllers\User\ProfileController::class . ':index');
         // Invite
         $group->get('/invite', App\Controllers\User\InviteController::class . ':index');
         $group->post('/invite/reset', App\Controllers\User\InviteController::class . ':reset');
@@ -77,8 +77,6 @@ return static function (Slim\App $app): void {
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
         $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
-        // 订阅记录
-        $group->get('/subscribe', App\Controllers\User\SubLogController::class . ':index');
         // 流量记录
         $group->get('/traffic', App\Controllers\User\TrafficLogController::class . ':index');
         // 账户余额

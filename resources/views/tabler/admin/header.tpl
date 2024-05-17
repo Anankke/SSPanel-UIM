@@ -38,19 +38,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <img src="/images/next-logo.svg" height="32" alt="Next Panel Logo"
-                     class="navbar-brand-image" style="filter: none;">
+                <img src="/images/next-logo.svg" height="32" alt="Next Panel Logo" class="navbar-brand-image" style="filter: none;">
             </h1>
             <div class="navbar-nav flex-row order-md-last">
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
-                       aria-label="Open user menu">
-                            <span class="avatar avatar-sm"
-                                  style="background-image: url({$user->dice_bear})"></span>
-                        <div class="d-none d-xl-block ps-2">
-                            <div>{$user->email}</div>
-                            <div class="mt-1 small text-secondary">{$user->user_name}</div>
-                        </div>
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
+                        <span class="avatar avatar-sm" style="background-image: url({$user->dice_bear})"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                         <a href="/user/logout" class="dropdown-item">登出</a>
@@ -62,30 +55,30 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="/admin">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-home icon"></i>
-                                    </span>
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-home icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        概况
-                                    </span>
+                                    概况
+                                </span>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
-                               data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-settings icon"></i>
-                                    </span>
+                                data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-settings icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        管理
-                                    </span>
+                                    管理
+                                </span>
                             </a>
                             <div class="dropdown-menu">
                                 <div class="dropdown-menu-columns">
                                     <div class="dropdown-menu-column">
                                         <div class="dropend">
                                             <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                                               data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                                data-bs-auto-close="outside" role="button" aria-expanded="false">
                                                 <i class="ti ti-settings"></i>&nbsp;
                                                 设置
                                             </a>
@@ -140,13 +133,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
-                               data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-brand-hipchat icon"></i>
-                                    </span>
+                                data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-brand-hipchat icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        运营
-                                    </span>
+                                    运营
+                                </span>
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/announcement">
@@ -165,13 +158,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
-                               data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-address-book icon"></i>
-                                    </span>
+                                data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-address-book icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        日志
-                                    </span>
+                                    日志
+                                </span>
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/login">
@@ -206,13 +199,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
-                               data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-shield-check icon"></i>
-                                    </span>
+                                data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-shield-check icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        审计
-                                    </span>
+                                    审计
+                                </span>
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/detect">
@@ -231,13 +224,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
-                               data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-coin icon"></i>
-                                    </span>
+                                data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-coin icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        财务
-                                    </span>
+                                    财务
+                                </span>
                             </a>
                             <div class="dropdown-menu">
                                 <div class="dropdown-menu-columns">
@@ -268,12 +261,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/user">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-arrow-back-up icon"></i>
-                                    </span>
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-arrow-back-up icon"></i>
+                                </span>
                                 <span class="nav-link-title">
-                                        返回用户中心
-                                    </span>
+                                    返回用户中心
+                                </span>
                             </a>
                         </li>
                     </ul>
