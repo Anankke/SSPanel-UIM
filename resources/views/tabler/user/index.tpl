@@ -448,50 +448,108 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">流量用量</h3>
-                            <div class="progress progress-separated mb-3">
-                                {if $user->LastusedTrafficPercent() < '1'}
+                    <div class="vstack">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">流量用量</h3>
+                                <div class="progress progress-separated mb-3">
+                                    {if $user->LastusedTrafficPercent() < '1'}
                                     <div class="progress-bar bg-primary" role="progressbar" style="width: 1%"></div>
-                                {else}
+                                    {else}
                                     <div class="progress-bar bg-primary" role="progressbar"
                                          style="width: {$user->LastusedTrafficPercent()}%">
                                     </div>
-                                {/if}
-                                {if $user->TodayusedTrafficPercent() < '1'}
+                                    {/if}
+                                    {if $user->TodayusedTrafficPercent() < '1'}
                                     <div class="progress-bar bg-success" role="progressbar" style="width: 1%"></div>
-                                {else}
+                                    {else}
                                     <div class="progress-bar bg-success" role="progressbar"
                                          style="width: {$user->TodayusedTrafficPercent()}%"></div>
-                                {/if}
-                            </div>
-                            <div class="row">
-                                <div class="col-auto d-flex align-items-center pe-2">
-                                    <span class="legend me-2 bg-primary"></span>
-                                    <span>过去用量 {$user->LastusedTraffic()}</span>
+                                    {/if}
                                 </div>
-                                <div class="col-auto d-flex align-items-center px-2">
-                                    <span class="legend me-2 bg-success"></span>
-                                    <span>今日用量 {$user->TodayusedTraffic()}</span>
+                                <div class="row">
+                                    <div class="col-auto d-flex align-items-center pe-2">
+                                        <span class="legend me-2 bg-primary"></span>
+                                        <span>过去用量 {$user->LastusedTraffic()}</span>
+                                    </div>
+                                    <div class="col-auto d-flex align-items-center px-2">
+                                        <span class="legend me-2 bg-success"></span>
+                                        <span>今日用量 {$user->TodayusedTraffic()}</span>
+                                    </div>
+                                    <div class="col-auto d-flex align-items-center ps-2">
+                                        <span class="legend me-2"></span>
+                                        <span>剩余流量 {$user->unusedTraffic()}</span>
+                                    </div>
                                 </div>
-                                <div class="col-auto d-flex align-items-center ps-2">
-                                    <span class="legend me-2"></span>
-                                    <span>剩余流量 {$user->unusedTraffic()}</span>
-                                </div>
-                            </div>
-                            <p class="my-3">
-                                {if $user->class === 0}
+                                <p class="my-3">
+                                    {if $user->class === 0}
                                     前往
                                     <a href="/user/product">商店</a>
                                     购买套餐
-                                {else}
+                                    {else}
                                     你的 LV. {$user->class} 账户会在 {$class_expire_days} 天后到期（{$user->class_expire}）
+                                    {/if}
+                                </p>
+                            </div>
+                        </div>
+                        {if $public_setting['traffic_log']}
+                        <div class="card my-3 mb-0">
+                            <div class="card-body">
+                                <h3 class="card-title">每小时用量</h3>
+                                <div id="traffic-log"></div>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                </div>
+                {if $public_setting['enable_checkin']}
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-stamp">
+                            <div class="card-stamp-icon bg-green">
+                                <i class="ti ti-check"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">每日签到</h3>
+                            <p>
+                                签到可领取
+                                {if $public_setting['checkin_min'] !== $public_setting['checkin_max']}
+                                &nbsp;
+                                <code>{$public_setting['checkin_min']} MB</code>
+                                至
+                                <code>{$public_setting['checkin_max']} MB</code>
+                                范围内的流量
+                                {else}
+                                <code>{$public_setting['checkin_min']} MB</code>
                                 {/if}
                             </p>
+                            <p>
+                                上次签到时间：<code id="last-checkin-time">{$user->lastCheckInTime()}</code>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                {if ! $user->isAbleToCheckin()}
+                                <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
+                                {else}
+                                {if $public_setting['enable_checkin_captcha']}
+                                {include file='captcha/div.tpl'}
+                                {/if}
+                                <button id="check-in" class="btn btn-primary ms-auto"
+                                        hx-post="/user/checkin" hx-swap="none" hx-vals='js:{
+                                    {if $public_setting['enable_checkin_captcha']}
+                                    {include file='captcha/ajax.tpl'}
+                                    {/if}
+                                    }'>
+                                    签到
+                                </button>
+                                {/if}
+                            </div>
                         </div>
                     </div>
                 </div>
+                {/if}
                 <div class="col-lg-6 col-sm-12">
                     <div class="card">
                         <div class="ribbon ribbon-top bg-yellow">
@@ -501,73 +559,126 @@
                             <h3 class="card-title">
                                 最新公告
                                 {if $ann !== null}
-                                    <span class="card-subtitle">{$ann->date}</span>
+                                <span class="card-subtitle">{$ann->date}</span>
                                 {/if}
                             </h3>
                             <p class="text-secondary">
                                 {if $ann !== null}
-                                    {$ann->content}
+                                {$ann->content}
                                 {else}
-                                    暂无公告
+                                暂无公告
                                 {/if}
                             </p>
                         </div>
                     </div>
                 </div>
-                {if $public_setting['enable_checkin']}
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="card">
-                            <div class="card-stamp">
-                                <div class="card-stamp-icon bg-green">
-                                    <i class="ti ti-check"></i>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">每日签到</h3>
-                                <p>
-                                    签到可领取
-                                    {if $public_setting['checkin_min'] !== $public_setting['checkin_max']}
-                                        &nbsp;
-                                        <code>{$public_setting['checkin_min']} MB</code>
-                                        至
-                                        <code>{$public_setting['checkin_max']} MB</code>
-                                        范围内的流量
-                                    {else}
-                                        <code>{$public_setting['checkin_min']} MB</code>
-                                    {/if}
-                                </p>
-                                <p>
-                                    上次签到时间：<code id="last-checkin-time">{$user->lastCheckInTime()}</code>
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex">
-                                    {if ! $user->isAbleToCheckin()}
-                                        <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
-                                    {else}
-                                        {if $public_setting['enable_checkin_captcha']}
-                                            {include file='captcha/div.tpl'}
-                                        {/if}
-                                        <button id="check-in" class="btn btn-primary ms-auto"
-                                                hx-post="/user/checkin" hx-swap="none" hx-vals='js:{
-                                                {if $public_setting['enable_checkin_captcha']}
-                                                    {include file='captcha/ajax.tpl'}
-                                                {/if}
-                                                }'>
-                                            签到
-                                        </button>
-                                    {/if}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {/if}
             </div>
         </div>
     </div>
 
     {if $public_setting['enable_checkin_captcha'] && $user->isAbleToCheckin()}
         {include file='captcha/js.tpl'}
+    {/if}
+
+    {if $public_setting['traffic_log']}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let chart = window.ApexCharts && new ApexCharts(document.getElementById('traffic-log'), {
+                chart: {
+                    type: "line",
+                    fontFamily: "inherit",
+                    height: '100%',
+                    parentHeightOffset: 0,
+                    toolbar: {
+                        show: false
+                    },
+                    animations: {
+                        enabled: false
+                    }
+                },
+                stroke: {
+                    curve: "smooth"
+                },
+                fill: {
+                    opacity: 1
+                },
+                series: [
+                    {
+                        name: "使用流量（MB）",
+                        data: {$traffic_logs}
+                    }
+                ],
+                tooltip: {
+                    theme: "dark"
+                },
+                grid: {
+                    padding: {
+                        top: -20,
+                        right: 0,
+                        left: 0,
+                        bottom: 0
+                    },
+                    strokeDashArray: 4
+                },
+                xaxis: {
+                    title: {
+                        text: "小时"
+                    },
+                    labels: {
+                        padding: 0
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    axisBorder: {
+                        show: false
+                    },
+                    categories: [
+                        "00",
+                        "01",
+                        "02",
+                        "03",
+                        "04",
+                        "05",
+                        "06",
+                        "07",
+                        "08",
+                        "09",
+                        "10",
+                        "11",
+                        "12",
+                        "13",
+                        "14",
+                        "15",
+                        "16",
+                        "17",
+                        "18",
+                        "19",
+                        "20",
+                        "21",
+                        "22",
+                        "23"
+                    ]
+                },
+                yaxis: {
+                    title: {
+                        text: "使用流量（MB）",
+                        rotate: -90
+                    },
+                    labels: {
+                        padding: 14
+                    }
+                },
+                colors: [tabler.getColor("azure")],
+                legend: {
+                    show: false
+                }
+            });
+            chart.render();
+        });
+    </script>
+
+    <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
     {/if}
 
     {include file='user/footer.tpl'}

@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Ann;
 use App\Models\Config;
+use App\Services\Analytics;
 use App\Services\Auth;
 use App\Services\Captcha;
 use App\Services\Reward;
@@ -16,6 +17,7 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function json_encode;
 use function strtotime;
 use function time;
 
@@ -27,17 +29,27 @@ final class UserController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $captcha = [];
+        $traffic_logs = [];
         $class_expire_days = $this->user->class > 0 ?
             round((strtotime($this->user->class_expire) - time()) / 86400) : 0;
 
-        if (Config::obtain('enable_checkin_captcha')) {
+        if (Config::obtain('enable_checkin_captcha') && $this->user->isAbleToCheckin()) {
             $captcha = Captcha::generate();
+        }
+
+        if (Config::obtain('traffic_log')) {
+            $hourly_usage = Analytics::getUserTodayHourlyUsage($this->user->id);
+
+            foreach ($hourly_usage as $hour => $usage) {
+                $traffic_logs[] = Tools::bToMB((int) $usage);
+            }
         }
 
         return $response->write(
             $this->view()
                 ->assign('ann', (new Ann())->orderBy('date', 'desc')->first())
                 ->assign('captcha', $captcha)
+                ->assign('traffic_logs', json_encode($traffic_logs))
                 ->assign('class_expire_days', $class_expire_days)
                 ->assign('UniversalSub', Subscribe::getUniversalSubLink($this->user))
                 ->fetch('user/index.tpl')

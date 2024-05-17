@@ -25,20 +25,18 @@ final class ProfileController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        $logins = [];
+        $subs = [];
         $ips = (new OnlineLog())->where('user_id', $this->user->id)
             ->where('last_time', '>', time() - 90)->orderByDesc('last_time')->get();
 
         if (Config::obtain('login_log')) {
             $logins = (new LoginIp())->where('userid', $this->user->id)
                 ->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-        } else {
-            $logins = [];
         }
 
         if (Config::obtain('subscribe_log')) {
             $subs = (new SubscribeLog())->where('user_id', $this->user->id)->orderBy('id', 'desc')->take(10)->get();
-        } else {
-            $subs = [];
         }
 
         foreach ($ips as $ip) {
