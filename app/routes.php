@@ -58,26 +58,25 @@ return static function (Slim\App $app): void {
         $group->put('/ticket/{id:[0-9]+}', App\Controllers\User\TicketController::class . ':update');
         // 资料编辑
         $group->get('/edit', App\Controllers\User\InfoController::class . ':index');
-        $group->post('/email', App\Controllers\User\InfoController::class . ':updateEmail');
-        $group->post('/username', App\Controllers\User\InfoController::class . ':updateUsername');
-        $group->post('/unbind_im', App\Controllers\User\InfoController::class . ':unbindIM');
-        $group->post('/password', App\Controllers\User\InfoController::class . ':updatePassword');
-        $group->post('/passwd_reset', App\Controllers\User\InfoController::class . ':resetPasswd');
-        $group->post('/apitoken_reset', App\Controllers\User\InfoController::class . ':resetApiToken');
-        $group->post('/method', App\Controllers\User\InfoController::class . ':updateMethod');
-        $group->post('/url_reset', App\Controllers\User\InfoController::class . ':resetURL');
-        $group->post('/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
-        $group->post('/contact_method', App\Controllers\User\InfoController::class . ':updateContactMethod');
-        $group->post('/theme', App\Controllers\User\InfoController::class . ':updateTheme');
-        $group->post('/kill', App\Controllers\User\InfoController::class . ':sendToGulag');
+        $group->post('/edit/email', App\Controllers\User\InfoController::class . ':updateEmail');
+        $group->post('/edit/username', App\Controllers\User\InfoController::class . ':updateUsername');
+        $group->post('/edit/unbind_im', App\Controllers\User\InfoController::class . ':unbindIm');
+        $group->post('/edit/password', App\Controllers\User\InfoController::class . ':updatePassword');
+        $group->post('/edit/passwd_reset', App\Controllers\User\InfoController::class . ':resetPasswd');
+        $group->post('/edit/apitoken_reset', App\Controllers\User\InfoController::class . ':resetApiToken');
+        $group->post('/edit/method', App\Controllers\User\InfoController::class . ':updateMethod');
+        $group->post('/edit/url_reset', App\Controllers\User\InfoController::class . ':resetUrl');
+        $group->post('/edit/daily_mail', App\Controllers\User\InfoController::class . ':updateDailyMail');
+        $group->post('/edit/contact_method', App\Controllers\User\InfoController::class . ':updateContactMethod');
+        $group->post('/edit/theme', App\Controllers\User\InfoController::class . ':updateTheme');
+        $group->post('/edit/theme_mode', App\Controllers\User\InfoController::class . ':updateThemeMode');
+        $group->post('/edit/kill', App\Controllers\User\InfoController::class . ':sendToGulag');
         // 发送验证邮件
-        $group->post('/send', App\Controllers\AuthController::class . ':sendVerify');
+        $group->post('/edit/send', App\Controllers\AuthController::class . ':sendVerify');
         // MFA
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
         $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
-        // 深色模式切换
-        $group->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
         // 订阅记录
         $group->get('/subscribe', App\Controllers\User\SubLogController::class . ':index');
         // 流量记录
