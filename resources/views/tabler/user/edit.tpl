@@ -228,7 +228,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <p>密钥：
-                                                                    <code id="ga-token">
+                                                                    <code id="ga-token" class="spoiler">
                                                                         {$user->ga_token}
                                                                     </code>
                                                                 </p>
@@ -350,8 +350,8 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">重置连接密码</h3>
                                                     <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
-                                                    <p>当前连接密码：<code id="passwd">{$user->passwd}</code></p>
-                                                    <p>当前UUID：<code id="uuid">{$user->uuid}</code></p>
+                                                    <p>当前连接密码：<code id="passwd" class="spoiler">{$user->passwd}</code></p>
+                                                    <p>当前UUID：<code id="uuid" class="spoiler">{$user->uuid}</code></p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">

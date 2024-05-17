@@ -24,6 +24,17 @@
         .home-title {
             font-size: 36px;
         }
+
+        .spoiler {
+            background-color: gray;
+            color: transparent;
+            transition: 0.3s;
+        }
+
+        .spoiler:hover {
+            background-color: inherit;
+            color: inherit;
+        }
     </style>
 </head>
 
