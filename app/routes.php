@@ -77,8 +77,6 @@ return static function (Slim\App $app): void {
         $group->post('/ga_check', App\Controllers\User\MFAController::class . ':checkGa');
         $group->post('/ga_set', App\Controllers\User\MFAController::class . ':setGa');
         $group->post('/ga_reset', App\Controllers\User\MFAController::class . ':resetGa');
-        // 流量记录
-        $group->get('/traffic', App\Controllers\User\TrafficLogController::class . ':index');
         // 账户余额
         $group->get('/money', App\Controllers\User\MoneyController::class . ':index');
         $group->post('/giftcard', App\Controllers\User\MoneyController::class . ':applyGiftCard');
