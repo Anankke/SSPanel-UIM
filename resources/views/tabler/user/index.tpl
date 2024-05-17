@@ -181,21 +181,21 @@
                                 <div class="tab-pane active show" id="sub">
                                     <div>
                                         <p>
-                                            通用订阅（json）：<code>{$UniversalSub}/json</code>
+                                            通用订阅（json）：<code class="spoiler">{$UniversalSub}/json</code>
                                         </p>
                                         <p>
-                                            通用订阅（clash）：<code>{$UniversalSub}/clash</code>
+                                            通用订阅（clash）：<code class="spoiler">{$UniversalSub}/clash</code>
                                         </p>
                                         <p>
-                                            通用订阅（sing-box）：<code>{$UniversalSub}/singbox</code>
+                                            通用订阅（sing-box）：<code class="spoiler">{$UniversalSub}/singbox</code>
                                         </p>
                                         <p>
-                                            通用订阅（v2rayjson）：<code>{$UniversalSub}/v2rayjson</code>
+                                            通用订阅（v2rayjson）：<code class="spoiler">{$UniversalSub}/v2rayjson</code>
                                         </p>
                                         {if $public_setting['enable_ss_sub']}
-                                            <p>
-                                                通用订阅（sip008）：<code>{$UniversalSub}/sip008</code>
-                                            </p>
+                                        <p>
+                                            通用订阅（sip008）：<code class="spoiler">{$UniversalSub}/sip008</code>
+                                        </p>
                                         {/if}
                                         <div class="btn-list justify-content-start">
                                             <a data-clipboard-text="{$UniversalSub}/json"
@@ -215,10 +215,10 @@
                                                 复制通用订阅（v2rayjson）
                                             </a>
                                             {if $public_setting['enable_ss_sub']}
-                                                <a data-clipboard-text="{$UniversalSub}/sip008"
-                                                   class="copy btn btn-primary">
-                                                    复制通用订阅（sip008）
-                                                </a>
+                                            <a data-clipboard-text="{$UniversalSub}/sip008"
+                                               class="copy btn btn-primary">
+                                                复制通用订阅（sip008）
+                                            </a>
                                             {/if}
                                         </div>
                                     </div>
@@ -226,44 +226,44 @@
                                 <div class="tab-pane show" id="client-sub">
                                     <div>
                                         {if $public_setting['enable_ss_sub']}
-                                            <p>
-                                                客户端订阅（Shadowsocks）：<code>{$UniversalSub}/ss</code></p>
-                                            <p>
-                                                客户端订阅（SIP002）：<code>{$UniversalSub}/sip002</code>
-                                            </p>
+                                        <p>
+                                            客户端订阅（Shadowsocks）：<code class="spoiler">{$UniversalSub}/ss</code></p>
+                                        <p>
+                                            客户端订阅（SIP002）：<code class="spoiler">{$UniversalSub}/sip002</code>
+                                        </p>
                                         {/if}
                                         {if $public_setting['enable_v2_sub']}
-                                            <p>
-                                                客户端订阅（V2Ray）：<code>{$UniversalSub}/v2ray</code>
-                                            </p>
+                                        <p>
+                                            客户端订阅（V2Ray）：<code class="spoiler">{$UniversalSub}/v2ray</code>
+                                        </p>
                                         {/if}
                                         {if $public_setting['enable_trojan_sub']}
-                                            <p>
-                                                客户端订阅（Trojan）：<code>{$UniversalSub}/trojan</code>
-                                            </p>
+                                        <p>
+                                            客户端订阅（Trojan）：<code class="spoiler">{$UniversalSub}/trojan</code>
+                                        </p>
                                         {/if}
                                         <div class="btn-list justify-content-start">
                                             {if $public_setting['enable_ss_sub']}
-                                                <a data-clipboard-text="{$UniversalSub}/ss"
-                                                   class="copy btn btn-primary">
-                                                    复制客户端订阅（Shadowsocks）
-                                                </a>
-                                                <a data-clipboard-text="{$UniversalSub}/sip002"
-                                                   class="copy btn btn-primary">
-                                                    复制客户端订阅（SIP002）
-                                                </a>
+                                            <a data-clipboard-text="{$UniversalSub}/ss"
+                                               class="copy btn btn-primary">
+                                                复制客户端订阅（Shadowsocks）
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/sip002"
+                                               class="copy btn btn-primary">
+                                                复制客户端订阅（SIP002）
+                                            </a>
                                             {/if}
                                             {if $public_setting['enable_v2_sub']}
-                                                <a data-clipboard-text="{$UniversalSub}/v2ray"
-                                                   class="copy btn btn-primary">
-                                                    复制客户端订阅（V2Ray）
-                                                </a>
+                                            <a data-clipboard-text="{$UniversalSub}/v2ray"
+                                               class="copy btn btn-primary">
+                                                复制客户端订阅（V2Ray）
+                                            </a>
                                             {/if}
                                             {if $public_setting['enable_trojan_sub']}
-                                                <a data-clipboard-text="{$UniversalSub}/trojan"
-                                                   class="copy btn btn-primary">
-                                                    复制客户端订阅（Trojan）
-                                                </a>
+                                            <a data-clipboard-text="{$UniversalSub}/trojan"
+                                               class="copy btn btn-primary">
+                                                复制客户端订阅（Trojan）
+                                            </a>
                                             {/if}
                                         </div>
                                     </div>
@@ -271,14 +271,13 @@
                                 <div class="tab-pane" id="windows">
                                     <div>
                                         <p>
-                                            适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                            适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                         </p>
                                         <div class="btn-list justify-content-start">
-                                            <a
-                                                {if $config['enable_r2_client_download']}
-                                                    href="/user/clients/Clash.Verge.exe"
+                                            <a  {if $config['enable_r2_client_download']}
+                                                href="/user/clients/Clash.Verge.exe"
                                                 {else}
-                                                    href="/clients/Clash.Verge.exe"
+                                                href="/clients/Clash.Verge.exe"
                                                 {/if} class="btn btn-azure">
                                                 下载 Clash Verge
                                             </a>
@@ -295,10 +294,10 @@
                                 </div>
                                 <div class="tab-pane" id="macos">
                                     <p>
-                                        适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                     </p>
                                     <p>
-                                        适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
+                                        适用于 sing-box 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a {if $config['enable_r2_client_download']}
@@ -337,10 +336,10 @@
                                 </div>
                                 <div class="tab-pane" id="android">
                                     <p>
-                                        适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                     </p>
                                     <p>
-                                        适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
+                                        适用于 sing-box 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a {if $config['enable_r2_client_download']}
@@ -379,7 +378,7 @@
                                 </div>
                                 <div class="tab-pane" id="ios">
                                     <p>
-                                        适用于 sing-box 的订阅：<code>{$UniversalSub}/singbox</code>
+                                        适用于 sing-box 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start my-2">
                                         <a href="https://apps.apple.com/app/sing-box/id6451272673" target="_blank"
@@ -398,7 +397,7 @@
                                 </div>
                                 <div class="tab-pane" id="linux">
                                     <p>
-                                        适用于 Clash 的订阅：<code>{$UniversalSub}/clash</code>
+                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a {if $config['enable_r2_client_download']}
@@ -429,11 +428,11 @@
                                             </tr>
                                             <tr>
                                                 <td><strong>连接密码</strong></td>
-                                                <td>{$user->passwd}</td>
+                                                <td><span class="spoiler">{$user->passwd}</span></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>UUID</strong></td>
-                                                <td>{$user->uuid}</td>
+                                                <td><span class="spoiler">{$user->uuid}</span></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>自定义加密</strong></td>
