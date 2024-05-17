@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <div class="subheader">账户昵称</div>
+                                <div class="subheader">用户名</div>
                             </div>
                             <div class="h1 mb-3">{$user->user_name}</div>
                         </div>

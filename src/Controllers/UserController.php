@@ -127,21 +127,6 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function switchThemeMode(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $user = $this->user;
-        $user->is_dark_mode = $user->is_dark_mode === 1 ? 0 : 1;
-
-        if (! $user->save()) {
-            return ResponseHelper::error($response, '切换失败');
-        }
-
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
-            'ret' => 1,
-            'msg' => '切换成功',
-        ]);
-    }
-
     /**
      * @throws Exception
      */

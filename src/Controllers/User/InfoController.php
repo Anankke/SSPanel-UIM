@@ -124,7 +124,7 @@ final class InfoController extends BaseController
         ]);
     }
 
-    public function unbindIM(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function unbindIm(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! $this->user->unbindIM()) {
             return ResponseHelper::error($response, '解绑失败');
@@ -212,6 +212,7 @@ final class InfoController extends BaseController
         if ($method === '') {
             ResponseHelper::error($response, '非法输入');
         }
+
         if (! Tools::isParamValidate('method', $method)) {
             ResponseHelper::error($response, '加密无效');
         }
@@ -225,7 +226,7 @@ final class InfoController extends BaseController
         return ResponseHelper::success($response, '修改成功');
     }
 
-    public function resetURL(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function resetUrl(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $this->user->removeLink();
 
@@ -286,6 +287,23 @@ final class InfoController extends BaseController
         return $response->withHeader('HX-Refresh', 'true')->withJson([
             'ret' => 1,
             'msg' => '修改成功',
+        ]);
+    }
+
+    public function updateThemeMode(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $theme_mode = (int) $this->antiXss->xss_clean($request->getParam('theme_mode'));
+        $user = $this->user;
+
+        $user->is_dark_mode = in_array($theme_mode, [0, 1]) ? $theme_mode : 0;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '切换失败');
+        }
+
+        return $response->withHeader('HX-Refresh', 'true')->withJson([
+            'ret' => 1,
+            'msg' => '切换成功',
         ]);
     }
 

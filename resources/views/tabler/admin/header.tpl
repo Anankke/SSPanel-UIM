@@ -53,15 +53,6 @@
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        {if $user->is_dark_mode}
-                            <a class="dropdown-item" hx-post="/user/switch_theme_mode" hx-swap="none">
-                                浅色模式
-                            </a>
-                        {else}
-                            <a class="dropdown-item" hx-post="/user/switch_theme_mode" hx-swap="none">
-                                深色模式
-                            </a>
-                        {/if}
                         <a href="/user/logout" class="dropdown-item">登出</a>
                     </div>
                 </div>

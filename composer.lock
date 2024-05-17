@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.306.7",
+            "version": "3.307.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "bc30df54badd9d2af8d291cd0665ade6eb509598"
+                "reference": "2cff93427287ec2bcb1ff6eeddd5ca98feeccdfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/bc30df54badd9d2af8d291cd0665ade6eb509598",
-                "reference": "bc30df54badd9d2af8d291cd0665ade6eb509598",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2cff93427287ec2bcb1ff6eeddd5ca98feeccdfc",
+                "reference": "2cff93427287ec2bcb1ff6eeddd5ca98feeccdfc",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.306.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.307.0"
             },
-            "time": "2024-05-15T18:04:12+00:00"
+            "time": "2024-05-16T18:06:49+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -5245,16 +5245,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v14.6.0",
+            "version": "v14.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "cc4108812a0b6db06041e520fe340f6d8ecfeff1"
+                "reference": "697d2222cb4479dabb1989d124c38d400046f2cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/cc4108812a0b6db06041e520fe340f6d8ecfeff1",
-                "reference": "cc4108812a0b6db06041e520fe340f6d8ecfeff1",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/697d2222cb4479dabb1989d124c38d400046f2cf",
+                "reference": "697d2222cb4479dabb1989d124c38d400046f2cf",
                 "shasum": ""
             },
             "require": {
@@ -5298,9 +5298,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v14.6.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v14.7.0"
             },
-            "time": "2024-05-09T19:39:17+00:00"
+            "time": "2024-05-16T22:20:18+00:00"
         },
         {
             "name": "symfony/clock",
@@ -6565,16 +6565,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.10.2",
+            "version": "v3.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7aaed0b8311a557cc8c4047a71fd03153a00e755"
+                "reference": "67f29781ffafa520b0bbfbd8384674b42db04572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7aaed0b8311a557cc8c4047a71fd03153a00e755",
-                "reference": "7aaed0b8311a557cc8c4047a71fd03153a00e755",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/67f29781ffafa520b0bbfbd8384674b42db04572",
+                "reference": "67f29781ffafa520b0bbfbd8384674b42db04572",
                 "shasum": ""
             },
             "require": {
@@ -6628,7 +6628,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.10.2"
+                "source": "https://github.com/twigphp/Twig/tree/v3.10.3"
             },
             "funding": [
                 {
@@ -6640,7 +6640,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-14T06:04:16+00:00"
+            "time": "2024-05-16T10:04:27+00:00"
         },
         {
             "name": "vectorface/googleauthenticator",
@@ -7446,16 +7446,16 @@
         },
         {
             "name": "dg/bypass-finals",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/bypass-finals.git",
-                "reference": "efe2fe04bae9f0de271dd462afc049067889e6d1"
+                "reference": "dbe238be99c8d2406ce09d254cbcc93d90578c88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/efe2fe04bae9f0de271dd462afc049067889e6d1",
-                "reference": "efe2fe04bae9f0de271dd462afc049067889e6d1",
+                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/dbe238be99c8d2406ce09d254cbcc93d90578c88",
+                "reference": "dbe238be99c8d2406ce09d254cbcc93d90578c88",
                 "shasum": ""
             },
             "require": {
@@ -7493,9 +7493,9 @@
             ],
             "support": {
                 "issues": "https://github.com/dg/bypass-finals/issues",
-                "source": "https://github.com/dg/bypass-finals/tree/v1.6.0"
+                "source": "https://github.com/dg/bypass-finals/tree/v1.7.0"
             },
-            "time": "2023-11-19T22:19:30+00:00"
+            "time": "2024-05-17T01:03:44+00:00"
         },
         {
             "name": "evenement/evenement",
