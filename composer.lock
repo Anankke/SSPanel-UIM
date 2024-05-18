@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.307.0",
+            "version": "3.307.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2cff93427287ec2bcb1ff6eeddd5ca98feeccdfc"
+                "reference": "cc79f16e1a1bd3feee421401ba2f21915abfdf91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2cff93427287ec2bcb1ff6eeddd5ca98feeccdfc",
-                "reference": "2cff93427287ec2bcb1ff6eeddd5ca98feeccdfc",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cc79f16e1a1bd3feee421401ba2f21915abfdf91",
+                "reference": "cc79f16e1a1bd3feee421401ba2f21915abfdf91",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.307.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.307.1"
             },
-            "time": "2024-05-16T18:06:49+00:00"
+            "time": "2024-05-17T18:07:44+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -3172,16 +3172,16 @@
         },
         {
             "name": "nikolaposa/rate-limit",
-            "version": "3.1.0",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikolaposa/rate-limit.git",
-                "reference": "fa5d32ff5a31566a8839fa556c51930c0a7b467e"
+                "reference": "80a1badf8157c6f206074defd752bd00f9cf08e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikolaposa/rate-limit/zipball/fa5d32ff5a31566a8839fa556c51930c0a7b467e",
-                "reference": "fa5d32ff5a31566a8839fa556c51930c0a7b467e",
+                "url": "https://api.github.com/repos/nikolaposa/rate-limit/zipball/80a1badf8157c6f206074defd752bd00f9cf08e9",
+                "reference": "80a1badf8157c6f206074defd752bd00f9cf08e9",
                 "shasum": ""
             },
             "require": {
@@ -3207,7 +3207,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1.x-dev"
+                    "dev-master": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -3233,9 +3233,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikolaposa/rate-limit/issues",
-                "source": "https://github.com/nikolaposa/rate-limit/tree/3.1.0"
+                "source": "https://github.com/nikolaposa/rate-limit/tree/3.2.0"
             },
-            "time": "2023-12-29T22:51:49+00:00"
+            "time": "2024-05-17T14:39:51+00:00"
         },
         {
             "name": "openai-php/client",
