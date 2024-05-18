@@ -66,16 +66,9 @@ final class UnbindCommand extends Command
             $text = '';
 
             if ($message_key === $user->email) {
+                //TODO: Add user im type check before unbind
                 if ($user->unbindIM()) {
                     $text = '账户解绑成功。';
-                    if (Config::obtain('telegram_unbind_kick_member')) {
-                        $this->telegram->banChatMember(
-                            [
-                                'chat_id' => Config::obtain('telegram_chatid'),
-                                'user_id' => $send_user['id'],
-                            ]
-                        );
-                    }
                 } else {
                     $text = '账户解绑失败。';
                 }

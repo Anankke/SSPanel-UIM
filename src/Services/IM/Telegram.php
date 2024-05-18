@@ -78,4 +78,17 @@ final class Telegram extends Base
 
         $this->bot->sendMessage($sendMessage);
     }
+
+    /**
+     * @throws TelegramSDKException
+     */
+    public function banGroupMember(int $user_id): void
+    {
+        $this->bot->banChatMember(
+            [
+                'chat_id' => Config::obtain('telegram_chatid'),
+                'user_id' => $user_id,
+            ]
+        );
+    }
 }

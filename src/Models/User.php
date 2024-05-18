@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\IM;
+use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;
@@ -261,6 +262,14 @@ final class User extends Model
     {
         $this->im_type = 0;
         $this->im_value = '';
+
+        if ($this->im_type === 4 && Config::obtain('telegram_unbind_kick_member')) {
+            try {
+                (new Telegram())->banGroupMember((int) $this->im_value);
+            } catch (TelegramSDKException) {
+                return false;
+            }
+        }
 
         return $this->save();
     }
