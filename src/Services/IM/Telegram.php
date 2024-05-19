@@ -23,8 +23,6 @@ final class Telegram extends Base
     }
 
     /**
-     * 发送讯息，默认给群组发送
-     *
      * @throws TelegramSDKException
      */
     public function send($to, $msg = ''): void
@@ -52,16 +50,10 @@ final class Telegram extends Base
     }
 
     /**
-     * 以 HTML 格式发送讯息，默认给群组发送
-     *
      * @throws TelegramSDKException
      */
     public function sendHtml(int $to = 0, string $msg = ''): void
     {
-        if ($to === 0) {
-            $to = Config::obtain('telegram_chatid');
-        }
-
         $sendMessage = [
             'chat_id' => $to,
             'text' => strip_tags(
@@ -88,6 +80,20 @@ final class Telegram extends Base
             [
                 'chat_id' => Config::obtain('telegram_chatid'),
                 'user_id' => $user_id,
+            ]
+        );
+    }
+
+    /**
+     * @throws TelegramSDKException
+     */
+    public function unbanGroupMember(int $user_id): void
+    {
+        $this->bot->unbanChatMember(
+            [
+                'chat_id' => Config::obtain('telegram_chatid'),
+                'user_id' => $user_id,
+                'only_if_banned' => true,
             ]
         );
     }

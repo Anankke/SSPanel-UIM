@@ -36,7 +36,7 @@ final class StartCommand extends Command
             // 回送信息
             $this->replyWithMessage(
                 [
-                    'text' => '发送 /help 获取帮助',
+                    'text' => '发送 `/help` 获取帮助',
                     'parse_mode' => 'Markdown',
                 ]
             );

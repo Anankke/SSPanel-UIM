@@ -50,10 +50,8 @@ final class MyCommand extends Command
                 return null;
             }
         }
-
         // 发送 '输入中' 会话状态
         $this->replyWithChatAction(['action' => Actions::TYPING]);
-
         // 触发用户
         $send_user = [
             'id' => $message->getFrom()->getId(),

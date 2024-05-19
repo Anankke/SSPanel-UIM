@@ -6,7 +6,6 @@ namespace App\Services\Bot\Telegram;
 
 use App\Models\Config;
 use GuzzleHttp\Exception\GuzzleException;
-use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\RequestInterface;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -14,9 +13,7 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 final class Telegram
 {
     /**
-     * @throws InvalidDatabaseException
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public static function process(RequestInterface $request): void
     {

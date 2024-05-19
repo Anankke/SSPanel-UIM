@@ -40,7 +40,6 @@ final class PingCommand extends Command
                 'Pong！',
                 'User ID is ' . $chat_id,
             ];
-
             // 回送信息
             $this->replyWithMessage(
                 [
@@ -53,7 +52,6 @@ final class PingCommand extends Command
                 // 群组中不回应
                 return;
             }
-
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
@@ -62,7 +60,6 @@ final class PingCommand extends Command
                 'User ID is ' . $message->getFrom()->getId(),
                 'Group ID is ' . $chat_id,
             ];
-
             // 回送信息
             $this->replyWithMessage(
                 [
