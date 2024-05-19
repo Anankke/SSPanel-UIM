@@ -17,7 +17,6 @@ use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use MaxMind\Db\Reader\InvalidDatabaseException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function array_chunk;
@@ -74,7 +73,6 @@ final class Callback
     private bool $allow_edit_message;
 
     /**
-     * @throws InvalidDatabaseException
      * @throws TelegramSDKException|GuzzleException
      */
     public function __construct(Api $bot, Collection $callback)
@@ -110,8 +108,7 @@ final class Callback
      *
      * @param array $send_message
      *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function replyWithMessage(array $send_message): void
     {
@@ -203,7 +200,6 @@ final class Callback
     /**
      * 用户相关回调数据处理
      *
-     * @throws InvalidDatabaseException
      * @throws TelegramSDKException|GuzzleException
      */
     public function userCallback(): void
@@ -309,8 +305,7 @@ final class Callback
     /**
      * 用户中心
      *
-     * @throws TelegramSDKException
-     * @throws InvalidDatabaseException|GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function userCenter(): void
     {
@@ -507,8 +502,7 @@ final class Callback
     /**
      * 用户编辑
      *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function userEdit(): void
     {
@@ -819,8 +813,6 @@ final class Callback
                 ],
             ];
 
-            $sendMessage = [];
-
             $UniversalSub_Url = Subscribe::getUniversalSubLink($this->user);
 
             $text = match ($CallbackDataExplode[1]) {
@@ -887,8 +879,6 @@ final class Callback
         if (is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
-
-        $invite = Config::getClass('ref');
 
         $text = [
             '<strong>你每邀请 <code>1</code> 位用户注册：</strong>',

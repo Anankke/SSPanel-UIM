@@ -80,8 +80,7 @@ final class Message
     /**
      * 入群检测
      *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function newChatParticipant(): void
     {

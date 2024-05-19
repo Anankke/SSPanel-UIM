@@ -66,7 +66,6 @@ final class UnbindCommand extends Command
             $text = '';
 
             if ($message_key === $user->email) {
-                //TODO: Add user im type check before unbind
                 if ($user->unbindIM()) {
                     $text = '账户解绑成功。';
                 } else {

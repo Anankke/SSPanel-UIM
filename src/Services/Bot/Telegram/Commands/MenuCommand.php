@@ -32,16 +32,13 @@ final class MenuCommand extends Command
     {
         $update = $this->getUpdate();
         $message = $update->getMessage();
-
         // 消息会话 ID
         $chat_id = $message->getChat()->getId();
 
         if ($chat_id > 0) {
             // 私人会话
-
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
-
             // 触发用户
             $send_user = [
                 'id' => $message->getFrom()->getId(),
@@ -53,7 +50,6 @@ final class MenuCommand extends Command
             } else {
                 $reply = Callback::getUserIndexKeyboard($user);
             }
-
             // 回送信息
             return $this->replyWithMessage(
                 [
