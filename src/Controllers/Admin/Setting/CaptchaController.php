@@ -28,6 +28,10 @@ final class CaptchaController extends BaseController
         // hCaptcha
         'hcaptcha_sitekey',
         'hcaptcha_secret',
+        // reCAPTCHA Enterprise
+        'recaptcha_enterprise_key_id',
+        'recaptcha_enterprise_project_id',
+        'recaptcha_enterprise_api_key',
     ];
 
     /**

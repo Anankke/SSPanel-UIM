@@ -7,3 +7,6 @@
 {if $public_setting['captcha_provider'] === 'hcaptcha'}
     <div class="h-captcha" data-sitekey="{$captcha['hcaptcha_sitekey']}"></div>
 {/if}
+{if $public_setting['captcha_provider'] === 'recaptcha_enterprise'}
+    <div id="recaptcha"></div>
+{/if}

@@ -24,6 +24,9 @@ final class Captcha
             'hcaptcha' => [
                 'hcaptcha_sitekey' => Config::obtain('hcaptcha_sitekey'),
             ],
+            'recaptcha_enterprise' => [
+                'recaptcha_enterprise_key_id' => Config::obtain('recaptcha_enterprise_key_id'),
+            ],
             default => [],
         };
     }
@@ -56,8 +59,8 @@ final class Captcha
                             'form_params' => $turnstile_body,
                             'timeout' => 3,
                         ])->getBody()->getContents())->success;
-                    } catch (GuzzleException $e) {
-                        echo $e->getMessage();
+                    } catch (GuzzleException) {
+                        break;
                     }
                 }
 
@@ -93,9 +96,8 @@ final class Captcha
                             'form_params' => $geetest_body,
                             'timeout' => 3,
                         ])->getBody()->getContents());
-                    } catch (GuzzleException $e) {
+                    } catch (GuzzleException) {
                         $json = null;
-                        echo $e->getMessage();
                     }
 
                     if ($json?->result === 'success') {
@@ -123,8 +125,37 @@ final class Captcha
                             'form_params' => $hcaptcha_body,
                             'timeout' => 3,
                         ])->getBody()->getContents())->success;
-                    } catch (GuzzleException $e) {
-                        echo $e->getMessage();
+                    } catch (GuzzleException) {
+                        break;
+                    }
+                }
+
+                break;
+            case 'recaptcha_enterprise':
+                if (isset($param['recaptcha_enterprise'])) {
+                    $recaptcha_enterprise_url = 'https://recaptchaenterprise.googleapis.com/v1/projects/' .
+                        Config::obtain('recaptcha_enterprise_project_id') . '/assessments?key=' .
+                        Config::obtain('recaptcha_enterprise_api_key');
+
+                    $recaptcha_enterprise_headers = [
+                        'Content-Type' => 'application/json',
+                    ];
+
+                    $recaptcha_enterprise_body = [
+                        'event' => [
+                            'token' => $param['recaptcha_enterprise'],
+                            'siteKey' => Config::obtain('recaptcha_enterprise_key_id'),
+                        ],
+                    ];
+
+                    try {
+                        $result = json_decode($client->post($recaptcha_enterprise_url, [
+                            'headers' => $recaptcha_enterprise_headers,
+                            'json' => $recaptcha_enterprise_body,
+                            'timeout' => 3,
+                        ])->getBody()->getContents())->tokenProperties->valid;
+                    } catch (GuzzleException) {
+                        break;
                     }
                 }
 

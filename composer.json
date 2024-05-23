@@ -67,10 +67,10 @@
     },
     "scripts": {
         "update-dev-windows": [
-            "composer update --ignore-platform-req=ext-posix --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml"
+            "composer update --ignore-platform-req=ext-posix"
         ],
         "install-dev-windows": [
-            "composer install --ignore-platform-req=ext-posix --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml"
+            "composer install --ignore-platform-req=ext-posix"
         ]
     },
     "type": "project"

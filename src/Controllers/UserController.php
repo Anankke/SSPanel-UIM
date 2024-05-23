@@ -33,7 +33,9 @@ final class UserController extends BaseController
         $class_expire_days = $this->user->class > 0 ?
             round((strtotime($this->user->class_expire) - time()) / 86400) : 0;
 
-        if (Config::obtain('enable_checkin_captcha') && $this->user->isAbleToCheckin()) {
+        if (Config::obtain('enable_checkin') &&
+            Config::obtain('enable_checkin_captcha') &&
+            $this->user->isAbleToCheckin()) {
             $captcha = Captcha::generate();
         }
 
@@ -61,11 +63,9 @@ final class UserController extends BaseController
      */
     public function announcement(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $anns = (new Ann())->orderBy('date', 'desc')->get();
-
         return $response->write(
             $this->view()
-                ->assign('anns', $anns)
+                ->assign('anns', (new Ann())->orderBy('date', 'desc')->get())
                 ->fetch('user/announcement.tpl')
         );
     }
@@ -104,11 +104,9 @@ final class UserController extends BaseController
      */
     public function banned(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $user = $this->user;
-
         return $response->write(
             $this->view()
-                ->assign('banned_reason', $user->banned_reason)
+                ->assign('banned_reason', $this->user->banned_reason)
                 ->fetch('user/banned.tpl')
         );
     }
