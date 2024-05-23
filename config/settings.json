@@ -666,6 +666,33 @@
         "mark": "hCaptcha Secret"
     },
     {
+        "item": "recaptcha_enterprise_key_id",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCAPTCHA Enterprise Key"
+    },
+    {
+        "item": "recaptcha_enterprise_project_id",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCAPTCHA Enterprise Project ID"
+    },
+    {
+        "item": "recaptcha_enterprise_api_key",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCAPTCHA Enterprise API Key"
+    },
+    {
         "item": "im_bot_group_notify_add_node",
         "value": "1",
         "class": "im",

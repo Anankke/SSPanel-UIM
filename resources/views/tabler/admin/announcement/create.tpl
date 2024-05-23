@@ -40,17 +40,15 @@
                     </div>
                     <div class="mb-3">
                         <div class="divide-y">
-                            <div>
-                                <label class="row">
-                                    <span class="col">发送邮件通知</span>
-                                    <span class="col-auto">
-                                        <label class="form-check form-check-single form-switch">
-                                            <input id="email_notify" class="form-check-input" type="checkbox"
-                                                   checked="">
-                                        </label>
-                                    </span>
-                                </label>
-                            </div>
+                            <label class="row">
+                                <span class="col">发送邮件通知</span>
+                                <span class="col-auto">
+                                    <label class="form-check form-check-single form-switch">
+                                        <input id="email_notify" class="form-check-input" type="checkbox"
+                                               checked="">
+                                    </label>
+                                </span>
+                            </label>
                         </div>
                     </div>
                 </div>

@@ -19,5 +19,15 @@
     </script>
 {/if}
 {if $public_setting['captcha_provider'] === 'hcaptcha'}
-    <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
+    <script src='https://js.hcaptcha.com/1/api.js' async defer></script>
+{/if}
+{if $public_setting['captcha_provider'] === 'recaptcha_enterprise'}
+    <script src='https://www.recaptcha.net/recaptcha/enterprise.js?onload=initReCAPTCHA&render=explicit' async defer></script>
+    <script>
+        var initReCAPTCHA = function () {
+            grecaptcha.enterprise.render('recaptcha', {
+                'sitekey': '{$captcha['recaptcha_enterprise_key_id']}',
+            });
+        };
+    </script>
 {/if}
