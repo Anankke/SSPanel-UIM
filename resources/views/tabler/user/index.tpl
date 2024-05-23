@@ -536,7 +536,7 @@
                                 {include file='captcha/div.tpl'}
                                 {/if}
                                 <button id="check-in" class="btn btn-primary ms-auto"
-                                        hx-post="/user/checkin" hx-swap="none" hx-vals='js:{
+                                    hx-post="/user/checkin" hx-swap="none" hx-vals='js:{
                                     {if $public_setting['enable_checkin_captcha']}
                                     {include file='captcha/ajax.tpl'}
                                     {/if}
@@ -556,7 +556,7 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">
-                                最新公告
+                                置顶公告
                                 {if $ann !== null}
                                 <span class="card-subtitle">{$ann->date}</span>
                                 {/if}
