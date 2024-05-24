@@ -625,7 +625,10 @@ final class Cron
     public static function sendDailyTrafficReport(): void
     {
         $users = (new User())->whereIn('daily_mail_enable', [1, 2])->get();
-        $ann_latest_raw = (new Ann())->orderBy('date', 'desc')->first();
+        $ann_latest_raw = (new Ann())->where('status', '>', 0)
+            ->orderBy('status', 'desc')
+            ->orderBy('sort')
+            ->orderBy('date', 'desc')->first();
 
         if ($ann_latest_raw === null) {
             $ann_latest = '<br><br>';

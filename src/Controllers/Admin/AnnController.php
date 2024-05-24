@@ -18,6 +18,9 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function in_array;
+use function strip_tags;
+use function strlen;
 use function time;
 use const PHP_EOL;
 
@@ -27,14 +30,17 @@ final class AnnController extends BaseController
         [
             'field' => [
                 'op' => '操作',
-                'id' => '公告ID',
+                'id' => 'ID',
+                'status' => '状态',
+                'sort' => '排序',
                 'date' => '日期',
-                'content' => '公告内容',
+                'content' => '内容（节选）',
             ],
         ];
 
     private static array $update_field = [
-        'email_notify_class',
+        'status',
+        'sort',
     ];
 
     /**
@@ -70,25 +76,35 @@ final class AnnController extends BaseController
      */
     public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        $status = (int) $request->getParam('status');
+        $sort = (int) $request->getParam('sort');
         $email_notify_class = (int) $request->getParam('email_notify_class');
         $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;
         $content = $request->getParam('content');
 
-        if ($content !== '') {
-            $ann = new Ann();
-            $ann->date = Tools::toDateTime(time());
-            $ann->content = $content;
-
-            if (! $ann->save()) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '公告保存失败',
-                ]);
-            }
+        if ($content === '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '内容不能为空',
+            ]);
         }
 
-        if ($email_notify && $content !== '') {
+        $ann = new Ann();
+        $ann->status = in_array($status, [0, 1, 2]) ? $status : 1;
+        $ann->sort = $sort > 999 || $sort < 0 ? 0 : $sort;
+        $ann->date = Tools::toDateTime(time());
+        $ann->content = $content;
+
+        if (! $ann->save()) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '公告保存失败',
+            ]);
+        }
+
+        if ($email_notify) {
             $users = (new User())->where('class', '>=', $email_notify_class)
+                ->where('is_banned', '=', 0)
                 ->get();
             $subject = $_ENV['appName'] . ' - 新公告发布';
 
@@ -105,7 +121,7 @@ final class AnnController extends BaseController
             }
         }
 
-        if (Config::obtain('im_bot_group_notify_ann_create') && $content !== '') {
+        if (Config::obtain('im_bot_group_notify_ann_create')) {
             $converter = new HtmlConverter(['strip_tags' => true]);
             $content = $converter->convert($content);
 
@@ -132,11 +148,10 @@ final class AnnController extends BaseController
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $ann = (new Ann())->find($args['id']);
-
         return $response->write(
             $this->view()
-                ->assign('ann', $ann)
+                ->assign('ann', (new Ann())->find($args['id']))
+                ->assign('update_field', self::$update_field)
                 ->fetch('admin/announcement/edit.tpl')
         );
     }
@@ -146,8 +161,29 @@ final class AnnController extends BaseController
      */
     public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        $status = (int) $request->getParam('status');
+        $sort = (int) $request->getParam('sort');
+        $content = $request->getParam('content');
+
+        if ($content === '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '内容不能为空',
+            ]);
+        }
+
         $ann = (new Ann())->find($args['id']);
-        $ann->content = (string) $request->getParam('content');
+
+        if ($ann === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '公告不存在',
+            ]);
+        }
+
+        $ann->status = in_array($status, [0, 1, 2]) ? $status : 1;
+        $ann->sort = $sort > 999 || $sort < 0 ? 0 : $sort;
+        $ann->content = $content;
         $ann->date = Tools::toDateTime(time());
 
         if (! $ann->save()) {
@@ -182,16 +218,16 @@ final class AnnController extends BaseController
      */
     public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $ann = (new Ann())->find($args['id']);
-        if (! $ann->delete()) {
+        if ((new Ann())->find($args['id'])->delete()) {
             return $response->withJson([
-                'ret' => 0,
-                'msg' => '删除失败',
+                'ret' => 1,
+                'msg' => '删除成功',
             ]);
         }
+
         return $response->withJson([
-            'ret' => 1,
-            'msg' => '删除成功',
+            'ret' => 0,
+            'msg' => '删除失败',
         ]);
     }
 
@@ -206,6 +242,8 @@ final class AnnController extends BaseController
             $ann->op = '<button class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
             onclick="deleteAnn(' . $ann->id . ')">删除</button>
             <a class="btn btn-primary" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
+            $ann->status = $ann->status();
+            $ann->content = strlen($ann->content) > 40 ? mb_substr(strip_tags($ann->content), 0, 40, 'UTF-8') . '...' : $ann->content;
         }
 
         return $response->withJson([
