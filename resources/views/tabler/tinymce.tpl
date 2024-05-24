@@ -2,7 +2,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        tinyMCE.baseURL = '//cdnjs.cloudflare.com/ajax/libs/tinymce/7.1.1/';
+        tinyMCE.baseURL = '//cdnjs.cloudflare.com/ajax/libs/tinymce/7.1.1';
         tinyMCE.suffix = '.min';
         tinyMCE.init({
             selector: '#tinymce',

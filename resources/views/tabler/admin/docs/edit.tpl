@@ -25,18 +25,44 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="card">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label col-3 col-form-label">文档标题</label>
-                        <div class="col">
-                            <input id="title" type="text" class="form-control" value="{$doc->title}">
+            <div class="row row-cards">
+                <div class="col-md-9 col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label col-3 col-form-label">文档标题</label>
+                                <div class="col">
+                                    <input id="title" type="text" class="form-control" value="{$doc->title}">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <form method="post">
+                                    <textarea id="tinymce">{$doc->content}</textarea>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <form method="post">
-                            <textarea id="tinymce">{$doc->content}</textarea>
-                        </form>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">选项</h3>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">状态</label>
+                                <div class="col">
+                                    <select id="status" class="col form-select" value="{$doc->status}">
+                                        <option value="0" {if $doc->status == 0} selected {/if}>未发布</option>
+                                        <option value="1" {if $doc->status == 1} selected {/if}>已发布</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label">排序</label>
+                                <div class="col">
+                                    <input id="sort" type="text" class="form-control" value="{$doc->sort}">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,7 +79,9 @@
             type: 'PUT',
             dataType: "json",
             data: {
-                title: $("#title").val(),
+                {foreach $update_field as $key}
+                {$key}: $('#{$key}').val(),
+                {/foreach}
                 content: tinyMCE.activeEditor.getContent(),
             },
             success: function (data) {

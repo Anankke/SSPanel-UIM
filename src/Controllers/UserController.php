@@ -32,6 +32,10 @@ final class UserController extends BaseController
         $traffic_logs = [];
         $class_expire_days = $this->user->class > 0 ?
             round((strtotime($this->user->class_expire) - time()) / 86400) : 0;
+        $ann = (new Ann())->where('status', '>', 0)
+            ->orderBy('status', 'desc')
+            ->orderBy('sort')
+            ->orderBy('date', 'desc')->first();
 
         if (Config::obtain('enable_checkin') &&
             Config::obtain('enable_checkin_captcha') &&
@@ -49,7 +53,7 @@ final class UserController extends BaseController
 
         return $response->write(
             $this->view()
-                ->assign('ann', (new Ann())->orderBy('date', 'desc')->first())
+                ->assign('ann', $ann)
                 ->assign('captcha', $captcha)
                 ->assign('traffic_logs', json_encode($traffic_logs))
                 ->assign('class_expire_days', $class_expire_days)
@@ -63,9 +67,14 @@ final class UserController extends BaseController
      */
     public function announcement(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        $anns = (new Ann())->where('status', '>', 0)
+            ->orderBy('status', 'desc')
+            ->orderBy('sort')
+            ->orderBy('date', 'desc')->get();
+
         return $response->write(
             $this->view()
-                ->assign('anns', (new Ann())->orderBy('date', 'desc')->get())
+                ->assign('anns', $anns)
                 ->fetch('user/announcement.tpl')
         );
     }

@@ -47,7 +47,7 @@ Nothing will be put behind the paywall or require a donation to use, but the CI/
 
 <a href="https://www.patreon.com/catdev">Patreon (One time or monthly)</a>
 
-<a href="https://www.vultr.com/?ref=8941355-8H">Vultr Ref Link (They have GPU VMs which is quite useful for your little AI project)</a>
+<a href="https://www.vultr.com/?ref=8941355-8H">Vultr Ref Link</a>
 
 <a href="https://www.digitalocean.com/?refcode=50f1a3b6244c">DO Ref Link</a>
 

@@ -11,9 +11,13 @@ return new class() implements MigrationInterface {
         DB::getPdo()->exec(
             "CREATE TABLE `announcement` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '公告ID',
+                `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '公告状态',
+                `sort` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '公告排序',
                 `date` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '公告日期',
                 `content` longtext NOT NULL DEFAULT '' COMMENT '公告内容',
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                KEY `status` (`status`),
+                KEY `sort` (`sort`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `config` (
@@ -67,10 +71,14 @@ return new class() implements MigrationInterface {
 
             CREATE TABLE `docs` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
+                `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '文档状态',
+                `sort` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '文档排序',
                 `date` datetime NOT NULL DEFAULT '1989-06-04 00:05:00' COMMENT '文档日期',
                 `title` varchar(255) NOT NULL DEFAULT '' COMMENT '文档标题',
                 `content` longtext NOT NULL DEFAULT '' COMMENT '文档内容',
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                KEY `status` (`status`),
+                KEY `sort` (`sort`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
             CREATE TABLE `email_queue` (
@@ -409,8 +417,6 @@ return new class() implements MigrationInterface {
 
     public function down(): int
     {
-        echo 'No reverse operation for initial migration' . PHP_EOL . PHP_EOL;
-
         return 2023020100;
     }
 };

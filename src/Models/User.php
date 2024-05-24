@@ -287,7 +287,7 @@ final class User extends Model
         $unused_traffic = $this->unusedTraffic();
 
         if ($this->daily_mail_enable === 1) {
-            echo 'Send daily mail to user: ' . $this->id . PHP_EOL;
+            echo 'Sending daily mail to user: ' . $this->id . PHP_EOL;
 
             (new EmailQueue())->add(
                 $this->email,
@@ -303,7 +303,7 @@ final class User extends Model
                 ]
             );
         } elseif ($this->daily_mail_enable === 2 && $this->im_value !== '') {
-            echo 'Send daily IM message to user: ' . $this->id . PHP_EOL;
+            echo 'Sending daily IM message to user: ' . $this->id . PHP_EOL;
 
             $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
             $text .= '流量总计：' . $enable_traffic . PHP_EOL;
