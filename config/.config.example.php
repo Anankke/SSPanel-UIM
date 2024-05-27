@@ -109,14 +109,14 @@ $_ENV['keep_connect'] = false;            // 流量耗尽用户限速至 1Mbps
 $_ENV['llm_backend'] = 'openai'; // openai/google-ai/huggingface/cf-workers-ai/anthropic
 #OpenAI ChatGPT
 $_ENV['openai_api_key'] = '';
-$_ENV['openai_model'] = 'gpt-4-turbo-preview';
+$_ENV['openai_model'] = 'gpt-4o';
 #Google AI API
 $_ENV['google_ai_api_key'] = '';
-$_ENV['google_ai_model_id'] = 'gemini-1.5-pro-latest';
+$_ENV['google_ai_model_id'] = 'gemini-1.5-flash';
 #Vertex AI API
 $_ENV['vertex_ai_access_token'] = '';
 $_ENV['vertex_ai_location'] = 'us-central1';
-$_ENV['vertex_ai_model_id'] = 'gemini-1.0-pro';
+$_ENV['vertex_ai_model_id'] = 'gemini-1.5-flash-preview-0514';
 $_ENV['vertex_ai_project_id'] = '';
 #Hugging Face Inference API
 $_ENV['huggingface_api_key'] = '';
@@ -124,7 +124,7 @@ $_ENV['huggingface_endpoint_url'] = '';
 #Cloudflare Workers AI
 $_ENV['cf_workers_ai_account_id'] = '';
 $_ENV['cf_workers_ai_api_token'] = '';
-$_ENV['cf_workers_ai_model_id'] = '@cf/meta/llama-2-7b-chat-int8';
+$_ENV['cf_workers_ai_model_id'] = '@cf/meta/llama-3-8b-instruct';
 #Anthropic
 $_ENV['anthropic_api_key'] = '';
 $_ENV['anthropic_model_id'] = 'claude-3-opus-20240229';

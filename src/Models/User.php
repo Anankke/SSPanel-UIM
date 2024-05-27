@@ -295,7 +295,7 @@ final class User extends Model
                 'traffic_report.tpl',
                 [
                     'user' => $this,
-                    'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
+                    'text' => '站点公告:<br><br>' . $ann . '<br><br>晚安！',
                     'lastday_traffic' => $lastday_traffic,
                     'enable_traffic' => $enable_traffic,
                     'used_traffic' => $used_traffic,
