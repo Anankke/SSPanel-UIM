@@ -15,10 +15,9 @@ use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\SignatureVerificationException;
-use Stripe\Stripe as StripeSDK;
+use Stripe\StripeClient;
 use Stripe\Webhook;
 use UnexpectedValueException;
 use voku\helper\AntiXSS;
@@ -56,7 +55,7 @@ final class Stripe extends Base
         ) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '非法的金额',
+                'msg' => 'Price out of range',
             ]);
         }
 
@@ -79,11 +78,11 @@ final class Stripe extends Base
             ]);
         }
 
-        StripeSDK::setApiKey(Config::obtain('stripe_sk'));
+        $stripe = new StripeClient(Config::obtain('stripe_api_key'));
         $session = null;
 
         try {
-            $session = Session::create([
+            $session = $stripe->checkout->sessions->create([
                 'customer_email' => $user->email,
                 'line_items' => [
                     [
