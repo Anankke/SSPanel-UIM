@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function version_compare;
+use const OTA_API_URL;
 use const VERSION;
 
 final class SystemController extends BaseController
@@ -49,7 +50,7 @@ final class SystemController extends BaseController
         ];
 
         try {
-            $latest_version = $client->get('https://ota.sspanel.org/get-latest-version', [
+            $latest_version = $client->get(OTA_API_URL, [
                 'headers' => $headers,
                 'timeout' => 3,
             ])->getBody()->getContents();
