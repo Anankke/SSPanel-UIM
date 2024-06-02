@@ -1,0 +1,26 @@
+name: Update OTA API Version
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  update_ota_api:
+    name: Update Workers KV value
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Request Cloudflare API
+        run: |
+          echo "Updating OTA API version to ${{ github.ref_name }}"
+          curl --request PUT \
+            --url https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/storage/kv/namespaces/${{ secrets.CLOUDFLARE_KV_NAMESPACE_ID }}/bulk \
+            --header 'Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}' \
+            --header 'Content-Type: application/json' \
+            --data '[
+              {
+                "base64": false,
+                "key": "latest_next_version",
+                "value": "${{ github.ref_name }}"
+              }
+            ]'
