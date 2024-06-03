@@ -36,6 +36,12 @@ NeXT Panel requires the following programs to be installed and run normally:
 - MariaDB 10.11+（Disable strict mode）
 - Redis 7.0+
 
+## Ecosystem
+
+- [NeXT Server](https://github.com/SSPanel-NeXT/NeXT-Server)
+- NeXT Desktop(WiP)
+- [NetStatus-API-Go](https://github.com/SSPanel-NeXT/NetStatus-API-Go)
+
 ## Documentation
 
 [NeXT Panel Docs](https://docs.sspanel.org)
@@ -49,7 +55,7 @@ Nothing will be put behind the paywall or require a donation to use, but the CI/
 
 <a href="https://www.vultr.com/?ref=8941355-8H">Vultr Ref Link</a>
 
-<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c">DO Ref Link</a>
+<a href="https://www.digitalocean.com/?refcode=50f1a3b6244c">DigitalOcean Ref Link</a>
 
 ## License
 
