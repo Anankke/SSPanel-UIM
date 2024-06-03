@@ -9,8 +9,7 @@ jobs:
     name: Update Workers KV value
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        name: Request Cloudflare API
+      - name: Request Cloudflare API
         run: |
           echo "Updating OTA API version to ${{ github.ref_name }}"
           curl --request PUT \

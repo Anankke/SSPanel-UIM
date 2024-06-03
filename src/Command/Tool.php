@@ -354,7 +354,6 @@ EOL;
             // write input back
             echo '(2/3) 请输入管理员账户密码：' . PHP_EOL;
             $passwd = trim(fgets(STDIN));
-
             echo '(3/3) 按 Y 或 y 确认创建：';
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
