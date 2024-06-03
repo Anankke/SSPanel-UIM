@@ -12,13 +12,14 @@ use App\Services\Password;
 use App\Services\RateLimit;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
-use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 use function strlen;
+use function strtolower;
 
 final class PasswordController extends BaseController
 {
@@ -83,7 +84,12 @@ final class PasswordController extends BaseController
     {
         $token = $this->antiXss->xss_clean($args['token']);
         $redis = (new Cache())->initRedis();
-        $email = $redis->get('password_reset:' . $token);
+
+        try {
+            $email = $redis->get('password_reset:' . $token);
+        } catch (RedisException) {
+            return $response->withStatus(302)->withHeader('Location', '/password/reset');
+        }
 
         if (! $email) {
             return $response->withStatus(302)->withHeader('Location', '/password/reset');
@@ -94,12 +100,9 @@ final class PasswordController extends BaseController
         );
     }
 
-    /**
-     * @throws RedisException
-     */
     public function handleToken(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $token = $this->antiXss->xss_clean($args['token']);
+        $token = $this->antiXss->xss_clean($request->getParam('token'));
         $password = $request->getParam('password');
         $confirm_password = $request->getParam('confirm_password');
 
@@ -112,7 +115,13 @@ final class PasswordController extends BaseController
         }
 
         $redis = (new Cache())->initRedis();
-        $email = $redis->get('password_reset:' . $token);
+
+        try {
+            $email = $redis->get('password_reset:' . $token);
+            $redis->del('password_reset:' . $token);
+        } catch (RedisException) {
+            return ResponseHelper::error($response, '链接无效');
+        }
 
         if (! $email) {
             return ResponseHelper::error($response, '链接无效');
@@ -123,7 +132,6 @@ final class PasswordController extends BaseController
         if ($user === null) {
             return ResponseHelper::error($response, '链接无效');
         }
-
         // reset password
         $hashPassword = Hash::passwordHash($password);
         $user->pass = $hashPassword;
@@ -135,8 +143,6 @@ final class PasswordController extends BaseController
         if (Config::obtain('enable_forced_replacement')) {
             $user->removeLink();
         }
-
-        $redis->del('password_reset:' . $token);
 
         return ResponseHelper::success($response, '重置成功');
     }

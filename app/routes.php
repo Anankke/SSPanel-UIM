@@ -124,7 +124,7 @@ return static function (Slim\App $app): void {
         $group->get('/reset', App\Controllers\PasswordController::class . ':reset');
         $group->post('/reset', App\Controllers\PasswordController::class . ':handleReset');
         $group->get('/token/{token}', App\Controllers\PasswordController::class . ':token');
-        $group->post('/token/{token}', App\Controllers\PasswordController::class . ':handleToken');
+        $group->post('/token', App\Controllers\PasswordController::class . ':handleToken');
     })->add(new Guest());
     // Admin
     $app->group('/admin', static function (RouteCollectorProxy $group): void {
