@@ -16,7 +16,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function version_compare;
 use const OTA_API_URL;
-use const VERSION;
+use const PANEL_VERSION;
 
 final class SystemController extends BaseController
 {
@@ -29,7 +29,7 @@ final class SystemController extends BaseController
     {
         return $response->write(
             $this->view()
-                ->assign('version', VERSION)
+                ->assign('version', PANEL_VERSION)
                 ->assign('last_daily_job_time', Tools::toDateTime(Config::obtain('last_daily_job_time')))
                 ->assign('db_version', Config::obtain('db_version'))
                 ->fetch('admin/system.tpl')
@@ -44,7 +44,7 @@ final class SystemController extends BaseController
         $client = new Client();
 
         $headers = [
-            'User-Agent' => 'NeXT-Panel/' . VERSION,
+            'User-Agent' => 'NeXT-Panel/' . PANEL_VERSION,
             'Panel-Type' => 'NeXT',
             'Accept' => 'application/json',
         ];
@@ -60,7 +60,7 @@ final class SystemController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'is_up_to_date' => version_compare($latest_version, VERSION, '<='),
+            'is_up_to_date' => version_compare($latest_version, PANEL_VERSION, '<='),
             'latest_version' => $latest_version,
         ]);
     }
