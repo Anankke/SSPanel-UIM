@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\LLM;
 
+use App\Models\Config;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
@@ -15,17 +16,17 @@ final class CloudflareWorkersAI extends Base
      */
     public function textPrompt(string $q): string
     {
-        if ($_ENV['cf_workers_ai_account_id'] === '' || $_ENV['cf_workers_ai_api_token'] === '') {
+        if (Config::obtain('cf_workers_ai_account_id') === '' || Config::obtain('cf_workers_ai_api_token') === '') {
             return 'Cloudflare Workers AI Account ID or API Token not set';
         }
 
         $client = new Client();
 
         $api_url = 'https://api.cloudflare.com/client/v4/accounts/' .
-            $_ENV['cf_workers_ai_account_id'] . '/ai/run/' . $_ENV['cf_workers_ai_model_id'];
+            Config::obtain('cf_workers_ai_account_id') . '/ai/run/' . Config::obtain('cf_workers_ai_model_id');
 
         $headers = [
-            'Authorization' => 'Bearer ' . $_ENV['cf_workers_ai_api_token'],
+            'Authorization' => 'Bearer ' . Config::obtain('cf_workers_ai_api_token'),
             'Content-Type' => 'application/json',
         ];
 

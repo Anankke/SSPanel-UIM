@@ -110,6 +110,9 @@
                                                 <a href="/admin/setting/cron" class="dropdown-item">
                                                     定时任务
                                                 </a>
+                                                <a href="/admin/setting/llm" class="dropdown-item">
+                                                    LLM
+                                                </a>
                                                 <a href="/admin/setting/feature" class="dropdown-item">
                                                     其他设置
                                                 </a>

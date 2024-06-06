@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\LLM;
 
+use App\Models\Config;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
@@ -15,14 +16,14 @@ final class HuggingFace extends Base
      */
     public function textPrompt(string $q): string
     {
-        if ($_ENV['huggingface_api_key'] === '' || $_ENV['huggingface_endpoint_url'] === '') {
+        if (Config::obtain('huggingface_api_key') === '' || Config::obtain('huggingface_endpoint_url') === '') {
             return 'Hugging Face API key or Endpoint URL not set';
         }
 
         $client = new Client();
 
         $headers = [
-            'Authorization' => 'Bearer ' . $_ENV['huggingface_api_key'],
+            'Authorization' => 'Bearer ' . Config::obtain('huggingface_api_key'),
             'Content-Type' => 'application/json',
         ];
 
@@ -32,7 +33,7 @@ final class HuggingFace extends Base
             ],
         ];
 
-        $response = json_decode($client->post($_ENV['huggingface_endpoint_url'], [
+        $response = json_decode($client->post(Config::obtain('huggingface_endpoint_url'), [
             'headers' => $headers,
             'json' => $data,
             'timeout' => 10,

@@ -1528,5 +1528,149 @@
         "type": "int",
         "default": "2023020100",
         "mark": "当前数据库版本"
+    },
+    {
+        "item": "llm_backend",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "LLM Backend"
+    },
+    {
+        "item": "openai_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "OpenAI API Key"
+    },
+    {
+        "item": "openai_model_id",
+        "value": "gpt-4o",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "gpt-4o",
+        "mark": "OpenAI Model ID"
+    },
+    {
+        "item": "google_ai_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Google AI API Key"
+    },
+    {
+        "item": "google_ai_model_id",
+        "value": "gemini-1.5-flash",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "gemini-1.5-flash",
+        "mark": "Google AI Model ID"
+    },
+    {
+        "item": "vertex_ai_access_token",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Vertex AI Access Token"
+    },
+    {
+        "item": "vertex_ai_location",
+        "value": "us-central1",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "us-central1",
+        "mark": "Vertex AI Location"
+    },
+    {
+        "item": "vertex_ai_project_id",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Vertex AI Project ID"
+    },
+    {
+        "item": "vertex_ai_model_id",
+        "value": "gemini-1.5-flash-preview-0514",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "gemini-1.5-flash-preview-0514",
+        "mark": "Vertex AI Model ID"
+    },
+    {
+        "item": "huggingface_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Hugging Face Inference API Key"
+    },
+    {
+        "item": "huggingface_endpoint_url",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Hugging Face Inference API Endpoint URL"
+    },
+    {
+        "item": "cf_workers_ai_account_id",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Cloudflare Workers AI Account ID"
+    },
+    {
+        "item": "cf_workers_ai_api_token",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Cloudflare Workers AI API Token"
+    },
+    {
+        "item": "cf_workers_ai_model_id",
+        "value": "@cf/meta/llama-3-8b-instruct",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "@cf/meta/llama-3-8b-instruct",
+        "mark": "Cloudflare Workers AI Model ID"
+    },
+    {
+        "item": "anthropic_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Anthropic API Key"
+    },
+    {
+        "item": "anthropic_model_id",
+        "value": "claude-3-sonnet-20240229",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "claude-3-sonnet-20240229",
+        "mark": "Anthropic Model ID"
     }
 ]

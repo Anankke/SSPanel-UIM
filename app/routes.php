@@ -248,6 +248,8 @@ return static function (Slim\App $app): void {
             '/setting/im/set_webhook/{type}',
             App\Controllers\Admin\Setting\ImController::class . ':setWebhook'
         );
+        $group->get('/setting/llm', App\Controllers\Admin\Setting\LlmController::class . ':index');
+        $group->post('/setting/llm', App\Controllers\Admin\Setting\LlmController::class . ':save');
         $group->get('/setting/ref', App\Controllers\Admin\Setting\RefController::class . ':index');
         $group->post('/setting/ref', App\Controllers\Admin\Setting\RefController::class . ':save');
         $group->get('/setting/reg', App\Controllers\Admin\Setting\RegController::class . ':index');

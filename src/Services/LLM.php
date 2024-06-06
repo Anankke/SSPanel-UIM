@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Config;
 use App\Services\LLM\Anthropic;
 use App\Services\LLM\CloudflareWorkersAI;
 use App\Services\LLM\GoogleAI;
 use App\Services\LLM\HuggingFace;
 use App\Services\LLM\OpenAI;
 use App\Services\LLM\VertexAI;
+use GuzzleHttp\Exception\GuzzleException;
 
 final class LLM
 {
     public static function getBackend(): VertexAI|CloudflareWorkersAI|GoogleAI|HuggingFace|OpenAI|Anthropic
     {
-        return match ($_ENV['llm_backend']) {
+        return match (Config::obtain('llm_backend')) {
             'google-ai' => new GoogleAI(),
             'vertex-ai' => new VertexAI(),
             'huggingface' => new HuggingFace(),
@@ -25,15 +27,21 @@ final class LLM
         };
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public static function genTextResponse(string $q): string
     {
         if ($q === '') {
             return 'No question provided';
         }
 
-        return self::getClient()->textPrompt($q);
+        return self::getBackend()->textPrompt($q);
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public static function genTextResponseWithContext(string $q, array $context = []): string
     {
         if ($q === '') {
@@ -41,9 +49,9 @@ final class LLM
         }
 
         if ($context === []) {
-            return self::getClient()->textPrompt($q);
+            return self::getBackend()->textPrompt($q);
         }
 
-        return self::getClient()->textPromptWithContext($q, $context);
+        return self::getBackend()->textPromptWithContext($q, $context);
     }
 }
