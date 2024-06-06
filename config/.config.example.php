@@ -67,8 +67,7 @@ $_ENV['mail_filter_list'] = [];
 $_ENV['class_expire_reset_traffic'] = 0; // 等级到期时重置为的流量值，单位GB，小于0时不重置
 $_ENV['enable_kill'] = false;            // 是否允许用户注销账户
 $_ENV['enable_change_email'] = true;     // 是否允许用户更改賬戶郵箱
-
-#用户流量余量不足邮件提醒
+#用户流量不足提醒
 $_ENV['notify_limit_mode'] = false; // false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $_ENV['notify_limit_value'] = 500;  // 当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
@@ -89,7 +88,6 @@ $_ENV['auto_detect_ban_time'] = 60;          // 每次封禁的时长 (分钟)
 #GFW检测
 $_ENV['detect_gfw_port'] = 443;                                                    //所有节点服务器都打开的TCP端口
 $_ENV['detect_gfw_url'] = 'http://example.com:8080/v1/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
-
 #离线检测
 $_ENV['enable_detect_offline'] = true;
 
@@ -102,32 +100,6 @@ $_ENV['theme'] = 'tabler';                //默认主题
 $_ENV['locale'] = 'zh_TW';                //Default language, zh_CN, zh_TW, en_US, ja_JP
 $_ENV['jump_delay'] = 1200;               //跳转延时，单位ms
 $_ENV['keep_connect'] = false;            // 流量耗尽用户限速至 1Mbps
-
-//Generative AI---------------------------------------------------------------------------------------------------------
-//Large language model powered ticket reply and more
-//TODO: move these settings to DB
-$_ENV['llm_backend'] = 'openai'; // openai/google-ai/huggingface/cf-workers-ai/anthropic
-#OpenAI ChatGPT
-$_ENV['openai_api_key'] = '';
-$_ENV['openai_model'] = 'gpt-4o';
-#Google AI API
-$_ENV['google_ai_api_key'] = '';
-$_ENV['google_ai_model_id'] = 'gemini-1.5-flash';
-#Vertex AI API
-$_ENV['vertex_ai_access_token'] = '';
-$_ENV['vertex_ai_location'] = 'us-central1';
-$_ENV['vertex_ai_model_id'] = 'gemini-1.5-flash-preview-0514';
-$_ENV['vertex_ai_project_id'] = '';
-#Hugging Face Inference API
-$_ENV['huggingface_api_key'] = '';
-$_ENV['huggingface_endpoint_url'] = '';
-#Cloudflare Workers AI
-$_ENV['cf_workers_ai_account_id'] = '';
-$_ENV['cf_workers_ai_api_token'] = '';
-$_ENV['cf_workers_ai_model_id'] = '@cf/meta/llama-3-8b-instruct';
-#Anthropic
-$_ENV['anthropic_api_key'] = '';
-$_ENV['anthropic_model_id'] = 'claude-3-opus-20240229';
 
 //Other-----------------------------------------------------------------------------------------------------------------
 // cdn.jsdelivr.net / fastly.jsdelivr.net / testingcf.jsdelivr.net

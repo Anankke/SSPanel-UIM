@@ -69,34 +69,36 @@
                                                 <select id="email_driver" class="col form-select"
                                                         value="{$settings['email_driver']}">
                                                     <option value="none"
-                                                            {if $settings['email_driver'] === "none"}selected{/if}>none
+                                                            {if $settings['email_driver'] === "none"}selected{/if}>
+                                                        None
                                                     </option>
                                                     <option value="smtp"
-                                                            {if $settings['email_driver'] === "smtp"}selected{/if}>smtp
+                                                            {if $settings['email_driver'] === "smtp"}selected{/if}>
+                                                        SMTP
                                                     </option>
                                                     <option value="mailgun"
                                                             {if $settings['email_driver'] === "mailgun"}selected{/if}>
-                                                        mailgun
+                                                        Mailgun
                                                     </option>
                                                     <option value="sendgrid"
                                                             {if $settings['email_driver'] === "sendgrid"}selected{/if}>
-                                                        sendgrid
+                                                        Sendgrid
                                                     </option>
                                                     <option value="postal"
                                                             {if $settings['email_driver'] === "postal"}selected{/if}>
-                                                        postal
+                                                        Postal
                                                     </option>
                                                     <option value="ses"
                                                             {if $settings['email_driver'] === "ses"}selected{/if}>
-                                                        ses
+                                                        AWS SES
                                                     </option>
                                                     <option value="mailchimp"
                                                             {if $settings['email_driver'] === "mailchimp"}selected{/if}>
-                                                        mailchimp
+                                                        Mailchimp
                                                     </option>
                                                     <option value="alibabacloud"
                                                             {if $settings['email_driver'] === "alibabacloud"}selected{/if}>
-                                                        alibabacloud
+                                                        AlibabaCloud DM
                                                     </option>
                                                 </select>
                                             </div>

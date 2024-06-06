@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\LLM;
 
+use App\Models\Config;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
@@ -15,18 +16,18 @@ final class VertexAI extends Base
      */
     public function textPrompt(string $q): string
     {
-        if ($_ENV['vertex_ai_access_token'] === '') {
+        if (Config::obtain('vertex_ai_access_token') === '') {
             return 'Vertex AI API key not set';
         }
 
         $client = new Client();
 
-        $api_url = 'https://' . $_ENV['vertex_ai_location'] . '-aiplatform.googleapis.com/v1/projects/' .
-            $_ENV['vertex_ai_project_id'] . '/locations/' . $_ENV['vertex_ai_location'] . '/publishers/google/models/' .
-            $_ENV['vertex_ai_model_id'] . ':streamGenerateContent';
+        $api_url = 'https://' . Config::obtain('vertex_ai_location') . '-aiplatform.googleapis.com/v1/projects/' .
+            Config::obtain('vertex_ai_project_id') . '/locations/' . Config::obtain('vertex_ai_location') .
+            '/publishers/google/models/' . Config::obtain('vertex_ai_model_id') . ':streamGenerateContent';
 
         $headers = [
-            'Authorization' => 'Bearer ' . $_ENV['vertex_ai_access_token'],
+            'Authorization' => 'Bearer ' . Config::obtain('vertex_ai_access_token'),
             'Content-Type' => 'application/json',
         ];
 
