@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\LLM;
 
 use App\Models\Config;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
 
@@ -20,8 +19,6 @@ final class CloudflareWorkersAI extends Base
             return 'Cloudflare Workers AI Account ID or API Token not set';
         }
 
-        $client = new Client();
-
         $api_url = 'https://api.cloudflare.com/client/v4/accounts/' .
             Config::obtain('cf_workers_ai_account_id') . '/ai/run/' . Config::obtain('cf_workers_ai_model_id');
 
@@ -34,10 +31,10 @@ final class CloudflareWorkersAI extends Base
             'prompt' => $q,
         ];
 
-        $response = json_decode($client->post($api_url, [
+        $response = json_decode($this->client->post($api_url, [
             'headers' => $headers,
             'json' => $data,
-            'timeout' => 10,
+            'timeout' => 30,
         ])->getBody()->getContents());
 
         return $response->result->response;

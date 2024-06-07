@@ -32,6 +32,10 @@ final class LLM
      */
     public static function genTextResponse(string $q): string
     {
+        if (Config::obtain('llm_backend') === '') {
+            return 'No LLM backend configured';
+        }
+
         if ($q === '') {
             return 'No question provided';
         }
@@ -44,6 +48,10 @@ final class LLM
      */
     public static function genTextResponseWithContext(string $q, array $context = []): string
     {
+        if (Config::obtain('llm_backend') === '') {
+            return 'No LLM backend configured';
+        }
+
         if ($q === '') {
             return 'No question provided';
         }

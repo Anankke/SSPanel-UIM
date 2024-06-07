@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\LLM;
 
 use App\Models\Config;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
 
@@ -19,8 +18,6 @@ final class Anthropic extends Base
         if (Config::obtain('anthropic_api_key') === '') {
             return 'Anthropic API key not set';
         }
-
-        $client = new Client();
 
         $api_url = 'https://api.anthropic.com/v1/messages';
 
@@ -41,10 +38,10 @@ final class Anthropic extends Base
             ],
         ];
 
-        $response = json_decode($client->post($api_url, [
+        $response = json_decode($this->client->post($api_url, [
             'headers' => $headers,
             'json' => $data,
-            'timeout' => 10,
+            'timeout' => 30,
         ])->getBody()->getContents());
 
         return $response->content[0]->text;

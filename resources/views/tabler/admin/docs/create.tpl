@@ -14,10 +14,9 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#generate">
-                            <i class="icon ti ti-ai"></i>
-                            AI 文档生成
+                        <button href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#generate-docs">
+                            <i class="icon ti ti-robot-face"></i>
+                            LLM 文档生成
                         </button>
                         <button id="create" href="#" class="btn btn-primary">
                             <i class="icon ti ti-device-floppy"></i>
@@ -73,7 +72,7 @@
             </div>
         </div>
     </div>
-    <div class="modal modal-blur fade" id="generate" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-blur fade" id="generate-docs" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
