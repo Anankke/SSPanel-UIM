@@ -53,17 +53,25 @@ final class ResponseHelper
         ]);
     }
 
-    public static function error(Response $response, string $msg = ''): ResponseInterface
+    public static function error(Response $response, string $msg = '', int $status = 200): ResponseInterface
     {
-        return $response->withJson([
+        if ($status < 400 && $status !== 200) {
+            $status = 200;
+        }
+
+        return $response->withStatus($status)->withJson([
             'ret' => 0,
             'msg' => $msg,
         ]);
     }
 
-    public static function errorWithData(Response $response, string $msg = '', array $data = []): ResponseInterface
+    public static function errorWithData(Response $response, string $msg = '', array $data = [], int $status = 200): ResponseInterface
     {
-        return $response->withJson([
+        if ($status < 400 && $status !== 200) {
+            $status = 200;
+        }
+
+        return $response->withStatus($status)->withJson([
             'ret' => 0,
             'msg' => $msg,
             'data' => $data,
