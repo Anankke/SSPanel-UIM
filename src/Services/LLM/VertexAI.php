@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\LLM;
 
 use App\Models\Config;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
 
@@ -19,8 +18,6 @@ final class VertexAI extends Base
         if (Config::obtain('vertex_ai_access_token') === '') {
             return 'Vertex AI API key not set';
         }
-
-        $client = new Client();
 
         $api_url = 'https://' . Config::obtain('vertex_ai_location') . '-aiplatform.googleapis.com/v1/projects/' .
             Config::obtain('vertex_ai_project_id') . '/locations/' . Config::obtain('vertex_ai_location') .
@@ -41,11 +38,7 @@ final class VertexAI extends Base
             ],
             'generationConfig' => [
                 'temperature' => 1,
-                'topK' => 1,
-                'topP' => 1,
                 'candidateCount' => 1,
-                'maxOutputTokens' => 2048,
-                'stopSequences' => [],
             ],
             'safetySettings' => [
                 [
@@ -67,10 +60,10 @@ final class VertexAI extends Base
             ],
         ];
 
-        $response = json_decode($client->post($api_url, [
+        $response = json_decode($this->client->post($api_url, [
             'headers' => $headers,
             'json' => $data,
-            'timeout' => 10,
+            'timeout' => 30,
         ])->getBody()->getContents());
 
         return $response->candidates[0]->content->parts[0]->text;

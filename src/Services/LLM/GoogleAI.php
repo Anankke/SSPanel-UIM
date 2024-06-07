@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\LLM;
 
 use App\Models\Config;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
 
@@ -20,8 +19,6 @@ final class GoogleAI extends Base
             return 'Google AI API key not set';
         }
 
-        $client = new Client();
-
         $api_url = 'https://generativelanguage.googleapis.com/v1/models/' .
             Config::obtain('google_ai_model_id') . ':generateContent?key=' . Config::obtain('google_ai_api_key');
 
@@ -31,19 +28,18 @@ final class GoogleAI extends Base
 
         $data = [
             'contents' => [
-                'parts' => [
-                    [
-                        'text' => $q,
+                [
+                    'parts' => [
+                        [
+                            'text' => $q,
+                        ],
                     ],
+                    'role' => 'user',
                 ],
             ],
             'generationConfig' => [
                 'temperature' => 1,
-                'topK' => 1,
-                'topP' => 1,
                 'candidateCount' => 1,
-                'maxOutputTokens' => 2048,
-                'stopSequences' => [],
             ],
             'safetySettings' => [
                 [
@@ -65,10 +61,10 @@ final class GoogleAI extends Base
             ],
         ];
 
-        $response = json_decode($client->post($api_url, [
+        $response = json_decode($this->client->post($api_url, [
             'headers' => $headers,
             'json' => $data,
-            'timeout' => 10,
+            'timeout' => 30,
         ])->getBody()->getContents());
 
         return $response->candidates[0]->content->parts[0]->text;

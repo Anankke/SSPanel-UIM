@@ -622,16 +622,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.311.0",
+            "version": "3.311.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3e1cc8fe522eae7deca8b7753c573c2c69444705"
+                "reference": "90218b9372469babf294f97bdd764c9d47ec8a57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3e1cc8fe522eae7deca8b7753c573c2c69444705",
-                "reference": "3e1cc8fe522eae7deca8b7753c573c2c69444705",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/90218b9372469babf294f97bdd764c9d47ec8a57",
+                "reference": "90218b9372469babf294f97bdd764c9d47ec8a57",
                 "shasum": ""
             },
             "require": {
@@ -711,9 +711,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.311.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.311.1"
             },
-            "time": "2024-06-05T18:07:37+00:00"
+            "time": "2024-06-06T18:05:50+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -3239,16 +3239,16 @@
         },
         {
             "name": "openai-php/client",
-            "version": "v0.9.2",
+            "version": "v0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openai-php/client.git",
-                "reference": "a4e519a3efa380c1dc9d64b1fd1fecf8fc466ba2"
+                "reference": "8b63d27a2f009a7ce4714fda77769e93d883c8da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openai-php/client/zipball/a4e519a3efa380c1dc9d64b1fd1fecf8fc466ba2",
-                "reference": "a4e519a3efa380c1dc9d64b1fd1fecf8fc466ba2",
+                "url": "https://api.github.com/repos/openai-php/client/zipball/8b63d27a2f009a7ce4714fda77769e93d883c8da",
+                "reference": "8b63d27a2f009a7ce4714fda77769e93d883c8da",
                 "shasum": ""
             },
             "require": {
@@ -3311,7 +3311,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openai-php/client/issues",
-                "source": "https://github.com/openai-php/client/tree/v0.9.2"
+                "source": "https://github.com/openai-php/client/tree/v0.10.1"
             },
             "funding": [
                 {
@@ -3327,7 +3327,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-27T19:27:25+00:00"
+            "time": "2024-06-06T20:27:51+00:00"
         },
         {
             "name": "php-http/client-common",

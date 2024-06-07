@@ -19,8 +19,12 @@ final class OpenAI extends Base
 
         $response = $client->chat()->create([
             'model' => Config::obtain('openai_model_id'),
-            'temperature' => 2,
+            'temperature' => 1,
             'messages' => [
+                [
+                    'role' => 'system',
+                    'content' => 'You are a helpful assistant.',
+                ],
                 [
                     'role' => 'user',
                     'content' => $q,
