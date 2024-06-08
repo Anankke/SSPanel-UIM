@@ -35,17 +35,14 @@ final class UnbindCommand extends Command
      */
     public function handle(): void
     {
-        $update = $this->getUpdate();
-        $message = $update->getMessage();
-        // 消息会话 ID
-        $chat_id = $message->getChat()->getId();
-        // 触发用户
+        $update = $this->update;
+        $message = $update->message;
         $send_user = [
-            'id' => $message->getFrom()->getId(),
+            'id' => $message->from->id,
         ];
         $user = Message::getUser($send_user['id']);
 
-        if ($chat_id > 0) {
+        if ($message->chat->type === 'private') {
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
@@ -59,9 +56,8 @@ final class UnbindCommand extends Command
                 );
                 return;
             }
-
             // 消息内容
-            $message_text = explode(' ', trim($message->getText()));
+            $message_text = explode(' ', trim($message->text));
             $message_key = array_splice($message_text, -1)[0];
             $text = '';
 
@@ -100,7 +96,7 @@ final class UnbindCommand extends Command
         }
     }
 
-    public function sendText(): string
+    private function sendText(): string
     {
         $text = '以 `/unbind example@gmail.com` 的形式发送进行解绑。';
 
