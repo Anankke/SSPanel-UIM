@@ -8,6 +8,7 @@ use App\Models\Config;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function implode;
+use function in_array;
 use const PHP_EOL;
 
 /**
@@ -27,12 +28,11 @@ final class PingCommand extends Command
 
     public function handle(): void
     {
-        $update = $this->getUpdate();
-        $message = $update->getMessage();
-        // 消息会话 ID
-        $chat_id = $message->getChat()->getId();
+        $update = $this->update;
+        $message = $update->message;
+        $chat_id = $message->chat->id;
 
-        if ($chat_id > 0) {
+        if ($message->chat->type === 'private') {
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
@@ -47,17 +47,14 @@ final class PingCommand extends Command
                     'parse_mode' => 'Markdown',
                 ]
             );
-        } else {
-            if (Config::obtain('telegram_group_quiet')) {
-                // 群组中不回应
-                return;
-            }
+        } elseif (in_array($message->chat->type, ['group', 'supergroup']) &&
+            ! Config::obtain('telegram_group_quiet')) {
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
             $text = [
                 'Pong！',
-                'User ID is ' . $message->getFrom()->getId(),
+                'User ID is ' . $message->from->id,
                 'Group ID is ' . $chat_id,
             ];
             // 回送信息

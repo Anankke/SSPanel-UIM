@@ -10,6 +10,7 @@ use App\Services\I18n;
 use App\Services\Reward;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function in_array;
 
 /**
  * Class CheckinCommand.
@@ -31,16 +32,16 @@ final class CheckinCommand extends Command
      */
     public function handle()
     {
-        $update = $this->getUpdate();
-        $message = $update->getMessage();
-        // 消息会话 ID
-        $chat_id = $message->getChat()->getId();
+        $update = $this->update;
+        $message = $update->message;
+        $chat_id = $message->chat->id;
 
-        if ($chat_id < 0) {
+        if (in_array($message->chat->type, ['group', 'supergroup'])) {
             if (Config::obtain('telegram_group_quiet')) {
                 // 群组中不回应
                 return null;
             }
+
             if ($chat_id !== Config::obtain('telegram_chatid')) {
                 // 非我方群组
                 return null;
@@ -50,7 +51,7 @@ final class CheckinCommand extends Command
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         // 触发用户
         $send_user = [
-            'id' => $message->getFrom()->getId(),
+            'id' => $message->from->id,
         ];
 
         $user = Message::getUser($send_user['id']);
@@ -61,7 +62,7 @@ final class CheckinCommand extends Command
                 [
                     'text' => I18n::trans('bot.user_not_bind', $_ENV['locale']),
                     'parse_mode' => 'Markdown',
-                    'reply_to_message_id' => $message->getMessageId(),
+                    'reply_to_message_id' => $message->messageId,
                 ]
             );
         } else {
@@ -81,7 +82,7 @@ final class CheckinCommand extends Command
                 [
                     'text' => $msg,
                     'parse_mode' => 'Markdown',
-                    'reply_to_message_id' => $message->getMessageId(),
+                    'reply_to_message_id' => $message->messageId,
                 ]
             );
         }

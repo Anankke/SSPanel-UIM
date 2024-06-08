@@ -24,6 +24,7 @@ final class Telegram
             new Commands\HelpCommand(),
             new Commands\MenuCommand(),
             new Commands\PingCommand(),
+            new Commands\DcCommand(),
             new Commands\StartCommand(),
             new Commands\UnbindCommand(),
             new Commands\CheckinCommand(),
@@ -34,9 +35,9 @@ final class Telegram
         $update = $bot->getWebhookUpdate();
 
         if ($update->has('callback_query')) {
-            new Callback($bot, $update->getCallbackQuery());
+            new Callback($bot, $update->callbackQuery);
         } elseif ($update->has('message')) {
-            new Message($bot, $update->getMessage());
+            new Message($bot, $update->message);
         }
     }
 }
