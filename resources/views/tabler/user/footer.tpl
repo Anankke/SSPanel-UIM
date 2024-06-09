@@ -76,6 +76,7 @@
 
     htmx.on("htmx:afterRequest", function(evt) {
         if (evt.detail.xhr.getResponseHeader('HX-Refresh') === 'true' ||
+            evt.detail.xhr.getResponseHeader('HX-Redirect') ||
             evt.detail.xhr.getResponseHeader('HX-Trigger'))
         {
             return;

@@ -123,7 +123,13 @@
                                         当前账户可用余额：<code>{$user->money}</code> 元
                                     </div>
                                     <div class="d-flex">
-                                        <button id="pay-balance" class="btn btn-blue" type="button">支付</button>
+                                        <button class="btn btn-primary" type="button"
+                                                hx-post="/user/invoice/pay_balance" hx-swap="none"
+                                                hx-vals='js:{
+                                                    invoice_id: {$invoice->id},
+                                                }'>
+                                            支付
+                                        </button>
                                     </div>
                                 </div>
                                 {/if}
@@ -148,29 +154,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        {if $invoice->type !== 'topup'}
-        $("#pay-balance").click(function () {
-            $.ajax({
-                url: '/user/invoice/pay_balance',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    invoice_id: {$invoice->id},
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-        {/if}
-    </script>
 
     {include file='user/footer.tpl'}

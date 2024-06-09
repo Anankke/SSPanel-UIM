@@ -109,27 +109,25 @@ final class Epay extends Base
         $client = new Client();
 
         try {
-            $res = $client->request('POST', $this->epay['apiurl'] . 'mapi.php', ['form_params' => $data]);
+            $res = json_decode(
+                $client->request(
+                    'POST',
+                    $this->epay['apiurl'] . 'mapi.php',
+                    ['form_params' => $data]
+                )->getBody()->__toString(),
+                true
+            );
 
-            if ($res->getStatusCode() !== 200) {
-                throw new Exception();
-            }
-
-            $resData = json_decode($res->getBody()->__toString(), true);
-
-            if ($resData['code'] !== 1 || ! isset($resData['payurl'])) {
+            if ($res['code'] !== 1 || ! isset($res['payurl'])) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => $resData['msg'] ?? '请求支付失败',
+                    'msg' => '请求支付失败，网关错误',
                     //TODO: use syslog to log this error
                 ]);
             }
 
-            return $response->withHeader('HX-Redirect', $resData['payurl'])->withJson([
-                'ret' => 1,
-                'msg' => '订单发起成功，正在跳转到支付页面...',
-            ]);
-        } catch (Exception|GuzzleException) {
+            return $response->withHeader('HX-Redirect', $res['payurl']);
+        } catch (GuzzleException) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '请求支付失败，网关错误',

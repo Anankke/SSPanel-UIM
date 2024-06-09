@@ -152,16 +152,10 @@ final class InvoiceController extends BaseController
         }
 
         if ($invoice->status === 'paid_balance') {
-            return $response->withHeader('HX-Redirect', '/user/invoice')->withJson([
-                'ret' => 1,
-                'msg' => '支付成功',
-            ]);
+            return $response->withHeader('HX-Redirect', '/user/invoice');
         }
 
-        return $response->withHeader('HX-Redirect', '/user/invoice/'.$invoice->id.'/view')->withJson([
-            'ret' => 1,
-            'msg' => '支付成功，剩余金额请使用其他方式支付',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface

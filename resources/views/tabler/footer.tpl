@@ -49,6 +49,9 @@
 <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 
 <script>
+    let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
+    let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
+
     htmx.on("htmx:afterRequest", function(evt) {
         if (evt.detail.xhr.getResponseHeader('HX-Redirect'))
         {
@@ -56,8 +59,6 @@
         }
 
         let res = JSON.parse(evt.detail.xhr.response);
-        let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
-        let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
 
         if (evt.detail.elt.id === 'send-verify-email') {
             document.getElementById('send-verify-email').disabled = true;
