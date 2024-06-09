@@ -348,6 +348,7 @@ final class NodeController extends BaseController
             $node->type = $node->type();
             $node->sort = $node->sort();
             $node->is_dynamic_rate = $node->isDynamicRate();
+            $node->dynamic_rate_type = $node->dynamicRateType();
             $node->node_bandwidth = round(Tools::bToGB($node->node_bandwidth), 2);
             $node->node_bandwidth_limit = Tools::bToGB($node->node_bandwidth_limit);
         }

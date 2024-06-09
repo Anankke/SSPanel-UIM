@@ -36,9 +36,6 @@
                                 <li class="nav-item">
                                     <a href="#default_value" class="nav-link" data-bs-toggle="tab">默认值</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#limit" class="nav-link" data-bs-toggle="tab">账户限制</a>
-                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -162,10 +159,6 @@
                                                        value="{$settings['reg_method']}">
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="limit">
-                                    <div class="card-body">
                                         <div class="form-group mb-3 row">
                                             <label class="form-label col-3 col-form-label">连接 IP 限制</label>
                                             <div class="col">

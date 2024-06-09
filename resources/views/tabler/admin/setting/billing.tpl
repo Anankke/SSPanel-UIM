@@ -263,7 +263,7 @@
                                 <div class="tab-pane" id="paypal">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">模式</label>
+                                            <label class="form-label col-3 col-form-label">Mode</label>
                                             <div class="col">
                                                 <select id="paypal_mode" class="col form-select"
                                                         value="{$settings['paypal_mode']}">
@@ -275,28 +275,28 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">PayPal客戶ID</label>
+                                            <label class="form-label col-3 col-form-label">Client ID</label>
                                             <div class="col">
                                                 <input id="paypal_client_id" type="text" class="form-control"
                                                        value="{$settings['paypal_client_id']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">PayPal客戶密钥</label>
+                                            <label class="form-label col-3 col-form-label">Client Secret</label>
                                             <div class="col">
                                                 <input id="paypal_client_secret" type="text" class="form-control"
                                                        value="{$settings['paypal_client_secret']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">PayPal货币</label>
+                                            <label class="form-label col-3 col-form-label">Currency</label>
                                             <div class="col">
                                                 <input id="paypal_currency" type="text" class="form-control"
                                                        value="{$settings['paypal_currency']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">PayPal语言</label>
+                                            <label class="form-label col-3 col-form-label">Language</label>
                                             <div class="col">
                                                 <input id="paypal_locale" type="text" class="form-control"
                                                        value="{$settings['paypal_locale']}">

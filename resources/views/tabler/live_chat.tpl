@@ -24,7 +24,6 @@
             ]);
     </script>
 {/if}
-
 {if $public_setting['live_chat'] === 'livechat'}
     <script>
         window.__lc = window.__lc ||
