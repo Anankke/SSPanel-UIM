@@ -130,10 +130,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '解绑失败');
         }
 
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
-            'ret' => 1,
-            'msg' => '解绑成功',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     public function updatePassword(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -284,10 +281,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
-            'ret' => 1,
-            'msg' => '修改成功',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     public function updateThemeMode(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -301,10 +295,7 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '切换失败');
         }
 
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
-            'ret' => 1,
-            'msg' => '切换成功',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -320,10 +311,7 @@ final class InfoController extends BaseController
             Auth::logout();
             $user->kill();
 
-            return $response->withHeader('HX-Refresh', 'true')->withJson([
-                'ret' => 1,
-                'msg' => '你将被送去古拉格接受劳动改造，再见',
-            ]);
+            return $response->withHeader('HX-Redirect', '/auth/login');
         }
 
         return ResponseHelper::error($response, '自助账号删除未启用');

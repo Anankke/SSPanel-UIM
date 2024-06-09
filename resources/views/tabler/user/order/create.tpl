@@ -1,7 +1,5 @@
 {include file='user/header.tpl'}
 
-<script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
-
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -116,15 +114,28 @@
                                 <div class="input-group mb-2">
                                     <input id="coupon" type="text" class="form-control"
                                            placeholder="填写优惠码，没有请留空">
-                                    <button id="verify-coupon" class="btn" type="button">应用</button>
+                                    <button class="btn" type="button"
+                                            hx-post="/user/coupon" hx-swap="none"
+                                            hx-vals='js:{
+                                                coupon: document.getElementById("coupon").value,
+                                                product_id: {$product->id},
+                                            }'>
+                                        应用
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card my-3">
                         <div class="card-body">
-                            <button id="create-order" href=""
-                                    class="btn btn-primary w-100 my-3">创建订单
+                            <button class="btn btn-primary w-100 my-3"
+                                    hx-post="/user/order/create" hx-swap="none"
+                                    hx-vals='js:{
+                                        type: "product",
+                                        coupon: document.getElementById("coupon").value,
+                                        product_id: {$product->id},
+                                    }'>
+                                创建订单
                             </button>
                         </div>
                     </div>
@@ -132,54 +143,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $("#verify-coupon").click(function () {
-            $.ajax({
-                url: '/user/coupon',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    coupon: $('#coupon').val(),
-                    product_id: {$product->id},
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#coupon-code').text($('#coupon').val());
-                        $('#product-buy-discount').text(data.discount);
-                        $('#product-buy-total').text(data.buy_price);
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#create-order").click(function () {
-            $.ajax({
-                url: '/user/order/create',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    type: 'product',
-                    coupon: $('#coupon').val(),
-                    product_id: {$product->id},
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                        setTimeout(function () {
-                            $(location).attr('href', '/user/invoice/' + data.invoice_id + '/view');
-                        }, {$config['jump_delay']});
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-    </script>
 
     {include file='user/footer.tpl'}

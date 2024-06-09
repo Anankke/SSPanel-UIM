@@ -100,8 +100,11 @@ final class CouponController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '优惠码可用',
-            'discount' => $discount,
-            'buy_price' => $buy_price,
+            'data' => [
+                'coupon-code' => $coupon->code,
+                'product-buy-discount' => $discount,
+                'product-buy-total' => $buy_price,
+            ],
         ]);
     }
 }

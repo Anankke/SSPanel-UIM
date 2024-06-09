@@ -148,6 +148,8 @@ final class OrderController extends BaseController
             ]);
         }
 
+        $coupon = null;
+
         if ($coupon_raw !== '') {
             $coupon = (new UserCoupon())->where('code', $coupon_raw)->first();
 
@@ -289,11 +291,7 @@ final class OrderController extends BaseController
             $coupon->save();
         }
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '成功创建订单，正在跳转账单页面',
-            'invoice_id' => $invoice->id,
-        ]);
+        return $response->withHeader('HX-Redirect', '/user/invoice/' . $invoice->id . '/view');
     }
 
     public function topup(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -340,11 +338,7 @@ final class OrderController extends BaseController
         $invoice->type = 'topup';
         $invoice->save();
 
-        return $response->withHeader('HX-Redirect', '/user/invoice/'.$invoice->id.'/view')->withJson([
-            'ret' => 1,
-            'msg' => '成功创建订单，正在跳转账单页面',
-            'invoice_id' => $invoice->id,
-        ]);
+        return $response->withHeader('HX-Redirect', '/user/invoice/' . $invoice->id . '/view');
     }
 
     public function ajax(ServerRequest $request, Response $response, array $args): ResponseInterface

@@ -103,7 +103,7 @@
                 <div class="modal-body">
                     <div class="form-group mb-3 row">
                         <div class="col">
-                            <input id="topup_amount" type="number" step="0.01" class="form-control"
+                            <input id="topup_amount" type="number" step="10" class="form-control"
                                    placeholder="请输入要充值的金额">
                         </div>
                     </div>

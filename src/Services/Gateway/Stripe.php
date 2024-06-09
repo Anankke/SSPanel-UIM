@@ -112,10 +112,7 @@ final class Stripe extends Base
             ]);
         }
 
-        return $response->withHeader('HX-Redirect', $session->url)->withJson([
-            'ret' => 1,
-            'msg' => '订单发起成功，正在跳转到支付页面...',
-        ]);
+        return $response->withHeader('HX-Redirect', $session->url);
     }
 
     public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface
