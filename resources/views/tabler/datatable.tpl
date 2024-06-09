@@ -1,5 +1,5 @@
-<link href="//cdn.datatables.net/v/bs5/dt-2.0.7/datatables.min.css" rel="stylesheet"/>
-<script src="//cdn.datatables.net/v/bs5/dt-2.0.7/datatables.min.js"></script>
+<link href="//cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css" rel="stylesheet"/>
+<script src="//cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
 
 <script>
     let tableConfig = {
@@ -14,22 +14,13 @@
             {/foreach}
         ],
         initComplete: function () {
-            let tableHeader = $('div.dt-length').parent().parent()
-            let tableBody = $('div.dt-scroll').parent().parent()
-            let tableFooter = $('div.dt-info').parent().parent()
-            let length = $('div.dt-length').parent()
-            let search = $('div.dt-search').parent()
-            let info = $('div.dt-info').parent()
-            let paging = $('div.dt-paging').parent()
-
-            tableHeader.removeClass('mt-2').addClass('row px-3 py-3')
-            tableBody.removeClass('mt-2')
-            tableFooter.removeClass('mt-2').addClass('row card-footer')
-            length.removeClass('col-md-auto me-auto').addClass('col-auto')
-            search.removeClass('col-md-auto me-auto ms-auto').addClass('col-auto')
-            info.removeClass('col-md-auto me-auto').addClass('col')
-            paging.removeClass('col-md-auto me-auto ms-auto').addClass('col-auto')
-
+            $('div.dt-length').parent().parent().removeClass('mt-2').addClass('row px-3 py-3')
+            $('div.dt-scroll').parent().parent().removeClass('mt-2')
+            $('div.dt-info').parent().parent().removeClass('mt-2').addClass('row card-footer')
+            $('div.dt-length').parent().removeClass('col-md-auto me-auto').addClass('col-auto')
+            $('div.dt-search').parent().removeClass('col-md-auto me-auto ms-auto').addClass('col-auto')
+            $('div.dt-info').parent().removeClass('col-md-auto me-auto').addClass('col')
+            $('div.dt-paging').parent().removeClass('col-md-auto me-auto ms-auto').addClass('col-auto')
             $('div.dt-scroll-body').css('border-bottom-style', 'none')
         },
         language: {
