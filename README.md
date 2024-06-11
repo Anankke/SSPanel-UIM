@@ -8,6 +8,11 @@
 [![X (formerly Twitter)](https://img.shields.io/twitter/url?url=https%3A%2F%2Ftwitter.com%2FSSPanel_NeXT)](https://twitter.com/SSPanel_NeXT)
 [![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
 
+
+# Migration Notice: SSPanel-UIM
+
+## We would like to kindly inform you that the project has been migrated to **[SSPanel-NeXT](https://github.com/SSPanel-NeXT/NeXT-Server)**. We invite you to visit our new repository to access the latest updates and developments.
+
 ## TL;DR
 
 NeXT Panel is a multipurpose proxy service management system designed for Shadowsocks(2022) / Vmess / Trojan / TUIC protocol.
