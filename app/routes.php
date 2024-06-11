@@ -55,7 +55,7 @@ return static function (Slim\App $app): void {
         $group->get('/ticket/create', App\Controllers\User\TicketController::class . ':create');
         $group->post('/ticket', App\Controllers\User\TicketController::class . ':add');
         $group->get('/ticket/{id:[0-9]+}/view', App\Controllers\User\TicketController::class . ':detail');
-        $group->put('/ticket/{id:[0-9]+}', App\Controllers\User\TicketController::class . ':update');
+        $group->post('/ticket/{id:[0-9]+}', App\Controllers\User\TicketController::class . ':reply');
         // 资料编辑
         $group->get('/edit', App\Controllers\User\InfoController::class . ':index');
         $group->post('/edit/email', App\Controllers\User\InfoController::class . ':updateEmail');
@@ -151,9 +151,9 @@ return static function (Slim\App $app): void {
         $group->get('/ticket', App\Controllers\Admin\TicketController::class . ':index');
         $group->post('/ticket', App\Controllers\Admin\TicketController::class . ':add');
         $group->get('/ticket/{id:[0-9]+}/view', App\Controllers\Admin\TicketController::class . ':detail');
-        $group->put('/ticket/{id:[0-9]+}/close', App\Controllers\Admin\TicketController::class . ':close');
-        $group->put('/ticket/{id:[0-9]+}', App\Controllers\Admin\TicketController::class . ':update');
-        $group->put('/ticket/{id:[0-9]+}/ai', App\Controllers\Admin\TicketController::class . ':updateAI');
+        $group->post('/ticket/{id:[0-9]+}/close', App\Controllers\Admin\TicketController::class . ':close');
+        $group->post('/ticket/{id:[0-9]+}', App\Controllers\Admin\TicketController::class . ':reply');
+        $group->post('/ticket/{id:[0-9]+}/llm_reply', App\Controllers\Admin\TicketController::class . ':llmReply');
         $group->delete('/ticket/{id:[0-9]+}', App\Controllers\Admin\TicketController::class . ':delete');
         $group->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
         // Ann

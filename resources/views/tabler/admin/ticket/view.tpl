@@ -15,15 +15,16 @@
                 <div class="col-auto">
                     <div class="btn-list">
                         {if $ticket->status !== 'closed'}
-                            <button href="#" class="btn btn-red" data-bs-toggle="modal"
-                                    data-bs-target="#close_ticket_confirm_dialog">
-                                <i class="icon ti ti-x"></i>
-                                关闭
-                            </button>
+                        <button href="#" class="btn btn-red" data-bs-toggle="modal"
+                                data-bs-target="#close_ticket_confirm_dialog">
+                            <i class="icon ti ti-x"></i>
+                            关闭
+                        </button>
                         {/if}
-                        <button id="add_ai_reply" href="#" class="btn btn-primary">
+                        <button href="#" class="btn btn-primary" hx-post="/admin/ticket/{$ticket->id}/llm_reply"
+                                hx-swap="none">
                             <i class="icon ti ti-robot"></i>
-                            AI 回复
+                            LLM 回复
                         </button>
                         <button href="#" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#add-reply">
@@ -52,23 +53,23 @@
                         <div class="card-body">
                             <div class="divide-y">
                                 {foreach $comments as $comment}
-                                    <div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div>
-                                                    {nl2br($comment->comment)}
-                                                </div>
-                                                <div class="text-secondary my-1">{$comment->commenter_name}
-                                                    回复于 {$comment->datetime}
-                                                </div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div>
+                                                {$comment->comment}
                                             </div>
-                                            <div class="col-auto">
-                                                <div>
-                                                    # {$comment->comment_id + 1}
-                                                </div>
+                                            <div class="text-secondary my-1">{$comment->commenter_name}
+                                                回复于 {$comment->datetime}
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div>
+                                                # {$comment->comment_id + 1}
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 {/foreach}
                             </div>
                         </div>
@@ -93,7 +94,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="reply" type="button" class="btn btn-primary" data-bs-dismiss="modal">回复</button>
+                    <button class="btn btn-primary" data-bs-dismiss="modal"
+                        hx-post="/admin/ticket/{$ticket->id}" hx-swap="none"
+                        hx-vals='js:{
+                            comment: document.getElementById("reply-comment").value,
+                        }'>
+                        回复
+                    </button>
                 </div>
             </div>
         </div>
@@ -104,7 +111,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">关闭工单</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            hx-post="/admin/ticket/{$ticket->id}/close" hx-swap="none"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -121,61 +129,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $("#reply").click(function () {
-            $.ajax({
-                url: "/admin/ticket/{$ticket->id}",
-                type: 'PUT',
-                dataType: "json",
-                data: {
-                    comment: $('#reply-comment').val()
-                },
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#add_ai_reply").click(function () {
-            $.ajax({
-                url: "/admin/ticket/{$ticket->id}/ai",
-                type: 'PUT',
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-
-        $("#confirm_close").click(function () {
-            $.ajax({
-                url: "/admin/ticket/{$ticket->id}/close",
-                type: 'PUT',
-                dataType: "json",
-                success: function (data) {
-                    if (data.ret === 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
-    </script>
 
 {include file='admin/footer.tpl'}

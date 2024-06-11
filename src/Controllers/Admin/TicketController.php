@@ -9,18 +9,20 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Services\LLM;
 use App\Services\Notification;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
-use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function array_merge;
 use function count;
 use function json_decode;
 use function json_encode;
+use function nl2br;
 use function time;
 
 final class TicketController extends BaseController
@@ -38,11 +40,7 @@ final class TicketController extends BaseController
             ],
         ];
 
-    private static string $err_msg = '请求失败';
-
     /**
-     * 后台工单页面
-     *
      * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -54,106 +52,115 @@ final class TicketController extends BaseController
         );
     }
 
-    /**
-     * @throws TelegramSDKException
-     * @throws GuzzleException
-     * @throws ClientExceptionInterface
-     */
-    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function reply(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
 
         if ($comment === '') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            return ResponseHelper::error($response, '请输入评论内容');
         }
 
         $ticket = (new Ticket())->where('id', $id)->first();
 
         if ($ticket === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            return ResponseHelper::error($response, '工单不存在');
         }
 
         $content_old = json_decode($ticket->content, true);
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
+                'commenter_type' => 'admin',
                 'commenter_name' => 'Admin',
                 'comment' => $comment,
                 'datetime' => time(),
             ],
         ];
 
-        $user = (new User())->find($ticket->userid);
-
-        Notification::notifyUser(
-            $user,
-            $_ENV['appName'] . '-工单被回复',
-            '你好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
-        );
-
         $ticket->content = json_encode(array_merge($content_old, $content_new));
         $ticket->status = 'open_wait_user';
         $ticket->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '提交成功',
-        ]);
+        try {
+            Notification::notifyUser(
+                (new User())->find($ticket->userid),
+                $_ENV['appName'] . '-工单被回复',
+                '你好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
+            );
+        } catch (TelegramSDKException|GuzzleException|ClientExceptionInterface $e) {
+            return $response->withHeader('HX-Refresh', 'true');
+        }
+
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
-    /**
-     * @throws GuzzleException
-     * @throws TelegramSDKException
-     * @throws ClientExceptionInterface
-     */
-    public function updateAI(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function llmReply(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-
         $ticket = (new Ticket())->where('id', $id)->first();
 
         if ($ticket === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            return ResponseHelper::error($response, '工单不存在');
         }
 
         $content_old = json_decode($ticket->content, true);
-        // 获取用户的第一个问题，作为 LLM 的输入
-        $ai_reply = LLM::genTextResponse($content_old[0]['comment']);
+
+        if (count($content_old) === 1) {
+            $context = [
+                [
+                    'role' => 'user',
+                    'content' => $ticket->title,
+                ],
+                [
+                    'role' => 'user',
+                    'content' => $content_old[0]['comment'],
+                ]
+            ];
+        } else {
+            $context = [
+                [
+                    'role' => 'user',
+                    'content' => $ticket->title,
+                ],
+            ];
+
+            foreach ($content_old as $comment) {
+                $context[] = [
+                    'role' => $comment['commenter_type'] ?? $comment['commenter_name'] === 'Admin' ? 'admin' : 'user',
+                    'content' => $comment['comment'],
+                ];
+            }
+
+        }
+
+        $llm_response = LLM::genTextResponseWithContext($context);
+
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
-                'commenter_name' => 'AI Admin',
-                'comment' => $ai_reply,
+                'commenter_type' => 'llm',
+                'commenter_name' => 'AI Assistant',
+                'comment' => $llm_response,
                 'datetime' => time(),
             ],
         ];
 
-        $user = (new User())->find($ticket->userid);
-
-        Notification::notifyUser(
-            $user,
-            $_ENV['appName'] . '-工单被回复',
-            '你好，AI 回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
-        );
-
         $ticket->content = json_encode(array_merge($content_old, $content_new));
         $ticket->status = 'open_wait_user';
         $ticket->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '提交成功',
-        ]);
+        try {
+            Notification::notifyUser(
+                (new User())->find($ticket->userid),
+                $_ENV['appName'] . '-工单被回复',
+                '你好，AI助理回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请你查看。'
+            );
+        } catch (TelegramSDKException|GuzzleException|ClientExceptionInterface $e) {
+            return $response->withHeader('HX-Refresh', 'true');
+        }
+
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     /**
@@ -173,6 +180,7 @@ final class TicketController extends BaseController
         $comments = json_decode($ticket->content);
 
         foreach ($comments as $comment) {
+            $comment->comment = nl2br($comment->comment);
             $comment->datetime = Tools::toDateTime((int) $comment->datetime);
         }
 
@@ -193,26 +201,17 @@ final class TicketController extends BaseController
         $ticket = (new Ticket())->where('id', '=', $id)->first();
 
         if ($ticket === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            return ResponseHelper::error($response, '工单不存在');
         }
 
         if ($ticket->status === 'closed') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            return ResponseHelper::error($response, '工单已关闭，无需重复操作');
         }
 
         $ticket->status = 'closed';
         $ticket->save();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '关闭成功',
-        ]);
+        return ResponseHelper::success($response, '工单关闭成功');
     }
 
     /**
@@ -223,10 +222,7 @@ final class TicketController extends BaseController
         $id = $args['id'];
         (new Ticket())->where('id', '=', $id)->delete();
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '删除成功',
-        ]);
+        return ResponseHelper::success($response, '工单删除成功');
     }
 
     /**

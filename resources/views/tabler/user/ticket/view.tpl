@@ -13,15 +13,15 @@
                     </div>
                 </div>
                 {if $ticket->status !== 'closed'}
-                    <div class="col-auto">
-                        <div class="btn-list">
-                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                               data-bs-target="#add-reply">
-                                <i class="icon ti ti-plus"></i>
-                                添加回复
-                            </a>
-                        </div>
+                <div class="col-auto">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                           data-bs-target="#add-reply">
+                            <i class="icon ti ti-plus"></i>
+                            添加回复
+                        </a>
                     </div>
+                </div>
                 {/if}
             </div>
         </div>
@@ -77,22 +77,22 @@
                         <div class="card-body">
                             <div class="divide-y">
                                 {foreach $comments as $comment}
-                                    <div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div>
-                                                    {nl2br($comment->comment)}
-                                                </div>
-                                                <div class="text-secondary my-1">{$comment->commenter_name}
-                                                    回复于 {$comment->datetime}</div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div>
+                                                {$comment->comment}
                                             </div>
-                                            <div class="col-auto">
-                                                <div>
-                                                    # {$comment->comment_id + 1}
-                                                </div>
+                                            <div class="text-secondary my-1">{$comment->commenter_name}
+                                                回复于 {$comment->datetime}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div>
+                                                # {$comment->comment_id + 1}
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 {/foreach}
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
                     <button id="reply" class="btn btn-primary" data-bs-dismiss="modal"
-                            hx-put="/user/ticket/{$ticket->id}" hx-swap="none"
+                            hx-post="/user/ticket/{$ticket->id}" hx-swap="none"
                             hx-vals='js:{ comment: document.getElementById("reply-comment").value }'>
                         回复
                     </button>
