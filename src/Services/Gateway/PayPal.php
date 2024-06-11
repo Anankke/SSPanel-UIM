@@ -77,7 +77,7 @@ final class PayPal extends Base
         }
 
         try {
-            $exchange_amount = (new Exchange())->exchange($price, 'CNY', Config::obtain('paypal_currency'));
+            $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', Config::obtain('paypal_currency'));
         } catch (GuzzleException|RedisException) {
             return $response->withJson([
                 'ret' => 0,

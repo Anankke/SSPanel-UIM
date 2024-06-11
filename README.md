@@ -48,7 +48,7 @@ NeXT Panel requires the following programs to be installed and run normally:
 
 ## Support Developers
 
-Sadly, there is no three-letter agency that wants to sponsor this project yet(/s), so the development is driven by the community and unpaid volunteers.
+Sadly, there is no three-letter agency that wants to sponsor this project yet (/s), so the development is driven by the community and unpaid volunteers.
 Nothing will be put behind the paywall or require a donation to use, but the CI/Linux Mirror/CDN server doesn't grow on trees, if you are interested in supporting the project, you can support devs using the following methods:
 
 <a href="https://www.patreon.com/catdev">Patreon (One time or monthly)</a>

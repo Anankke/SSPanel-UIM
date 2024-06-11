@@ -10,9 +10,6 @@ use function json_decode;
 
 final class HuggingFace extends Base
 {
-    /**
-     * @throws GuzzleException
-     */
     public function textPrompt(string $q): string
     {
         if (Config::obtain('huggingface_api_key') === '' || Config::obtain('huggingface_endpoint_url') === '') {
@@ -30,17 +27,21 @@ final class HuggingFace extends Base
             ],
         ];
 
-        $response = json_decode($this->client->post(Config::obtain('huggingface_endpoint_url'), [
-            'headers' => $headers,
-            'json' => $data,
-            'timeout' => 30,
-        ])->getBody()->getContents());
+        try {
+            $response = json_decode($this->client->post(Config::obtain('huggingface_endpoint_url'), [
+                'headers' => $headers,
+                'json' => $data,
+                'timeout' => 30,
+            ])->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            return '';
+        }
 
         return $response->answer;
     }
 
-    public function textPromptWithContext(string $q, array $context): string
+    public function textPromptWithContext(array $context): string
     {
-        return '';
+        return 'This service does not support context';
     }
 }
