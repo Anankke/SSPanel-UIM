@@ -12,6 +12,7 @@ use Alipay\OpenAPISDK\Util\AlipayConfigUtil;
 use Alipay\OpenAPISDK\Util\AlipayLogger;
 use Alipay\OpenAPISDK\Util\Model\AlipayConfig;
 use App\Models\Config;
+use App\Models\Invoice;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\View;
@@ -64,8 +65,17 @@ final class AlipayF2F extends Base
      */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $price = $this->antiXss->xss_clean($request->getParam('amount'));
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
+        $invoice = (new Invoice)->find($invoice_id);
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Invoice not found',
+            ]);
+        }
+
+        $price = $invoice->price;
         $trade_no = self::generateGuid();
 
         if ($price <= 0) {
@@ -106,7 +116,6 @@ final class AlipayF2F extends Base
         return $response->withJson([
             'ret' => 1,
             'qrcode' => $qrCode,
-            'pid' => $trade_no,
         ]);
     }
 

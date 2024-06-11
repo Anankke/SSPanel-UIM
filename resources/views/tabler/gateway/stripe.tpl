@@ -15,7 +15,6 @@
         <button class="btn btn-flat waves-attach"
             hx-post="/user/payment/purchase/stripe" hx-swap="none"
             hx-vals='js:{
-                price: {$invoice->price},
                 invoice_id: {$invoice->id},
             }'>
             <i class="icon ti ti-credit-card"></i>

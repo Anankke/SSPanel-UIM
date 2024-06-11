@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway;
 
 use App\Models\Config;
+use App\Models\Invoice;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Gateway\Epay\EpayNotify;
@@ -59,11 +60,21 @@ final class Epay extends Base
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $price = $this->antiXss->xss_clean($request->getParam('price'));
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         // EPay 特定参数
         $type = $this->antiXss->xss_clean($request->getParam('type'));
         $redir = $this->antiXss->xss_clean($request->getParam('redir'));
+        $invoice = (new Invoice)->find($invoice_id);
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Invoice not found',
+            ]);
+        }
+
+        $price = $invoice->price;
+        $trade_no = self::generateGuid();
 
         if ($price <= 0) {
             return $response->withJson([
@@ -73,12 +84,12 @@ final class Epay extends Base
         }
 
         $user = Auth::getUser();
-        $pl = new Paylist();
 
+        $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
         $pl->invoice_id = $invoice_id;
-        $pl->tradeno = self::generateGuid();
+        $pl->tradeno = $trade_no;
 
         $type_text = match ($type) {
             'qqpay' => 'QQ',
@@ -94,10 +105,10 @@ final class Epay extends Base
         $data = [
             'pid' => trim($this->epay['partner']),
             'type' => $type,
-            'out_trade_no' => $pl->tradeno,
+            'out_trade_no' => $trade_no,
             'notify_url' => self::getCallbackUrl(),
             'return_url' => $redir,
-            'name' => $pl->tradeno,
+            'name' => $trade_no,
             'money' => $price,
             'sitename' => $_ENV['appName'],
             'clientip' => $_SERVER['REMOTE_ADDR'],

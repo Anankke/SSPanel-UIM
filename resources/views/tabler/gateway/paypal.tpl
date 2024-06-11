@@ -17,7 +17,6 @@
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    price: {$invoice->price},
                     invoice_id: {$invoice->id},
                 }),
             })

@@ -20,7 +20,6 @@
             url: "/user/payment/purchase/f2f",
             dataType: "json",
             data: {
-                amount: {$invoice->price},
                 invoice_id: {$invoice->id},
             },
             success: (data) => {
