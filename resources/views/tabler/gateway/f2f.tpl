@@ -1,10 +1,10 @@
+<script src="//{$config['jsdelivr_url']}/npm/jquery/dist/jquery.min.js"></script>
+
 <div class="card-inner">
     <h4>
         支付宝当面付
     </h4>
     <p class="card-heading"></p>
-    <input hidden id="amount-f2fpay" name="amount-f2fpay" value="{$invoice->price}">
-    <input hidden id="invoice_id" name="invoice_id" value="{$invoice->id}">
     <div id="f2f-qrcode"></div>
     <button class="btn btn-flat waves-attach" id="f2fpay-button" type="button" onclick="f2fpay();">
         生成付款QR Code
@@ -20,8 +20,8 @@
             url: "/user/payment/purchase/f2f",
             dataType: "json",
             data: {
-                amount: $('#amount-f2fpay').val(),
-                invoice_id: $('#invoice_id').val(),
+                amount: {$invoice->price},
+                invoice_id: {$invoice->id},
             },
             success: (data) => {
                 if (data.ret === 1) {

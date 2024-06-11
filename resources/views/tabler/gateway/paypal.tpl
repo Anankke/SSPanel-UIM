@@ -1,4 +1,4 @@
-<script src="https://www.paypal.com/sdk/js?client-id={$public_setting['paypal_client_id']}&currency={$public_setting['paypal_currency']}"></script>
+<script src="//www.paypal.com/sdk/js?client-id={$public_setting['paypal_client_id']}&currency={$public_setting['paypal_currency']}"></script>
 
 <div class="card-inner">
     <h4>
