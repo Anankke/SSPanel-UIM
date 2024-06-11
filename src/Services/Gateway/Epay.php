@@ -64,7 +64,7 @@ final class Epay extends Base
         // EPay 特定参数
         $type = $this->antiXss->xss_clean($request->getParam('type'));
         $redir = $this->antiXss->xss_clean($request->getParam('redir'));
-        $invoice = (new Invoice)->find($invoice_id);
+        $invoice = (new Invoice())->find($invoice_id);
 
         if ($invoice === null) {
             return $response->withJson([

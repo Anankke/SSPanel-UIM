@@ -115,7 +115,7 @@ final class TicketController extends BaseController
                 [
                     'role' => 'user',
                     'content' => $content_old[0]['comment'],
-                ]
+                ],
             ];
         } else {
             $context = [
@@ -131,7 +131,6 @@ final class TicketController extends BaseController
                     'content' => $comment['comment'],
                 ];
             }
-
         }
 
         $llm_response = LLM::genTextResponseWithContext($context);

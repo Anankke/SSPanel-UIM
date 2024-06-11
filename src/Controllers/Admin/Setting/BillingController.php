@@ -11,9 +11,11 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Srmklive\PayPal\Services\PayPal;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\WebhookEndpoint;
+use Throwable;
 use function json_decode;
 use function json_encode;
 
@@ -119,17 +121,51 @@ final class BillingController extends BaseController
                     'payment_intent.succeeded',
                 ],
             ]);
-
-            return $response->withJson([
-                'ret' => 1,
-                'msg' => '设置 Stripe Webhook 成功',
-            ]);
         } catch (ApiErrorException) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '设置 Stripe Webhook 失败',
             ]);
         }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '设置 Stripe Webhook 成功',
+        ]);
+    }
+
+    public function setPaypalWebhook(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $paypal_client_id = $request->getParam('paypal_client_id');
+        $paypal_client_secret = $request->getParam('paypal_client_secret');
+
+        $gateway_config = [
+            'mode' => 'live',
+            'live' => [
+                'client_id' => $paypal_client_id,
+                'client_secret' => $paypal_client_secret,
+            ],
+            'payment_action' => 'Sale',
+            'currency' => 'USD',
+            'notify_url' => '',
+            'locale' => 'en_US',
+        ];
+
+        try {
+            $pp = new PayPal($gateway_config);
+            $pp->getAccessToken();
+            $pp->createWebHook($_ENV['baseUrl'] . '/payment/notify/paypal', ['PAYMENT.CAPTURE.COMPLETED']);
+        } catch (Throwable $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '设置 PayPal Webhook 失败',
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '设置 PayPal Webhook 成功',
+        ]);
     }
 
     public function returnGatewaysList(): array

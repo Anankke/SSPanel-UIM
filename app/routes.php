@@ -230,6 +230,10 @@ return static function (Slim\App $app): void {
             '/setting/billing/set_stripe_webhook',
             App\Controllers\Admin\Setting\BillingController::class . ':setStripeWebhook'
         );
+        $group->post(
+            '/setting/billing/set_paypal_webhook',
+            App\Controllers\Admin\Setting\BillingController::class . ':setPaypalWebhook'
+        );
         $group->get('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':index');
         $group->post('/setting/captcha', App\Controllers\Admin\Setting\CaptchaController::class . ':save');
         $group->get('/setting/cron', App\Controllers\Admin\Setting\CronController::class . ':index');

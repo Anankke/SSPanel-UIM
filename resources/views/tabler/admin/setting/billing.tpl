@@ -51,15 +51,15 @@
                             <div class="tab-content">
                                 <div class="tab-pane active show" id="gateway">
                                     {foreach $payment_gateways as $key => $value}
-                                        <div class="form-group mb-3 row">
-                                            <div class="row align-items-center">
-                                                <label class="form-label col-3 col-form-label">{$key}</label>
-                                                <label class="col-auto ms-auto form-check form-check-single form-switch">
-                                                    <input id="{$value}_enable" class="form-check-input" type="checkbox"
-                                                           {if in_array($value, $active_payment_gateway)}checked="" {/if}>
-                                                </label>
-                                            </div>
+                                    <div class="form-group mb-3 row">
+                                        <div class="row align-items-center">
+                                            <label class="form-label col-3 col-form-label">{$key}</label>
+                                            <label class="col-auto ms-auto form-check form-check-single form-switch">
+                                                <input id="{$value}_enable" class="form-check-input" type="checkbox"
+                                                       {if in_array($value, $active_payment_gateway)}checked="" {/if}>
+                                            </label>
                                         </div>
+                                    </div>
                                     {/foreach}
                                 </div>
                                 <div class="tab-pane" id="f2f">
@@ -286,6 +286,16 @@
                                             <div class="col">
                                                 <input id="paypal_client_secret" type="text" class="form-control"
                                                        value="{$settings['paypal_client_secret']}">
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-primary"
+                                                        hx-post="/admin/setting/billing/set_paypal_webhook" hx-swap="none"
+                                                        hx-vals='js:{
+                                                            paypal_client_id: document.getElementById("paypal_client_id").value,
+                                                            paypal_client_secret: document.getElementById("paypal_client_secret").value,
+                                                        }'>
+                                                    Set Webhook
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">

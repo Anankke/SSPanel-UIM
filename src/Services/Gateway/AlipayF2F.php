@@ -66,7 +66,7 @@ final class AlipayF2F extends Base
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
-        $invoice = (new Invoice)->find($invoice_id);
+        $invoice = (new Invoice())->find($invoice_id);
 
         if ($invoice === null) {
             return $response->withJson([

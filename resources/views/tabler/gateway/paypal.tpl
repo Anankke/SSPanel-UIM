@@ -23,20 +23,8 @@
                 .then((response) => response.json())
                 .then((order) => order.id);
         },
-        onApprove(data) {
-            return fetch("/payment/notify/paypal", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    order_id: data.orderID,
-                }),
-            })
-                .then((response) => response.json())
-                .then(() => {
-                    window.setTimeout(location.href = '/user/invoice', {$config['jump_delay']});
-                });
+        onApprove() {
+            window.setTimeout(location.href = '/user/invoice', {$config['jump_delay']});
         }
     }).render('#paypal-button-container');
 
