@@ -181,43 +181,43 @@
                                 <div class="tab-pane active show" id="sub">
                                     <div>
                                         <p>
-                                            通用订阅（json）：<code class="spoiler">{$UniversalSub}/json</code>
+                                            通用订阅（Json）：<code class="spoiler">{$UniversalSub}/json</code>
                                         </p>
                                         <p>
-                                            通用订阅（clash）：<code class="spoiler">{$UniversalSub}/clash</code>
+                                            通用订阅（Clash）：<code class="spoiler">{$UniversalSub}/clash</code>
                                         </p>
                                         <p>
-                                            通用订阅（sing-box）：<code class="spoiler">{$UniversalSub}/singbox</code>
+                                            通用订阅（SingBox）：<code class="spoiler">{$UniversalSub}/singbox</code>
                                         </p>
                                         <p>
-                                            通用订阅（v2rayjson）：<code class="spoiler">{$UniversalSub}/v2rayjson</code>
+                                            通用订阅（V2Ray Json）：<code class="spoiler">{$UniversalSub}/v2rayjson</code>
                                         </p>
                                         {if $public_setting['enable_ss_sub']}
                                         <p>
-                                            通用订阅（sip008）：<code class="spoiler">{$UniversalSub}/sip008</code>
+                                            通用订阅（SIP008）：<code class="spoiler">{$UniversalSub}/sip008</code>
                                         </p>
                                         {/if}
                                         <div class="btn-list justify-content-start">
                                             <a data-clipboard-text="{$UniversalSub}/json"
                                                class="copy btn btn-primary">
-                                                复制通用订阅（json）
+                                                复制通用订阅（Json）
                                             </a>
                                             <a data-clipboard-text="{$UniversalSub}/clash"
                                                class="copy btn btn-primary">
-                                                复制通用订阅（clash）
+                                                复制通用订阅（Clash）
                                             </a>
                                             <a data-clipboard-text="{$UniversalSub}/singbox"
                                                class="copy btn btn-primary">
-                                                复制通用订阅（sing-box）
+                                                复制通用订阅（SingBox）
                                             </a>
                                             <a data-clipboard-text="{$UniversalSub}/v2rayjson"
                                                class="copy btn btn-primary">
-                                                复制通用订阅（v2rayjson）
+                                                复制通用订阅（V2Ray Json）
                                             </a>
                                             {if $public_setting['enable_ss_sub']}
                                             <a data-clipboard-text="{$UniversalSub}/sip008"
                                                class="copy btn btn-primary">
-                                                复制通用订阅（sip008）
+                                                复制通用订阅（SIP008）
                                             </a>
                                             {/if}
                                         </div>
@@ -273,6 +273,9 @@
                                         <p>
                                             适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                         </p>
+                                        <p>
+                                            适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
+                                        </p>
                                         <div class="btn-list justify-content-start">
                                             <a  {if $config['enable_r2_client_download']}
                                                 href="/user/clients/Clash.Verge.exe"
@@ -290,6 +293,23 @@
                                                 导入 Clash
                                             </a>
                                         </div>
+                                        <div class="btn-list justify-content-start my-2">
+                                            <a  {if $config['enable_r2_client_download']}
+                                                href="/user/clients/Hiddify.exe"
+                                                {else}
+                                                href="/clients/Hiddify.exe"
+                                                {/if} class="btn btn-azure">
+                                                下载 Hiddify
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/singbox"
+                                               class="copy btn btn-primary">
+                                                复制 SingBox 订阅链接
+                                            </a>
+                                            <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
+                                               class="btn btn-indigo">
+                                                导入 Hiddify
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="macos">
@@ -297,14 +317,14 @@
                                         适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                     </p>
                                     <p>
-                                        适用于 sing-box 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
+                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a {if $config['enable_r2_client_download']}
                                             href="/user/clients/Clash.Verge_aarch64.dmg"
-                                        {else}
+                                            {else}
                                             href="/clients/Clash.Verge_aarch64.dmg"
-                                        {/if} class="btn btn-azure">
+                                            {/if} class="btn btn-azure">
                                             下载 Clash Verge (aarch64)
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
@@ -319,18 +339,35 @@
                                     <div class="btn-list justify-content-start my-2">
                                         <a {if $config['enable_r2_client_download']}
                                             href="/user/clients/SFM.zip"
-                                        {else}
+                                            {else}
                                             href="/clients/SFM.zip"
-                                        {/if} class="btn btn-azure">
+                                            {/if} class="btn btn-azure">
                                             下载 SFM
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/singbox"
                                            class="copy btn btn-primary">
-                                            复制 sing-box 订阅链接
+                                            复制 SingBox 订阅链接
                                         </a>
                                         <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
                                            class="btn btn-indigo">
                                             导入 SFM
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a  {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Hiddify.dmg"
+                                            {else}
+                                            href="/clients/Hiddify.dmg"
+                                            {/if} class="btn btn-azure">
+                                            下载 Hiddify
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/singbox"
+                                           class="copy btn btn-primary">
+                                            复制 SingBox 订阅链接
+                                        </a>
+                                        <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 Hiddify
                                         </a>
                                     </div>
                                 </div>
@@ -339,14 +376,14 @@
                                         适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
                                     </p>
                                     <p>
-                                        适用于 sing-box 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
+                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a {if $config['enable_r2_client_download']}
                                             href="/user/clients/CMFA.apk"
-                                        {else}
+                                            {else}
                                             href="/clients/CMFA.apk"
-                                        {/if} class="btn btn-azure">
+                                            {/if} class="btn btn-azure">
                                             下载 Clash.Meta For Android
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
@@ -361,59 +398,76 @@
                                     <div class="btn-list justify-content-start my-2">
                                         <a {if $config['enable_r2_client_download']}
                                             href="/user/clients/SFA.apk"
-                                        {else}
+                                            {else}
                                             href="/clients/SFA.apk"
-                                        {/if} class="btn btn-azure">
+                                            {/if} class="btn btn-azure">
                                             下载 SFA
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/singbox"
                                            class="copy btn btn-primary">
-                                            复制 sing-box 订阅链接
+                                            复制 SingBox 订阅链接
                                         </a>
                                         <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
                                            class="btn btn-indigo">
                                             导入 SFA
                                         </a>
                                     </div>
-                                </div>
-                                <div class="tab-pane" id="ios">
-                                    <p>
-                                        适用于 sing-box 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
-                                    </p>
                                     <div class="btn-list justify-content-start my-2">
-                                        <a href="https://apps.apple.com/app/sing-box/id6451272673" target="_blank"
-                                           class="btn btn-azure">
-                                            安裝 sing-box
+                                        <a  {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Hiddify.apk"
+                                            {else}
+                                            href="/clients/Hiddify.apk"
+                                            {/if} class="btn btn-azure">
+                                            下载 Hiddify
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/singbox"
                                            class="copy btn btn-primary">
-                                            复制 sing-box 订阅链接
+                                            复制 SingBox 订阅链接
+                                        </a>
+                                        <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 Hiddify
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="ios">
+                                    <p>
+                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
+                                    </p>
+                                    <div class="btn-list justify-content-start">
+                                        <a href="https://apps.apple.com/app/sing-box/id6451272673" target="_blank"
+                                           class="btn btn-azure">
+                                            安裝 SFI
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/singbox"
+                                           class="copy btn btn-primary">
+                                            复制 SingBox 订阅链接
                                         </a>
                                         <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
                                            class="btn btn-indigo">
-                                            导入 sing-box
+                                            导入 SFI
                                         </a>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="linux">
                                     <p>
-                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
+                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash.Verge.AppImage.tar.gz"
-                                        {else}
-                                            href="/clients/Clash.Verge.AppImage.tar.gz"
-                                        {/if} class="btn btn-azure">
-                                            下载 Clash Verge
+                                        <a  {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Hiddify.AppImage"
+                                            {else}
+                                            href="/clients/Hiddify.AppImage"
+                                            {/if} class="btn btn-azure">
+                                            下载 Hiddify
                                         </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                        <a data-clipboard-text="{$UniversalSub}/singbox"
                                            class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
+                                            复制 SingBox 订阅链接
                                         </a>
-                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                        <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
                                            class="btn btn-indigo">
-                                            导入 Clash
+                                            导入 Hiddify
                                         </a>
                                     </div>
                                 </div>

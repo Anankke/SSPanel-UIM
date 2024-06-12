@@ -13,10 +13,6 @@
                 {
                     "sourceName": "Clash.Verge_%tagName1%_aarch64.dmg",
                     "saveName": "Clash.Verge_aarch64.dmg"
-                },
-                {
-                    "sourceName": "clash-verge_%tagName1%_amd64.AppImage.tar.gz",
-                    "saveName": "Clash.Verge.AppImage.tar.gz"
                 }
             ]
         },
@@ -45,6 +41,30 @@
                 {
                     "sourceName": "SFM-%tagName1%-universal.zip",
                     "saveName": "SFM.zip"
+                }
+            ]
+        },
+        {
+            "name": "Hiddify",
+            "tagMethod": "github_release",
+            "gitRepo": "hiddify/hiddify-next",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "Hiddify-Android-universal.apk",
+                    "saveName": "Hiddify.apk"
+                },
+                {
+                    "sourceName": "Hiddify-Linux-x64.AppImage",
+                    "saveName": "Hiddify.AppImage"
+                },
+                {
+                    "sourceName": "Hiddify-MacOS.dmg",
+                    "saveName": "Hiddify.dmg"
+                },
+                {
+                    "sourceName": "Hiddify-Windows-Setup-x64.exe",
+                    "saveName": "Hiddify.exe"
                 }
             ]
         }
