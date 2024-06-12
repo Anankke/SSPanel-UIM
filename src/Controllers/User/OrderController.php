@@ -247,7 +247,7 @@ final class OrderController extends BaseController
         $order->product_content = $product->content;
         $order->coupon = $coupon_raw;
         $order->price = $buy_price;
-        $order->status = 'pending_payment';
+        $order->status = $buy_price === 0 ? 'pending_activation' : 'pending_payment';
         $order->create_time = time();
         $order->update_time = time();
         $order->save();
@@ -272,7 +272,7 @@ final class OrderController extends BaseController
         $invoice->order_id = $order->id;
         $invoice->content = json_encode($invoice_content);
         $invoice->price = $buy_price;
-        $invoice->status = 'unpaid';
+        $invoice->status = $buy_price === 0 ? 'paid_gateway' : 'unpaid';
         $invoice->create_time = time();
         $invoice->update_time = time();
         $invoice->pay_time = 0;
