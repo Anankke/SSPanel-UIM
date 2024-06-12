@@ -22,6 +22,7 @@ use Stripe\StripeClient;
 use Stripe\Webhook;
 use UnexpectedValueException;
 use voku\helper\AntiXSS;
+use function in_array;
 
 final class Stripe extends Base
 {
@@ -79,13 +80,24 @@ final class Stripe extends Base
         $pl->gateway = self::_readableName();
         $pl->save();
 
+        $stripe_currency = Config::obtain('stripe_currency');
+
         try {
-            $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', Config::obtain('stripe_currency'));
+            $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', $stripe_currency);
         } catch (GuzzleException|RedisException) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '汇率获取失败',
             ]);
+        }
+        // https://docs.stripe.com/currencies?presentment-currency=US#zero-decimal
+        if (! in_array(
+            $stripe_currency,
+            ['BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW',
+                'MGA', 'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF',
+            ]
+        )) {
+            $exchange_amount *= 100;
         }
 
         $stripe = new StripeClient(Config::obtain('stripe_api_key'));
@@ -112,8 +124,8 @@ final class Stripe extends Base
                         'trade_no' => $trade_no,
                     ],
                 ],
-                'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
-                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
+                'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id . '/view',
+                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id . '/view',
             ]);
         } catch (ApiErrorException) {
             return $response->withJson([
