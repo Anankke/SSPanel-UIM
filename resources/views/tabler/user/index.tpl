@@ -278,19 +278,19 @@
                                         </p>
                                         <div class="btn-list justify-content-start">
                                             <a  {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash.Verge.exe"
+                                                href="/user/clients/Clash.Nyanpasu.exe"
                                                 {else}
-                                                href="/clients/Clash.Verge.exe"
+                                                href="/clients/Clash.Nyanpasu.exe"
                                                 {/if} class="btn btn-azure">
-                                                下载 Clash Verge
+                                                下载 Clash Nyanpasu
                                             </a>
                                             <a data-clipboard-text="{$UniversalSub}/clash"
                                                class="copy btn btn-primary">
                                                 复制 Clash 订阅链接
                                             </a>
-                                            <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                            <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
                                                class="btn btn-indigo">
-                                                导入 Clash
+                                                导入 Clash Nyanpasu
                                             </a>
                                         </div>
                                         <div class="btn-list justify-content-start my-2">
@@ -321,19 +321,19 @@
                                     </p>
                                     <div class="btn-list justify-content-start">
                                         <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash.Verge_aarch64.dmg"
+                                            href="/user/clients/Clash.Nyanpasu_aarch64.dmg"
                                             {else}
-                                            href="/clients/Clash.Verge_aarch64.dmg"
+                                            href="/clients/Clash.Nyanpasu_aarch64.dmg"
                                             {/if} class="btn btn-azure">
-                                            下载 Clash Verge (aarch64)
+                                            下载 Clash Nyanpasu (aarch64)
                                         </a>
                                         <a data-clipboard-text="{$UniversalSub}/clash"
                                            class="copy btn btn-primary">
                                             复制 Clash 订阅链接
                                         </a>
-                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                        <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
                                            class="btn btn-indigo">
-                                            导入 Clash
+                                            导入 Clash Nyanpasu
                                         </a>
                                     </div>
                                     <div class="btn-list justify-content-start my-2">
@@ -451,9 +451,29 @@
                                 </div>
                                 <div class="tab-pane" id="linux">
                                     <p>
+                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
+                                    </p>
+                                    <p>
                                         适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
                                     </p>
                                     <div class="btn-list justify-content-start">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Clash.Nyanpasu.AppImage"
+                                            {else}
+                                            href="/clients/Clash.Nyanpasu.AppImage"
+                                            {/if} class="btn btn-azure">
+                                            下载 Clash Nyanpasu
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 Clash Nyanpasu
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
                                         <a  {if $config['enable_r2_client_download']}
                                             href="/user/clients/Hiddify.AppImage"
                                             {else}

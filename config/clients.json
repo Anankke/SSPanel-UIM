@@ -1,18 +1,22 @@
 {
     "clients":[
         {
-            "name": "Clash Verge",
+            "name": "Clash Nyanpasu",
             "tagMethod": "github_release",
-            "gitRepo": "clash-verge-rev/clash-verge-rev",
+            "gitRepo": "LibNyanpasu/clash-nyanpasu",
             "savePath": "public/clients/",
             "downloads": [
                 {
-                    "sourceName": "Clash.Verge_%tagName1%_x64-setup.exe",
-                    "saveName": "Clash.Verge.exe"
+                    "sourceName": "Clash.Nyanpasu_%tagName1%_x64-setup.exe",
+                    "saveName": "Clash.Nyanpasu.exe"
                 },
                 {
-                    "sourceName": "Clash.Verge_%tagName1%_aarch64.dmg",
-                    "saveName": "Clash.Verge_aarch64.dmg"
+                    "sourceName": "clash-nyanpasu_%tagName1%_amd64.AppImage",
+                    "saveName": "Clash.Nyanpasu.AppImage"
+                },
+                {
+                    "sourceName": "Clash.Nyanpasu_%tagName1%_aarch64.dmg",
+                    "saveName": "Clash.Nyanpasu_aarch64.dmg"
                 }
             ]
         },
