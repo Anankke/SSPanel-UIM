@@ -31,7 +31,7 @@ $app = AppFactory::create($response_factory);
 
 $app->add(new ErrorHandler());
 
-$routes = require_once __DIR__ . '/../app/routes.php';
+$routes = require __DIR__ . '/../app/routes.php';
 $routes($app);
 
 $request = ServerRequest::fromGlobals();
