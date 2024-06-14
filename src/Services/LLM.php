@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Config;
 use App\Services\LLM\Anthropic;
+use App\Services\LLM\AwsBedrock;
 use App\Services\LLM\CloudflareWorkersAI;
 use App\Services\LLM\GoogleAI;
 use App\Services\LLM\HuggingFace;
@@ -14,7 +15,7 @@ use App\Services\LLM\VertexAI;
 
 final class LLM
 {
-    public static function getBackend(): VertexAI|CloudflareWorkersAI|GoogleAI|HuggingFace|OpenAI|Anthropic
+    public static function getBackend(): VertexAI|CloudflareWorkersAI|GoogleAI|HuggingFace|OpenAI|Anthropic|AwsBedrock
     {
         return match (Config::obtain('llm_backend')) {
             'google-ai' => new GoogleAI(),
@@ -22,6 +23,7 @@ final class LLM
             'huggingface' => new HuggingFace(),
             'cf-workers-ai' => new CloudflareWorkersAI(),
             'anthropic' => new Anthropic(),
+            'aws-bedrock' => new AwsBedrock(),
             default => new OpenAI(),
         };
     }

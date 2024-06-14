@@ -12,7 +12,23 @@ final class HuggingFace extends Base
 {
     public function textPrompt(string $q): string
     {
-        if (Config::obtain('huggingface_api_key') === '' || Config::obtain('huggingface_endpoint_url') === '') {
+        return $this->makeRequest([
+            [
+                'role' => 'user',
+                'content' => $q,
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        return 'This service does not support context';
+    }
+
+    private function makeRequest(array $conversation): string
+    {
+        if (Config::obtain('huggingface_api_key') === '' ||
+            Config::obtain('huggingface_endpoint_url') === '') {
             return 'Hugging Face API key or Endpoint URL not set';
         }
 
@@ -23,7 +39,7 @@ final class HuggingFace extends Base
 
         $data = [
             'inputs' => [
-                'question' => $q,
+                'question' => $conversation[0]['content'],
             ],
         ];
 
@@ -38,10 +54,5 @@ final class HuggingFace extends Base
         }
 
         return $response->answer;
-    }
-
-    public function textPromptWithContext(array $context): string
-    {
-        return 'This service does not support context';
     }
 }

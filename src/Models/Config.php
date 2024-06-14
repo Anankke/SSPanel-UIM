@@ -51,6 +51,18 @@ final class Config extends Model
         return $configs;
     }
 
+    public static function getItemListByClass($class): array
+    {
+        $items = [];
+        $all_configs = (new Config())->where('class', $class)->get();
+
+        foreach ($all_configs as $config) {
+            $items[] = $config->item;
+        }
+
+        return $items;
+    }
+
     public static function getPublicConfig(): array
     {
         $configs = [];

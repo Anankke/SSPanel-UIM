@@ -12,7 +12,23 @@ final class CloudflareWorkersAI extends Base
 {
     public function textPrompt(string $q): string
     {
-        if (Config::obtain('cf_workers_ai_account_id') === '' || Config::obtain('cf_workers_ai_api_token') === '') {
+        return $this->makeRequest([
+            [
+                'role' => 'user',
+                'content' => $q,
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        return 'This service does not support context';
+    }
+
+    private function makeRequest(array $conversation): string
+    {
+        if (Config::obtain('cf_workers_ai_account_id') === '' ||
+            Config::obtain('cf_workers_ai_api_token') === '') {
             return 'Cloudflare Workers AI Account ID or API Token not set';
         }
 
@@ -25,7 +41,7 @@ final class CloudflareWorkersAI extends Base
         ];
 
         $data = [
-            'prompt' => $q,
+            'prompt' => $conversation[0]['content'],
         ];
 
         try {
@@ -39,10 +55,5 @@ final class CloudflareWorkersAI extends Base
         }
 
         return $response->result->response;
-    }
-
-    public function textPromptWithContext(array $context): string
-    {
-        return 'This service does not support context';
     }
 }
