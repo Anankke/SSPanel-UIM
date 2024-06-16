@@ -17,7 +17,7 @@ NeXT Panel is a multipurpose proxy service management system designed for Shadow
 
 - Integrate multiple payment systems such as Alipay F2F, PayPal, Stripe, etc.
 - Support multiple mail services, built-in mail queue function, no third-party components are required to use
-- Built-in tabler theme based on Bootstrap 5, template engine support
+- Built-in tabler theme based on Bootstrap 5, Smarty/Twig template engine support
 - Support Shadowsocks 2022, TUIC, and other latest proxy protocols
 - Universal subscription interface, one-click json/clash/sip008/sing-box format subscription distribution
 - Custom node configuration, modular subscription system, support multiple client-specific subscription formats
