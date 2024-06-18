@@ -108,7 +108,6 @@ return static function (Slim\App $app): void {
     $app->group('/payment', static function (RouteCollectorProxy $group): void {
         $group->get('/notify/{type}', App\Services\Payment::class . ':notify');
         $group->post('/notify/{type}', App\Services\Payment::class . ':notify');
-        $group->post('/status/{type}', App\Services\Payment::class . ':getStatus');
     });
     // Auth
     $app->group('/auth', static function (RouteCollectorProxy $group): void {

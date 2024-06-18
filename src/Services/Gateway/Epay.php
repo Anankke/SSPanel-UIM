@@ -74,7 +74,6 @@ final class Epay extends Base
         }
 
         $price = $invoice->price;
-        $trade_no = self::generateGuid();
 
         if ($price <= 0) {
             return $response->withJson([
@@ -84,12 +83,15 @@ final class Epay extends Base
         }
 
         $user = Auth::getUser();
+        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
 
-        $pl = new Paylist();
-        $pl->userid = $user->id;
-        $pl->total = $price;
-        $pl->invoice_id = $invoice_id;
-        $pl->tradeno = $trade_no;
+        if ($pl === null) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $price;
+            $pl->invoice_id = $invoice_id;
+            $pl->tradeno = self::generateGuid();
+        }
 
         $type_text = match ($type) {
             'qqpay' => 'QQ',
@@ -105,10 +107,10 @@ final class Epay extends Base
         $data = [
             'pid' => trim($this->epay['partner']),
             'type' => $type,
-            'out_trade_no' => $trade_no,
+            'out_trade_no' => $pl->tradeno,
             'notify_url' => self::getCallbackUrl(),
             'return_url' => $redir,
-            'name' => $trade_no,
+            'name' => $pl->tradeno,
             'money' => $price,
             'sitename' => $_ENV['appName'],
             'clientip' => $_SERVER['REMOTE_ADDR'],
@@ -154,12 +156,14 @@ final class Epay extends Base
         if ($verify_result) {
             if ($_GET['trade_status'] === 'TRADE_SUCCESS') {
                 $this->postPayment($_GET['out_trade_no']);
-
-                return $response->withJson(['state' => 'success', 'msg' => 'Payment success']);
+                // EPay just fucking copied from Alipay's method of determining whether the payment is successful
+                // which is retarded
+                // https://pay.v8jisu.cn/doc.html
+                return $response->write('success');
             }
         }
 
-        return $response->withJson(['state' => 'fail', 'msg' => 'Payment failed']);
+        return $response->write('failed');
     }
 
     /**

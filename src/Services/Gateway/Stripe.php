@@ -59,7 +59,6 @@ final class Stripe extends Base
         }
 
         $price = $invoice->price;
-        $trade_no = self::generateGuid();
 
         if ($price < Config::obtain('stripe_min_recharge') ||
             $price > Config::obtain('stripe_max_recharge')
@@ -71,12 +70,16 @@ final class Stripe extends Base
         }
 
         $user = Auth::getUser();
+        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
 
-        $pl = new Paylist();
-        $pl->userid = $user->id;
-        $pl->total = $price;
-        $pl->invoice_id = $invoice_id;
-        $pl->tradeno = $trade_no;
+        if ($pl === null) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $price;
+            $pl->invoice_id = $invoice_id;
+            $pl->tradeno = self::generateGuid();
+        }
+
         $pl->gateway = self::_readableName();
         $pl->save();
 
@@ -121,7 +124,7 @@ final class Stripe extends Base
                 'mode' => 'payment',
                 'payment_intent_data' => [
                     'metadata' => [
-                        'trade_no' => $trade_no,
+                        'trade_no' => $pl->tradeno,
                     ],
                 ],
                 'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id . '/view',
@@ -162,16 +165,10 @@ final class Stripe extends Base
         if ($event->type === 'payment_intent.succeeded' && $payment_intent->status === 'succeeded') {
             $this->postPayment($payment_intent->metadata->trade_no);
 
-            return $response->withJson([
-                'ret' => 1,
-                'msg' => 'Payment success',
-            ]);
+            return $response->withStatus(204);
         }
 
-        return $response->withJson([
-            'ret' => 0,
-            'msg' => 'Payment failed',
-        ]);
+        return $response->withStatus(400);
     }
 
     /**

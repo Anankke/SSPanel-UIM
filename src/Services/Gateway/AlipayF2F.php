@@ -76,7 +76,6 @@ final class AlipayF2F extends Base
         }
 
         $price = $invoice->price;
-        $trade_no = self::generateGuid();
 
         if ($price <= 0) {
             return $response->withJson([
@@ -86,13 +85,18 @@ final class AlipayF2F extends Base
         }
 
         $user = Auth::getUser();
-        $paylist = new Paylist();
-        $paylist->userid = $user->id;
-        $paylist->total = $price;
-        $paylist->invoice_id = $invoice_id;
-        $paylist->tradeno = $trade_no;
-        $paylist->gateway = self::_readableName();
-        $paylist->save();
+        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
+
+        if ($pl === null) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $price;
+            $pl->invoice_id = $invoice_id;
+            $pl->tradeno = self::generateGuid();
+        }
+
+        $pl->gateway = self::_readableName();
+        $pl->save();
 
         $f2f_pay_notify_url = Config::obtain('f2f_pay_notify_url');
 
@@ -104,9 +108,9 @@ final class AlipayF2F extends Base
 
         $api = $this->createApi();
         $aliRequest = new AlipayTradePrecreateModel();
-        $aliRequest->setOutTradeNo($trade_no);
+        $aliRequest->setOutTradeNo($pl->tradeno);
         $aliRequest->setTotalAmount($price);
-        $aliRequest->setSubject($trade_no);
+        $aliRequest->setSubject($pl->tradeno);
         $aliRequest->setNotifyUrl($notifyUrl);
 
         $aliResponse = $api->precreate($aliRequest);

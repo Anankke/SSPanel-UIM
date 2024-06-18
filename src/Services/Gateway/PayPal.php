@@ -77,7 +77,6 @@ final class PayPal extends Base
         }
 
         $price = $invoice->price;
-        $trade_no = self::generateGuid();
 
         if ($price <= 0) {
             return $response->withJson([
@@ -86,8 +85,26 @@ final class PayPal extends Base
             ]);
         }
 
+        $user = Auth::getUser();
+        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
+
+        if ($pl === null) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $price;
+            $pl->invoice_id = $invoice_id;
+            $pl->tradeno = self::generateGuid();
+        }
+
+        $pl->gateway = self::_readableName();
+        $pl->save();
+
         try {
-            $exchange_amount = (new Exchange())->exchange((float) $price, 'CNY', Config::obtain('paypal_currency'));
+            $exchange_amount = (new Exchange())->exchange(
+                (float) $price,
+                'CNY',
+                Config::obtain('paypal_currency')
+            );
         } catch (GuzzleException|RedisException) {
             return $response->withJson([
                 'ret' => 0,
@@ -103,7 +120,7 @@ final class PayPal extends Base
                         'currency_code' => Config::obtain('paypal_currency'),
                         'value' => $exchange_amount,
                     ],
-                    'invoice_id' => $trade_no,
+                    'invoice_id' => $pl->tradeno,
                 ],
             ],
         ];
@@ -118,16 +135,6 @@ final class PayPal extends Base
                 'msg' => 'PayPal API Error',
             ]);
         }
-
-        $user = Auth::getUser();
-
-        $pl = new Paylist();
-        $pl->userid = $user->id;
-        $pl->total = $price;
-        $pl->invoice_id = $invoice_id;
-        $pl->tradeno = $trade_no;
-        $pl->gateway = self::_readableName();
-        $pl->save();
 
         return $response->withJson($order);
     }
@@ -153,16 +160,10 @@ final class PayPal extends Base
         ) {
             $this->postPayment($webhook_data['resource']['invoice_id']);
 
-            return $response->withJson([
-                'ret' => 1,
-                'msg' => 'Payment Success',
-            ]);
+            return $response->withStatus(204);
         }
 
-        return $response->withJson([
-            'ret' => 0,
-            'msg' => 'Payment Failed',
-        ]);
+        return $response->withStatus(400);
     }
 
     /**

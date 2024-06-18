@@ -74,18 +74,6 @@ final class Payment
         return $response->withStatus(404);
     }
 
-    public static function getStatus($request, $response, $args): ResponseInterface
-    {
-        $payment = self::getPaymentByName($args['type']);
-
-        if ($payment !== null) {
-            $instance = new $payment();
-            return $instance->getStatus($request, $response, $args);
-        }
-
-        return $response->withStatus(404);
-    }
-
     public static function purchase($request, $response, $args): ResponseInterface
     {
         $payment = self::getPaymentByName($args['type']);
