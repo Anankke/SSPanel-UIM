@@ -1,0 +1,173 @@
+{include file='admin/header.tpl'}
+
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        <span class="home-title">审计规则</span>
+                    </h2>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">查看站点中的审计规则</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="btn-list">
+                        <button href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#add-detect-dialog">
+                            <i class="icon ti ti-plus"></i>
+                            添加审计规则
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table id="data-table" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+                                <tr>
+                                    {foreach $details['field'] as $key => $value}
+                                        <th>{$value}</th>
+                                    {/foreach}
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="add-detect-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加审计规则</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {foreach $details['add_dialog'] as $from}
+                        {if $from['type'] === 'input'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <div class="col">
+                                    <input id="{$from['id']}" type="text" class="form-control"
+                                           placeholder="{$from['placeholder']}">
+                                </div>
+                            </div>
+                        {/if}
+                        {if $from['type'] === 'textarea'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <textarea id="{$from['id']}" class="col form-control" rows="{$from['rows']}"
+                                          placeholder="{$from['placeholder']}"></textarea>
+                            </div>
+                        {/if}
+                        {if $from['type'] === 'select'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <div class="col">
+                                    <select id="{$from['id']}" class="col form-select">
+                                        {foreach $from['select'] as $key => $value}
+                                            <option value="{$key}">{$value}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        {/if}
+                    {/foreach}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="add-detect-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {include file='datatable.tpl'}
+
+    <script>
+        tableConfig.ajax = {
+            url: '/admin/detect/ajax',
+            type: 'POST',
+            dataSrc: 'rules'
+        };
+        tableConfig.order = [
+            [0, 'desc']
+        ];
+        tableConfig.columnDefs = [
+            {
+                targets: [0],
+                orderable: false
+            },
+        ];
+
+        let table = new DataTable('#data-table', tableConfig);
+
+        $("#add-detect-button").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/admin/detect/add",
+                dataType: "json",
+                data: {
+                    {foreach $details['add_dialog'] as $from}
+                    {$from['id']}: $('#{$from['id']}').val(),
+                    {/foreach}
+                },
+                success: function (data) {
+                    if (data.ret === 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                        reloadTableAjax();
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        function deleteRule(rule_id) {
+            $('#notice-message').text('确定删除此审计规则？');
+            $('#notice-dialog').modal('show');
+            $('#notice-confirm').off('click').on('click', function () {
+                $.ajax({
+                    url: "/admin/detect/" + rule_id,
+                    type: 'DELETE',
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.ret === 1) {
+                            $('#success-noreload-message').text(data.msg);
+                            $('#success-noreload-dialog').modal('show');
+                            reloadTableAjax();
+                        } else {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        }
+                    }
+                })
+            });
+        }
+
+        function loadTable() {
+            table;
+        }
+
+        function reloadTableAjax() {
+            table.ajax.reload(null, false);
+        }
+
+        loadTable();
+    </script>
+
+    {include file='admin/footer.tpl'}

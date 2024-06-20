@@ -1,0 +1,36 @@
+name: Lint PHP Code
+on:
+  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  php-file-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      php: ${{ steps.filter.outputs.php }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          php:
+            - '**/*.php'
+  lint:
+    needs: php-file-changed
+    if: ${{ needs.php-file-changed.outputs.php == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - run: |
+          composer install --no-interaction --no-progress --no-suggest --quiet
+          php vendor/bin/phpinsights analyse --no-interaction --format=github-action \
+          --min-style=100 --min-architecture=100 --min-quality=100

@@ -1,0 +1,1541 @@
+[
+    {
+        "item": "payment_gateway",
+        "value": "[]",
+        "class": "billing",
+        "is_public": 1,
+        "type": "array",
+        "default": "[]",
+        "mark": "支付网关"
+    },
+    {
+        "item": "f2f_pay_app_id",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "当面付AppID"
+    },
+    {
+        "item": "f2f_pay_pid",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "当面付PID"
+    },
+    {
+        "item": "f2f_pay_public_key",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "当面付公钥"
+    },
+    {
+        "item": "f2f_pay_private_key",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "当面付私钥"
+    },
+    {
+        "item": "f2f_pay_notify_url",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "当面付自定义回调地址"
+    },
+    {
+        "item": "stripe_api_key",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Stripe API Key"
+    },
+    {
+        "item": "stripe_endpoint_secret",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Stripe Endpoint Secret"
+    },
+    {
+        "item": "stripe_currency",
+        "value": "USD",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "USD",
+        "mark": "Stripe Currency"
+    },
+    {
+        "item": "stripe_min_recharge",
+        "value": "10",
+        "class": "billing",
+        "is_public": 1,
+        "type": "int",
+        "default": "10",
+        "mark": "Stripe minimum recharge amount"
+    },
+    {
+        "item": "stripe_max_recharge",
+        "value": "1000",
+        "class": "billing",
+        "is_public": 1,
+        "type": "int",
+        "default": "1000",
+        "mark": "Stripe maximum recharge amount"
+    },
+    {
+        "item": "stripe_card",
+        "value": "0",
+        "class": "billing",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Stripe Card Payment"
+    },
+    {
+        "item": "stripe_alipay",
+        "value": "0",
+        "class": "billing",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Stripe Alipay Payment"
+    },
+    {
+        "item": "stripe_wechat",
+        "value": "0",
+        "class": "billing",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Stripe WeChat Payment"
+    },
+    {
+        "item": "epay_url",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "易支付url"
+    },
+	{
+        "item": "epay_pid",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "易支付商户ID"
+    },
+	{
+        "item": "epay_key",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "易支付商户Key"
+    },
+    {
+        "item": "epay_sign_type",
+        "value": "sha256",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "sha256",
+        "mark": "易支付签名方式"
+    },
+    {
+        "item": "epay_alipay",
+        "value": "1",
+        "class": "billing",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用支付宝"
+    },
+    {
+        "item": "epay_wechat",
+        "value": "0",
+        "class": "billing",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用微信支付"
+    },
+    {
+        "item": "epay_qq",
+        "value": "0",
+        "class": "billing",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用QQ钱包"
+    },
+    {
+        "item": "epay_usdt",
+        "value": "0",
+        "class": "billing",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用USDT"
+    },
+    {
+        "item": "paypal_mode",
+        "value": "live",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "live",
+        "mark": "PayPal模式"
+    },
+    {
+        "item": "paypal_client_id",
+        "value": "",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "PayPal客戶ID"
+    },
+    {
+        "item": "paypal_client_secret",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "PayPal客戶密钥"
+    },
+    {
+        "item": "paypal_currency",
+        "value": "USD",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "USD",
+        "mark": "PayPal货币"
+    },
+    {
+        "item": "paypal_locale",
+        "value": "en_US",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "en_US",
+        "mark": "PayPal语言"
+    },
+    {
+        "item": "email_driver",
+        "value": "none",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "none",
+        "mark": "邮件服务提供商"
+    },
+    {
+        "item": "smtp_host",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp发信主机"
+    },
+    {
+        "item": "smtp_username",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp账户名称"
+    },
+    {
+        "item": "smtp_password",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp账户密码"
+    },
+    {
+        "item": "smtp_port",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp发信端口"
+    },
+    {
+        "item": "smtp_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp发信名称"
+    },
+    {
+        "item": "smtp_sender",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp发信地址"
+    },
+    {
+        "item": "smtp_ssl",
+        "value": "1",
+        "class": "email",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否使用 TLS\/SSL 发信"
+    },
+    {
+        "item": "smtp_bbc",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "发给用户的邮件密送给指定邮箱备份"
+    },
+    {
+        "item": "mailgun_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun密钥"
+    },
+    {
+        "item": "mailgun_domain",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun域名"
+    },
+    {
+        "item": "mailgun_sender",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun发件邮箱"
+    },
+    {
+        "item": "mailgun_sender_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun发信人名称"
+    },
+    {
+        "item": "sendgrid_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "sendgrid密钥"
+    },
+    {
+        "item": "sendgrid_sender",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "sendgrid发件邮箱"
+    },
+    {
+        "item": "sendgrid_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "sendgrid发件人名称"
+    },
+    {
+        "item": "postal_host",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal API地址"
+    },
+    {
+        "item": "postal_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal API密钥"
+    },
+    {
+        "item": "postal_sender",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal发件邮箱"
+    },
+    {
+        "item": "postal_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postal发件人名称"
+    },
+    {
+        "item": "aws_ses_access_key_id",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws密钥id"
+    },
+    {
+        "item": "aws_ses_access_key_secret",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws密钥key"
+    },
+    {
+        "item": "aws_ses_region",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws区域"
+    },
+    {
+        "item": "aws_ses_sender",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AWS SES Sender"
+    },
+    {
+        "item": "mailchimp_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Mailchimp Api Key"
+    },
+    {
+        "item": "mailchimp_from_email",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Mailchimp From Email"
+    },
+    {
+        "item": "mailchimp_from_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Mailchimp From Name"
+    },
+    {
+        "item": "alibabacloud_dm_access_key_id",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Access Key ID"
+    },
+    {
+        "item": "alibabacloud_dm_access_key_secret",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Access Key Secret"
+    },
+    {
+        "item": "alibabacloud_dm_endpoint",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Endpoint"
+    },
+    {
+        "item": "alibabacloud_dm_account_name",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM Account Name"
+    },
+    {
+        "item": "alibabacloud_dm_from_alias",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AlibabaCloud DM From Alias"
+    },
+    {
+        "item": "email_verify_code_ttl",
+        "value": "3600",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3600",
+        "mark": "邮箱验证码有效期"
+    },
+    {
+        "item": "email_password_reset_ttl",
+        "value": "3600",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3600",
+        "mark": "邮箱重设密码链接有效期"
+    },
+    {
+        "item": "email_request_ip_limit",
+        "value": "3",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3",
+        "mark": "单个IP每小时可请求的发信次数"
+    },
+    {
+        "item": "email_request_address_limit",
+        "value": "3",
+        "class": "email",
+        "is_public": 0,
+        "type": "int",
+        "default": "3",
+        "mark": "单个邮箱地址每小时可请求的发信次数"
+    },
+    {
+        "item": "captcha_provider",
+        "value": "turnstile",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "string",
+        "default": "turnstile",
+        "mark": "验证码提供商"
+    },
+    {
+        "item": "enable_reg_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "注册验证码"
+    },
+    {
+        "item": "enable_login_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "登录验证码"
+    },
+    {
+        "item": "enable_checkin_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "签到验证码"
+    },
+    {
+        "item": "enable_reset_password_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "重置密码验证码"
+    },
+    {
+        "item": "turnstile_sitekey",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Turnstile网站密钥"
+    },
+    {
+        "item": "turnstile_secret",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Turnstile密钥"
+    },
+    {
+        "item": "geetest_id",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "极验id"
+    },
+    {
+        "item": "geetest_key",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "极验密钥"
+    },
+    {
+        "item": "hcaptcha_sitekey",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "hCaptcha Site Key"
+    },
+    {
+        "item": "hcaptcha_secret",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "hCaptcha Secret"
+    },
+    {
+        "item": "enable_telegram",
+        "value": "0",
+        "class": "im",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用Telegram机器人"
+    },
+    {
+        "item": "telegram_token",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Telegram Bot Token"
+    },
+    {
+        "item": "telegram_chatid",
+        "value": "-1",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "-1",
+        "mark": "Telegram 群组会话 ID"
+    },
+    {
+        "item": "telegram_bot",
+        "value": "_bot",
+        "class": "im",
+        "is_public": 1,
+        "type": "string",
+        "default": "_bot",
+        "mark": "Telegram 机器人账号"
+    },
+    {
+        "item": "telegram_request_token",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Telegram Webhook 密钥"
+    },
+    {
+        "item": "telegram_add_node",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人添加节点通知"
+    },
+    {
+        "item": "telegram_add_node_text",
+        "value": "%node_name% 已被添加",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 已被添加",
+        "mark": "Telegram机器人添加节点通知文本"
+    },
+    {
+        "item": "telegram_update_node",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人修改节点通知"
+    },
+    {
+        "item": "telegram_update_node_text",
+        "value": "%node_name% 已被修改",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 已被修改",
+        "mark": "Telegram机器人修改节点通知文本"
+    },
+    {
+        "item": "telegram_delete_node",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人删除节点通知"
+    },
+    {
+        "item": "telegram_delete_node_text",
+        "value": "%node_name% 被刪除了",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 被刪除了",
+        "mark": "Telegram机器人删除节点通知文本"
+    },
+    {
+        "item": "telegram_node_gfwed",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点被墙通知"
+    },
+    {
+        "item": "telegram_node_gfwed_text",
+        "value": "喵喵喵~ %node_name% 节点被墙了喵~",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "喵喵喵~ %node_name% 节点被墙了喵~",
+        "mark": "Telegram机器人节点被墙通知"
+    },
+    {
+        "item": "telegram_node_ungfwed",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点被墙恢复通知"
+    },
+    {
+        "item": "telegram_node_ungfwed_text",
+        "value": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
+        "mark": "Telegram机器人节点被墙恢复文本"
+    },
+    {
+        "item": "telegram_node_online",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点恢复上线通知"
+    },
+    {
+        "item": "telegram_node_online_text",
+        "value": "%node_name% 被修好了",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 被修好了",
+        "mark": "Telegram机器人节点恢复上线通知文本"
+    },
+    {
+        "item": "telegram_node_offline",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人节点离线通知"
+    },
+    {
+        "item": "telegram_node_offline_text",
+        "value": "%node_name% 出现了一些故障",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "%node_name% 出现了一些故障",
+        "mark": "Telegram机器人节点离线通知文本"
+    },
+    {
+        "item": "telegram_daily_job",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人每日任务通知"
+    },
+    {
+        "item": "telegram_daily_job_text",
+        "value": "成功执行每日任务",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "成功执行每日任务",
+        "mark": "Telegram机器人每日任务通知文本"
+    },
+    {
+        "item": "telegram_diary",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "是否启用Telegram机器人系统运行状况通知"
+    },
+    {
+        "item": "telegram_diary_text",
+        "value": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
+        "mark": "Telegram机器人系统运行状况通知文本"
+    },
+    {
+        "item": "telegram_unbind_kick_member",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "解绑Telegram账户后自动踢出群组"
+    },
+    {
+        "item": "telegram_group_bound_user",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否仅允许已绑定Telegram账户的用户加入群组"
+    },
+    {
+        "item": "enable_welcome_message",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Telegram 机器人发送欢迎消息"
+    },
+    {
+        "item": "telegram_group_quiet",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Telegram 机器人在群组中不回应"
+    },
+    {
+        "item": "allow_to_join_new_groups",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "允许 Bot 加入下方配置之外的群组"
+    },
+    {
+        "item": "group_id_allowed_to_join",
+        "value": "[]",
+        "class": "im",
+        "is_public": 0,
+        "type": "array",
+        "default": "[]",
+        "mark": "允许加入的群组 ID"
+    },
+    {
+        "item": "help_any_command",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "允许任意未知的命令触发 /help 的回复"
+    },
+    {
+        "item": "user_not_bind_reply",
+        "value": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "mark": "未绑定账户的回复"
+    },
+    {
+        "item": "discord_bot_token",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Discord Bot Token"
+    },
+    {
+        "item": "discord_client_id",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Discord Client ID"
+    },
+    {
+        "item": "discord_client_secret",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Discord Client Secret"
+    },
+    {
+        "item": "discord_guild_id",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Discord Guild ID"
+    },
+    {
+        "item": "slack_token",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack App Token"
+    },
+    {
+        "item": "slack_client_id",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "",
+        "default": "string",
+        "mark": "Slack Client ID"
+    },
+    {
+        "item": "slack_client_secret",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack Client Secret"
+    },
+    {
+        "item": "slack_team_id",
+        "value": "",
+        "class": "im",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Slack Team ID"
+    },
+    {
+        "item": "crisp_id",
+        "value": "",
+        "class": "support",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "crisp_id"
+    },
+    {
+        "item": "livechat_license",
+        "value": "",
+        "class": "support",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "livechat_license"
+    },
+    {
+        "item": "live_chat",
+        "value": "none",
+        "class": "support",
+        "is_public": 1,
+        "type": "string",
+        "default": "none",
+        "mark": "客服系统开关"
+    },
+    {
+        "item": "enable_ticket",
+        "value": "1",
+        "class": "support",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用工单系统"
+    },
+    {
+        "item": "mail_ticket",
+        "value": "1",
+        "class": "support",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用工单邮件提醒"
+    },
+    {
+        "item": "ticket_limit",
+        "value": "3",
+        "class": "support",
+        "is_public": 0,
+        "type": "int",
+        "default": "3",
+        "mark": "用戶工单配額（每月）"
+    },
+    {
+        "item": "reg_mode",
+        "value": "open",
+        "class": "reg",
+        "is_public": 1,
+        "type": "string",
+        "default": "open",
+        "mark": "注册模式"
+    },
+    {
+        "item": "reg_email_verify",
+        "value": "0",
+        "class": "reg",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "邮箱验证"
+    },
+    {
+        "item": "random_group",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "string",
+        "default": "0",
+        "mark": "注册时随机分配到的分组"
+    },
+    {
+        "item": "min_port",
+        "value": "10000",
+        "class": "reg",
+        "is_public": 1,
+        "type": "int",
+        "default": "10000",
+        "mark": "用户端口池最小值"
+    },
+    {
+        "item": "max_port",
+        "value": "65535",
+        "class": "reg",
+        "is_public": 1,
+        "type": "int",
+        "default": "65535",
+        "mark": "用户端口池最大值"
+    },
+    {
+        "item": "free_user_reset_day",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "免费用戶的流量重置日"
+    },
+    {
+        "item": "free_user_reset_bandwidth",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "需要重置的免费流量"
+    },
+    {
+        "item": "reg_traffic",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "注册流量（GB）"
+    },
+    {
+        "item": "reg_ip_limit",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "注册连接 IP 限制"
+    },
+    {
+        "item": "reg_speed_limit",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "注册速率限制"
+    },
+    {
+        "item": "reg_class",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "注册等级"
+    },
+    {
+        "item": "reg_class_time",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "注册等级过期时间（天）"
+    },
+    {
+        "item": "reg_method",
+        "value": "aes-128-gcm",
+        "class": "reg",
+        "is_public": 0,
+        "type": "string",
+        "default": "aes-128-gcm",
+        "mark": "默认加密"
+    },
+    {
+        "item": "reg_daily_report",
+        "value": "0",
+        "class": "reg",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否默认接收每日用量邮件推送"
+    },
+    {
+        "item": "invite_reg_money_reward",
+        "value": "0",
+        "class": "ref",
+        "is_public": 1,
+        "type": "int",
+        "default": "0",
+        "mark": "邀请注册余额奖励（元）"
+    },
+    {
+        "item": "invite_reg_traffic_reward",
+        "value": "0",
+        "class": "ref",
+        "is_public": 1,
+        "type": "int",
+        "default": "0",
+        "mark": "邀请注册流量奖励（GB）"
+    },
+    {
+        "item": "invite_mode",
+        "value": "reg_only",
+        "class": "ref",
+        "is_public": 0,
+        "type": "string",
+        "default": "reg_only",
+        "mark": "邀请模式"
+    },
+    {
+        "item": "invite_reward_mode",
+        "value": "reward_count",
+        "class": "ref",
+        "is_public": 0,
+        "type": "string",
+        "default": "reward_count",
+        "mark": "返利模式"
+    },
+    {
+        "item": "invite_reward_rate",
+        "value": "0.2",
+        "class": "ref",
+        "is_public": 1,
+        "type": "string",
+        "default": "0.2",
+        "mark": "返利比例"
+    },
+    {
+        "item": "invite_reward_count_limit",
+        "value": "1",
+        "class": "ref",
+        "is_public": 0,
+        "type": "string",
+        "default": "1",
+        "mark": "返利次数限制"
+    },
+    {
+        "item": "invite_reward_total_limit",
+        "value": "50",
+        "class": "ref",
+        "is_public": 0,
+        "type": "int",
+        "default": "50",
+        "mark": "返利金额限制"
+    },
+    {
+        "item": "display_detect_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示用户审计记录"
+    },
+    {
+        "item": "display_docs",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "显示文档"
+    },
+    {
+        "item": "display_docs_only_for_paid_user",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "文档仅付费用户可见"
+    },
+    {
+        "item": "traffic_log",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用每小时使用流量日志"
+    },
+    {
+        "item": "traffic_log_retention_days",
+        "value": "7",
+        "class": "feature",
+        "is_public": 0,
+        "type": "int",
+        "default": "7",
+        "mark": "流量日志保留天数"
+    },
+    {
+        "item": "subscribe_log",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用订阅日志"
+    },
+    {
+        "item": "subscribe_log_retention_days",
+        "value": "7",
+        "class": "feature",
+        "is_public": 1,
+        "type": "int",
+        "default": "7",
+        "mark": "订阅日志保留天数"
+    },
+    {
+        "item": "notify_new_subscribe",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "通知用户新IP订阅"
+    },
+    {
+        "item": "login_log",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用登录日志"
+    },
+    {
+        "item": "notify_new_login",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "通知用户新IP登录"
+    },
+    {
+        "item": "enable_checkin",
+        "value": "0",
+        "class": "feature",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "签到开关"
+    },
+    {
+        "item": "checkin_min",
+        "value": "1",
+        "class": "feature",
+        "is_public": 1,
+        "type": "int",
+        "default": "1",
+        "mark": "签到最少流量"
+    },
+    {
+        "item": "checkin_max",
+        "value": "50",
+        "class": "feature",
+        "is_public": 1,
+        "type": "int",
+        "default": "50",
+        "mark": "签到最多流量"
+    },
+    {
+        "item": "enable_forced_replacement",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "用户修改账户登录密码时，是否强制更换订阅地址"
+    },
+    {
+        "item": "enable_ss_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "Shadowsocks 订阅开关"
+    },
+    {
+        "item": "enable_v2_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "V2Ray 订阅开关"
+    },
+    {
+        "item": "enable_trojan_sub",
+        "value": "1",
+        "class": "subscribe",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "Trojan 订阅开关"
+    },
+    {
+        "item": "enable_daily_finance_mail",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用每日财务报告"
+    },
+    {
+        "item": "enable_weekly_finance_mail",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用每周财务报告"
+    },
+    {
+        "item": "enable_monthly_finance_mail",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用每月财务报告"
+    },
+    {
+        "item": "enable_detect_gfw",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用节点被墙检测"
+    },
+    {
+        "item": "enable_detect_ban",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用审计封禁"
+    },
+    {
+        "item": "enable_detect_inactive_user",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "是否启用闲置用户检测"
+    },
+    {
+        "item": "detect_inactive_user_checkin_days",
+        "value": "90",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "90",
+        "mark": "未签到时长(天)"
+    },
+    {
+        "item": "detect_inactive_user_login_days",
+        "value": "90",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "90",
+        "mark": "未登录时长(天)"
+    },
+    {
+        "item": "detect_inactive_user_use_days",
+        "value": "90",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "90",
+        "mark": "未使用时长(天)"
+    },
+    {
+        "item": "remove_inactive_user_link_and_invite",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable remove link and invite of inactive user"
+    },
+    {
+        "item": "daily_job_hour",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "每日任务执行时间(小时)"
+    },
+    {
+        "item": "daily_job_minute",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "每日任务执行时间(分钟)"
+    },
+    {
+        "item": "last_daily_job_time",
+        "value": "0",
+        "class": "cron",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "上次执行每日任务的时间"
+    },
+    {
+        "item": "db_version",
+        "value": "2023020100",
+        "class": "db",
+        "is_public": 0,
+        "type": "int",
+        "default": "2023020100",
+        "mark": "当前数据库版本"
+    }
+]

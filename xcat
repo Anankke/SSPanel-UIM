@@ -1,0 +1,53 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Services\Boot;
+
+require __DIR__ . '/app/predefine.php';
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/config/.config.php';
+
+Boot::setTime();
+Boot::bootSentry();
+Boot::bootDb();
+
+if (!isset($argv[1])) {
+    $commandPath     = BASE_PATH . '/src/Command/';
+    $allCommandFiles = glob($commandPath . '*.php');
+    $allCommands = str_replace(
+        [
+            $commandPath,
+            '.php'
+        ],
+        [
+            '\\App\\Command\\',
+            ''
+        ],
+        $allCommandFiles
+    );
+    echo PHP_EOL;
+    foreach ($allCommands as $commandClass) {
+        if ($commandClass == '\\App\\Command\\Command') {
+            continue;
+        }
+        if (!class_exists($commandClass)) {
+            continue;
+        }
+        $triggerObject = new $commandClass($argv);
+        if (!property_exists($triggerObject, 'description')) {
+            continue;
+        }
+        echo trim($triggerObject->description) . PHP_EOL;
+    }
+    return;
+}
+
+$classPath = '\\App\\Command\\' . $argv[1];
+if (class_exists($classPath)) {
+    $trigger = new $classPath($argv);
+    $trigger->boot();
+} else {
+    echo 'Unable to load class: ' . $classPath . PHP_EOL;
+}

@@ -1,0 +1,52 @@
+{
+    "clients":[
+        {
+            "name": "Clash Verge",
+            "tagMethod": "github_release",
+            "gitRepo": "clash-verge-rev/clash-verge-rev",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "Clash.Verge_%tagName1%_x64-setup.exe",
+                    "saveName": "Clash.Verge.exe"
+                },
+                {
+                    "sourceName": "Clash.Verge_%tagName1%_aarch64.dmg",
+                    "saveName": "Clash.Verge_aarch64.dmg"
+                },
+                {
+                    "sourceName": "clash-verge_%tagName1%_amd64.AppImage.tar.gz",
+                    "saveName": "Clash.Verge.AppImage.tar.gz"
+                }
+            ]
+        },
+        {
+            "name": "Clash.Meta For Android",
+            "tagMethod": "github_release",
+            "gitRepo": "MetaCubeX/ClashMetaForAndroid",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "cmfa-%tagName1%-meta-universal-release.apk ",
+                    "saveName": "CMFA.apk"
+                }
+            ]
+        },
+        {
+            "name": "sing-box",
+            "tagMethod": "github_release",
+            "gitRepo": "SagerNet/sing-box",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "SFA-%tagName1%-universal.apk",
+                    "saveName": "SFA.apk"
+                },
+                {
+                    "sourceName": "SFM-%tagName1%-universal.zip",
+                    "saveName": "SFM.zip"
+                }
+            ]
+        }
+    ]
+}

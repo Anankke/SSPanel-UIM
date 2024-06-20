@@ -1,0 +1,22 @@
+name: Lockdown Issue
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  closeAndlock:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - name: Close & Lock Issue
+      run: |
+        gh issue close --reason "not planned" ${{ github.event.issue.number }}
+        gh issue lock --reason "spam" ${{ github.event.issue.number }}
+      env:
+        GH_REPO: ${{ github.repository }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
