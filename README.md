@@ -24,7 +24,7 @@ NeXT Panel is a multipurpose proxy service management system designed for Shadow
 - Refactored store system, support billing modes including but not limited to annual/monthly, pay-as-you-go, access type billing, etc.
 - Refactored scheduled task system, one command can automatically complete all scheduled tasks
 - Deep integration of large language models, support intelligent replies to tickets, document generation, and other functions
-- One-click access to OpenAI, Google AI, Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI, Anthropic, and other large language model services
+- One-click access to OpenAI, Google AI, Vertex AI, Hugging Face Hosted API, Cloudflare Workers AI, Anthropic, AWS Bedrock and other large language model services
 
 ## Installation
 

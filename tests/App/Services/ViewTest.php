@@ -50,6 +50,7 @@ final class ViewTest extends TestCase
         $_ENV['enable_change_email'] = true;
         $_ENV['enable_r2_client_download'] = true;
         $_ENV['jsdelivr_url'] = 'https://cdn.jsdelivr.net';
+        $_ENV['locale'] = 'en_US';
 
         $config = $this->view->getConfig();
 
@@ -68,5 +69,6 @@ final class ViewTest extends TestCase
         $this->assertTrue($config['enable_change_email']);
         $this->assertTrue($config['enable_r2_client_download']);
         $this->assertEquals('https://cdn.jsdelivr.net', $config['jsdelivr_url']);
+        $this->assertEquals('en_US', $config['locale']);
     }
 }
