@@ -459,10 +459,13 @@
                                                     <h3 class="card-title">修改主题模式</h3>
                                                     <div class="mb-3">
                                                         <select id="theme-mode" class="form-select">
-                                                            <option value="0" {if ! $user->is_dark_mode}selected{/if}>
+                                                            <option value="2" {if $user->is_dark_mode === 2}selected{/if}>
+                                                                自动
+                                                            </option>
+                                                            <option value="0" {if $user->is_dark_mode === 0}selected{/if}>
                                                                 浅色
                                                             </option>
-                                                            <option value="1" {if $user->is_dark_mode}selected{/if}>
+                                                            <option value="1" {if $user->is_dark_mode === 1}selected{/if}>
                                                                 深色
                                                             </option>
                                                         </select>

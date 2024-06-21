@@ -110,7 +110,7 @@
                                                 速度限制
                                             </div>
                                             <div class="text-secondary">
-                                                {if $user->node_speedlimit !== 0.0}
+                                                {if $user->node_speedlimit !== 0}
                                                     <code>{$user->node_speedlimit}</code>
                                                     Mbps
                                                 {else}

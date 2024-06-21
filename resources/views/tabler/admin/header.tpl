@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="{$user->locale}">
+<html lang="{$user->locale}"
+        data-bs-theme="{$user->is_dark_mode === 1 ? 'dark' : ($user->is_dark_mode === 2 ? 'auto' : 'light')}">
 
 <head>
     <meta charset="utf-8"/>
@@ -7,6 +8,22 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <meta name="format-detection" content="telephone=no"/>
     <title>{$config['appName']}</title>
+    <!-- Auto dark mode -->
+    <script>
+        ;(function () {
+            const htmlElement = document.querySelector("html")
+            const theme = htmlElement.getAttribute("data-bs-theme");
+
+            if(theme === 'dark-auto' || theme === 'auto') {
+                function updateTheme() {
+                    htmlElement.setAttribute("data-bs-theme",
+                        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+                }
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme)
+                updateTheme()
+            }
+        })()
+    </script>
     <!-- CSS files -->
     <link href="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="//{$config['jsdelivr_url']}/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet"/>
@@ -26,8 +43,10 @@
     </style>
 </head>
 
-{if $user->is_dark_mode}
+{if $user->is_dark_mode === 1}
 <body data-bs-theme="dark">
+{elseif $user->is_dark_mode === 2}
+<body data-bs-theme="auto">
 {else}
 <body>
 {/if}
