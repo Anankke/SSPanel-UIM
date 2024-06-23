@@ -16,8 +16,6 @@ use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\WebhookEndpoint;
 use Throwable;
-use function json_decode;
-use function json_encode;
 
 final class BillingController extends BaseController
 {
@@ -36,8 +34,6 @@ final class BillingController extends BaseController
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $settings = Config::getClass('billing');
-
         return $response->write(
             $this->view()
                 ->assign('update_field', $this->update_field)
@@ -50,20 +46,15 @@ final class BillingController extends BaseController
 
     public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $gateway_in_use = [];
+        $active_gateway = [];
 
-        foreach ($this->returnGatewaysList() as $value) {
-            $payment_enable = $request->getParam($value);
-
-            if ($payment_enable === 'true') {
-                $gateway_in_use[] = $value;
+        foreach ($this->returnGatewaysList() as $key => $value) {
+            if ($request->getParam($value) === 'true') {
+                $active_gateway[] = $value;
             }
         }
 
-        $gateway = (new Config())->where('item', 'payment_gateway')->first();
-        $gateway->value = json_encode($gateway_in_use);
-
-        if (! $gateway->save()) {
+        if (! Config::set('payment_gateway', $active_gateway)) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '保存支付网关时出错',
@@ -71,6 +62,10 @@ final class BillingController extends BaseController
         }
 
         foreach ($this->update_field as $item) {
+            if ($item === 'payment_gateway') {
+                continue;
+            }
+
             if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
@@ -150,7 +145,7 @@ final class BillingController extends BaseController
         $result = [];
 
         foreach (Payment::getAllPaymentMap() as $payment) {
-            $result[$payment::_name()] = $payment::_name();
+            $result[$payment::_readableName()] = $payment::_name();
         }
 
         return $result;
@@ -158,8 +153,6 @@ final class BillingController extends BaseController
 
     public function returnActiveGateways(): ?array
     {
-        $payment_gateways = (new Config())->where('item', 'payment_gateway')->first();
-
-        return json_decode($payment_gateways->value);
+        return Config::obtain('payment_gateway');
     }
 }

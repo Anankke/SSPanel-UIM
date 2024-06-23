@@ -329,10 +329,10 @@
                     dataType: "json",
                     data: {
                         {foreach $update_field as $key}
-                        {$key}: $('#{$key}').val(),
+                            {$key}: $('#{$key}').val(),
                         {/foreach}
                         {foreach $payment_gateways as $key => $value}
-                        {$key}: $("#{$key}_enable").is(":checked"),
+                            {$value}: $("#{$value}_enable").is(":checked"),
                         {/foreach}
                     },
                     success: function (data) {
