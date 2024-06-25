@@ -10,11 +10,13 @@ use App\Services\Mail\Mailchimp;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\NullMail;
 use App\Services\Mail\Postal;
+use App\Services\Mail\Resend;
 use App\Services\Mail\SendGrid;
 use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
-use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
+use SendGrid\Mail\TypeException;
+use Smarty\Exception;
 use Smarty\Smarty;
 
 /*
@@ -22,13 +24,14 @@ use Smarty\Smarty;
  */
 final class Mail
 {
-    public static function getClient(): AlibabaCloud|Mailchimp|Mailgun|NullMail|Postal|SendGrid|Ses|Smtp
+    public static function getClient(): AlibabaCloud|Mailchimp|Mailgun|NullMail|Postal|Resend|SendGrid|Ses|Smtp
     {
         return match (Config::obtain('email_driver')) {
             'alibabacloud' => new AlibabaCloud(),
             'mailchimp' => new Mailchimp(),
             'mailgun' => new Mailgun(),
             'postal' => new Postal(),
+            'resend' => new Resend(),
             'sendgrid' => new SendGrid(),
             'ses' => new Ses(),
             'smtp' => new Smtp(),
@@ -57,6 +60,7 @@ final class Mail
     /**
      * @throws Exception
      * @throws ClientExceptionInterface
+     * @throws TypeException
      */
     public static function send($to, $subject, $template, $array = []): void
     {

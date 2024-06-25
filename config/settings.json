@@ -531,6 +531,24 @@
         "mark": "AlibabaCloud DM From Alias"
     },
     {
+        "item": "resend_api_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Resend API Key"
+    },
+    {
+        "item": "resend_from",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Resend From"
+    },
+    {
         "item": "email_verify_code_ttl",
         "value": "3600",
         "class": "email",

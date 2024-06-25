@@ -57,6 +57,9 @@
                                 <li class="nav-item">
                                     <a href="#alibabacloud" class="nav-link" data-bs-toggle="tab">AlibabaCloud DM</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#resend" class="nav-link" data-bs-toggle="tab">Resend</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -99,6 +102,10 @@
                                                     <option value="alibabacloud"
                                                             {if $settings['email_driver'] === "alibabacloud"}selected{/if}>
                                                         AlibabaCloud DM
+                                                    </option>
+                                                    <option value="resend"
+                                                            {if $settings['email_driver'] === "resend"}selected{/if}>
+                                                        Resend
                                                     </option>
                                                 </select>
                                             </div>
@@ -412,6 +419,24 @@
                                             <div class="col">
                                                 <input id="alibabacloud_dm_from_alias" type="text" class="form-control"
                                                        value="{$settings['alibabacloud_dm_from_alias']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="resend">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
+                                            <div class="col">
+                                                <input id="resend_api_key" type="text" class="form-control"
+                                                       value="{$settings['resend_api_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">From</label>
+                                            <div class="col">
+                                                <input id="resend_from" type="text" class="form-control"
+                                                       value="{$settings['resend_from']}">
                                             </div>
                                         </div>
                                     </div>
