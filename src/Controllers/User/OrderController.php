@@ -59,7 +59,7 @@ final class OrderController extends BaseController
         $product_id = $this->antiXss->xss_clean($request->getQueryParams()['product_id']) ?? null;
         $redir = Cookie::get('redir');
 
-        if ($redir !== null) {
+        if ($redir !== '') {
             Cookie::set(['redir' => ''], time() - 1);
         }
 

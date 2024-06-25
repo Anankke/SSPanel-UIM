@@ -64,7 +64,7 @@
     "require-dev": {
         "dg/bypass-finals": "^1",
         "nunomaduro/phpinsights": "*",
-        "phpunit/phpunit": "^10"
+        "phpunit/phpunit": "^10|^11"
     },
     "scripts": {
         "update-dev-windows": [
