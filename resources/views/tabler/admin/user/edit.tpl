@@ -29,11 +29,11 @@
                 <div class="col-md-4 col-sm-12">
                     <div class="card">
                         <div class="card-header card-header-light">
-                            <h3 class="card-title">基础信息</h3>
+                            <h3 class="card-title">账户信息</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">注册邮箱</label>
+                                <label class="form-label col-3 col-form-label">邮箱</label>
                                 <div class="col">
                                     <input id="email" type="email" class="form-control" value="{$edit_user->email}">
                                 </div>
@@ -46,13 +46,6 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">备注</label>
-                                <div class="col">
-                                    <input id="remark" type="text" class="form-control" value="{$edit_user->remark}"
-                                           placeholder="仅管理员可见">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">账户密码</label>
                                 <div class="col">
                                     <input id="pass" type="text" class="form-control"
@@ -62,12 +55,107 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">账户余额</label>
                                 <div class="col">
-                                    <input id="money" type="number" step="0.1" class="form-control"
+                                    <input id="money" type="number" step="1" class="form-control"
                                            value="{$edit_user->money}">
                                 </div>
                             </div>
-                            <div class="hr-text">
-                                <span>时间设置</span>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">邀请人</label>
+                                <div class="col">
+                                    <input id="ref_by" type="text" class="form-control" value="{$edit_user->ref_by}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">SS端口</label>
+                                <div class="col">
+                                    <input id="port" type="text" class="form-control" value="{$edit_user->port}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">SS加密方式</label>
+                                <div class="col">
+                                    <select id="method" class="col form-select" value="{$edit_user->method}">
+                                        {foreach $ss_methods as $method}
+                                            <option value="{$method}" {if $edit_user->method === $method}selected{/if}>
+                                                {$method}
+                                            </option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">注册IP</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" value="{$edit_user->reg_ip}" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">注册日期</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" value="{$edit_user->reg_date}" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最后使用时间</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" value="{$edit_user->last_use_time}" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最后签到时间</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" value="{$edit_user->last_check_in_time}" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">最后登录时间</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" value="{$edit_user->last_login_time}" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="card">
+                        <div class="card-header card-header-light">
+                            <h3 class="card-title">使用限制</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">流量限制</label>
+                                <div class="col">
+                                    <input id="transfer_enable" type="text" class="form-control"
+                                           value="{$edit_user->enableTraffic()}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">当期用量</label>
+                                <div class="col">
+                                    <input type="text" class="form-control"
+                                           value="{$edit_user->usedTraffic()}" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">累计用量</label>
+                                <div class="col">
+                                    <input type="text" class="form-control"
+                                           value="{$edit_user->totalTraffic()}" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">节点群组</label>
+                                <div class="col">
+                                    <input id="node_group" type="text" class="form-control"
+                                           value="{$edit_user->node_group}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">账户等级</label>
+                                <div class="col">
+                                    <input id="class" type="text" class="form-control"
+                                           value="{$edit_user->class}">
+                                </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-4 col-form-label">等级过期时间</label>
@@ -84,21 +172,24 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">
-                                    重置的免费流量(GB)
-                                </label>
+                                <label class="form-label col-4 col-form-label">重置的免费流量(GB)</label>
                                 <div class="col">
                                     <input id="auto_reset_bandwidth" type="text" class="form-control"
                                            value="{$edit_user->auto_reset_bandwidth}">
                                 </div>
                             </div>
-                            <div class="hr-text">
-                                <span>邀请注册</span>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-4 col-form-label">速度限制 (Mbps)</label>
+                                <div class="col">
+                                    <input id="node_speedlimit" type="text" class="form-control"
+                                           value="{$edit_user->node_speedlimit}">
+                                </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">邀请人</label>
+                                <label class="form-label col-4 col-form-label">同時连接 IP 限制</label>
                                 <div class="col">
-                                    <input id="ref_by" type="text" class="form-control" value="{$edit_user->ref_by}">
+                                    <input id="node_iplimit" type="text" class="form-control"
+                                           value="{$edit_user->node_iplimit}">
                                 </div>
                             </div>
                         </div>
@@ -107,32 +198,20 @@
                 <div class="col-md-4 col-sm-12">
                     <div class="card">
                         <div class="card-header card-header-light">
-                            <h3 class="card-title">其他信息</h3>
+                            <h3 class="card-title">其他设置</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">流量限制</label>
+                                <label class="form-label col-3 col-form-label">显示语言</label>
                                 <div class="col">
-                                    <input id="transfer_enable" type="text" class="form-control"
-                                           value="{$edit_user->enableTraffic()}">
+                                    <select id="locale" class="col form-select" value="{$edit_user->locale}">
+                                        {foreach $locales as $locale}
+                                        <option value="{$locale}" {if $edit_user->locale === $locale}selected{/if}>
+                                            {$locale}
+                                        </option>
+                                        {/foreach}
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">当期用量</label>
-                                <div class="col">
-                                    <input id="usedTraffic" type="text" class="form-control"
-                                           value="{$edit_user->usedTraffic()}" disabled/>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-4 col-form-label">累计用量</label>
-                                <div class="col">
-                                    <input id="usedTraffic" type="text" class="form-control"
-                                           value="{$edit_user->totalTraffic()}" disabled/>
-                                </div>
-                            </div>
-                            <div class="hr-text">
-                                <span>高级选项</span>
                             </div>
                             <div class="form-group mb-3 row">
                                 <span class="col">管理员</span>
@@ -153,7 +232,7 @@
                                 </span>
                             </div>
                             <div class="form-group mb-3 row">
-                                <span class="col">账户异常状态</span>
+                                <span class="col">账户异常状态（Shadow Banned）</span>
                                 <span class="col-auto form-check-single form-switch">
                                     <input id="is_shadow_banned" class="form-check-input" type="checkbox"
                                            {if $edit_user->is_shadow_banned}checked=""{/if}>
@@ -168,68 +247,18 @@
                                     </label>
                                 </span>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <span class="col">手动封禁理由</span>
+                            <div class="form-group mb-3 col-12">
+                                <span class="form-label col-12 col-form-label">手动封禁理由</span>
                                 <span class="col-auto">
-                                    <input id="banned_reason" type="text" class="form-control"
-                                           value="{$edit_user->banned_reason}">
+                                    <textarea id="banned_reason" class="form-control"
+                                              value="{$edit_user->banned_reason}"></textarea>
                                 </span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <div class="card">
-                        <div class="card-header card-header-light">
-                            <h3 class="card-title">连接设置</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">端口</label>
-                                <div class="col">
-                                    <input id="port" type="text" class="form-control" value="{$edit_user->port}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">密码</label>
-                                <div class="col">
-                                    <input id="passwd" type="text" class="form-control" value="{$edit_user->passwd}" disabled/>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">加密</label>
-                                <div class="col">
-                                    <input id="method" type="text" class="form-control" value="{$edit_user->method}">
-                                </div>
-                            </div>
-                            <div class="hr-text">
-                                <span>使用限制</span>
-                            </div>
                             <div class="form-group mb-3 col-12">
-                                <label class="form-label col-12 col-form-label">节点群组</label>
+                                <label class="form-label col-12 col-form-label">账户备注</label>
                                 <div class="col">
-                                    <input id="node_group" type="text" class="form-control"
-                                           value="{$edit_user->node_group}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 col-12">
-                                <label class="form-label col-12 col-form-label">账户等级</label>
-                                <div class="col">
-                                    <input id="class" type="text" class="form-control" value="{$edit_user->class}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 col-12">
-                                <label class="form-label col-12 col-form-label">速度限制 (Mbps)</label>
-                                <div class="col">
-                                    <input id="node_speedlimit" type="text" class="form-control"
-                                           value="{$edit_user->node_speedlimit}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 col-12">
-                                <label class="form-label col-12 col-form-label">同時连接 IP 限制</label>
-                                <div class="col">
-                                    <input id="node_iplimit" type="text" class="form-control"
-                                           value="{$edit_user->node_iplimit}">
+                                    <textarea id="remark" class="form-control" value="{$edit_user->remark}"
+                                              placeholder="仅管理员可见"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -251,9 +280,9 @@
                 {$key}: $('#{$key}').val(),
                 {/foreach}
                 is_admin: $("#is_admin").is(":checked"),
-                is_banned: $("#is_banned").is(":checked"),
                 ga_enable: $("#ga_enable").is(":checked"),
                 is_shadow_banned: $("#is_shadow_banned").is(":checked"),
+                is_banned: $("#is_banned").is(":checked"),
             },
             success: function (data) {
                 if (data.ret === 1) {
