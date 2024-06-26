@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway;
 
 use App\Models\Config;
+use App\Models\Invoice;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Gateway\Epay\EpayNotify;
@@ -59,11 +60,20 @@ final class Epay extends Base
 
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $price = $this->antiXss->xss_clean($request->getParam('price'));
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
         // EPay 特定参数
         $type = $this->antiXss->xss_clean($request->getParam('type'));
         $redir = $this->antiXss->xss_clean($request->getParam('redir'));
+        $invoice = (new Invoice())->find($invoice_id);
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Invoice not found',
+            ]);
+        }
+
+        $price = $invoice->price;
 
         if ($price <= 0) {
             return $response->withJson([
@@ -73,12 +83,15 @@ final class Epay extends Base
         }
 
         $user = Auth::getUser();
-        $pl = new Paylist();
+        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
 
-        $pl->userid = $user->id;
-        $pl->total = $price;
-        $pl->invoice_id = $invoice_id;
-        $pl->tradeno = self::generateGuid();
+        if ($pl === null) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $price;
+            $pl->invoice_id = $invoice_id;
+            $pl->tradeno = self::generateGuid();
+        }
 
         $type_text = match ($type) {
             'qqpay' => 'QQ',
@@ -143,12 +156,14 @@ final class Epay extends Base
         if ($verify_result) {
             if ($_GET['trade_status'] === 'TRADE_SUCCESS') {
                 $this->postPayment($_GET['out_trade_no']);
-
-                return $response->withJson(['state' => 'success', 'msg' => 'Payment success']);
+                // EPay just fucking copied from Alipay's method of determining whether the payment is successful
+                // which is retarded
+                // https://pay.v8jisu.cn/doc.html
+                return $response->write('success');
             }
         }
 
-        return $response->withJson(['state' => 'fail', 'msg' => 'Payment failed']);
+        return $response->write('failed');
     }
 
     /**

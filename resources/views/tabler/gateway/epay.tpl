@@ -8,7 +8,6 @@
         <button class="btn btn-flat waves-attach"
                 hx-post="/user/payment/purchase/epay" hx-swap="none"
                 hx-vals='js:{
-                    price: {$invoice->price},
                     invoice_id: {$invoice->id},
                     type: "alipay",
                     redir: window.location.href
@@ -20,7 +19,6 @@
         <button class="btn btn-flat waves-attach"
                 hx-post="/user/payment/purchase/epay" hx-swap="none"
                 hx-vals='js:{
-                    price: {$invoice->price},
                     invoice_id: {$invoice->id},
                     type: "wxpay",
                     redir: window.location.href
@@ -32,7 +30,6 @@
         <button class="btn btn-flat waves-attach"
                 hx-post="/user/payment/purchase/epay" hx-swap="none"
                 hx-vals='js:{
-                    price: {$invoice->price},
                     invoice_id: {$invoice->id},
                     type: "qqpay",
                     redir: window.location.href
@@ -44,7 +41,6 @@
         <button class="btn btn-flat waves-attach"
                 hx-post="/user/payment/purchase/epay" hx-swap="none"
                 hx-vals='js:{
-                    price: {$invoice->price},
                     invoice_id: {$invoice->id},
                     type: "usdt",
                     redir: window.location.href

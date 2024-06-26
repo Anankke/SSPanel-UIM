@@ -43,14 +43,14 @@ final class Payment
         return $result;
     }
 
-    public static function getPaymentByName($name)
+    public static function getPaymentByName($name): ?string
     {
         $all = self::getPaymentMap();
 
         return $all[$name];
     }
 
-    public static function notify($request, $response, $args)
+    public static function notify($request, $response, $args): ResponseInterface
     {
         $payment = self::getPaymentByName($args['type']);
 
@@ -62,7 +62,7 @@ final class Payment
         return $response->withStatus(404);
     }
 
-    public static function returnHTML($request, $response, $args): string|ResponseInterface
+    public static function returnHTML($request, $response, $args): ResponseInterface
     {
         $payment = self::getPaymentByName($args['type']);
 
@@ -71,22 +71,10 @@ final class Payment
             return $instance->getReturnHTML($request, $response, $args);
         }
 
-        return '';
-    }
-
-    public static function getStatus($request, $response, $args)
-    {
-        $payment = self::getPaymentByName($args['type']);
-
-        if ($payment !== null) {
-            $instance = new $payment();
-            return $instance->getStatus($request, $response, $args);
-        }
-
         return $response->withStatus(404);
     }
 
-    public static function purchase($request, $response, $args)
+    public static function purchase($request, $response, $args): ResponseInterface
     {
         $payment = self::getPaymentByName($args['type']);
 

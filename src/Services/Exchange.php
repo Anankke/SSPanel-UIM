@@ -18,7 +18,7 @@ final class Exchange
      */
     public function exchange(float $amount, string $from, string $to): float
     {
-        return round($amount * self::getExchangeRate($from, $to), 2);
+        return round($amount * $this->getExchangeRate($from, $to), 2);
     }
 
     /**

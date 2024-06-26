@@ -34,6 +34,7 @@
         "phpmailer/phpmailer": "^6",
         "postal/postal": "^2",
         "ramsey/uuid": "^4",
+        "resend/resend-php": "^0.12.0",
         "sendgrid/sendgrid": "^8",
         "sentry/sdk": "^4",
         "slim/http": "^1",
@@ -63,7 +64,7 @@
     "require-dev": {
         "dg/bypass-finals": "^1",
         "nunomaduro/phpinsights": "*",
-        "phpunit/phpunit": "^10"
+        "phpunit/phpunit": "^10|^11"
     },
     "scripts": {
         "update-dev-windows": [

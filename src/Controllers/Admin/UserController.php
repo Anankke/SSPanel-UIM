@@ -9,6 +9,7 @@ use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Models\User;
 use App\Models\UserMoneyLog;
+use App\Services\I18n;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
@@ -66,26 +67,22 @@ final class UserController extends BaseController
     private static array $update_field = [
         'email',
         'user_name',
-        'remark',
         'pass',
         'money',
-        'is_admin',
-        'ga_enable',
-        'is_banned',
-        'banned_reason',
-        'is_shadow_banned',
-        'transfer_enable',
         'ref_by',
-        'class_expire',
+        'port',
+        'method',
+        'transfer_enable',
         'node_group',
         'class',
+        'class_expire',
         'auto_reset_day',
         'auto_reset_bandwidth',
         'node_speedlimit',
         'node_iplimit',
-        'port',
-        'passwd',
-        'method',
+        'locale',
+        'banned_reason',
+        'remark',
     ];
 
     /**
@@ -130,7 +127,17 @@ final class UserController extends BaseController
             $password = Tools::genRandomChar(16);
         }
 
-        (new AuthController())->registerHelper($response, 'user', $email, $password, '', 0, '', $balance, 1);
+        (new AuthController())->registerHelper(
+            $response,
+            'user',
+            $email,
+            $password,
+            '',
+            0,
+            '',
+            $balance,
+            1
+        );
         $user = (new User())->where('email', $email)->first();
 
         if ($ref_by !== '') {
@@ -150,11 +157,16 @@ final class UserController extends BaseController
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $user = (new User())->find($args['id']);
+        $user->last_use_time = Tools::toDateTime($user->last_use_time);
+        $user->last_check_in_time = Tools::toDateTime($user->last_check_in_time);
+        $user->last_login_time = Tools::toDateTime($user->last_login_time);
 
         return $response->write(
             $this->view()
                 ->assign('update_field', self::$update_field)
                 ->assign('edit_user', $user)
+                ->assign('ss_methods', Tools::getSsMethod())
+                ->assign('locales', I18n::getLocaleList())
                 ->fetch('admin/user/edit.tpl')
         );
     }
@@ -185,23 +197,24 @@ final class UserController extends BaseController
 
         $user->email = $request->getParam('email');
         $user->user_name = $request->getParam('user_name');
-        $user->remark = $request->getParam('remark');
-        $user->is_admin = $request->getParam('is_admin') === 'true' ? 1 : 0;
-        $user->ga_enable = $request->getParam('ga_enable') === 'true' ? 1 : 0;
-        $user->is_banned = $request->getParam('is_banned') === 'true' ? 1 : 0;
-        $user->banned_reason = $request->getParam('banned_reason');
-        $user->is_shadow_banned = $request->getParam('is_shadow_banned') === 'true' ? 1 : 0;
-        $user->transfer_enable = Tools::autoBytesR($request->getParam('transfer_enable'));
         $user->ref_by = $request->getParam('ref_by');
-        $user->class_expire = $request->getParam('class_expire');
+        $user->port = $request->getParam('port');
+        $user->method = $request->getParam('method');
+        $user->transfer_enable = Tools::autoBytesR($request->getParam('transfer_enable'));
         $user->node_group = $request->getParam('node_group');
         $user->class = $request->getParam('class');
+        $user->class_expire = $request->getParam('class_expire');
         $user->auto_reset_day = $request->getParam('auto_reset_day');
         $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $user->node_speedlimit = $request->getParam('node_speedlimit');
         $user->node_iplimit = $request->getParam('node_iplimit');
-        $user->port = $request->getParam('port');
-        $user->method = $request->getParam('method');
+        $user->locale = $request->getParam('locale');
+        $user->is_admin = $request->getParam('is_admin') === 'true' ? 1 : 0;
+        $user->ga_enable = $request->getParam('ga_enable') === 'true' ? 1 : 0;
+        $user->is_shadow_banned = $request->getParam('is_shadow_banned') === 'true' ? 1 : 0;
+        $user->is_banned = $request->getParam('is_banned') === 'true' ? 1 : 0;
+        $user->banned_reason = $request->getParam('banned_reason');
+        $user->remark = $request->getParam('remark');
 
         if (! $user->save()) {
             return $response->withJson([
@@ -209,6 +222,7 @@ final class UserController extends BaseController
                 'msg' => '修改失败',
             ]);
         }
+
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功',

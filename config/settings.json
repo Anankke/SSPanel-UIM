@@ -531,6 +531,24 @@
         "mark": "AlibabaCloud DM From Alias"
     },
     {
+        "item": "resend_api_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Resend API Key"
+    },
+    {
+        "item": "resend_from",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Resend From"
+    },
+    {
         "item": "email_verify_code_ttl",
         "value": "3600",
         "class": "email",
@@ -1672,5 +1690,41 @@
         "type": "string",
         "default": "claude-3-sonnet-20240229",
         "mark": "Anthropic Model ID"
+    },
+    {
+        "item": "aws_bedrock_access_key_id",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AWS Bedrock Access Key ID"
+    },
+    {
+        "item": "aws_bedrock_access_key_secret",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AWS Bedrock Access Key Secret"
+    },
+    {
+        "item": "aws_bedrock_region",
+        "value": "us-west-2",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "us-west-2",
+        "mark": "AWS Bedrock Region"
+    },
+    {
+        "item": "aws_bedrock_model_id",
+        "value": "meta.llama3-8b-instruct-v1:0",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "meta.llama3-8b-instruct-v1:0",
+        "mark": "AWS Bedrock Model ID"
     }
 ]

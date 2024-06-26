@@ -10,10 +10,41 @@ use function json_decode;
 
 final class VertexAI extends Base
 {
-    /**
-     * @throws GuzzleException
-     */
     public function textPrompt(string $q): string
+    {
+        return $this->makeRequest([
+            [
+                'parts' => [
+                    [
+                        'text' => $q,
+                    ],
+                ],
+                'role' => 'user',
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        $conversation = [];
+
+        if (count($context) > 0) {
+            foreach ($context as $role => $content) {
+                $conversation[] = [
+                    'parts' => [
+                        [
+                            'text' => $content,
+                        ],
+                    ],
+                    'role' => $role === 'user' ? 'user' : 'model',
+                ];
+            }
+        }
+
+        return $this->makeRequest($conversation);
+    }
+
+    private function makeRequest(array $conversation): string
     {
         if (Config::obtain('vertex_ai_access_token') === '') {
             return 'Vertex AI API key not set';
@@ -29,13 +60,7 @@ final class VertexAI extends Base
         ];
 
         $data = [
-            'contents' => [
-                'parts' => [
-                    [
-                        'text' => $q,
-                    ],
-                ],
-            ],
+            'contents' => $conversation,
             'generationConfig' => [
                 'temperature' => 1,
                 'candidateCount' => 1,
@@ -60,17 +85,16 @@ final class VertexAI extends Base
             ],
         ];
 
-        $response = json_decode($this->client->post($api_url, [
-            'headers' => $headers,
-            'json' => $data,
-            'timeout' => 30,
-        ])->getBody()->getContents());
+        try {
+            $response = json_decode($this->client->post($api_url, [
+                'headers' => $headers,
+                'json' => $data,
+                'timeout' => 30,
+            ])->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            return '';
+        }
 
         return $response->candidates[0]->content->parts[0]->text;
-    }
-
-    public function textPromptWithContext(string $q, array $context): string
-    {
-        return '';
     }
 }

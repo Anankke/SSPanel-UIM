@@ -286,7 +286,7 @@ class ToolsTest extends TestCase
             'chacha20-ietf-poly1305',
             'xchacha20-ietf-poly1305',
         ];
-        $result4 = Tools::getSsMethod('');
+        $result4 = Tools::getSsMethod();
         $this->assertEquals($expected4, $result4);
     }
 

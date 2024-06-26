@@ -6,6 +6,8 @@ namespace App\Services;
 
 use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\Translator;
+use function basename;
+use function glob;
 use const BASE_PATH;
 
 final class I18n
@@ -20,12 +22,14 @@ final class I18n
 
     public static function getLocaleList(): array
     {
-        return [
-            'en_US',
-            'ja_JP',
-            'zh_CN',
-            'zh_TW',
-        ];
+        $locales = [];
+        $files = glob(BASE_PATH . '/resources/locale/*.php');
+
+        foreach ($files as $file) {
+            $locales[] = basename($file, '.php');
+        }
+
+        return $locales;
     }
 
     public static function getTranslator($lang = 'en_US'): Translator

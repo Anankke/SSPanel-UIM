@@ -6,7 +6,7 @@ $_ENV['pwdMethod'] = 'bcrypt'; // 密码加密 可选 bcrypt, argon2i, argon2id
 $_ENV['salt'] = '';            // bcrypt/argon2i/argon2id 会忽略此项
 
 $_ENV['debug'] = false;                  // debug模式开关，生产环境请保持为false
-$_ENV['appName'] = 'SSPanel-UIM';         // 站点名称
+$_ENV['appName'] = 'NeXT Panel';         // 站点名称
 $_ENV['baseUrl'] = 'https://example.com'; // 站点地址，必须以https://开头，不要以/结尾
 
 // WebAPI
@@ -21,9 +21,9 @@ $_ENV['checkNodeIp'] = true;           // 是否webapi验证节点ip
 // db_socket 例：/var/run/mysqld/mysqld.sock（需使用绝对地址）
 $_ENV['db_host'] = '';
 $_ENV['db_socket'] = '';
-$_ENV['db_database'] = 'sspanel'; // 数据库名
+$_ENV['db_database'] = 'nextpanel'; // 数据库名
 $_ENV['db_username'] = 'root';    // 数据库用户名
-$_ENV['db_password'] = 'sspanel'; // 用户密码
+$_ENV['db_password'] = 'nextpanel'; // 用户密码
 $_ENV['db_port'] = '3306';        // 端口
 #读写分离相关配置
 $_ENV['enable_db_rw_split'] = false; // 是否开启读写分离
@@ -86,8 +86,8 @@ $_ENV['auto_detect_ban_time'] = 60;          // 每次封禁的时长 (分钟)
 //节点检测---------------------------------------------------------------------------------------------------------------
 //TODO: move these settings to DB
 #GFW检测
-$_ENV['detect_gfw_port'] = 443;                                                    //所有节点服务器都打开的TCP端口
-$_ENV['detect_gfw_url'] = 'http://example.com:8080/v1/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
+$_ENV['detect_gfw_port'] = 443;                                                //所有节点服务器都打开的TCP端口
+$_ENV['detect_gfw_url'] = 'https://example.com/v1/tcping?ip={ip}&port={port}'; // https://github.com/SSPanel-NeXT/NetStatus-API-Go
 #离线检测
 $_ENV['enable_detect_offline'] = true;
 

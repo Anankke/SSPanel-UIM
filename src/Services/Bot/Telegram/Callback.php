@@ -586,7 +586,7 @@ final class Callback
             case 'encrypt':
                 // 加密方式更改
                 $keyboard = $back;
-                $method = Tools::getSsMethod('method');
+                $method = Tools::getSsMethod();
 
                 if (isset($CallbackDataExplode[1])) {
                     if (in_array($CallbackDataExplode[1], $method)) {

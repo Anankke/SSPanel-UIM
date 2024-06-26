@@ -6,52 +6,39 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 
 final class CaptchaController extends BaseController
 {
-    private static array $update_field = [
-        'captcha_provider',
-        'enable_reg_captcha',
-        'enable_login_captcha',
-        'enable_checkin_captcha',
-        'enable_reset_password_captcha',
-        // Turnstile
-        'turnstile_sitekey',
-        'turnstile_secret',
-        // Geetest
-        'geetest_id',
-        'geetest_key',
-        // hCaptcha
-        'hcaptcha_sitekey',
-        'hcaptcha_secret',
-        // reCAPTCHA Enterprise
-        'recaptcha_enterprise_key_id',
-        'recaptcha_enterprise_project_id',
-        'recaptcha_enterprise_api_key',
-    ];
+    private array $update_field;
+    private array $settings;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->update_field = Config::getItemListByClass('captcha');
+        $this->settings = Config::getClass('captcha');
+    }
 
     /**
      * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $settings = Config::getClass('captcha');
-
         return $response->write(
             $this->view()
-                ->assign('update_field', self::$update_field)
-                ->assign('settings', $settings)
+                ->assign('update_field', $this->update_field)
+                ->assign('settings', $this->settings)
                 ->fetch('admin/setting/captcha.tpl')
         );
     }
 
     public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        foreach (self::$update_field as $item) {
+        foreach ($this->update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,

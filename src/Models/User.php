@@ -38,7 +38,7 @@ use const PHP_EOL;
  * @property int    $ref_by 邀请人ID
  * @property string $method Shadowsocks加密方式
  * @property string $reg_ip 注册IP
- * @property float  $node_speedlimit 用户限速
+ * @property int    $node_speedlimit 用户限速
  * @property int    $node_iplimit 同时可连接IP数
  * @property int    $is_admin 是否管理员
  * @property int    $im_type 联系方式类型
@@ -86,7 +86,6 @@ final class User extends Model
     protected $casts = [
         'money' => 'float',
         'port' => 'int',
-        'node_speedlimit' => 'float',
         'daily_mail_enable' => 'int',
         'ref_by' => 'int',
     ];

@@ -295,7 +295,7 @@ final class Tools
         return false;
     }
 
-    public static function getSsMethod($type): array
+    public static function getSsMethod(string $type = ''): array
     {
         return match ($type) {
             'ss_obfs' => [

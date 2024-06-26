@@ -9,24 +9,24 @@ use App\Models\Config;
 use App\Models\Ticket;
 use App\Services\Notification;
 use App\Services\RateLimit;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
-use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function array_merge;
 use function count;
 use function json_decode;
 use function json_encode;
+use function nl2br;
 use function time;
 
 final class TicketController extends BaseController
 {
-    private static string $err_msg = '请求失败';
-
     /**
      * @throws Exception
      */
@@ -69,15 +69,13 @@ final class TicketController extends BaseController
             $comment === '' ||
             $type === ''
         ) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            return ResponseHelper::error($response, '工单创建失败');
         }
 
         $content = [
             [
                 'comment_id' => 0,
+                'commenter_type' => 'user',
                 'commenter_name' => $this->user->user_name,
                 'comment' => $this->antiXss->xss_clean($comment),
                 'datetime' => time(),
@@ -100,10 +98,7 @@ final class TicketController extends BaseController
             );
         }
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '提交成功',
-        ]);
+        return $response->withHeader('HX-Redirect', '/user/ticket/' . $ticket->id . '/view');
     }
 
     /**
@@ -111,7 +106,7 @@ final class TicketController extends BaseController
      * @throws TelegramSDKException
      * @throws ClientExceptionInterface
      */
-    public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function reply(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $comment = $request->getParam('comment') ?? '';
@@ -120,25 +115,20 @@ final class TicketController extends BaseController
             $this->user->is_shadow_banned ||
             $comment === ''
         ) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            ResponseHelper::error($response, '工单回复失败');
         }
 
         $ticket = (new Ticket())->where('id', $id)->where('userid', $this->user->id)->first();
 
         if ($ticket === null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => self::$err_msg,
-            ]);
+            ResponseHelper::error($response, '工单不存在');
         }
 
         $content_old = json_decode($ticket->content, true);
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
+                'commenter_type' => 'user',
                 'commenter_name' => $this->user->user_name,
                 'comment' => $this->antiXss->xss_clean($comment),
                 'datetime' => time(),
@@ -158,10 +148,7 @@ final class TicketController extends BaseController
             );
         }
 
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '提交成功',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     /**
@@ -183,6 +170,7 @@ final class TicketController extends BaseController
         $comments = json_decode($ticket->content);
 
         foreach ($comments as $comment) {
+            $comment->comment = nl2br($comment->comment);
             $comment->datetime = Tools::toDateTime((int) $comment->datetime);
         }
 

@@ -10,12 +10,25 @@ use function json_decode;
 
 final class CloudflareWorkersAI extends Base
 {
-    /**
-     * @throws GuzzleException
-     */
     public function textPrompt(string $q): string
     {
-        if (Config::obtain('cf_workers_ai_account_id') === '' || Config::obtain('cf_workers_ai_api_token') === '') {
+        return $this->makeRequest([
+            [
+                'role' => 'user',
+                'content' => $q,
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        return 'This service does not support context';
+    }
+
+    private function makeRequest(array $conversation): string
+    {
+        if (Config::obtain('cf_workers_ai_account_id') === '' ||
+            Config::obtain('cf_workers_ai_api_token') === '') {
             return 'Cloudflare Workers AI Account ID or API Token not set';
         }
 
@@ -28,20 +41,19 @@ final class CloudflareWorkersAI extends Base
         ];
 
         $data = [
-            'prompt' => $q,
+            'prompt' => $conversation[0]['content'],
         ];
 
-        $response = json_decode($this->client->post($api_url, [
-            'headers' => $headers,
-            'json' => $data,
-            'timeout' => 30,
-        ])->getBody()->getContents());
+        try {
+            $response = json_decode($this->client->post($api_url, [
+                'headers' => $headers,
+                'json' => $data,
+                'timeout' => 30,
+            ])->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            return '';
+        }
 
         return $response->result->response;
-    }
-
-    public function textPromptWithContext(string $q, array $context): string
-    {
-        return '';
     }
 }

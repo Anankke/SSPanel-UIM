@@ -51,6 +51,9 @@
                                 <li class="nav-item">
                                     <a href="#anthropic" class="nav-link" data-bs-toggle="tab">Anthropic</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#aws-bedrock" class="nav-link" data-bs-toggle="tab">AWS Bedrock</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -89,6 +92,10 @@
                                                     <option value="anthropic"
                                                             {if $settings['llm_backend'] === "anthropic"}selected{/if}>
                                                         Anthropic
+                                                    </option>
+                                                    <option value="aws-bedrock"
+                                                            {if $settings['llm_backend'] === "aws-bedrock"}selected{/if}>
+                                                        AWS Bedrock
                                                     </option>
                                                 </select>
                                             </div>
@@ -166,7 +173,7 @@
                                 <div class="tab-pane" id="huggingface">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Api Key</label>
+                                            <label class="form-label col-3 col-form-label">API Key</label>
                                             <div class="col">
                                                 <input id="huggingface_api_key" type="text" class="form-control"
                                                        value="{$settings['huggingface_api_key']}">
@@ -191,7 +198,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Api Token</label>
+                                            <label class="form-label col-3 col-form-label">API Token</label>
                                             <div class="col">
                                                 <input id="cf_workers_ai_api_token" type="text" class="form-control"
                                                        value="{$settings['cf_workers_ai_api_token']}">
@@ -220,6 +227,38 @@
                                             <div class="col">
                                                 <input id="anthropic_model_id" type="text" class="form-control"
                                                        value="{$settings['anthropic_model_id']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="aws-bedrock">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Access Key ID</label>
+                                            <div class="col">
+                                                <input id="aws_bedrock_access_key_id" type="text" class="form-control"
+                                                       value="{$settings['aws_bedrock_access_key_id']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Access Key Secret</label>
+                                            <div class="col">
+                                                <input id="aws_bedrock_access_key_secret" type="text" class="form-control"
+                                                       value="{$settings['aws_bedrock_access_key_secret']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Region</label>
+                                            <div class="col">
+                                                <input id="aws_bedrock_region" type="text" class="form-control"
+                                                       value="{$settings['aws_bedrock_region']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Model ID</label>
+                                            <div class="col">
+                                                <input id="aws_bedrock_model_id" type="text" class="form-control"
+                                                       value="{$settings['aws_bedrock_model_id']}">
                                             </div>
                                         </div>
                                     </div>

@@ -33,7 +33,7 @@ final class InfoController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $methods = Tools::getSsMethod('method');
+        $methods = Tools::getSsMethod();
         $ga_url = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()
@@ -289,7 +289,7 @@ final class InfoController extends BaseController
         $theme_mode = (int) $this->antiXss->xss_clean($request->getParam('theme_mode'));
         $user = $this->user;
 
-        $user->is_dark_mode = in_array($theme_mode, [0, 1]) ? $theme_mode : 0;
+        $user->is_dark_mode = in_array($theme_mode, [0, 1, 2]) ? $theme_mode : 0;
 
         if (! $user->save()) {
             return ResponseHelper::error($response, '切换失败');

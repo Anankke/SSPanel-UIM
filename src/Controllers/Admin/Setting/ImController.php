@@ -11,78 +11,44 @@ use App\Services\IM\Discord;
 use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
-use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 final class ImController extends BaseController
 {
-    private static array $update_field = [
-        // TODO: rename these to im service independent
-        'im_bot_group_notify_add_node',
-        'im_bot_group_notify_update_node',
-        'im_bot_group_notify_delete_node',
-        'im_bot_group_notify_node_gfwed',
-        'im_bot_group_notify_node_ungfwed',
-        'im_bot_group_notify_node_online',
-        'im_bot_group_notify_node_offline',
-        'im_bot_group_notify_daily_job',
-        'im_bot_group_notify_diary',
-        'im_bot_group_notify_ann_create',
-        'im_bot_group_notify_ann_update',
-        // Telegram
-        'telegram_token',
-        'telegram_bot',
-        'telegram_chatid',
-        'enable_telegram_group_notify',
-        'telegram_unbind_kick_member',
-        'telegram_group_bound_user',
-        'enable_welcome_message',
-        'telegram_group_quiet',
-        'allow_to_join_new_groups',
-        'group_id_allowed_to_join',
-        'help_any_command',
-        // Discord
-        'discord_bot_token',
-        'discord_client_id',
-        'discord_client_secret',
-        'discord_guild_id',
-        'discord_channel_id',
-        'enable_discord_channel_notify',
-        // Slack
-        'slack_token',
-        'slack_client_id',
-        'slack_client_secret',
-        'slack_team_id',
-        'slack_channel_id',
-        'enable_slack_channel_notify',
-    ];
-
     private static string $success_msg = '测试信息发送成功';
     private static string $err_msg = '测试信息发送失败';
+    private array $update_field;
+    private array $settings;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->update_field = Config::getItemListByClass('im');
+        $this->settings = Config::getClass('im');
+    }
 
     /**
      * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $settings = Config::getClass('im');
-
         return $response->write(
             $this->view()
-                ->assign('update_field', self::$update_field)
-                ->assign('settings', $settings)
+                ->assign('update_field', $this->update_field)
+                ->assign('settings', $this->settings)
                 ->fetch('admin/setting/im.tpl')
         );
     }
 
     public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        foreach (self::$update_field as $item) {
+        foreach ($this->update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,
@@ -156,7 +122,7 @@ final class ImController extends BaseController
                 (int) $request->getParam('telegram_chat_id'),
                 I18n::trans('bot.test_message', $_ENV['locale']),
             );
-        } catch (TelegramSDKException|Exception $e) {
+        } catch (TelegramSDKException|\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $this::$err_msg . ' ' . $e->getMessage(),
@@ -176,7 +142,7 @@ final class ImController extends BaseController
                 (int) $request->getParam('discord_channel_id'),
                 I18n::trans('bot.test_message', $_ENV['locale']),
             );
-        } catch (GuzzleException|Exception $e) {
+        } catch (GuzzleException|\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $this::$err_msg . ' ' . $e->getMessage(),
@@ -196,7 +162,7 @@ final class ImController extends BaseController
                 (int) $request->getParam('slack_channel_id'),
                 I18n::trans('bot.test_message', $_ENV['locale']),
             );
-        } catch (GuzzleException|Exception $e) {
+        } catch (GuzzleException|\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => $this::$err_msg . ' ' . $e->getMessage(),

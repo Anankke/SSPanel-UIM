@@ -215,8 +215,8 @@ final class ClientDownload extends Command
         echo '====== ' . $task['name'] . ' 开始 ======' . PHP_EOL;
 
         $tagName = match ($task['tagMethod']) {
-            'github_pre_release' => self::getLatestPreReleaseTagName($task['gitRepo']),
-            default => self::getLatestReleaseTagName($task['gitRepo']),
+            'github_pre_release' => $this->getLatestPreReleaseTagName($task['gitRepo']),
+            default => $this->getLatestReleaseTagName($task['gitRepo']),
         };
 
         if (! isset($this->version[$task['name']])) {

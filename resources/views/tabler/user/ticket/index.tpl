@@ -14,8 +14,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="btn-list">
-                        <button href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#create-ticket">
+                        <button href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-ticket">
                             <i class="icon ti ti-plus"></i>
                             创建工单
                         </button>
@@ -31,45 +30,45 @@
                     <div class="row row-cards row-deck">
                         {if $tickets !== 0}
                             {foreach $tickets as $ticket}
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-stamp">
-                                                {if $ticket->status !== 'closed'}
-                                                    <div class="card-stamp-icon bg-yellow">
-                                                        <i class="ti ti-clock"></i>
-                                                    </div>
-                                                {else}
-                                                    <div class="card-stamp-icon bg-green">
-                                                        <i class="ti ti-check"></i>
-                                                    </div>
-                                                {/if}
+                            <div class="col-md-4 col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-stamp">
+                                            {if $ticket->status !== 'closed'}
+                                            <div class="card-stamp-icon bg-yellow">
+                                                <i class="ti ti-clock"></i>
                                             </div>
-                                            <h3 class="card-title" style="font-size: 20px;">
-                                                #{$ticket->id}
-                                            </h3>
-                                            <p class="text-secondary text-truncate" style="height: 100px;">
-                                                {$ticket->title}
-                                            </p>
+                                            {else}
+                                            <div class="card-stamp-icon bg-green">
+                                                <i class="ti ti-check"></i>
+                                            </div>
+                                            {/if}
                                         </div>
-                                        <div class="card-footer">
-                                            <div class="d-flex">
-                                                <span class="status status-grey">{$ticket->status}</span>
-                                                <span class="status status-grey">{$ticket->type}</span>
-                                                <a href="/user/ticket/{$ticket->id}/view"
-                                                   class="btn btn-primary ms-auto">查看</a>
-                                            </div>
+                                        <h3 class="card-title" style="font-size: 20px;">
+                                            #{$ticket->id}
+                                        </h3>
+                                        <p class="text-secondary text-truncate" style="height: 100px;">
+                                            {$ticket->title}
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex">
+                                            <span class="status status-grey">{$ticket->status}</span>
+                                            <span class="status status-grey">{$ticket->type}</span>
+                                            <a href="/user/ticket/{$ticket->id}/view"
+                                               class="btn btn-primary ms-auto">查看</a>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             {/foreach}
                         {else}
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">没有任何工单</h3>
-                                </div>
-                                <div class="card-body">如需帮助，请点击右上角按钮开启新工单</div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">没有任何工单</h3>
                             </div>
+                            <div class="card-body">如需帮助，请点击右上角按钮开启新工单</div>
+                        </div>
                         {/if}
                     </div>
                 </div>
@@ -98,8 +97,7 @@
                         <input id="ticket-title" type="text" class="form-control" placeholder="请输入工单主题">
                     </div>
                     <div class="mb-3">
-                        <textarea id="ticket-comment" class="form-control" rows="12"
-                                  placeholder="请输入工单内容"></textarea>
+                        <textarea id="ticket-comment" class="form-control" rows="12" placeholder="请输入工单内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -10,10 +10,41 @@ use function json_decode;
 
 final class GoogleAI extends Base
 {
-    /**
-     * @throws GuzzleException
-     */
     public function textPrompt(string $q): string
+    {
+        return $this->makeRequest([
+            [
+                'parts' => [
+                    [
+                        'text' => $q,
+                    ],
+                ],
+                'role' => 'user',
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        $conversation = [];
+
+        if (count($context) > 0) {
+            foreach ($context as $role => $content) {
+                $conversation[] = [
+                    'parts' => [
+                        [
+                            'text' => $content,
+                        ],
+                    ],
+                    'role' => $role === 'user' ? 'user' : 'model',
+                ];
+            }
+        }
+
+        return $this->makeRequest($conversation);
+    }
+
+    private function makeRequest(array $conversation): string
     {
         if (Config::obtain('google_ai_api_key') === '') {
             return 'Google AI API key not set';
@@ -27,16 +58,7 @@ final class GoogleAI extends Base
         ];
 
         $data = [
-            'contents' => [
-                [
-                    'parts' => [
-                        [
-                            'text' => $q,
-                        ],
-                    ],
-                    'role' => 'user',
-                ],
-            ],
+            'contents' => $conversation,
             'generationConfig' => [
                 'temperature' => 1,
                 'candidateCount' => 1,
@@ -61,17 +83,16 @@ final class GoogleAI extends Base
             ],
         ];
 
-        $response = json_decode($this->client->post($api_url, [
-            'headers' => $headers,
-            'json' => $data,
-            'timeout' => 30,
-        ])->getBody()->getContents());
+        try {
+            $response = json_decode($this->client->post($api_url, [
+                'headers' => $headers,
+                'json' => $data,
+                'timeout' => 30,
+            ])->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            return '';
+        }
 
         return $response->candidates[0]->content->parts[0]->text;
-    }
-
-    public function textPromptWithContext(string $q, array $context): string
-    {
-        return '';
     }
 }

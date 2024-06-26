@@ -25,7 +25,7 @@
                                 <thead>
                                 <tr>
                                     {foreach $details['field'] as $key => $value}
-                                        <th>{$value}</th>
+                                    <th>{$value}</th>
                                     {/foreach}
                                 </tr>
                                 </thead>

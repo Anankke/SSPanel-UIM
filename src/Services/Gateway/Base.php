@@ -48,16 +48,6 @@ abstract class Base
         return $response->write('ok');
     }
 
-    public function getStatus(ServerRequest $request, Response $response, array $args): ResponseInterface
-    {
-        $paylist = (new Paylist())->where('tradeno', $_POST['pid'])->first();
-
-        return $response->withJson([
-            'ret' => 1,
-            'result' => $paylist->status,
-        ]);
-    }
-
     abstract public static function getPurchaseHTML(): string;
 
     public function postPayment(string $trade_no): void

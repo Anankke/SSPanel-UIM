@@ -68,6 +68,8 @@ final class DynamicRate
     ): bool {
         return ! ($max_rate < 0 ||
             $min_rate < 0 ||
+            $max_rate > 999 ||
+            $min_rate > 999 ||
             $max_rate_time < 0 ||
             $min_rate_time < 0 ||
             $max_rate_time > 24 ||
