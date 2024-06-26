@@ -1,13 +1,20 @@
 <img src=".github/next_1000.png" alt="next" width="600"/>
 
-![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-NeXT/NeXT-Panel-Dev?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-NeXT/NeXT-Panel-Dev/lint.yml?branch=dev&label=Lint&style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-NeXT/NeXT-Panel-Dev/unit.yaml?branch=dev&label=Unit%20Test&style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/SSPanel-NeXT/NeXT-Panel?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-NeXT/NeXT-Panel/lint.yml?branch=dev&label=Lint&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SSPanel-NeXT/NeXT-Panel/unit.yaml?branch=dev&label=Unit%20Test&style=flat-square)
 ![Sonar Coverage](https://img.shields.io/sonar/coverage/SSPanel-NeXT_NeXT-Panel-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 ![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/SSPanel-NeXT_NeXT-Panel-Dev/dev?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 
 [![X (formerly Twitter)](https://img.shields.io/twitter/url?url=https%3A%2F%2Ftwitter.com%2FSSPanel_NeXT)](https://twitter.com/SSPanel_NeXT)
 [![Discord](https://img.shields.io/discord/1049692075085549600?color=5865F2&label=Discord&style=flat-square)](https://discord.gg/A7uFKCvf8V)
+
+## PSA
+
+We are looking for a new co-maintainer for this project who is familiar with PHP
+and can speak Persian/Arabic/Russian/Vietnamese to help with NeXT Panel's I18n translation effort.
+
+If you are interested in helping out, please contact us on Discord or Twitter.
 
 ## TL;DR
 
@@ -60,4 +67,10 @@ Nothing will be put behind the paywall or require a donation to use, but the CI/
 
 ## License
 
-[MIT License](blob/dev/LICENSE)
+Before version 24.5.0 (commit a64454ed2197c3de3fb6c77f88587a43189f36b2 and before)
+
+MIT License
+
+Newer versions/commits
+
+[GPL-3.0 License](blob/dev/LICENSE)
