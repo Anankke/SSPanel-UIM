@@ -173,7 +173,7 @@ return new class() implements MigrationInterface
                 `node_heartbeat` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点心跳',
                 `online_user` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点在线用户',
                 `ipv4` VARCHAR(15) NOT NULL DEFAULT '127.0.0.1' COMMENT 'IPv4地址',
-                `ipv6` VARBINARY(16) NOT NULL DEFAULT '::1' COMMENT 'IPv6地址',
+                `ipv6` VARCHAR(39) NOT NULL DEFAULT '::1' COMMENT 'IPv6地址',
                 `node_group` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点群组',
                 `online` tinyint(1) NOT NULL DEFAULT 1 COMMENT '在线状态',
                 `gfw_block` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否被GFW封锁',
@@ -192,7 +192,7 @@ return new class() implements MigrationInterface
             CREATE TABLE `online_log` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `user_id` bigint(20) unsigned NOT NULL COMMENT '用户ID',
-                `ip` VARBINARY(16) NOT NULL COMMENT 'IP地址',
+                `ip` VARCHAR(39) NOT NULL COMMENT 'IP地址',
                 `node_id` int(11) unsigned NOT NULL COMMENT '节点ID',
                 `first_time` int(11) unsigned NOT NULL COMMENT '首次在线时间',
                 `last_time` int(11) unsigned NOT NULL COMMENT '最后在线时间',
