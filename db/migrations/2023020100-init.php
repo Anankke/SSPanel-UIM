@@ -5,7 +5,8 @@ declare(strict_types=1);
 use App\Interfaces\MigrationInterface;
 use App\Services\DB;
 
-return new class() implements MigrationInterface {
+return new class() implements MigrationInterface
+{
     public function up(): int
     {
         DB::getPdo()->exec(
@@ -86,7 +87,7 @@ return new class() implements MigrationInterface {
                 `to_email` varchar(255) NOT NULL DEFAULT '' COMMENT '收件人邮箱',
                 `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件主题',
                 `template` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件模板',
-                `array` longtext NOT NULL DEFAULT '{}' COMMENT '模板参数' CHECK (json_valid(`array`)),
+                `array` longtext NOT NULL COMMENT '模板参数' CHECK (json_valid(`array`)),
                 `time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '添加时间',
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -108,7 +109,7 @@ return new class() implements MigrationInterface {
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `date` date NOT NULL DEFAULT 0 COMMENT '记录日期',
-                `usage` longtext NOT NULL DEFAULT '{}' COMMENT '流量用量' CHECK (json_valid(`usage`)),
+                `usage` longtext NOT NULL COMMENT '流量用量' CHECK (json_valid(`usage`)),
                 PRIMARY KEY (`id`),
                 KEY `user_id` (`user_id`),
                 KEY `date` (`date`)
@@ -119,7 +120,7 @@ return new class() implements MigrationInterface {
                 `type` varchar(255) NOT NULL DEFAULT 'product' COMMENT '类型',
                 `user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '归属用户ID',
                 `order_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '订单ID',
-                `content` longtext NOT NULL DEFAULT '{}' COMMENT '账单内容' CHECK (json_valid(`content`)),
+                `content` longtext NOT NULL COMMENT '账单内容' CHECK (json_valid(`content`)),
                 `price` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '账单金额',
                 `status` varchar(255) NOT NULL DEFAULT '' COMMENT '账单状态',
                 `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
@@ -158,12 +159,12 @@ return new class() implements MigrationInterface {
                 `name` varchar(255) NOT NULL DEFAULT '' COMMENT '节点名称',
                 `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '节点启用',
                 `server` varchar(255) NOT NULL DEFAULT '' COMMENT '节点地址',
-                `custom_config` longtext NOT NULL DEFAULT '{}' COMMENT '自定义配置' CHECK (json_valid(`custom_config`)),
+                `custom_config` longtext NOT NULL COMMENT '自定义配置' CHECK (json_valid(`custom_config`)),
                 `sort` tinyint(2) unsigned NOT NULL DEFAULT 14 COMMENT '节点类型',
                 `traffic_rate` decimal(5,2) unsigned NOT NULL DEFAULT 1 COMMENT '流量倍率',
                 `is_dynamic_rate` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否启用动态流量倍率',
                 `dynamic_rate_type` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '动态流量倍率计算方式',
-                `dynamic_rate_config` longtext NOT NULL DEFAULT '{}' COMMENT '动态流量倍率配置' CHECK (json_valid(`custom_config`)),
+                `dynamic_rate_config` longtext NOT NULL COMMENT '动态流量倍率配置' CHECK (json_valid(`dynamic_rate_config`)),
                 `node_class` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点等级',
                 `node_speedlimit` smallint(6) unsigned NOT NULL DEFAULT 0 COMMENT '节点限速',
                 `node_bandwidth` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '节点流量',
@@ -171,8 +172,8 @@ return new class() implements MigrationInterface {
                 `bandwidthlimit_resetday` tinyint(2) unsigned NOT NULL DEFAULT 0 COMMENT '流量重置日',
                 `node_heartbeat` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点心跳',
                 `online_user` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '节点在线用户',
-                `ipv4` inet4 NOT NULL DEFAULT '127.0.0.1' COMMENT 'IPv4地址',
-                `ipv6` inet6 NOT NULL DEFAULT '::1' COMMENT 'IPv6地址',
+                `ipv4` VARCHAR(15) NOT NULL DEFAULT '127.0.0.1' COMMENT 'IPv4地址',
+                `ipv6` VARCHAR(39) NOT NULL DEFAULT '::1' COMMENT 'IPv6地址',
                 `node_group` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '节点群组',
                 `online` tinyint(1) NOT NULL DEFAULT 1 COMMENT '在线状态',
                 `gfw_block` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT '是否被GFW封锁',
@@ -191,7 +192,7 @@ return new class() implements MigrationInterface {
             CREATE TABLE `online_log` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
                 `user_id` bigint(20) unsigned NOT NULL COMMENT '用户ID',
-                `ip` inet6 NOT NULL COMMENT 'IP地址',
+                `ip` VARCHAR(39) NOT NULL COMMENT 'IP地址',
                 `node_id` int(11) unsigned NOT NULL COMMENT '节点ID',
                 `first_time` int(11) unsigned NOT NULL COMMENT '首次在线时间',
                 `last_time` int(11) unsigned NOT NULL COMMENT '最后在线时间',
@@ -207,7 +208,7 @@ return new class() implements MigrationInterface {
                 `product_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '商品ID',
                 `product_type` varchar(255) NOT NULL DEFAULT '' COMMENT '商品类型',
                 `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '商品名称',
-                `product_content` longtext NOT NULL DEFAULT '{}' COMMENT '商品内容' CHECK (json_valid(`product_content`)),
+                `product_content` longtext NOT NULL COMMENT '商品内容' CHECK (json_valid(`product_content`)),
                 `coupon` varchar(255) NOT NULL DEFAULT '' COMMENT '订单优惠码',
                 `price` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '订单金额',
                 `status` varchar(255) NOT NULL DEFAULT '' COMMENT '订单状态',
@@ -256,8 +257,8 @@ return new class() implements MigrationInterface {
                 `type` varchar(255) NOT NULL DEFAULT 'tabp' COMMENT '类型',
                 `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
                 `price` decimal(12,2) unsigned NOT NULL DEFAULT 0 COMMENT '售价',
-                `content` longtext NOT NULL DEFAULT '{}' COMMENT '内容' CHECK (json_valid(`content`)),
-                `limit` longtext NOT NULL DEFAULT '{}' COMMENT '购买限制' CHECK (json_valid(`limit`)),
+                `content` longtext NOT NULL COMMENT '内容' CHECK (json_valid(`content`)),
+                `limit` longtext NOT NULL COMMENT '购买限制' CHECK (json_valid(`limit`)),
                 `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '销售状态',
                 `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 `update_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '更新时间',
@@ -275,7 +276,7 @@ return new class() implements MigrationInterface {
                 `ip` varchar(255) NOT NULL DEFAULT '' COMMENT '触发IP',
                 `message` varchar(1024) NOT NULL DEFAULT '' COMMENT '日志内容',
                 `level` tinyint(3) unsigned NOT NULL DEFAULT 100 COMMENT '日志等级',
-                `context` longtext NOT NULL DEFAULT '{}' COMMENT '日志内容' CHECK (json_valid(`context`)),
+                `context` longtext NOT NULL COMMENT '日志内容' CHECK (json_valid(`context`)),
                 `channel` varchar(255) NOT NULL DEFAULT '' COMMENT '日志类别',
                 `datetime` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '记录时间',
                 PRIMARY KEY (`id`),
@@ -305,7 +306,7 @@ return new class() implements MigrationInterface {
             CREATE TABLE `ticket` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工单ID',
                 `title` varchar(255) NOT NULL DEFAULT '' COMMENT '工单标题',
-                `content` longtext NOT NULL DEFAULT '{}' COMMENT '工单内容' CHECK (json_valid(`content`)),
+                `content` longtext NOT NULL COMMENT '工单内容' CHECK (json_valid(`content`)),
                 `userid` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '用户ID',
                 `status` varchar(255) NOT NULL DEFAULT '' COMMENT '工单状态',
                 `type` varchar(255) NOT NULL DEFAULT '' COMMENT '工单类型',
@@ -322,7 +323,7 @@ return new class() implements MigrationInterface {
                 `email` varchar(255) NOT NULL COMMENT '用户Email',
                 `pass` varchar(255) NOT NULL COMMENT '登录密码',
                 `passwd` varchar(255) NOT NULL COMMENT '连接密码',
-                `uuid` uuid NOT NULL COMMENT 'UUID',
+                `uuid` CHAR(36) NOT NULL COMMENT 'UUID',
                 `u` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户当前上传流量',
                 `d` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户当前下载流量',
                 `transfer_today` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '账户今日所用流量',
@@ -383,8 +384,8 @@ return new class() implements MigrationInterface {
             CREATE TABLE `user_coupon` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '优惠码ID',
                 `code` varchar(255) NOT NULL DEFAULT '' COMMENT '优惠码',
-                `content` longtext NOT NULL DEFAULT '{}' COMMENT '优惠码内容' CHECK (json_valid(`content`)),
-                `limit` longtext NOT NULL DEFAULT '{}' COMMENT '优惠码限制' CHECK (json_valid(`limit`)),
+                `content` longtext NOT NULL COMMENT '优惠码内容' CHECK (json_valid(`content`)),
+                `limit` longtext NOT NULL COMMENT '优惠码限制' CHECK (json_valid(`limit`)),
                 `use_count` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '累计使用次数',
                 `create_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建时间',
                 `expire_time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '过期时间',
