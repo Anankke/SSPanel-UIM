@@ -11,7 +11,7 @@
 
 3. NeXT panel is NOT a continuation of the original SSPanel-UIM project, and we DO NOT approve of their behavior of routinely copying our code base and branding to the SSPanel-UIM repository despite we have repeatedly expressed our concern. We have stopped supporting the old UIM version OTA service, and if you are not using the NeXT panel, you should not open the issue here since the project will undergo heavy refactoring & redesign in the coming months and we will not be able to provide any help regards old version.
 
-##### (^^ Editor's Comment: LOL Bro saying not continuation and gets the same stemless commit history and all other nice stuff and changed the licences on day 1 closed source, typical Asperger behavior, but hey, it's a free world, and I'm not the one who has to live with the consequences of his actions. ^^)
+##### (^^ Editor's Comment: LOL Bro saying not continuation and gets same seamless commit history even after trying to break it and all other nice stuff and changed the licences on day 1 closed source, typical Asperger behavior, but hey, it's a free world, and I'm not the one who has to live with the consequences of his actions. ^^)
 
 ## Pro Edition
 
