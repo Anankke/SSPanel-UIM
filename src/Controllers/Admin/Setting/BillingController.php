@@ -121,6 +121,7 @@ final class BillingController extends BaseController
             'currency' => 'USD',
             'notify_url' => '',
             'locale' => 'en_US',
+            'validate_ssl' => true,
         ];
 
         try {
