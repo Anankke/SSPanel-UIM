@@ -170,6 +170,7 @@ $_ENV['Clash_Config'] = [
     'mode' => 'Rule',
     'ipv6' => true,
     'log-level' => 'error',
+    'tcp-concurrent' => $_ENV['tcp_concurrent'],
     'external-controller' => '0.0.0.0:9091',
 ];
 
