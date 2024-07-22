@@ -120,3 +120,5 @@ $_ENV['r2_account_id'] = '';
 $_ENV['r2_access_key_id'] = '';
 $_ENV['r2_access_key_secret'] = '';
 $_ENV['r2_client_download_timeout'] = 10;
+// Clash Meta TCP Concurrency. Default true, false
+$_ENV['tcp_concurrent'] = true;
