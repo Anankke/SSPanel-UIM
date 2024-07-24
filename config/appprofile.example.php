@@ -54,12 +54,12 @@ $_ENV['SingBox_Config'] = [
             [
                 'tag' => 'proxy',
                 'address' => 'tls://1.1.1.1/',
-                'detour' => 'select'
+                'detour' => 'select',
             ],
             [
                 'tag' => 'local',
                 'address' => 'h3://223.5.5.5/dns-query',
-                'detour' => 'direct'
+                'detour' => 'direct',
             ],
             [
                 'tag' => 'block',
@@ -70,7 +70,7 @@ $_ENV['SingBox_Config'] = [
             [
                 'outbound' => 'any',
                 'server' => 'local',
-                'disable_cache' => true
+                'disable_cache' => true,
             ],
             [
                 'clash_mode' => 'Global',
