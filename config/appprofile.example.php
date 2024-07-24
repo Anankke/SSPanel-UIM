@@ -45,77 +45,110 @@ $_ENV['V2RayJson_Config'] = [
 
 $_ENV['SingBox_Config'] = [
     'log' => [
+        'disabled' => false,
         'level' => 'error',
+        'timestamp' => true,
     ],
     'dns' => [
         'servers' => [
             [
+                'tag' => 'proxy',
+                'address' => 'tls://1.1.1.1/',
+                'detour' => 'select',
+            ],
+            [
                 'tag' => 'local',
-                'address' => 'local',
+                'address' => 'h3://223.5.5.5/dns-query',
+                'detour' => 'direct',
+            ],
+            [
+                'tag' => 'block',
+                'address' => 'rcode://refused',
             ],
         ],
         'rules' => [
             [
                 'outbound' => 'any',
                 'server' => 'local',
+                'disable_cache' => true,
+            ],
+            [
+                'clash_mode' => 'Global',
+                'server' => 'proxy',
+            ],
+            [
+                'clash_mode' => 'Direct',
+                'server' => 'local',
+            ],
+            [
+                'rule_set' => 'geosite-cn',
+                'server' => 'local',
             ],
         ],
-        'final' => 'local',
-        'strategy' => 'prefer_ipv6',
+        'final' => 'proxy',
+        'independent_cache' => true,
     ],
     'inbounds' => [
         [
             'type' => 'tun',
-            'inet4_address' => '172.19.0.1/30',
+            'address' => [
+                '172.18.0.1/30',
+                'fdfe:dcba:9876::1/126',
+            ],
             'auto_route' => true,
             'strict_route' => true,
-            'endpoint_independent_nat' => true,
+            'sniff' => true,
+            'sniff_override_destination' => true,
+            'domain_strategy' => 'prefer_ipv4',
             'udp_timeout' => 60,
-            'platform' => [
-                'http_proxy' => [
-                    'enabled' => true,
-                    'server' => '127.0.0.1',
-                    'server_port' => 7891,
-                ],
-            ],
-            'sniff' => true,
-        ],
-        [
-            'type' => 'mixed',
-            'listen' => '127.0.0.1',
-            'listen_port' => 7891,
-            'sniff' => true,
-            'domain_strategy' => 'prefer_ipv6',
         ],
     ],
     'outbounds' => [
         [
+            'tag' => 'select',
             'type' => 'selector',
-            'tag' => 'default',
+            'default' => 'auto',
+            'outbounds' => [
+                'auto',
+            ],
+            'interrupt_exist_connections' => true,
+        ],
+        [
+            'tag' => 'auto',
+            'type' => 'urltest',
             'outbounds' => [],
+            'url' => 'https://cp.cloudflare.com/generate_204',
+            'interval' => '3m',
+            'tolerance' => 50,
+            'idle_timeout' => '30m',
+            'interrupt_exist_connections' => true,
         ],
         [
-            'type' => 'direct',
             'tag' => 'direct',
+            'type' => 'direct',
         ],
         [
-            'type' => 'block',
             'tag' => 'block',
+            'type' => 'block',
+        ],
+        [
+            'tag' => 'dns-out',
+            'type' => 'dns',
         ],
     ],
     'route' => [
         'rules' => [
             [
+                'protocol' => 'dns',
+                'outbound' => 'dns-out',
+            ],
+            [
                 'clash_mode' => 'Direct',
                 'outbound' => 'direct',
             ],
             [
-                'clash_mode' => 'Rule',
-                'outbound' => 'default',
-            ],
-            [
                 'clash_mode' => 'Global',
-                'outbound' => 'default',
+                'outbound' => 'select',
             ],
             [
                 'protocol' => 'stun',
@@ -140,22 +173,26 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs',
-                'download_detour' => 'direct',
+                'download_detour' => 'select',
+                'update_interval' => '1d',
             ],
             [
                 'tag' => 'geosite-cn',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
-                'download_detour' => 'direct',
+                'download_detour' => 'select',
+                'update_interval' => '1d',
             ],
         ],
         'auto_detect_interface' => true,
+        'final' => 'select',
     ],
     'experimental' => [
         'cache_file' => [
             'enabled' => true,
             'cache_id' => '',
+            'path' => 'cache.db',
         ],
         'clash_api' => [
             'external_controller' => '127.0.0.1:9090',
