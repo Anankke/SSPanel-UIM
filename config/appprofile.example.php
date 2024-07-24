@@ -45,9 +45,9 @@ $_ENV['V2RayJson_Config'] = [
 
 $_ENV['SingBox_Config'] = [
     'log' => [
-        "disabled" => false,
+        'disabled' => false,
         'level' => 'error',
-        "timestamp"  => true,
+        'timestamp' => true,
     ],
     'dns' => [
         'servers' => [
