@@ -112,7 +112,7 @@ final class SingBox extends Base
                             'headers' => $headers,
                             'service_name' => $service_name,
                             "max_early_data" => 2048,
-                            "early_data_header_name" => "Sec-WebSocket-Protocol"
+                            "early_data_header_name" => "Sec-WebSocket-Protocol",
                         ],
                     ];
 
