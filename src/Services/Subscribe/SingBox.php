@@ -105,14 +105,14 @@ final class SingBox extends Base
                             'enabled' => true,
                             'server_name' => $host,
                         ],
-                        "packet_encoding" => "packetaddr",
+                        'packet_encoding' => 'packetaddr',
                         'transport' => [
                             'type' => $transport,
                             'path' => $path,
                             'headers' => $headers,
                             'service_name' => $service_name,
-                            "max_early_data" => 2048,
-                            "early_data_header_name" => "Sec-WebSocket-Protocol",
+                            'max_early_data' => 2048,
+                            'early_data_header_name' => 'Sec-WebSocket-Protocol',
                         ],
                     ];
 
