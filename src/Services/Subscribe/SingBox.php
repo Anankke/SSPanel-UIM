@@ -92,6 +92,7 @@ final class SingBox extends Base
                     $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '';
                     $headers = $node_custom_config['header']['request']['headers'] ?? [];
                     $service_name = $node_custom_config['servicename'] ?? '';
+                    $utls = $node_custom_config['utls'] ?? false;
 
                     $node = [
                         'type' => 'vmess',
@@ -104,8 +105,14 @@ final class SingBox extends Base
                         'tls' => [
                             'enabled' => true,
                             'server_name' => $host,
+                            'utls' => [
+                                'enabled' => $utls,
+                                'fingerprint' => 'chrome',
+                            ],
                         ],
-                        'packet_encoding' => 'packetaddr',
+                        'packet_encoding' => 'xudp',
+                        'global_padding' => true,
+                        'authenticated_length' => true,
                         'transport' => [
                             'type' => $transport,
                             'path' => $path,
