@@ -102,13 +102,17 @@ final class SingBox extends Base
                         'security' => 'auto',
                         'alter_id' => 0,
                         'tls' => [
+                            'enabled' => true,
                             'server_name' => $host,
                         ],
+                        'packet_encoding' => 'packetaddr',
                         'transport' => [
                             'type' => $transport,
                             'path' => $path,
                             'headers' => $headers,
                             'service_name' => $service_name,
+                            'max_early_data' => 2048,
+                            'early_data_header_name' => 'Sec-WebSocket-Protocol',
                         ],
                     ];
 
@@ -160,6 +164,7 @@ final class SingBox extends Base
 
             $nodes[] = $node;
             $singbox_config['outbounds'][0]['outbounds'][] = $node_raw->name;
+            $singbox_config['outbounds'][1]['outbounds'][] = $node_raw->name;
         }
 
         $singbox_config['outbounds'] = array_merge($singbox_config['outbounds'], $nodes);
