@@ -94,7 +94,7 @@ $_ENV['SingBox_Config'] = [
             'address' => [
                 '172.18.0.1/30',
                 'fdfe:dcba:9876::1/126',
-                ],
+            ],
             'auto_route' => true,
             'strict_route' => true,
             'sniff' => true,
@@ -110,7 +110,7 @@ $_ENV['SingBox_Config'] = [
             'default' => 'auto',
             'outbounds' => [
                 'auto',
-                ],
+            ],
             'interrupt_exist_connections' => true,
         ],
         [
