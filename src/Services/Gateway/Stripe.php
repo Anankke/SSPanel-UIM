@@ -79,7 +79,7 @@ final class Stripe extends Base
             ]);
         }
 
-        StripeSDK::setApiKey(Config::obtain('stripe_sk'));
+        StripeSDK::setApiKey(Config::obtain('stripe_api_key'));
         $session = null;
 
         try {
@@ -92,7 +92,7 @@ final class Stripe extends Base
                             'product_data' => [
                                 'name' => 'Invoice #' . $invoice_id,
                             ],
-                            'unit_amount' => (int) $exchange_amount,
+                            'unit_amount' => (int) ($exchange_amount * 100),
                         ],
                         'quantity' => 1,
                     ],
@@ -103,8 +103,8 @@ final class Stripe extends Base
                         'trade_no' => $trade_no,
                     ],
                 ],
-                'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
-                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id,
+                'success_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id . '/view',
+                'cancel_url' => $_ENV['baseUrl'] . '/user/invoice/' . $invoice_id . '/view',
             ]);
         } catch (ApiErrorException) {
             return $response->withJson([
@@ -113,7 +113,7 @@ final class Stripe extends Base
             ]);
         }
 
-        return $response->withHeader('HX-Redirect', $session->url)->withJson([
+        return $response->withHeader('Location', $session->url)->withJson([
             'ret' => 1,
             'msg' => '订单发起成功，正在跳转到支付页面...',
         ]);
