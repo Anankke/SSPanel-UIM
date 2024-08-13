@@ -9,9 +9,7 @@
 
 ## TL;DR
 
-SSPanel UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
-
-`235e989e9b55d7b912a09bc5407ed17b43b74a126b4237bdb836ef4d471c71b4`
+SSPanel-UIM is a multi-purpose proxy service management system designed for Shadowsocks(2022) / V2Ray / Trojan / TUIC protocol.
 
 ## Features
 
