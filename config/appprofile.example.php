@@ -53,12 +53,12 @@ $_ENV['SingBox_Config'] = [
         'servers' => [
             [
                 'tag' => 'proxy',
-                'address' => 'tls://1.1.1.1/',
+                'address' => 'tls://1.1.1.1',
                 'detour' => 'select',
             ],
             [
                 'tag' => 'local',
-                'address' => 'h3://223.5.5.5/dns-query',
+                'address' => 'quic://223.5.5.5',
                 'detour' => 'direct',
             ],
             [
