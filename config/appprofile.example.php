@@ -52,14 +52,23 @@ $_ENV['SingBox_Config'] = [
     'dns' => [
         'servers' => [
             [
-                'tag' => 'proxy',
-                'address' => 'tls://1.1.1.1/',
+                'tag' => 'local',
+                'address' => 'local',
+                'detour' => 'direct',
+            ],
+            [
+                'tag' => 'proxy-v6',
+                'address' => 'tls://[2606:4700:4700::1111]',
+                'address_strategy' => 'prefer_ipv6',
+                'strategy' => 'prefer_ipv6',
                 'detour' => 'select',
             ],
             [
-                'tag' => 'local',
-                'address' => 'h3://223.5.5.5/dns-query',
-                'detour' => 'direct',
+                'tag' => 'proxy-v4',
+                'address' => 'tls://1.1.1.1',
+                'address_strategy' => 'prefer_ipv4',
+                'strategy' => 'prefer_ipv4',
+                'detour' => 'select',
             ],
             [
                 'tag' => 'block',
@@ -70,11 +79,22 @@ $_ENV['SingBox_Config'] = [
             [
                 'outbound' => 'any',
                 'server' => 'local',
-                'disable_cache' => true,
             ],
             [
                 'clash_mode' => 'Global',
-                'server' => 'proxy',
+                'server' => 'proxy-v4',
+            ],
+            [
+                'clash_mode' => 'Global-v6',
+                'server' => 'proxy-v6',
+            ],
+            [
+                'clash_mode' => 'Rule',
+                'server' => 'proxy-v4',
+            ],
+            [
+                'clash_mode' => 'Rule-v6',
+                'server' => 'proxy-v6',
             ],
             [
                 'clash_mode' => 'Direct',
@@ -85,7 +105,8 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'local',
             ],
         ],
-        'final' => 'proxy',
+        'final' => 'proxy-v4',
+        'disable_cache' => true,
         'independent_cache' => true,
     ],
     'inbounds' => [
