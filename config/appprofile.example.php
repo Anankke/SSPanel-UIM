@@ -59,14 +59,12 @@ $_ENV['SingBox_Config'] = [
             [
                 'tag' => 'proxy-v6',
                 'address' => 'tls://[2606:4700:4700::1111]',
-                'address_strategy' => 'prefer_ipv6',
                 'strategy' => 'prefer_ipv6',
                 'detour' => 'select',
             ],
             [
                 'tag' => 'proxy-v4',
                 'address' => 'tls://1.1.1.1',
-                'address_strategy' => 'prefer_ipv4',
                 'strategy' => 'prefer_ipv4',
                 'detour' => 'select',
             ],
@@ -86,14 +84,6 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'clash_mode' => 'Global-v6',
-                'server' => 'proxy-v6',
-            ],
-            [
-                'clash_mode' => 'Rule',
-                'server' => 'proxy-v4',
-            ],
-            [
-                'clash_mode' => 'Rule-v6',
                 'server' => 'proxy-v6',
             ],
             [
@@ -170,6 +160,10 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'clash_mode' => 'Global',
+                'outbound' => 'select',
+            ],
+            [
+                'clash_mode' => 'Global-v6',
                 'outbound' => 'select',
             ],
             [
