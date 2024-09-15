@@ -87,11 +87,16 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'proxy-v6',
             ],
             [
-                'clash_mode' => 'Direct',
+                'clash_mode' => 'Rule',
+                'rule_set' => 'geosite-cn',
                 'server' => 'local',
             ],
             [
-                'rule_set' => 'geosite-cn',
+                'clash_mode' => 'Rule-v6',
+                'server' => 'proxy-v6',
+            ],
+            [
+                'clash_mode' => 'Direct',
                 'server' => 'local',
             ],
         ],
@@ -167,19 +172,27 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'select',
             ],
             [
+                'clash_mode' => 'Rule',
+                'rule_set' => [
+                    'geosite-cn',
+                    'geoip-cn',
+                ],
+                'outbound' => 'direct',
+            ],
+            [
+                'clash_mode' => 'Rule-v6',
+                'rule_set' => [
+                    'geosite-cn',
+                    'geoip-cn',
+                ],
+                'outbound' => 'direct',
+            ],
+            [
                 'protocol' => 'stun',
                 'outbound' => 'block',
             ],
             [
                 'ip_is_private' => true,
-                'outbound' => 'direct',
-            ],
-            [
-                'rule_set' => 'geoip-cn',
-                'outbound' => 'direct',
-            ],
-            [
-                'rule_set' => 'geosite-cn',
                 'outbound' => 'direct',
             ],
         ],
