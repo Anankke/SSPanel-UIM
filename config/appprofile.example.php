@@ -57,15 +57,17 @@ $_ENV['SingBox_Config'] = [
                 'detour' => 'direct',
             ],
             [
-                'tag' => 'proxy-v6',
-                'address' => 'tls://[2606:4700:4700::1111]',
-                'strategy' => 'prefer_ipv6',
-                'detour' => 'select',
+                'tag' => 'resolver',
+                'address' => 'quic://223.6.6.6',
+                'strategy' => 'ipv4_only',
+                'detour' => 'direct',
             ],
             [
-                'tag' => 'proxy-v4',
-                'address' => 'tls://1.1.1.1',
-                'strategy' => 'prefer_ipv4',
+                'tag' => 'cloudflare',
+                'address' => 'tls://one.one.one.one',
+                'address_resolver' => 'resolver',
+                'address_strategy' => 'ipv4_only',
+                'strategy' => 'prefer_ipv6',
                 'detour' => 'select',
             ],
             [
@@ -80,22 +82,18 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'clash_mode' => 'Global',
-                'server' => 'proxy-v4',
-            ],
-            [
-                'clash_mode' => 'Global-v6',
-                'server' => 'proxy-v6',
-            ],
-            [
-                'clash_mode' => 'Direct',
-                'server' => 'local',
+                'server' => 'cloudflare',
             ],
             [
                 'rule_set' => 'geosite-cn',
                 'server' => 'local',
             ],
+            [
+                'clash_mode' => 'Direct',
+                'server' => 'local',
+            ],
         ],
-        'final' => 'proxy-v4',
+        'final' => 'cloudflare',
         'disable_cache' => true,
         'independent_cache' => true,
     ],
@@ -163,8 +161,11 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'select',
             ],
             [
-                'clash_mode' => 'Global-v6',
-                'outbound' => 'select',
+                'rule_set' => [
+                    'geosite-cn',
+                    'geoip-cn',
+                ],
+                'outbound' => 'direct',
             ],
             [
                 'protocol' => 'stun',
@@ -172,14 +173,6 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'ip_is_private' => true,
-                'outbound' => 'direct',
-            ],
-            [
-                'rule_set' => 'geoip-cn',
-                'outbound' => 'direct',
-            ],
-            [
-                'rule_set' => 'geosite-cn',
                 'outbound' => 'direct',
             ],
         ],
