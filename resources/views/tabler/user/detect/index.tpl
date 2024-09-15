@@ -33,9 +33,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {foreach $rules as $rule}
+                                {foreach $rules as $index => $rule}
                                     <tr>
-                                        <td>#{$rule->id}</td>
+                                        <td>#{$index+1}</td>
                                         <td>{$rule->name}</td>
                                         <td>{$rule->text}</td>
                                         <td>{$rule->regex}</td>
