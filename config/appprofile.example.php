@@ -171,7 +171,6 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'select',
             ],
             [
-                'clash_mode' => 'Rule',
                 'rule_set' => [
                     'geosite-cn',
                     'geoip-cn',
@@ -180,11 +179,7 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'clash_mode' => 'Rule-v6',
-                'rule_set' => [
-                    'geosite-cn',
-                    'geoip-cn',
-                ],
-                'outbound' => 'direct',
+                'outbound' => 'select',
             ],
             [
                 'protocol' => 'stun',
