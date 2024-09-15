@@ -87,7 +87,6 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'proxy-v6',
             ],
             [
-                'clash_mode' => 'Rule',
                 'rule_set' => 'geosite-cn',
                 'server' => 'local',
             ],
