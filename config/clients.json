@@ -43,8 +43,8 @@
                     "saveName": "SFA.apk"
                 },
                 {
-                    "sourceName": "SFM-%tagName1%-universal.zip",
-                    "saveName": "SFM.zip"
+                    "sourceName": "SFM-%tagName1%-universal.dmg",
+                    "saveName": "SFM.dmg"
                 }
             ]
         },
