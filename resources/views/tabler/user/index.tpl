@@ -338,9 +338,9 @@
                                     </div>
                                     <div class="btn-list justify-content-start my-2">
                                         <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/SFM.zip"
+                                            href="/user/clients/SFM.dmg"
                                             {else}
-                                            href="/clients/SFM.zip"
+                                            href="/clients/SFM.dmg"
                                             {/if} class="btn btn-azure">
                                             下载 SFM
                                         </a>
