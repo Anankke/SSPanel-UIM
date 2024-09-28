@@ -243,6 +243,24 @@
         "mark": "PayPal语言"
     },
     {
+        "item": "smogate_app_id",
+        "value": "",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "Smogate APP ID"
+    },
+    {
+        "item": "smogate_app_secret",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Smogate APP Secret"
+    },
+    {
         "item": "email_driver",
         "value": "none",
         "class": "email",

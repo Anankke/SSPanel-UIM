@@ -50,6 +50,9 @@ final class BillingController extends BaseController
         'paypal_client_secret',
         'paypal_currency',
         'paypal_locale',
+        // Smogate
+        'smogate_app_id',
+        'smogate_app_secret',
     ];
 
     /**
