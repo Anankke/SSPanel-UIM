@@ -109,7 +109,6 @@ $_ENV['SingBox_Config'] = [
             'stack' => 'mixed',
             'sniff' => true,
             'sniff_override_destination' => true,
-            'domain_strategy' => 'prefer_ipv4',
             'udp_timeout' => 60,
         ],
     ],
