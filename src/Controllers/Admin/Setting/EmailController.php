@@ -59,6 +59,10 @@ final class EmailController extends BaseController
         'alibabacloud_dm_endpoint',
         'alibabacloud_dm_account_name',
         'alibabacloud_dm_from_alias',
+        // Postmark
+        'postmark_key',
+        'postmark_sender',
+        'postmark_stream',
     ];
 
     /**

@@ -13,6 +13,7 @@ use App\Services\Mail\Postal;
 use App\Services\Mail\SendGrid;
 use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
+use App\Services\Mail\Postmark;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Smarty\Smarty;
@@ -22,7 +23,7 @@ use Smarty\Smarty;
  */
 final class Mail
 {
-    public static function getClient(): AlibabaCloud|Mailchimp|Mailgun|NullMail|Postal|SendGrid|Ses|Smtp
+    public static function getClient(): AlibabaCloud|Mailchimp|Mailgun|NullMail|Postal|SendGrid|Ses|Smtp|Postmark
     {
         return match (Config::obtain('email_driver')) {
             'alibabacloud' => new AlibabaCloud(),
@@ -32,6 +33,7 @@ final class Mail
             'sendgrid' => new SendGrid(),
             'ses' => new Ses(),
             'smtp' => new Smtp(),
+            'postmark' => new Postmark(),
             default => new NullMail(),
         };
     }

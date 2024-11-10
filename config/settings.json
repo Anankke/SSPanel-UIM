@@ -405,6 +405,33 @@
         "mark": "sendgrid发件人名称"
     },
     {
+        "item": "postmark_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postmark 密钥"
+    },
+    {
+        "item": "postmark_sender",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Postmark 发件邮箱"
+    },
+    {
+        "item": "postmark_stream",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "outbound",
+        "mark": "Postmark 邮件 stream"
+    },
+    {
         "item": "postal_host",
         "value": "",
         "class": "email",

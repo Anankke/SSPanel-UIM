@@ -57,6 +57,9 @@
                                 <li class="nav-item">
                                     <a href="#alibabacloud" class="nav-link" data-bs-toggle="tab">AlibabaCloud DM</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#postmark" class="nav-link" data-bs-toggle="tab">Postmark</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -97,6 +100,10 @@
                                                     <option value="alibabacloud"
                                                             {if $settings['email_driver'] === "alibabacloud"}selected{/if}>
                                                         alibabacloud
+                                                    </option>
+                                                    <option value="postmark"
+                                                            {if $settings['email_driver'] === "postmark"}selected{/if}>
+                                                        postmark
                                                     </option>
                                                 </select>
                                             </div>
@@ -410,6 +417,31 @@
                                             <div class="col">
                                                 <input id="alibabacloud_dm_from_alias" type="text" class="form-control"
                                                        value="{$settings['alibabacloud_dm_from_alias']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="postmark">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
+                                            <div class="col">
+                                                <input id="postmark_key" type="text" class="form-control"
+                                                       value="{$settings['postmark_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">发件人</label>
+                                            <div class="col">
+                                                <input id="postmark_sender" type="text" class="form-control"
+                                                       value="{$settings['postmark_sender']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Stream</label>
+                                            <div class="col">
+                                                <input id="postmark_stream" type="text" class="form-control"
+                                                       value="{$settings['postmark_stream']}">
                                             </div>
                                         </div>
                                     </div>
