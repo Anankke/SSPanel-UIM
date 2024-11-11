@@ -22,7 +22,7 @@ final class Smogate extends Base
 
     public static function _enable(): bool
     {
-        return true;
+        return self::getActiveGateway('smogate');
     }
 
     public static function _readableName(): string
