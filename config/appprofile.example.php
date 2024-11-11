@@ -100,31 +100,31 @@ $_ENV['SingBox_Config'] = [
     'inbounds' => [
         [
             'type' => 'tun',
+            'tag' => 'in',
             'address' => [
                 '172.18.0.1/30',
                 'fdfe:dcba:9876::1/126',
             ],
             'auto_route' => true,
             'strict_route' => true,
-            'stack' => 'mixed',
-            'sniff' => true,
-            'sniff_override_destination' => true,
             'udp_timeout' => 60,
+            'stack' => 'mixed',
+            'sniff_override_destination' => true,
         ],
     ],
     'outbounds' => [
         [
             'tag' => 'select',
             'type' => 'selector',
-            'default' => 'auto',
             'outbounds' => [
                 'auto',
             ],
+            'default' => 'auto',
             'interrupt_exist_connections' => true,
         ],
         [
-            'tag' => 'auto',
             'type' => 'urltest',
+            'tag' => 'auto',
             'outbounds' => [],
             'url' => 'https://cp.cloudflare.com/generate_204',
             'interval' => '3m',
@@ -133,23 +133,20 @@ $_ENV['SingBox_Config'] = [
             'interrupt_exist_connections' => true,
         ],
         [
-            'tag' => 'direct',
             'type' => 'direct',
-        ],
-        [
-            'tag' => 'block',
-            'type' => 'block',
-        ],
-        [
-            'tag' => 'dns-out',
-            'type' => 'dns',
+            'tag' => 'direct',
         ],
     ],
     'route' => [
         'rules' => [
             [
+                'inbound' => 'in',
+                'action' => 'sniff',
+                'timeout' => '1s',
+            ],
+            [
                 'protocol' => 'dns',
-                'outbound' => 'dns-out',
+                'action' => 'hijack-dns',
             ],
             [
                 'clash_mode' => 'Direct',
@@ -168,7 +165,8 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'protocol' => 'stun',
-                'outbound' => 'block',
+                'action' => 'reject',
+                'method' => 'default',
             ],
             [
                 'ip_is_private' => true,
@@ -193,8 +191,9 @@ $_ENV['SingBox_Config'] = [
                 'update_interval' => '1d',
             ],
         ],
-        'auto_detect_interface' => true,
         'final' => 'select',
+        'auto_detect_interface' => true,
+        'override_android_vpn' => true,
     ],
     'experimental' => [
         'cache_file' => [
