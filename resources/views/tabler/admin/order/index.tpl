@@ -1,6 +1,38 @@
 {include file='admin/header.tpl'}
 
 <div class="page-wrapper">
+    <div class="modal modal-blur fade" id="search-gateway" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">查找订单</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">网关订单号</label>
+                        <div class="col">
+                            <input id="gateway_order_id" type="text" class="form-control"
+                                   placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="create-button" 
+                        type="button" 
+                        class="btn btn-primary" 
+                        hx-post="/admin/order/search" 
+                        hx-swap="none"
+                        hx-vals='js:{
+                            gateway_order_id: document.getElementById("gateway_order_id").value
+                        }'>查找
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
@@ -10,6 +42,15 @@
                     </h2>
                     <div class="page-pretitle my-3">
                         <span class="home-subtitle">管理客户订单</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                           data-bs-target="#search-gateway">
+                            <i class="icon ti ti-search"></i>
+                            查找
+                        </a>
                     </div>
                 </div>
             </div>

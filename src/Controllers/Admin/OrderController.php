@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Paylist;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -44,6 +45,26 @@ final class OrderController extends BaseController
                 ->assign('details', self::$details)
                 ->fetch('admin/order/index.tpl')
         );
+    }
+
+    public function search(ServerRequest $request, Response $response, array $args): ResponseInterface 
+    {
+        $out_order_id = $request->getParam('gateway_order_id');
+        $paylist = (new Paylist())->where('tradeno', $out_order_id)->first();
+        $invoice = (new Invoice())->where('id', $paylist?->invoice_id)->first();
+        $order = (new Order())->where('id', $invoice?->order_id)->first();
+
+        if ($order == null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '未找到订单',
+            ]);
+        }
+
+        return $response->withHeader('HX-Redirect', '/admin/order/' . $order->id . '/view')->withJson([
+            'ret' => 1,
+            'msg' => '找到了订单',
+        ]);
     }
 
     /**

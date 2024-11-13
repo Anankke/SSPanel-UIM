@@ -286,6 +286,7 @@ return static function (Slim\App $app): void {
         $group->post('/product/ajax', App\Controllers\Admin\ProductController::class . ':ajax');
         // 订单
         $group->get('/order', App\Controllers\Admin\OrderController::class . ':index');
+        $group->post('/order/search', App\Controllers\Admin\OrderController::class . ':search');
         $group->get('/order/{id:[0-9]+}/view', App\Controllers\Admin\OrderController::class . ':detail');
         $group->post('/order/{id:[0-9]+}/cancel', App\Controllers\Admin\OrderController::class . ':cancel');
         $group->delete('/order/{id:[0-9]+}', App\Controllers\Admin\OrderController::class . ':delete');
