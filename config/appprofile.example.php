@@ -71,6 +71,10 @@ $_ENV['SingBox_Config'] = [
                 'detour' => 'select',
             ],
             [
+                'tag' => 'fakeip',
+                'address' => 'fakeip',
+            ],
+            [
                 'tag' => 'block',
                 'address' => 'rcode://refused',
             ],
@@ -81,19 +85,16 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'local',
             ],
             [
-                'clash_mode' => 'Global',
-                'server' => 'cloudflare',
-            ],
-            [
                 'rule_set' => 'geosite-cn',
-                'server' => 'local',
-            ],
-            [
-                'clash_mode' => 'Direct',
                 'server' => 'local',
             ],
         ],
         'final' => 'cloudflare',
+        'fakeip' => [
+            'enabled' => true,
+            'inet4_range' => '198.18.0.0/15',
+            'inet6_range' => 'fc00::/18',
+        ],
         'disable_cache' => true,
         'independent_cache' => true,
     ],
@@ -149,14 +150,6 @@ $_ENV['SingBox_Config'] = [
                 'action' => 'hijack-dns',
             ],
             [
-                'clash_mode' => 'Direct',
-                'outbound' => 'direct',
-            ],
-            [
-                'clash_mode' => 'Global',
-                'outbound' => 'select',
-            ],
-            [
                 'rule_set' => [
                     'geosite-cn',
                     'geoip-cn',
@@ -179,7 +172,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs',
-                'download_detour' => 'select',
+                'download_detour' => 'auto',
                 'update_interval' => '1d',
             ],
             [
@@ -187,7 +180,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
-                'download_detour' => 'select',
+                'download_detour' => 'auto',
                 'update_interval' => '1d',
             ],
         ],
@@ -200,9 +193,6 @@ $_ENV['SingBox_Config'] = [
             'enabled' => true,
             'cache_id' => '',
             'path' => 'cache.db',
-        ],
-        'clash_api' => [
-            'external_controller' => '127.0.0.1:9090',
         ],
     ],
 ];
