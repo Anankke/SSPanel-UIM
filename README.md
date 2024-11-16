@@ -34,6 +34,11 @@ SSPanel UIM requires the following programs to be installed and run normally:
 - MariaDB 10.11+（Disable strict mode）
 - Redis 7.0+
 
+## Community
+
+Telegram Group: [SSUnion](https://t.me/SSUnion)
+
+
 ## Sponsors
 
 [![](.github/jetbrains.png)](https://www.jetbrains.com/?from=SSPanel-UIM)
