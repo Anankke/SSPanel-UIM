@@ -85,8 +85,12 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'local',
             ],
             [
+                'rule_set' => 'geosite-geolocation-!cn',
+                'server' => 'cloudflare',
+            ],
+            [
                 'rule_set' => 'geosite-cn',
-                'server' => 'local',
+                'server' => 'fakeip',
             ],
         ],
         'final' => 'cloudflare',
@@ -151,6 +155,12 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'rule_set' => [
+                    'geosite-geolocation-!cn',
+                ],
+                'outbound' => 'select',
+            ],
+            [
+                'rule_set' => [
                     'geosite-cn',
                     'geoip-cn',
                 ],
@@ -180,6 +190,14 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
+                'download_detour' => 'auto',
+                'update_interval' => '1d',
+            ],
+            [
+                'tag' => 'geosite-geolocation-!cn',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs',
                 'download_detour' => 'auto',
                 'update_interval' => '1d',
             ],
