@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
-use App\Models\Paylist;
 use App\Models\Config;
+use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\View;
-use Exception;
+// use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -33,7 +33,7 @@ final class Smogate extends Base
     public function post($data)
     {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "https://" . Config::obtain('smogate_app_id') . ".vless.org/v1/gateway/pay");
+        curl_setopt($curl, CURLOPT_URL, 'https://' . Config::obtain('smogate_app_id') . '.vless.org/v1/gateway/pay');
         curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -69,7 +69,7 @@ final class Smogate extends Base
     {
         $amount = $this->antiXss->xss_clean($request->getParam('amount'));
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
-        
+
         $user = Auth::getUser();
         if ($amount === '') {
             return $response->withJson([
@@ -90,8 +90,8 @@ final class Smogate extends Base
             'method' => 'alipay',
             'app_id' => Config::obtain('smogate_app_id'),
             'out_trade_no' => $pl->tradeno,
-            'total_amount' => (int)($pl->total * 100),
-            'notify_url' => self::getCallbackUrl()
+            'total_amount' => (int) ($pl->total * 100),
+            'notify_url' => self::getCallbackUrl(),
         ];
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
@@ -119,15 +119,9 @@ final class Smogate extends Base
         ]);
     }
 
-
-    private function isMobile()
-    {
-        return strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile') !== false;
-    }
-
     public function notify($request, $response, $args): ResponseInterface
     {
-        if (!$this->verify($request->getParams(), $request->getParam('sign'))) {
+        if (! $this->verify($request->getParams(), $request->getParam('sign'))) {
             die('FAIL');
         }
         $this->postPayment($request->getParam('out_trade_no'), 'smogate');
@@ -137,5 +131,10 @@ final class Smogate extends Base
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/smogate.tpl');
+    }
+
+    private function isMobile()
+    {
+        return strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile') !== false;
     }
 }
