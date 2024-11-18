@@ -47,14 +47,14 @@ final class OrderController extends BaseController
         );
     }
 
-    public function search(ServerRequest $request, Response $response, array $args): ResponseInterface 
+    public function search(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $out_order_id = $request->getParam('gateway_order_id');
         $paylist = (new Paylist())->where('tradeno', $out_order_id)->first();
         $invoice = (new Invoice())->where('id', $paylist?->invoice_id)->first();
         $order = (new Order())->where('id', $invoice?->order_id)->first();
 
-        if ($order == null) {
+        if ($order === null) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '未找到订单',
