@@ -93,7 +93,6 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'cloudflare',
             ],
             [
-                'clash_mode' => 'Rule',
                 'rule_set' => 'geosite-cn',
                 'server' => 'fakeip',
             ],
