@@ -89,10 +89,12 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'cloudflare',
             ],
             [
+                'clash_mode' => 'Rule',
                 'rule_set' => 'geosite-geolocation-!cn',
                 'server' => 'cloudflare',
             ],
             [
+                'clash_mode' => 'Rule',
                 'rule_set' => 'geosite-cn',
                 'server' => 'fakeip',
             ],
@@ -167,16 +169,17 @@ $_ENV['SingBox_Config'] = [
             [
                 'clash_mode' => 'Rule',
                 'rule_set' => [
+                    'geosite-geolocation-!cn',
+                ],
+                'outbound' => 'select',
+            ],
+            [
+                'clash_mode' => 'Rule',
+                'rule_set' => [
                     'geosite-cn',
                     'geoip-cn',
                 ],
                 'outbound' => 'direct',
-            ],
-            [
-                'rule_set' => [
-                    'geosite-geolocation-!cn',
-                ],
-                'outbound' => 'select',
             ],
             [
                 'clash_mode' => 'Global',
