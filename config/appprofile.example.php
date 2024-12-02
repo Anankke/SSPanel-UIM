@@ -85,12 +85,22 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'local',
             ],
             [
+                'clash_mode' => 'Global',
+                'server' => 'cloudflare',
+            ],
+            [
+                'clash_mode' => 'Rule',
                 'rule_set' => 'geosite-geolocation-!cn',
                 'server' => 'cloudflare',
             ],
             [
+                'clash_mode' => 'Rule',
                 'rule_set' => 'geosite-cn',
                 'server' => 'fakeip',
+            ],
+            [
+                'clash_mode' => 'Direct',
+                'server' => 'local',
             ],
         ],
         'final' => 'cloudflare',
@@ -153,17 +163,27 @@ $_ENV['SingBox_Config'] = [
                 'action' => 'hijack-dns',
             ],
             [
+                'clash_mode' => 'Direct',
+                'outbound' => 'direct',
+            ],
+            [
+                'clash_mode' => 'Rule',
                 'rule_set' => [
                     'geosite-geolocation-!cn',
                 ],
                 'outbound' => 'select',
             ],
             [
+                'clash_mode' => 'Rule',
                 'rule_set' => [
                     'geosite-cn',
                     'geoip-cn',
                 ],
                 'outbound' => 'direct',
+            ],
+            [
+                'clash_mode' => 'Global',
+                'outbound' => 'select',
             ],
             [
                 'protocol' => 'stun',
