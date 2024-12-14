@@ -67,7 +67,7 @@ $_ENV['SingBox_Config'] = [
                 'address' => 'tls://one.one.one.one',
                 'address_resolver' => 'resolver',
                 'address_strategy' => 'ipv4_only',
-                'strategy' => 'prefer_ipv6',
+                'strategy' => 'prefer_ipv4',
                 'detour' => 'select',
             ],
             [
@@ -86,12 +86,11 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'clash_mode' => 'Global',
-                'server' => 'cloudflare',
+                'server' => 'fakeip',
             ],
             [
                 'clash_mode' => 'Rule',
-                'rule_set' => 'geosite-geolocation-!cn',
-                'server' => 'cloudflare',
+                'server' => 'fakeip',
             ],
             [
                 'clash_mode' => 'Rule',
