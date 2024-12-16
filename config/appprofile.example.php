@@ -71,6 +71,14 @@ $_ENV['SingBox_Config'] = [
                 'detour' => 'select',
             ],
             [
+                'tag' => 'google',
+                'address' => 'tls://dns.google',
+                'address_resolver' => 'resolver',
+                'address_strategy' => 'ipv4_only',
+                'strategy' => 'prefer_ipv4',
+                'detour' => 'select',
+            ],
+            [
                 'tag' => 'fakeip',
                 'address' => 'fakeip',
             ],
@@ -93,16 +101,11 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'fakeip',
             ],
             [
-                'clash_mode' => 'Rule',
-                'rule_set' => 'geosite-cn',
-                'server' => 'fakeip',
-            ],
-            [
                 'clash_mode' => 'Direct',
                 'server' => 'local',
             ],
         ],
-        'final' => 'cloudflare',
+        'final' => 'block',
         'fakeip' => [
             'enabled' => true,
             'inet4_range' => '198.18.0.0/15',
@@ -175,8 +178,21 @@ $_ENV['SingBox_Config'] = [
             [
                 'clash_mode' => 'Rule',
                 'rule_set' => [
-                    'geosite-cn',
                     'geoip-cn',
+                ],
+                'outbound' => 'direct',
+            ],
+            [
+                'clash_mode' => 'Rule',
+                'rule_set' => [
+                    'geosite-geolocation-cn',
+                ],
+                'outbound' => 'direct',
+            ],
+            [
+                'clash_mode' => 'Rule',
+                'rule_set' => [
+                    'geosite-cn',
                 ],
                 'outbound' => 'direct',
             ],
@@ -208,6 +224,14 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
+                'download_detour' => 'auto',
+                'update_interval' => '1d',
+            ],
+            [
+                'tag' => 'geosite-geolocation-cn',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-cn.srs',
                 'download_detour' => 'auto',
                 'update_interval' => '1d',
             ],
