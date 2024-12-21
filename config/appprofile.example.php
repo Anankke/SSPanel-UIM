@@ -95,6 +95,8 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'query_type' => [
+                    'A',
+                    'AAAA',
                     'SVCB',
                     'HTTPS',
                 ],
