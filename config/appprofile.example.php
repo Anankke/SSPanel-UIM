@@ -183,6 +183,10 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'direct',
             ],
             [
+                'clash_mode' => 'Global',
+                'outbound' => 'select',
+            ],
+            [
                 'rule_set' => [
                     'geosite-geolocation-!cn',
                 ],
@@ -222,10 +226,6 @@ $_ENV['SingBox_Config'] = [
                 ],
                 'action' => 'route',
                 'outbound' => 'direct',
-            ],
-            [
-                'clash_mode' => 'Global',
-                'outbound' => 'select',
             ],
             [
                 'protocol' => 'stun',
