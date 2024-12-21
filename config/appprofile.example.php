@@ -218,7 +218,7 @@ $_ENV['SingBox_Config'] = [
                         'rule_set' => [
                             'geoip-cn',
                         ],
-                    ]
+                    ],
                 ],
                 'action' => 'route',
                 'outbound' => 'direct',
