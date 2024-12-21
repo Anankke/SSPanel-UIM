@@ -57,26 +57,23 @@ $_ENV['SingBox_Config'] = [
                 'detour' => 'direct',
             ],
             [
-                'tag' => 'resolver',
+                'tag' => 'alidns',
                 'address' => 'quic://223.6.6.6',
-                'strategy' => 'ipv4_only',
                 'detour' => 'direct',
             ],
             [
                 'tag' => 'cloudflare',
-                'address' => 'tls://one.one.one.one',
-                'address_resolver' => 'resolver',
-                'address_strategy' => 'ipv4_only',
-                'strategy' => 'prefer_ipv4',
+                'address' => 'tls://1.1.1.1',
                 'detour' => 'select',
             ],
             [
                 'tag' => 'google',
                 'address' => 'tls://dns.google',
-                'address_resolver' => 'resolver',
+                'address_resolver' => 'alidns',
                 'address_strategy' => 'ipv4_only',
                 'strategy' => 'prefer_ipv4',
                 'detour' => 'select',
+                'client_subnet' => '111.222.0.0',
             ],
             [
                 'tag' => 'fakeip',
@@ -97,8 +94,25 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'fakeip',
             ],
             [
+                'query_type' => [
+                    'SVCB',
+                    'HTTPS',
+                ],
+                'server' => 'block',
+            ],
+            [
+                'rule_set' => [
+                    'china-site',
+                    'geosite-geolocation-cn',
+                    'geosite-cn',
+                    'geosite-netease',
+                    'geosite-bilibili',
+                ],
+                'server' => 'local',
+            ],
+            [
                 'clash_mode' => 'Rule',
-                'server' => 'fakeip',
+                'server' => 'cloudflare',
             ],
             [
                 'clash_mode' => 'Direct',
@@ -169,31 +183,44 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'direct',
             ],
             [
-                'clash_mode' => 'Rule',
                 'rule_set' => [
                     'geosite-geolocation-!cn',
                 ],
                 'outbound' => 'select',
             ],
             [
-                'clash_mode' => 'Rule',
                 'rule_set' => [
                     'geoip-cn',
                 ],
                 'outbound' => 'direct',
             ],
             [
-                'clash_mode' => 'Rule',
                 'rule_set' => [
+                    'china-site',
                     'geosite-geolocation-cn',
+                    'geosite-cn',
+                    'geosite-netease',
+                    'geosite-bilibili',
                 ],
                 'outbound' => 'direct',
             ],
             [
-                'clash_mode' => 'Rule',
-                'rule_set' => [
-                    'geosite-cn',
+                'type' => 'logical',
+                'mode' => 'and',
+                'rules' => [
+                    [
+                        'rule_set' => [
+                            'geosite-geolocation-!cn',
+                        ],
+                        'invert' => true,
+                    ],
+                    [
+                        'rule_set' => [
+                            'geoip-cn',
+                        ],
+                    ]
                 ],
+                'action' => 'route',
                 'outbound' => 'direct',
             ],
             [
@@ -228,6 +255,14 @@ $_ENV['SingBox_Config'] = [
                 'update_interval' => '1d',
             ],
             [
+                'tag' => 'china-site',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://github.com/77-QiQi/sing-box-rule-set/releases/download/china-rule-set/china_site.srs',
+                'download_detour' => 'auto',
+                'update_interval' => '1d',
+            ],
+            [
                 'tag' => 'geosite-geolocation-cn',
                 'type' => 'remote',
                 'format' => 'binary',
@@ -240,6 +275,22 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs',
+                'download_detour' => 'auto',
+                'update_interval' => '1d',
+            ],
+            [
+                'tag' => 'geosite-netease',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-netease.srs',
+                'download_detour' => 'auto',
+                'update_interval' => '1d',
+            ],
+            [
+                'tag' => 'geosite-bilibili',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-bilibili.srs',
                 'download_detour' => 'auto',
                 'update_interval' => '1d',
             ],
