@@ -95,8 +95,6 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'query_type' => [
-                    'A',
-                    'AAAA',
                     'SVCB',
                     'HTTPS',
                 ],
@@ -136,7 +134,7 @@ $_ENV['SingBox_Config'] = [
             'tag' => 'in',
             'address' => [
                 '172.18.0.1/30',
-                'fdfe:dcba:9876::1/126',
+                //'fdfe:dcba:9876::1/126',
             ],
             'auto_route' => true,
             'strict_route' => true,
