@@ -163,6 +163,17 @@ $_ENV['SingBox_Config'] = [
             'interrupt_exist_connections' => true,
         ],
         [
+            'tag' => 'rule_set_download',
+            'type' => 'selector',
+            'outbounds' => [
+                'select',
+                'auto',
+                'direct',
+            ],
+            'default' => 'auto',
+            'interrupt_exist_connections' => true,
+        ],
+        [
             'type' => 'direct',
             'tag' => 'direct',
         ],
@@ -243,7 +254,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
             [
@@ -251,7 +262,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
             [
@@ -259,7 +270,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://github.com/77-QiQi/sing-box-rule-set/releases/download/china-rule-set/china_site.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
             [
@@ -267,7 +278,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-cn.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
             [
@@ -275,7 +286,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
             [
@@ -283,7 +294,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-netease.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
             [
@@ -291,7 +302,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-bilibili.srs',
-                'download_detour' => 'auto',
+                'download_detour' => 'rule_set_download',
                 'update_interval' => '1d',
             ],
         ],
