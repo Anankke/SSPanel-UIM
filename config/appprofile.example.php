@@ -103,6 +103,7 @@ $_ENV['SingBox_Config'] = [
             [
                 'rule_set' => [
                     'china-site',
+                    'china-site-add',
                     'geosite-geolocation-cn',
                     'geosite-cn',
                     'geosite-netease',
@@ -212,6 +213,7 @@ $_ENV['SingBox_Config'] = [
             [
                 'rule_set' => [
                     'china-site',
+                    'china-site-add',
                     'geosite-geolocation-cn',
                     'geosite-cn',
                     'geosite-netease',
@@ -270,6 +272,14 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://github.com/77-QiQi/sing-box-rule-set/releases/download/china-rule-set/china_site.srs',
+                'download_detour' => 'rules_download',
+                'update_interval' => '1d',
+            ],
+            [
+                'tag' => 'china-site-add',
+                'type' => 'remote',
+                'format' => 'binary',
+                'url' => 'https://github.com/77-QiQi/sing-box-rule-set/releases/download/china-rule-set/china_site_add.srs',
                 'download_detour' => 'rules_download',
                 'update_interval' => '1d',
             ],
