@@ -68,11 +68,8 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'tag' => 'google',
-                'address' => 'tls://dns.google',
-                'address_resolver' => 'alidns',
-                'address_strategy' => 'ipv4_only',
-                'strategy' => 'prefer_ipv4',
-                'detour' => 'select',
+                'address' => 'tls://8.8.4.4',
+                'detour' => 'direct',
                 'client_subnet' => '111.222.0.0',
             ],
             [
@@ -103,11 +100,35 @@ $_ENV['SingBox_Config'] = [
             [
                 'rule_set' => [
                     'china-site',
-                    'china-site-add',
                     'geosite-geolocation-cn',
                     'geosite-cn',
                     'geosite-netease',
                     'geosite-bilibili',
+                ],
+                'server' => 'fakeip',
+            ],
+            [
+                'type' => 'logical',
+                'mode' => 'and',
+                'rules' => [
+                    [
+                        'rule_set' => [
+                            'geosite-geolocation-!cn',
+                        ],
+                        'invert' => true,
+                    ],
+                    [
+                        'rule_set' => [
+                            'geoip-cn',
+                        ],
+                    ],
+                ],
+                'action' => 'route',
+                'server' => 'google',
+            ],
+            [
+                'rule_set' => [
+                    'china-site-add'
                 ],
                 'server' => 'fakeip',
             ],
@@ -213,7 +234,6 @@ $_ENV['SingBox_Config'] = [
             [
                 'rule_set' => [
                     'china-site',
-                    'china-site-add',
                     'geosite-geolocation-cn',
                     'geosite-cn',
                     'geosite-netease',
