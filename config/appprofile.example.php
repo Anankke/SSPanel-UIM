@@ -128,7 +128,7 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'rule_set' => [
-                    'china-site-add'
+                    'china-site-add',
                 ],
                 'server' => 'fakeip',
             ],
