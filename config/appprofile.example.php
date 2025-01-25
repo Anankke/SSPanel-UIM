@@ -87,15 +87,15 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'local',
             ],
             [
-                'clash_mode' => 'Global',
-                'server' => 'fakeip',
-            ],
-            [
                 'query_type' => [
                     'SVCB',
                     'HTTPS',
                 ],
                 'server' => 'block',
+            ],
+            [
+                'clash_mode' => 'Global',
+                'server' => 'fakeip',
             ],
             [
                 'rule_set' => [
@@ -134,7 +134,7 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'clash_mode' => 'Rule',
-                'server' => 'cloudflare',
+                'server' => 'fakeip',
             ],
             [
                 'clash_mode' => 'Direct',
