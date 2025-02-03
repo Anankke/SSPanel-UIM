@@ -53,39 +53,47 @@ $_ENV['SingBox_Config'] = [
         'servers' => [
             [
                 'tag' => 'local',
-                'address' => 'local',
+                'type' => 'local',
                 'detour' => 'direct',
             ],
             [
                 'tag' => 'alidns',
-                'address' => 'quic://223.6.6.6',
+                'type' => 'quic',
+                'server' => '223.6.6.6',
+                'server_port' => 853,
                 'detour' => 'direct',
             ],
             [
                 'tag' => 'cloudflare',
-                'address' => 'tls://1.1.1.1',
+                'type' => 'tls',
+                'server' => '1.1.1.1',
+                'server_port' => 853,
                 'detour' => 'select',
             ],
             [
                 'tag' => 'google',
-                'address' => 'tls://8.8.4.4',
+                'type' => 'tls',
+                'server' => '8.8.4.4',
+                'server_port' => 853,
                 'detour' => 'direct',
-                'client_subnet' => '111.222.0.0',
             ],
             [
                 'tag' => 'fakeip',
-                'address' => 'fakeip',
+                'type' => 'fakeip',
+                'inet4_range' => '198.18.0.0/15',
+                'inet6_range' => 'fc00::/18',
             ],
             [
                 'tag' => 'block',
-                'address' => 'rcode://refused',
+                'type' => 'predefined',
+                'responses' => [
+                    [
+                        'rcode' => 'REFUSED',
+                    ],
+                ],
             ],
         ],
         'rules' => [
-            [
-                'outbound' => 'any',
-                'server' => 'local',
-            ],
             [
                 'query_type' => [
                     'SVCB',
@@ -125,6 +133,7 @@ $_ENV['SingBox_Config'] = [
                 ],
                 'action' => 'route',
                 'server' => 'google',
+                'client_subnet' => '111.222.0.0',
             ],
             [
                 'rule_set' => [
@@ -142,11 +151,6 @@ $_ENV['SingBox_Config'] = [
             ],
         ],
         'final' => 'block',
-        'fakeip' => [
-            'enabled' => true,
-            'inet4_range' => '198.18.0.0/15',
-            'inet6_range' => 'fc00::/18',
-        ],
         'disable_cache' => true,
         'independent_cache' => true,
     ],
@@ -339,6 +343,11 @@ $_ENV['SingBox_Config'] = [
         'final' => 'select',
         'auto_detect_interface' => true,
         'override_android_vpn' => true,
+        'default_domain_resolver' => [
+            'server' => 'local',
+            'rewrite_tll' => 60,
+            'client_subnet' => '111.222.0.0',
+        ],
     ],
     'experimental' => [
         'cache_file' => [
