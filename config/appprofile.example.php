@@ -102,12 +102,17 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'block',
             ],
             [
+                'rule_set' => [
+                    'geosite-category-ads-all',
+                ],
+                'server' => 'block',
+            ],
+            [
                 'clash_mode' => 'Global',
                 'server' => 'fakeip',
             ],
             [
                 'rule_set' => [
-                    'china-site',
                     'geosite-geolocation-cn',
                     'geosite-cn',
                     'geosite-netease',
@@ -134,12 +139,6 @@ $_ENV['SingBox_Config'] = [
                 'action' => 'route',
                 'server' => 'google',
                 'client_subnet' => '111.222.0.0',
-            ],
-            [
-                'rule_set' => [
-                    'china-site-add',
-                ],
-                'server' => 'fakeip',
             ],
             [
                 'clash_mode' => 'Rule',
@@ -216,6 +215,13 @@ $_ENV['SingBox_Config'] = [
                 'action' => 'hijack-dns',
             ],
             [
+                'rule_set' => [
+                    'geosite-category-ads-all',
+                ],
+                'action' => 'reject',
+                'method' => 'default',
+            ],
+            [
                 'clash_mode' => 'Direct',
                 'outbound' => 'direct',
             ],
@@ -237,7 +243,6 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'rule_set' => [
-                    'china-site',
                     'geosite-geolocation-cn',
                     'geosite-cn',
                     'geosite-netease',
@@ -292,18 +297,10 @@ $_ENV['SingBox_Config'] = [
                 'update_interval' => '1d',
             ],
             [
-                'tag' => 'china-site',
+                'tag' => 'geosite-category-ads-all',
                 'type' => 'remote',
                 'format' => 'binary',
-                'url' => 'https://github.com/77-QiQi/sing-box-rule-set/releases/download/china-rule-set/china_site.srs',
-                'download_detour' => 'rules_download',
-                'update_interval' => '1d',
-            ],
-            [
-                'tag' => 'china-site-add',
-                'type' => 'remote',
-                'format' => 'binary',
-                'url' => 'https://github.com/77-QiQi/sing-box-rule-set/releases/download/china-rule-set/china_site_add.srs',
+                'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-category-ads-all.srs',
                 'download_detour' => 'rules_download',
                 'update_interval' => '1d',
             ],
@@ -346,7 +343,6 @@ $_ENV['SingBox_Config'] = [
         'default_domain_resolver' => [
             'server' => 'local',
             'rewrite_tll' => 60,
-            'client_subnet' => '111.222.0.0',
         ],
     ],
     'experimental' => [
