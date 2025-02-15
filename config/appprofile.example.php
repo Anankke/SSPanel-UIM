@@ -78,6 +78,13 @@ $_ENV['SingBox_Config'] = [
                 'detour' => 'direct',
             ],
             [
+                'tag' => 'opendns',
+                'type' => 'tls',
+                'server' => '208.67.222.222',
+                'server_port' => 853,
+                'detour' => 'direct',
+            ],
+            [
                 'tag' => 'fakeip',
                 'type' => 'fakeip',
                 'inet4_range' => '198.18.0.0/15',
@@ -230,16 +237,43 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'select',
             ],
             [
+                'protocol' => 'stun',
+                'action' => 'reject',
+                'method' => 'default',
+            ],
+            [
                 'rule_set' => [
                     'geosite-geolocation-!cn',
                 ],
                 'outbound' => 'select',
             ],
             [
-                'rule_set' => [
-                    'geoip-cn',
+                'type' => 'logical',
+                'mode' => 'and',
+                'rules' => [
+                    [
+                        'rule_set' => [
+                            'geosite-geolocation-!cn',
+                            'geosite-geolocation-cn',
+                            'geosite-cn',
+                            'geosite-netease',
+                            'geosite-bilibili',
+                        ],
+                        'invert' => true,
+                    ],
+                    [
+                        'rule_set' => [
+                            'geoip-cn',
+                        ],
+                        'invert' => true,
+                    ],
                 ],
-                'outbound' => 'direct',
+                'action' => 'route',
+                'outbound' => 'select',
+            ],
+            [
+                'action' => 'resolve',
+                'server' => 'opendns',
             ],
             [
                 'rule_set' => [
@@ -264,15 +298,36 @@ $_ENV['SingBox_Config'] = [
                         'rule_set' => [
                             'geoip-cn',
                         ],
+                        'invert' => true,
+                    ],
+                ],
+                'action' => 'route',
+                'outbound' => 'select',
+            ],
+            [
+                'rule_set' => [
+                    'geoip-cn',
+                ],
+                'outbound' => 'direct',
+            ],
+            [
+                'type' => 'logical',
+                'mode' => 'and',
+                'rules' => [
+                    [
+                        'rule_set' => [
+                            'geosite-geolocation-!cn',
+                        ],
+                        'invert' => true,
+                    ],
+                    [
+                        'rule_set' => [
+                            'geoip-cn',
+                        ],
                     ],
                 ],
                 'action' => 'route',
                 'outbound' => 'direct',
-            ],
-            [
-                'protocol' => 'stun',
-                'action' => 'reject',
-                'method' => 'default',
             ],
             [
                 'ip_is_private' => true,
