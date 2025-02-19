@@ -53,6 +53,12 @@ final class BillingController extends BaseController
         // Smogate
         'smogate_app_id',
         'smogate_app_secret',
+        // Cryptomus
+        'cryptomus_api_key',
+        'cryptomus_uuid',
+        'cryptomus_subtract',
+        'cryptomus_lifetime',
+        'cryptomus_currency',
     ];
 
     /**
