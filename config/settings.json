@@ -1582,5 +1582,50 @@
         "type": "int",
         "default": "2023020100",
         "mark": "当前数据库版本"
+    },
+    {
+        "item": "cryptomus_api_key",
+        "value": "",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "cryptomus_api_key"
+    },
+    {
+        "item": "cryptomus_uuid",
+        "value": "",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "cryptomus_uuid"
+    },
+    {
+        "item": "cryptomus_subtract",
+        "value": "",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "cryptomus_subtract"
+    },
+    {
+        "item": "cryptomus_lifetime",
+        "value": "3600",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "cryptomus_lifetime"
+    },
+    {
+        "item": "cryptomus_currency",
+        "value": "CNY",
+        "class": "billing",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "cryptomus_currency"
     }
 ]

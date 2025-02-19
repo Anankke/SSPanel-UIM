@@ -48,6 +48,9 @@
                                 <li class="nav-item">
                                     <a href="#smogate" class="nav-link" data-bs-toggle="tab">Smogate</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#cryptomus" class="nav-link" data-bs-toggle="tab">Cryptomus</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -323,6 +326,49 @@
                                                        value="{$settings['smogate_app_secret']}">
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="cryptomus">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Api key</label>
+                                            <div class="col">
+                                                <input id="cryptomus_api_key" type="password" class="form-control"
+                                                       value="{$settings['cryptomus_api_key']}">
+                                                <span>You can find the API key in the settings of your personal account.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">UUID</label>
+                                            <div class="col">
+                                                <input id="cryptomus_uuid" type="text" class="form-control"
+                                                       value="{$settings['cryptomus_uuid']}">
+                                                <span>You can find the UUID in the settings of your personal account.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Subtract</label>
+                                            <div class="col">
+                                                <input id="cryptomus_subtract" type="number" class="form-control"
+                                                       value="{$settings['cryptomus_subtract']}">
+                                                <span>How much commission does the client pay (0-100%)</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Lifetime</label>
+                                            <div class="col">
+                                                <input id="cryptomus_lifetime" type="number" class="form-control"
+                                                       value="{$settings['cryptomus_lifetime']}">
+                                                <span>The lifespan of the issued invoice.(In seconds)</span>
+                                            </div>
+                                        </div>
+{*                                        <div class="form-group mb-3 row">*}
+{*                                            <label class="form-label col-3 col-form-label">Currency</label>*}
+{*                                            <div class="col">*}
+{*                                                <input id="cryptomus_currency" type="text" class="form-control"*}
+{*                                                       value="{$settings['cryptomus_currency']}">*}
+{*                                            </div>*}
+{*                                        </div>*}
                                     </div>
                                 </div>
                             </div>
