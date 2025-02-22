@@ -274,6 +274,9 @@ $_ENV['SingBox_Config'] = [
             [
                 'action' => 'resolve',
                 'server' => 'opendns',
+                'disable_cache' => true,
+                'rewrite_ttl' => 60,
+                'client_subnet' => '111.222.0.0',
             ],
             [
                 'rule_set' => [
