@@ -90,15 +90,6 @@ $_ENV['SingBox_Config'] = [
                 'inet4_range' => '198.18.0.0/15',
                 'inet6_range' => 'fc00::/18',
             ],
-            [
-                'tag' => 'block',
-                'type' => 'predefined',
-                'responses' => [
-                    [
-                        'rcode' => 'REFUSED',
-                    ],
-                ],
-            ],
         ],
         'rules' => [
             [
@@ -106,13 +97,15 @@ $_ENV['SingBox_Config'] = [
                     'SVCB',
                     'HTTPS',
                 ],
-                'server' => 'block',
+                'action' => 'predefined',
+                'rcode' => 'REFUSED',
             ],
             [
                 'rule_set' => [
                     'geosite-category-ads-all',
                 ],
-                'server' => 'block',
+                'action' => 'predefined',
+                'rcode' => 'REFUSED',
             ],
             [
                 'clash_mode' => 'Global',
@@ -156,7 +149,7 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'local',
             ],
         ],
-        'final' => 'block',
+        'final' => 'cloudflare',
         'disable_cache' => true,
         'independent_cache' => true,
     ],
