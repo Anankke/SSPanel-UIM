@@ -73,9 +73,9 @@ $_ENV['SingBox_Config'] = [
             [
                 'tag' => 'google',
                 'type' => 'tls',
-                'server' => '8.8.4.4',
+                'server' => '8.8.8.8',
                 'server_port' => 853,
-                'detour' => 'direct',
+                'detour' => 'select',
             ],
             [
                 'tag' => 'opendns',
@@ -138,6 +138,7 @@ $_ENV['SingBox_Config'] = [
                 ],
                 'action' => 'route',
                 'server' => 'google',
+                'disable_cache' => true,
                 'client_subnet' => '111.222.0.0',
             ],
             [
@@ -240,6 +241,13 @@ $_ENV['SingBox_Config'] = [
                 ],
                 'outbound' => 'select',
             ],
+            //[
+                //'action' => 'resolve',
+                //'server' => 'google',
+                //'disable_cache' => true,
+                //'rewrite_ttl' => 60,
+                //'client_subnet' => '111.222.0.0',
+            //],
             [
                 'type' => 'logical',
                 'mode' => 'and',
@@ -265,13 +273,6 @@ $_ENV['SingBox_Config'] = [
                 'outbound' => 'select',
             ],
             [
-                'action' => 'resolve',
-                'server' => 'opendns',
-                'disable_cache' => true,
-                'rewrite_ttl' => 60,
-                'client_subnet' => '111.222.0.0',
-            ],
-            [
                 'rule_set' => [
                     'geosite-geolocation-cn',
                     'geosite-cn',
@@ -279,26 +280,6 @@ $_ENV['SingBox_Config'] = [
                     'geosite-bilibili',
                 ],
                 'outbound' => 'direct',
-            ],
-            [
-                'type' => 'logical',
-                'mode' => 'and',
-                'rules' => [
-                    [
-                        'rule_set' => [
-                            'geosite-geolocation-!cn',
-                        ],
-                        'invert' => true,
-                    ],
-                    [
-                        'rule_set' => [
-                            'geoip-cn',
-                        ],
-                        'invert' => true,
-                    ],
-                ],
-                'action' => 'route',
-                'outbound' => 'select',
             ],
             [
                 'rule_set' => [
