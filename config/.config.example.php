@@ -148,3 +148,14 @@ $_ENV['r2_access_key_secret'] = '';
 $_ENV['r2_client_download_timeout'] = 10;
 // Clash Meta TCP Concurrency. Default true, false
 $_ENV['tcp_concurrent'] = true;
+// Custom DNS, sing-box DNS Server setting(Rule mode). tls / https / quic / h3
+$_ENV['dns_select'] = 'mine_853';            //Default mine_853, mine_443, google, cloudflare, opendns, alidns
+//mine_853 default type tls, quic
+$_ENV['dns_server_853'] = 'dns.google';     //The address of the DNS server. Default domain, ip
+$_ENV['dns_server_port_853'] = 853;         //The port of the DNS server. Default 853
+$_ENV['dns_type_853'] = 'tls';              //The type of the DNS server. Default tls, quic
+//mine_443 default type https, h3
+$_ENV['dns_server_443'] = 'dns.google';     //The address of the DNS server. Default domain, ip
+$_ENV['dns_server_port_443'] = 443;         //The port of the DNS server. Default 443
+$_ENV['dns_path_443'] = '/dns-query';       //The path of the DNS server. Default /dns-query
+$_ENV['dns_type_443'] = 'https';            //The type of the DNS server. Default https, h3
