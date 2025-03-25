@@ -54,35 +54,35 @@ $_ENV['SingBox_Config'] = [
             [
                 'tag' => 'local',
                 'type' => 'local',
-                'detour' => 'direct',
+                //'detour' => 'direct',
             ],
             [
                 'tag' => 'alidns',
                 'type' => 'quic',
                 'server' => '223.6.6.6',
                 'server_port' => 853,
-                'detour' => 'direct',
+                //'detour' => 'direct',
             ],
             [
                 'tag' => 'cloudflare',
                 'type' => 'tls',
                 'server' => '1.1.1.1',
                 'server_port' => 853,
-                'detour' => 'rules_dns_detour',
+                //'detour' => 'rules_dns_detour',
             ],
             [
                 'tag' => 'google',
                 'type' => 'tls',
                 'server' => '8.8.8.8',
                 'server_port' => 853,
-                'detour' => 'rules_dns_detour',
+                //'detour' => 'rules_dns_detour',
             ],
             [
                 'tag' => 'opendns',
                 'type' => 'tls',
                 'server' => '208.67.222.222',
                 'server_port' => 853,
-                'detour' => 'rules_dns_detour',
+                //'detour' => 'rules_dns_detour',
             ],
             [
                 'tag' => 'mine_853',
@@ -90,7 +90,7 @@ $_ENV['SingBox_Config'] = [
                 'server' => $_ENV['dns_server_853'],
                 'server_port' => $_ENV['dns_server_port_853'],
                 'domain_resolver' => 'alidns',
-                'detour' => 'rules_dns_detour',
+                //'detour' => 'rules_dns_detour',
             ],
             [
                 'tag' => 'mine_443',
@@ -99,7 +99,7 @@ $_ENV['SingBox_Config'] = [
                 'server_port' => $_ENV['dns_server_port_443'],
                 'path' => $_ENV['dns_path_443'],
                 'domain_resolver' => 'alidns',
-                'detour' => 'rules_dns_detour',
+                //'detour' => 'rules_dns_detour',
             ],
             [
                 'tag' => 'fakeip',
@@ -205,17 +205,17 @@ $_ENV['SingBox_Config'] = [
             'idle_timeout' => '30m',
             'interrupt_exist_connections' => true,
         ],
-        [
-            'tag' => 'rules_dns_detour',
-            'type' => 'selector',
-            'outbounds' => [
-                'select',
-                'auto',
-                'direct',
-            ],
-            'default' => 'select',
-            'interrupt_exist_connections' => true,
-        ],
+        //[
+            //'tag' => 'rules_dns_detour',
+            //'type' => 'selector',
+            //'outbounds' => [
+                //'select',
+                //'auto',
+                //'direct',
+            //],
+            //'default' => 'select',
+            //'interrupt_exist_connections' => true,
+        //],
         [
             'tag' => 'rules_download',
             'type' => 'selector',
@@ -224,7 +224,7 @@ $_ENV['SingBox_Config'] = [
                 'auto',
                 'direct',
             ],
-            'default' => 'auto',
+            'default' => 'select',
             'interrupt_exist_connections' => true,
         ],
         [
