@@ -229,6 +229,7 @@ $_ENV['SingBox_Config'] = [
                 'timeout' => '1s',
             ],
             [
+                'inbound' => 'in',
                 'protocol' => 'dns',
                 'port' => [
                     53,
@@ -276,10 +277,6 @@ $_ENV['SingBox_Config'] = [
                     [
                         'rule_set' => [
                             'geosite-geolocation-!cn',
-                            'geosite-geolocation-cn',
-                            'geosite-cn',
-                            'geosite-netease',
-                            'geosite-bilibili',
                         ],
                         'invert' => true,
                     ],
