@@ -230,6 +230,10 @@ $_ENV['SingBox_Config'] = [
             ],
             [
                 'protocol' => 'dns',
+                'port' => [
+                    53,
+                    853,
+                ],
                 'action' => 'hijack-dns',
             ],
             [
