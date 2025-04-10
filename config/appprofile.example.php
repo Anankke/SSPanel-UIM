@@ -277,6 +277,10 @@ $_ENV['SingBox_Config'] = [
                     [
                         'rule_set' => [
                             'geosite-geolocation-!cn',
+                            'geosite-geolocation-cn',
+                            'geosite-cn',
+                            'geosite-netease',
+                            'geosite-bilibili',
                         ],
                         'invert' => true,
                     ],
