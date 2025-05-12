@@ -65,8 +65,8 @@
 <!-- js -->
 <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <script>
-    let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
-    let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
+    let successDialog = new tabler.bootstrap.Modal(document.getElementById('success-dialog'));
+    let failDialog = new tabler.bootstrap.Modal(document.getElementById('fail-dialog'));
 
     let clipboard = new ClipboardJS('.copy');
     clipboard.on('success', function () {

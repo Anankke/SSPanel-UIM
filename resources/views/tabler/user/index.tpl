@@ -742,7 +742,7 @@
                         padding: 14
                     }
                 },
-                colors: [tabler.getColor("azure")],
+                colors: ["#FF4500"],
                 legend: {
                     show: false
                 }
