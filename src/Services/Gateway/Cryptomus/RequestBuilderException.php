@@ -1,25 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Services\Gateway\Cryptomus;
 
 final class RequestBuilderException extends \Exception
 {
-    /**
-     * @var string
-     */
-    private $method;
+    private string $method;
+    private array $errors;
 
-    /**
-     * @var array
-     */
-    private $errors;
-
-    /**
-     * @param string $message
-     * @param int $responseCode
-     * @param string $uri
-     * @param null|mixed $previous
-     */
-    public function __construct($message, $responseCode, $uri, $errors = [], $previous = null)
+    public function __construct(string $message, int $responseCode, string $uri, array $errors = [], mixed $previous = null)
     {
         $this->method = $uri;
         $this->errors = $errors;
@@ -27,18 +17,12 @@ final class RequestBuilderException extends \Exception
         parent::__construct($message, $responseCode, $previous);
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * @return array
-     */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }

@@ -1,34 +1,24 @@
 <?php
-namespace App\Services\Gateway\Cryptomus;
 
-use App\Services\Gateway\Cryptomus\RequestBuilder;
-use App\Services\Gateway\Cryptomus\RequestBuilderException;
+declare(strict_types=1);
+
+namespace App\Services\Gateway\Cryptomus;
 
 final class Payment
 {
-    /**
-     * @var RequestBuilder
-     */
-    private $requestBuilder;
+    private RequestBuilder $requestBuilder;
+    private string $version = 'v1';
 
-    /**
-     * @var string
-     */
-    private $version = 'v1';
-
-    /**
-     * @param string $paymentKey
-     * @param string $merchantUuid
-     */
-    public function __construct($paymentKey, $merchantUuid)
+    public function __construct(string $paymentKey, string $merchantUuid)
     {
         $this->requestBuilder = new RequestBuilder($paymentKey, $merchantUuid);
     }
 
-
     /**
      * @param array $parameters Additional parameters
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function services(array $parameters = [])
@@ -47,7 +37,9 @@ final class Payment
      * - @var boolean is_payment_multiple: Allow surcharges on payment *
      * - @var string lifetime: Payment lifetime in seconds
      * - @var string to_currency: Currency to convert amount to
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function create(array $data)
@@ -57,10 +49,13 @@ final class Payment
 
     /**
      * uuid or order_id
+     *
      * @param array $data
      * - @var string uuid
      * - @var string order_id
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function info($data = [])
@@ -71,7 +66,9 @@ final class Payment
     /**
      * @param string|int $page Pagination cursor
      * @param array $parameters Additional parameters
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function history($page = 1, array $parameters = [])
@@ -82,7 +79,9 @@ final class Payment
 
     /**
      * @param array $parameters Additional parameters
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function balance(array $parameters = [])
@@ -92,10 +91,13 @@ final class Payment
 
     /**
      * uuid or order_id
+     *
      * @param array $data
      * - @var string uuid: Payment's UUID
      * - @var string order_id: Order ID in your system
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function reSendNotifications(array $data)
@@ -109,7 +111,9 @@ final class Payment
      * - @var string currency: Payment currency
      * - @var string order_id: Order ID in your system
      * - @var string url_callback: Callback url
+     *
      * @return bool|mixed
+     *
      * @throws RequestBuilderException
      */
     public function createWallet(array $data)

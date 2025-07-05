@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Gateway;
@@ -6,6 +7,7 @@ namespace App\Services\Gateway;
 use App\Models\Config;
 use App\Models\Paylist;
 use App\Services\Auth;
+use App\Services\Gateway\Cryptomus\Payment as CryptomusPayment;
 use App\Services\View;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -14,7 +16,6 @@ use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
 use function json_decode;
 use function trim;
-use App\Services\Gateway\Cryptomus\Payment as CryptomusPayment;
 
 final class Cryptomus extends Base
 {
@@ -23,9 +24,6 @@ final class Cryptomus extends Base
      */
     protected array $cryptomus = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->antiXss = new AntiXSS();
@@ -37,25 +35,16 @@ final class Cryptomus extends Base
         $this->cryptomus['cryptomus_currency'] = Config::obtain('cryptomus_currency');
     }
 
-    /**
-     * @return string
-     */
     public static function _name(): string
     {
         return 'cryptomus';
     }
 
-    /**
-     * @return bool
-     */
     public static function _enable(): bool
     {
         return self::getActiveGateway('cryptomus');
     }
 
-    /**
-     * @return string
-     */
     public static function _readableName(): string
     {
         return 'Cryptomus';
@@ -65,7 +54,9 @@ final class Cryptomus extends Base
      * @param ServerRequest $request
      * @param Response $response
      * @param array $args
+     *
      * @return ResponseInterface
+     *
      * @throws Exception
      */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -90,7 +81,7 @@ final class Cryptomus extends Base
 
         $pl->userid = $user->id;
         $pl->total = $price;
-        $pl->invoice_id = $invoiceId ;
+        $pl->invoice_id = $invoiceId;
         $pl->tradeno = $tradeNumber;
         $pl->gateway = self::_readableName();
 
@@ -99,13 +90,13 @@ final class Cryptomus extends Base
         $paymentData = [
             'amount' => $price,
             'currency' => $this->cryptomus['cryptomus_currency'] ?? 'CNY',
-            'order_id' => 'sspanel_' . $invoiceId ,
+            'order_id' => 'sspanel_' . $invoiceId,
             'url_return' => $redir,
             'url_callback' => self::getCallbackUrl(),
             'lifetime' => $this->cryptomus['cryptomus_lifetime'] ?? '3600',
-            'subtract' => $config['cryptomus_subtract'] ?? '0',
+            'subtract' => $this->cryptomus['cryptomus_subtract'] ?? '0',
             'plugin_name' => 'sspanel:2024.1',
-            'additional_data' => json_encode(['tradeno' => $tradeNumber])
+            'additional_data' => json_encode(['tradeno' => $tradeNumber]),
         ];
 
         $paymentInstance = $this->getPayment();
@@ -125,11 +116,11 @@ final class Cryptomus extends Base
         ]);
     }
 
-
     /**
      * @param $request
      * @param $response
      * @param $args
+     *
      * @return ResponseInterface
      */
     public function notify($request, $response, $args): ResponseInterface
@@ -138,11 +129,11 @@ final class Cryptomus extends Base
         $data = json_decode($payload, true);
         $additionalData = json_decode($data['additional_data'], true);
 
-        if (!$this->hashEqual($data)) {
+        if (! $this->hashEqual($data)) {
             return $response->withJson(['state' => 'fail', 'msg' => 'Sign is not valid']);
         }
 
-        $success = !empty($data['is_final']) && ($data['status'] === 'paid' || $data['status'] === 'paid_over' || $data['status'] === 'wrong_amount');
+        $success = isset($data['is_final']) && $data['is_final'] && ($data['status'] === 'paid' || $data['status'] === 'paid_over' || $data['status'] === 'wrong_amount');
         if ($success) {
 //            $orderId = preg_replace('/^sspanel(?:_upd)?_/', '', $data['order_id'] ?? '');
             $this->postPayment($additionalData['tradeno']);
@@ -166,6 +157,7 @@ final class Cryptomus extends Base
 
     /**
      * @return CryptomusPayment
+     *
      * @throws \Exception
      */
     private function getPayment(): CryptomusPayment
@@ -173,8 +165,8 @@ final class Cryptomus extends Base
         $merchantUuid = trim($this->cryptomus['cryptomus_uuid']);
         $paymentKey = trim($this->cryptomus['cryptomus_api_key']);
 
-        if (!$merchantUuid && !$paymentKey) {
-            throw new Exception("Please fill UUID and API key");
+        if (! $merchantUuid || ! $paymentKey) {
+            throw new Exception('Please fill UUID and API key');
         }
 
         return new CryptomusPayment($paymentKey, $merchantUuid);
@@ -182,25 +174,26 @@ final class Cryptomus extends Base
 
     /**
      * @param $data
+     *
      * @return bool
      */
     private function hashEqual($data): bool
     {
         $paymentKey = trim($this->cryptomus['cryptomus_api_key']);
 
-        if (!$paymentKey) {
+        if (! $paymentKey) {
             return false;
         }
 
-        $signature = $data['sign'];
-        if (!$signature) {
+        $signature = $data['sign'] ?? '';
+        if (! $signature) {
             return false;
         }
 
         unset($data['sign']);
 
         $hash = md5(base64_encode(json_encode($data, JSON_UNESCAPED_UNICODE)) . $paymentKey);
-        if (!hash_equals($hash, $signature)) {
+        if (! hash_equals($hash, $signature)) {
             return false;
         }
 
