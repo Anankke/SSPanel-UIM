@@ -24,7 +24,7 @@
                 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
                 SOFTWARE.</p>
             <br>
-            <p class="empty-title"><a href="https://wiki.sspanel.org/#/contributors">贡献者清单</a></p>
+            <p class="empty-title"><a href="https://github.com/Anankke/SSPanel-UIM/graphs/contributors">贡献者清单</a></p>
             <br>
             <p class="empty-title"><a href="https://github.com/Anankke/SSPanel-Uim">GitHub Repo</a></p>
             <br>

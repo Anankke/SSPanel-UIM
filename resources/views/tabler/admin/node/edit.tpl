@@ -83,8 +83,8 @@
                                 <div id="custom_config"></div>
                                 <label class="form-label col-form-label">
                                     请参考
-                                    <a href="//wiki.sspanel.org/#/custom-config" target="_blank">
-                                        wiki.sspanel.org/#/custom-config
+                                    <a href="https://docs.sspanel.io/docs/configuration/nodes" target="_blank">
+                                        节点自定义配置文档
                                     </a>
                                     修改节点自定义配置
                                 </label>

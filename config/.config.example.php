@@ -97,9 +97,9 @@ $_ENV['enable_detect_offline'] = true;
 $_ENV['enable_login_bind_ip'] = true;     //是否将登陆线程和IP绑定
 $_ENV['enable_login_bind_device'] = true; //是否将登陆线程和设备绑定
 $_ENV['rememberMeDuration'] = 7;          //登录时记住账号时长天数
-$_ENV['timeZone'] = 'Asia/Taipei';        //需使用 PHP 兼容的时区格式
+$_ENV['timeZone'] = 'Asia/Shanghai';        //需使用 PHP 兼容的时区格式
 $_ENV['theme'] = 'tabler';                //默认主题
-$_ENV['locale'] = 'zh-TW';                //默认语言
+$_ENV['locale'] = 'zh-CN';                //默认语言
 $_ENV['jump_delay'] = 1200;               //跳转延时，单位ms
 $_ENV['keep_connect'] = false;            // 流量耗尽用户限速至 1Mbps
 
