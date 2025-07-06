@@ -6,7 +6,6 @@ return [
     'preset' => 'default',
     'remove' => [
         NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
-        NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineGlobalConstants::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenGlobals::class,
@@ -31,7 +30,17 @@ return [
         SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff::class,
         SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff::class,
     ],
-    'config' => [],
+    'config' => [
+        NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class => [
+            'maxComplexity' => 15,
+        ],
+        NunoMaduro\PhpInsights\Domain\Insights\ClassMethodAverageCyclomaticComplexityIsHigh::class => [
+            'maxComplexity' => 10,
+        ],
+        NunoMaduro\PhpInsights\Domain\Insights\MethodCyclomaticComplexityIsHigh::class => [
+            'maxComplexity' => 15,
+        ],
+    ],
 
     'exclude' => [
         'storage',

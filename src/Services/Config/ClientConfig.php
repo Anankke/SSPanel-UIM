@@ -12,7 +12,7 @@ final class ClientConfig
     {
         if (self::$config === null) {
             $file = BASE_PATH . '/config/client_display.json';
-            if (!is_readable($file)) {
+            if (! is_readable($file)) {
                 throw new \RuntimeException("Client config file not found: {$file}");
             }
 

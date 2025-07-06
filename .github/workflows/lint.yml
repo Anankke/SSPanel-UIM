@@ -61,7 +61,7 @@ jobs:
             --no-interaction \
             --format=github-action \
             --min-quality=100 \
-            --min-complexity=100 \
+            --min-complexity=80 \
             --min-architecture=100 \
             --min-style=100
         continue-on-error: ${{ github.event_name == 'pull_request' }}
