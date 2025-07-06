@@ -32,6 +32,24 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Anankke/SSPanel-UIM/actions/workflows/lint.yml">
+    <img src="https://github.com/Anankke/SSPanel-UIM/actions/workflows/lint.yml/badge.svg" alt="Lint Status">
+  </a>
+  <a href="#code-quality">
+    <img src="https://img.shields.io/badge/Code%20Quality-100%25-brightgreen?logo=scrutinizer" alt="Code Quality">
+  </a>
+  <a href="#code-quality">
+    <img src="https://img.shields.io/badge/Architecture-100%25-brightgreen?logo=blueprint" alt="Architecture">
+  </a>
+  <a href="#code-quality">
+    <img src="https://img.shields.io/badge/Style-100%25-brightgreen?logo=prettier" alt="Code Style">
+  </a>
+  <a href="#code-quality">
+    <img src="https://img.shields.io/badge/Complexity-81.5%25-yellow?logo=codacy" alt="Complexity">
+  </a>
+</p>
+
 
 <p align="center">
   <a href="https://docs.sspanel.io">
