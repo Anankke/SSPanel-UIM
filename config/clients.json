@@ -21,6 +21,26 @@
             ]
         },
         {
+            "name": "Clash Verge Rev",
+            "tagMethod": "github_release",
+            "gitRepo": "clash-verge-rev/clash-verge-rev",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "Clash.Verge_%tagName1%_x64-setup.exe",
+                    "saveName": "Clash.Verge.exe"
+                },
+                {
+                    "sourceName": "Clash.Verge_%tagName1%_x64.dmg",
+                    "saveName": "Clash.Verge.dmg"
+                },
+                {
+                    "sourceName": "Clash.Verge_%tagName1%_amd64.deb",
+                    "saveName": "Clash.Verge.deb"
+                }
+            ]
+        },
+        {
             "name": "Clash.Meta For Android",
             "tagMethod": "github_release",
             "gitRepo": "MetaCubeX/ClashMetaForAndroid",
