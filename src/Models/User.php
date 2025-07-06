@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\IM;
+use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;
@@ -37,7 +38,7 @@ use const PHP_EOL;
  * @property int    $ref_by 邀请人ID
  * @property string $method Shadowsocks加密方式
  * @property string $reg_ip 注册IP
- * @property float  $node_speedlimit 用户限速
+ * @property int    $node_speedlimit 用户限速
  * @property int    $node_iplimit 同时可连接IP数
  * @property int    $is_admin 是否管理员
  * @property int    $im_type 联系方式类型
@@ -85,7 +86,6 @@ final class User extends Model
     protected $casts = [
         'money' => 'float',
         'port' => 'int',
-        'node_speedlimit' => 'float',
         'daily_mail_enable' => 'int',
         'ref_by' => 'int',
     ];
@@ -262,6 +262,14 @@ final class User extends Model
         $this->im_type = 0;
         $this->im_value = '';
 
+        if ($this->im_type === 4 && Config::obtain('telegram_unbind_kick_member')) {
+            try {
+                (new Telegram())->banGroupMember((int) $this->im_value);
+            } catch (TelegramSDKException) {
+                return false;
+            }
+        }
+
         return $this->save();
     }
 
@@ -278,7 +286,7 @@ final class User extends Model
         $unused_traffic = $this->unusedTraffic();
 
         if ($this->daily_mail_enable === 1) {
-            echo 'Send daily mail to user: ' . $this->id . PHP_EOL;
+            echo 'Sending daily mail to user: ' . $this->id . PHP_EOL;
 
             (new EmailQueue())->add(
                 $this->email,
@@ -286,15 +294,16 @@ final class User extends Model
                 'traffic_report.tpl',
                 [
                     'user' => $this,
-                    'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
+                    'text' => '站点公告:<br><br>' . $ann . '<br><br>晚安！',
                     'lastday_traffic' => $lastday_traffic,
                     'enable_traffic' => $enable_traffic,
                     'used_traffic' => $used_traffic,
                     'unused_traffic' => $unused_traffic,
                 ]
             );
-        } else {
-            echo 'Send daily IM message to user: ' . $this->id . PHP_EOL;
+        } elseif ($this->daily_mail_enable === 2 && $this->im_value !== '') {
+            echo 'Sending daily IM message to user: ' . $this->id . PHP_EOL;
+
             $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
             $text .= '流量总计：' . $enable_traffic . PHP_EOL;
             $text .= '已用流量：' . $used_traffic . PHP_EOL;
@@ -302,7 +311,7 @@ final class User extends Model
             $text .= '今日使用：' . $lastday_traffic;
 
             try {
-                IM::send($this->im_value, $text, $this->im_type);
+                IM::send((int) $this->im_value, $text, $this->im_type);
             } catch (GuzzleException|TelegramSDKException $e) {
                 echo $e->getMessage() . PHP_EOL;
             }

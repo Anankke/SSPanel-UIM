@@ -11,10 +11,9 @@ use App\Models\User as ModelsUser;
 use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\Tools;
+use danielsreichenbach\GeoIP2Update\Client;
 use Exception;
 use Ramsey\Uuid\Uuid;
-use Telegram\Bot\Api;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use function count;
 use function date;
 use function fgets;
@@ -25,6 +24,7 @@ use function json_decode;
 use function method_exists;
 use function strtolower;
 use function trim;
+use const BASE_PATH;
 use const PHP_EOL;
 use const STDIN;
 use const STDOUT;
@@ -33,22 +33,23 @@ final class Tool extends Command
 {
     public string $description = <<<EOL
 ├─=: php xcat Tool [选项]
-│ ├─ setTelegram             - 设置 Telegram 机器人
-│ ├─ resetSetting            - 使用默认值覆盖数据库配置
-│ ├─ importSetting           - 导入数据库配置
-│ ├─ resetNodePassword       - 重置所有节点通讯密钥
-│ ├─ resetNodeBandwidth      - 重置所有节点流量
-│ ├─ resetPort               - 重置所有用户端口
-│ ├─ resetBandwidth          - 重置所有用户流量
-│ ├─ resetTodayBandwidth     - 重置今日流量
-│ ├─ resetPassword           - 重置所有用户登录密码
-│ ├─ resetPasswd             - 重置所有用户连接密码
-│ ├─ clearSubToken           - 清除用户 Sub Token
-│ ├─ generateUUID            - 为所有用户生成新的 UUID
-│ ├─ generateGa              - 为所有用户生成新的 Ga Secret
-│ ├─ generateApiToken        - 为所有用户生成新的 API Token
-│ ├─ setTheme                - 为所有用户设置新的主题
-│ ├─ createAdmin             - 创建管理员帐号
+│ ├─ resetSetting        - 使用默认值覆盖数据库配置
+│ ├─ importSetting       - 导入数据库配置
+│ ├─ resetNodePassword   - 重置所有节点通讯密钥
+│ ├─ resetNodeBandwidth  - 重置所有节点流量
+│ ├─ resetPort           - 重置所有用户端口
+│ ├─ resetBandwidth      - 重置所有用户流量
+│ ├─ resetTodayBandwidth - 重置今日流量
+│ ├─ resetPassword       - 重置所有用户登录密码
+│ ├─ resetPasswd         - 重置所有用户连接密码
+│ ├─ clearSubToken       - 清除用户 Sub Token
+│ ├─ generateUUID        - 为所有用户生成新的 UUID
+│ ├─ generateGa          - 为所有用户生成新的 Ga Secret
+│ ├─ generateApiToken    - 为所有用户生成新的 API Token
+│ ├─ setTheme            - 为所有用户设置新的主题
+│ ├─ setLocale           - 为所有用户设置新的语言
+│ ├─ createAdmin         - 创建管理员帐号
+│ └─ updateGeoIP2        - 更新 GeoIP2 数据库
 
 EOL;
 
@@ -63,22 +64,6 @@ EOL;
             } else {
                 echo '方法不存在' . PHP_EOL;
             }
-        }
-    }
-
-    /**
-     * @throws TelegramSDKException
-     */
-    public function setTelegram(): void
-    {
-        $WebhookUrl = $_ENV['baseUrl'] . '/callback/telegram?token=' . Config::obtain('telegram_request_token');
-        $telegram = new Api(Config::obtain('telegram_token'));
-        $telegram->removeWebhook();
-
-        if ($telegram->setWebhook(['url' => $WebhookUrl])) {
-            echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
-        } else {
-            echo '设置失败！' . PHP_EOL;
         }
     }
 
@@ -334,6 +319,23 @@ EOL;
     }
 
     /**
+     * Set locale for all users
+     */
+    public function setLocale(): void
+    {
+        fwrite(STDOUT, 'Please input the new locale: ');
+        $locale = trim(fgets(STDIN));
+        $users = ModelsUser::all();
+
+        foreach ($users as $user) {
+            $user->locale = $locale;
+            $user->save();
+        }
+
+        echo 'Set locale for all users successfully.' . PHP_EOL;
+    }
+
+    /**
      * 创建 Admin 账户
      *
      * @throws Exception
@@ -349,11 +351,9 @@ EOL;
             echo '(1/3) 请输入管理员邮箱：' . PHP_EOL;
             // get input
             $email = trim(fgets(STDIN));
-
             // write input back
             echo '(2/3) 请输入管理员账户密码：' . PHP_EOL;
             $passwd = trim(fgets(STDIN));
-
             echo '(3/3) 按 Y 或 y 确认创建：';
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
@@ -397,6 +397,30 @@ EOL;
             }
         } else {
             echo '已取消创建' . PHP_EOL;
+        }
+    }
+
+    public function updateGeoIP2(): void
+    {
+        if ($_ENV['maxmind_account_id'] !== '' && $_ENV['maxmind_license_key'] !== '') {
+            echo 'Updating GeoIP2 database...' . PHP_EOL;
+
+            $client = new Client([
+                'account_id' => $_ENV['maxmind_account_id'],
+                'license_key' => $_ENV['maxmind_license_key'],
+                'dir' => BASE_PATH . '/storage/',
+                'editions' => ['GeoLite2-City', 'GeoLite2-Country'],
+            ]);
+
+            try {
+                $client->run();
+                echo 'Successfully updated GeoIP2 database.' . PHP_EOL;
+            } catch (Exception $e) {
+                echo 'Update GeoIP2 database failed.' . PHP_EOL;
+                echo $e->getMessage() . PHP_EOL;
+            }
+        } else {
+            echo 'Please configure maxmind_account_id & maxmind_license_key in config/.config.php' . PHP_EOL;
         }
     }
 }

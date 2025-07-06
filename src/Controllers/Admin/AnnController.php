@@ -9,15 +9,18 @@ use App\Models\Ann;
 use App\Models\Config;
 use App\Models\EmailQueue;
 use App\Models\User;
-use App\Services\IM\Telegram;
+use App\Services\Notification;
 use App\Utils\Tools;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use League\HTMLToMarkdown\HtmlConverter;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use function str_replace;
+use function in_array;
 use function strip_tags;
+use function strlen;
 use function time;
 use const PHP_EOL;
 
@@ -27,14 +30,17 @@ final class AnnController extends BaseController
         [
             'field' => [
                 'op' => '操作',
-                'id' => '公告ID',
+                'id' => 'ID',
+                'status' => '状态',
+                'sort' => '排序',
                 'date' => '日期',
-                'content' => '公告内容',
+                'content' => '内容（节选）',
             ],
         ];
 
     private static array $update_field = [
-        'email_notify_class',
+        'status',
+        'sort',
     ];
 
     /**
@@ -70,35 +76,37 @@ final class AnnController extends BaseController
      */
     public function add(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        $status = (int) $request->getParam('status');
+        $sort = (int) $request->getParam('sort');
         $email_notify_class = (int) $request->getParam('email_notify_class');
         $email_notify = $request->getParam('email_notify') === 'true' ? 1 : 0;
+        $content = $request->getParam('content');
 
-        $content = strip_tags(
-            str_replace(
-                ['<p>','</p>'],
-                ['','<br><br>'],
-                $request->getParam('content')
-            ),
-            ['br', 'a', 'strong']
-        );
-        $subject = $_ENV['appName'] . ' - 新公告发布';
+        if ($content === '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '内容不能为空',
+            ]);
+        }
 
-        if ($content !== '') {
-            $ann = new Ann();
-            $ann->date = Tools::toDateTime(time());
-            $ann->content = $content;
+        $ann = new Ann();
+        $ann->status = in_array($status, [0, 1, 2]) ? $status : 1;
+        $ann->sort = $sort > 999 || $sort < 0 ? 0 : $sort;
+        $ann->date = Tools::toDateTime(time());
+        $ann->content = $content;
 
-            if (! $ann->save()) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '公告保存失败',
-                ]);
-            }
+        if (! $ann->save()) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '公告保存失败',
+            ]);
         }
 
         if ($email_notify) {
             $users = (new User())->where('class', '>=', $email_notify_class)
+                ->where('is_banned', '=', 0)
                 ->get();
+            $subject = $_ENV['appName'] . ' - 新公告发布';
 
             foreach ($users as $user) {
                 (new EmailQueue())->add(
@@ -113,13 +121,16 @@ final class AnnController extends BaseController
             }
         }
 
-        if (Config::obtain('enable_telegram')) {
+        if (Config::obtain('im_bot_group_notify_ann_create')) {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $content = $converter->convert($content);
+
             try {
-                (new Telegram())->sendHtml(0, '新公告：' . PHP_EOL . $content);
-            } catch (TelegramSDKException) {
+                Notification::notifyUserGroup('新公告：' . PHP_EOL . $content);
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功，Telegram发送失败' : '公告添加成功，Telegram发送失败',
+                    'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功，IM Bot 发送失败' : '公告添加成功，IM Bot 发送失败',
                 ]);
             }
         }
@@ -137,10 +148,10 @@ final class AnnController extends BaseController
      */
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $ann = (new Ann())->find($args['id']);
         return $response->write(
             $this->view()
-                ->assign('ann', $ann)
+                ->assign('ann', (new Ann())->find($args['id']))
+                ->assign('update_field', self::$update_field)
                 ->fetch('admin/announcement/edit.tpl')
         );
     }
@@ -150,8 +161,29 @@ final class AnnController extends BaseController
      */
     public function update(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
+        $status = (int) $request->getParam('status');
+        $sort = (int) $request->getParam('sort');
+        $content = $request->getParam('content');
+
+        if ($content === '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '内容不能为空',
+            ]);
+        }
+
         $ann = (new Ann())->find($args['id']);
-        $ann->content = (string) $request->getParam('content');
+
+        if ($ann === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '公告不存在',
+            ]);
+        }
+
+        $ann->status = in_array($status, [0, 1, 2]) ? $status : 1;
+        $ann->sort = $sort > 999 || $sort < 0 ? 0 : $sort;
+        $ann->content = $content;
         $ann->date = Tools::toDateTime(time());
 
         if (! $ann->save()) {
@@ -161,13 +193,16 @@ final class AnnController extends BaseController
             ]);
         }
 
-        if (Config::obtain('enable_telegram')) {
+        if (Config::obtain('im_bot_group_notify_ann_update')) {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $content = $converter->convert($ann->content);
+
             try {
-                (new Telegram())->sendHtml(0, '公告更新：' . PHP_EOL . $request->getParam('content'));
-            } catch (TelegramSDKException) {
+                Notification::notifyUserGroup('公告更新：' . PHP_EOL . $content);
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '公告更新成功，Telegram发送失败',
+                    'msg' => '公告更新成功，IM Bot 发送失败',
                 ]);
             }
         }
@@ -183,16 +218,16 @@ final class AnnController extends BaseController
      */
     public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $ann = (new Ann())->find($args['id']);
-        if (! $ann->delete()) {
+        if ((new Ann())->find($args['id'])->delete()) {
             return $response->withJson([
-                'ret' => 0,
-                'msg' => '删除失败',
+                'ret' => 1,
+                'msg' => '删除成功',
             ]);
         }
+
         return $response->withJson([
-            'ret' => 1,
-            'msg' => '删除成功',
+            'ret' => 0,
+            'msg' => '删除失败',
         ]);
     }
 
@@ -204,9 +239,11 @@ final class AnnController extends BaseController
         $anns = (new Ann())->orderBy('id')->get();
 
         foreach ($anns as $ann) {
-            $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
+            $ann->op = '<button class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
             onclick="deleteAnn(' . $ann->id . ')">删除</button>
-            <a class="btn btn-blue" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
+            <a class="btn btn-primary" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
+            $ann->status = $ann->status();
+            $ann->content = strlen($ann->content) > 40 ? mb_substr(strip_tags($ann->content), 0, 40, 'UTF-8') . '...' : $ann->content;
         }
 
         return $response->withJson([

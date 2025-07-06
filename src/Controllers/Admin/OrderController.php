@@ -115,22 +115,29 @@ final class OrderController extends BaseController
         if (in_array($order->status, ['activated', 'expired', 'cancelled'])) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '不能取消' . $order->status() . '的产品',
+                'msg' => '无法取消 ' . $order->status() . ' 状态的产品',
+            ]);
+        }
+
+        $invoice = (new Invoice())->where('order_id', $order_id)->first();
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '关联账单不存在',
+            ]);
+        }
+
+        if ($invoice->status === 'partially_paid') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '无法取消账单已部分支付的订单',
             ]);
         }
 
         $order->update_time = time();
         $order->status = 'cancelled';
         $order->save();
-
-        $invoice = (new Invoice())->where('order_id', $order_id)->first();
-
-        if ($invoice === null) {
-            return $response->withJson([
-                'ret' => 1,
-                'msg' => '订单取消成功，但关联账单不存在',
-            ]);
-        }
 
         if (in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
             $invoice->refundToBalance();
@@ -183,17 +190,17 @@ final class OrderController extends BaseController
         $orders = (new Order())->orderBy('id', 'desc')->get();
 
         foreach ($orders as $order) {
-            $order->op = '<button type="button" class="btn btn-red" id="delete-order-' . $order->id . '"
+            $order->op = '<button class="btn btn-red" id="delete-order-' . $order->id . '"
              onclick="deleteOrder(' . $order->id . ')">删除</button>';
 
             if (in_array($order->status, ['pending_payment', 'pending_activation'])) {
                 $order->op .= '
-                <button type="button" class="btn btn-orange" id="cancel-order-' . $order->id . '"
+                <button class="btn btn-orange" id="cancel-order-' . $order->id . '"
                  onclick="cancelOrder(' . $order->id . ')">取消</button>';
             }
 
             $order->op .= '
-            <a class="btn btn-blue" href="/admin/order/' . $order->id . '/view">查看</a>';
+            <a class="btn btn-primary" href="/admin/order/' . $order->id . '/view">查看</a>';
             $order->product_type = $order->productType();
             $order->status = $order->status();
             $order->create_time = Tools::toDateTime($order->create_time);

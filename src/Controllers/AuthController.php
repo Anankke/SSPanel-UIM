@@ -110,10 +110,7 @@ final class AuthController extends BaseController
         $user->last_login_time = time();
         $user->save();
 
-        return $response->withHeader('HX-Redirect', $redir)->withJson([
-            'ret' => 1,
-            'msg' => '登录成功',
-        ]);
+        return $response->withHeader('HX-Redirect', $redir);
     }
 
     /**
@@ -225,7 +222,7 @@ final class AuthController extends BaseController
         $user->method = $configs['reg_method'];
         $user->im_type = $imtype;
         $user->im_value = $imvalue;
-        $user->transfer_enable = Tools::toGB($configs['reg_traffic']);
+        $user->transfer_enable = Tools::gbToB($configs['reg_traffic']);
         $user->auto_reset_day = Config::obtain('free_user_reset_day');
         $user->auto_reset_bandwidth = Config::obtain('free_user_reset_bandwidth');
         $user->daily_mail_enable = $configs['reg_daily_report'];
@@ -264,6 +261,8 @@ final class AuthController extends BaseController
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
         }
 
+        $user->last_login_time = time();
+
         if ($user->save() && ! $is_admin_reg) {
             if ($user->ref_by !== 0) {
                 Reward::issueRegReward($user->id, $user->ref_by);
@@ -272,10 +271,7 @@ final class AuthController extends BaseController
             Auth::login($user->id, 3600);
             (new LoginIp())->collectLoginIP($_SERVER['REMOTE_ADDR'], 0, $user->id);
 
-            return $response->withHeader('HX-Redirect', $redir)->withJson([
-                'ret' => 1,
-                'msg' => '注册成功！正在进入登录界面',
-            ]);
+            return $response->withHeader('HX-Redirect', $redir);
         }
 
         return ResponseHelper::error($response, '未知错误');
@@ -367,7 +363,6 @@ final class AuthController extends BaseController
     {
         Auth::logout();
 
-        return $response->withStatus(302)
-            ->withHeader('Location', '/auth/login');
+        return $response->withStatus(302)->withHeader('Location', '/auth/login');
     }
 }

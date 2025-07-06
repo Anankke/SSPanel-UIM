@@ -4,54 +4,67 @@ declare(strict_types=1);
 
 namespace App\Services\LLM;
 
-use GuzzleHttp\Client;
+use App\Models\Config;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
 
 final class Anthropic extends Base
 {
-    /**
-     * @throws GuzzleException
-     */
     public function textPrompt(string $q): string
     {
-        if ($_ENV['anthropic_api_key'] === '') {
-            return 'Anthropic API key not set';
+        return $this->makeRequest([
+            [
+                'role' => 'user',
+                'content' => $q,
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        $conversation = [];
+
+        if (count($context) > 0) {
+            foreach ($context as $role => $content) {
+                $conversation[] = [
+                    'role' => $role === 'user' ? 'user' : 'assistant',
+                    'content' => $content,
+                ];
+            }
         }
 
-        $client = new Client();
+        return $this->makeRequest($conversation);
+    }
+
+    private function makeRequest(array $conversation): string
+    {
+        if (Config::obtain('anthropic_api_key') === '') {
+            return 'Anthropic API key not set';
+        }
 
         $api_url = 'https://api.anthropic.com/v1/messages';
 
         $headers = [
-            'x-api-key' => $_ENV['anthropic_api_key'],
-            'anthropic-version' => '2023-06-01',
+            'x-api-key' => Config::obtain('anthropic_api_key'),
             'content-type' => 'application/json',
         ];
 
         $data = [
-            'model' => $_ENV['anthropic_model_id'],
-            'max_tokens' => 1024,
+            'model' => Config::obtain('anthropic_model_id'),
             'temperature' => 1,
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => $q,
-                ],
-            ],
+            'messages' => $conversation,
         ];
 
-        $response = json_decode($client->post($api_url, [
-            'headers' => $headers,
-            'json' => $data,
-            'timeout' => 10,
-        ])->getBody()->getContents());
+        try {
+            $response = json_decode($this->client->post($api_url, [
+                'headers' => $headers,
+                'json' => $data,
+                'timeout' => 30,
+            ])->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            return '';
+        }
 
         return $response->content[0]->text;
-    }
-
-    public function textPromptWithContext(string $q, array $context): string
-    {
-        return '';
     }
 }

@@ -576,6 +576,24 @@
         "mark": "AlibabaCloud DM From Alias"
     },
     {
+        "item": "resend_api_key",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Resend API Key"
+    },
+    {
+        "item": "resend_from",
+        "value": "",
+        "class": "email",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Resend From"
+    },
+    {
         "item": "email_verify_code_ttl",
         "value": "3600",
         "class": "email",
@@ -711,13 +729,130 @@
         "mark": "hCaptcha Secret"
     },
     {
-        "item": "enable_telegram",
+        "item": "recaptcha_enterprise_key_id",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCAPTCHA Enterprise Key"
+    },
+    {
+        "item": "recaptcha_enterprise_project_id",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCAPTCHA Enterprise Project ID"
+    },
+    {
+        "item": "recaptcha_enterprise_api_key",
+        "value": "",
+        "class": "captcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCAPTCHA Enterprise API Key"
+    },
+    {
+        "item": "im_bot_group_notify_add_node",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Enable IM bot group add node notify"
+    },
+    {
+        "item": "im_bot_group_notify_update_node",
         "value": "0",
         "class": "im",
-        "is_public": 1,
+        "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "是否启用Telegram机器人"
+        "mark": "Enable IM bot group update node notify"
+    },
+    {
+        "item": "im_bot_group_notify_delete_node",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group delete node notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_gfwed",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node gfwed notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_ungfwed",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node ungfwed notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_online",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node online notify"
+    },
+    {
+        "item": "im_bot_group_notify_node_offline",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group node offline notify"
+    },
+    {
+        "item": "im_bot_group_notify_daily_job",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Enable IM bot group daily job notify"
+    },
+    {
+        "item": "im_bot_group_notify_diary",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group diary notify"
+    },
+    {
+        "item": "im_bot_group_notify_ann_create",
+        "value": "1",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "Enable IM bot group notify when new announcement is created"
+    },
+    {
+        "item": "im_bot_group_notify_ann_update",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable IM bot group notify when announcement is updated"
     },
     {
         "item": "telegram_token",
@@ -729,13 +864,13 @@
         "mark": "Telegram Bot Token"
     },
     {
-        "item": "telegram_chatid",
-        "value": "-1",
+        "item": "telegram_webhook_token",
+        "value": "",
         "class": "im",
         "is_public": 0,
-        "type": "int",
-        "default": "-1",
-        "mark": "Telegram 群组会话 ID"
+        "type": "string",
+        "default": "",
+        "mark": "Telegram Webhook Token"
     },
     {
         "item": "telegram_bot",
@@ -744,178 +879,25 @@
         "is_public": 1,
         "type": "string",
         "default": "_bot",
-        "mark": "Telegram 机器人账号"
+        "mark": "Telegram Bot Account Username"
     },
     {
-        "item": "telegram_request_token",
-        "value": "",
+        "item": "telegram_chatid",
+        "value": "-1",
         "class": "im",
         "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "Telegram Webhook 密钥"
+        "type": "int",
+        "default": "-1",
+        "mark": "Telegram Chat ID"
     },
     {
-        "item": "telegram_add_node",
-        "value": "1",
+        "item": "enable_telegram_group_notify",
+        "value": "0",
         "class": "im",
-        "is_public": 0,
+        "is_public": 1,
         "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人添加节点通知"
-    },
-    {
-        "item": "telegram_add_node_text",
-        "value": "%node_name% 已被添加",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 已被添加",
-        "mark": "Telegram机器人添加节点通知文本"
-    },
-    {
-        "item": "telegram_update_node",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人修改节点通知"
-    },
-    {
-        "item": "telegram_update_node_text",
-        "value": "%node_name% 已被修改",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 已被修改",
-        "mark": "Telegram机器人修改节点通知文本"
-    },
-    {
-        "item": "telegram_delete_node",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人删除节点通知"
-    },
-    {
-        "item": "telegram_delete_node_text",
-        "value": "%node_name% 被刪除了",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 被刪除了",
-        "mark": "Telegram机器人删除节点通知文本"
-    },
-    {
-        "item": "telegram_node_gfwed",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点被墙通知"
-    },
-    {
-        "item": "telegram_node_gfwed_text",
-        "value": "喵喵喵~ %node_name% 节点被墙了喵~",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "喵喵喵~ %node_name% 节点被墙了喵~",
-        "mark": "Telegram机器人节点被墙通知"
-    },
-    {
-        "item": "telegram_node_ungfwed",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点被墙恢复通知"
-    },
-    {
-        "item": "telegram_node_ungfwed_text",
-        "value": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "喵喵喵~ 被墙的 %node_name% 节点恢复了喵~",
-        "mark": "Telegram机器人节点被墙恢复文本"
-    },
-    {
-        "item": "telegram_node_online",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点恢复上线通知"
-    },
-    {
-        "item": "telegram_node_online_text",
-        "value": "%node_name% 被修好了",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 被修好了",
-        "mark": "Telegram机器人节点恢复上线通知文本"
-    },
-    {
-        "item": "telegram_node_offline",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人节点离线通知"
-    },
-    {
-        "item": "telegram_node_offline_text",
-        "value": "%node_name% 出现了一些故障",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "%node_name% 出现了一些故障",
-        "mark": "Telegram机器人节点离线通知文本"
-    },
-    {
-        "item": "telegram_daily_job",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人每日任务通知"
-    },
-    {
-        "item": "telegram_daily_job_text",
-        "value": "成功执行每日任务",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "成功执行每日任务",
-        "mark": "Telegram机器人每日任务通知文本"
-    },
-    {
-        "item": "telegram_diary",
-        "value": "1",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "1",
-        "mark": "是否启用Telegram机器人系统运行状况通知"
-    },
-    {
-        "item": "telegram_diary_text",
-        "value": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
-        "class": "im",
-        "is_public": 0,
-        "type": "string",
-        "default": "今日签到人数：%getTodayCheckinUser% \n 今日使用总流量：%lastday_total%",
-        "mark": "Telegram机器人系统运行状况通知文本"
+        "default": "0",
+        "mark": "Enable Telegram group notify"
     },
     {
         "item": "telegram_unbind_kick_member",
@@ -934,15 +916,6 @@
         "type": "bool",
         "default": "0",
         "mark": "是否仅允许已绑定Telegram账户的用户加入群组"
-    },
-    {
-        "item": "enable_welcome_message",
-        "value": "0",
-        "class": "im",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "Telegram 机器人发送欢迎消息"
     },
     {
         "item": "telegram_group_quiet",
@@ -981,13 +954,13 @@
         "mark": "允许任意未知的命令触发 /help 的回复"
     },
     {
-        "item": "user_not_bind_reply",
-        "value": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
+        "item": "enable_welcome_message",
+        "value": "0",
         "class": "im",
         "is_public": 0,
-        "type": "string",
-        "default": "您未绑定本站账号，您可以进入网站的 **资料编辑**，在右下方绑定您的账号。",
-        "mark": "未绑定账户的回复"
+        "type": "bool",
+        "default": "0",
+        "mark": "Telegram 机器人发送欢迎消息"
     },
     {
         "item": "discord_bot_token",
@@ -1026,6 +999,24 @@
         "mark": "Discord Guild ID"
     },
     {
+        "item": "discord_channel_id",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Discord Channel ID"
+    },
+    {
+        "item": "enable_discord_channel_notify",
+        "value": "0",
+        "class": "im",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable Discord channel notify"
+    },
+    {
         "item": "slack_token",
         "value": "",
         "class": "im",
@@ -1060,6 +1051,24 @@
         "type": "string",
         "default": "",
         "mark": "Slack Team ID"
+    },
+    {
+        "item": "slack_channel_id",
+        "value": "0",
+        "class": "im",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "Slack Channel ID"
+    },
+    {
+        "item": "enable_slack_channel_notify",
+        "value": "0",
+        "class": "im",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "Enable Slack channel notify"
     },
     {
         "item": "crisp_id",
@@ -1627,5 +1636,185 @@
         "type": "string",
         "default": "",
         "mark": "cryptomus_currency"
+    },
+    {
+        "item": "llm_backend",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "LLM Backend"
+    },
+    {
+        "item": "openai_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "OpenAI API Key"
+    },
+    {
+        "item": "openai_model_id",
+        "value": "gpt-4o",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "gpt-4o",
+        "mark": "OpenAI Model ID"
+    },
+    {
+        "item": "google_ai_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Google AI API Key"
+    },
+    {
+        "item": "google_ai_model_id",
+        "value": "gemini-1.5-flash",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "gemini-1.5-flash",
+        "mark": "Google AI Model ID"
+    },
+    {
+        "item": "vertex_ai_access_token",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Vertex AI Access Token"
+    },
+    {
+        "item": "vertex_ai_location",
+        "value": "us-central1",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "us-central1",
+        "mark": "Vertex AI Location"
+    },
+    {
+        "item": "vertex_ai_project_id",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Vertex AI Project ID"
+    },
+    {
+        "item": "vertex_ai_model_id",
+        "value": "gemini-1.5-flash-preview-0514",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "gemini-1.5-flash-preview-0514",
+        "mark": "Vertex AI Model ID"
+    },
+    {
+        "item": "huggingface_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Hugging Face Inference API Key"
+    },
+    {
+        "item": "huggingface_endpoint_url",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Hugging Face Inference API Endpoint URL"
+    },
+    {
+        "item": "cf_workers_ai_account_id",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Cloudflare Workers AI Account ID"
+    },
+    {
+        "item": "cf_workers_ai_api_token",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Cloudflare Workers AI API Token"
+    },
+    {
+        "item": "cf_workers_ai_model_id",
+        "value": "@cf/meta/llama-3-8b-instruct",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "@cf/meta/llama-3-8b-instruct",
+        "mark": "Cloudflare Workers AI Model ID"
+    },
+    {
+        "item": "anthropic_api_key",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "Anthropic API Key"
+    },
+    {
+        "item": "anthropic_model_id",
+        "value": "claude-3-sonnet-20240229",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "claude-3-sonnet-20240229",
+        "mark": "Anthropic Model ID"
+    },
+    {
+        "item": "aws_bedrock_access_key_id",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AWS Bedrock Access Key ID"
+    },
+    {
+        "item": "aws_bedrock_access_key_secret",
+        "value": "",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "AWS Bedrock Access Key Secret"
+    },
+    {
+        "item": "aws_bedrock_region",
+        "value": "us-west-2",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "us-west-2",
+        "mark": "AWS Bedrock Region"
+    },
+    {
+        "item": "aws_bedrock_model_id",
+        "value": "meta.llama3-8b-instruct-v1:0",
+        "class": "llm",
+        "is_public": 0,
+        "type": "string",
+        "default": "meta.llama3-8b-instruct-v1:0",
+        "mark": "AWS Bedrock Model ID"
     }
 ]

@@ -80,10 +80,10 @@ final class UserController extends BaseController
         ]);
 
         $keys_unset = match ($node->sort) {
-            14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
-            2 => ['u', 'd', 'transfer_enable', 'method', 'port'],
-            1 => ['u', 'd', 'transfer_enable', 'method', 'port', 'uuid'],
-            default => ['u', 'd', 'transfer_enable', 'uuid']
+            14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd', 'node_iplimit'],
+            2 => ['u', 'd', 'transfer_enable', 'method', 'port', 'node_iplimit'],
+            1 => ['u', 'd', 'transfer_enable', 'method', 'port', 'uuid', 'node_iplimit'],
+            default => ['u', 'd', 'transfer_enable', 'uuid', 'node_iplimit']
         };
 
         $users = [];
@@ -123,7 +123,6 @@ final class UserController extends BaseController
                 unset($user_raw->$key);
             }
 
-            $user_raw->alive_ip = 0;
             $users[] = $user_raw;
         }
 

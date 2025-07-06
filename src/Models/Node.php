@@ -24,7 +24,7 @@ use const DNS_AAAA;
  * @property int    $dynamic_rate_type       动态流量倍率计算方式
  * @property string $dynamic_rate_config     动态流量倍率配置
  * @property int    $node_class              节点等级
- * @property float  $node_speedlimit         节点限速
+ * @property int    $node_speedlimit         节点限速
  * @property int    $node_bandwidth          节点流量
  * @property int    $node_bandwidth_limit    节点流量限制
  * @property int    $bandwidthlimit_resetday 流量重置日

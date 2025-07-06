@@ -22,30 +22,6 @@
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="success-noreload-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-status bg-success"></div>
-            <div class="modal-body text-center py-4">
-                <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
-                <p id="success-noreload-message" class="text-secondary">成功</p>
-            </div>
-            <div class="modal-footer">
-                <div class="w-100">
-                    <div class="row">
-                        <div class="col">
-                            <a id="success-noreload-confirm" href="" class="btn w-100" data-bs-dismiss="modal">
-                                好
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -98,13 +74,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-                <ul class="list-inline list-inline-dots mb-0">
-                    <li class="list-inline-item">
-                        Theme by <a href="https://tabler.io/" class="link-secondary">Tabler</a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </div>
 </footer>
@@ -113,11 +82,12 @@
 <!-- js -->
 <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <script>
-    let successDialog = new bootstrap.Modal(document.getElementById('success-dialog'));
-    let failDialog = new bootstrap.Modal(document.getElementById('fail-dialog'));
+    let successDialog = new tabler.bootstrap.Modal(document.getElementById('success-dialog'));
+    let failDialog = new tabler.bootstrap.Modal(document.getElementById('fail-dialog'));
 
     htmx.on("htmx:afterRequest", function(evt) {
         if (evt.detail.xhr.getResponseHeader('HX-Refresh') === 'true' ||
+            evt.detail.xhr.getResponseHeader('HX-Redirect') ||
             evt.detail.xhr.getResponseHeader('HX-Trigger'))
         {
             return;
@@ -125,6 +95,21 @@
 
         let res = JSON.parse(evt.detail.xhr.response);
 
+        if (typeof res.data !== 'undefined') {
+            for (let key in res.data) {
+                if (res.data.hasOwnProperty(key)) {
+                    let element = document.getElementById(key);
+
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = res.data[key];
+                        } else {
+                            element.innerHTML = res.data[key];
+                        }
+                    }
+                }
+            }
+        }
         if (res.ret === 1) {
             document.getElementById("success-message").innerHTML = res.msg;
             successDialog.show();
@@ -132,10 +117,6 @@
             document.getElementById("fail-message").innerHTML = res.msg;
             failDialog.show();
         }
-    });
-
-    $("#success-confirm").click(function () {
-        location.reload();
     });
 </script>
 <script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>

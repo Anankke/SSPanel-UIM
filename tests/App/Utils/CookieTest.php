@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use PHPUnit\Framework\TestCase;
-use App\Utils\Cookie;
 
 final class CookieTest extends TestCase
 {

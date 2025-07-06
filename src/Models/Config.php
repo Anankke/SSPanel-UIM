@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\QueryException;
+use function is_array;
+use function json_decode;
+use function json_encode;
 
 /**
  * @property int    $id         配置ID
@@ -12,6 +16,7 @@ use Illuminate\Database\Query\Builder;
  * @property string $value      配置值
  * @property string $class      配置类别
  * @property string $is_public  是否为公共参数
+ * @property string $type       配置值类型
  * @property string $default    默认值
  * @property string $mark       备注
  *
@@ -22,13 +27,14 @@ final class Config extends Model
     protected $connection = 'default';
     protected $table = 'config';
 
-    public static function obtain($item): bool|int|string
+    public static function obtain($item): bool|int|array|string
     {
         $config = (new Config())->where('item', $item)->first();
 
         return match ($config->type) {
             'bool' => (bool) $config->value,
             'int' => (int) $config->value,
+            'array' => json_decode($config->value),
             default => (string) $config->value,
         };
     }
@@ -39,16 +45,27 @@ final class Config extends Model
         $all_configs = (new Config())->where('class', $class)->get();
 
         foreach ($all_configs as $config) {
-            if ($config->type === 'bool') {
-                $configs[$config->item] = (bool) $config->value;
-            } elseif ($config->type === 'int') {
-                $configs[$config->item] = (int) $config->value;
-            } else {
-                $configs[$config->item] = (string) $config->value;
-            }
+            $configs[$config->item] = match ($config->type) {
+                'bool' => (bool) $config->value,
+                'int' => (int) $config->value,
+                'array' => json_decode($config->value),
+                default => (string) $config->value,
+            };
         }
 
         return $configs;
+    }
+
+    public static function getItemListByClass($class): array
+    {
+        $items = [];
+        $all_configs = (new Config())->where('class', $class)->get();
+
+        foreach ($all_configs as $config) {
+            $items[] = $config->item;
+        }
+
+        return $items;
     }
 
     public static function getPublicConfig(): array
@@ -57,28 +74,27 @@ final class Config extends Model
         $all_configs = (new Config())->where('is_public', '1')->get();
 
         foreach ($all_configs as $config) {
-            if ($config->type === 'bool') {
-                $configs[$config->item] = (bool) $config->value;
-            } elseif ($config->type === 'int') {
-                $configs[$config->item] = (int) $config->value;
-            } else {
-                $configs[$config->item] = (string) $config->value;
-            }
+            $configs[$config->item] = match ($config->type) {
+                'bool' => (bool) $config->value,
+                'int' => (int) $config->value,
+                'array' => json_decode($config->value),
+                default => (string) $config->value,
+            };
         }
 
         return $configs;
     }
 
-    public static function set($item, $value): bool
+    public static function set(string $item, mixed $value): bool
     {
-        $config = (new Config())->where('item', $item)->first();
+        $value = is_array($value) ? json_encode($value) : $value;
 
-        if ($config->tpye === 'array') {
-            $config->value = json_encode($value);
-        } else {
-            $config->value = $value;
+        try {
+            (new Config())->where('item', $item)->update(['value' => $value]);
+        } catch (QueryException $e) {
+            return false;
         }
 
-        return $config->save();
+        return true;
     }
 }

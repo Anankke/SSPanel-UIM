@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\View;
 use App\Models\User;
 
 final class ViewTest extends TestCase
@@ -46,11 +45,12 @@ final class ViewTest extends TestCase
     {
         $_ENV['appName'] = 'Test App';
         $_ENV['baseUrl'] = 'http://localhost';
-        $_ENV['jump_delay'] = 3;
+        $_ENV['jump_delay'] = 1000;
         $_ENV['enable_kill'] = true;
         $_ENV['enable_change_email'] = true;
         $_ENV['enable_r2_client_download'] = true;
         $_ENV['jsdelivr_url'] = 'https://cdn.jsdelivr.net';
+        $_ENV['locale'] = 'en_US';
 
         $config = $this->view->getConfig();
 
@@ -64,10 +64,11 @@ final class ViewTest extends TestCase
         $this->assertArrayHasKey('jsdelivr_url', $config);
         $this->assertEquals('Test App', $config['appName']);
         $this->assertEquals('http://localhost', $config['baseUrl']);
-        $this->assertEquals(3, $config['jump_delay']);
+        $this->assertEquals(1000, $config['jump_delay']);
         $this->assertTrue($config['enable_kill']);
         $this->assertTrue($config['enable_change_email']);
         $this->assertTrue($config['enable_r2_client_download']);
         $this->assertEquals('https://cdn.jsdelivr.net', $config['jsdelivr_url']);
+        $this->assertEquals('en_US', $config['locale']);
     }
 }

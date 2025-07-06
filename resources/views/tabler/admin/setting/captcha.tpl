@@ -42,6 +42,11 @@
                                 <li class="nav-item">
                                     <a href="#hcaptcha" class="nav-link" data-bs-toggle="tab">hCaptcha</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#recaptcha_enterprise" class="nav-link" data-bs-toggle="tab">
+                                        reCAPTCHA Enterprise
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -64,6 +69,10 @@
                                                     <option value="hcaptcha"
                                                             {if $settings['captcha_provider'] === "hcaptcha"}selected{/if}>
                                                         hCaptcha
+                                                    </option>
+                                                    <option value="recaptcha_enterprise"
+                                                            {if $settings['captcha_provider'] === "recaptcha_enterprise"}selected{/if}>
+                                                        reCAPTCHA Enterprise
                                                     </option>
                                                 </select>
                                             </div>
@@ -131,14 +140,14 @@
                                 <div class="tab-pane" id="turnstile">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Turnstile Site Key</label>
+                                            <label class="form-label col-3 col-form-label">Site Key</label>
                                             <div class="col">
                                                 <input id="turnstile_sitekey" type="text" class="form-control"
                                                        value="{$settings['turnstile_sitekey']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Turnstile Secret</label>
+                                            <label class="form-label col-3 col-form-label">Secret</label>
                                             <div class="col">
                                                 <input id="turnstile_secret" type="text" class="form-control"
                                                        value="{$settings['turnstile_secret']}">
@@ -149,14 +158,14 @@
                                 <div class="tab-pane" id="geetest">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Geetest ID</label>
+                                            <label class="form-label col-3 col-form-label">ID</label>
                                             <div class="col">
                                                 <input id="geetest_id" type="text" class="form-control"
                                                        value="{$settings['geetest_id']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">Geetest Key</label>
+                                            <label class="form-label col-3 col-form-label">Key</label>
                                             <div class="col">
                                                 <input id="geetest_key" type="text" class="form-control"
                                                        value="{$settings['geetest_key']}">
@@ -167,17 +176,48 @@
                                 <div class="tab-pane" id="hcaptcha">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">hCaptcha Site Key</label>
+                                            <label class="form-label col-3 col-form-label">Site Key</label>
                                             <div class="col">
                                                 <input id="hcaptcha_sitekey" type="text" class="form-control"
                                                        value="{$settings['hcaptcha_sitekey']}">
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">hCaptcha Secret</label>
+                                            <label class="form-label col-3 col-form-label">Secret</label>
                                             <div class="col">
                                                 <input id="hcaptcha_secret" type="text" class="form-control"
                                                        value="{$settings['hcaptcha_secret']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="recaptcha_enterprise">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Key
+                                            </label>
+                                            <div class="col">
+                                                <input id="recaptcha_enterprise_key_id" type="text" class="form-control"
+                                                       value="{$settings['recaptcha_enterprise_key_id']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                Project ID
+                                            </label>
+                                            <div class="col">
+                                                <input id="recaptcha_enterprise_project_id" type="text" class="form-control"
+                                                       value="{$settings['recaptcha_enterprise_project_id']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">
+                                                API Key
+                                            </label>
+                                            <div class="col">
+                                                <input id="recaptcha_enterprise_api_key" type="text" class="form-control"
+                                                       value="{$settings['recaptcha_enterprise_api_key']}">
                                             </div>
                                         </div>
                                     </div>
@@ -213,4 +253,4 @@
             });
         </script>
 
-{include file='admin/footer.tpl'}
+        {include file='admin/footer.tpl'}

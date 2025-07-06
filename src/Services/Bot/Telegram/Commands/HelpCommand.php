@@ -7,6 +7,7 @@ namespace App\Services\Bot\Telegram\Commands;
 use App\Models\Config;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use function in_array;
 use function preg_match;
 use const PHP_EOL;
 
@@ -27,14 +28,14 @@ final class HelpCommand extends Command
 
     public function handle(): void
     {
-        $update = $this->getUpdate();
-        $message = $update->getMessage();
+        $update = $this->update;
+        $message = $update->message;
 
-        if ($message->getChat()->getId() < 0 && Config::obtain('telegram_group_quiet')) {
+        if (in_array($message->chat->type, ['group', 'supergroup']) && Config::obtain('telegram_group_quiet')) {
             return;
         }
 
-        if (! preg_match('/^\/help\s?(@' . Config::obtain('telegram_bot') . ')?.*/i', $message->getText()) &&
+        if (! preg_match('/^\/help\s?(@' . Config::obtain('telegram_bot') . ')?.*/i', $message->text) &&
             ! Config::obtain('help_any_command')) {
             return;
         }
@@ -53,7 +54,7 @@ final class HelpCommand extends Command
                 'text' => $text,
                 'parse_mode' => 'Markdown',
                 'disable_web_page_preview' => false,
-                'reply_to_message_id' => $message->getMessageId(),
+                'reply_to_message_id' => $message->messageId,
                 'reply_markup' => null,
             ]
         );

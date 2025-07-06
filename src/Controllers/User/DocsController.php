@@ -24,7 +24,9 @@ final class DocsController extends BaseController
             return $response->withRedirect('/user');
         }
 
-        $docs = (new Docs())->orderBy('id', 'desc')->get();
+        $docs = (new Docs())->where('status', 1)
+            ->orderBy('sort')
+            ->orderBy('id', 'desc')->get();
 
         return $response->write(
             $this->view()
@@ -40,11 +42,14 @@ final class DocsController extends BaseController
     {
         if (! Config::obtain('display_docs') ||
             (Config::obtain('display_docs_only_for_paid_user') && $this->user->class === 0)) {
-            return $response->withRedirect('/user');
+            return $response->withRedirect('/user/docs');
         }
 
-        $id = $args['id'];
-        $doc = (new Docs())->find($id);
+        $doc = (new Docs())->where('status', 1)->where('id', $args['id'])->first();
+
+        if (! $doc) {
+            return $response->withRedirect('/user/docs');
+        }
 
         return $response->write(
             $this->view()

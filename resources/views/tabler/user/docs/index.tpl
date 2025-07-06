@@ -34,7 +34,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <a class="btn btn-blue" href="/user/docs/{$doc->id}/view">
+                                            <a class="btn btn-primary" href="/user/docs/{$doc->id}/view">
                                                 查看
                                             </a>
                                         </div>

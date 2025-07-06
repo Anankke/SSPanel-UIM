@@ -1,3 +1,4 @@
+*~
 .idea
 .htaccess
 */.DS_Store
@@ -48,3 +49,4 @@ package-lock.json
 
 *.cache
 
+storage/LocalClientVersion.json

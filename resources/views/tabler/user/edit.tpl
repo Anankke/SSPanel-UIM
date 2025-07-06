@@ -67,38 +67,38 @@
                                                                {if ! $config['enable_change_email']}disabled=""{/if}>
                                                     </div>
                                                     {if $public_setting['reg_email_verify'] && $config['enable_change_email']}
-                                                        <div class="mb-3">
-                                                            <input id="email-code" type="text" class="form-control"
-                                                                   placeholder="验证码">
-                                                        </div>
+                                                    <div class="mb-3">
+                                                        <input id="email-code" type="text" class="form-control"
+                                                               placeholder="验证码">
+                                                    </div>
                                                     {/if}
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         {if $public_setting['reg_email_verify'] && $config['enable_change_email']}
-                                                            <button class="btn btn-link"
-                                                                    hx-post="/user/send" hx-swap="none"
-                                                                    hx-vals='js:{ email: document.getElementById("newemail").value }'>
-                                                                获取验证码
-                                                            </button>
-                                                            <button class="btn btn-primary ms-auto"
-                                                                    hx-post="/user/email" hx-swap="none"
-                                                                    hx-vals='js:{
-                                                                        newemail: document.getElementById("new-email").value,
-                                                                        emailcode: document.getElementById("email-code").value
-                                                                    }'>
-                                                                修改
-                                                            </button>
+                                                        <button class="btn btn-link"
+                                                                hx-post="/user/edit/send" hx-swap="none"
+                                                                hx-vals='js:{ email: document.getElementById("newemail").value }'>
+                                                            获取验证码
+                                                        </button>
+                                                        <button class="btn btn-primary ms-auto"
+                                                                hx-post="/user/edit/email" hx-swap="none"
+                                                                hx-vals='js:{
+                                                                    newemail: document.getElementById("new-email").value,
+                                                                    emailcode: document.getElementById("email-code").value
+                                                                }'>
+                                                            修改
+                                                        </button>
                                                         {elseif $config['enable_change_email']}
-                                                            <button class="btn btn-primary ms-auto"
-                                                                    hx-post="/user/email" hx-swap="none"
-                                                                    hx-vals='js:{ newemail: document.getElementById("new-email").value }'>
-                                                                修改
-                                                            </button>
+                                                        <button class="btn btn-primary ms-auto"
+                                                                hx-post="/user/edit/email" hx-swap="none"
+                                                                hx-vals='js:{ newemail: document.getElementById("new-email").value }'>
+                                                            修改
+                                                        </button>
                                                         {else}
-                                                            <button class="btn btn-primary ms-auto"
-                                                                    disabled>不允许修改
-                                                            </button>
+                                                        <button class="btn btn-primary ms-auto"
+                                                                disabled>不允许修改
+                                                        </button>
                                                         {/if}
                                                     </div>
                                                 </div>
@@ -117,7 +117,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto"
-                                                           hx-post="/user/username" hx-swap="none"
+                                                           hx-post="/user/edit/username" hx-swap="none"
                                                            hx-vals='js:{ newusername: document.getElementById("new-username").value }'>
                                                             修改
                                                         </button>
@@ -148,7 +148,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <input id="imvalue" type="text" class="form-control"
-                                                               disabled="" value="{$user->im_value}">
+                                                               value="{$user->im_value}" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
@@ -162,24 +162,24 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">解绑 IM 账户</h3>
                                                     {if $user->im_type === 0}
-                                                        <p>你的账户当前没有绑定任何 IM 服务</p>
+                                                    <p>你的账户当前没有绑定任何 IM 服务</p>
                                                     {else}
-                                                        <p>
-                                                            当前绑定的 IM 服务：{$user->imType()}
-                                                            <br>
-                                                            账户 ID：<code>{$user->im_value}</code>
-                                                        </p>
+                                                    <p>
+                                                        当前绑定的 IM 服务：{$user->imType()}
+                                                        <br>
+                                                        账户 ID：<code>{$user->im_value}</code>
+                                                    </p>
                                                     {/if}
                                                 </div>
                                                 {if $user->im_type !== 0}
-                                                    <div class="card-footer">
-                                                        <div class="d-flex">
-                                                            <button class="btn btn-red ms-auto"
-                                                                    hx-post="/user/unbind_im" hx-swap="none">
-                                                                解绑
-                                                            </button>
-                                                        </div>
+                                                <div class="card-footer">
+                                                    <div class="d-flex">
+                                                        <button class="btn btn-red ms-auto"
+                                                                hx-post="/user/edit/unbind_im" hx-swap="none">
+                                                            解绑
+                                                        </button>
                                                     </div>
+                                                </div>
                                                 {/if}
                                             </div>
                                         </div>
@@ -228,7 +228,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <p>密钥：
-                                                                    <code id="ga-token">
+                                                                    <code id="ga-token" class="spoiler">
                                                                         {$user->ga_token}
                                                                     </code>
                                                                 </p>
@@ -284,7 +284,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto"
-                                                                hx-post="/user/password" hx-swap="none"
+                                                                hx-post="/user/edit/password" hx-swap="none"
                                                                 hx-vals='js:{
                                                                     new_password: document.getElementById("new_password").value,
                                                                     confirm_new_password: document.getElementById("confirm_new_password").value,
@@ -309,10 +309,10 @@
                                                     <div class="mb-3">
                                                         <select id="user-method" class="form-select">
                                                             {foreach $methods as $method}
-                                                                <option value="{$method}"
-                                                                        {if $user->method === $method}selected{/if}>
-                                                                    {$method}
-                                                                </option>
+                                                            <option value="{$method}"
+                                                                    {if $user->method === $method}selected{/if}>
+                                                                {$method}
+                                                            </option>
                                                             {/foreach}
                                                         </select>
                                                     </div>
@@ -320,7 +320,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto"
-                                                                hx-post="/user/method" hx-swap="none"
+                                                                hx-post="/user/edit/method" hx-swap="none"
                                                                 hx-vals='js:{ method: document.getElementById("user-method").value }'>
                                                             修改
                                                         </button>
@@ -338,7 +338,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto bg-red"
-                                                                hx-post="/user/url_reset" hx-swap="none">
+                                                                hx-post="/user/edit/url_reset" hx-swap="none">
                                                             重置
                                                         </button>
                                                     </div>
@@ -350,13 +350,13 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">重置连接密码</h3>
                                                     <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
-                                                    <p>当前连接密码：<code id="passwd">{$user->passwd}</code></p>
-                                                    <p>当前UUID：<code id="uuid">{$user->uuid}</code></p>
+                                                    <p>当前连接密码：<code id="passwd" class="spoiler">{$user->passwd}</code></p>
+                                                    <p>当前UUID：<code id="uuid" class="spoiler">{$user->uuid}</code></p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto bg-red"
-                                                                hx-post="/user/passwd_reset" hx-swap="none">
+                                                                hx-post="/user/edit/passwd_reset" hx-swap="none">
                                                             重置
                                                         </button>
                                                     </div>
@@ -391,7 +391,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto"
-                                                                hx-post="/user/daily_mail" hx-swap="none"
+                                                                hx-post="/user/edit/daily_mail" hx-swap="none"
                                                                 hx-vals='js:{ mail: document.getElementById("daily-mail").value }'>
                                                             修改
                                                         </button>
@@ -420,7 +420,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto"
-                                                                hx-post="/user/contact_method" hx-swap="none"
+                                                                hx-post="/user/edit/contact_method" hx-swap="none"
                                                                 hx-vals='js:{ contact: document.getElementById("contact-method").value }'>
                                                             修改
                                                         </button>
@@ -435,9 +435,9 @@
                                                     <div class="mb-3">
                                                         <select id="user-theme" class="form-select">
                                                             {foreach $themes as $theme}
-                                                                <option value="{$theme}"
-                                                                        {if $user->theme === $theme}selected{/if}>{$theme}
-                                                                </option>
+                                                            <option value="{$theme}"
+                                                                    {if $user->theme === $theme}selected{/if}>{$theme}
+                                                            </option>
                                                             {/foreach}
                                                         </select>
                                                     </div>
@@ -445,7 +445,7 @@
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-primary ms-auto"
-                                                                hx-post="/user/theme" hx-swap="none"
+                                                                hx-post="/user/edit/theme" hx-swap="none"
                                                                 hx-vals='js:{ theme: document.getElementById("user-theme").value }'>
                                                             修改
                                                         </button>
@@ -453,26 +453,55 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {if $config['enable_kill']}
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="card">
-                                                    <div class="card-stamp">
-                                                        <div class="card-stamp-icon bg-red">
-                                                            <i class="ti ti-circle-x"></i>
-                                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">修改主题模式</h3>
+                                                    <div class="mb-3">
+                                                        <select id="theme-mode" class="form-select">
+                                                            <option value="2" {if $user->is_dark_mode === 2}selected{/if}>
+                                                                自动
+                                                            </option>
+                                                            <option value="0" {if $user->is_dark_mode === 0}selected{/if}>
+                                                                浅色
+                                                            </option>
+                                                            <option value="1" {if $user->is_dark_mode === 1}selected{/if}>
+                                                                深色
+                                                            </option>
+                                                        </select>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">删除账户数据</h3>
-                                                    </div>
-                                                    <div class="card-footer">
-                                                        <button class="btn btn-red" data-bs-toggle="modal"
-                                                           data-bs-target="#destroy-account">
-                                                            <i class="ti ti-trash icon"></i>
-                                                            确认删除
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="d-flex">
+                                                        <button class="btn btn-primary ms-auto"
+                                                                hx-post="/user/edit/theme_mode" hx-swap="none"
+                                                                hx-vals='js:{ theme_mode: document.getElementById("theme-mode").value }'>
+                                                            修改
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        {if $config['enable_kill']}
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="card">
+                                                <div class="card-stamp">
+                                                    <div class="card-stamp-icon bg-red">
+                                                        <i class="ti ti-circle-x"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h3 class="card-title">删除账户数据</h3>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button class="btn btn-red" data-bs-toggle="modal"
+                                                       data-bs-target="#destroy-account">
+                                                        <i class="ti ti-trash icon"></i>
+                                                        确认删除
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {/if}
                                     </div>
                                 </div>
@@ -485,45 +514,45 @@
     </div>
 
     {if $config['enable_kill']}
-        <div class="modal modal-blur fade" id="destroy-account" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-status bg-danger"></div>
-                    <div class="modal-body text-center py-4">
-                        <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
-                        <h3>删除确认</h3>
-                        <div class="text-secondary">
-                            请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除
-                        </div>
-                        <div class="py-3">
-                            <form>
-                                <input id="confirm_kill_password" type="password" class="form-control"
-                                       placeholder="输入登录密码" autocomplete="off">
-                            </form>
-                        </div>
+    <div class="modal modal-blur fade" id="destroy-account" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
+                    <h3>删除确认</h3>
+                    <div class="text-secondary">
+                        请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除
                     </div>
-                    <div class="modal-footer">
-                        <div class="w-100">
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn w-100" data-bs-dismiss="modal">
-                                        取消
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button href="#" class="btn btn-danger w-100" data-bs-dismiss="modal"
-                                            hx-post="/user/kill" hx-swap="none"
-                                            hx-vals='js:{ password: document.getElementById("confirm_kill_password").value }'>
-                                        确认
-                                    </button>
-                                </div>
+                    <div class="py-3">
+                        <form>
+                            <input id="confirm_kill_password" type="password" class="form-control"
+                                   placeholder="输入登录密码" autocomplete="off">
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn w-100" data-bs-dismiss="modal">
+                                    取消
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button href="#" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                                        hx-post="/user/edit/kill" hx-swap="none"
+                                        hx-vals='js:{ password: document.getElementById("confirm_kill_password").value }'>
+                                    确认
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     {/if}
 
     <script>

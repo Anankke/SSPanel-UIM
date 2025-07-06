@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Exception;
-use tronovav\GeoIP2Update\Client;
 use function array_diff;
 use function copy;
 use function file_get_contents;
@@ -21,7 +19,7 @@ use const PHP_EOL;
 final class Update extends Command
 {
     public string $description = <<< END
-├─=: php xcat Update         - 更新并迁移配置
+├─=: php xcat Update - 更新并迁移配置
 END;
 
     public function boot(): void
@@ -92,24 +90,5 @@ END;
         echo '没有任何新 .config.php 配置项需要添加。' . PHP_EOL;
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo '迁移完成。' . PHP_EOL;
-
-        // 更新 GeoLite2 数据库
-        if ($_ENV['maxmind_license_key'] !== '') {
-            echo '正在更新 GeoLite2 数据库...' . PHP_EOL;
-
-            $client = new Client([
-                'license_key' => $_ENV['maxmind_license_key'],
-                'dir' => BASE_PATH . '/storage/',
-                'editions' => ['GeoLite2-City', 'GeoLite2-Country'],
-            ]);
-
-            try {
-                $client->run();
-                echo '成功更新 GeoLite2 数据库。' . PHP_EOL;
-            } catch (Exception $e) {
-                echo '更新 GeoLite2 数据库失败。' . PHP_EOL;
-                echo $e->getMessage() . PHP_EOL;
-            }
-        }
     }
 }

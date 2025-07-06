@@ -24,7 +24,7 @@ final class Slack extends Base
      * @throws GuzzleException
      * @throws Exception
      */
-    public function send($to, $msg): void
+    public function send(int $to, string $msg): void
     {
         $url = 'https://slack.com/api/chat.postMessage';
 

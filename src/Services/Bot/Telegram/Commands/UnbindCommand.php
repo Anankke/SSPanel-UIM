@@ -6,6 +6,7 @@ namespace App\Services\Bot\Telegram\Commands;
 
 use App\Models\Config;
 use App\Services\Bot\Telegram\Message;
+use App\Services\I18n;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -34,17 +35,14 @@ final class UnbindCommand extends Command
      */
     public function handle(): void
     {
-        $update = $this->getUpdate();
-        $message = $update->getMessage();
-        // 消息会话 ID
-        $chat_id = $message->getChat()->getId();
-        // 触发用户
+        $update = $this->update;
+        $message = $update->message;
         $send_user = [
-            'id' => $message->getFrom()->getId(),
+            'id' => $message->from->id,
         ];
         $user = Message::getUser($send_user['id']);
 
-        if ($chat_id > 0) {
+        if ($message->chat->type === 'private') {
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
@@ -52,29 +50,20 @@ final class UnbindCommand extends Command
                 // 回送信息
                 $this->replyWithMessage(
                     [
-                        'text' => Config::obtain('user_not_bind_reply'),
+                        'text' => I18n::trans('bot.user_not_bind', $_ENV['locale']),
                         'parse_mode' => 'Markdown',
                     ]
                 );
                 return;
             }
-
             // 消息内容
-            $message_text = explode(' ', trim($message->getText()));
+            $message_text = explode(' ', trim($message->text));
             $message_key = array_splice($message_text, -1)[0];
             $text = '';
 
             if ($message_key === $user->email) {
                 if ($user->unbindIM()) {
                     $text = '账户解绑成功。';
-                    if (Config::obtain('telegram_unbind_kick_member')) {
-                        $this->telegram->banChatMember(
-                            [
-                                'chat_id' => Config::obtain('telegram_chatid'),
-                                'user_id' => $send_user['id'],
-                            ]
-                        );
-                    }
                 } else {
                     $text = '账户解绑失败。';
                 }
@@ -107,7 +96,7 @@ final class UnbindCommand extends Command
         }
     }
 
-    public function sendText(): string
+    private function sendText(): string
     {
         $text = '以 `/unbind example@gmail.com` 的形式发送进行解绑。';
 

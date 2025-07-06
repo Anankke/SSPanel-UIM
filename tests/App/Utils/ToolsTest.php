@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-use MaxMind\Db\Reader\InvalidDatabaseException;
 use PHPUnit\Framework\TestCase;
 use function date_default_timezone_set;
 use function strlen;
@@ -31,6 +30,10 @@ class ToolsTest extends TestCase
         $bytes = Tools::autoBytes($size);
         $this->assertIsString($bytes);
         $this->assertEquals('1KB', $bytes);
+        $size = -1024;
+        $bytes = Tools::autoBytes($size);
+        $this->assertIsString($bytes);
+        $this->assertEquals('0B', $bytes);
     }
 
     /**
@@ -42,6 +45,22 @@ class ToolsTest extends TestCase
         $bytes = Tools::autoBytesR($size);
         $this->assertIsInt($bytes);
         $this->assertEquals(1024, $bytes);
+        $size = '1B';
+        $bytes = Tools::autoBytesR($size);
+        $this->assertIsInt($bytes);
+        $this->assertEquals(1, $bytes);
+        $size = 'Highly illogical.';
+        $bytes = Tools::autoBytesR($size);
+        $this->assertIsInt($bytes);
+        $this->assertEquals(-1, $bytes);
+        $size = '42069';
+        $bytes = Tools::autoBytesR($size);
+        $this->assertIsInt($bytes);
+        $this->assertEquals(-1, $bytes);
+        $size = '1000EB';
+        $bytes = Tools::autoBytesR($size);
+        $this->assertIsInt($bytes);
+        $this->assertEquals(-1, $bytes);
     }
 
     /**
@@ -53,54 +72,78 @@ class ToolsTest extends TestCase
         $mbps = Tools::autoMbps($bandwidth);
         $this->assertIsString($mbps);
         $this->assertEquals('1Mbps', $mbps);
+        $bandwidth = -1;
+        $mbps = Tools::autoMbps($bandwidth);
+        $this->assertIsString($mbps);
+        $this->assertEquals('0Bps', $mbps);
+        $bandwidth = 1000000001;
+        $mbps = Tools::autoMbps($bandwidth);
+        $this->assertIsString($mbps);
+        $this->assertEquals('∞', $mbps);
     }
 
     /**
-     * @covers App\Utils\Tools::toMB
+     * @covers App\Utils\Tools::mbToB
      */
-    public function testToMB()
+    public function testMbToB()
     {
         $traffic = 1;
         $mb = 1048576;
-        $result = Tools::toMB($traffic);
+        $result = Tools::mbToB($traffic);
         $this->assertIsInt($result);
         $this->assertEquals($traffic * $mb, $result);
+        $traffic = -1;
+        $result = Tools::mbToB($traffic);
+        $this->assertIsInt($result);
+        $this->assertEquals(0, $result);
     }
 
     /**
-     * @covers App\Utils\Tools::toGB
+     * @covers App\Utils\Tools::gbToB
      */
-    public function testToGB()
+    public function testGbToB()
     {
         $traffic = 1;
         $gb = 1048576 * 1024;
-        $result = Tools::toGB($traffic);
+        $result = Tools::gbToB($traffic);
         $this->assertIsInt($result);
         $this->assertEquals($traffic * $gb, $result);
+        $traffic = -1;
+        $result = Tools::gbToB($traffic);
+        $this->assertIsInt($result);
+        $this->assertEquals(0, $result);
     }
 
     /**
-     * @covers App\Utils\Tools::flowToGB
+     * @covers App\Utils\Tools::bToGB
      */
-    public function testFlowToGB()
+    public function testBToGB()
     {
         $traffic = 1048576 * 1024;
         $gb = 1048576 * 1024;
-        $result = Tools::flowToGB($traffic);
+        $result = Tools::bToGB($traffic);
         $this->assertIsFloat($result);
         $this->assertEquals($traffic / $gb, $result);
+        $traffic = -1;
+        $result = Tools::bToGB($traffic);
+        $this->assertIsFloat($result);
+        $this->assertEquals(0, $result);
     }
 
     /**
-     * @covers App\Utils\Tools::flowToMB
+     * @covers App\Utils\Tools::bToMB
      */
-    public function testFlowToMB()
+    public function testBToMB()
     {
         $traffic = 1048576;
         $mb = 1048576;
-        $result = Tools::flowToMB($traffic);
+        $result = Tools::bToMB($traffic);
         $this->assertIsFloat($result);
         $this->assertEquals($traffic / $mb, $result);
+        $traffic = -1;
+        $result = Tools::bToMB($traffic);
+        $this->assertIsFloat($result);
+        $this->assertEquals(0, $result);
     }
 
     /**
@@ -167,10 +210,13 @@ class ToolsTest extends TestCase
     {
         date_default_timezone_set('ROC'); // Use Asia/Shanghai or PRC will cause this test to fail
         $time = 612907200; // 1989-06-04 04:00:00 UTC+8
-        $expected = '1989-06-04 04:00:00';
         $result = Tools::toDateTime($time);
         $this->assertIsString($result);
-        $this->assertEquals($expected, $result);
+        $this->assertEquals('1989-06-04 04:00:00', $result);
+        $time = -1830412800; // 1912-01-01 00:00:00 UTC+8
+        $result = Tools::toDateTime($time);
+        $this->assertIsString($result);
+        $this->assertEquals('1912-01-01 00:00:00', $result);
     }
 
     /**
@@ -183,7 +229,6 @@ class ToolsTest extends TestCase
         $expected1 = ['emptyDir', 'file1', 'file2', 'file3']; // Replace with actual expected result
         $result1 = Tools::getDir($dir1);
         $this->assertEqualsCanonicalizing($expected1, $result1);
-
         // Scenario 2: Directory with .gitkeep
         $dir2 = 'tests/testDir/emptyDir';
         $result2 = Tools::getDir($dir2);
@@ -213,7 +258,6 @@ class ToolsTest extends TestCase
         ];
         $result1 = Tools::getSsMethod('ss_obfs');
         $this->assertEquals($expected1, $result1);
-
         // Scenario 2: default
         $expected2 = [
             'aes-128-gcm',
@@ -224,7 +268,6 @@ class ToolsTest extends TestCase
         ];
         $result2 = Tools::getSsMethod('default');
         $this->assertEquals($expected2, $result2);
-
         // Scenario 3: Random string
         $expected3 = [
             'aes-128-gcm',
@@ -235,7 +278,6 @@ class ToolsTest extends TestCase
         ];
         $result3 = Tools::getSsMethod('randomString');
         $this->assertEquals($expected3, $result3);
-
         // Scenario 4: Empty string
         $expected4 = [
             'aes-128-gcm',
@@ -244,7 +286,7 @@ class ToolsTest extends TestCase
             'chacha20-ietf-poly1305',
             'xchacha20-ietf-poly1305',
         ];
-        $result4 = Tools::getSsMethod('');
+        $result4 = Tools::getSsMethod();
         $this->assertEquals($expected4, $result4);
     }
 

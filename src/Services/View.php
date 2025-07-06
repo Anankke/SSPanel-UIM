@@ -34,6 +34,7 @@ final class View
 
     public static function getTwig(): Environment
     {
+        $user = Auth::getUser();
         $loader = new FilesystemLoader(BASE_PATH . '/resources/views/' . self::getTheme($user) . '/');
 
         $twig = new Environment($loader, [
@@ -69,6 +70,8 @@ final class View
             'enable_r2_client_download' => $_ENV['enable_r2_client_download'],
             'jsdelivr_url' => $_ENV['jsdelivr_url'],
             'enable_telemetry' => (bool) Config::obtain('enable_telemetry'),
+            // site default language
+            'locale' => $_ENV['locale'],
         ];
     }
 }

@@ -6,41 +6,39 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 
 final class RefController extends BaseController
 {
-    private static array $update_field = [
-        'invite_reg_money_reward',
-        'invite_reg_traffic_reward',
-        'invite_mode',
-        'invite_reward_mode',
-        'invite_reward_rate',
-        'invite_reward_count_limit',
-        'invite_reward_total_limit',
-    ];
+    private array $update_field;
+    private array $settings;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->update_field = Config::getItemListByClass('ref');
+        $this->settings = Config::getClass('ref');
+    }
 
     /**
      * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $settings = Config::getClass('ref');
-
         return $response->write(
             $this->view()
-                ->assign('update_field', self::$update_field)
-                ->assign('settings', $settings)
+                ->assign('update_field', $this->update_field)
+                ->assign('settings', $this->settings)
                 ->fetch('admin/setting/ref.tpl')
         );
     }
 
     public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        foreach (self::$update_field as $item) {
+        foreach ($this->update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,

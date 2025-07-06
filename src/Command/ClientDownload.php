@@ -15,18 +15,21 @@ use function get_current_user;
 use function is_file;
 use function json_decode;
 use function json_encode;
+use function php_uname;
 use function posix_geteuid;
 use function posix_getpwuid;
+use function str_contains;
 use function str_replace;
 use function substr;
 use function time;
 use function unlink;
 use const BASE_PATH;
 use const PHP_EOL;
+use const PHP_OS;
 
 final class ClientDownload extends Command
 {
-    public string $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
+    public string $description = '├─=: php xcat ClientDownload - 更新客户端' . PHP_EOL;
     private Client $client;
     private string $basePath = BASE_PATH . '/';
     private array $version;
@@ -45,12 +48,14 @@ final class ClientDownload extends Command
             exit(0);
         }
 
-        $runningUser = posix_getpwuid(posix_geteuid())['name'];
-        $fileOwner = get_current_user();
+        if (PHP_OS !== 'WINNT' && ! str_contains(php_uname(), 'Windows NT')) {
+            $runningUser = posix_getpwuid(posix_geteuid())['name'];
+            $fileOwner = get_current_user();
 
-        if ($runningUser !== $fileOwner) {
-            echo '当前用户为 ' . $runningUser . '，与文件所有者 ' . $fileOwner . ' 不符，脚本中止。' . PHP_EOL;
-            exit(0);
+            if ($runningUser !== $fileOwner) {
+                echo '当前用户为 ' . $runningUser . '，与文件所有者 ' . $fileOwner . ' 不符，脚本中止。' . PHP_EOL;
+                exit(0);
+            }
         }
 
         $clients = json_decode(file_get_contents($clientsPath), true);
@@ -210,8 +215,8 @@ final class ClientDownload extends Command
         echo '====== ' . $task['name'] . ' 开始 ======' . PHP_EOL;
 
         $tagName = match ($task['tagMethod']) {
-            'github_pre_release' => self::getLatestPreReleaseTagName($task['gitRepo']),
-            default => self::getLatestReleaseTagName($task['gitRepo']),
+            'github_pre_release' => $this->getLatestPreReleaseTagName($task['gitRepo']),
+            default => $this->getLatestReleaseTagName($task['gitRepo']),
         };
 
         if (! isset($this->version[$task['name']])) {

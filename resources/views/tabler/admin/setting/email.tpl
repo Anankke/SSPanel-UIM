@@ -60,6 +60,9 @@
                                 <li class="nav-item">
                                     <a href="#postmark" class="nav-link" data-bs-toggle="tab">Postmark</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#resend" class="nav-link" data-bs-toggle="tab">Resend</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -72,34 +75,40 @@
                                                 <select id="email_driver" class="col form-select"
                                                         value="{$settings['email_driver']}">
                                                     <option value="none"
-                                                            {if $settings['email_driver'] === "none"}selected{/if}>none
+                                                            {if $settings['email_driver'] === "none"}selected{/if}>
+                                                        None
                                                     </option>
                                                     <option value="smtp"
-                                                            {if $settings['email_driver'] === "smtp"}selected{/if}>smtp
+                                                            {if $settings['email_driver'] === "smtp"}selected{/if}>
+                                                        SMTP
                                                     </option>
                                                     <option value="mailgun"
                                                             {if $settings['email_driver'] === "mailgun"}selected{/if}>
-                                                        mailgun
+                                                        Mailgun
                                                     </option>
                                                     <option value="sendgrid"
                                                             {if $settings['email_driver'] === "sendgrid"}selected{/if}>
-                                                        sendgrid
+                                                        Sendgrid
                                                     </option>
                                                     <option value="postal"
                                                             {if $settings['email_driver'] === "postal"}selected{/if}>
-                                                        postal
+                                                        Postal
                                                     </option>
                                                     <option value="ses"
                                                             {if $settings['email_driver'] === "ses"}selected{/if}>
-                                                        ses
+                                                        AWS SES
                                                     </option>
                                                     <option value="mailchimp"
                                                             {if $settings['email_driver'] === "mailchimp"}selected{/if}>
-                                                        mailchimp
+                                                        Mailchimp
                                                     </option>
                                                     <option value="alibabacloud"
                                                             {if $settings['email_driver'] === "alibabacloud"}selected{/if}>
-                                                        alibabacloud
+                                                        AlibabaCloud DM
+                                                    </option>
+                                                    <option value="resend"
+                                                            {if $settings['email_driver'] === "resend"}selected{/if}>
+                                                        Resend
                                                     </option>
                                                     <option value="postmark"
                                                             {if $settings['email_driver'] === "postmark"}selected{/if}>
@@ -421,6 +430,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                                 <div class="tab-pane" id="postmark">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
@@ -446,6 +456,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane" id="resend">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Api Key</label>
+                                            <div class="col">
+                                                <input id="resend_api_key" type="text" class="form-control"
+                                                       value="{$settings['resend_api_key']}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">From</label>
+                                            <div class="col">
+                                                <input id="resend_from" type="text" class="form-control"
+                                                       value="{$settings['resend_from']}">
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -486,8 +513,8 @@
                     },
                     success: function (data) {
                         if (data.ret === 1) {
-                            $('#success-noreload-message').text(data.msg);
-                            $('#success-noreload-dialog').modal('show');
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
                         } else {
                             $('#fail-message').text(data.msg);
                             $('#fail-dialog').modal('show');

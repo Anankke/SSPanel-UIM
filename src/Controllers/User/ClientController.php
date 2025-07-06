@@ -22,12 +22,16 @@ final class ClientController extends BaseController
         }
 
         $clients = [
-            'Clash.Verge.exe',
-            'Clash.Verge_aarch64.dmg',
-            'Clash.Verge.AppImage.tar.gz',
+            'Clash.Nyanpasu.exe',
+            'Clash.Nyanpasu.AppImage',
+            'Clash.Nyanpasu_aarch64.dmg',
             'CMFA.apk',
             'SFA.apk',
             'SFM.zip',
+            'Hiddify.apk',
+            'Hiddify.AppImage',
+            'Hiddify.dmg',
+            'Hiddify.exe',
         ];
 
         if (! in_array($clientName, $clients)) {

@@ -4,45 +4,55 @@ declare(strict_types=1);
 
 namespace App\Services\LLM;
 
-use GuzzleHttp\Client;
+use App\Models\Config;
 use GuzzleHttp\Exception\GuzzleException;
 use function json_decode;
 
 final class HuggingFace extends Base
 {
-    /**
-     * @throws GuzzleException
-     */
     public function textPrompt(string $q): string
     {
-        if ($_ENV['huggingface_api_key'] === '' || $_ENV['huggingface_endpoint_url'] === '') {
+        return $this->makeRequest([
+            [
+                'role' => 'user',
+                'content' => $q,
+            ],
+        ]);
+    }
+
+    public function textPromptWithContext(array $context): string
+    {
+        return 'This service does not support context';
+    }
+
+    private function makeRequest(array $conversation): string
+    {
+        if (Config::obtain('huggingface_api_key') === '' ||
+            Config::obtain('huggingface_endpoint_url') === '') {
             return 'Hugging Face API key or Endpoint URL not set';
         }
 
-        $client = new Client();
-
         $headers = [
-            'Authorization' => 'Bearer ' . $_ENV['huggingface_api_key'],
+            'Authorization' => 'Bearer ' . Config::obtain('huggingface_api_key'),
             'Content-Type' => 'application/json',
         ];
 
         $data = [
             'inputs' => [
-                'question' => $q,
+                'question' => $conversation[0]['content'],
             ],
         ];
 
-        $response = json_decode($client->post($_ENV['huggingface_endpoint_url'], [
-            'headers' => $headers,
-            'json' => $data,
-            'timeout' => 10,
-        ])->getBody()->getContents());
+        try {
+            $response = json_decode($this->client->post(Config::obtain('huggingface_endpoint_url'), [
+                'headers' => $headers,
+                'json' => $data,
+                'timeout' => 30,
+            ])->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            return '';
+        }
 
         return $response->answer;
-    }
-
-    public function textPromptWithContext(string $q, array $context): string
-    {
-        return '';
     }
 }

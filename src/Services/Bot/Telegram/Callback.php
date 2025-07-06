@@ -15,11 +15,9 @@ use App\Services\Reward;
 use App\Services\Subscribe;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use MaxMind\Db\Reader\InvalidDatabaseException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\CallbackQuery;
 use function array_chunk;
 use function array_merge;
 use function end;
@@ -41,7 +39,7 @@ final class Callback
     /**
      * 触发用户
      */
-    private null|Model|User $user;
+    private null|User $user;
 
     /**
      * 触发用户TG信息
@@ -51,22 +49,22 @@ final class Callback
     /**
      * 回调
      */
-    private Collection $callback;
+    private CallbackQuery $callback;
 
     /**
      * 回调数据内容
      */
-    private $callback_data;
+    private ?string $callback_data;
 
     /**
      * 消息会话 ID
      */
-    private $chat_id;
+    private int $chat_id;
 
     /**
      * 触发源信息 ID
      */
-    private $message_id;
+    private int $message_id;
 
     /**
      * 源消息是否可编辑
@@ -74,25 +72,24 @@ final class Callback
     private bool $allow_edit_message;
 
     /**
-     * @throws InvalidDatabaseException
      * @throws TelegramSDKException|GuzzleException
      */
-    public function __construct(Api $bot, Collection $callback)
+    public function __construct(Api $bot, CallbackQuery $callback)
     {
         $this->bot = $bot;
 
         $this->trigger_user = [
-            'id' => $callback->getFrom()->getId(),
-            'name' => $callback->getFrom()->getFirstName() . ' Callback.php' . $callback->getFrom()->getLastName(),
-            'username' => $callback->getFrom()->getUsername(),
+            'id' => $callback->from->id,
+            'name' => $callback->from->firstName . ' ' . $callback->from->lastName,
+            'username' => $callback->from->username,
         ];
 
         $this->user = Message::getUser($this->trigger_user['id']);
-        $this->chat_id = $callback->getMessage()->getChat()->getId();
+        $this->chat_id = $callback->message->chat->id;
         $this->callback = $callback;
-        $this->message_id = $callback->getMessage()->getMessageId();
-        $this->callback_data = $callback->getData();
-        $this->allow_edit_message = time() < $callback->getMessage()->getDate() + 172800;
+        $this->message_id = $callback->message->messageId;
+        $this->callback_data = $callback->data;
+        $this->allow_edit_message = time() < $callback->message->date + 172800;
 
         if ($this->chat_id < 0 && Config::obtain('telegram_group_quiet')) {
             // 群组中不回应
@@ -110,8 +107,7 @@ final class Callback
      *
      * @param array $send_message
      *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function replyWithMessage(array $send_message): void
     {
@@ -124,7 +120,7 @@ final class Callback
         );
 
         if ($this->allow_edit_message) {
-            Message::sendPost('editMessageText', $send_message);
+            $this->bot->editMessageText($send_message);
         } else {
             $this->bot->sendMessage($send_message);
         }
@@ -142,7 +138,7 @@ final class Callback
      *
      * @param array $send_message
      *
-     * @throws GuzzleException
+     * @throws TelegramSDKException
      */
     public function answerCallbackQuery(array $send_message): void
     {
@@ -154,7 +150,7 @@ final class Callback
             $send_message
         );
 
-        Message::sendPost('answerCallbackQuery', $send_message);
+        $this->bot->answerCallbackQuery($send_message);
     }
 
     public static function getUserIndexKeyboard($user): array
@@ -190,9 +186,7 @@ final class Callback
             ],
         ];
 
-        $text = Message::getUserTitle($user);
-        $text .= PHP_EOL . PHP_EOL;
-        $text .= Message::getUserInfo($user);
+        $text = Message::getUserInfo($user);
 
         return [
             'text' => $text,
@@ -203,7 +197,6 @@ final class Callback
     /**
      * 用户相关回调数据处理
      *
-     * @throws InvalidDatabaseException
      * @throws TelegramSDKException|GuzzleException
      */
     public function userCallback(): void
@@ -267,9 +260,7 @@ final class Callback
 
     public function getUserCenterKeyboard(): array
     {
-        $text = Message::getUserTitle($this->user);
-        $text .= PHP_EOL . PHP_EOL;
-        $text .= Message::getUserTrafficInfo($this->user);
+        $text = Message::getUserTrafficInfo($this->user);
 
         $keyboard = [
             [
@@ -309,8 +300,7 @@ final class Callback
     /**
      * 用户中心
      *
-     * @throws TelegramSDKException
-     * @throws InvalidDatabaseException|GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function userCenter(): void
     {
@@ -462,7 +452,11 @@ final class Callback
 
     public function getUserEditKeyboard(): array
     {
-        $text = Message::getUserTitle($this->user);
+        $text = '你可在此编辑你的资料或连接信息：' . PHP_EOL . PHP_EOL;
+        $text .= '端口：' . $this->user->port . PHP_EOL;
+        $text .= '密码：' . $this->user->passwd . PHP_EOL;
+        $text .= '加密：' . $this->user->method;
+
         $keyboard = [
             [
                 [
@@ -507,8 +501,7 @@ final class Callback
     /**
      * 用户编辑
      *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function userEdit(): void
     {
@@ -593,7 +586,7 @@ final class Callback
             case 'encrypt':
                 // 加密方式更改
                 $keyboard = $back;
-                $method = Tools::getSsMethod('method');
+                $method = Tools::getSsMethod();
 
                 if (isset($CallbackDataExplode[1])) {
                     if (in_array($CallbackDataExplode[1], $method)) {
@@ -677,8 +670,7 @@ final class Callback
                 break;
             case 'unban_update':
                 // 提交群组解封
-                Message::sendPost(
-                    'unbanChatMember',
+                $this->bot->unbanChatMember(
                     [
                         'chat_id' => Config::obtain('telegram_chatid'),
                         'user_id' => $this->trigger_user['id'],
@@ -693,13 +685,9 @@ final class Callback
                 break;
             default:
                 $temp = $this->getUserEditKeyboard();
-                $text = '你可在此编辑你的资料或连接信息：' . PHP_EOL . PHP_EOL;
-                $text .= '端口：' . $this->user->port . PHP_EOL;
-                $text .= '密码：' . $this->user->passwd . PHP_EOL;
-                $text .= '加密：' . $this->user->method;
 
                 $sendMessage = [
-                    'text' => $text,
+                    'text' => $temp['text'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
                     'reply_markup' => json_encode(
@@ -819,8 +807,6 @@ final class Callback
                 ],
             ];
 
-            $sendMessage = [];
-
             $UniversalSub_Url = Subscribe::getUniversalSubLink($this->user);
 
             $text = match ($CallbackDataExplode[1]) {
@@ -887,8 +873,6 @@ final class Callback
         if (is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
-
-        $invite = Config::getClass('ref');
 
         $text = [
             '<strong>你每邀请 <code>1</code> 位用户注册：</strong>',
@@ -1001,9 +985,7 @@ final class Callback
         if ($this->chat_id > 0) {
             $temp = self::getUserIndexKeyboard($this->user);
         } else {
-            $temp['text'] = Message::getUserTitle($this->user);
-            $temp['text'] .= PHP_EOL . PHP_EOL;
-            $temp['text'] .= Message::getUserTrafficInfo($this->user);
+            $temp['text'] = Message::getUserTrafficInfo($this->user);
 
             $temp['keyboard'] = [
                 [

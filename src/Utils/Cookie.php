@@ -6,21 +6,21 @@ namespace App\Utils;
 
 final class Cookie
 {
-    public static function set($arg, $time): void
+    public static function set(array $arg, int $time): void
     {
         foreach ($arg as $key => $value) {
-            setcookie((string) $key, (string) $value, (int) $time, '/', '', true, true);
+            setcookie($key, $value, $time, path: '/', secure: true, httponly: true);
         }
     }
 
-    public static function setWithDomain($arg, $time, $domain): void
+    public static function setWithDomain(array $arg, int $time, string $domain): void
     {
         foreach ($arg as $key => $value) {
-            setcookie((string) $key, (string) $value, (int) $time, '/', (string) $domain, true, true);
+            setcookie($key, $value, $time, path: '/', domain: $domain, secure: true, httponly: true);
         }
     }
 
-    public static function get($key)
+    public static function get(string $key): string
     {
         return $_COOKIE[$key] ?? '';
     }

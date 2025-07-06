@@ -8,9 +8,17 @@ use App\Models\Config;
 use RateLimit\Exception\LimitExceeded;
 use RateLimit\Rate;
 use RateLimit\RedisRateLimiter;
+use Redis;
 
 final class RateLimit
 {
+    private Redis $redis;
+
+    public function __construct()
+    {
+        $this->redis = (new Cache())->initRedis();
+    }
+
     public function checkRateLimit(string $limit_type, string $value): bool
     {
         $limiter = match ($limit_type) {
@@ -47,7 +55,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_sub_ip']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_sub_ip:'
         );
     }
@@ -56,7 +64,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_sub']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_sub_token:'
         );
     }
@@ -65,7 +73,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_webapi_ip']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_webapi_ip:'
         );
     }
@@ -74,7 +82,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_webapi']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_webapi_key:'
         );
     }
@@ -83,7 +91,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_user_api_ip']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_user_api_ip:'
         );
     }
@@ -92,7 +100,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_user_api']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_user_api_key:'
         );
     }
@@ -101,7 +109,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_admin_api_ip']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_admin_api_ip:'
         );
     }
@@ -110,7 +118,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_admin_api']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_admin_api_key:'
         );
     }
@@ -119,7 +127,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_node_api_ip']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_node_api_ip:'
         );
     }
@@ -128,7 +136,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perMinute((int) $_ENV['rate_limit_node_api']),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_node_api_key:'
         );
     }
@@ -137,7 +145,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perHour(Config::obtain('email_request_ip_limit')),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_email_request_ip:'
         );
     }
@@ -146,7 +154,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::perHour(Config::obtain('email_request_address_limit')),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_email_request_address:'
         );
     }
@@ -155,7 +163,7 @@ final class RateLimit
     {
         return new RedisRateLimiter(
             Rate::custom(Config::obtain('ticket_limit'), 2592000),
-            (new Cache())->initRedis(),
+            $this->redis,
             'sspanel_ticket:'
         );
     }

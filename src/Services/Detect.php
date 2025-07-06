@@ -9,7 +9,6 @@ use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\Node;
 use App\Models\User;
-use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -60,14 +59,18 @@ final class Detect
                     echo $e->getMessage() . PHP_EOL;
                 }
 
-                if (Config::obtain('telegram_node_gfwed')) {
-                    $notice_text = str_replace(
-                        '%node_name%',
-                        $node->name,
-                        Config::obtain('telegram_node_gfwed_text')
-                    );
-
-                    (new Telegram())->send(0, $notice_text);
+                if (Config::obtain('im_bot_group_notify_node_gfwed')) {
+                    try {
+                        Notification::notifyUserGroup(
+                            str_replace(
+                                '%node_name%',
+                                $node->name,
+                                I18n::trans('bot.node_gfwed', $_ENV['locale'])
+                            ),
+                        );
+                    } catch (TelegramSDKException | GuzzleException $e) {
+                        echo $e->getMessage() . PHP_EOL;
+                    }
                 }
 
                 $node->gfw_block = true;
@@ -89,14 +92,18 @@ final class Detect
                     echo $e->getMessage() . PHP_EOL;
                 }
 
-                if (Config::obtain('telegram_node_ungfwed')) {
-                    $notice_text = str_replace(
-                        '%node_name%',
-                        $node->name,
-                        Config::obtain('telegram_node_ungfwed_text')
-                    );
-
-                    (new Telegram())->send(0, $notice_text);
+                if (Config::obtain('im_bot_group_notify_node_ungfwed')) {
+                    try {
+                        Notification::notifyUserGroup(
+                            str_replace(
+                                '%node_name%',
+                                $node->name,
+                                I18n::trans('bot.node_ungfwed', $_ENV['locale'])
+                            ),
+                        );
+                    } catch (TelegramSDKException | GuzzleException $e) {
+                        echo $e->getMessage() . PHP_EOL;
+                    }
                 }
 
                 $node->gfw_block = false;

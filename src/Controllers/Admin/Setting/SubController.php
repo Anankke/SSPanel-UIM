@@ -6,38 +6,39 @@ namespace App\Controllers\Admin\Setting;
 
 use App\Controllers\BaseController;
 use App\Models\Config;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Smarty\Exception;
 
 final class SubController extends BaseController
 {
-    private static array $update_field = [
-        'enable_forced_replacement',
-        'enable_ss_sub',
-        'enable_v2_sub',
-        'enable_trojan_sub',
-    ];
+    private array $update_field;
+    private array $settings;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->update_field = Config::getItemListByClass('subscribe');
+        $this->settings = Config::getClass('subscribe');
+    }
 
     /**
      * @throws Exception
      */
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $settings = Config::getClass('subscribe');
-
         return $response->write(
             $this->view()
-                ->assign('update_field', self::$update_field)
-                ->assign('settings', $settings)
+                ->assign('update_field', $this->update_field)
+                ->assign('settings', $this->settings)
                 ->fetch('admin/setting/sub.tpl')
         );
     }
 
     public function save(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        foreach (self::$update_field as $item) {
+        foreach ($this->update_field as $item) {
             if (! Config::set($item, $request->getParam($item))) {
                 return $response->withJson([
                     'ret' => 0,

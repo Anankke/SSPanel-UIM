@@ -12,6 +12,7 @@ use Alipay\OpenAPISDK\Util\AlipayConfigUtil;
 use Alipay\OpenAPISDK\Util\AlipayLogger;
 use Alipay\OpenAPISDK\Util\Model\AlipayConfig;
 use App\Models\Config;
+use App\Models\Invoice;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\View;
@@ -24,6 +25,8 @@ use voku\helper\AntiXSS;
 
 final class AlipayF2F extends Base
 {
+    private AlipayConfig $alipayConfig;
+
     public function __construct()
     {
         $this->antiXss = new AntiXSS();
@@ -62,9 +65,17 @@ final class AlipayF2F extends Base
      */
     public function purchase(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $price = $this->antiXss->xss_clean($request->getParam('amount'));
         $invoice_id = $this->antiXss->xss_clean($request->getParam('invoice_id'));
-        $trade_no = self::generateGuid();
+        $invoice = (new Invoice())->find($invoice_id);
+
+        if ($invoice === null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => 'Invoice not found',
+            ]);
+        }
+
+        $price = $invoice->price;
 
         if ($price <= 0) {
             return $response->withJson([
@@ -74,13 +85,18 @@ final class AlipayF2F extends Base
         }
 
         $user = Auth::getUser();
-        $paylist = new Paylist();
-        $paylist->userid = $user->id;
-        $paylist->total = $price;
-        $paylist->invoice_id = $invoice_id;
-        $paylist->tradeno = $trade_no;
-        $paylist->gateway = self::_readableName();
-        $paylist->save();
+        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
+
+        if ($pl === null) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $price;
+            $pl->invoice_id = $invoice_id;
+            $pl->tradeno = self::generateGuid();
+        }
+
+        $pl->gateway = self::_readableName();
+        $pl->save();
 
         $f2f_pay_notify_url = Config::obtain('f2f_pay_notify_url');
 
@@ -92,9 +108,9 @@ final class AlipayF2F extends Base
 
         $api = $this->createApi();
         $aliRequest = new AlipayTradePrecreateModel();
-        $aliRequest->setOutTradeNo($trade_no);
+        $aliRequest->setOutTradeNo($pl->tradeno);
         $aliRequest->setTotalAmount($price);
-        $aliRequest->setSubject($trade_no);
+        $aliRequest->setSubject($pl->tradeno);
         $aliRequest->setNotifyUrl($notifyUrl);
 
         $aliResponse = $api->precreate($aliRequest);
@@ -104,7 +120,6 @@ final class AlipayF2F extends Base
         return $response->withJson([
             'ret' => 1,
             'qrcode' => $qrCode,
-            'pid' => $trade_no,
         ]);
     }
 

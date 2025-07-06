@@ -172,7 +172,7 @@
                 grid: {
                     strokeDashArray: 3,
                 },
-                colors: [tabler.getColor("azure"), tabler.getColor("cyan"), tabler.getColor("orange")],
+                colors: ["#0080FF", "#00FFFF", "#FF4500"],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -184,7 +184,7 @@
                     },
                     itemMargin: {
                         horizontal: 8,
-                        vertical: 8
+                        vertical: 15
                     },
                 },
                 tooltip: {
@@ -212,7 +212,7 @@
                 grid: {
                     strokeDashArray: 2,
                 },
-                colors: [tabler.getColor("lime"), tabler.getColor("red")],
+                colors: ["#BFFF00", "#FF0000"],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -224,7 +224,7 @@
                     },
                     itemMargin: {
                         horizontal: 8,
-                        vertical: 8
+                        vertical: 15
                     },
                 },
                 tooltip: {
@@ -252,7 +252,7 @@
                 grid: {
                     strokeDashArray: 4,
                 },
-                colors: [tabler.getColor("yellow"), tabler.getColor("lime")],
+                colors: ["#FFFF00", "#BFFF00"],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -264,7 +264,7 @@
                     },
                     itemMargin: {
                         horizontal: 8,
-                        vertical: 8
+                        vertical: 15
                     },
                 },
                 tooltip: {
@@ -292,7 +292,7 @@
                 grid: {
                     strokeDashArray: 3,
                 },
-                colors: [tabler.getColor("green"), tabler.getColor("lime"), tabler.getColor("yellow")],
+                colors: ["#00FF00", "#BFFF00", "#FFFF00"],
                 legend: {
                     show: true,
                     position: 'bottom',
@@ -304,7 +304,7 @@
                     },
                     itemMargin: {
                         horizontal: 8,
-                        vertical: 8
+                        vertical: 15
                     },
                 },
                 tooltip: {

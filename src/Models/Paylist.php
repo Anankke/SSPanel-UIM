@@ -12,7 +12,7 @@ use Illuminate\Database\Query\Builder;
  * @property float  $total      总金额
  * @property int    $status     状态
  * @property int    $invoice_id 账单ID
- * @property string $tradeno    网关单号
+ * @property string $tradeno    网关识别码
  * @property string $gateway    支付网关
  * @property int    $datetime   创建时间
  *

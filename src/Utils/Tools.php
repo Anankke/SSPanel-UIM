@@ -42,6 +42,7 @@ use const FILTER_FLAG_IPV6;
 use const FILTER_VALIDATE_EMAIL;
 use const FILTER_VALIDATE_INT;
 use const FILTER_VALIDATE_IP;
+use const PHP_INT_MAX;
 
 final class Tools
 {
@@ -94,7 +95,7 @@ final class Tools
             return '0B';
         }
 
-        if ($size > 1208925819614629174706176) {
+        if ($size > PHP_INT_MAX) {
             return '∞';
         }
 
@@ -107,21 +108,28 @@ final class Tools
     /**
      * 根据含单位的流量值转换 B 输出
      */
-    public static function autoBytesR($size): ?int
+    public static function autoBytesR(string $size): int
     {
-        if (is_numeric(substr($size, 0, -1))) {
+        $suffix_single = substr($size, -1);
+
+        if (is_numeric(substr($size, 0, -1)) && $suffix_single === 'B') {
             return (int) substr($size, 0, -1);
         }
 
-        $suffix = substr($size, -2);
-        $base = substr($size, 0, strlen($size) - 2);
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'];
+        $suffix_double = substr($size, -2);
 
-        if ($base > 999 && $suffix === 'EB') {
+        if (! in_array($suffix_double, $units)) {
             return -1;
         }
 
-        return (int) ($base * pow(1024, array_flip($units)[$suffix]));
+        $base = substr($size, 0, strlen($size) - 2);
+
+        if (! is_numeric($base) || ($base > 999 && $suffix_double === 'EB')) {
+            return -1;
+        }
+
+        return (int) ($base * pow(1024, array_flip($units)[$suffix_double]));
     }
 
     /**
@@ -143,29 +151,39 @@ final class Tools
         return round(pow(1000, $base - floor($base)), $precision) . $units[floor($base)];
     }
 
-    /**
-     * 虽然名字是toMB，但是实际上功能是from MB to B
-     */
-    public static function toMB($traffic): int
+    public static function mbToB($traffic): int
     {
+        if ($traffic <= 0 || $traffic > PHP_INT_MAX) {
+            return 0;
+        }
+
         return (int) $traffic * 1048576;
     }
 
-    /**
-     * 虽然名字是toGB，但是实际上功能是from GB to B
-     */
-    public static function toGB($traffic): int
+    public static function gbToB($traffic): int
     {
+        if ($traffic <= 0 || $traffic > PHP_INT_MAX) {
+            return 0;
+        }
+
         return (int) $traffic * 1073741824;
     }
 
-    public static function flowToMB($traffic): float
+    public static function bToMB($traffic): float
     {
+        if ($traffic <= 0 || $traffic > PHP_INT_MAX) {
+            return 0;
+        }
+
         return round($traffic / 1048576, 2);
     }
 
-    public static function flowToGB($traffic): float
+    public static function bToGB($traffic): float
     {
+        if ($traffic <= 0 || $traffic > PHP_INT_MAX) {
+            return 0;
+        }
+
         return round($traffic / 1073741824, 2);
     }
 
@@ -277,7 +295,7 @@ final class Tools
         return false;
     }
 
-    public static function getSsMethod($type): array
+    public static function getSsMethod(string $type = ''): array
     {
         return match ($type) {
             'ss_obfs' => [

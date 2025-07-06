@@ -8,7 +8,7 @@ use App\Models\Config;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use const VERSION;
+use const PANEL_VERSION;
 
 final class Discord extends Base
 {
@@ -25,27 +25,36 @@ final class Discord extends Base
      * @throws GuzzleException
      * @throws Exception
      */
-    public function send($to, $msg): void
+    public function send(int $to, string $msg): void
     {
-        $dm_url = 'https://discord.com/api/v10/users/@me/channels';
-
         $headers = [
             'Authorization' => "Bot {$this->token}",
-            'User-Agent' => 'DiscordBot (' . $_ENV['appName'] . ', ' . VERSION . ')',
+            'User-Agent' => 'DiscordBot (' . $_ENV['appName'] . ', ' . PANEL_VERSION . ')',
             'Content-Type' => 'application/json',
         ];
 
-        $dm_body = [
-            'recipient_id' => $to,
-        ];
+        $channel_check_url = 'https://discord.com/api/v10/channels/' . $to;
 
-        $dm_response = $this->client->post($dm_url, [
+        $channel_check_response = $this->client->get($channel_check_url, [
             'headers' => $headers,
-            'json' => $dm_body,
         ]);
 
-        $channel_id = json_decode($dm_response->getBody()->getContents())->id;
-        $channel_url = "https://discord.com/api/v10/channels/{$channel_id}/messages";
+        if ($channel_check_response->getStatusCode() !== 200) {
+            $dm_url = 'https://discord.com/api/v10/users/@me/channels';
+
+            $dm_body = [
+                'recipient_id' => $to,
+            ];
+
+            $dm_response = $this->client->post($dm_url, [
+                'headers' => $headers,
+                'json' => $dm_body,
+            ]);
+
+            $to = json_decode($dm_response->getBody()->getContents())->id;
+        }
+
+        $channel_url = 'https://discord.com/api/v10/channels/' . $to . '/messages';
 
         $msg_body = [
             'content' => $msg,

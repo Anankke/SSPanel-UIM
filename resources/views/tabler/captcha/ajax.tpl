@@ -7,3 +7,6 @@
 {if $public_setting['captcha_provider'] === 'hcaptcha'}
     hcaptcha: hcaptcha.getResponse(),
 {/if}
+{if $public_setting['captcha_provider'] === 'recaptcha_enterprise'}
+    recaptcha_enterprise: grecaptcha.enterprise.getResponse(),
+{/if}

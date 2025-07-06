@@ -31,7 +31,7 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                                 <li class="nav-item">
-                                    <a href="#invite" class="nav-link active" data-bs-toggle="tab">邀请设置</a>
+                                    <a href="#invite" class="nav-link active" data-bs-toggle="tab">邀请奖励</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#rebate" class="nav-link" data-bs-toggle="tab">返利</a>
@@ -63,7 +63,7 @@
                                 <div class="tab-pane" id="rebate">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">邀请模式</label>
+                                            <label class="form-label col-3 col-form-label">返利模式</label>
                                             <div class="col">
                                                 <select id="invite_mode" class="col form-select"
                                                         value="{$settings['invite_mode']}">
@@ -79,7 +79,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">返利模式</label>
+                                            <label class="form-label col-3 col-form-label">返利奖励模式</label>
                                             <div class="col">
                                                 <select id="invite_reward_mode" class="col form-select"
                                                         value="{$settings['invite_reward_mode']}">

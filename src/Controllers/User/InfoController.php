@@ -33,7 +33,7 @@ final class InfoController extends BaseController
     public function index(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-        $methods = Tools::getSsMethod('method');
+        $methods = Tools::getSsMethod();
         $ga_url = MFA::getGaUrl($this->user);
 
         return $response->write($this->view()
@@ -61,20 +61,16 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '未填写邮箱');
         }
 
-        $email_check = Filter::checkEmailFilter($email);
-
-        if (! $email_check) {
+        if (! Filter::checkEmailFilter($new_email)) {
             return ResponseHelper::error($response, '无效的邮箱');
-        }
-
-        $exist_user = (new User())->where('email', $new_email)->first();
-
-        if ($exist_user !== null) {
-            return ResponseHelper::error($response, '邮箱已经被使用了');
         }
 
         if ($new_email === $old_email) {
             return ResponseHelper::error($response, '新邮箱不能和旧邮箱一样');
+        }
+
+        if ((new User())->where('email', $new_email)->first() !== null) {
+            return ResponseHelper::error($response, '邮箱已经被使用了');
         }
 
         if (Config::obtain('reg_email_verify')) {
@@ -128,16 +124,13 @@ final class InfoController extends BaseController
         ]);
     }
 
-    public function unbindIM(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function unbindIm(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         if (! $this->user->unbindIM()) {
             return ResponseHelper::error($response, '解绑失败');
         }
 
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
-            'ret' => 1,
-            'msg' => '解绑成功',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     public function updatePassword(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -216,6 +209,7 @@ final class InfoController extends BaseController
         if ($method === '') {
             ResponseHelper::error($response, '非法输入');
         }
+
         if (! Tools::isParamValidate('method', $method)) {
             ResponseHelper::error($response, '加密无效');
         }
@@ -229,7 +223,7 @@ final class InfoController extends BaseController
         return ResponseHelper::success($response, '修改成功');
     }
 
-    public function resetURL(ServerRequest $request, Response $response, array $args): ResponseInterface
+    public function resetUrl(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $this->user->removeLink();
 
@@ -287,10 +281,21 @@ final class InfoController extends BaseController
             return ResponseHelper::error($response, '修改失败');
         }
 
-        return $response->withHeader('HX-Refresh', 'true')->withJson([
-            'ret' => 1,
-            'msg' => '修改成功',
-        ]);
+        return $response->withHeader('HX-Refresh', 'true');
+    }
+
+    public function updateThemeMode(ServerRequest $request, Response $response, array $args): ResponseInterface
+    {
+        $theme_mode = (int) $this->antiXss->xss_clean($request->getParam('theme_mode'));
+        $user = $this->user;
+
+        $user->is_dark_mode = in_array($theme_mode, [0, 1, 2]) ? $theme_mode : 0;
+
+        if (! $user->save()) {
+            return ResponseHelper::error($response, '切换失败');
+        }
+
+        return $response->withHeader('HX-Refresh', 'true');
     }
 
     public function sendToGulag(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -306,10 +311,7 @@ final class InfoController extends BaseController
             Auth::logout();
             $user->kill();
 
-            return $response->withHeader('HX-Refresh', 'true')->withJson([
-                'ret' => 1,
-                'msg' => '你将被送去古拉格接受劳动改造，再见',
-            ]);
+            return $response->withHeader('HX-Redirect', '/auth/login');
         }
 
         return ResponseHelper::error($response, '自助账号删除未启用');

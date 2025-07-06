@@ -62,6 +62,7 @@
                     </div>
                 </div>
             </div>
+            {if $order->type === 'topup'}
             <div class="card my-3">
                 <div class="card-header">
                     <h3 class="card-title">商品内容</h3>
@@ -113,6 +114,7 @@
                     </div>
                 </div>
             </div>
+            {/if}
             <div class="card my-3">
                 <div class="card-header">
                     <h3 class="card-title">关联账单</h3>

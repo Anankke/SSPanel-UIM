@@ -230,8 +230,8 @@
 <script>
     let clipboard = new ClipboardJS('.copy');
     clipboard.on('success', function (e) {
-        $('#success-noreload-message').text('已复制到剪切板');
-        $('#success-noreload-dialog').modal('show');
+        $('#success-message').text('已复制到剪切板');
+        $('#success-dialog').modal('show');
     });
 
     const container = document.getElementById('custom_config');

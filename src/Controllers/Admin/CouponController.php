@@ -239,10 +239,10 @@ final class CouponController extends BaseController
             $content = json_decode($coupon->content);
             $limit = json_decode($coupon->limit);
 
-            $coupon->op = '<button type="button" class="btn btn-red" id="delete-coupon-' . $coupon->id . '"
+            $coupon->op = '<button class="btn btn-red" id="delete-coupon-' . $coupon->id . '"
                 onclick="deleteCoupon(' . $coupon->id . ')">删除</button>' .
                 ($limit->disabled !== 1 ? '
-                <button type="button" class="btn btn-orange" id="disable-coupon-' .
+                <button class="btn btn-orange" id="disable-coupon-' .
                     $coupon->id . '" onclick="disableCoupon(' . $coupon->id . ')">禁用</button>' : '');
 
             $coupon->type = $coupon->type();

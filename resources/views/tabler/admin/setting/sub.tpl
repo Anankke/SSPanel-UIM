@@ -40,68 +40,73 @@
                                 <div class="tab-pane active show" id="sub">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">启用 Shadowsocks
-                                                订阅（仅影响前端显示与ss/sip002/sip008订阅）</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Enable Shadowsocks Subscription
+                                            </label>
                                             <div class="col">
                                                 <select id="enable_ss_sub" class="col form-select"
                                                         value="{$settings['enable_ss_sub']}">
                                                     <option value="0" {if ! $settings['enable_ss_sub']}selected{/if}>
-                                                        关闭
+                                                        False
                                                     </option>
                                                     <option value="1" {if $settings['enable_ss_sub']}selected{/if}>
-                                                        开启
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">启用 V2Ray
-                                                订阅（仅影响前端显示与v2ray订阅）</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Enable Vmess Subscription
+                                            </label>
                                             <div class="col">
                                                 <select id="enable_v2_sub" class="col form-select"
                                                         value="{$settings['enable_v2_sub']}">
                                                     <option value="0" {if ! $settings['enable_v2_sub']}selected{/if}>
-                                                        关闭
+                                                        False
                                                     </option>
                                                     <option value="1" {if $settings['enable_v2_sub']}selected{/if}>
-                                                        开启
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">启用 Trojan
-                                                订阅（仅影响前端显示与trojan订阅）</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                Enable Trojan Subscription
+                                            </label>
                                             <div class="col">
                                                 <select id="enable_trojan_sub" class="col form-select"
                                                         value="{$settings['enable_trojan_sub']}">
-                                                    <option value="0"
-                                                            {if ! $settings['enable_trojan_sub']}selected{/if}>关闭
+                                                    <option value="0" {if ! $settings['enable_trojan_sub']}selected{/if}>
+                                                        False
                                                     </option>
                                                     <option value="1" {if $settings['enable_trojan_sub']}selected{/if}>
-                                                        开启
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label class="form-label col-3 col-form-label">用户修改账户登录密码时，是否强制更换订阅地址</label>
+                                            <label class="form-label col-3 col-form-label">
+                                                修改账户登录密码时重置订阅地址
+                                            </label>
                                             <div class="col">
                                                 <select id="enable_forced_replacement" class="col form-select"
                                                         value="{$settings['enable_forced_replacement']}">
                                                     <option value="0"
                                                             {if ! $settings['enable_forced_replacement']}selected{/if}>
-                                                        关闭
+                                                        False
                                                     </option>
                                                     <option value="1"
-                                                            {if $settings['enable_forced_replacement']}selected{/if}>开启
+                                                            {if $settings['enable_forced_replacement']}selected{/if}>
+                                                        True
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

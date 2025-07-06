@@ -48,7 +48,7 @@
                                                 <select id="live_chat" class="col form-select"
                                                         value="{$settings['live_chat']}">
                                                     <option value="none"
-                                                            {if $settings['live_chat'] === "none"}selected{/if}>无
+                                                            {if $settings['live_chat'] === "none"}selected{/if}>None
                                                     </option>
                                                     <option value="crisp"
                                                             {if $settings['live_chat'] === "crisp"}selected{/if}>Crisp

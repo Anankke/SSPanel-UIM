@@ -7,8 +7,10 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Models\Node;
-use App\Services\IM\Telegram;
+use App\Services\I18n;
+use App\Services\Notification;
 use App\Utils\Tools;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -119,7 +121,7 @@ final class NodeController extends BaseController
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
         $node->node_class = $request->getParam('node_class');
-        $node->node_bandwidth_limit = Tools::toGB($request->getParam('node_bandwidth_limit'));
+        $node->node_bandwidth_limit = Tools::gbToB($request->getParam('node_bandwidth_limit'));
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
         $node->password = Tools::genRandomChar(32);
 
@@ -130,20 +132,19 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::obtain('telegram_add_node')) {
+        if (Config::obtain('im_bot_group_notify_add_node')) {
             try {
-                (new Telegram())->send(
-                    0,
+                Notification::notifyUserGroup(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::obtain('telegram_add_node_text')
+                        I18n::trans('bot.node_added', $_ENV['locale'])
                     )
                 );
-            } catch (TelegramSDKException) {
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '添加成功，但 Telegram 通知失败',
+                    'msg' => '添加成功，但 IM Bot 通知失败',
                     'node_id' => $node->id,
                 ]);
             }
@@ -172,7 +173,7 @@ final class NodeController extends BaseController
         $node->min_rate_time = $dynamic_rate_config?->min_rate_time ?? 3;
 
         $node->node_bandwidth = Tools::autoBytes($node->node_bandwidth);
-        $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
+        $node->node_bandwidth_limit = Tools::bToGB($node->node_bandwidth_limit);
 
         return $response->write(
             $this->view()
@@ -214,7 +215,7 @@ final class NodeController extends BaseController
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
         $node->node_class = $request->getParam('node_class');
-        $node->node_bandwidth_limit = Tools::toGB($request->getParam('node_bandwidth_limit'));
+        $node->node_bandwidth_limit = Tools::gbToB($request->getParam('node_bandwidth_limit'));
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
 
         if (! $node->save()) {
@@ -224,20 +225,19 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::obtain('telegram_update_node')) {
+        if (Config::obtain('im_bot_group_notify_update_node')) {
             try {
-                (new Telegram())->send(
-                    0,
+                Notification::notifyUserGroup(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::obtain('telegram_update_node_text')
+                        I18n::trans('bot.node_updated', $_ENV['locale'])
                     )
                 );
-            } catch (TelegramSDKException) {
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '修改成功，但 Telegram 通知失败',
+                    'msg' => '修改成功，但 IM Bot 通知失败',
                 ]);
             }
         }
@@ -286,20 +286,19 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::obtain('telegram_delete_node')) {
+        if (Config::obtain('im_bot_group_notify_delete_node')) {
             try {
-                (new Telegram())->send(
-                    0,
+                Notification::notifyUserGroup(
                     str_replace(
                         '%node_name%',
                         $node->name,
-                        Config::obtain('telegram_delete_node_text')
+                        I18n::trans('bot.node_deleted', $_ENV['locale'])
                     )
                 );
-            } catch (TelegramSDKException) {
+            } catch (TelegramSDKException | GuzzleException) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '删除成功，但Telegram通知失败',
+                    'msg' => '删除成功，但 IM Bot 通知失败',
                 ]);
             }
         }
@@ -341,16 +340,17 @@ final class NodeController extends BaseController
         $nodes = (new Node())->orderBy('id', 'desc')->get();
 
         foreach ($nodes as $node) {
-            $node->op = '<button type="button" class="btn btn-red" id="delete-node-' . $node->id . '" 
+            $node->op = '<button class="btn btn-red" id="delete-node-' . $node->id . '" 
             onclick="deleteNode(' . $node->id . ')">删除</button>
-            <button type="button" class="btn btn-orange" id="copy-node-' . $node->id . '" 
+            <button class="btn btn-orange" id="copy-node-' . $node->id . '" 
             onclick="copyNode(' . $node->id . ')">复制</button>
-            <a class="btn btn-blue" href="/admin/node/' . $node->id . '/edit">编辑</a>';
+            <a class="btn btn-primary" href="/admin/node/' . $node->id . '/edit">编辑</a>';
             $node->type = $node->type();
             $node->sort = $node->sort();
             $node->is_dynamic_rate = $node->isDynamicRate();
-            $node->node_bandwidth = round(Tools::flowToGB($node->node_bandwidth), 2);
-            $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
+            $node->dynamic_rate_type = $node->dynamicRateType();
+            $node->node_bandwidth = round(Tools::bToGB($node->node_bandwidth), 2);
+            $node->node_bandwidth_limit = Tools::bToGB($node->node_bandwidth_limit);
         }
 
         return $response->withJson([

@@ -6,16 +6,15 @@ namespace App\Services\Bot\Telegram;
 
 use App\Models\Config;
 use App\Models\User;
-use GuzzleHttp\Client;
+use App\Services\I18n;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use function array_merge;
 use function implode;
 use function in_array;
 use function json_decode;
+use function str_replace;
 use const PHP_EOL;
 
 final class Message
@@ -28,29 +27,29 @@ final class Message
     /**
      * 消息会话 ID
      */
-    private $chat_id;
+    private int $chat_id;
 
     /**
      * 触发源信息
      */
-    private Collection $message;
+    private \Telegram\Bot\Objects\Message $message;
 
     /**
      * 触发源信息 ID
      */
-    private $message_id;
+    private int $message_id;
 
     /**
      * @throws TelegramSDKException|GuzzleException
      */
-    public function __construct(Api $bot, Collection $message)
+    public function __construct(Api $bot, \Telegram\Bot\Objects\Message $message)
     {
         $this->bot = $bot;
-        $this->chat_id = $message->getChat()->getId();
+        $this->chat_id = $message->chat->id;
         $this->message = $message;
-        $this->message_id = $message->getMessageId();
+        $this->message_id = $message->messageId;
 
-        if ($this->message->getNewChatParticipant() !== null) {
+        if ($this->message->newChatMembers !== null) {
             $this->newChatParticipant();
         }
     }
@@ -78,29 +77,26 @@ final class Message
     /**
      * 入群检测
      *
-     * @throws TelegramSDKException
-     * @throws GuzzleException
+     * @throws TelegramSDKException|GuzzleException
      */
     public function newChatParticipant(): void
     {
-        $new_chat_member = $this->message->getNewChatParticipant();
+        $new_chat_member = $this->message->newChatMembers[0];
 
         $member = [
-            'id' => $new_chat_member->getId(),
-            'name' => $new_chat_member->getFirstName() . ' ' . $new_chat_member->getLastName(),
+            'id' => $new_chat_member->id,
+            'name' => $new_chat_member->firstName . ' ' . $new_chat_member->lastName,
         ];
 
-        if ($new_chat_member->getUsername() === Config::obtain('telegram_bot')) {
+        if ($new_chat_member->username === Config::obtain('telegram_bot')) {
             // 机器人加入新群组
             if (! Config::obtain('allow_to_join_new_groups')
                 &&
                 ! in_array($this->chat_id, json_decode(Config::obtain('group_id_allowed_to_join')))) {
                 // 退群
-                self::sendPost(
-                    'kickChatMember',
+                $this->bot->leaveChat(
                     [
                         'chat_id' => $this->chat_id,
-                        'user_id' => $member['id'],
                     ]
                 );
             } else {
@@ -120,7 +116,7 @@ final class Message
                 &&
                 $new_user === null
                 &&
-                ! $new_chat_member->isBot()
+                ! $new_chat_member->isBot
             ) {
                 $this->replyWithMessage(
                     [
@@ -128,8 +124,7 @@ final class Message
                     ]
                 );
 
-                self::sendPost(
-                    'kickChatMember',
+                $this->bot->banChatMember(
                     [
                         'chat_id' => $this->chat_id,
                         'user_id' => $member['id'],
@@ -140,12 +135,23 @@ final class Message
             }
 
             if (Config::obtain('enable_welcome_message')) {
-                $text = ($new_user->class > 0 ? '欢迎 VIP' . $new_user->class .
-                    ' 用户 ' . $member['name'] . '加入群组。' : '欢迎 ' . $member['name']);
+                $text = ($new_user->class > 0 ?
+                    I18n::trans('user_join_welcome_paid', $_ENV['locale']) :
+                    I18n::trans('user_join_welcome_free', $_ENV['locale']));
 
                 $this->replyWithMessage(
                     [
-                        'text' => $text,
+                        'text' => str_replace(
+                            [
+                                '%user_name%',
+                                '%user_class%',
+                            ],
+                            [
+                                $member['name'],
+                                $new_user->class,
+                            ],
+                            $text
+                        ),
                     ]
                 );
             }
@@ -198,39 +204,11 @@ final class Message
     }
 
     /**
-     * Sends a POST request to Telegram Bot API.
-     * 伪异步，无结果返回.
-     *
-     * @param $method
-     * @param $params
-     *
-     * @throws GuzzleException
-     */
-    public static function sendPost($method, $params): void
-    {
-        $client = new Client();
-        $telegram_api_url = 'https://api.telegram.org/bot' . Config::obtain('telegram_token') . '/' . $method;
-
-        $headers = [
-            'Content-Type' => 'application/json; charset=utf-8',
-        ];
-
-        $client->post(
-            $telegram_api_url,
-            [
-                'headers' => $headers,
-                'json' => $params,
-                'timeout' => 1,
-            ]
-        );
-    }
-
-    /**
      * 搜索用户
      *
      * @param int $value  搜索值
      */
-    public static function getUser(int $value): null|Model|User
+    public static function getUser(int $value): null|User
     {
         return (new User())->where('im_type', 4)->where('im_value', $value)->first();
     }

@@ -42,7 +42,7 @@ final class SystemController extends BaseController
      */
     public function checkUpdate(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $latest_version = file_get_contents('https://ota.sspanel.org/get-latest-version', false, stream_context_create([
+        $latest_version = file_get_contents('https://ota.sspanel.io/get-latest-version', false, stream_context_create([
             'http' => [
                 'timeout' => 3,
             ],
