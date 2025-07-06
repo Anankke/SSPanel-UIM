@@ -1,11 +1,62 @@
-<img src="public/images/uim-logo-round_192x192.png" alt="logo" width="150" height="150" align="left" />
+<div align="center">
+  <img src="public/images/uim-logo-round_192x192.png" alt="logo" width="150" height="150" />
+</div>
 
-<h1>SSPanel UIM</h1>
+<h1 align="center">SSPanel UIM</h1>
 
-> Across the Great Wall we can reach every corner in the world
+<p align="center">
+  <em>Across the Great Wall we can reach every corner in the world</em>
+</p>
 
-<br>
-<br>
+<p align="center">
+  <a href="https://github.com/Anankke/SSPanel-UIM/stargazers">
+    <img src="https://custom-icon-badges.demolab.com/github/stars/Anankke/SSPanel-UIM?logo=star&logoColor=yellow&style=social&labelColor=464646&color=ffe000" alt="GitHub stars">
+  </a>
+  <a href="https://github.com/Anankke/SSPanel-UIM/network/members">
+    <img src="https://custom-icon-badges.demolab.com/github/forks/Anankke/SSPanel-UIM?logo=fork&logoColor=333&style=social&labelColor=464646&color=7a7a7a" alt="GitHub forks">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Anankke/SSPanel-UIM/blob/dev/LICENSE">
+    <img src="https://custom-icon-badges.demolab.com/badge/License-MIT-blue.svg?logo=law&logoColor=white" alt="License">
+  </a>
+  <a href="https://github.com/Anankke/SSPanel-UIM/issues">
+    <img src="https://custom-icon-badges.demolab.com/github/issues-raw/Anankke/SSPanel-UIM?logo=issue-opened&logoColor=white&label=Issues" alt="Issues">
+  </a>
+  <a href="https://github.com/Anankke/SSPanel-UIM/graphs/contributors">
+    <img src="https://custom-icon-badges.demolab.com/github/contributors/Anankke/SSPanel-UIM?logo=people&logoColor=white&label=Contributors" alt="Contributors">
+  </a>
+  <a href="https://www.php.net">
+    <img src="https://custom-icon-badges.demolab.com/badge/PHP-%E2%89%A58.2-777BB4.svg?logo=php&logoColor=white" alt="PHP Version">
+  </a>
+</p>
+
+
+<p align="center">
+  <a href="https://docs.sspanel.io">
+    <img src="https://custom-icon-badges.demolab.com/badge/Docs-sspanel.io-1C8ADB.svg?logo=book&logoColor=white" alt="Documentation">
+  </a>
+  <a href="https://t.me/sspanel_Uim">
+    <img src="https://custom-icon-badges.demolab.com/badge/Telegram-Channel-26A5E4.svg?logo=telegram&logoColor=white" alt="Telegram Channel">
+  </a>
+  <a href="https://t.me/SSUnion">
+    <img src="https://custom-icon-badges.demolab.com/badge/Telegram-Group-26A5E4.svg?logo=telegram&logoColor=white" alt="Telegram Group">
+  </a>
+  <a href="https://github.com/Anankke/SSPanel-UIM/discussions">
+    <img src="https://custom-icon-badges.demolab.com/badge/GitHub-Discussions-181717.svg?logo=comment-discussion&logoColor=white" alt="GitHub Discussions">
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="50" height="50" />
+  <img src="https://techstack-generator.vercel.app/nginx-icon.svg" alt="Nginx" width="50" height="50" />
+  <img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="MySQL" width="50" height="50" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg" alt="PHP" width="50" height="50" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original.svg" alt="Redis" width="50" height="50" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap" width="50" height="50" />
+</p>
+
 
 ## 简介 | Introduction
 
@@ -81,6 +132,7 @@ For complete installation and usage documentation, please visit:
 
 ## 社区 | Community
 
+- Telegram 频道 | Telegram Channel: [@sspanel_Uim](https://t.me/sspanel_Uim)
 - Telegram 群组 | Telegram Group: [@SSUnion](https://t.me/SSUnion)
 - GitHub 讨论 | GitHub Discussions: [SSPanel-UIM/Discussions](https://github.com/Anankke/SSPanel-UIM/discussions)
 
@@ -106,6 +158,10 @@ If you discover a security vulnerability, please email anankke@pm.me instead of 
 本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) file for details.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Anankke/SSPanel-UIM&type=Date)](https://star-history.com/#Anankke/SSPanel-UIM&Date)
 
 ---
 
