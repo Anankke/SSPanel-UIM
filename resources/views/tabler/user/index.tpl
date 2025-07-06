@@ -29,13 +29,11 @@
     border-color: var(--tblr-success) !important;
 }
 
-/* 推荐客户端区域样式 */
 .recommended-section {
     background: rgba(var(--tblr-primary-rgb), 0.1);
     border: 1px solid rgba(var(--tblr-primary-rgb), 0.2);
 }
 
-/* 客户端项目样式 */
 .client-item {
     transition: all 0.3s;
 }
@@ -65,6 +63,42 @@
     .copy button {
         word-break: keep-all;
         white-space: nowrap;
+    }
+    
+    /* Enhanced mobile button styles */
+    .btn-group-vertical .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        min-height: 44px; /* iOS recommended touch target */
+    }
+    
+    .btn-group-vertical {
+        gap: 0.5rem;
+    }
+    
+    .client-item {
+        padding: 1rem !important;
+    }
+    
+    /* Recommended client cards on mobile */
+    .recommended-section .card-body {
+        padding: 1rem;
+    }
+    
+    .recommended-section .btn-group {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .recommended-section .btn-group-vertical {
+        align-items: stretch;
+        width: 100%;
+    }
+    
+    .recommended-section .btn {
+        flex: 1 1 auto;
+        min-width: 100px;
     }
 }
 
@@ -510,7 +544,7 @@
         CLIPBOARD_SUCCESS_TEXT: '已复制',
         CLIPBOARD_ERROR_TEXT: '复制失败，请手动选择并复制',
         CLASSES: {
-            BTN_GROUP_MOBILE: 'btn-group-vertical btn-group-sm',
+            BTN_GROUP_MOBILE: 'btn-group-vertical',
             BTN_GROUP_DESKTOP: 'btn-group btn-group-sm', 
             MOBILE_ONLY: 'd-md-none w-100',
             DESKTOP_ONLY: 'd-none d-md-flex',
@@ -569,9 +603,7 @@
         }
         
         btn.appendChild(createIcon(config.icon));
-        if (!isMobile) {
-            btn.appendChild(document.createTextNode(' ' + config.text));
-        }
+        btn.appendChild(document.createTextNode(' ' + config.text));
         
         return btn;
     }
@@ -648,7 +680,7 @@
         if (isRecommended) {
             const card = createElement('div', 'card');
             const cardBody = createElement('div', 'card-body');
-            const flexContainer = createElement('div', 'd-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3');
+            const flexContainer = createElement('div', 'd-flex flex-column flex-md-row align-items-center justify-content-between gap-3');
             
             const contentDiv = createClientCardContent(client);
             
