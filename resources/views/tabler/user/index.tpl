@@ -335,7 +335,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="d-flex">
-                                {if ! $user->isAbleToCheckin()}
+                                {if !$user->isAbleToCheckin()}
                                 <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
                                 {else}
                                 {if $public_setting['enable_checkin_captcha']}
