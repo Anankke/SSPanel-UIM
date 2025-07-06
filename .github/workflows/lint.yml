@@ -1,63 +1,125 @@
-name: Lint PHP Code
+name: Lint Code
+
+env:
+  PHP_VERSION: '8.3'
 
 on:
   push:
-    branches: [ dev, master ]
+    branches: [dev, master]
   pull_request:
     types: [opened, reopened, synchronize]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  php-file-changed:
+  detect-changes:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       php: ${{ steps.filter.outputs.php }}
+      template: ${{ steps.filter.outputs.template }}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        filters: |
-          php:
-            - '**/*.php'
-            - 'composer.json'
-            - 'composer.lock'
-            
-  lint:
-    needs: php-file-changed
-    if: ${{ needs.php-file-changed.outputs.php == 'true' }}
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            php:
+              - '**/*.php'
+              - 'composer.{json,lock}'
+            template:
+              - '**/*.tpl'
+
+  lint-php:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.php == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      
+      - uses: shivammathur/setup-php@v2
         with:
-          fetch-depth: 0
-          
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
+          php-version: ${{ env.PHP_VERSION }}
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql, redis
           coverage: none
           tools: composer:v2
-          
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-        
-      - name: Cache composer dependencies
-        uses: actions/cache@v4
+      
+      - uses: actions/cache@v4
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-          
-      - name: Install dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
-        
+          path: ~/.composer/cache
+          key: composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+      
+      - run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+      
       - name: Run PHP Insights
         run: |
-          php vendor/bin/phpinsights analyse --no-interaction --format=github-action \
-          --min-style=100 --min-architecture=100 --min-quality=100
+          vendor/bin/phpinsights analyse \
+            --no-interaction \
+            --format=github-action \
+            --min-quality=100 \
+            --min-complexity=100 \
+            --min-architecture=100 \
+            --min-style=100
         continue-on-error: ${{ github.event_name == 'pull_request' }}
+
+  lint-smarty:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.template == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+      
+      - uses: tj-actions/changed-files@v44
+        id: changed
+        with:
+          files: '**/*.tpl'
+      
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+        
+      - name: Check Smarty syntax
+        if: steps.changed.outputs.any_changed == 'true'
+        run: |
+          errors=0
+          
+          for file in ${{ steps.changed.outputs.all_changed_files }}; do
+            if [ -f "$file" ]; then
+              echo "Checking: $file"
+              # Use PHP to compile the template and catch syntax errors
+              if ! php -r "
+                require 'vendor/autoload.php';
+                \$smarty = new \Smarty\Smarty();
+                \$smarty->setTemplateDir('resources/views/tabler/');
+                \$smarty->setCompileDir(sys_get_temp_dir());
+                \$smarty->muteUndefinedOrNullWarnings();
+                
+                \$file = str_replace('resources/views/tabler/', '', '$file');
+                
+                try {
+                  \$template = \$smarty->createTemplate(\$file);
+                  \$template->compileTemplateSource();
+                  echo 'OK';
+                } catch (Exception \$e) {
+                  echo 'ERROR: ' . \$e->getMessage();
+                  exit(1);
+                }
+              " 2>&1; then
+                errors=$((errors + 1))
+              fi
+              echo ""
+            fi
+          done
+          
+          [ $errors -eq 0 ] || exit 1
