@@ -140,6 +140,8 @@
 </script>
 <script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
 
+{include file='telemetry.tpl'}
+
 </body>
 
 </html>
