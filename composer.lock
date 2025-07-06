@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae8cc942cb0ee8174975849a16a84da3",
+    "content-hash": "336e296434fd3e25ff7bff4b031ab8ca",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -4647,16 +4647,16 @@
         },
         {
             "name": "resend/resend-php",
-            "version": "v0.12.0",
+            "version": "v0.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/resend/resend-php.git",
-                "reference": "37fb79bb8160ce2de521bf37484ba59e89236521"
+                "reference": "f20a9a50a7f705294af1662995c93bfd806fed3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/resend/resend-php/zipball/37fb79bb8160ce2de521bf37484ba59e89236521",
-                "reference": "37fb79bb8160ce2de521bf37484ba59e89236521",
+                "url": "https://api.github.com/repos/resend/resend-php/zipball/f20a9a50a7f705294af1662995c93bfd806fed3e",
+                "reference": "f20a9a50a7f705294af1662995c93bfd806fed3e",
                 "shasum": ""
             },
             "require": {
@@ -4698,9 +4698,9 @@
             ],
             "support": {
                 "issues": "https://github.com/resend/resend-php/issues",
-                "source": "https://github.com/resend/resend-php/tree/v0.12.0"
+                "source": "https://github.com/resend/resend-php/tree/v0.18.1"
             },
-            "time": "2024-03-04T03:16:28+00:00"
+            "time": "2025-07-04T00:12:53+00:00"
         },
         {
             "name": "sendgrid/php-http-client",
@@ -11662,6 +11662,6 @@
         "ext-yaml": "*",
         "ext-zip": "*"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
