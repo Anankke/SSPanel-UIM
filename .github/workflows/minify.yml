@@ -1,0 +1,62 @@
+name: Auto Minify CSS/JS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ dev ]
+    paths:
+      - 'public/assets/css/**/*.css'
+      - 'public/assets/js/**/*.js'
+      - 'public/theme/**/*.css'
+      - 'public/theme/**/*.js'
+      - '!**/*.min.css'
+      - '!**/*.min.js'
+
+permissions:
+  contents: write
+
+jobs:
+  minify:
+    # Prevent infinite loop - don't run if triggered by bot
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Check for unminified files
+        id: check
+        run: |
+          echo "Checking for unminified CSS/JS files..."
+          css_files=$(find public -name "*.css" ! -name "*.min.css" -type f | wc -l)
+          js_files=$(find public -name "*.js" ! -name "*.min.js" -type f | wc -l)
+          total=$((css_files + js_files))
+          echo "Found $css_files CSS and $js_files JS files to minify"
+          echo "total=$total" >> $GITHUB_OUTPUT
+          
+      - name: Auto minify CSS/JS files
+        if: steps.check.outputs.total != '0'
+        uses: nizarmah/auto-minify@v3
+        with:
+          overwrite: false
+          
+      - name: Check if files were minified
+        id: diff
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Commit minified files
+        if: steps.diff.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: auto minify CSS/JS files"
+          file_pattern: "*.min.css *.min.js"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>

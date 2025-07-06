@@ -1,0 +1,63 @@
+name: Lint PHP Code
+
+on:
+  push:
+    branches: [ dev, master ]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  php-file-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      php: ${{ steps.filter.outputs.php }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          php:
+            - '**/*.php'
+            - 'composer.json'
+            - 'composer.lock'
+            
+  lint:
+    needs: php-file-changed
+    if: ${{ needs.php-file-changed.outputs.php == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql, redis
+          coverage: none
+          tools: composer:v2
+          
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+          
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+        
+      - name: Run PHP Insights
+        run: |
+          php vendor/bin/phpinsights analyse --no-interaction --format=github-action \
+          --min-style=100 --min-architecture=100 --min-quality=100
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
