@@ -81,7 +81,7 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
       
-      - uses: tj-actions/changed-files@v44
+      - uses: tj-actions/changed-files@v46
         id: changed
         with:
           files: '**/*.tpl'
