@@ -295,6 +295,40 @@
                                         </div>
                                         <div class="btn-list justify-content-start my-2">
                                             <a  {if $config['enable_r2_client_download']}
+                                                href="/user/clients/Clash.Verge.exe"
+                                                {else}
+                                                href="/clients/Clash.Verge.exe"
+                                                {/if} class="btn btn-azure">
+                                                下载 Clash Verge Rev
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/clash"
+                                               class="copy btn btn-primary">
+                                                复制 Clash 订阅链接
+                                            </a>
+                                            <a href="clash://install-config?url={$UniversalSub}/clash"
+                                               class="btn btn-indigo">
+                                                导入 Clash Verge Rev
+                                            </a>
+                                        </div>
+                                        <div class="btn-list justify-content-start my-2">
+                                            <a  {if $config['enable_r2_client_download']}
+                                                href="/user/clients/FlClash.exe"
+                                                {else}
+                                                href="/clients/FlClash.exe"
+                                                {/if} class="btn btn-azure">
+                                                下载 FlClash
+                                            </a>
+                                            <a data-clipboard-text="{$UniversalSub}/clash"
+                                               class="copy btn btn-primary">
+                                                复制 Clash 订阅链接
+                                            </a>
+                                            <a href="clash://install-config?url={$UniversalSub}/clash"
+                                               class="btn btn-indigo">
+                                                导入 FlClash
+                                            </a>
+                                        </div>
+                                        <div class="btn-list justify-content-start my-2">
+                                            <a  {if $config['enable_r2_client_download']}
                                                 href="/user/clients/Hiddify.exe"
                                                 {else}
                                                 href="/clients/Hiddify.exe"
@@ -334,6 +368,40 @@
                                         <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
                                            class="btn btn-indigo">
                                             导入 Clash Nyanpasu
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Clash.Verge.dmg"
+                                            {else}
+                                            href="/clients/Clash.Verge.dmg"
+                                            {/if} class="btn btn-azure">
+                                            下载 Clash Verge Rev
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}"
+                                           class="btn btn-indigo">
+                                            导入 Clash Verge Rev
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/FlClash.dmg"
+                                            {else}
+                                            href="/clients/FlClash.dmg"
+                                            {/if} class="btn btn-azure">
+                                            下载 FlClash
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}/clash"
+                                           class="btn btn-indigo">
+                                            导入 FlClash
                                         </a>
                                     </div>
                                     <div class="btn-list justify-content-start my-2">
@@ -393,6 +461,23 @@
                                         <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
                                            class="btn btn-indigo">
                                             导入 Clash
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a {if $config['enable_r2_client_download']}
+                                            href="/user/clients/FlClash.apk"
+                                            {else}
+                                            href="/clients/FlClash.apk"
+                                            {/if} class="btn btn-azure">
+                                            下载 FlClash
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
+                                           class="btn btn-indigo">
+                                            导入 FlClash
                                         </a>
                                     </div>
                                     <div class="btn-list justify-content-start my-2">
@@ -471,6 +556,40 @@
                                         <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
                                            class="btn btn-indigo">
                                             导入 Clash Nyanpasu
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a  {if $config['enable_r2_client_download']}
+                                            href="/user/clients/Clash.Verge.deb"
+                                            {else}
+                                            href="/clients/Clash.Verge.deb"
+                                            {/if} class="btn btn-azure">
+                                            下载 Clash Verge Rev (.deb)
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}"
+                                           class="btn btn-indigo">
+                                            导入 Clash Verge Rev
+                                        </a>
+                                    </div>
+                                    <div class="btn-list justify-content-start my-2">
+                                        <a  {if $config['enable_r2_client_download']}
+                                            href="/user/clients/FlClash.deb"
+                                            {else}
+                                            href="/clients/FlClash.deb"
+                                            {/if} class="btn btn-azure">
+                                            下载 FlClash (.deb)
+                                        </a>
+                                        <a data-clipboard-text="{$UniversalSub}/clash"
+                                           class="copy btn btn-primary">
+                                            复制 Clash 订阅链接
+                                        </a>
+                                        <a href="clash://install-config?url={$UniversalSub}/clash"
+                                           class="btn btn-indigo">
+                                            导入 FlClash
                                         </a>
                                     </div>
                                     <div class="btn-list justify-content-start my-2">

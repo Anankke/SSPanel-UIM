@@ -91,6 +91,30 @@
                     "saveName": "Hiddify.exe"
                 }
             ]
+        },
+        {
+            "name": "FlClash",
+            "tagMethod": "github_release",
+            "gitRepo": "chen08209/FlClash",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "FlClash-%tagName1%-windows-amd64-setup.exe",
+                    "saveName": "FlClash.exe"
+                },
+                {
+                    "sourceName": "FlClash-%tagName1%-macos-amd64.dmg",
+                    "saveName": "FlClash.dmg"
+                },
+                {
+                    "sourceName": "FlClash-%tagName1%-linux-amd64.deb",
+                    "saveName": "FlClash.deb"
+                },
+                {
+                    "sourceName": "FlClash-%tagName1%-android-arm64-v8a.apk",
+                    "saveName": "FlClash.apk"
+                }
+            ]
         }
     ]
 }
