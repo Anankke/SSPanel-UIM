@@ -115,6 +115,22 @@
                     "saveName": "FlClash.apk"
                 }
             ]
+        },
+        {
+            "name": "ClashMi",
+            "tagMethod": "github_release",
+            "gitRepo": "KaringX/clashmi",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "clashmi_%tagName1%_windows_x64.exe",
+                    "saveName": "clashmi.exe"
+                },
+                {
+                    "sourceName": "clashmi_%tagName1%_android_arm64-v8a.apk",
+                    "saveName": "clashmi_arm64.apk"
+                }
+            ]
         }
     ]
 }
