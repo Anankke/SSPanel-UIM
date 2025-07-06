@@ -1,0 +1,158 @@
+{
+  "clients": [
+    {
+      "name": "Clash Verge Rev",
+      "description": "功能强大，界面友好",
+      "format": "clash",
+      "importUrl": "clash://install-config?url={sub}/clash",
+      "platforms": {
+        "Windows": {
+          "ext": "exe",
+          "file": "Clash.Verge"
+        },
+        "macOS": {
+          "ext": "dmg",
+          "file": "Clash.Verge"
+        },
+        "Linux": {
+          "ext": "deb",
+          "file": "Clash.Verge",
+          "desc": "跨平台客户端 (.deb)"
+        }
+      }
+    },
+    {
+      "name": "Clash Nyanpasu",
+      "description": "第三方增强版 Clash",
+      "format": "clash",
+      "importUrl": "clash-nyanpasu://subscribe-remote-profile?url={sub}&name={name}",
+      "platforms": {
+        "Windows": {
+          "ext": "exe",
+          "file": "Clash.Nyanpasu"
+        },
+        "macOS": {
+          "ext": "dmg",
+          "file": "Clash.Nyanpasu_aarch64",
+          "desc": "支持 Clash 订阅格式 (aarch64)"
+        },
+        "Linux": {
+          "ext": "AppImage",
+          "file": "Clash.Nyanpasu",
+          "desc": "第三方增强版 Clash (.AppImage)"
+        }
+      }
+    },
+    {
+      "name": "FlClash",
+      "description": "基于 Flutter 的跨平台客户端",
+      "format": "clash",
+      "importUrl": "clash://install-config?url={sub}/clash",
+      "platforms": {
+        "Windows": {
+          "ext": "exe",
+          "file": "FlClash"
+        },
+        "macOS": {
+          "ext": "dmg",
+          "file": "FlClash",
+          "desc": "支持 Clash 订阅格式"
+        },
+        "Android": {
+          "ext": "apk",
+          "file": "FlClash",
+          "desc": "支持 Clash 订阅格式",
+          "importUrl": "clash://install-config?url={sub}/clash&name={name}"
+        },
+        "Linux": {
+          "ext": "deb",
+          "file": "FlClash",
+          "desc": "基于 Flutter 的跨平台客户端 (.deb)"
+        }
+      }
+    },
+    {
+      "name": "Hiddify",
+      "description": "简单易用，支持多协议",
+      "format": "singbox",
+      "importUrl": "hiddify://import/{sub}#{name}",
+      "platforms": {
+        "Windows": {
+          "ext": "exe",
+          "file": "Hiddify"
+        },
+        "macOS": {
+          "ext": "dmg",
+          "file": "Hiddify",
+          "desc": "支持 SingBox 订阅格式"
+        },
+        "Android": {
+          "ext": "apk",
+          "file": "Hiddify",
+          "desc": "支持 SingBox 订阅格式"
+        },
+        "Linux": {
+          "ext": "AppImage",
+          "file": "Hiddify",
+          "desc": "支持多种安装方式 (.AppImage)"
+        }
+      }
+    },
+    {
+      "name": "SFM",
+      "description": "官方客户端，性能优秀",
+      "format": "singbox",
+      "importUrl": "sing-box://import-remote-profile?url={sub}/singbox#{name}",
+      "platforms": {
+        "macOS": {
+          "ext": "dmg",
+          "file": "SFM",
+          "desc": "原生应用，性能优秀"
+        }
+      }
+    },
+    {
+      "name": "SFA",
+      "description": "官方客户端，性能优秀",
+      "format": "singbox",
+      "importUrl": "sing-box://import-remote-profile?url={sub}/singbox#{name}",
+      "platforms": {
+        "Android": {
+          "ext": "apk",
+          "file": "SFA",
+          "desc": "轻量快速，资源占用少"
+        }
+      }
+    },
+    {
+      "name": "SFI",
+      "description": "iOS 推荐客户端",
+      "format": "singbox",
+      "importUrl": "sing-box://import-remote-profile?url={sub}/singbox#{name}",
+      "platforms": {
+        "iOS": {
+          "storeUrl": "https://apps.apple.com/app/sing-box/id6451272673"
+        }
+      }
+    },
+    {
+      "name": "CMFA",
+      "description": "功能全面，支持分应用代理",
+      "format": "clash",
+      "importUrl": "clash://install-config?url={sub}/clash&name={name}",
+      "platforms": {
+        "Android": {
+          "ext": "apk",
+          "file": "CMFA"
+        }
+      }
+    }
+  ],
+  "icons": {
+    "Windows": "ti-brand-windows",
+    "macOS": "ti-brand-finder",
+    "Android": "ti-brand-android",
+    "iOS": "ti-brand-apple",
+    "Linux": "ti-brand-ubuntu"
+  }
+}

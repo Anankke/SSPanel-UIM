@@ -1,5 +1,90 @@
 {include file='user/header.tpl'}
 
+<style>
+/* Animation classes for collapsible sections */
+.collapsible-section {
+    transition: all 0.35s ease;
+    overflow: hidden;
+}
+
+.collapsible-section.collapsing {
+    opacity: 0.3;
+    transform: scale(0.98);
+}
+
+.collapsible-section.expanded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Client item hover effects */
+.client-item:hover {
+    border-color: var(--tblr-primary) !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Copy button feedback */
+.copy.copied {
+    background-color: var(--tblr-success) !important;
+    border-color: var(--tblr-success) !important;
+}
+
+/* 推荐客户端区域样式 */
+.recommended-section {
+    background: rgba(var(--tblr-primary-rgb), 0.1);
+    border: 1px solid rgba(var(--tblr-primary-rgb), 0.2);
+}
+
+/* 客户端项目样式 */
+.client-item {
+    transition: all 0.3s;
+}
+
+.client-item:hover {
+    background: var(--tblr-bg-surface-secondary);
+    transform: translateX(5px);
+}
+
+@media (max-width: 576px) {
+    .client-item:hover {
+        transform: none;
+    }
+    
+    .client-item .btn-group-vertical {
+        margin-top: 0.5rem;
+    }
+    
+    .recommended-section h4 {
+        font-size: 1rem;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .copy button {
+        word-break: keep-all;
+        white-space: nowrap;
+    }
+}
+
+/* 手风琴样式 */
+.accordion-button:not(.collapsed) {
+    background: var(--tblr-primary-lt);
+    color: var(--tblr-primary);
+}
+
+/* 敏感信息模糊效果 */
+.spoiler {
+    filter: blur(5px);
+    transition: filter 0.3s;
+}
+
+.spoiler:hover {
+    filter: none;
+}
+</style>
+
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -20,625 +105,153 @@
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="row row-cards">
+                        {foreach $info_cards as $card}
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span class="bg-blue text-white avatar">
-                                                <i class="ti ti-vip icon"></i>
+                                            <span class="bg-{$card.color} text-white avatar">
+                                                <i class="ti {$card.icon} icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                账户等级
+                                                {$card.title}
                                             </div>
                                             <div class="text-secondary">
-                                                {if $user->class === 0}
-                                                    免费
-                                                {else}
-                                                    Lv. {$user->class}
-                                                {/if}
+                                                {$card.value}
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card card-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
+                                        {if isset($card.action_url)}
                                         <div class="col-auto">
-                                            <span class="bg-green text-white avatar">
-                                                <i class="ti ti-coin icon"></i>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-medium">
-                                                账户余额
-                                            </div>
-                                            <div class="text-secondary">
-                                                {$user->money}
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <a href="/user/money" class="btn btn-primary btn-icon">
+                                            <a href="{$card.action_url}" class="btn btn-primary btn-icon">
                                                 <i class="ti ti-plus icon"></i>
                                             </a>
                                         </div>
+                                        {/if}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card card-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="bg-azure text-white avatar">
-                                                <i class="ti ti-devices-pc icon"></i>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-medium">
-                                                同时连接IP限制
-                                            </div>
-                                            <div class="text-secondary">
-                                                {if $user->node_iplimit !== 0}
-                                                    {$user->node_iplimit}
-                                                {else}
-                                                    不限制
-                                                {/if}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card card-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="bg-indigo text-white avatar">
-                                                <i class="ti ti-rocket icon"></i>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-medium">
-                                                速度限制
-                                            </div>
-                                            <div class="text-secondary">
-                                                {if $user->node_speedlimit !== 0}
-                                                    <code>{$user->node_speedlimit}</code>
-                                                    Mbps
-                                                {else}
-                                                    不限制
-                                                {/if}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {/foreach}
                     </div>
                 </div>
+                
                 <div class="col-lg-6 col-sm-12">
                     <div class="card">
-                        <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
-                            <li class="nav-item">
-                                <a href="#sub" class="nav-link active" data-bs-toggle="tab">
-                                    <i class="ti ti-rss icon"></i>
-                                    &nbsp;通用订阅
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#client-sub" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-rss icon"></i>
-                                    &nbsp;客户端订阅
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#windows" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-brand-windows icon"></i>
-                                    &nbsp;Windows
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#macos" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-brand-finder icon"></i>
-                                    &nbsp;MacOS
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#android" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-brand-android icon"></i>
-                                    &nbsp;Android
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#ios" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-brand-apple icon"></i>
-                                    &nbsp;iOS
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#linux" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-brand-redhat icon"></i>
-                                    &nbsp;Linux
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#config" class="nav-link" data-bs-toggle="tab">
-                                    <i class="ti ti-file-text icon"></i>
-                                    &nbsp;Config
-                                </a>
-                            </li>
-                        </ul>
+                        <div class="card-header">
+                            <h3 class="card-title">快速配置</h3>
+                        </div>
                         <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active show" id="sub">
-                                    <div>
-                                        <p>
-                                            通用订阅（Json）：<code class="spoiler">{$UniversalSub}/json</code>
-                                        </p>
-                                        <p>
-                                            通用订阅（Clash）：<code class="spoiler">{$UniversalSub}/clash</code>
-                                        </p>
-                                        <p>
-                                            通用订阅（SingBox）：<code class="spoiler">{$UniversalSub}/singbox</code>
-                                        </p>
-                                        <p>
-                                            通用订阅（V2Ray Json）：<code class="spoiler">{$UniversalSub}/v2rayjson</code>
-                                        </p>
-                                        {if $public_setting['enable_ss_sub']}
-                                        <p>
-                                            通用订阅（SIP008）：<code class="spoiler">{$UniversalSub}/sip008</code>
-                                        </p>
-                                        {/if}
-                                        <div class="btn-list justify-content-start">
-                                            <a data-clipboard-text="{$UniversalSub}/json"
-                                               class="copy btn btn-primary">
-                                                复制通用订阅（Json）
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/clash"
-                                               class="copy btn btn-primary">
-                                                复制通用订阅（Clash）
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/singbox"
-                                               class="copy btn btn-primary">
-                                                复制通用订阅（SingBox）
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/v2rayjson"
-                                               class="copy btn btn-primary">
-                                                复制通用订阅（V2Ray Json）
-                                            </a>
-                                            {if $public_setting['enable_ss_sub']}
-                                            <a data-clipboard-text="{$UniversalSub}/sip008"
-                                               class="copy btn btn-primary">
-                                                复制通用订阅（SIP008）
-                                            </a>
-                                            {/if}
-                                        </div>
-                                    </div>
+                            <div class="mb-4">
+                                <h4 class="mb-3">
+                                    <i class="ti ti-link"></i> 您的专属订阅地址
+                                </h4>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" value="{$UniversalSub}" readonly id="universal-sub-link">
+                                    <button class="btn btn-primary copy" data-clipboard-text="{$UniversalSub}">
+                                        <i class="ti ti-copy"></i> 复制
+                                    </button>
                                 </div>
-                                <div class="tab-pane show" id="client-sub">
-                                    <div>
+                                <p class="text-muted mb-0">
+                                    <small>此订阅地址适用于所有客户端，请妥善保管</small>
+                                </p>
+                            </div>
+
+                            <div class="recommended-section p-3 bg-primary-lt rounded mb-3">
+                                <h4 class="mb-3">
+                                    <i class="ti ti-rocket"></i> 
+                                    为您推荐的 <span id="detected-os" class="text-primary">Windows</span> 客户端
+                                </h4>
+                                <div class="row g-3" id="recommended-clients">
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button class="btn btn-ghost-primary" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#all-platforms" aria-expanded="false">
+                                    <i class="ti ti-package"></i> 
+                                    查看其他平台客户端
+                                    <i class="ti ti-chevron-down ms-1"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="collapse mt-3" id="all-platforms">
+                                <div class="accordion" id="platform-accordion">
+                                </div>
+                                
+                                <div class="mt-3 p-3 bg-secondary-lt rounded">
+                                    <h5 class="mb-2">高级订阅格式</h5>
+                                    <div class="small text-muted mb-2">如果您需要特定格式的订阅链接：</div>
+                                    <div class="btn-group btn-group-sm flex-wrap">
+                                        <button class="btn btn-outline-secondary copy" data-clipboard-text="{$UniversalSub}/json">
+                                            JSON 格式
+                                        </button>
+                                        <button class="btn btn-outline-secondary copy" data-clipboard-text="{$UniversalSub}/v2rayjson">
+                                            V2Ray JSON
+                                        </button>
                                         {if $public_setting['enable_ss_sub']}
-                                        <p>
-                                            客户端订阅（Shadowsocks）：<code class="spoiler">{$UniversalSub}/ss</code></p>
-                                        <p>
-                                            客户端订阅（SIP002）：<code class="spoiler">{$UniversalSub}/sip002</code>
-                                        </p>
+                                        <button class="btn btn-outline-secondary copy" data-clipboard-text="{$UniversalSub}/sip008">
+                                            SIP008
+                                        </button>
+                                        <button class="btn btn-outline-secondary copy" data-clipboard-text="{$UniversalSub}/ss">
+                                            Shadowsocks
+                                        </button>
                                         {/if}
                                         {if $public_setting['enable_v2_sub']}
-                                        <p>
-                                            客户端订阅（V2Ray）：<code class="spoiler">{$UniversalSub}/v2ray</code>
-                                        </p>
+                                        <button class="btn btn-outline-secondary copy" data-clipboard-text="{$UniversalSub}/v2ray">
+                                            V2Ray
+                                        </button>
                                         {/if}
                                         {if $public_setting['enable_trojan_sub']}
-                                        <p>
-                                            客户端订阅（Trojan）：<code class="spoiler">{$UniversalSub}/trojan</code>
-                                        </p>
+                                        <button class="btn btn-outline-secondary copy" data-clipboard-text="{$UniversalSub}/trojan">
+                                            Trojan
+                                        </button>
                                         {/if}
-                                        <div class="btn-list justify-content-start">
-                                            {if $public_setting['enable_ss_sub']}
-                                            <a data-clipboard-text="{$UniversalSub}/ss"
-                                               class="copy btn btn-primary">
-                                                复制客户端订阅（Shadowsocks）
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/sip002"
-                                               class="copy btn btn-primary">
-                                                复制客户端订阅（SIP002）
-                                            </a>
-                                            {/if}
-                                            {if $public_setting['enable_v2_sub']}
-                                            <a data-clipboard-text="{$UniversalSub}/v2ray"
-                                               class="copy btn btn-primary">
-                                                复制客户端订阅（V2Ray）
-                                            </a>
-                                            {/if}
-                                            {if $public_setting['enable_trojan_sub']}
-                                            <a data-clipboard-text="{$UniversalSub}/trojan"
-                                               class="copy btn btn-primary">
-                                                复制客户端订阅（Trojan）
-                                            </a>
-                                            {/if}
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <button class="btn btn-ghost-secondary w-100" type="button" data-bs-toggle="collapse" 
+                                            data-bs-target="#connection-info" aria-expanded="false">
+                                        <i class="ti ti-info-circle"></i> 
+                                        查看连接信息
+                                        <i class="ti ti-chevron-down ms-1"></i>
+                                    </button>
+                                    <div class="collapse mt-2" id="connection-info">
+                                        <div class="p-3 bg-light rounded">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm mb-0">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class="text-muted" style="width: 100px;">端口</td>
+                                                        <td><code>{$user->port}</code></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted">连接密码</td>
+                                                        <td><code class="spoiler">{$user->passwd}</code></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted">UUID</td>
+                                                        <td><code class="spoiler" style="font-size: 0.8em;">{$user->uuid}</code></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted">加密方式</td>
+                                                        <td><code>{$user->method}</code></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="windows">
-                                    <div>
-                                        <p>
-                                            适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
-                                        </p>
-                                        <p>
-                                            适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
-                                        </p>
-                                        <div class="btn-list justify-content-start">
-                                            <a  {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash.Nyanpasu.exe"
-                                                {else}
-                                                href="/clients/Clash.Nyanpasu.exe"
-                                                {/if} class="btn btn-azure">
-                                                下载 Clash Nyanpasu
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/clash"
-                                               class="copy btn btn-primary">
-                                                复制 Clash 订阅链接
-                                            </a>
-                                            <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
-                                               class="btn btn-indigo">
-                                                导入 Clash Nyanpasu
-                                            </a>
-                                        </div>
-                                        <div class="btn-list justify-content-start my-2">
-                                            <a  {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Clash.Verge.exe"
-                                                {else}
-                                                href="/clients/Clash.Verge.exe"
-                                                {/if} class="btn btn-azure">
-                                                下载 Clash Verge Rev
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/clash"
-                                               class="copy btn btn-primary">
-                                                复制 Clash 订阅链接
-                                            </a>
-                                            <a href="clash://install-config?url={$UniversalSub}/clash"
-                                               class="btn btn-indigo">
-                                                导入 Clash Verge Rev
-                                            </a>
-                                        </div>
-                                        <div class="btn-list justify-content-start my-2">
-                                            <a  {if $config['enable_r2_client_download']}
-                                                href="/user/clients/FlClash.exe"
-                                                {else}
-                                                href="/clients/FlClash.exe"
-                                                {/if} class="btn btn-azure">
-                                                下载 FlClash
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/clash"
-                                               class="copy btn btn-primary">
-                                                复制 Clash 订阅链接
-                                            </a>
-                                            <a href="clash://install-config?url={$UniversalSub}/clash"
-                                               class="btn btn-indigo">
-                                                导入 FlClash
-                                            </a>
-                                        </div>
-                                        <div class="btn-list justify-content-start my-2">
-                                            <a  {if $config['enable_r2_client_download']}
-                                                href="/user/clients/Hiddify.exe"
-                                                {else}
-                                                href="/clients/Hiddify.exe"
-                                                {/if} class="btn btn-azure">
-                                                下载 Hiddify
-                                            </a>
-                                            <a data-clipboard-text="{$UniversalSub}/singbox"
-                                               class="copy btn btn-primary">
-                                                复制 SingBox 订阅链接
-                                            </a>
-                                            <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
-                                               class="btn btn-indigo">
-                                                导入 Hiddify
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="macos">
-                                    <p>
-                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
-                                    </p>
-                                    <p>
-                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
-                                    </p>
-                                    <div class="btn-list justify-content-start">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash.Nyanpasu_aarch64.dmg"
-                                            {else}
-                                            href="/clients/Clash.Nyanpasu_aarch64.dmg"
-                                            {/if} class="btn btn-azure">
-                                            下载 Clash Nyanpasu (aarch64)
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Clash Nyanpasu
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash.Verge.dmg"
-                                            {else}
-                                            href="/clients/Clash.Verge.dmg"
-                                            {/if} class="btn btn-azure">
-                                            下载 Clash Verge Rev
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash://install-config?url={$UniversalSub}"
-                                           class="btn btn-indigo">
-                                            导入 Clash Verge Rev
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/FlClash.dmg"
-                                            {else}
-                                            href="/clients/FlClash.dmg"
-                                            {/if} class="btn btn-azure">
-                                            下载 FlClash
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash://install-config?url={$UniversalSub}/clash"
-                                           class="btn btn-indigo">
-                                            导入 FlClash
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/SFM.dmg"
-                                            {else}
-                                            href="/clients/SFM.dmg"
-                                            {/if} class="btn btn-azure">
-                                            下载 SFM
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/singbox"
-                                           class="copy btn btn-primary">
-                                            复制 SingBox 订阅链接
-                                        </a>
-                                        <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 SFM
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a  {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Hiddify.dmg"
-                                            {else}
-                                            href="/clients/Hiddify.dmg"
-                                            {/if} class="btn btn-azure">
-                                            下载 Hiddify
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/singbox"
-                                           class="copy btn btn-primary">
-                                            复制 SingBox 订阅链接
-                                        </a>
-                                        <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Hiddify
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="android">
-                                    <p>
-                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
-                                    </p>
-                                    <p>
-                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
-                                    </p>
-                                    <div class="btn-list justify-content-start">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/CMFA.apk"
-                                            {else}
-                                            href="/clients/CMFA.apk"
-                                            {/if} class="btn btn-azure">
-                                            下载 Clash.Meta For Android
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Clash
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/FlClash.apk"
-                                            {else}
-                                            href="/clients/FlClash.apk"
-                                            {/if} class="btn btn-azure">
-                                            下载 FlClash
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash://install-config?url={$UniversalSub}/clash&name={$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 FlClash
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/SFA.apk"
-                                            {else}
-                                            href="/clients/SFA.apk"
-                                            {/if} class="btn btn-azure">
-                                            下载 SFA
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/singbox"
-                                           class="copy btn btn-primary">
-                                            复制 SingBox 订阅链接
-                                        </a>
-                                        <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 SFA
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a  {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Hiddify.apk"
-                                            {else}
-                                            href="/clients/Hiddify.apk"
-                                            {/if} class="btn btn-azure">
-                                            下载 Hiddify
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/singbox"
-                                           class="copy btn btn-primary">
-                                            复制 SingBox 订阅链接
-                                        </a>
-                                        <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Hiddify
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="ios">
-                                    <p>
-                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
-                                    </p>
-                                    <div class="btn-list justify-content-start">
-                                        <a href="https://apps.apple.com/app/sing-box/id6451272673" target="_blank"
-                                           class="btn btn-azure">
-                                            安裝 SFI
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/singbox"
-                                           class="copy btn btn-primary">
-                                            复制 SingBox 订阅链接
-                                        </a>
-                                        <a href="sing-box://import-remote-profile?url={$UniversalSub}/singbox#{$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 SFI
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="linux">
-                                    <p>
-                                        适用于 Clash 的订阅：<code class="spoiler">{$UniversalSub}/clash</code>
-                                    </p>
-                                    <p>
-                                        适用于 SingBox 的订阅：<code class="spoiler">{$UniversalSub}/singbox</code>
-                                    </p>
-                                    <div class="btn-list justify-content-start">
-                                        <a {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash.Nyanpasu.AppImage"
-                                            {else}
-                                            href="/clients/Clash.Nyanpasu.AppImage"
-                                            {/if} class="btn btn-azure">
-                                            下载 Clash Nyanpasu
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash-nyanpasu://subscribe-remote-profile?url={$UniversalSub}&name={$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Clash Nyanpasu
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a  {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Clash.Verge.deb"
-                                            {else}
-                                            href="/clients/Clash.Verge.deb"
-                                            {/if} class="btn btn-azure">
-                                            下载 Clash Verge Rev (.deb)
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash://install-config?url={$UniversalSub}"
-                                           class="btn btn-indigo">
-                                            导入 Clash Verge Rev
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a  {if $config['enable_r2_client_download']}
-                                            href="/user/clients/FlClash.deb"
-                                            {else}
-                                            href="/clients/FlClash.deb"
-                                            {/if} class="btn btn-azure">
-                                            下载 FlClash (.deb)
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/clash"
-                                           class="copy btn btn-primary">
-                                            复制 Clash 订阅链接
-                                        </a>
-                                        <a href="clash://install-config?url={$UniversalSub}/clash"
-                                           class="btn btn-indigo">
-                                            导入 FlClash
-                                        </a>
-                                    </div>
-                                    <div class="btn-list justify-content-start my-2">
-                                        <a  {if $config['enable_r2_client_download']}
-                                            href="/user/clients/Hiddify.AppImage"
-                                            {else}
-                                            href="/clients/Hiddify.AppImage"
-                                            {/if} class="btn btn-azure">
-                                            下载 Hiddify
-                                        </a>
-                                        <a data-clipboard-text="{$UniversalSub}/singbox"
-                                           class="copy btn btn-primary">
-                                            复制 SingBox 订阅链接
-                                        </a>
-                                        <a href="hiddify://import/{$UniversalSub}#{$config['appName']}"
-                                           class="btn btn-indigo">
-                                            导入 Hiddify
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="config">
-                                    <p>你的连接信息：</p>
-                                    <div class="table-responsive">
-                                        <table class="table table-vcenter card-table">
-                                            <tbody>
-                                            <tr>
-                                                <td><strong>端口</strong></td>
-                                                <td>{$user->port}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>连接密码</strong></td>
-                                                <td><span class="spoiler">{$user->passwd}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>UUID</strong></td>
-                                                <td><span class="spoiler">{$user->uuid}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>自定义加密</strong></td>
-                                                <td>{$user->method}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 col-sm-12">
                     <div class="vstack">
                         <div class="card">
@@ -773,9 +386,10 @@
     {/if}
 
     {if $public_setting['traffic_log']}
+    <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let chart = window.ApexCharts && new ApexCharts(document.getElementById('traffic-log'), {
+        function getTrafficChartConfig(trafficData) {
+            return {
                 chart: {
                     type: "line",
                     fontFamily: "inherit",
@@ -797,7 +411,7 @@
                 series: [
                     {
                         name: "使用流量（MB）",
-                        data: {$traffic_logs}
+                        data: trafficData
                     }
                 ],
                 tooltip: {
@@ -826,30 +440,8 @@
                         show: false
                     },
                     categories: [
-                        "00",
-                        "01",
-                        "02",
-                        "03",
-                        "04",
-                        "05",
-                        "06",
-                        "07",
-                        "08",
-                        "09",
-                        "10",
-                        "11",
-                        "12",
-                        "13",
-                        "14",
-                        "15",
-                        "16",
-                        "17",
-                        "18",
-                        "19",
-                        "20",
-                        "21",
-                        "22",
-                        "23"
+                        "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
+                        "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
                     ]
                 },
                 yaxis: {
@@ -865,12 +457,331 @@
                 legend: {
                     show: false
                 }
-            });
-            chart.render();
+            };
+        }
+        
+        function initTrafficChart() {
+            const chartElement = document.getElementById('traffic-log');
+            if (!chartElement || !window.ApexCharts) return;
+            
+            try {
+                const chart = new ApexCharts(chartElement, getTrafficChartConfig({$traffic_logs}));
+                chart.render();
+            } catch (error) {
+                console.error('流量图表初始化失败:', error);
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            initTrafficChart();
         });
     </script>
-
-    <script src="//{$config['jsdelivr_url']}/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
     {/if}
+
+    <script>
+    window.APP_CONFIG = {
+        enableR2Download: {if $config['enable_r2_client_download']}true{else}false{/if},
+        universalSubUrl: "{$UniversalSub}",
+        appName: "{$config['appName']}",
+        enableSsSub: {if $public_setting['enable_ss_sub']}true{else}false{/if},
+        enableV2Sub: {if $public_setting['enable_v2_sub']}true{else}false{/if},
+        enableTrojanSub: {if $public_setting['enable_trojan_sub']}true{else}false{/if}
+    };
+    
+    const platformIcons = {$platformIcons};
+
+    const clientRecommendations = {$clientData};
+    
+    {literal}
+    function detectOS() {
+        const userAgent = navigator.userAgent;
+        if (userAgent.indexOf("Win") !== -1) return "Windows";
+        if (userAgent.indexOf("Mac") !== -1) return "macOS";
+        if (userAgent.indexOf("Android") !== -1) return "Android";
+        if (userAgent.match(/iPhone|iPad|iPod/i)) return "iOS";
+        if (userAgent.indexOf("Linux") !== -1) return "Linux";
+        return "Windows"; // default
+    }
+    
+
+    const CONFIG = {
+        ANIMATION_DURATION: 350,        // 动画持续时间（毫秒）
+        FEEDBACK_TIMEOUT: 2000,         // 反馈提示持续时间（毫秒）
+        CLIPBOARD_SUCCESS_TEXT: '已复制',
+        CLIPBOARD_ERROR_TEXT: '复制失败，请手动选择并复制',
+        CLASSES: {
+            BTN_GROUP_MOBILE: 'btn-group-vertical btn-group-sm',
+            BTN_GROUP_DESKTOP: 'btn-group btn-group-sm', 
+            MOBILE_ONLY: 'd-md-none w-100',
+            DESKTOP_ONLY: 'd-none d-md-flex',
+            MOBILE_SM: 'd-sm-none w-100',
+            DESKTOP_SM: 'd-none d-sm-flex'
+        },
+        BUTTONS: {
+            download: { icon: 'ti-download', text: '下载', class: 'btn-primary' },
+            downloadAppStore: { icon: 'ti-brand-appstore', text: 'App Store', class: 'btn-primary' },
+            copy: { icon: 'ti-copy', text: '复制订阅', class: 'btn-info copy' },
+            import: { icon: 'ti-link', text: '一键导入', class: 'btn-success' },
+            importRecommended: { icon: 'ti-rocket', text: '一键导入', class: 'btn-success' }
+        }
+    };
+    
+    function safeInit(fn, name) {
+        try {
+            fn();
+        } catch (error) {
+            console.error(`${name} 初始化失败:`, error);
+        }
+    }
+    
+    function createElement(tag, className, content) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (content) element.textContent = content;
+        return element;
+    }
+    
+    function createIcon(iconClass) {
+        const icon = createElement('i', 'ti ' + iconClass);
+        return icon;
+    }
+    
+    function createButton(type, options = {}) {
+        const { client, url, isMobile, isRecommended } = options;
+        const btnConfig = CONFIG.BUTTONS[type];
+        
+        let config = { ...btnConfig };
+        if (type === 'download' && client?.isAppStore) {
+            config = CONFIG.BUTTONS.downloadAppStore;
+        } else if (type === 'import' && isRecommended) {
+            config = CONFIG.BUTTONS.importRecommended;
+        }
+        
+        const btn = createElement(type === 'copy' ? 'button' : 'a', 'btn ' + config.class);
+        
+        if (type === 'copy') {
+            btn.setAttribute('data-clipboard-text', url);
+        } else {
+            btn.href = url;
+            if (type === 'download' && client?.isAppStore) {
+                btn.target = '_blank';
+            }
+        }
+        
+        btn.appendChild(createIcon(config.icon));
+        if (!isMobile) {
+            btn.appendChild(document.createTextNode(' ' + config.text));
+        }
+        
+        return btn;
+    }
+    
+    function createResponsiveButtonGroups(client, urls, isRecommended = false) {
+        const { downloadUrl, subUrl, importUrl } = urls;
+        const buttons = [];
+        
+        const buttonConfigs = [
+            { type: 'download', url: downloadUrl, needsClient: true },
+            { type: 'copy', url: subUrl },
+            { type: 'import', url: importUrl }
+        ];
+        
+        const variants = [
+            { 
+                isMobile: true, 
+                classes: isRecommended ? 
+                    `${CONFIG.CLASSES.BTN_GROUP_MOBILE} ${CONFIG.CLASSES.MOBILE_ONLY}` :
+                    `${CONFIG.CLASSES.BTN_GROUP_MOBILE} ${CONFIG.CLASSES.MOBILE_SM}`
+            },
+            { 
+                isMobile: false, 
+                classes: isRecommended ?
+                    `${CONFIG.CLASSES.BTN_GROUP_DESKTOP.replace('btn-group-sm', '')} ${CONFIG.CLASSES.DESKTOP_ONLY}` :
+                    `${CONFIG.CLASSES.BTN_GROUP_DESKTOP} ${CONFIG.CLASSES.DESKTOP_SM}`
+            }
+        ];
+        
+        variants.forEach(variant => {
+            const group = createElement('div', variant.classes);
+            
+            buttonConfigs.forEach(btnConfig => {
+                const options = {
+                    client: btnConfig.needsClient ? client : null,
+                    url: btnConfig.url,
+                    isMobile: variant.isMobile,
+                    isRecommended
+                };
+                group.appendChild(createButton(btnConfig.type, options));
+            });
+            
+            buttons.push(group);
+        });
+        
+        return buttons;
+    }
+    
+    function createClientCardContent(client) {
+        const content = createElement('div');
+        
+        const title = createElement('h4', 'mb-1', client.name);
+        const desc = createElement('p', 'text-secondary mb-0', client.description);
+        
+        content.appendChild(title);
+        content.appendChild(desc);
+        
+        return content;
+    }
+    
+    function generateClientHtml(client, isRecommended) {
+        const config = window.APP_CONFIG;
+        
+        let downloadUrl = client.downloadUrl;
+        if (!client.isAppStore && downloadUrl.includes('/clients/')) {
+            downloadUrl = config.enableR2Download ? '/user' + downloadUrl : downloadUrl;
+        }
+        
+        const subUrl = config.universalSubUrl + '/' + client.format;
+        const importUrl = client.importUrl;
+        
+        const container = createElement('div', 'col-12');
+        
+        if (isRecommended) {
+            const card = createElement('div', 'card');
+            const cardBody = createElement('div', 'card-body');
+            const flexContainer = createElement('div', 'd-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3');
+            
+            const contentDiv = createClientCardContent(client);
+            
+            const buttonsContainer = createElement('div');
+            const urls = { downloadUrl, subUrl, importUrl };
+            const buttonGroups = createResponsiveButtonGroups(client, urls, true);
+            buttonGroups.forEach(group => buttonsContainer.appendChild(group));
+            
+            flexContainer.appendChild(contentDiv);
+            flexContainer.appendChild(buttonsContainer);
+            cardBody.appendChild(flexContainer);
+            card.appendChild(cardBody);
+            container.appendChild(card);
+        } else {
+            const item = createElement('div', 'client-item d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center justify-content-between p-3 border rounded gap-2');
+            
+            const contentDiv = createElement('div', 'flex-fill');
+            const title = createElement('h5', 'mb-0', client.name);
+            const desc = createElement('small', 'text-muted', client.description);
+            contentDiv.appendChild(title);
+            contentDiv.appendChild(desc);
+            
+            const urls = { downloadUrl, subUrl, importUrl };
+            const buttonGroups = createResponsiveButtonGroups(client, urls, false);
+            
+            item.appendChild(contentDiv);
+            buttonGroups.forEach(group => item.appendChild(group));
+            
+            container.appendChild(item);
+        }
+        
+        return container.outerHTML;
+    }
+    
+    function initClientSelector() {
+        const os = detectOS();
+        document.getElementById('detected-os').textContent = os;
+        
+        const recommendations = clientRecommendations[os] || clientRecommendations["Windows"];
+        const recommendedContainer = document.getElementById('recommended-clients');
+        
+        if (recommendedContainer) {
+            recommendations.forEach(function(client) {
+                const clientHtml = generateClientHtml(client, true);
+            recommendedContainer.insertAdjacentHTML('beforeend', clientHtml);
+            });
+        }
+        
+        const accordionContainer = document.getElementById('platform-accordion');
+        
+        if (accordionContainer) {
+            Object.keys(clientRecommendations).forEach(function(platform) {
+                const clients = clientRecommendations[platform];
+                const platformId = 'platform-' + platform.toLowerCase();
+                const icon = platformIcons[platform] || CONFIG.BUTTONS.download.icon.replace('ti-', 'ti-device-');
+                
+                const accordionHtml = `
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#${platformId}">
+                                <i class="ti ${icon} me-2"></i> ${platform}
+                            </button>
+                        </h2>
+                        <div id="${platformId}" class="accordion-collapse collapse" 
+                             data-bs-parent="#platform-accordion">
+                            <div class="accordion-body">
+                                <div class="row g-3">
+                                    ${clients.map(client => generateClientHtml(client, false)).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                    
+                accordionContainer.insertAdjacentHTML('beforeend', accordionHtml.trim());
+            });
+        }
+    }
+    
+    function initClipboard() {
+        if (typeof ClipboardJS === 'undefined') {
+            console.warn('ClipboardJS 未加载');
+            return;
+        }
+        
+        const clipboard = new ClipboardJS('.copy');
+        
+        clipboard.on('success', function(e) {
+            e.clearSelection();
+            const originalText = e.trigger.innerHTML;
+            const checkIcon = createIcon('ti-check');
+            e.trigger.innerHTML = '';
+            e.trigger.appendChild(checkIcon);
+            e.trigger.appendChild(document.createTextNode(' ' + CONFIG.CLIPBOARD_SUCCESS_TEXT));
+            setTimeout(function() {
+                e.trigger.innerHTML = originalText;
+            }, CONFIG.FEEDBACK_TIMEOUT);
+        });
+        
+        clipboard.on('error', function(e) {
+            console.error('复制失败:', e.action);
+            alert(CONFIG.CLIPBOARD_ERROR_TEXT);
+        });
+    }
+    
+    function initCollapseAnimations() {
+        const allPlatforms = document.getElementById('all-platforms');
+        const recommendedSection = document.querySelector('.recommended-section');
+        
+        if (!allPlatforms || !recommendedSection) return;
+        
+        recommendedSection.classList.add('collapsible-section');
+        
+        allPlatforms.addEventListener('show.bs.collapse', function (e) {
+            if (e.target !== allPlatforms) return;
+            recommendedSection.classList.add('collapsing');
+        });
+        
+        allPlatforms.addEventListener('hide.bs.collapse', function (e) {
+            if (e.target !== allPlatforms) return;
+            recommendedSection.classList.remove('collapsing');
+            setTimeout(function() {
+                recommendedSection.classList.add('expanded');
+            }, CONFIG.ANIMATION_DURATION);
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        safeInit(initClientSelector, '客户端选择器');
+        safeInit(initClipboard, '剪贴板功能');
+        safeInit(initCollapseAnimations, '折叠动画');
+    });
+    {/literal}
+    </script>
 
     {include file='user/footer.tpl'}

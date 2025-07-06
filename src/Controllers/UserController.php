@@ -9,6 +9,7 @@ use App\Models\Config;
 use App\Services\Analytics;
 use App\Services\Auth;
 use App\Services\Captcha;
+use App\Services\Config\ClientConfig;
 use App\Services\Reward;
 use App\Services\Subscribe;
 use App\Utils\ResponseHelper;
@@ -51,13 +52,27 @@ final class UserController extends BaseController
             }
         }
 
+        $universalSub = Subscribe::getUniversalSubLink($this->user);
+        $r2Enabled = filter_var($_ENV['enable_r2_client_download'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+        $clientData = ClientConfig::getClients(
+            $universalSub,
+            $_ENV['appName'] ?? 'SSPanel',
+            $r2Enabled
+        );
+
         return $response->write(
             $this->view()
                 ->assign('ann', $ann)
                 ->assign('captcha', $captcha)
                 ->assign('traffic_logs', json_encode($traffic_logs))
                 ->assign('class_expire_days', $class_expire_days)
-                ->assign('UniversalSub', Subscribe::getUniversalSubLink($this->user))
+                ->assign('UniversalSub', $universalSub)
+                ->assign('clientData', json_encode($clientData['clients']))
+                ->assign('platformIcons', json_encode($clientData['icons']))
+                ->assign('user_class', $this->user->class)
+                ->assign('user_money', $this->user->money)
+                ->assign('ip_limit', $this->user->node_iplimit)
+                ->assign('speed_limit', $this->user->node_speedlimit)
                 ->fetch('user/index.tpl')
         );
     }

@@ -11,14 +11,14 @@ use function json_decode;
 use function json_encode;
 
 /**
- * @property int    $id         配置ID
- * @property string $item       配置项
- * @property string $value      配置值
- * @property string $class      配置类别
- * @property string $is_public  是否为公共参数
- * @property string $type       配置值类型
- * @property string $default    默认值
- * @property string $mark       备注
+ * @property int    $id
+ * @property string $item
+ * @property string $value
+ * @property string $class
+ * @property string $is_public
+ * @property string $type
+ * @property string $default
+ * @property string $mark
  *
  * @mixin Builder
  */
@@ -30,6 +30,10 @@ final class Config extends Model
     public static function obtain($item): bool|int|array|string
     {
         $config = (new Config())->where('item', $item)->first();
+
+        if ($config === null) {
+            return '';
+        }
 
         return match ($config->type) {
             'bool' => (bool) $config->value,
