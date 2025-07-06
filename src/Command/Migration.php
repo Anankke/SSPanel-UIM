@@ -80,7 +80,7 @@ END;
                     continue;
                 }
 
-                $version = (int) explode('-', $file, 1)[0];
+                $version = (int) strstr($file, '-', true);
                 echo 'Found migration version ' . $version;
 
                 if ($version > $latest) {
