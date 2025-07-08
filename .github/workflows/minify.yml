@@ -53,7 +53,7 @@ jobs:
           
       - name: Commit minified files
         if: steps.diff.outputs.changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "chore: auto minify CSS/JS files"
           file_pattern: "*.min.css *.min.js"
