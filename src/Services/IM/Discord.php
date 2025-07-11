@@ -8,7 +8,7 @@ use App\Models\Config;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use const PANEL_VERSION;
+use const VERSION;
 
 final class Discord extends Base
 {
@@ -29,7 +29,7 @@ final class Discord extends Base
     {
         $headers = [
             'Authorization' => "Bot {$this->token}",
-            'User-Agent' => 'DiscordBot (' . $_ENV['appName'] . ', ' . PANEL_VERSION . ')',
+            'User-Agent' => 'DiscordBot (' . $_ENV['appName'] . ', ' . VERSION . ')',
             'Content-Type' => 'application/json',
         ];
 

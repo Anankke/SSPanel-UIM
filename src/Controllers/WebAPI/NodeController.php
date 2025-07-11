@@ -12,8 +12,7 @@ use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use function json_decode;
 use const JSON_UNESCAPED_SLASHES;
-use const PANEL_NAME;
-use const PANEL_VERSION;
+use const VERSION;
 
 final class NodeController extends BaseController
 {
@@ -38,8 +37,8 @@ final class NodeController extends BaseController
             'sort' => $node->sort,
             'server' => $node->server,
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
-            'type' => PANEL_NAME,
-            'version' => PANEL_VERSION,
+            'type' => $_ENV['appName'],
+            'version' => VERSION,
         ];
 
         return ResponseHelper::successWithDataEtag($request, $response, $data);
