@@ -129,8 +129,5 @@ EOL;
             $detect = new Detect();
             $detect->ban();
         }
-
-        // Run email queue
-        $jobs->processEmailQueue();
     }
 }

@@ -7,7 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Ann;
 use App\Models\Config;
-use App\Models\EmailQueue;
+use App\Services\EmailQueue;
 use App\Models\User;
 use App\Services\Notification;
 use App\Utils\Tools;

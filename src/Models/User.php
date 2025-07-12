@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Services\IM;
 use App\Services\IM\Telegram;
+use App\Services\EmailQueue;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;

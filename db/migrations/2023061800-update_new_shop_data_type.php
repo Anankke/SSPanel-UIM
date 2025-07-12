@@ -35,12 +35,6 @@ return new class() implements MigrationInterface {
         ALTER TABLE docs MODIFY COLUMN `title` varchar(255) NOT NULL DEFAULT '' COMMENT '文档标题';
         ALTER TABLE docs MODIFY COLUMN `content` longtext NOT NULL DEFAULT '' COMMENT '文档内容';
         ALTER TABLE docs DROP COLUMN IF EXISTS `markdown`;
-        ALTER TABLE email_queue MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID';
-        ALTER TABLE email_queue MODIFY COLUMN `to_email` varchar(255) NOT NULL DEFAULT '' COMMENT '收件人邮箱';
-        ALTER TABLE email_queue MODIFY COLUMN `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件标题';
-        ALTER TABLE email_queue MODIFY COLUMN `template` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件模板';
-        ALTER TABLE email_queue MODIFY COLUMN `array` longtext NOT NULL DEFAULT '{}' COMMENT '模板参数' CHECK (json_valid(`array`));
-        ALTER TABLE email_queue MODIFY COLUMN `time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '添加时间';
         ALTER TABLE gift_card MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '礼品卡ID';
         ALTER TABLE gift_card MODIFY COLUMN `card` text NOT NULL DEFAULT '' COMMENT '卡号';
         ALTER TABLE gift_card MODIFY COLUMN `balance` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '余额';

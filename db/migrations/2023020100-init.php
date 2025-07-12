@@ -81,16 +81,6 @@ return new class() implements MigrationInterface {
                 KEY `sort` (`sort`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-            CREATE TABLE `email_queue` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-                `to_email` varchar(255) NOT NULL DEFAULT '' COMMENT '收件人邮箱',
-                `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件主题',
-                `template` varchar(255) NOT NULL DEFAULT '' COMMENT '邮件模板',
-                `array` longtext NOT NULL DEFAULT '{}' COMMENT '模板参数' CHECK (json_valid(`array`)),
-                `time` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '添加时间',
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
             CREATE TABLE `gift_card` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '礼品卡ID',
                 `card` text NOT NULL DEFAULT '' COMMENT '卡号',

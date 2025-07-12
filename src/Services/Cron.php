@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Models\Ann;
 use App\Models\Config;
 use App\Models\DetectLog;
-use App\Models\EmailQueue;
 use App\Models\HourlyUsage;
 use App\Models\Invoice;
 use App\Models\Node;
@@ -47,7 +46,7 @@ final class Cron
             date('Y-m-d', time() - 86400 * Config::obtain('traffic_log_retention_days'))
         )->delete();
         (new DetectLog())->where('datetime', '<', time() - 86400 * 3)->delete();
-        (new EmailQueue())->where('time', '<', time() - 86400)->delete();
+        // EmailQueue 使用 TTL 自动清理，无需手动删除
         (new OnlineLog())->where('last_time', '<', time() - 86400)->delete();
 
         echo Tools::toDateTime(time()) . ' 数据库清理完成' . PHP_EOL;
@@ -183,76 +182,22 @@ final class Cron
         echo Tools::toDateTime(time()) . ' 付费用户过期检测完成' . PHP_EOL;
     }
 
-    public static function processEmailQueue(): void
-    {
-        if ((new EmailQueue())->count() === 0) {
-            echo Tools::toDateTime(time()) . ' 邮件队列为空' . PHP_EOL;
-        } else {
-            //记录当前时间戳
-            $timestamp = time();
-            //邮件队列处理
-            while (true) {
-                if (time() - $timestamp > 299) {
-                    echo Tools::toDateTime(time()) . '邮件队列处理超时，已跳过' . PHP_EOL;
-                    break;
-                }
-
-                DB::beginTransaction();
-                $email_queues_raw = DB::select('SELECT * FROM email_queue LIMIT 1 FOR UPDATE SKIP LOCKED');
-
-                if (count($email_queues_raw) === 0) {
-                    DB::commit();
-                    break;
-                }
-
-                $email_queues = array_map(static function ($value) {
-                    return (array) $value;
-                }, $email_queues_raw);
-                $email_queue = $email_queues[0];
-                echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
-                DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
-
-                if (Tools::isEmail($email_queue['to_email'])) {
-                    try {
-                        Mail::send(
-                            $email_queue['to_email'],
-                            $email_queue['subject'],
-                            $email_queue['template'],
-                            json_decode($email_queue['array'])
-                        );
-                    } catch (Exception|ClientExceptionInterface $e) {
-                        echo $e->getMessage();
-                    }
-                } else {
-                    echo $email_queue['to_email'] . ' 邮箱格式错误，已跳过' . PHP_EOL;
-                }
-
-                DB::commit();
-            }
-
-            echo Tools::toDateTime(time()) . ' 邮件队列处理完成' . PHP_EOL;
-        }
-    }
-
     public static function processTabpOrderActivation(): void
     {
         $users = User::all();
 
         foreach ($users as $user) {
             $user_id = $user->id;
-            // 获取用户账户已激活的TABP订单，一个用户同时只能有一个已激活的TABP订单
             $activated_order = (new Order())->where('user_id', $user_id)
                 ->where('status', 'activated')
                 ->where('product_type', 'tabp')
                 ->orderBy('id')
                 ->first();
-            // 获取用户账户等待激活的TABP订单
             $pending_activation_orders = (new Order())->where('user_id', $user_id)
                 ->where('status', 'pending_activation')
                 ->where('product_type', 'tabp')
                 ->orderBy('id')
                 ->get();
-            // 如果用户账户中有已激活的TABP订单，则判断是否过期
             if ($activated_order !== null) {
                 $content = json_decode($activated_order->product_content);
 
@@ -261,15 +206,12 @@ final class Cron
                     $activated_order->update_time = time();
                     $activated_order->save();
                     echo "TABP订单 #{$activated_order->id} 已过期。\n";
-                    $activated_order = null; // 先检查过期，再激活新订单，避免服务中断
+                    $activated_order = null;
                 }
             }
-            // 如果用户账户中没有已激活的TABP订单，且有等待激活的TABP订单，则激活最早的等待激活TABP订单
             if ($activated_order === null && count($pending_activation_orders) > 0) {
                 $order = $pending_activation_orders[0];
-                // 获取TABP订单内容准备激活
                 $content = json_decode($order->product_content);
-                // 激活TABP
                 $user->u = 0;
                 $user->d = 0;
                 $user->transfer_today = 0;
@@ -298,7 +240,6 @@ final class Cron
 
         foreach ($users as $user) {
             $user_id = $user->id;
-            // 获取用户账户等待激活的流量包订单
             $order = (new Order())->where('user_id', $user_id)
                 ->where('status', 'pending_activation')
                 ->where('product_type', 'bandwidth')
@@ -306,9 +247,7 @@ final class Cron
                 ->first();
 
             if ($order !== null) {
-                // 获取流量包订单内容准备激活
                 $content = json_decode($order->product_content);
-                // 激活流量包
                 $user->transfer_enable += Tools::gbToB($content->bandwidth);
                 $user->save();
                 $order->status = 'activated';
@@ -330,7 +269,6 @@ final class Cron
 
         foreach ($users as $user) {
             $user_id = $user->id;
-            // 获取用户账户等待激活的时间包订单
             $order = (new Order())->where('user_id', $user_id)
                 ->where('status', 'pending_activation')
                 ->where('product_type', 'time')
@@ -339,11 +277,9 @@ final class Cron
 
             if ($order !== null) {
                 $content = json_decode($order->product_content);
-                // 跳过当前账户等级不等于时间包等级的非免费用户订单
                 if ($user->class !== (int) $content->class && $user->class > 0) {
                     continue;
                 }
-                // 激活时间包
                 $user->class = $content->class;
                 $old_class_expire = new DateTime($user->class_expire);
                 $user->class_expire = $old_class_expire
@@ -367,7 +303,6 @@ final class Cron
      */
     public static function processTopupOrderActivation(): void
     {
-        // 获取等待激活的充值订单，允许同时处理多个充值订单
         $orders = (new Order())->where('status', 'pending_activation')
             ->where('product_type', 'topup')
             ->orderBy('id')
@@ -377,7 +312,6 @@ final class Cron
             $user_id = $order->user_id;
             $user = (new User())->find($user_id);
             $content = json_decode($order->product_content);
-            // 充值
             $user->money += $content->amount;
             $user->save();
             $order->status = 'activated';
@@ -401,13 +335,11 @@ final class Cron
         $pending_payment_orders = (new Order())->where('status', 'pending_payment')->get();
 
         foreach ($pending_payment_orders as $order) {
-            // 检查账单支付状态
             $invoice = (new Invoice())->where('order_id', $order->id)->first();
 
             if ($invoice === null) {
                 continue;
             }
-            // 标记订单为等待激活
             if (in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
                 $order->status = 'pending_activation';
                 $order->update_time = time();
@@ -415,7 +347,6 @@ final class Cron
                 echo "已标记订单 #{$order->id} 为等待激活。\n";
                 continue;
             }
-            // 取消超时未支付的订单和关联账单，跳过账单已经部分支付的订单
             if ($order->create_time + 86400 < time() && $invoice->status !== 'partially_paid') {
                 $order->status = 'cancelled';
                 $order->update_time = time();

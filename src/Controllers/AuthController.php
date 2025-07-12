@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\InviteCode;
 use App\Models\LoginIp;
 use App\Models\User;
+use App\Services\EmailQueue;
 use App\Services\Auth;
 use App\Services\Cache;
 use App\Services\Captcha;
@@ -170,19 +171,17 @@ final class AuthController extends BaseController
             $redis = (new Cache())->initRedis();
             $redis->setex('email_verify:' . $email_code, Config::obtain('email_verify_code_ttl'), $email);
 
-            try {
-                Mail::send(
-                    $email,
-                    $_ENV['appName'] . '- 验证邮件',
-                    'verify_code.tpl',
-                    [
-                        'code' => $email_code,
-                        'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
-                    ]
-                );
-            } catch (Exception|ClientExceptionInterface) {
-                return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
-            }
+            // 使用 EmailQueue 添加邮件到队列
+            $emailQueue = new EmailQueue();
+            $emailQueue->add(
+                $email,
+                $_ENV['appName'] . '- 验证邮件',
+                'verify_code.tpl',
+                [
+                    'code' => $email_code,
+                    'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
+                ]
+            );
 
             return ResponseHelper::success($response, '验证码发送成功，请查收邮件。');
         }
@@ -195,14 +194,14 @@ final class AuthController extends BaseController
      */
     public function registerHelper(
         Response $response,
-        $name,
-        $email,
-        $password,
-        $invite_code,
-        $imtype,
-        $imvalue,
-        $money,
-        $is_admin_reg
+                 $name,
+                 $email,
+                 $password,
+                 $invite_code,
+                 $imtype,
+                 $imvalue,
+                 $money,
+                 $is_admin_reg
     ): ResponseInterface {
         $redir = $this->antiXss->xss_clean(Cookie::get('redir')) ?? '/user';
         $configs = Config::getClass('reg');

@@ -33,6 +33,7 @@
         "openai-php/client": "^0",
         "phpmailer/phpmailer": "^6",
         "postal/postal": "^2",
+        "predis/predis": "^3.0",
         "ramsey/uuid": "^4",
         "resend/resend-php": "^0.18.1",
         "sendgrid/sendgrid": "^8",
