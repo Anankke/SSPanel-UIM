@@ -430,7 +430,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
                                 <div class="tab-pane" id="postmark">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
@@ -473,55 +472,58 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <script>
-            $("#save-setting").click(function () {
-                $.ajax({
-                    url: '/admin/setting/email',
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        {foreach $update_field as $key}
-                        {$key}: $('#{$key}').val(),
-                        {/foreach}
-                    },
-                    success: function (data) {
-                        if (data.ret === 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
+<script>
+    $("#save-setting").click(function () {
+        $.ajax({
+            url: '/admin/setting/email',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                {foreach $update_field as $key}
+                {$key}: $('#{$key}').val(),
+                {/foreach}
+            },
+            success: function (data) {
+                if (data.ret === 1) {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
 
-            $("#test-email").click(function () {
-                $.ajax({
-                    url: '/admin/setting/test/email',
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        recipient: $('#recipient').val(),
-                    },
-                    success: function (data) {
-                        if (data.ret === 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
-        </script>
+    $("#test-email").click(function () {
+        $.ajax({
+            url: '/admin/setting/test/email',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                recipient: $('#recipient').val(),
+            },
+            success: function (data) {
+                if (data.ret === 1) {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
+</script>
 
-        {include file='admin/footer.tpl'}
+{include file='admin/footer.tpl'}
