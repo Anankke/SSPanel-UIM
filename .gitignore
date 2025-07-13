@@ -50,3 +50,4 @@ package-lock.json
 *.cache
 
 storage/LocalClientVersion.json
+storage/.install_lock
