@@ -6,7 +6,7 @@ labels: bug-user-report
 
 ---
 
-**Environment 环境**
+## Environment 环境
 
 OS:   
 HTTPS enabled:   
@@ -15,6 +15,6 @@ DB version:
 Redis version:    
 Commit:    
 
-**Bug Info**
+## Bug Info
 
 Describe the issue you run into. 请描述你遇到的问题。

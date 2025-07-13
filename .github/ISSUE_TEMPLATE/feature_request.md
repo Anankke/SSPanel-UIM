@@ -6,6 +6,6 @@ labels: feature-request
 
 ---
 
-**Feature 功能请求**
+## Feature 功能请求
 
 Describe the feature you want. 请描述你想要的功能。

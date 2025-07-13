@@ -1,6 +1,6 @@
 # How to Contribute / 如何贡献代码
 
-[English](#English)  
+[English](#english)  
 [简体中文](#简体中文)
 
 ## English
@@ -24,6 +24,7 @@ And we **recommend** adhering to the [PSR-12 standard](https://github.com/php-fi
 The Commit message must concisely contain all your changes.  
 Please **do not** use words like "fix", "improve" only.    
 Please try to use **English** in the Commit message and use the following Type tags.
+
 - feat: add or modify a feature (feature)
 - fix: fix bugs (bug fix)
 - docs: documents (documentation)
@@ -62,6 +63,7 @@ Please use the function from PSR-7 like `$request->getParsedBodyParam()`, `getPa
 
 Commit 消息必须简洁地包含你所有的修改。请**不要**仅使用「修复」、「改进」等字样。    
 在 Commit 消息中请尽量使用**英文**，并且使用以下 Type 标签：
+
 - feat：新增或修改功能（feature）
 - fix：修补 bug（bug fix）
 - docs：文件（documentation）
