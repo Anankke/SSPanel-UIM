@@ -101,12 +101,6 @@
                                             <i class="ti ti-edit"></i>&nbsp;
                                             资料
                                         </a>
-                                        {if $public_setting['subscribe_log']}
-                                            <a class="dropdown-item" href="/user/subscribe">
-                                                <i class="ti ti-rss"></i>&nbsp;
-                                                订阅日志
-                                            </a>
-                                        {/if}
                                         <a class="dropdown-item" href="/user/invite">
                                             <i class="ti ti-friends"></i>&nbsp;
                                             邀请
@@ -134,12 +128,6 @@
                                     <i class="ti ti-chart-bar"></i>&nbsp;
                                     流量倍率
                                 </a>
-                                {if $public_setting['traffic_log']}
-                                    <a class="dropdown-item" href="/user/traffic">
-                                        <i class="ti ti-traffic-lights"></i>&nbsp;
-                                        流量日志
-                                    </a>
-                                {/if}
                             </div>
                         </li>
                         <li class="nav-item dropdown">

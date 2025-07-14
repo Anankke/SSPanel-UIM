@@ -430,7 +430,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
                                 <div class="tab-pane" id="postmark">
                                     <div class="card-body">
                                         <div class="form-group mb-3 row">
