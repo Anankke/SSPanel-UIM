@@ -43,7 +43,7 @@ services:
     volumes:
       - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./infra/caddy/Caddyfile.nohttps:/etc/caddy/Caddyfile.nohttps
-      - ./public:/var/www/sspanel/public # web root
+      # - ./public:/var/www/sspanel/public # web root
       - ./data/caddy:/data
       - ./data/caddy-config:/config
     entrypoint: >
