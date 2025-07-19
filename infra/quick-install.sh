@@ -29,12 +29,13 @@ download_with_retry() {
 
 # 1. 下载 docker-compose.yml
 download_with_retry \
-    "https://raw.githubusercontent.com/$REPO_PATH/main/infra/docker-compose.yml" \
+    "https://raw.githubusercontent.com/$REPO_PATH/refs/heads/master/docker-compose.yml" \
     "docker-compose.yml"
 
 # 2. 下载 docker-configs.zip 并解压
+CONFIGS_URL=`curl -s https://api.github.com/repos/$REPO_PATH/releases/latest | grep browser_download_url | cut -d '"' -f 4`
 download_with_retry \
-    "https://github.com/$REPO_PATH/releases/download/latest/docker-configs.zip" \
+    "$CONFIGS_URL" \
     "docker-configs.zip"
 
 if unzip -o docker-configs.zip; then
