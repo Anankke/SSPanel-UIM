@@ -2,7 +2,7 @@
 
 set -e
 
-REPO_PATH="julyphant/SSPanel-UIM"
+REPO_PATH="Anankke/SSPanel-UIM"
 
 download_with_retry() {
     local url=$1
