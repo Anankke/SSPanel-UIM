@@ -1,0 +1,25 @@
+:80 {
+    root * /var/www/sspanel/public
+    encode gzip
+    php_fastcgi sspanel:9000
+    file_server
+
+    @denyhidden {
+        path /.*
+        not path /.well-known*
+    }
+    respond @denyhidden 403
+}
+
+https://{$DOMAIN} {
+    root * /var/www/sspanel/public
+    encode gzip
+    php_fastcgi sspanel:9000
+    file_server
+
+    @denyhidden {
+        path /.*
+        not path /.well-known*
+    }
+    respond @denyhidden 403
+}
