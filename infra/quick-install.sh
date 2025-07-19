@@ -86,7 +86,7 @@ SSPANEL_KEY=$(openssl rand -hex 16)
 SSPANEL_MUKEY=$(openssl rand -hex 16)
 
 # 5. 修改 .env
-[ -f .env ] || cp docker-configs/.env.example .env
+[ -f .env ] || mv .env.example .env
 
 modify_env() {
     local key=$1
