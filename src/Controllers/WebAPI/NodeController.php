@@ -38,9 +38,36 @@ final class NodeController extends BaseController
             'server' => $node->server,
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => $_ENV['appName'],
-            'version' => VERSION,
+            'version' => $this->convertVersionFormat(VERSION),
         ];
 
         return ResponseHelper::successWithDataEtag($request, $response, $data);
+    }
+
+    /**
+     * Convert version format from YY.M.P to YYYY.M.P for backward compatibility
+     * This ensures XrayR and other backends can correctly compare versions
+     *
+     * @param string $version Version string in YY.M.P format (e.g., "25.1.0")
+     *
+     * @return string Version string in YYYY.M.P format (e.g., "2025.1.0")
+     */
+    private function convertVersionFormat(string $version): string
+    {
+        // Match version pattern: YY.M.P
+        if (preg_match('/^(\d{2})\.(\d+)\.(\d+)$/', $version, $matches)) {
+            $year = (int) $matches[1];
+            $month = $matches[2];
+            $patch = $matches[3];
+
+            // Convert 2-digit year to 4-digit year
+            // Assume years 00-99 map to 2000-2099
+            $fullYear = 2000 + $year;
+
+            return "{$fullYear}.{$month}.{$patch}";
+        }
+
+        // If format doesn't match, return original version
+        return $version;
     }
 }
