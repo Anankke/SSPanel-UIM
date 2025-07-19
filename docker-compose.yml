@@ -1,0 +1,82 @@
+services:
+  sspanel:
+    image: ghcr.io/anankke/sspanel-uim:latest
+    container_name: sspanel-app
+    restart: always
+    env_file: .env
+    volumes:
+      - ./config:/var/www/sspanel/config
+      - ./.env:/var/www/sspanel/.env
+      # - ./src:/var/www/sspanel/src
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  cron:
+    image: ghcr.io/anankke/sspanel-uim:latest
+    container_name: sspanel-cron
+    restart: unless-stopped
+    user: "0:0"
+    env_file: .env
+    volumes:
+      - ./config:/var/www/sspanel/config
+      - ./.env:/var/www/sspanel/.env
+      - ./data/cron:/cron
+      # - ./src:/var/www/sspanel/src
+    entrypoint: |
+      sh -c "while true; do php /var/www/sspanel/xcat Cron >> /cron/run.log 2>&1; sleep 300; done"
+    depends_on:
+      sspanel:
+        condition: service_started
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: sspanel-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./infra/caddy/Caddyfile.nohttps:/etc/caddy/Caddyfile.nohttps
+      - ./public:/var/www/sspanel/public # web root
+      - ./data/caddy:/data
+      - ./data/caddy-config:/config
+    entrypoint: >
+      sh -c '
+        if [ "$$DISABLE_LETSENCRYPT" = "true" ]; then
+          cp /etc/caddy/Caddyfile.nohttps /etc/caddy/Caddyfile;
+        fi
+        exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+      '
+    depends_on:
+      - sspanel
+
+
+  db:
+    image: mariadb:11.8
+    container_name: sspanel-db
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-u${MARIADB_USER}", "-p${MARIADB_PASSWORD}"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: sspanel-redis
+    restart: unless-stopped
+    command: >
+      --maxmemory ${REDIS_MAXMEMORY}
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - ./data/redis:/data

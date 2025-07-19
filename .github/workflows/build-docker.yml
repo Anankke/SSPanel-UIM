@@ -1,0 +1,78 @@
+name: Build and Push Docker Image to GHCR
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract git tag
+        id: extract_tag
+        run: |
+          ref=${GITHUB_REF}
+          if [[ $ref == refs/tags/* ]]; then
+            echo "tag=${ref#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.extract_tag.outputs.tag }}
+
+  upload-assets:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # 需要写权限发布 release
+    if: startsWith(github.ref, 'refs/tags/')   # 仅在 tag 推送时运行
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set release tag variable
+        id: vars
+        run: echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Prepare assets
+        run: |
+          zip -r docker-configs.zip config/ && zip -j docker-configs.zip .env.example -O .env
+
+      - name: Upload assets to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: docker-configs.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

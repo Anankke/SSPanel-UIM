@@ -1,48 +1,59 @@
 <?php
 
-//基本设置---------------------------------------------------------------------------------------------------------------
-$_ENV['key'] = 'ChangeMe';     // Cookie加密密钥，请务必修改此key为随机字符串
-$_ENV['pwdMethod'] = 'bcrypt'; // 密码加密 可选 bcrypt, argon2i, argon2id
-$_ENV['salt'] = '';            // bcrypt/argon2i/argon2id 会忽略此项
+// 辅助函数：支持类型转换的环境变量读取
+function config_env($key, $default = null, $type = 'string') {
+    $val = getenv($key);
+    if ($val === false) return $default;
+    if ($type === 'bool') return filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $default;
+    if ($type === 'int') return intval($val);
+    if ($type === 'float') return floatval($val);
+    if ($type === 'array') return json_decode($val, true) ?: $default;
+    return $val;
+}
 
-$_ENV['debug'] = false;                  // debug模式开关，生产环境请保持为false
-$_ENV['appName'] = 'SSPanel-UIM';         // 站点名称
-$_ENV['baseUrl'] = 'https://example.com'; // 站点地址，必须以https://开头，不要以/结尾
+//基本设置---------------------------------------------------------------------------------------------------------------
+$_ENV['key'] = config_env('SSPANEL_KEY', 'ChangeMe');      // Cookie加密密钥，请务必修改此key为随机字符串
+$_ENV['pwdMethod'] = config_env('SSPANEL_PWD_METHOD', 'bcrypt'); // 密码加密 可选 bcrypt, argon2i, argon2id
+$_ENV['salt'] = config_env('SSPANEL_SALT', '');            // bcrypt/argon2i/argon2id 会忽略此项
+
+$_ENV['debug'] = config_env('SSPANEL_DEBUG', false, 'bool');                  // debug模式开关，生产环境请保持为false
+$_ENV['appName'] = config_env('SSPANEL_APP_NAME', 'SSPanel-UIM');         // 站点名称
+$_ENV['baseUrl'] = config_env('SSPANEL_BASE_URL', 'https://example.com'); // 站点地址，必须以https://开头，不要以/结尾
 
 // WebAPI
-$_ENV['webAPI'] = true;                // 是否开启WebAPI功能
-$_ENV['webAPIUrl'] = $_ENV['baseUrl']; // WebAPI地址，如需和站点地址相同，请不要修改
-$_ENV['muKey'] = 'ChangeMe';           // WebAPI密钥，用于节点服务端与面板通信，请务必修改此key为随机字符串
-$_ENV['checkNodeIp'] = true;           // 是否webapi验证节点ip
+$_ENV['webAPI'] = config_env('SSPANEL_WEBAPI', true, 'bool');                // 是否开启WebAPI功能
+$_ENV['webAPIUrl'] = config_env('SSPANEL_WEBAPI_URL', $_ENV['baseUrl']); // WebAPI地址，如需和站点地址相同，请不要修改
+$_ENV['muKey'] = config_env('SSPANEL_MUKEY', 'ChangeMe');           // WebAPI密钥，用于节点服务端与面板通信，请务必修改此key为随机字符串
+$_ENV['checkNodeIp'] = config_env('SSPANEL_CHECK_NODE_IP', true, 'bool');           // 是否webapi验证节点ip
 
 //数据库设置--------------------------------------------------------------------------------------------------------------
 // db_host|db_socket 二选一，若设置 db_socket 则 db_host 会被忽略，不用请留空
 // db_host 例: localhost（可解析的主机名）, 127.0.0.1（IP 地址）
 // db_socket 例：/var/run/mysqld/mysqld.sock（需使用绝对地址）
-$_ENV['db_host'] = '';
-$_ENV['db_socket'] = '';
-$_ENV['db_database'] = 'sspanel'; // 数据库名
-$_ENV['db_username'] = 'root';    // 数据库用户名
-$_ENV['db_password'] = 'sspanel'; // 用户密码
-$_ENV['db_port'] = '3306';        // 端口
+$_ENV['db_host'] = config_env('SSPANEL_DB_HOST', '');
+$_ENV['db_socket'] = config_env('SSPANEL_DB_SOCKET', '');
+$_ENV['db_database'] = config_env('SSPANEL_DB_DATABASE', 'sspanel'); // 数据库名
+$_ENV['db_username'] = config_env('SSPANEL_DB_USERNAME', 'root');    // 数据库用户名
+$_ENV['db_password'] = config_env('SSPANEL_DB_PASSWORD', 'sspanel'); // 用户密码
+$_ENV['db_port'] = config_env('SSPANEL_DB_PORT', '3306');            // 端口
 #读写分离相关配置
-$_ENV['enable_db_rw_split'] = false; // 是否开启读写分离
-$_ENV['read_db_hosts'] = [''];       // 从库地址，可配置多个
-$_ENV['write_db_host'] = '';         // 主库地址
+$_ENV['enable_db_rw_split'] = config_env('SSPANEL_ENABLE_DB_RW_SPLIT', false, 'bool'); // 是否开启读写分离
+$_ENV['read_db_hosts'] = config_env('SSPANEL_READ_DB_HOSTS', [''], 'array');           // 从库地址，可配置多个
+$_ENV['write_db_host'] = config_env('SSPANEL_WRITE_DB_HOST', '');                      // 主库地址
 #高级
-$_ENV['db_charset'] = 'utf8mb4';
-$_ENV['db_collation'] = 'utf8mb4_unicode_ci';
-$_ENV['db_prefix'] = '';
+$_ENV['db_charset'] = config_env('SSPANEL_DB_CHARSET', 'utf8mb4');
+$_ENV['db_collation'] = config_env('SSPANEL_DB_COLLATION', 'utf8mb4_unicode_ci');
+$_ENV['db_prefix'] = config_env('SSPANEL_DB_PREFIX', '');
 
 //Redis设置--------------------------------------------------------------------------------------------------------------
-$_ENV['redis_host'] = '127.0.0.1';    // Redis地址，使用unix domain socket时填写文件路径
-$_ENV['redis_port'] = 6379;           // Redis端口，使用unix domain socket时填写-1
-$_ENV['redis_connect_timeout'] = 2.0; // Redis连接超时时间，单位秒
-$_ENV['redis_read_timeout'] = 8.0;    // Redis读取超时时间，单位秒
-$_ENV['redis_username'] = '';         // Redis用户名，留空则不使用用户名连接
-$_ENV['redis_password'] = '';         // Redis密码，留空则无密码
-$_ENV['redis_ssl'] = false;           // 是否使用SSL连接Redis，如果使用了SSL，那么Redis端口应为Redis实例的TLS端口
-$_ENV['redis_ssl_context'] = [];      // 使用SSL时的上下文选项，参考 https://www.php.net/manual/zh/context.ssl.php
+$_ENV['redis_host'] = config_env('SSPANEL_REDIS_HOST', '127.0.0.1');                           // Redis地址，使用unix domain socket时填写文件路径
+$_ENV['redis_port'] = config_env('SSPANEL_REDIS_PORT', 6379, 'int');                           // Redis端口，使用unix domain socket时填写-1
+$_ENV['redis_connect_timeout'] = config_env('SSPANEL_REDIS_CONNECT_TIMEOUT', 2.0, 'float');    // Redis连接超时时间，单位秒
+$_ENV['redis_read_timeout'] = config_env('SSPANEL_REDIS_READ_TIMEOUT', 8.0, 'float');          // Redis读取超时时间，单位秒
+$_ENV['redis_username'] = config_env('SSPANEL_REDIS_USERNAME', '');                            // Redis用户名，留空则不使用用户名连接
+$_ENV['redis_password'] = config_env('SSPANEL_REDIS_PASSWORD', '');                            // Redis密码，留空则无密码
+$_ENV['redis_ssl'] = config_env('SSPANEL_REDIS_SSL', false, 'bool');                           // 是否使用SSL连接Redis，如果使用了SSL，那么Redis端口应为Redis实例的TLS端口
+$_ENV['redis_ssl_context'] = config_env('SSPANEL_REDIS_SSL_CONTEXT', [], 'array');             // 使用SSL时的上下文选项，参考 https://www.php.net/manual/zh/context.ssl.php
 
 //Rate Limit 设置--------------------------------------------------------------------------------------------------------
 $_ENV['enable_rate_limit'] = true;     // 是否开启请求限制
