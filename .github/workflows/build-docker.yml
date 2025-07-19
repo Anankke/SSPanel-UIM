@@ -67,7 +67,7 @@ jobs:
 
       - name: Prepare assets
         run: |
-          zip -r docker-configs.zip config/ && zip -j docker-configs.zip .env.example -O .env
+          zip -r docker-configs.zip config/ infra/ && zip -j docker-configs.zip .env.example -O .env
 
       - name: Upload assets to release
         uses: softprops/action-gh-release@v2
