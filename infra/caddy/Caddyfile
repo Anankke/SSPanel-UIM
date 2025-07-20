@@ -1,5 +1,5 @@
 {
-    auto_https off
+    auto_https disable_redirects
 }
 
 :80 {
