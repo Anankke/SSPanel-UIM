@@ -40,16 +40,17 @@ services:
       - "443:443"
     environment:
       - DOMAIN=${DOMAIN}
+      - DISABLE_LETSENCRYPT=${DISABLE_LETSENCRYPT}
     volumes:
       - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./infra/caddy/Caddyfile.nohttps:/etc/caddy/Caddyfile.nohttps
-      # - ./public:/var/www/sspanel/public # web root
+      - ./public:/var/www/sspanel/public # web root
       - ./data/caddy:/data
       - ./data/caddy-config:/config
     entrypoint: >
       sh -c '
-        if [ "$$DISABLE_LETSENCRYPT" = "true" ]; then
-          cp /etc/caddy/Caddyfile.nohttps /etc/caddy/Caddyfile;
+        if [ "$DISABLE_LETSENCRYPT" = "true" ]; then
+          cp -f /etc/caddy/Caddyfile.nohttps /etc/caddy/Caddyfile;
         fi
         exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
       '

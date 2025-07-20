@@ -4,11 +4,13 @@
 function config_env($key, $default = null, $type = 'string') {
     $val = getenv($key);
     if ($val === false) return $default;
-    if ($type === 'bool') return filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $default;
-    if ($type === 'int') return intval($val);
-    if ($type === 'float') return floatval($val);
-    if ($type === 'array') return json_decode($val, true) ?: $default;
-    return $val;
+    switch ($type) {
+        case 'bool': return filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $default;
+        case 'int': return intval($val);
+        case 'float': return floatval($val);
+        case 'array': return json_decode($val, true) ?: $default;
+        default: return $val;
+    }
 }
 
 //基本设置---------------------------------------------------------------------------------------------------------------

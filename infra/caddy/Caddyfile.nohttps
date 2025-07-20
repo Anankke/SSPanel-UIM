@@ -1,3 +1,7 @@
+{
+    auto_https off
+}
+
 :80 {
     root * /var/www/sspanel/public
     encode gzip
