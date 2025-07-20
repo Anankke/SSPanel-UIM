@@ -796,6 +796,7 @@
         
         allPlatforms.addEventListener('show.bs.collapse', function (e) {
             if (e.target !== allPlatforms) return;
+            recommendedSection.classList.remove('expanded');
             recommendedSection.classList.add('collapsing');
         });
         
