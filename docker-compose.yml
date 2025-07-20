@@ -6,6 +6,7 @@ services:
     env_file: .env
     volumes:
       - ./config:/var/www/sspanel/config
+      - ./app:/var/www/sspanel/app
       - ./.env:/var/www/sspanel/.env
       # - ./src:/var/www/sspanel/src
     depends_on:
@@ -65,6 +66,7 @@ services:
     env_file: .env
     volumes:
       - ./data/mariadb:/var/lib/mysql
+      - ./infra/mariadb/99-sspanel.conf:/etc/mysql/mariadb.conf.d/99-sspanel.cnf
     healthcheck:
       test: ["CMD", "mariadb-admin", "ping", "-u${MARIADB_USER}", "-p${MARIADB_PASSWORD}"]
       interval: 5s
