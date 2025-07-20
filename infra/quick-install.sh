@@ -2,6 +2,24 @@
 
 set -e
 
+REQUIRED_CMDS=(curl unzip openssl docker)
+
+check_cmds() {
+    local missing=()
+    for cmd in "${REQUIRED_CMDS[@]}"; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            missing+=("$cmd")
+        fi
+    done
+    if [ ${#missing[@]} -ne 0 ]; then
+        echo "检测到缺少必要命令: ${missing[*]}"
+        echo "请先安装上述程序后再运行本脚本。"
+        exit 1
+    fi
+}
+
+check_cmds
+
 REPO_PATH="Anankke/SSPanel-UIM"
 
 download_with_retry() {
