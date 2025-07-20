@@ -66,7 +66,7 @@ download_with_retry \
     "docker-compose.yml"
 
 # 2. 下载 docker-configs.zip 并解压
-CONFIGS_URL=`curl -s https://api.github.com/repos/$REPO_PATH/releases/latest | grep browser_download_url | cut -d '"' -f 4`
+CONFIGS_URL=$(curl -s https://api.github.com/repos/$REPO_PATH/releases/latest | grep browser_download_url | cut -d '"' -f 4)
 download_with_retry \
     "$CONFIGS_URL" \
     "docker-configs.zip"
