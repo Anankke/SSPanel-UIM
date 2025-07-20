@@ -2,6 +2,7 @@
 
 set -e
 
+REPO_PATH="Anankke/SSPanel-UIM"
 REQUIRED_CMDS=(curl unzip openssl docker)
 
 check_cmds() {
@@ -20,7 +21,21 @@ check_cmds() {
 
 check_cmds
 
-REPO_PATH="Anankke/SSPanel-UIM"
+# 提示用户输入安装路径
+read -rp "请输入安装路径 (默认 /opt/sspanel): " INSTALL_PATH
+INSTALL_PATH="${INSTALL_PATH:-/opt/sspanel}"
+
+if [[ -z "$INSTALL_PATH" ]]; then
+    echo "安装路径不能为空，脚本已退出。"
+    exit 1
+fi
+
+echo "安装路径设置为: $INSTALL_PATH"
+
+# 检查并创建目录
+mkdir -p "$INSTALL_PATH"
+cd "$INSTALL_PATH"
+
 
 download_with_retry() {
     local url=$1
