@@ -16,6 +16,7 @@ class CacheTest extends TestCase
         // Scenario 1: All parameters are set
         $_ENV['redis_host'] = 'localhost';
         $_ENV['redis_port'] = '6379';
+        $_ENV['redis_db'] = '0';
         $_ENV['redis_connect_timeout'] = '1.0';
         $_ENV['redis_read_timeout'] = '1.0';
         $_ENV['redis_username'] = 'username';
@@ -26,6 +27,7 @@ class CacheTest extends TestCase
         $expected1 = [
             'host' => 'localhost',
             'port' => '6379',
+            'database' => '0',
             'connectTimeout' => '1.0',
             'readTimeout' => '1.0',
             'auth' => [
@@ -46,6 +48,7 @@ class CacheTest extends TestCase
         $expected2 = [
             'host' => 'localhost',
             'port' => '6379',
+            'database' => '0',
             'connectTimeout' => '1.0',
             'readTimeout' => '1.0',
         ];
