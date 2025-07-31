@@ -37,6 +37,7 @@ $_ENV['db_prefix'] = '';
 //Redis设置--------------------------------------------------------------------------------------------------------------
 $_ENV['redis_host'] = '127.0.0.1';    // Redis地址，使用unix domain socket时填写文件路径
 $_ENV['redis_port'] = 6379;           // Redis端口，使用unix domain socket时填写-1
+$_ENV['redis_db'] = 0;                // Redis数据库编号，留空则使用默认的0
 $_ENV['redis_connect_timeout'] = 2.0; // Redis连接超时时间，单位秒
 $_ENV['redis_read_timeout'] = 8.0;    // Redis读取超时时间，单位秒
 $_ENV['redis_username'] = '';         // Redis用户名，留空则不使用用户名连接

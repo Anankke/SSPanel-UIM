@@ -20,6 +20,7 @@ final class Cache
             'port' => $_ENV['redis_port'],
             'connectTimeout' => $_ENV['redis_connect_timeout'],
             'readTimeout' => $_ENV['redis_read_timeout'],
+            'database' => $_ENV['redis_db'] ?? 0,
         ];
 
         if ($_ENV['redis_username'] !== '') {

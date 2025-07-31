@@ -19,10 +19,10 @@ final class DB extends Manager
             $db->getConnection()->getPdo();
         } catch (Exception $e) {
             if ($_ENV['debug']) {
-                die('Databse Error' . PHP_EOL . 'Reason: ' . $e->getMessage());
+                die('Database Error' . PHP_EOL . 'Reason: ' . $e->getMessage());
             }
 
-            die('Databse Error');
+            die('Database Error');
         }
 
         $db->setAsGlobal();
