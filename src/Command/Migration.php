@@ -45,7 +45,19 @@ END;
             $tables = DB::select('SHOW TABLES');
 
             if ($tables === []) {
-                $max_version = PHP_INT_MAX;
+                $files = scandir(BASE_PATH . '/db/migrations/', SCANDIR_SORT_NONE);
+                $min_migration_version = PHP_INT_MAX;
+                foreach ($files as $file) {
+                    if ($file === '.' || $file === '..' || ! str_ends_with($file, '.php')) {
+                        continue;
+                    }
+                    $version = (int) strstr($file, '-', true);
+                    if ($version < $min_migration_version) {
+                        $min_migration_version = $version;
+                    }
+                }
+                $min_version = $min_migration_version - 1;
+                $max_version = $min_migration_version;
             } else {
                 echo 'Database is not empty, do not use "new" as version.' . PHP_EOL;
 
@@ -82,14 +94,11 @@ END;
                 $version = (int) strstr($file, '-', true);
                 echo 'Found migration version ' . $version;
 
-                if ($version > $latest) {
+                if ($target !== 'new' && $version > $latest) {
                     $latest = $version;
                 }
 
-                if ($version <= $min_version ||
-                    $version > $max_version ||
-                    ($target === 'new' && $version !== 2023020100)
-                ) {
+                if ($version <= $min_version || $version > $max_version) {
                     echo '...skip' . PHP_EOL;
                     continue;
                 }
@@ -132,7 +141,7 @@ END;
         $stat = DB::getPdo()->prepare($sql);
 
         if ($target === 'new') {
-            $stat->execute([$latest]);
+            $stat->execute([array_key_first($queue)]);
         } else {
             $stat->execute([$current]);
         }

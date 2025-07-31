@@ -22,7 +22,7 @@ return new class() implements MigrationInterface {
     {
         DB::getPdo()->exec("
             ALTER TABLE user DROP COLUMN IF EXISTS `is_shadow_banned`;
-            ALTER TABLE user ADD COLUMN IF NOT EXISTS `use_new_shop` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '是否启用新商店',
+            ALTER TABLE user ADD COLUMN IF NOT EXISTS `use_new_shop` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '是否启用新商店';
         ");
 
         return 2023071600;
