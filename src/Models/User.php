@@ -253,6 +253,7 @@ final class User extends Model
         (new Link())->where('userid', $uid)->delete();
         (new LoginIp())->where('userid', $uid)->delete();
         (new SubscribeLog())->where('user_id', $uid)->delete();
+        (new MFADevice())->where('userid', $uid)->delete();
 
         return $this->delete();
     }
@@ -315,6 +316,24 @@ final class User extends Model
             } catch (GuzzleException|TelegramSDKException $e) {
                 echo $e->getMessage() . PHP_EOL;
             }
+        }
+    }
+
+    /**
+     * 检查多因素认证启用状态
+     *
+     * @return array
+     */
+    public function checkMfaStatus(): array
+    {
+        $fido = (new MFADevice())->where('userid', $this->id)->where('type', 'fido')->first();
+        $totp = (new MFADevice())->where('userid', $this->id)->where('type', 'totp')->first();
+        $hasFido = $fido !== null;
+        $hasTotp = $totp !== null;
+        if (! $hasFido && ! $hasTotp) {
+            return ['require' => false];
+        } else {
+            return ['require' => true, 'fido' => $hasFido, 'totp' => $hasTotp];
         }
     }
 }

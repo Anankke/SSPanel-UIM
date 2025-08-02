@@ -1,5 +1,7 @@
 {include file='header.tpl'}
 
+<script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.umd.min.js"></script>
+
 <body class="border-top-wide border-primary d-flex flex-column">
 <div class="page page-center">
     <div class="container-tight my-auto">
@@ -27,10 +29,6 @@
                     </div>
                 </div>
                 <div class="mb-2">
-                    <label class="form-label">两步认证</label>
-                    <input id="mfa_code" type="email" class="form-control" placeholder="如果没有设置两步认证可留空">
-                </div>
-                <div class="mb-2">
                     <label class="form-check">
                         <input id="remember_me" type="checkbox" class="form-check-input"/>
                         <span class="form-check-label">记住此设备</span>
@@ -44,17 +42,19 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <button class="btn btn-primary w-100"
+                    <button class="btn btn-primary w-100 mb-3"
                             hx-post="/auth/login" hx-swap="none" hx-vals='js:{
                                 {if $public_setting['enable_login_captcha']}
                                     {include file='captcha/ajax.tpl'}
                                 {/if}
                                 email: document.getElementById("email").value,
                                 password: document.getElementById("password").value,
-                                mfa_code: document.getElementById("mfa_code").value,
                                 remember_me: document.getElementById("remember_me").checked,
                              }'>
                         登录
+                    </button>
+                    <button class="btn btn-primary w-100" id="webauthnLogin">
+                        使用WebAuthn登录
                     </button>
                 </div>
             </div>
@@ -70,3 +70,36 @@
 {/if}
 
 {include file='footer.tpl'}
+
+{literal}
+    <script>
+        const { startAuthentication } = SimpleWebAuthnBrowser;
+        document.getElementById('webauthnLogin').addEventListener('click', async () => {
+            const resp = await fetch('/auth/webauthn');
+            const options = await resp.json();
+            let asseResp;
+            try {
+                asseResp = await startAuthentication({ optionsJSON: options });
+            } catch (error) {
+                document.getElementById("fail-message").innerHTML = error;
+                throw error;
+            }
+            const verificationResp = await fetch('/auth/webauthn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(asseResp),
+            });
+            const verificationJSON = await verificationResp.json();
+            if (verificationJSON.ret === 1) {
+                document.getElementById("success-message").innerHTML = verificationJSON.msg;
+                successDialog.show();
+                window.location.href = verificationJSON.redir;
+            } else {
+                document.getElementById("fail-message").innerHTML = verificationJSON.msg;
+                failDialog.show();
+            }
+        });
+    </script>
+{/literal}
