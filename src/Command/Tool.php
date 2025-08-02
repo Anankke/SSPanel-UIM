@@ -8,7 +8,6 @@ use App\Models\Config;
 use App\Models\Link;
 use App\Models\Node;
 use App\Models\User as ModelsUser;
-use App\Services\MFA;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use danielsreichenbach\GeoIP2Update\Client;
@@ -44,7 +43,6 @@ final class Tool extends Command
 │ ├─ resetPasswd         - 重置所有用户连接密码
 │ ├─ clearSubToken       - 清除用户 Sub Token
 │ ├─ generateUUID        - 为所有用户生成新的 UUID
-│ ├─ generateGa          - 为所有用户生成新的 Ga Secret
 │ ├─ generateApiToken    - 为所有用户生成新的 API Token
 │ ├─ setTheme            - 为所有用户设置新的主题
 │ ├─ setLocale           - 为所有用户设置新的语言
@@ -268,25 +266,6 @@ EOL;
     }
 
     /**
-     * 二次验证
-     */
-    public function generateGa(): void
-    {
-        $users = ModelsUser::all();
-
-        foreach ($users as $user) {
-            try {
-                $user->ga_token = MFA::generateGaToken();
-                $user->save();
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        }
-
-        echo '已为所有用户生成新的 Ga Secret' . PHP_EOL;
-    }
-
-    /**
      * 为所有用户生成新的 Api Token
      */
     public function generateApiToken(): void
@@ -386,9 +365,6 @@ EOL;
             $user->node_speedlimit = 0;
             $user->theme = $_ENV['theme'];
             $user->locale = $_ENV['locale'];
-
-            $user->ga_token = MFA::generateGaToken();
-            $user->ga_enable = 0;
 
             if ($user->save()) {
                 echo '创建成功，请在主页登录' . PHP_EOL;
