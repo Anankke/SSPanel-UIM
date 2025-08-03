@@ -24,7 +24,7 @@
       "name": "Clash Nyanpasu",
       "description": "增强版 Clash 客户端",
       "format": "clash",
-      "importUrl": "clash-nyanpasu://subscribe-remote-profile?url={sub}&name={name}",
+      "importUrl": "clash-nyanpasu://subscribe-remote-profile?url={sub}/clash&name={name}",
       "platforms": {
         "Windows": {
           "ext": "exe",
@@ -69,7 +69,7 @@
       "name": "Hiddify",
       "description": "易用的多协议客户端",
       "format": "singbox",
-      "importUrl": "hiddify://import/{sub}#{name}",
+      "importUrl": "hiddify://import/{sub}/clash#{name}",
       "platforms": {
         "Windows": {
           "ext": "exe",
