@@ -1,5 +1,12 @@
 {if $public_setting['captcha_provider'] === 'turnstile'}
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script>
+        function refreshCaptcha() {
+            if (window.turnstile) {
+                turnstile.render('#turnstile');
+            }
+        }
+    </script>
 {/if}
 {if $public_setting['captcha_provider'] === 'geetest'}
     <script src="https://static.geetest.com/v4/gt4.js"></script>
@@ -16,10 +23,23 @@
                 geetest_result = geetest.getValidate();
             });
         });
+
+        function refreshCaptcha() {
+            if (window.geetest) {
+                geetest.reset();
+            }
+        }
     </script>
 {/if}
 {if $public_setting['captcha_provider'] === 'hcaptcha'}
     <script src='https://js.hcaptcha.com/1/api.js' async defer></script>
+    <script>
+        function refreshCaptcha() {
+            if (window.hcaptcha) {
+                hcaptcha.reset();
+            }
+        }
+    </script>
 {/if}
 {if $public_setting['captcha_provider'] === 'recaptcha_enterprise'}
     <script src='https://www.recaptcha.net/recaptcha/enterprise.js?onload=initReCAPTCHA&render=explicit' async defer></script>
@@ -29,5 +49,19 @@
                 'sitekey': '{$captcha['recaptcha_enterprise_key_id']}',
             });
         };
+
+        function refreshCaptcha() {
+            if (window.grecaptcha && window.grecaptcha.enterprise) {
+                grecaptcha.enterprise.reset();
+            }
+        }
     </script>
 {/if}
+<script>
+    htmx.on("htmx:afterRequest", function (evt) {
+        let res = JSON.parse(evt.detail.xhr.response);
+        if (res.ret === 0) {
+            refreshCaptcha();
+        }
+    });
+</script>
