@@ -10,8 +10,6 @@ use App\Models\User;
 use App\Models\Node;
 use Tests\SlimTestCase;
 
-uses(SlimTestCase::class);
-
 beforeEach(function () {
     // Initialize database before any operations
     $this->useDatabase = true;

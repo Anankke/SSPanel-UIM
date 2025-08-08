@@ -101,21 +101,21 @@ jobs:
     - name: Setup test environment
       run: |
         # Copy and configure test settings
-        cp config/.config.example.php config/.config.test.php
+        cp config/.config.example.php config/.config.php
         
         # Database configuration
-        sed -i "s/'db_host' => '.*'/'db_host' => '127.0.0.1'/g" config/.config.test.php
-        sed -i "s/'db_database' => '.*'/'db_database' => 'sspanel_test'/g" config/.config.test.php
-        sed -i "s/'db_username' => '.*'/'db_username' => 'root'/g" config/.config.test.php
-        sed -i "s/'db_password' => '.*'/'db_password' => 'password'/g" config/.config.test.php
+        sed -i "s/'db_host' => '.*'/'db_host' => '127.0.0.1'/g" config/.config.php
+        sed -i "s/'db_database' => '.*'/'db_database' => 'sspanel_test'/g" config/.config.php
+        sed -i "s/'db_username' => '.*'/'db_username' => 'root'/g" config/.config.php
+        sed -i "s/'db_password' => '.*'/'db_password' => 'password'/g" config/.config.php
         
         # Redis configuration
-        sed -i "s/'redis_host' => '.*'/'redis_host' => '127.0.0.1'/g" config/.config.test.php
-        sed -i "s/'redis_port' => '.*'/'redis_port' => '6379'/g" config/.config.test.php
-        sed -i "s/'redis_db' => .*/'redis_db' => 15/g" config/.config.test.php
+        sed -i "s/'redis_host' => '.*'/'redis_host' => '127.0.0.1'/g" config/.config.php
+        sed -i "s/'redis_port' => '.*'/'redis_port' => '6379'/g" config/.config.php
+        sed -i "s/'redis_db' => .*/'redis_db' => 15/g" config/.config.php
         
         # Set muKey for API testing
-        sed -i "s/'muKey' => '.*'/'muKey' => 'test-mukey-for-ci-environment'/g" config/.config.test.php
+        sed -i "s/'muKey' => '.*'/'muKey' => 'test-mukey-for-ci-environment'/g" config/.config.php
         
         # Set testing environment
         echo "APP_ENV=testing" >> $GITHUB_ENV
@@ -171,7 +171,7 @@ jobs:
     
     - name: Run PHP Insights
       run: |
-        vendor/bin/phpinsights analyse src/ \
+        vendor/bin/phpinsights analyse \
           --min-quality=80 \
           --min-complexity=80 \
           --min-architecture=80 \
