@@ -21,7 +21,7 @@ final class TOTP
         return $ga->createSecret(32);
     }
 
-    public static function RegisterRequest(User $user): array
+    public static function registerRequest(User $user): array
     {
         try {
             $TOTPDevice = (new MFADevice())->where('userid', $user->id)
@@ -56,7 +56,7 @@ final class TOTP
         return 'otpauth://totp/' . rawurlencode($_ENV['appName']) . ':' . rawurlencode($user->email) . '?secret=' . $token . '&issuer=' . rawurlencode($_ENV['appName']);
     }
 
-    public static function RegisterHandle(User $user, string $code): array
+    public static function registerHandle(User $user, string $code): array
     {
         $redis = (new Cache())->initRedis();
         $token = $redis->get('totp_register_' . session_id());
@@ -79,7 +79,7 @@ final class TOTP
         return ['ret' => 1, 'msg' => '注册成功'];
     }
 
-    public static function AssertHandle(User $user, string $code): array
+    public static function assertHandle(User $user, string $code): array
     {
         try {
             $TOTPDevice = (new MFADevice())->where('userid', $user->id)

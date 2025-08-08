@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Pest PHP configuration file
- * 
+ *
  * This file is loaded before each test run
  */
 
-use Tests\TestCase;
 use Tests\SlimTestCase;
+use Tests\TestCase;
 
 // Base test case for all tests
 uses(TestCase::class)->in('Unit');
@@ -18,11 +20,11 @@ function resetEnv(): void
 {
     // Store original ENV values
     static $originalEnv = null;
-    
+
     if ($originalEnv === null) {
         $originalEnv = $_ENV;
     }
-    
+
     // Reset to original
     $_ENV = $originalEnv;
 }

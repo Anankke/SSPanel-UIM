@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\MFA;
 
 use App\Models\MFADevice;
@@ -35,11 +37,11 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 
-class WebAuthn
+final class WebAuthn
 {
     public static int $timeout = 30_000;
 
-    public static function RegisterRequest(User $user): array
+    public static function registerRequest(User $user): array
     {
         $redis = (new Cache())->initRedis();
         try {
@@ -113,7 +115,7 @@ class WebAuthn
         return $factory->create();
     }
 
-    public static function AssertRequest(): array
+    public static function assertRequest(): array
     {
         try {
             $publicKeyCredentialRequestOptions = self::getPublicKeyCredentialRequestOptions();
@@ -140,7 +142,7 @@ class WebAuthn
         );
     }
 
-    public static function AssertHandle(array $data): array
+    public static function assertHandle(array $data): array
     {
         $serializer = self::getSerializer();
         $publicKeyCredential = $serializer->deserialize(json_encode($data), PublicKeyCredential::class, 'json');
@@ -160,7 +162,6 @@ class WebAuthn
         }
         $redis = (new Cache())->initRedis();
         try {
-
             $publicKeyCredentialRequestOptions = $serializer->deserialize(
                 $redis->get('webauthn_assertion_' . session_id()),
                 PublicKeyCredentialRequestOptions::class,
@@ -194,7 +195,7 @@ class WebAuthn
         );
     }
 
-    public static function RegisterHandle(User $user, array $data): array
+    public static function registerHandle(User $user, array $data): array
     {
         try {
             $serializer = self::getSerializer();

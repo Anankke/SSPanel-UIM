@@ -14,9 +14,9 @@ final class Cache
         $redis = new Redis();
         $redis->connect($config['host'], $config['port'], $config['connectTimeout']);
         // 认证
-        if (! empty($config['auth']['user']) && ! empty($config['auth']['pass'])) {
+        if (($config['auth']['user'] ?? '') !== '' && ($config['auth']['pass'] ?? '') !== '') {
             $redis->auth([$config['auth']['user'], $config['auth']['pass']]);
-        } elseif (! empty($config['auth']['pass'])) {
+        } elseif (($config['auth']['pass'] ?? '') !== '') {
             $redis->auth($config['auth']['pass']);
         }
         // 选择数据库

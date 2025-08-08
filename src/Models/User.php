@@ -332,8 +332,7 @@ final class User extends Model
         $hasTotp = $totp !== null;
         if (! $hasFido && ! $hasTotp) {
             return ['require' => false];
-        } else {
-            return ['require' => true, 'fido' => $hasFido, 'totp' => $hasTotp];
         }
+        return ['require' => true, 'fido' => $hasFido, 'totp' => $hasTotp];
     }
 }

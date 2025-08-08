@@ -21,13 +21,13 @@ final class MFAController extends BaseController
 {
     public function webauthnRegisterRequest(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        return $response->withJson(WebAuthn::RegisterRequest($this->user));
+        return $response->withJson(WebAuthn::registerRequest($this->user));
     }
 
     public function webauthnRegisterHandle(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         try {
-            return $response->withJson(WebAuthn::RegisterHandle($this->user, $this->antiXss->xss_clean($request)));
+            return $response->withJson(WebAuthn::registerHandle($this->user, $this->antiXss->xss_clean($request)));
         } catch (Exception $e) {
             return $response->withJson(['ret' => 0, 'msg' => '请求失败: ' . $e->getMessage()]);
         }
@@ -55,13 +55,13 @@ final class MFAController extends BaseController
 
     public function totpRegisterRequest(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        return $response->withJson(TOTP::RegisterRequest($this->user));
+        return $response->withJson(TOTP::registerRequest($this->user));
     }
 
     public function totpRegisterHandle(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         try {
-            return $response->withJson(TOTP::RegisterHandle($this->user, $this->antiXss->xss_clean($request->getParam('code', ''))));
+            return $response->withJson(TOTP::registerHandle($this->user, $this->antiXss->xss_clean($request->getParam('code', ''))));
         } catch (Exception $e) {
             return $response->withJson(['ret' => 0, 'msg' => '请求失败: ' . $e->getMessage()]);
         }
@@ -88,13 +88,13 @@ final class MFAController extends BaseController
 
     public function fidoRegisterRequest(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        return $response->withJson(FIDO::RegisterRequest($this->user));
+        return $response->withJson(FIDO::registerRequest($this->user));
     }
 
     public function fidoRegisterHandle(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         try {
-            return $response->withJson(FIDO::RegisterHandle($this->user, $this->antiXss->xss_clean($request->getParsedBody())));
+            return $response->withJson(FIDO::registerHandle($this->user, $this->antiXss->xss_clean($request->getParsedBody())));
         } catch (Exception $e) {
             return $response->withJson(['ret' => 0, 'msg' => '请求失败: ' . $e->getMessage()]);
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\MFA;
 
 use App\Models\MFADevice;
@@ -16,10 +18,9 @@ use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialSource;
 
-class FIDO
+final class FIDO
 {
-
-    public static function RegisterRequest(User $user): array
+    public static function registerRequest(User $user): array
     {
         $rpEntity = WebAuthn::generateRPEntity();
         $userEntity = WebAuthn::generateUserEntity($user);
@@ -41,7 +42,7 @@ class FIDO
         return json_decode($jsonObject, true);
     }
 
-    public static function RegisterHandle(User $user, array $data): array
+    public static function registerHandle(User $user, array $data): array
     {
         $serializer = WebAuthn::getSerializer();
         try {
@@ -88,7 +89,7 @@ class FIDO
         return ['ret' => 1, 'msg' => '注册成功'];
     }
 
-    public static function AssertRequest(User $user): array
+    public static function assertRequest(User $user): array
     {
         try {
             $serializer = WebAuthn::getSerializer();
@@ -122,7 +123,7 @@ class FIDO
         }
     }
 
-    public static function AssertHandle(?User $user, array $data): array
+    public static function assertHandle(?User $user, array $data): array
     {
         $serializer = WebAuthn::getSerializer();
         $publicKeyCredential = $serializer->deserialize(json_encode($data), PublicKeyCredential::class, 'json');

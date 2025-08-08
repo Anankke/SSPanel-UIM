@@ -105,7 +105,7 @@ final class AuthController extends BaseController
                 ->withJson([
                     'ret' => 1,
                     'msg' => '请完成二步认证',
-            ]);
+                ]);
         }
 
         $time = $rememberMe ? 86400 * ($_ENV['rememberMeDuration'] ?? 7) : 3600; // Cookie 过期时间
@@ -388,14 +388,14 @@ final class AuthController extends BaseController
 
     public function webauthnRequest(ServerRequest $request, Response $response, $next): ResponseInterface
     {
-        return $response->withJson(WebAuthn::AssertRequest());
+        return $response->withJson(WebAuthn::assertRequest());
     }
 
     public function webauthnHandle(ServerRequest $request, Response $response, $next): ResponseInterface
     {
         $data = $this->antiXss->xss_clean((array) $request->getParsedBody());
         $redir = $this->antiXss->xss_clean(Cookie::get('redir')) ?? '/user';
-        $result = WebAuthn::AssertHandle($data);
+        $result = WebAuthn::assertHandle($data);
         if ($result['ret'] === 1) {
             $user = $result['user'];
             if ($user === null) {
@@ -433,7 +433,7 @@ final class AuthController extends BaseController
         if ($user === null) {
             return $response->withJson(['ret' => 0, 'msg' => '用户不存在'])->withHeader('HX-Redirect', '/auth/login');
         }
-        $result = TOTP::AssertHandle($user, $code);
+        $result = TOTP::assertHandle($user, $code);
         if ($result['ret'] === 1) {
             $redis->del('mfa_login_' . session_id());
             $rememberMe = $login_session['remember_me'];
@@ -462,7 +462,7 @@ final class AuthController extends BaseController
         if ($user === null) {
             return $response->withJson(['ret' => 0, 'msg' => '用户不存在'])->withHeader('HX-Redirect', '/auth/login');
         }
-        return $response->withJson(FIDO::AssertRequest($user));
+        return $response->withJson(FIDO::assertRequest($user));
     }
 
     public function fidoHandle(ServerRequest $request, Response $response, $next): ResponseInterface
@@ -478,7 +478,7 @@ final class AuthController extends BaseController
         if ($user === null) {
             return $response->withJson(['ret' => 0, 'msg' => '用户不存在'])->withHeader('HX-Redirect', '/auth/login');
         }
-        $result = FIDO::AssertHandle($user, $data);
+        $result = FIDO::assertHandle($user, $data);
         if ($result['ret'] === 1) {
             $redis->del('mfa_login_' . session_id());
             $rememberMe = $login_session['remember_me'];
