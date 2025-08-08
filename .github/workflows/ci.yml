@@ -1,0 +1,225 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      php: ${{ steps.filter.outputs.php }}
+      config: ${{ steps.filter.outputs.config }}
+      tests: ${{ steps.filter.outputs.tests }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            php:
+              - '**/*.php'
+              - 'composer.json'
+              - 'composer.lock'
+            config:
+              - 'config/**'
+              - '.github/workflows/**'
+            tests:
+              - 'tests/**'
+              - 'phpunit.xml'
+
+  test:
+    needs: changes
+    if: ${{ needs.changes.outputs.php == 'true' || needs.changes.outputs.tests == 'true' || github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.2', '8.3', '8.4']
+    
+    name: PHP ${{ matrix.php-version }} Tests
+    
+    services:
+      mariadb:
+        image: mariadb:11.8
+        env:
+          MYSQL_DATABASE: sspanel_test
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mariadb-admin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+      
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, dom, fileinfo, mysql, redis, opcache, json, bcmath, curl, openssl, pdo, posix, yaml, zip
+        coverage: pcov  # Much faster than xdebug
+        tools: composer:v2
+    
+    - name: Validate composer.json
+      run: composer validate --strict
+    
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+    
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php-version }}-composer-
+          ${{ runner.os }}-php-
+    
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+    
+    - name: Setup test environment
+      run: |
+        # Copy and configure test settings
+        cp config/.config.example.php config/.config.test.php
+        
+        # Database configuration
+        sed -i "s/'db_host' => '.*'/'db_host' => '127.0.0.1'/g" config/.config.test.php
+        sed -i "s/'db_database' => '.*'/'db_database' => 'sspanel_test'/g" config/.config.test.php
+        sed -i "s/'db_username' => '.*'/'db_username' => 'root'/g" config/.config.test.php
+        sed -i "s/'db_password' => '.*'/'db_password' => 'password'/g" config/.config.test.php
+        
+        # Redis configuration
+        sed -i "s/'redis_host' => '.*'/'redis_host' => '127.0.0.1'/g" config/.config.test.php
+        sed -i "s/'redis_port' => '.*'/'redis_port' => '6379'/g" config/.config.test.php
+        sed -i "s/'redis_db' => .*/'redis_db' => 15/g" config/.config.test.php
+        
+        # Set muKey for API testing
+        sed -i "s/'muKey' => '.*'/'muKey' => 'test-mukey-for-ci-environment'/g" config/.config.test.php
+        
+        # Set testing environment
+        echo "APP_ENV=testing" >> $GITHUB_ENV
+    
+    - name: Run database migrations
+      run: |
+        php xcat Migration new
+        php xcat Migration latest
+    
+    - name: Run Pest tests with coverage
+      run: vendor/bin/pest --coverage-clover coverage.xml --coverage
+    
+    - name: Upload coverage to Codecov
+      # Only upload coverage from one PHP version to avoid duplicates
+      if: matrix.php-version == '8.3'
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+        verbose: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+
+  code-quality:
+    needs: changes
+    # Run quality checks if PHP files changed
+    if: ${{ needs.changes.outputs.php == 'true' || github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'  # Use latest stable for quality checks
+        extensions: mbstring, dom, fileinfo
+        tools: composer:v2
+    
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+    
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-php-8.3-composer-quality-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-8.3-composer-quality-
+    
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-progress --no-interaction
+    
+    - name: Run PHP Insights
+      run: |
+        vendor/bin/phpinsights analyse src/ \
+          --min-quality=80 \
+          --min-complexity=80 \
+          --min-architecture=80 \
+          --min-style=80 \
+          --no-interaction \
+          --ansi
+    
+    - name: Run PHP CodeSniffer
+      if: always()
+      run: vendor/bin/phpcs --standard=PSR12 src/ || true
+    
+    - name: Run PHPStan
+      if: always()
+      run: vendor/bin/phpstan analyse src/ --level=5 || true
+
+  security-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        tools: composer:v2
+    
+    - name: Security vulnerability check
+      uses: symfonycorp/security-checker-action@v5
+    
+    - name: Check for outdated dependencies
+      run: |
+        composer outdated --direct --strict || true
+        echo "::notice::Review outdated dependencies above"
+
+  # Summary job to ensure all checks passed
+  ci-status:
+    needs: [test, code-quality, security-check]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check CI Status
+        run: |
+          if [[ "${{ needs.test.result }}" == "failure" || \
+                "${{ needs.code-quality.result }}" == "failure" || \
+                "${{ needs.security-check.result }}" == "failure" ]]; then
+            echo "CI checks failed"
+            exit 1
+          else
+            echo "All CI checks passed"
+          fi

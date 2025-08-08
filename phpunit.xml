@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         cacheDirectory=".phpunit.cache"
-         executionOrder="depends,defects"
-         requireCoverageMetadata="false"
-         beStrictAboutCoverageMetadata="true"
-         beStrictAboutOutputDuringTests="true"
-         failOnRisky="false"
-         failOnWarning="false">
-    <testsuites>
-        <testsuite name="default">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
-        <include>
-            <directory>src</directory>
-        </include>
-    </source>
-
-    <php>
-        <cookie name="testKey" value="testValue"/>
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd" bootstrap="tests/bootstrap.php" cacheDirectory=".phpunit.cache" executionOrder="depends,defects" requireCoverageMetadata="false" beStrictAboutCoverageMetadata="true" beStrictAboutOutputDuringTests="true" displayDetailsOnTestsThatTriggerWarnings="true" failOnRisky="true" failOnWarning="true" stopOnFailure="false" colors="true">
+  <testsuites>
+    <testsuite name="Unit">
+      <directory>tests/Unit</directory>
+    </testsuite>
+    <testsuite name="Feature">
+      <directory>tests/Feature</directory>
+    </testsuite>
+    <testsuite name="Integration">
+      <directory>tests/Integration</directory>
+    </testsuite>
+  </testsuites>
+  <source restrictNotices="true" restrictWarnings="true" ignoreIndirectDeprecations="true">
+    <include>
+      <directory>src</directory>
+    </include>
+    <exclude>
+      <directory>src/Views</directory>
+      <file>src/bootstrap.php</file>
+    </exclude>
+  </source>
+  <coverage includeUncoveredFiles="true" pathCoverage="false" ignoreDeprecatedCodeUnits="true" disableCodeCoverageIgnore="false">
+    <report>
+      <html outputDirectory="coverage/html"/>
+      <text outputFile="coverage/coverage.txt"/>
+      <xml outputDirectory="coverage/xml"/>
+      <clover outputFile="coverage/clover.xml"/>
+    </report>
+  </coverage>
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="memory_limit" value="-1"/>
+    <server name="SCRIPT_NAME" value="/index.php"/>
+  </php>
+  <logging>
+    <testdoxHtml outputFile="coverage/testdox.html"/>
+    <testdoxText outputFile="coverage/testdox.txt"/>
+  </logging>
 </phpunit>

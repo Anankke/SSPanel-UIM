@@ -47,11 +47,11 @@ use const PHP_INT_MAX;
 final class Tools
 {
     /**
-     * 查询IP归属
+     * Get IP location
      */
     public static function getIpLocation(string $ip): string
     {
-        $data = 'GeoIP2 服务未配置';
+        $data = 'GeoIP2 service not configured';
         $city = null;
         $country = null;
 
@@ -65,13 +65,13 @@ final class Tools
             try {
                 $city = $geoip->getCity($ip);
             } catch (AddressNotFoundException|InvalidDatabaseException) {
-                $city = '未知城市';
+                $city = 'Unknown city';
             }
 
             try {
                 $country = $geoip->getCountry($ip);
             } catch (AddressNotFoundException|InvalidDatabaseException) {
-                $country = '未知国家';
+                $country = 'Unknown country';
             }
         }
 
@@ -87,7 +87,7 @@ final class Tools
     }
 
     /**
-     * 根据流量值自动转换单位输出
+     * Auto convert bytes to human readable format
      */
     public static function autoBytes($size, int $precision = 2): string
     {
@@ -106,7 +106,7 @@ final class Tools
     }
 
     /**
-     * 根据含单位的流量值转换 B 输出
+     * Convert human readable format to bytes
      */
     public static function autoBytesR(string $size): int
     {
@@ -133,7 +133,7 @@ final class Tools
     }
 
     /**
-     * 根据速率值自动转换单位输出
+     * Auto convert bandwidth to human readable format
      */
     public static function autoMbps($size, int $precision = 2): string
     {
@@ -351,7 +351,7 @@ final class Tools
     }
 
     /**
-     * 判断是否 JSON
+     * Check if string is valid JSON
      * TODO: Remove this function when PHP 8.3 is minimum requirement and replace it with native function
      */
     public static function isJson(string $string): bool
@@ -364,7 +364,7 @@ final class Tools
     }
 
     /**
-     * 获取站点域名
+     * Get site domain
      */
     public static function getSiteDomain(): string
     {
