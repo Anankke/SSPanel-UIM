@@ -1,4 +1,13 @@
 {
+    "name": "anankke/sspanel-uim",
+    "description": "Multi-functional proxy service management system supporting Shadowsocks(2022), V2Ray, Trojan and TUIC protocols",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anankke",
+            "homepage": "https://github.com/Anankke"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "ext-bcmath": "*",
@@ -14,7 +23,7 @@
         "ext-yaml": "*",
         "ext-zip": "*",
         "alibabacloud/dm-20170622": "^1",
-        "alipaysdk/openapi": "*@dev",
+        "alipaysdk/openapi": "dev-master",
         "aws/aws-sdk-php": "^3",
         "danielsreichenbach/geoip2-update": "^2",
         "geoip2/geoip2": "^3",
