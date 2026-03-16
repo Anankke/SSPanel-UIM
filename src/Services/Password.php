@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Config;
+use App\Services\Queue\Queue;
 use App\Utils\Tools;
-use Psr\Http\Client\ClientExceptionInterface;
 use RedisException;
 
 final class Password
 {
     /**
-     * @throws ClientExceptionInterface
      * @throws RedisException
      */
     public static function sendResetEmail($email): void
@@ -25,7 +24,7 @@ final class Password
         $subject = $_ENV['appName'] . '-重置密码';
         $resetUrl = $_ENV['baseUrl'] . '/password/token/' . $token;
 
-        Mail::send(
+        Queue::email(
             $email,
             $subject,
             'password_reset.tpl',

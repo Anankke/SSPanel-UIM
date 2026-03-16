@@ -12,7 +12,7 @@ use App\Services\Auth;
 use App\Services\Cache;
 use App\Services\Captcha;
 use App\Services\Filter;
-use App\Services\Mail;
+use App\Services\Queue\Queue;
 use App\Services\MFA\FIDO;
 use App\Services\MFA\TOTP;
 use App\Services\MFA\WebAuthn;
@@ -176,7 +176,8 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '无效的邮箱');
             }
 
-            if (! (new RateLimit())->checkRateLimit('email_request_ip', $request->getServerParam('REMOTE_ADDR')) ||
+            if (
+                ! (new RateLimit())->checkRateLimit('email_request_ip', $request->getServerParam('REMOTE_ADDR')) ||
                 ! (new RateLimit())->checkRateLimit('email_request_address', $email)
             ) {
                 return ResponseHelper::error($response, '你的请求过于频繁，请稍后再试');
@@ -192,19 +193,15 @@ final class AuthController extends BaseController
             $redis = (new Cache())->initRedis();
             $redis->setex('email_verify:' . $email_code, Config::obtain('email_verify_code_ttl'), $email);
 
-            try {
-                Mail::send(
-                    $email,
-                    $_ENV['appName'] . '- 验证邮件',
-                    'verify_code.tpl',
-                    [
-                        'code' => $email_code,
-                        'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
-                    ]
-                );
-            } catch (Exception|ClientExceptionInterface) {
-                return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
-            }
+            Queue::email(
+                $email,
+                $_ENV['appName'] . '- 验证邮件',
+                'verify_code.tpl',
+                [
+                    'code' => $email_code,
+                    'expire' => date('Y-m-d H:i:s', time() + Config::obtain('email_verify_code_ttl')),
+                ]
+            );
 
             return ResponseHelper::success($response, '验证码发送成功，请查收邮件。');
         }

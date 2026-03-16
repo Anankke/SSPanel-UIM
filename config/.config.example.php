@@ -44,6 +44,7 @@ $_ENV['redis_username'] = '';         // Redis用户名，留空则不使用用�
 $_ENV['redis_password'] = '';         // Redis密码，留空则无密码
 $_ENV['redis_ssl'] = false;           // 是否使用SSL连接Redis，如果使用了SSL，那么Redis端口应为Redis实例的TLS端口
 $_ENV['redis_ssl_context'] = [];      // 使用SSL时的上下文选项，参考 https://www.php.net/manual/zh/context.ssl.php
+$_ENV['enable_redis_queue'] = false;
 
 //Rate Limit 设置--------------------------------------------------------------------------------------------------------
 $_ENV['enable_rate_limit'] = true;     // 是否开启请求限制

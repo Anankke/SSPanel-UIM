@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Services\IM;
 use App\Services\IM\Telegram;
+use App\Services\Queue\Queue;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Query\Builder;
@@ -289,7 +290,7 @@ final class User extends Model
         if ($this->daily_mail_enable === 1) {
             echo 'Sending daily mail to user: ' . $this->id . PHP_EOL;
 
-            (new EmailQueue())->add(
+            Queue::email(
                 $this->email,
                 $_ENV['appName'] . '-每日流量报告以及公告',
                 'traffic_report.tpl',
@@ -313,7 +314,7 @@ final class User extends Model
 
             try {
                 IM::send((int) $this->im_value, $text, $this->im_type);
-            } catch (GuzzleException|TelegramSDKException $e) {
+            } catch (GuzzleException | TelegramSDKException $e) {
                 echo $e->getMessage() . PHP_EOL;
             }
         }

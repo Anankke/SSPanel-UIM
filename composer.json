@@ -47,7 +47,8 @@
         "twig/twig": "^3",
         "vectorface/googleauthenticator": "^3",
         "voku/anti-xss": "^4",
-        "web-auth/webauthn-framework": "^5.2"
+        "web-auth/webauthn-framework": "^5.2",
+        "ext-pcntl": "*"
     },
     "autoload": {
         "psr-4": {

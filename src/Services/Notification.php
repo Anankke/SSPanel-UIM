@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Config;
-use App\Models\EmailQueue;
 use App\Models\User;
+use App\Services\Queue\Queue;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -24,7 +24,7 @@ final class Notification
 
         foreach ($admins as $admin) {
             if ($admin->contact_method === 1 || $admin->im_type === 0) {
-                (new EmailQueue())->add(
+                Queue::email(
                     $admin->email,
                     $title,
                     $template,
@@ -48,7 +48,7 @@ final class Notification
     public static function notifyUser($user, $title = '', $msg = '', $template = 'warn.tpl'): void
     {
         if ($user->contact_method === 1 || $user->im_type === 0) {
-            (new EmailQueue())->add(
+            Queue::email(
                 $user->email,
                 $title,
                 $template,
@@ -73,7 +73,7 @@ final class Notification
 
         foreach ($users as $user) {
             if ($user->contact_method === 1 || $user->im_type === 0) {
-                (new EmailQueue())->add(
+                Queue::email(
                     $user->email,
                     $title,
                     $template,
