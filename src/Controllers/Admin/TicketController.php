@@ -73,7 +73,7 @@ final class TicketController extends BaseController
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
                 'commenter_type' => 'admin',
                 'commenter_name' => 'Admin',
-                'comment' => $comment,
+                'comment' => $this->antiXss->xss_clean($comment),
                 'datetime' => time(),
             ],
         ];
@@ -140,7 +140,7 @@ final class TicketController extends BaseController
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
                 'commenter_type' => 'llm',
                 'commenter_name' => 'AI Assistant',
-                'comment' => $llm_response,
+                'comment' => $this->antiXss->xss_clean($llm_response),
                 'datetime' => time(),
             ],
         ];
