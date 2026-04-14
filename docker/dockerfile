@@ -1,0 +1,133 @@
+# 阶段1：构建器（安装 PHP 依赖）
+FROM ubuntu:22.04 AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 添加 ondrej/php PPA
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository -y ppa:ondrej/php \
+    && apt-get update
+
+# 安装 PHP CLI 和所有需要的扩展（包括 mysqli, redis, yaml, gmp 等）
+RUN apt-get install -y \
+    php8.4-cli \
+    php8.4-common \
+    php8.4-xml \
+    php8.4-curl \
+    php8.4-mbstring \
+    php8.4-zip \
+    php8.4-bcmath \
+    php8.4-mysql \
+    php8.4-redis \
+    php8.4-yaml \
+    php8.4-gmp \
+    git \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安装 Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# 复制本地 SSPanel 代码（上下文是 sspanel-code 根目录）
+WORKDIR /app
+COPY . .
+
+# 运行 composer install
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# ------------------------------------------------------------
+# 阶段2：运行镜像
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 添加 ondrej/php PPA
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository -y ppa:ondrej/php \
+    && apt-get update
+
+# --- 添加 MariaDB 11.8 官方源 ---
+RUN apt-get install -y curl gnupg \
+    && curl -fsSL -o /etc/apt/keyrings/mariadb-keyring.pgp https://mariadb.org/mariadb_release_signing_key.pgp \
+    && echo "deb [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://dlm.mariadb.com/repo/mariadb-server/11.8/repo/ubuntu jammy main" | tee /etc/apt/sources.list.d/mariadb.list \
+    && apt-get update
+
+# --- 添加 Nginx 官方稳定版源 ---
+RUN curl -fsSL https://nginx.org/keys/nginx_signing.key | gpg --dearmor -o /etc/apt/keyrings/nginx-archive-keyring.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/ubuntu jammy nginx" | tee /etc/apt/sources.list.d/nginx.list \
+    && apt-get update
+
+#查看版本号
+#apt-cache policy supervisor | grep "Candidate" 
+
+# --- 添加 Redis 官方源 ---
+RUN apt-get install -y lsb-release \
+    && curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list \
+    && apt-get update
+
+# 安装运行环境（所有软件包均锁定版本）
+RUN apt-get install -y \
+    nginx=1.28.3-1~jammy \
+    mariadb-server=1:11.8.6+maria~ubu2204 \
+    mariadb-client=1:11.8.6+maria~ubu2204 \
+    redis-server=6:8.6.2-1rl1~jammy1 \
+    cron=3.0pl1-137ubuntu3 \
+    supervisor=4.2.1-1ubuntu1 \
+    php8.4 \
+    php8.4-fpm \
+    php8.4-cli \
+    php8.4-common \
+    php8.4-mysql \
+    php8.4-pdo \
+    php8.4-redis \
+    php8.4-yaml \
+    php8.4-gmp \
+    php8.4-curl \
+    php8.4-gd \
+    php8.4-mbstring \
+    php8.4-bcmath \
+    php8.4-xml \
+    php8.4-zip \
+    php8.4-opcache \
+    curl \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# 从构建器复制已安装好依赖的 SSPanel 代码
+COPY --from=builder /app /app
+
+# 配置 Nginx（适配官方源，删除默认配置并复制自定义配置到 conf.d）
+RUN rm -f /etc/nginx/conf.d/default.conf
+COPY docker/nginx-sspanel.conf /etc/nginx/conf.d/sspanel.conf
+
+# 配置 Supervisor
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# 固化运行环境配置（构建期）
+RUN sed -i 's/^max_execution_time.*/max_execution_time = 300/' /etc/php/8.4/fpm/php.ini \
+    && sed -i 's/^memory_limit.*/memory_limit = 256M/' /etc/php/8.4/fpm/php.ini \
+    && sed -i 's/^post_max_size.*/post_max_size = 50M/' /etc/php/8.4/fpm/php.ini \
+    && sed -i 's/^upload_max_filesize.*/upload_max_filesize = 50M/' /etc/php/8.4/fpm/php.ini \
+    && sed -i 's/^;*date.timezone.*/date.timezone = Asia\/Shanghai/' /etc/php/8.4/fpm/php.ini \
+    && sed -i 's/^;*listen.owner.*/listen.owner = www-data/' /etc/php/8.4/fpm/pool.d/www.conf \
+    && sed -i 's/^;*listen.group.*/listen.group = www-data/' /etc/php/8.4/fpm/pool.d/www.conf \
+    && sed -i 's/^;*listen.mode.*/listen.mode = 0660/' /etc/php/8.4/fpm/pool.d/www.conf \
+    && usermod -aG www-data nginx \
+    && sed -i 's/^# bind 127.0.0.1/bind 127.0.0.1/' /etc/redis/redis.conf \
+    && if ! grep -q '^maxmemory ' /etc/redis/redis.conf; then echo "maxmemory 256mb" >> /etc/redis/redis.conf; fi \
+    && if ! grep -q '^maxmemory-policy ' /etc/redis/redis.conf; then echo "maxmemory-policy allkeys-lru" >> /etc/redis/redis.conf; fi \
+    && echo "# SSPanel Cron Job" > /etc/cron.d/sspanel \
+    && echo "* * * * * www-data /usr/bin/php /app/xcat Cron > /dev/null 2>&1" >> /etc/cron.d/sspanel \
+    && chmod 0644 /etc/cron.d/sspanel
+
+# 入口脚本
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+
+EXPOSE 80
+
+ENTRYPOINT ["/entrypoint.sh"]

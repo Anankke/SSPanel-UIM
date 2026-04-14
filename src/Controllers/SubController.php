@@ -15,8 +15,13 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use RedisException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use function explode;
 use function in_array;
+use function parse_url;
 use function strtotime;
+use function strtolower;
+use const PHP_URL_HOST;
+use const PHP_URL_PORT;
 
 final class SubController extends BaseController
 {
@@ -32,9 +37,19 @@ final class SubController extends BaseController
         $subtype = $args['subtype'];
         $subtype_list = ['json', 'clash', 'sip008', 'singbox', 'v2rayjson', 'sip002', 'ss', 'v2ray', 'trojan'];
 
+        $requestHostHeader = $request->getHeaderLine('Host');
+        $requestHostParts = explode(':', $requestHostHeader, 2);
+        $requestHost = strtolower($requestHostParts[0]);
+        $requestPort = $requestHostParts[1] ?? null;
+        $subUrlHost = strtolower((string) parse_url((string) $_ENV['subUrl'], PHP_URL_HOST));
+        $subUrlPort = parse_url((string) $_ENV['subUrl'], PHP_URL_PORT);
+        $subUrlMatches = $subUrlHost !== '' &&
+            $requestHost === $subUrlHost &&
+            ($subUrlPort === null || (string) $subUrlPort === (string) $requestPort);
+
         if (! $_ENV['Subscribe'] ||
             ! in_array($subtype, $subtype_list) ||
-            'https://' . $request->getHeaderLine('Host') !== $_ENV['subUrl']
+            ! $subUrlMatches
         ) {
             return ResponseHelper::error($response, $err_msg);
         }

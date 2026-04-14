@@ -1,0 +1,13 @@
+.git
+.gitignore
+.gitattributes
+.github
+
+# Local/editor artifacts
+.DS_Store
+.idea
+.vscode
+
+# Build/runtime noise
+*.log
+tmp

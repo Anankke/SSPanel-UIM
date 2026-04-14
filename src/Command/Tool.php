@@ -20,6 +20,8 @@ use function file_get_contents;
 use function fwrite;
 use function in_array;
 use function json_decode;
+use function json_last_error;
+use function json_last_error_msg;
 use function method_exists;
 use function strtolower;
 use function trim;
@@ -79,8 +81,19 @@ EOL;
 
     public function importSetting(): void
     {
-        $json_settings = file_get_contents('./config/settings.json');
+        $settingsPath = BASE_PATH . '/config/settings.json';
+        $json_settings = file_get_contents($settingsPath);
+        if ($json_settings === false) {
+            echo '读取配置文件失败：' . $settingsPath . PHP_EOL;
+
+            return;
+        }
         $settings = json_decode($json_settings, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo '解析配置文件失败：' . json_last_error_msg() . PHP_EOL;
+
+            return;
+        }
         $config = [];
         $add_counter = 0;
         $update_counter = 0;

@@ -7,7 +7,7 @@ $_ENV['salt'] = '';            // bcrypt/argon2i/argon2id 会忽略此项
 
 $_ENV['debug'] = false;                  // debug模式开关，生产环境请保持为false
 $_ENV['appName'] = 'SSPanel-UIM';         // 站点名称
-$_ENV['baseUrl'] = 'https://example.com'; // 站点地址，必须以https://开头，不要以/结尾
+$_ENV['baseUrl'] = 'http://localhost'; // 站点地址，必须以https://开头，不要以/结尾
 
 // WebAPI
 $_ENV['webAPI'] = true;                // 是否开启WebAPI功能
@@ -19,11 +19,11 @@ $_ENV['checkNodeIp'] = true;           // 是否webapi验证节点ip
 // db_host|db_socket 二选一，若设置 db_socket 则 db_host 会被忽略，不用请留空
 // db_host 例: localhost（可解析的主机名）, 127.0.0.1（IP 地址）
 // db_socket 例：/var/run/mysqld/mysqld.sock（需使用绝对地址）
-$_ENV['db_host'] = '';
+$_ENV['db_host'] = '127.0.0.1';
 $_ENV['db_socket'] = '';
 $_ENV['db_database'] = 'sspanel'; // 数据库名
-$_ENV['db_username'] = 'root';    // 数据库用户名
-$_ENV['db_password'] = 'sspanel'; // 用户密码
+$_ENV['db_username'] = 'sspanel';    // 数据库用户名
+$_ENV['db_password'] = 'sspanelpwd'; // 用户密码
 $_ENV['db_port'] = '3306';        // 端口
 #读写分离相关配置
 $_ENV['enable_db_rw_split'] = false; // 是否开启读写分离

@@ -13,6 +13,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 use RedisException;
 use Slim\Factory\AppFactory;
 use voku\helper\AntiXSS;
+use function explode;
+use function parse_url;
+use function strtolower;
+use const PHP_URL_HOST;
+use const PHP_URL_PORT;
 
 final class NodeToken implements MiddlewareInterface
 {
@@ -42,9 +47,19 @@ final class NodeToken implements MiddlewareInterface
             ]);
         }
 
+        $requestHostHeader = $request->getHeaderLine('Host');
+        $requestHostParts = explode(':', $requestHostHeader, 2);
+        $requestHost = strtolower($requestHostParts[0]);
+        $requestPort = $requestHostParts[1] ?? null;
+        $webApiUrlHost = strtolower((string) parse_url((string) $_ENV['webAPIUrl'], PHP_URL_HOST));
+        $webApiUrlPort = parse_url((string) $_ENV['webAPIUrl'], PHP_URL_PORT);
+        $webApiUrlMatches = $webApiUrlHost !== '' &&
+            $requestHost === $webApiUrlHost &&
+            ($webApiUrlPort === null || (string) $webApiUrlPort === (string) $requestPort);
+
         if (! $_ENV['webAPI'] ||
             $key !== $_ENV['muKey'] ||
-            'https://' . $request->getHeaderLine('Host') !== $_ENV['webAPIUrl']
+            ! $webApiUrlMatches
         ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,
