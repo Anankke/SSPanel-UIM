@@ -61,6 +61,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'quic',
                 'server' => '223.6.6.6',
                 'server_port' => 853,
+                //'domain_resolver' => 'local',
                 //'detour' => 'direct',
             ],
             [
@@ -68,6 +69,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'tls',
                 'server' => '1.1.1.1',
                 'server_port' => 853,
+                //'domain_resolver' => 'local',
                 'detour' => 'select',
             ],
             [
@@ -75,6 +77,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'tls',
                 'server' => '8.8.8.8',
                 'server_port' => 853,
+                //'domain_resolver' => 'local',
                 'detour' => 'select',
             ],
             [
@@ -82,6 +85,7 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'tls',
                 'server' => '208.67.222.222',
                 'server_port' => 853,
+                //'domain_resolver' => 'local',
                 'detour' => 'select',
             ],
             [
@@ -138,6 +142,20 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'fakeip',
             ],
             [
+                'action' => 'evaluate',
+                'server' => $_ENV['dns_select'],
+                'disable_cache' => true,
+                'client_subnet' => '111.222.0.0'
+            ],
+            [
+                'rule_set' => [
+                    'geosite-geolocation-!cn',
+                ],
+                'server' => $_ENV['dns_select'],
+                'disable_cache' => true,
+                'client_subnet' => '111.222.0.0'
+            ],
+            [
                 'type' => 'logical',
                 'mode' => 'and',
                 'rules' => [
@@ -148,6 +166,7 @@ $_ENV['SingBox_Config'] = [
                         'invert' => true,
                     ],
                     [
+                        'match_response' => true,
                         'rule_set' => [
                             'geoip-cn',
                         ],
@@ -169,7 +188,7 @@ $_ENV['SingBox_Config'] = [
         ],
         'final' => 'cloudflare',
         'disable_cache' => true,
-        'independent_cache' => true,
+        //'independent_cache' => true,
     ],
     'inbounds' => [
         [
@@ -203,17 +222,6 @@ $_ENV['SingBox_Config'] = [
             'interval' => '3m',
             'tolerance' => 50,
             'idle_timeout' => '30m',
-            'interrupt_exist_connections' => true,
-        ],
-        [
-            'tag' => 'rules_download',
-            'type' => 'selector',
-            'outbounds' => [
-                'select',
-                'auto',
-                'direct',
-            ],
-            'default' => 'select',
             'interrupt_exist_connections' => true,
         ],
         [
@@ -338,56 +346,84 @@ $_ENV['SingBox_Config'] = [
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
             [
                 'tag' => 'geosite-cn',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
             [
                 'tag' => 'geosite-category-ads-all',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-category-ads-all.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
             [
                 'tag' => 'geosite-geolocation-cn',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-cn.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
             [
                 'tag' => 'geosite-geolocation-!cn',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
             [
                 'tag' => 'geosite-netease',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-netease.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
             [
                 'tag' => 'geosite-bilibili',
                 'type' => 'remote',
                 'format' => 'binary',
                 'url' => 'https://' . $_ENV['jsdelivr_url'] . '/gh/SagerNet/sing-geosite@rule-set/geosite-bilibili.srs',
-                'download_detour' => 'rules_download',
                 'update_interval' => '1d',
+                'http_client' => [
+                    'engine' => 'go',
+                    'version' => 2,
+                    'disable_version_fallback' => false,
+                ],
             ],
         ],
         'final' => 'select',
