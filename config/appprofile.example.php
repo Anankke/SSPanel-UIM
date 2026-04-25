@@ -47,7 +47,6 @@ $_ENV['SingBox_Config'] = [
     'log' => [
         'disabled' => false,
         'level' => 'error',
-        //'level' => 'debug',
         'timestamp' => true,
     ],
     'dns' => [
