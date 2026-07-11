@@ -10445,16 +10445,16 @@
         },
         {
             "name": "web-auth/webauthn-framework",
-            "version": "5.2.4",
+            "version": "5.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-framework.git",
-                "reference": "50445d659457f8350943e8f54ed1c775faac6644"
+                "reference": "330fe4a7daaebcd0a5e2c8b5fb6bd0d1578bdab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-framework/zipball/50445d659457f8350943e8f54ed1c775faac6644",
-                "reference": "50445d659457f8350943e8f54ed1c775faac6644",
+                "url": "https://api.github.com/repos/web-auth/webauthn-framework/zipball/330fe4a7daaebcd0a5e2c8b5fb6bd0d1578bdab0",
+                "reference": "330fe4a7daaebcd0a5e2c8b5fb6bd0d1578bdab0",
                 "shasum": ""
             },
             "require": {
@@ -10462,26 +10462,27 @@
                 "ext-openssl": "*",
                 "paragonie/constant_time_encoding": "^2.6|^3.0",
                 "php": ">=8.2",
-                "phpdocumentor/reflection-docblock": "^5.3",
+                "phpdocumentor/reflection-docblock": "^5.3|^6.0",
                 "psr/clock": "^1.0",
                 "psr/event-dispatcher": "^1.0",
                 "psr/log": "^1.0|^2.0|^3.0",
                 "spomky-labs/cbor-php": "^3.0",
                 "spomky-labs/pki-framework": "^1.0",
-                "symfony/clock": "^6.4|^7.0",
-                "symfony/config": "^6.4|^7.0",
-                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/clock": "^6.4|^7.0|^8.0",
+                "symfony/config": "^6.4|^7.0|^8.0",
+                "symfony/dependency-injection": "^6.4|^7.0|^8.0",
                 "symfony/deprecation-contracts": "^3.2",
-                "symfony/framework-bundle": "^6.4|^7.0",
-                "symfony/http-client": "^6.4|^7.0",
-                "symfony/property-access": "^6.4|^7.0",
-                "symfony/property-info": "^6.4|^7.0",
-                "symfony/security-bundle": "^6.4|^7.0",
-                "symfony/security-core": "^6.4|^7.0",
-                "symfony/security-http": "^6.4|^7.0",
-                "symfony/serializer": "^6.4|^7.0",
-                "symfony/uid": "^6.4|^7.0",
-                "symfony/validator": "^6.4|^7.0",
+                "symfony/framework-bundle": "^6.4|^7.0|^8.0",
+                "symfony/http-client": "^6.4|^7.0|^8.0",
+                "symfony/property-access": "^6.4|^7.0|^8.0",
+                "symfony/property-info": "^6.4|^7.0|^8.0",
+                "symfony/security-bundle": "^6.4|^7.0|^8.0",
+                "symfony/security-core": "^6.4|^7.0|^8.0",
+                "symfony/security-http": "^6.4|^7.0|^8.0",
+                "symfony/serializer": "^6.4|^7.0|^8.0",
+                "symfony/service-contracts": "^3.0",
+                "symfony/uid": "^6.4|^7.0|^8.0",
+                "symfony/validator": "^6.4|^7.0|^8.0",
                 "web-auth/cose-lib": "^4.2.3"
             },
             "replace": {
@@ -10492,42 +10493,26 @@
             },
             "require-dev": {
                 "doctrine/dbal": "^3.8|^4.0",
-                "doctrine/doctrine-bundle": "^2.12",
+                "doctrine/doctrine-bundle": "^2.18.1|^3.0",
                 "doctrine/orm": "^2.14|^3.0",
                 "doctrine/persistence": "^3.1|^4.0",
-                "ekino/phpstan-banned-code": "^3.0",
-                "ergebnis/phpunit-slow-test-detector": "^2.18",
-                "infection/infection": "^0.29",
                 "matthiasnoback/symfony-dependency-injection-test": "^5.1|^6.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3",
-                "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.0",
-                "phpstan/phpstan-deprecation-rules": "^2.0",
-                "phpstan/phpstan-doctrine": "^2.0",
-                "phpstan/phpstan-phpunit": "^2.0",
-                "phpstan/phpstan-strict-rules": "^2.0",
-                "phpstan/phpstan-symfony": "^2.0",
-                "phpunit/phpunit": "^11.5",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.1",
                 "psr/http-message": "^2.0",
-                "qossmic/deptrac": "^2.0",
-                "rector/rector": "^2.0",
                 "roave/security-advisories": "dev-latest",
-                "staabm/phpstan-todo-by": "^0.2",
-                "struggle-for-php/sfp-phpstan-psr-log": "^0.23",
-                "symfony/asset": "^6.4|^7.0",
-                "symfony/asset-mapper": "^6.4|^7.0",
-                "symfony/browser-kit": "^6.4|^7.0",
-                "symfony/filesystem": "^6.4|^7.0",
-                "symfony/finder": "^6.4|^7.0",
-                "symfony/monolog-bundle": "^3.8",
-                "symfony/twig-bundle": "^6.4|^7.0",
-                "symfony/var-dumper": "^6.4|^7.0",
-                "symfony/var-exporter": "^6.4|^7.0",
-                "symfony/yaml": "^6.4|^7.0",
-                "symplify/easy-coding-standard": "^12.0",
-                "web-token/jwt-library": "^4.0"
+                "symfony/asset": "^6.4|^7.0|^8.0",
+                "symfony/asset-mapper": "^6.4|^7.0|^8.0",
+                "symfony/browser-kit": "^6.4|^7.0|^8.0",
+                "symfony/doctrine-bridge": "^6.4|^7.0|^8.0",
+                "symfony/filesystem": "^6.4|^7.0|^8.0",
+                "symfony/finder": "^6.4|^7.0|^8.0",
+                "symfony/monolog-bundle": "^3.8 || ^4.0",
+                "symfony/twig-bundle": "^6.4|^7.0|^8.0",
+                "symfony/var-dumper": "^6.4|^7.0|^8.0",
+                "symfony/var-exporter": "^6.4|^7.0|^8.0",
+                "symfony/yaml": "^6.4|^7.0|^8.0",
+                "web-token/jwt-library": "^3.4|^4.0"
             },
             "suggest": {
                 "psr/log-implementation": "Recommended to receive logs from the library",
@@ -10576,7 +10561,7 @@
             ],
             "support": {
                 "issues": "https://github.com/web-auth/webauthn-framework/issues",
-                "source": "https://github.com/web-auth/webauthn-framework/tree/5.2.4"
+                "source": "https://github.com/web-auth/webauthn-framework/tree/5.3.5"
             },
             "funding": [
                 {
@@ -10588,7 +10573,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-03-08T17:23:45+00:00"
+            "time": "2026-05-31T15:00:08+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -15248,5 +15233,5 @@
         "ext-zip": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
