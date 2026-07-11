@@ -137,7 +137,7 @@ jobs:
     - name: Upload coverage to Codecov
       # Only upload coverage from one PHP version to avoid duplicates
       if: matrix.php-version == '8.3'
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v7
       with:
         file: ./coverage.xml
         fail_ci_if_error: false
