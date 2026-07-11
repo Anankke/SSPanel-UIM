@@ -49,7 +49,7 @@
         "slim/slim": "^4",
         "smarty/smarty": "^5",
         "srmklive/paypal": "^3",
-        "stripe/stripe-php": "^17",
+        "stripe/stripe-php": "^20",
         "symfony/http-client": "^7",
         "symfony/translation": "^7",
         "twig/twig": "^3",
