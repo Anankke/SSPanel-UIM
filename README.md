@@ -192,7 +192,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) file for 
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Anankke/SSPanel-UIM&type=Date)](https://star-history.com/#Anankke/SSPanel-UIM&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=Anankke/SSPanel-UIM&type=Date)](https://star-history.dera.page/#Anankke/SSPanel-UIM&Date)
 
 ---
 
