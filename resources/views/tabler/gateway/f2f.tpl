@@ -38,7 +38,7 @@
                     f2fQrcode.attr('href', data.qrcode);
                 } else {
                     $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+                    failDialog.show();
                 }
             }
         })

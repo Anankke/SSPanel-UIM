@@ -63,7 +63,7 @@
 
         function closeTicket(ticket_id) {
             $('#notice-message').text('确定关闭此工单？');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/ticket/" + ticket_id + '/close',
@@ -72,11 +72,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 });
@@ -85,7 +85,7 @@
 
         function deleteTicket(ticket_id) {
             $('#notice-message').text('确定删除此工单？');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/ticket/" + ticket_id,
@@ -94,11 +94,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })
