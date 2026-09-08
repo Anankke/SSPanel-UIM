@@ -136,8 +136,8 @@ final class Message
 
             if (Config::obtain('enable_welcome_message')) {
                 $text = ($new_user->class > 0 ?
-                    I18n::trans('user_join_welcome_paid', $_ENV['locale']) :
-                    I18n::trans('user_join_welcome_free', $_ENV['locale']));
+                    I18n::trans('bot.user_join_welcome_paid', $_ENV['locale']) :
+                    I18n::trans('bot.user_join_welcome_free', $_ENV['locale']));
 
                 $this->replyWithMessage(
                     [
