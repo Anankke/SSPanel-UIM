@@ -703,7 +703,7 @@
                 attResp = await startRegistration({ optionsJSON: options });
             } catch (error) {
                 $('#error-message').text(error.message);
-                $('#fail-dialog').modal('show');
+                failDialog.show();
                 throw error;
             }
             attResp.name = prompt("请输入设备名称:");
@@ -718,13 +718,13 @@
             const verificationJSON = await verificationResp.json();
             if (verificationJSON.ret === 1) {
                 $('#success-message').text(verificationJSON.msg);
-                $('#success-dialog').modal('show');
+                successDialog.show();
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
             } else {
                 $('#error-message').text(verificationJSON.msg);
-                $('#fail-dialog').modal('show');
+                failDialog.show();
             }
         });
         document.getElementById('webauthnReg').addEventListener('click', async () => {
@@ -735,7 +735,7 @@
                 attResp = await startRegistration({ optionsJSON: options });
             } catch (error) {
                 $('#error-message').text(error.message);
-                $('#fail-dialog').modal('show');
+                failDialog.show();
                 throw error;
             }
             attResp.name = prompt("请输入设备名称:");
@@ -749,13 +749,13 @@
             const verificationJSON = await verificationResp.json();
             if (verificationJSON.ret === 1) {
                 $('#success-message').text(verificationJSON.msg);
-                $('#success-dialog').modal('show');
+                successDialog.show();
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
             } else {
                 $('#error-message').text(verificationJSON.msg);
-                $('#fail-dialog').modal('show');
+                failDialog.show();
             }
         });
         {if $user->im_type === 0 && $user->im_value === ''}
@@ -825,13 +825,13 @@
             if (data.ret === 1) {
                 if (type === 'telegram') {
                     $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
+                    successDialog.show();
                 } else {
                     window.location.replace(data.redir);
                 }
             } else {
                 $('#error-message').text(data.msg);
-                $('#fail-dialog').modal('show');
+                failDialog.show();
             }
         }
         {/if}

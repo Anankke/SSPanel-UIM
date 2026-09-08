@@ -157,11 +157,11 @@
                 success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
+                        successDialog.show();
                         reloadTableAjax();
                     } else {
                         $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
+                        failDialog.show();
                     }
                 }
             })
@@ -169,7 +169,7 @@
 
         function deleteCoupon(coupon_id) {
             $('#notice-message').text('确定删除此优惠码？');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/coupon/" + coupon_id,
@@ -178,11 +178,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })
@@ -191,7 +191,7 @@
 
         function disableCoupon(coupon_id) {
             $('#notice-message').text('确定禁用此优惠码？');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/coupon/" + coupon_id + "/disable",
@@ -200,11 +200,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-dialog').text(data.msg);
-                            $('#success-message').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })
