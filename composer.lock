@@ -11181,24 +11181,26 @@
         },
         {
             "name": "dg/bypass-finals",
-            "version": "v1.9.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/bypass-finals.git",
-                "reference": "920a7da2f3c1422fd83f9ec4df007af53dc4018b"
+                "reference": "b21595bdd1937e9ac912d68380dc85a65d77285f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/920a7da2f3c1422fd83f9ec4df007af53dc4018b",
-                "reference": "920a7da2f3c1422fd83f9ec4df007af53dc4018b",
+                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/b21595bdd1937e9ac912d68380dc85a65d77285f",
+                "reference": "b21595bdd1937e9ac912d68380dc85a65d77285f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=8.2"
             },
             "require-dev": {
-                "nette/tester": "^2.3",
-                "phpstan/phpstan": "^0.12"
+                "nette/phpstan-rules": "^1.0",
+                "nette/tester": "^2.6",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.2"
             },
             "type": "library",
             "autoload": {
@@ -11228,9 +11230,9 @@
             ],
             "support": {
                 "issues": "https://github.com/dg/bypass-finals/issues",
-                "source": "https://github.com/dg/bypass-finals/tree/v1.9.0"
+                "source": "https://github.com/dg/bypass-finals/tree/v1.11.0"
             },
-            "time": "2025-01-16T00:46:05+00:00"
+            "time": "2026-07-24T12:24:07+00:00"
         },
         {
             "name": "evenement/evenement",
