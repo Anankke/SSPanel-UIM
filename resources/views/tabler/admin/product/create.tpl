@@ -218,7 +218,7 @@
 
         if (emptyFields.length > 0) {
             $("#fail-message").text("请填写所有必要栏位");
-            $("#fail-dialog").modal("show");
+            failDialog.show();
         } else {
             $.ajax({
                 url: "/admin/product",
@@ -233,11 +233,11 @@
                 success: function (data) {
                     if (data.ret === 1) {
                         $("#success-message").text(data.msg);
-                        $("#success-dialog").modal("show");
+                        successDialog.show();
                         window.setTimeout("location.href=top.document.referrer", {$config["jump_delay"]});
                     } else {
                         $("#fail-message").text(data.msg);
-                        $("#fail-dialog").modal("show");
+                        failDialog.show();
                     }
                 }
             })

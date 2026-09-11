@@ -243,10 +243,10 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })

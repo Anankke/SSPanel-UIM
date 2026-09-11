@@ -231,7 +231,7 @@
     let clipboard = new ClipboardJS('.copy');
     clipboard.on('success', function (e) {
         $('#success-message').text('已复制到剪切板');
-        $('#success-dialog').modal('show');
+        successDialog.show();
     });
 
     const container = document.getElementById('custom_config');
@@ -249,10 +249,10 @@
             success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
+                    successDialog.show();
                 } else {
                     $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+                    failDialog.show();
                 }
             }
         })
@@ -266,10 +266,10 @@
             success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
+                    successDialog.show();
                 } else {
                     $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+                    failDialog.show();
                 }
             }
         })
@@ -291,11 +291,11 @@
             success: function (data) {
                 if (data.ret === 1) {
                     $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
+                    successDialog.show();
                     window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                 } else {
                     $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+                    failDialog.show();
                 }
             }
         })
