@@ -43,16 +43,8 @@ $_ENV['V2RayJson_Config'] = [
     'outbounds' => [],
 ];
 
-//判断订阅客户端的 User Agent 用于动态调整部分配置以兼容来自于Sing-box官方Android、Windows PC客户端及其他客户端的订阅请求
-$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-
-$isSfaVisitor = false;
-if ($userAgent !== '' && strpos($userAgent, 'SFA') !== false) {
-    $isSfaVisitor = true;
-}
-
-//设置动态变量（当前请求生命周期有效）
-putenv('SFA_VISITOR=' . ($isSfaVisitor ? 'true' : 'false'));
+//sing-box 的 override_android_vpn 仅 Android 支持，按订阅客户端 User Agent 判断
+$isSfaVisitor = str_contains($_SERVER['HTTP_USER_AGENT'] ?? '', 'SFA');
 
 $_ENV['SingBox_Config'] = [
     'log' => [
@@ -439,7 +431,7 @@ $_ENV['SingBox_Config'] = [
         ],
         'final' => 'select',
         'auto_detect_interface' => true,
-        'override_android_vpn' => getenv('SFA_VISITOR') === 'true' ? true : false,
+        'override_android_vpn' => $isSfaVisitor,
         'default_domain_resolver' => [
             'server' => 'local',
             'rewrite_tll' => 60,
