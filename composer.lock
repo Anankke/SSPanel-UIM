@@ -719,16 +719,16 @@
         },
         {
             "name": "bacon/bacon-qr-code",
-            "version": "v3.0.1",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "f9cc1f52b5a463062251d666761178dbdb6b544f"
+                "reference": "4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/f9cc1f52b5a463062251d666761178dbdb6b544f",
-                "reference": "f9cc1f52b5a463062251d666761178dbdb6b544f",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2",
+                "reference": "4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2",
                 "shasum": ""
             },
             "require": {
@@ -738,8 +738,9 @@
             },
             "require-dev": {
                 "phly/keep-a-changelog": "^2.12",
-                "phpunit/phpunit": "^10.5.11 || 11.0.4",
+                "phpunit/phpunit": "^10.5.11 || ^11.0.4",
                 "spatie/phpunit-snapshot-assertions": "^5.1.5",
+                "spatie/pixelmatch-php": "^1.2.0",
                 "squizlabs/php_codesniffer": "^3.9"
             },
             "suggest": {
@@ -767,9 +768,9 @@
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "support": {
                 "issues": "https://github.com/Bacon/BaconQrCode/issues",
-                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.0.1"
+                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.1.1"
             },
-            "time": "2024-10-01T13:55:55+00:00"
+            "time": "2026-04-05T21:06:35+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -1166,16 +1167,16 @@
         },
         {
             "name": "dasprid/enum",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DASPRiD/Enum.git",
-                "reference": "8dfd07c6d2cf31c8da90c53b83c026c7696dda90"
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/8dfd07c6d2cf31c8da90c53b83c026c7696dda90",
-                "reference": "8dfd07c6d2cf31c8da90c53b83c026c7696dda90",
+                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
                 "shasum": ""
             },
             "require": {
@@ -1210,9 +1211,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DASPRiD/Enum/issues",
-                "source": "https://github.com/DASPRiD/Enum/tree/1.0.6"
+                "source": "https://github.com/DASPRiD/Enum/tree/1.0.7"
             },
-            "time": "2024-08-09T14:30:48+00:00"
+            "time": "2025-09-16T12:23:56+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -10057,16 +10058,16 @@
         },
         {
             "name": "vectorface/googleauthenticator",
-            "version": "v3.4",
+            "version": "v3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Vectorface/GoogleAuthenticator.git",
-                "reference": "48f5571e1496a6421e7975d9884860cb3cc918d8"
+                "reference": "7c2890467f858e1e0ffeb1102bda51000a79c41f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Vectorface/GoogleAuthenticator/zipball/48f5571e1496a6421e7975d9884860cb3cc918d8",
-                "reference": "48f5571e1496a6421e7975d9884860cb3cc918d8",
+                "url": "https://api.github.com/repos/Vectorface/GoogleAuthenticator/zipball/7c2890467f858e1e0ffeb1102bda51000a79c41f",
+                "reference": "7c2890467f858e1e0ffeb1102bda51000a79c41f",
                 "shasum": ""
             },
             "require": {
@@ -10110,7 +10111,7 @@
                 "issues": "https://github.com/Vectorface/GoogleAuthenticator/issues",
                 "source": "https://github.com/Vectorface/GoogleAuthenticator"
             },
-            "time": "2025-07-23T17:32:36+00:00"
+            "time": "2026-06-19T18:55:53+00:00"
         },
         {
             "name": "voku/anti-xss",
