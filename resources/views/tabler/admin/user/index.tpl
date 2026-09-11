@@ -133,11 +133,11 @@
                 success: function (data) {
                     if (data.ret === 1) {
                         $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
+                        successDialog.show();
                         reloadTableAjax();
                     } else {
                         $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
+                        failDialog.show();
                     }
                 }
             })
@@ -145,7 +145,7 @@
 
         function deleteUser(user_id) {
             $('#notice-message').text('确定删除此用户？');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/user/" + user_id,
@@ -154,11 +154,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })

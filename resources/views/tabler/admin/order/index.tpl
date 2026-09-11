@@ -104,7 +104,7 @@
 
         function deleteOrder(order_id) {
             $('#notice-message').text('确定删除此订单？');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/order/" + order_id,
@@ -113,11 +113,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })
@@ -126,7 +126,7 @@
 
         function cancelOrder(order_id) {
             $('#notice-message').text('确定取消此订单？如果关联账单已支付，将会退款至用户余额。');
-            $('#notice-dialog').modal('show');
+            noticeDialog.show();
             $('#notice-confirm').off('click').on('click', function () {
                 $.ajax({
                     url: "/admin/order/" + order_id + "/cancel",
@@ -135,11 +135,11 @@
                     success: function (data) {
                         if (data.ret === 1) {
                             $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
+                            successDialog.show();
                             reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
+                            failDialog.show();
                         }
                     }
                 })
