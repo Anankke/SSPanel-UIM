@@ -20,6 +20,12 @@ describe('I18n::trans', function () {
         expect($translation)->toBe($expectedTranslation);
     });
 
+    it('returns nested translation for valid key and locale', function () {
+        $translation = I18n::trans('bot.user_not_bind', 'zh_CN');
+
+        expect($translation)->toBe('你未绑定本站账号，你可以进入网站的 **资料编辑**，在右下方绑定你的账号。');
+    });
+
     it('returns key when translation does not exist', function () {
         $key = 'non_existent_key';
         $lang = 'en_US';
