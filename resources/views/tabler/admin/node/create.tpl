@@ -59,6 +59,7 @@
                                 <div class="col">
                                     <select id="sort" class="col form-select">
                                         <option value="14">Trojan</option>
+                                        <option value="15">Hysteria 2</option>
                                         <option value="11">Vmess</option>
                                         <option value="2">TUIC</option>
                                         <option value="1">Shadowsocks2022</option>
@@ -191,6 +192,28 @@
         modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);
+    editor.set({});
+
+    $('#sort').on('change', function () {
+        if ($(this).val() === '15' && Object.keys(editor.get()).length === 0) {
+            editor.set({
+                offset_port_node: '443',
+                offset_port_user: '443',
+                host: '',
+                allow_insecure: false,
+                hysteria2: {
+                    version: 2,
+                    udpIdleTimeout: 60,
+                    masquerade: {type: '404'},
+                    finalmask: {
+                        udp: [{type: 'salamander', settings: {password: ''}}],
+                        quicParams: {congestion: 'bbr'},
+                    },
+                    portHopping: {enabled: false, autoConfigureFirewall: false, ports: ''},
+                },
+            });
+        }
+    });
 
     $("#create-node").click(function () {
         $.ajax({

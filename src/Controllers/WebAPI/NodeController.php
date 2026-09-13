@@ -28,7 +28,9 @@ final class NodeController extends BaseController
             return ResponseHelper::error($response, 'Node not found.');
         }
 
-        if ($node->type === 0) {
+        $supportsNodeState = str_contains($request->getHeaderLine('X-XrayR-Capabilities'), 'node-state-v1');
+
+        if ($node->type === 0 && ! $supportsNodeState) {
             return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
@@ -39,6 +41,7 @@ final class NodeController extends BaseController
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => $_ENV['appName'],
             'version' => $this->convertVersionFormat(VERSION),
+            'enabled' => $node->type !== 0,
         ];
 
         return ResponseHelper::successWithDataEtag($request, $response, $data);

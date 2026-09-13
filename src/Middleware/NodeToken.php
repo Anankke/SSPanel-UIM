@@ -21,7 +21,8 @@ final class NodeToken implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $key = $request->getQueryParams()['key'] ?? null;
+        $query = $request->getQueryParams();
+        $key = $query['key'] ?? $query['muKey'] ?? null;
 
         if ($key === null) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
@@ -42,9 +43,21 @@ final class NodeToken implements MiddlewareInterface
             ]);
         }
 
+        $configuredUrl = parse_url(rtrim($_ENV['webAPIUrl'], '/'));
+        $requestHost = strtolower($request->getUri()->getHost());
+        $hostHeader = parse_url('http://' . $request->getHeaderLine('Host'));
+        if ($requestHost === '') {
+            $requestHost = strtolower((string) ($hostHeader['host'] ?? ''));
+        }
+        $expectedHost = strtolower((string) ($configuredUrl['host'] ?? ''));
+        $expectedPort = $configuredUrl['port'] ?? null;
+        $requestPort = $request->getUri()->getPort() ?? ($hostHeader['port'] ?? null);
+
         if (! $_ENV['webAPI'] ||
-            $key !== $_ENV['muKey'] ||
-            'https://' . $request->getHeaderLine('Host') !== $_ENV['webAPIUrl']
+            ! hash_equals((string) $_ENV['muKey'], (string) $key) ||
+            $expectedHost === '' ||
+            $requestHost !== $expectedHost ||
+            ($expectedPort !== null && $requestPort !== $expectedPort)
         ) {
             return AppFactory::determineResponseFactory()->createResponse(401)->withJson([
                 'ret' => 0,

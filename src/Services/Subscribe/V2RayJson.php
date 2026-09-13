@@ -166,6 +166,37 @@ final class V2RayJson extends Base
                     $node['streamSettings']['securitySettings'] = array_filter($node['streamSettings']['securitySettings']);
 
                     break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    $hysteria = $node_custom_config['hysteria2'] ?? [];
+                    $node = [
+                        'protocol' => 'hysteria',
+                        'settings' => [
+                            'version' => 2,
+                            'address' => $hy2['server'],
+                            'port' => $hy2['port'],
+                        ],
+                        'tag' => $node_raw->name,
+                        'streamSettings' => [
+                            'network' => 'hysteria',
+                            'security' => 'tls',
+                            'hysteriaSettings' => [
+                                'version' => 2,
+                                'auth' => $user->uuid,
+                                'udpIdleTimeout' => $hysteria['udpIdleTimeout'] ?? 0,
+                            ],
+                            'finalmask' => $hysteria['finalmask'] ?? null,
+                            'tlsSettings' => [
+                                'serverName' => $hy2['sni'],
+                                'allowInsecure' => $hy2['insecure'],
+                            ],
+                        ],
+                    ];
+
+                    $node['streamSettings']['hysteriaSettings'] = array_filter($node['streamSettings']['hysteriaSettings']);
+                    $node['streamSettings'] = array_filter($node['streamSettings']);
+
+                    break;
                 default:
                     $node = [];
                     break;

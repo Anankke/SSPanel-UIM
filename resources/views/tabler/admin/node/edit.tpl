@@ -71,6 +71,7 @@
                                 <div class="col">
                                     <select id="sort" class="col form-select" value="{$node->sort}">
                                         <option value="14" {if $node->sort === 14}selected{/if}>Trojan</option>
+                                        <option value="15" {if $node->sort === 15}selected{/if}>Hysteria 2</option>
                                         <option value="11" {if $node->sort === 11}selected{/if}>Vmess</option>
                                         <option value="2" {if $node->sort === 2}selected{/if}>TUIC</option>
                                         <option value="1" {if $node->sort === 1}selected{/if}>Shadowsocks2022</option>
@@ -240,6 +241,27 @@
     };
     const editor = new JSONEditor(container, options);
     editor.set({$node->custom_config})
+
+    $('#sort').on('change', function () {
+        if ($(this).val() === '15' && Object.keys(editor.get()).length === 0) {
+            editor.set({
+                offset_port_node: '443',
+                offset_port_user: '443',
+                host: '',
+                allow_insecure: false,
+                hysteria2: {
+                    version: 2,
+                    udpIdleTimeout: 60,
+                    masquerade: {type: '404'},
+                    finalmask: {
+                        udp: [{type: 'salamander', settings: {password: ''}}],
+                        quicParams: {congestion: 'bbr'},
+                    },
+                    portHopping: {enabled: false, autoConfigureFirewall: false, ports: ''},
+                },
+            });
+        }
+    });
 
     $("#reset-bandwidth").click(function () {
         $.ajax({
