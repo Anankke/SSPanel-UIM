@@ -80,6 +80,58 @@ describe('UserController API - Hysteria2 Node', function () {
     });
 });
 
+describe('XrayR node and exhausted-user state', function () {
+    it('reports a bandwidth-exhausted node as disabled and re-enables it after reset', function () {
+        $this->node->node_bandwidth_limit = 1024;
+        $this->node->node_bandwidth = 1024;
+        $this->node->save();
+
+        $url = '/mod_mu/nodes/' . $this->node->id . '/info?key=' . $_ENV['muKey'];
+        $headers = ['X-XrayR-Capabilities' => 'node-state-v1'];
+        $disabledResponse = $this->get($url, $headers);
+        $disabledData = getJsonData($disabledResponse);
+
+        expect($disabledData['ret'])->toBe(1)
+            ->and($disabledData['data']['enabled'])->toBeFalse();
+        $disabledEtag = $disabledResponse->getHeaderLine('ETag');
+
+        $legacyResponse = $this->get($url);
+        expect(getJsonData($legacyResponse)['ret'])->toBe(0);
+
+        $this->node->node_bandwidth = 0;
+        $this->node->save();
+        $enabledResponse = $this->get($url, $headers + ['If-None-Match' => $disabledEtag]);
+        $enabledData = getJsonData($enabledResponse);
+
+        expect($enabledResponse->getStatusCode())->toBe(200)
+            ->and($enabledData['data']['enabled'])->toBeTrue();
+    });
+
+    it('honors keep_connect by retaining an exhausted user at 1 Mbps', function () {
+        $originalKeepConnect = $_ENV['keep_connect'] ?? false;
+        $user = createUsers(1)[0];
+        $user->transfer_enable = 1;
+        $user->u = 1;
+        $user->d = 1;
+        $user->save();
+        $url = '/mod_mu/users?node_id=' . $this->node->id . '&key=' . $_ENV['muKey'];
+
+        try {
+            $_ENV['keep_connect'] = true;
+            $limitedResponse = $this->get($url);
+            $limitedUser = findUserData(getJsonData($limitedResponse)['data'], $user->id);
+            expect($limitedUser['node_speedlimit'])->toBe(1);
+
+            $_ENV['keep_connect'] = false;
+            $removedResponse = $this->get($url);
+            $returnedIds = array_column(getJsonData($removedResponse)['data'], 'id');
+            expect($returnedIds)->not->toContain($user->id);
+        } finally {
+            $_ENV['keep_connect'] = $originalKeepConnect;
+        }
+    });
+});
+
 describe('UserController API - Shadowsocks 2022 Node', function () {
     it('returns user list for shadowsocks 2022 node', function () {
         // Update node type
