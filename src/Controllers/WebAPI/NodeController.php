@@ -28,7 +28,14 @@ final class NodeController extends BaseController
             return ResponseHelper::error($response, 'Node not found.');
         }
 
-        if ($node->type === 0) {
+        $supportsNodeState = str_contains($request->getHeaderLine('X-XrayR-Capabilities'), 'node-state-v1');
+
+        $bandwidthLimit = (int) $node->node_bandwidth_limit;
+        $withinBandwidthLimit = $bandwidthLimit === 0 ||
+            (int) $node->node_bandwidth < $bandwidthLimit;
+        $enabled = (int) $node->type !== 0 && $withinBandwidthLimit;
+
+        if (! $enabled && ! $supportsNodeState) {
             return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
@@ -39,6 +46,7 @@ final class NodeController extends BaseController
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => $_ENV['appName'],
             'version' => $this->convertVersionFormat(VERSION),
+            'enabled' => $enabled,
         ];
 
         return ResponseHelper::successWithDataEtag($request, $response, $data);

@@ -166,6 +166,41 @@ final class SingBox extends Base
                     $node['transport'] = array_filter($node['transport']);
 
                     break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    $node = [
+                        'type' => 'hysteria2',
+                        'tag' => $node_raw->name,
+                        'server' => $hy2['server'],
+                        'server_port' => $hy2['port'],
+                        'password' => $user->uuid,
+                        'tls' => [
+                            'enabled' => true,
+                            'server_name' => $hy2['sni'],
+                            'insecure' => $hy2['insecure'],
+                        ],
+                    ];
+
+                    if ($hy2['salamander'] !== '') {
+                        $node['obfs'] = [
+                            'type' => 'salamander',
+                            'password' => $hy2['salamander'],
+                        ];
+                    }
+                    if ($hy2['up_mbps'] !== null) {
+                        $node['up_mbps'] = $hy2['up_mbps'];
+                    }
+                    if ($hy2['down_mbps'] !== null) {
+                        $node['down_mbps'] = $hy2['down_mbps'];
+                    }
+                    if ($hy2['ports'] !== '') {
+                        $node['server_ports'] = [$hy2['ports']];
+                    }
+                    if ($hy2['hop_interval'] !== null) {
+                        $node['hop_interval'] = $hy2['hop_interval'];
+                    }
+
+                    break;
                 default:
                     $node = [];
                     break;

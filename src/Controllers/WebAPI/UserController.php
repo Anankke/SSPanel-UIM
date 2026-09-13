@@ -11,12 +11,14 @@ use App\Models\HourlyUsage;
 use App\Models\Node;
 use App\Models\OnlineLog;
 use App\Models\User;
+use App\Services\DB;
 use App\Services\DynamicRate;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use Throwable;
 use function count;
 use function date;
 use function is_array;
@@ -80,15 +82,28 @@ final class UserController extends BaseController
         ]);
 
         $keys_unset = match ($node->sort) {
-            14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd', 'node_iplimit'],
-            2 => ['u', 'd', 'transfer_enable', 'method', 'port', 'node_iplimit'],
-            1 => ['u', 'd', 'transfer_enable', 'method', 'port', 'uuid', 'node_iplimit'],
+            15, 14, 11 => ['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'],
+            2 => ['u', 'd', 'transfer_enable', 'method', 'port'],
+            1 => ['u', 'd', 'transfer_enable', 'method', 'port', 'uuid'],
             default => ['u', 'd', 'transfer_enable', 'uuid', 'node_iplimit']
         };
 
         $users = [];
+        $aliveIpCounts = [];
+        if ($users_raw->isNotEmpty()) {
+            $aliveIpCounts = (new OnlineLog())
+                ->whereIn('user_id', $users_raw->pluck('id'))
+                ->where('last_time', '>', time() - 90)
+                ->selectRaw('user_id, COUNT(*) AS alive_ip')
+                ->groupBy('user_id')
+                ->pluck('alive_ip', 'user_id')
+                ->all();
+        }
 
         foreach ($users_raw as $user_raw) {
+            $aliveIp = (int) ($aliveIpCounts[$user_raw->id] ?? 0);
+            $user_raw->alive_ip = $aliveIp;
+
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect']) {
                     // 流量耗尽用户限速至 1Mbps
@@ -100,10 +115,7 @@ final class UserController extends BaseController
 
             if ($user_raw->node_iplimit !== 0 &&
                 $user_raw->node_iplimit <
-                (new OnlineLog())
-                    ->where('user_id', $user_raw->id)
-                    ->where('last_time', '>', time() - 90)
-                    ->count()
+                $aliveIp
             ) {
                 continue;
             }
@@ -134,82 +146,109 @@ final class UserController extends BaseController
      */
     public function addTraffic(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        $data = json_decode($request->getBody()->__toString());
+        $payload = json_decode($request->getBody()->__toString());
 
-        if (! $data || ! is_array($data->data)) {
+        if (! $payload || ! is_array($payload->data)) {
             return ResponseHelper::error($response, 'Invalid data.');
         }
 
-        $data = $data->data;
-        $node_id = $request->getQueryParam('node_id');
+        $data = [];
+        foreach ($payload->data as $log) {
+            $userId = (int) ($log?->user_id ?? 0);
+            $upload = (int) ($log?->u ?? -1);
+            $download = (int) ($log?->d ?? -1);
+            if ($userId <= 0 || $upload < 0 || $download < 0) {
+                return ResponseHelper::error($response, 'Invalid traffic item.');
+            }
+            $data[] = ['user_id' => $userId, 'u' => $upload, 'd' => $download];
+        }
+
+        $reportId = isset($payload->report_id) ? (string) $payload->report_id : null;
+        if ($reportId !== null && preg_match('/^[a-f0-9]{32}$/D', $reportId) !== 1) {
+            return ResponseHelper::error($response, 'Invalid report id.');
+        }
+        $canFinalizeDisabledNode = $reportId !== null &&
+            str_contains($request->getHeaderLine('X-XrayR-Capabilities'), 'traffic-report-id-v1');
+
+        $node_id = (int) $request->getQueryParam('node_id');
         $node = (new Node())->find($node_id);
 
         if ($node === null) {
             return ResponseHelper::error($response, 'Node not found.');
         }
 
-        if ($node->type === 0) {
+        if ($node->type === 0 && ! $canFinalizeDisabledNode) {
             return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
-        $rate = 1;
+        try {
+            $duplicate = DB::connection()->transaction(static function () use ($data, $node_id, $reportId, $canFinalizeDisabledNode): bool {
+                if ($reportId !== null) {
+                    $inserted = DB::table('xrayr_traffic_reports')->insertOrIgnore([
+                        'report_id' => $reportId,
+                        'node_id' => $node_id,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    if ($inserted === 0) {
+                        return true;
+                    }
+                }
 
-        if ($node->is_dynamic_rate) {
-            $dynamic_rate_config = json_decode($node->dynamic_rate_config);
+                $lockedNode = (new Node())->where('id', $node_id)->lockForUpdate()->first();
+                if ($lockedNode === null || ($lockedNode->type === 0 && ! $canFinalizeDisabledNode)) {
+                    throw new \RuntimeException('Node is not enabled.');
+                }
 
-            $dynamic_rate_type = match ($node->dynamic_rate_type) {
-                1 => 'linear',
-                default => 'logistic',
-            };
+                if ($lockedNode->is_dynamic_rate) {
+                    $dynamic = json_decode($lockedNode->dynamic_rate_config);
+                    $rate = DynamicRate::getRateByTime(
+                        (float) $dynamic?->max_rate,
+                        (int) $dynamic?->max_rate_time,
+                        (float) $dynamic?->min_rate,
+                        (int) $dynamic?->min_rate_time,
+                        (int) date('H'),
+                        (int) $lockedNode->dynamic_rate_type === 1 ? 'linear' : 'logistic'
+                    );
+                } else {
+                    $rate = $lockedNode->traffic_rate;
+                }
 
-            $rate = DynamicRate::getRateByTime(
-                (float) $dynamic_rate_config?->max_rate,
-                (int) $dynamic_rate_config?->max_rate_time,
-                (float) $dynamic_rate_config?->min_rate,
-                (int) $dynamic_rate_config?->min_rate_time,
-                (int) date('H'),
-                $dynamic_rate_type
-            );
-        } else {
-            $rate = $node->traffic_rate;
-        }
+                $sum = 0;
+                $onlineUsers = [];
+                $trafficLog = Config::obtain('traffic_log');
+                foreach ($data as $log) {
+                    $user = (new User())->where('id', $log['user_id'])->lockForUpdate()->first();
+                    if ($user === null) {
+                        continue;
+                    }
+                    $billedUpload = $log['u'] * $rate;
+                    $billedDownload = $log['d'] * $rate;
+                    $user->update([
+                        'last_use_time' => time(),
+                        'u' => $user->u + $billedUpload,
+                        'd' => $user->d + $billedDownload,
+                        'transfer_total' => $user->transfer_total + $log['u'] + $log['d'],
+                        'transfer_today' => $user->transfer_today + $billedUpload + $billedDownload,
+                    ]);
+                    if ($trafficLog) {
+                        (new HourlyUsage())->add($log['user_id'], $log['u'] + $log['d']);
+                    }
+                    $sum += $log['u'] + $log['d'];
+                    $onlineUsers[$log['user_id']] = true;
+                }
 
-        $sum = 0;
-        $is_traffic_log = Config::obtain('traffic_log');
-
-        foreach ($data as $log) {
-            $u = $log?->u;
-            $d = $log?->d;
-            $user_id = $log?->user_id;
-
-            if ($user_id) {
-                $billed_u = $u * $rate;
-                $billed_d = $d * $rate;
-
-                $user = (new User())->find($user_id);
-
-                $user->update([
-                    'last_use_time' => time(),
-                    'u' => $user->u + $billed_u,
-                    'd' => $user->d + $billed_d,
-                    'transfer_total' => $user->transfer_total + $u + $d,
-                    'transfer_today' => $user->transfer_today + $billed_u + $billed_d,
+                $lockedNode->update([
+                    'node_bandwidth' => $lockedNode->node_bandwidth + $sum,
+                    'online_user' => count($onlineUsers),
                 ]);
-            }
 
-            if ($is_traffic_log) {
-                (new HourlyUsage())->add((int) $user_id, (int) ($u + $d));
-            }
-
-            $sum += $u + $d;
+                return false;
+            });
+        } catch (Throwable) {
+            return ResponseHelper::error($response, 'Traffic update failed.');
         }
 
-        $node->update([
-            'node_bandwidth' => $node->node_bandwidth + $sum,
-            'online_user' => count($data) - 1,
-        ]);
-
-        return ResponseHelper::success($response, 'ok');
+        return ResponseHelper::success($response, $duplicate ? 'duplicate' : 'ok');
     }
 
     /**

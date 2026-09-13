@@ -110,6 +110,9 @@ final class NodeController extends BaseController
         ]);
 
         $custom_config = $request->getParam('custom_config') ?? '{}';
+        if ($error = $this->validateCustomConfig((int) $request->getParam('sort'), $custom_config)) {
+            return $response->withJson(['ret' => 0, 'msg' => $error]);
+        }
 
         if ($custom_config !== '') {
             $node->custom_config = $custom_config;
@@ -204,6 +207,9 @@ final class NodeController extends BaseController
         ]);
 
         $custom_config = $request->getParam('custom_config') ?? '{}';
+        if ($error = $this->validateCustomConfig((int) $request->getParam('sort'), $custom_config)) {
+            return $response->withJson(['ret' => 0, 'msg' => $error]);
+        }
 
         if ($custom_config !== '') {
             $node->custom_config = $custom_config;
@@ -246,6 +252,43 @@ final class NodeController extends BaseController
             'ret' => 1,
             'msg' => '修改成功',
         ]);
+    }
+
+    private function validateCustomConfig(int $sort, string $raw): ?string
+    {
+        $config = json_decode($raw, true);
+        if (! is_array($config)) {
+            return 'custom_config 必须是有效的 JSON 对象';
+        }
+        if ($sort !== 15) {
+            return null;
+        }
+        $port = filter_var($config['offset_port_node'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 65535],
+        ]);
+        if ($port === false) {
+            return 'Hysteria2 的 offset_port_node 必须是 1-65535 的端口';
+        }
+        $hysteria = $config['hysteria2'] ?? null;
+        if (! is_array($hysteria) || (int) ($hysteria['version'] ?? 2) !== 2) {
+            return 'Hysteria2 custom_config 必须包含 hysteria2.version=2';
+        }
+        $hop = $hysteria['portHopping'] ?? null;
+        if (is_array($hop) && ($hop['enabled'] ?? false)) {
+            $ports = (string) ($hop['ports'] ?? '');
+            if ($ports === '' || preg_match('/^\d{1,5}(?:-\d{1,5})?(?:,\s*\d{1,5}(?:-\d{1,5})?)*$/D', $ports) !== 1) {
+                return 'Hysteria2 端口跳跃 ports 格式无效';
+            }
+            foreach (preg_split('/,\s*/', $ports) as $range) {
+                $bounds = array_map('intval', explode('-', $range));
+                $last = $bounds[1] ?? $bounds[0];
+                if ($bounds[0] < 1 || $last > 65535 || $last < $bounds[0]) {
+                    return 'Hysteria2 端口跳跃 ports 必须位于 1-65535 且范围递增';
+                }
+            }
+        }
+
+        return null;
     }
 
     public function resetPassword(ServerRequest $request, Response $response, array $args): ResponseInterface

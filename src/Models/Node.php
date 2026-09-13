@@ -87,6 +87,7 @@ final class Node extends Model
             3 => 'WireGuard',
             11 => 'Vmess',
             14 => 'Trojan',
+            15 => 'Hysteria 2',
             default => '未知',
         };
     }

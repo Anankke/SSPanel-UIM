@@ -50,6 +50,8 @@ final class V2Ray extends Base
                 ];
 
                 $links .= 'vmess://' . base64_encode(json_encode($v2rayn_array)) . PHP_EOL;
+            } elseif ((int) $node_raw->sort === 15) {
+                $links .= Hysteria2::buildUri($node_raw, $user) . PHP_EOL;
             }
         }
 
