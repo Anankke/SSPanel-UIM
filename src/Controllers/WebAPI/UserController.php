@@ -167,6 +167,8 @@ final class UserController extends BaseController
         if ($reportId !== null && preg_match('/^[a-f0-9]{32}$/D', $reportId) !== 1) {
             return ResponseHelper::error($response, 'Invalid report id.');
         }
+        $canFinalizeDisabledNode = $reportId !== null &&
+            str_contains($request->getHeaderLine('X-XrayR-Capabilities'), 'traffic-report-id-v1');
 
         $node_id = (int) $request->getQueryParam('node_id');
         $node = (new Node())->find($node_id);
@@ -175,12 +177,12 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, 'Node not found.');
         }
 
-        if ($node->type === 0) {
+        if ($node->type === 0 && ! $canFinalizeDisabledNode) {
             return ResponseHelper::error($response, 'Node is not enabled.');
         }
 
         try {
-            $duplicate = DB::connection()->transaction(static function () use ($data, $node_id, $reportId): bool {
+            $duplicate = DB::connection()->transaction(static function () use ($data, $node_id, $reportId, $canFinalizeDisabledNode): bool {
                 if ($reportId !== null) {
                     $inserted = DB::table('xrayr_traffic_reports')->insertOrIgnore([
                         'report_id' => $reportId,
@@ -193,7 +195,7 @@ final class UserController extends BaseController
                 }
 
                 $lockedNode = (new Node())->where('id', $node_id)->lockForUpdate()->first();
-                if ($lockedNode === null || $lockedNode->type === 0) {
+                if ($lockedNode === null || ($lockedNode->type === 0 && ! $canFinalizeDisabledNode)) {
                     throw new \RuntimeException('Node is not enabled.');
                 }
 
