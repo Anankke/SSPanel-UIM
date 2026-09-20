@@ -204,7 +204,7 @@ $_ENV['SingBox_Config'] = [
             'auto_route' => true,
             'strict_route' => true,
             'udp_timeout' => 60,
-            'stack' => 'mixed',
+            //'stack' => 'mixed',
         ],
     ],
     'outbounds' => [
