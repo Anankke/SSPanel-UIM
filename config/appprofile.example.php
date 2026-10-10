@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 $_ENV['V2RayJson_Config'] = [
     'log' => [
-        'error' => [
-            'level' => 'error',
-            'type' => 'console',
-        ],
-        'access' => [
-            'type' => 'none',
-        ],
+        'loglevel' => 'error',
+        'access' => 'none',
     ],
     'dns' => [
-        'nameServer' => [
+        'servers' => [
             [
                 'address' => '1.1.1.1',
             ],
@@ -26,7 +21,7 @@ $_ENV['V2RayJson_Config'] = [
         [
             'protocol' => 'socks',
             'settings' => [
-                'udpEnabled' => true,
+                'udp' => true,
                 'address' => '127.0.0.1',
                 'packetEncoding' => 'packet',
             ],
@@ -35,7 +30,7 @@ $_ENV['V2RayJson_Config'] = [
         ],
         [
             'protocol' => 'http',
-            'settings' => [],
+            'settings' => (object) [],
             'port' => 7893,
             'listen' => '127.0.0.1',
         ],

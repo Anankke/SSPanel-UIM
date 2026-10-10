@@ -54,8 +54,80 @@ describe('UserController API - Trojan Node', function () {
             $userData = findUserData($data['data'], $user->id);
 
             expect($userData)
-                ->not->toHaveKeys(['u', 'd', 'transfer_enable', 'method', 'port', 'passwd', 'node_iplimit'])
-                ->toHaveKeys(['id', 'uuid', 'node_speedlimit']);
+                ->not->toHaveKeys(['u', 'd', 'transfer_enable', 'method', 'port', 'passwd'])
+                ->toHaveKeys(['id', 'uuid', 'node_speedlimit', 'node_iplimit', 'alive_ip']);
+        }
+    });
+});
+
+describe('UserController API - Hysteria2 Node', function () {
+    it('returns UUID authentication and limiter fields', function () {
+        $this->node->sort = 15;
+        $this->node->custom_config = json_encode([
+            'offset_port_node' => '443',
+            'hysteria2' => ['version' => 2],
+        ]);
+        $this->node->save();
+        $user = createUsers(1)[0];
+
+        $response = $this->get('/mod_mu/users?node_id=' . $this->node->id . '&key=' . $_ENV['muKey']);
+        assertResponseStatus(200, $response);
+        $userData = findUserData(getJsonData($response)['data'], $user->id);
+
+        expect($userData)
+            ->toHaveKeys(['id', 'uuid', 'node_speedlimit', 'node_iplimit', 'alive_ip'])
+            ->and($userData['uuid'])->toBe($user->uuid);
+    });
+});
+
+describe('XrayR node and exhausted-user state', function () {
+    it('reports a bandwidth-exhausted node as disabled and re-enables it after reset', function () {
+        $this->node->node_bandwidth_limit = 1024;
+        $this->node->node_bandwidth = 1024;
+        $this->node->save();
+
+        $url = '/mod_mu/nodes/' . $this->node->id . '/info?key=' . $_ENV['muKey'];
+        $headers = ['X-XrayR-Capabilities' => 'node-state-v1'];
+        $disabledResponse = $this->get($url, $headers);
+        $disabledData = getJsonData($disabledResponse);
+
+        expect($disabledData['ret'])->toBe(1)
+            ->and($disabledData['data']['enabled'])->toBeFalse();
+        $disabledEtag = $disabledResponse->getHeaderLine('ETag');
+
+        $legacyResponse = $this->get($url);
+        expect(getJsonData($legacyResponse)['ret'])->toBe(0);
+
+        $this->node->node_bandwidth = 0;
+        $this->node->save();
+        $enabledResponse = $this->get($url, $headers + ['If-None-Match' => $disabledEtag]);
+        $enabledData = getJsonData($enabledResponse);
+
+        expect($enabledResponse->getStatusCode())->toBe(200)
+            ->and($enabledData['data']['enabled'])->toBeTrue();
+    });
+
+    it('honors keep_connect by retaining an exhausted user at 1 Mbps', function () {
+        $originalKeepConnect = $_ENV['keep_connect'] ?? false;
+        $user = createUsers(1)[0];
+        $user->transfer_enable = 1;
+        $user->u = 1;
+        $user->d = 1;
+        $user->save();
+        $url = '/mod_mu/users?node_id=' . $this->node->id . '&key=' . $_ENV['muKey'];
+
+        try {
+            $_ENV['keep_connect'] = true;
+            $limitedResponse = $this->get($url);
+            $limitedUser = findUserData(getJsonData($limitedResponse)['data'], $user->id);
+            expect($limitedUser['node_speedlimit'])->toBe(1);
+
+            $_ENV['keep_connect'] = false;
+            $removedResponse = $this->get($url);
+            $returnedIds = array_column(getJsonData($removedResponse)['data'], 'id');
+            expect($returnedIds)->not->toContain($user->id);
+        } finally {
+            $_ENV['keep_connect'] = $originalKeepConnect;
         }
     });
 });

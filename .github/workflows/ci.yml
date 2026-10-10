@@ -81,7 +81,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
-        extensions: mbstring, dom, fileinfo, mysql, redis, opcache, json, bcmath, curl, openssl, pdo, posix, yaml, zip
+        extensions: mbstring, dom, fileinfo, mysql, redis, opcache, json, bcmath, curl, openssl, pdo, posix, sodium, yaml, zip
         coverage: pcov  # Much faster than xdebug
         tools: composer:v2
     

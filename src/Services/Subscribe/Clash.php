@@ -93,6 +93,58 @@ final class Clash extends Base
 
                     break;
                 case 11:
+                    if (Vless::enabled($node_custom_config ?? [])) {
+                        $client = $this->vlessClient($node_raw, $node_custom_config);
+                        if ($client === null) {
+                            continue 2;
+                        }
+                        $node = [
+                            'name' => $node_raw->name,
+                            'type' => 'vless',
+                            'server' => $node_raw->server,
+                            'port' => $client['port'],
+                            'uuid' => $user->uuid,
+                            'network' => $client['network'],
+                            'tls' => $client['security'] !== 'none',
+                            'udp' => (bool) ($node_custom_config['udp'] ?? true),
+                        ];
+                        if ($client['flow'] !== '') {
+                            $node['flow'] = $client['flow'];
+                        }
+                        if ($client['security'] === 'reality') {
+                            $node['servername'] = $client['server_name'];
+                            $node['client-fingerprint'] = $client['fingerprint'];
+                            $node['reality-opts'] = [
+                                'public-key' => $client['public_key'],
+                                'short-id' => $client['short_id'],
+                                // Xray 26.9.9 REALITY requires the hybrid key share.
+                                'support-x25519mlkem768' => true,
+                            ];
+                        } elseif ($client['security'] === 'tls') {
+                            $node['servername'] = $client['server_name'];
+                            $node['skip-cert-verify'] = $client['allow_insecure'];
+                        }
+                        if (in_array($client['network'], ['ws', 'httpupgrade'], true)) {
+                            $node['network'] = 'ws';
+                            $node['ws-opts'] = [
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'headers' => ['Host' => $node_custom_config['host'] ?? ''],
+                            ];
+                            if ($client['network'] === 'httpupgrade') {
+                                $node['ws-opts']['v2ray-http-upgrade'] = true;
+                            }
+                        } elseif ($client['network'] === 'grpc') {
+                            $node['grpc-opts'] = ['grpc-service-name' => $node_custom_config['servicename'] ?? ''];
+                        } elseif ($client['network'] === 'xhttp') {
+                            $node['xhttp-opts'] = [
+                                'host' => $node_custom_config['host'] ?? '',
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'mode' => 'auto',
+                            ];
+                        }
+                        break;
+                    }
+
                     $v2_port = $node_custom_config['offset_port_user'] ??
                         ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
@@ -161,6 +213,36 @@ final class Clash extends Base
                         'ws-opts' => $ws_opts,
                         'grpc-opts' => $grpc_opts,
                     ];
+
+                    break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'hysteria2',
+                        'server' => $hy2['server'],
+                        'port' => $hy2['port'],
+                        'password' => $user->uuid,
+                        'sni' => $hy2['sni'],
+                        'skip-cert-verify' => $hy2['insecure'],
+                    ];
+
+                    if ($hy2['salamander'] !== '') {
+                        $node['obfs'] = 'salamander';
+                        $node['obfs-password'] = $hy2['salamander'];
+                    }
+                    if ($hy2['up'] !== null) {
+                        $node['up'] = $hy2['up'];
+                    }
+                    if ($hy2['down'] !== null) {
+                        $node['down'] = $hy2['down'];
+                    }
+                    if ($hy2['ports'] !== '') {
+                        $node['ports'] = $hy2['ports'];
+                    }
+                    if ($hy2['hop_interval'] !== null) {
+                        $node['hop-interval'] = $hy2['hop_interval'];
+                    }
 
                     break;
                 default:

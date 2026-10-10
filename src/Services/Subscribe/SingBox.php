@@ -86,6 +86,58 @@ final class SingBox extends Base
 
                     break;
                 case 11:
+                    if (Vless::enabled($node_custom_config ?? [])) {
+                        $client = $this->vlessClient($node_raw, $node_custom_config);
+                        if ($client === null) {
+                            continue 2;
+                        }
+                        // Official sing-box has no XHTTP transport; omit rather than emit an invalid outbound.
+                        if ($client['network'] === 'xhttp') {
+                            $node = [];
+                            break;
+                        }
+                        $node = [
+                            'type' => 'vless',
+                            'tag' => $node_raw->name,
+                            'server' => $node_raw->server,
+                            'server_port' => $client['port'],
+                            'uuid' => $user->uuid,
+                        ];
+                        if ($client['flow'] !== '') {
+                            $node['flow'] = $client['flow'];
+                        }
+                        if ($client['security'] !== 'none') {
+                            $node['tls'] = [
+                                'enabled' => true,
+                                'server_name' => $client['server_name'],
+                            ];
+                            if ($client['security'] === 'reality') {
+                                $node['tls']['utls'] = ['enabled' => true, 'fingerprint' => $client['fingerprint']];
+                                $node['tls']['reality'] = [
+                                    'enabled' => true,
+                                    'public_key' => $client['public_key'],
+                                    'short_id' => $client['short_id'],
+                                ];
+                            } else {
+                                $node['tls']['insecure'] = $client['allow_insecure'];
+                            }
+                        }
+                        if ($client['network'] !== 'tcp') {
+                            $node['transport'] = ['type' => $client['network']];
+                            if ($client['network'] === 'ws' || $client['network'] === 'httpupgrade') {
+                                $node['transport']['path'] = $node_custom_config['path'] ?? '/';
+                                if ($client['network'] === 'httpupgrade') {
+                                    $node['transport']['host'] = $node_custom_config['host'] ?? '';
+                                } else {
+                                    $node['transport']['headers'] = ['Host' => $node_custom_config['host'] ?? ''];
+                                }
+                            } elseif ($client['network'] === 'grpc') {
+                                $node['transport']['service_name'] = $node_custom_config['servicename'] ?? '';
+                            }
+                        }
+                        break;
+                    }
+
                     $v2_port = $node_custom_config['offset_port_user'] ??
                         ($node_custom_config['offset_port_node'] ?? 443);
                     $transport = ($node_custom_config['network'] ?? '') === 'tcp' ? '' : $node_custom_config['network'];
@@ -166,6 +218,45 @@ final class SingBox extends Base
                     $node['transport'] = array_filter($node['transport']);
 
                     break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    $node = [
+                        'type' => 'hysteria2',
+                        'tag' => $node_raw->name,
+                        'server' => $hy2['server'],
+                        'server_port' => $hy2['port'],
+                        'password' => $user->uuid,
+                        'tls' => [
+                            'enabled' => true,
+                            'server_name' => $hy2['sni'],
+                            'insecure' => $hy2['insecure'],
+                        ],
+                    ];
+
+                    if ($hy2['salamander'] !== '') {
+                        $node['obfs'] = [
+                            'type' => 'salamander',
+                            'password' => $hy2['salamander'],
+                        ];
+                    }
+                    if ($hy2['up_mbps'] !== null) {
+                        $node['up_mbps'] = $hy2['up_mbps'];
+                    }
+                    if ($hy2['down_mbps'] !== null) {
+                        $node['down_mbps'] = $hy2['down_mbps'];
+                    }
+                    if ($hy2['ports'] !== '') {
+                        unset($node['server_port']);
+                        $node['server_ports'] = array_map(
+                            static fn (string $range): string => str_replace('-', ':', trim($range)),
+                            explode(',', $hy2['ports'])
+                        );
+                    }
+                    if ($hy2['hop_interval'] !== null) {
+                        $node['hop_interval'] = $hy2['hop_interval'] . 's';
+                    }
+
+                    break;
                 default:
                     $node = [];
                     break;
@@ -180,6 +271,29 @@ final class SingBox extends Base
             $singbox_config['outbounds'][1]['outbounds'][] = $node_raw->name;
         }
 
+        if ($nodes === []) {
+            // Keep the profile loadable, but reject traffic when there are no compatible nodes.
+            $tags = array_column($singbox_config['outbounds'], 'tag');
+            $emptyTag = 'subscription-empty';
+            while (in_array($emptyTag, $tags, true)) {
+                $emptyTag .= '-';
+            }
+            $singbox_config['outbounds'][] = ['type' => 'direct', 'tag' => $emptyTag];
+            foreach ($singbox_config['outbounds'] as &$outbound) {
+                if (in_array($outbound['type'] ?? '', ['selector', 'urltest'], true) && ! ($outbound['outbounds'] ?? [])) {
+                    if ($outbound['type'] === 'urltest') {
+                        // No background direct connectivity probes for an unavailable profile.
+                        $outbound = ['type' => 'selector', 'tag' => $outbound['tag'], 'outbounds' => []];
+                    }
+                    $outbound['outbounds'] = [$emptyTag];
+                    if (isset($outbound['default'])) {
+                        $outbound['default'] = $emptyTag;
+                    }
+                }
+            }
+            unset($outbound);
+            $singbox_config['route']['rules'] = array_merge([['action' => 'reject']], $singbox_config['route']['rules'] ?? []);
+        }
         $singbox_config['outbounds'] = array_merge($singbox_config['outbounds'], $nodes);
         $singbox_config['experimental']['cache_file']['cache_id'] = $_ENV['appName'];
 

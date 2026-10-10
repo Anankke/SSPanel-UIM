@@ -16,6 +16,7 @@ final class V2RayJson extends Base
     public function getContent($user): string
     {
         $nodes = [];
+        $hasVless = false;
         $v2rayjson_config = $_ENV['V2RayJson_Config'];
         $nodes_raw = Subscribe::getUserNodes($user);
 
@@ -61,6 +62,71 @@ final class V2RayJson extends Base
 
                     break;
                 case 11:
+                    if (Vless::enabled($node_custom_config ?? [])) {
+                        $client = $this->vlessClient($node_raw, $node_custom_config, true);
+                        if ($client === null) {
+                            continue 2;
+                        }
+                        $hasVless = true;
+                        $account = ['id' => $user->uuid, 'encryption' => 'none'];
+                        if ($client['flow'] !== '') {
+                            $account['flow'] = $client['flow'];
+                        }
+                        $stream = [
+                            'network' => $client['network'],
+                            'security' => $client['security'],
+                        ];
+                        if ($client['security'] === 'reality') {
+                            $stream['realitySettings'] = [
+                                'serverName' => $client['server_name'],
+                                'fingerprint' => $client['fingerprint'],
+                                'publicKey' => $client['public_key'],
+                                'shortId' => $client['short_id'],
+                            ];
+                        } elseif ($client['security'] === 'tls') {
+                            $stream['tlsSettings'] = [
+                                'serverName' => $client['server_name'],
+                            ];
+                            if ($client['certificate_pin'] !== '') {
+                                $stream['tlsSettings']['pinnedPeerCertSha256'] = $client['certificate_pin'];
+                            }
+                        }
+                        if ($client['network'] === 'ws') {
+                            $stream['wsSettings'] = [
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'host' => $node_custom_config['host'] ?? '',
+                            ];
+                        } elseif ($client['network'] === 'grpc') {
+                            $stream['grpcSettings'] = ['serviceName' => $node_custom_config['servicename'] ?? ''];
+                        } elseif ($client['network'] === 'httpupgrade') {
+                            $stream['httpupgradeSettings'] = [
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'host' => $node_custom_config['host'] ?? '',
+                            ];
+                        } elseif ($client['network'] === 'xhttp') {
+                            $stream['xhttpSettings'] = [
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'host' => $node_custom_config['host'] ?? '',
+                                'mode' => 'auto',
+                            ];
+                        }
+                        $node = [
+                            'protocol' => 'vless',
+                            'settings' => [
+                                'vnext' => [
+                                    [
+                                        'address' => $node_raw->server,
+                                        'port' => $client['port'],
+                                        'users' => [$account],
+                                    ],
+                                ],
+                            ],
+                            'tag' => $node_raw->name,
+                            'streamSettings' => $stream,
+                        ];
+                        break;
+                    }
+
                     $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';
                     $transport = $node_custom_config['network'] ?? 'tcp';
@@ -166,6 +232,43 @@ final class V2RayJson extends Base
                     $node['streamSettings']['securitySettings'] = array_filter($node['streamSettings']['securitySettings']);
 
                     break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    $hysteria = $node_custom_config['hysteria2'] ?? [];
+                    $pin = (string) ($node_custom_config['pinnedPeerCertSha256'] ?? '');
+                    if ($hy2['insecure'] && $pin === '') {
+                        throw new \InvalidArgumentException('Xray Hysteria2 requires pinnedPeerCertSha256 for an untrusted certificate; allowInsecure is no longer supported.');
+                    }
+                    $finalMask = Hysteria2::xrayFinalMask($hysteria, $hy2);
+                    $node = [
+                        'protocol' => 'hysteria',
+                        'settings' => [
+                            'version' => 2,
+                            'address' => $hy2['server'],
+                            'port' => $hy2['port'],
+                        ],
+                        'tag' => $node_raw->name,
+                        'streamSettings' => [
+                            'network' => 'hysteria',
+                            'security' => 'tls',
+                            'hysteriaSettings' => [
+                                'version' => 2,
+                                'auth' => $user->uuid,
+                                'udpIdleTimeout' => $hysteria['udpIdleTimeout'] ?? 0,
+                            ],
+                            'finalmask' => $finalMask ?: null,
+                            'tlsSettings' => [
+                                'serverName' => $hy2['sni'],
+                                'alpn' => ['h3'],
+                                'pinnedPeerCertSha256' => $pin,
+                            ],
+                        ],
+                    ];
+
+                    $node['streamSettings']['hysteriaSettings'] = array_filter($node['streamSettings']['hysteriaSettings']);
+                    $node['streamSettings'] = array_filter($node['streamSettings']);
+
+                    break;
                 default:
                     $node = [];
                     break;
@@ -178,6 +281,29 @@ final class V2RayJson extends Base
             $nodes[] = $node;
         }
 
+        if ($hasVless) {
+            // Existing installations can retain the older example template.
+            if (is_array($v2rayjson_config['log']['error'] ?? null)) {
+                $v2rayjson_config['log']['loglevel'] ??= $v2rayjson_config['log']['error']['level'] ?? 'error';
+                unset($v2rayjson_config['log']['error']);
+            }
+            if (is_array($v2rayjson_config['log']['access'] ?? null)) {
+                $v2rayjson_config['log']['access'] = ($v2rayjson_config['log']['access']['type'] ?? '') === 'none' ? 'none' : '';
+            }
+            if (isset($v2rayjson_config['dns']['nameServer']) && ! isset($v2rayjson_config['dns']['servers'])) {
+                $v2rayjson_config['dns']['servers'] = $v2rayjson_config['dns']['nameServer'];
+                unset($v2rayjson_config['dns']['nameServer']);
+            }
+            foreach ($v2rayjson_config['inbounds'] ?? [] as $index => $inbound) {
+                if (($inbound['settings'] ?? null) === []) {
+                    $v2rayjson_config['inbounds'][$index]['settings'] = (object) [];
+                }
+                if (($inbound['protocol'] ?? '') === 'socks' && isset($inbound['settings']['udpEnabled'])) {
+                    $v2rayjson_config['inbounds'][$index]['settings']['udp'] ??= $inbound['settings']['udpEnabled'];
+                    unset($v2rayjson_config['inbounds'][$index]['settings']['udpEnabled']);
+                }
+            }
+        }
         $v2rayjson_config['outbounds'] = array_merge($v2rayjson_config['outbounds'], $nodes);
 
         return json_encode($v2rayjson_config);
