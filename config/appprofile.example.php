@@ -151,14 +151,6 @@ $_ENV['SingBox_Config'] = [
                 'client_subnet' => '111.222.0.0',
             ],
             [
-                'rule_set' => [
-                    'geosite-geolocation-!cn',
-                ],
-                'server' => $_ENV['dns_select'],
-                'disable_cache' => true,
-                'client_subnet' => '111.222.0.0',
-            ],
-            [
                 'type' => 'logical',
                 'mode' => 'and',
                 'rules' => [
@@ -179,6 +171,35 @@ $_ENV['SingBox_Config'] = [
                 'server' => $_ENV['dns_select'],
                 'disable_cache' => true,
                 'client_subnet' => '111.222.0.0',
+            ],
+            [
+                'type' => 'logical',
+                'mode' => 'and',
+                'rules' => [
+                    [
+                        'rule_set' => [
+                            'geosite-geolocation-!cn',
+                        ],
+                        'invert' => true,
+                    ],
+                    [
+                        'match_response' => true,
+                        'rule_set' => [
+                            'geoip-cn',
+                        ],
+                        'invert' => true,
+                    ],
+                ],
+                'action' => 'route',
+                'server' => 'fakeip',
+                'disable_cache' => true,
+            ],
+            [
+                'rule_set' => [
+                    'geosite-geolocation-!cn',
+                ],
+                'server' => 'fakeip',
+                'disable_cache' => true,
             ],
             [
                 'clash_mode' => 'Rule',
@@ -204,7 +225,7 @@ $_ENV['SingBox_Config'] = [
             'auto_route' => true,
             'strict_route' => true,
             'udp_timeout' => 60,
-            'stack' => 'mixed',
+            //'stack' => 'mixed',
         ],
     ],
     'outbounds' => [
