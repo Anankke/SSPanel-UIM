@@ -6,7 +6,13 @@ namespace App\Services\Subscribe;
 
 use App\Models\Config;
 use App\Services\Subscribe;
+use function base64_encode;
 use function json_decode;
+use function rawurlencode;
+use function rtrim;
+use function str_contains;
+use function str_starts_with;
+use function strtr;
 use const PHP_EOL;
 
 final class SIP002 extends Base
@@ -28,9 +34,16 @@ final class SIP002 extends Base
                 $plugin = $node_custom_config['plugin'] ?? '';
                 $plugin_option = $node_custom_config['plugin_option'] ?? '';
 
-                $links .= $user->method . ':' . $user->passwd . '@' . $node_raw->server . ':' .
-                    $user->port . '/?plugin=' . $plugin . '&' . $plugin_option . '#' .
-                    $node_raw->name . PHP_EOL;
+                $userinfo = rtrim(strtr(base64_encode($user->method . ':' . $user->passwd), '+/', '-_'), '=');
+                $host = (string) $node_raw->server;
+                if (str_contains($host, ':') && ! str_starts_with($host, '[')) {
+                    $host = '[' . $host . ']';
+                }
+                $plugin_query = $plugin === '' ? '' :
+                    '/?plugin=' . rawurlencode($plugin_option === '' ? $plugin : $plugin . ';' . $plugin_option);
+
+                $links .= 'ss://' . $userinfo . '@' . $host . ':' . $user->port . $plugin_query . '#' .
+                    rawurlencode($node_raw->name) . PHP_EOL;
             }
         }
 
