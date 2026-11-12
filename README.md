@@ -34,7 +34,7 @@
     <img src="https://custom-icon-badges.demolab.com/github/contributors/Anankke/SSPanel-UIM?logo=people&logoColor=white&label=Contributors" alt="Contributors">
   </a>
   <a href="https://www.php.net">
-    <img src="https://custom-icon-badges.demolab.com/badge/PHP-%E2%89%A58.2-777BB4.svg?logo=php&logoColor=white" alt="PHP Version">
+    <img src="https://custom-icon-badges.demolab.com/badge/PHP-%E2%89%A58.4-777BB4.svg?logo=php&logoColor=white" alt="PHP Version">
   </a>
 </p>
 
@@ -149,7 +149,7 @@ SSPanel-UIM is a PHP-based multi-purpose proxy service management system designe
 ### 软件环境 | Software Requirements
 
 - **Web 服务器 | Web Server**: Nginx (HTTPS 必须 | HTTPS Required)
-- **PHP**: 8.2+ (强烈推荐 OPcache + JIT | OPcache + JIT highly recommended)
+- **PHP**: 8.4+ (强烈推荐 OPcache + JIT | OPcache + JIT highly recommended)
 - **数据库 | Database**: MariaDB 10.11+ / MySQL 8.0+ (需禁用严格模式 | Disable strict mode required)
 - **缓存 | Cache**: Redis 7.0+
 - **其他 | Others**: Git, Composer

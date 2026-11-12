@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.2', '8.3', '8.4', '8.5']
+        php-version: ['8.4', '8.5']
     
     name: PHP ${{ matrix.php-version }} Tests
     
@@ -136,7 +136,7 @@ jobs:
     
     - name: Upload coverage to Codecov
       # Only upload coverage from one PHP version to avoid duplicates
-      if: matrix.php-version == '8.3'
+      if: matrix.php-version == '8.5'
       uses: codecov/codecov-action@v7
       with:
         files: ./coverage.xml
@@ -156,7 +156,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'  # Use latest stable for quality checks
+        php-version: '8.5'  # Use latest stable for quality checks
         extensions: mbstring, dom, fileinfo
         tools: composer:v2
     
@@ -168,9 +168,9 @@ jobs:
       uses: actions/cache@v6
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-php-8.3-composer-quality-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-php-8.5-composer-quality-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-8.3-composer-quality-
+          ${{ runner.os }}-php-8.5-composer-quality-
     
     - name: Install Dependencies
       run: composer install --prefer-dist --no-progress --no-interaction
@@ -202,7 +202,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.5'
         tools: composer:v2
     
     - name: Security vulnerability check
