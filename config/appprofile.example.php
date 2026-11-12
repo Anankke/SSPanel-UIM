@@ -145,27 +145,22 @@ $_ENV['SingBox_Config'] = [
                 'server' => 'fakeip',
             ],
             [
+                'rule_set' => [
+                    'geosite-geolocation-!cn',
+                ],
+                'server' => 'fakeip',
+                'disable_cache' => true,
+            ],
+            [
                 'action' => 'evaluate',
                 'server' => $_ENV['dns_select'],
                 'disable_cache' => true,
                 'client_subnet' => '111.222.0.0',
             ],
             [
-                'type' => 'logical',
-                'mode' => 'and',
-                'rules' => [
-                    [
-                        'rule_set' => [
-                            'geosite-geolocation-!cn',
-                        ],
-                        'invert' => true,
-                    ],
-                    [
-                        'match_response' => true,
-                        'rule_set' => [
-                            'geoip-cn',
-                        ],
-                    ],
+                'match_response' => true,
+                'rule_set' => [
+                    'geoip-cn',
                 ],
                 'action' => 'route',
                 'server' => $_ENV['dns_select'],
@@ -173,31 +168,12 @@ $_ENV['SingBox_Config'] = [
                 'client_subnet' => '111.222.0.0',
             ],
             [
-                'type' => 'logical',
-                'mode' => 'and',
-                'rules' => [
-                    [
-                        'rule_set' => [
-                            'geosite-geolocation-!cn',
-                        ],
-                        'invert' => true,
-                    ],
-                    [
-                        'match_response' => true,
-                        'rule_set' => [
-                            'geoip-cn',
-                        ],
-                        'invert' => true,
-                    ],
-                ],
-                'action' => 'route',
-                'server' => 'fakeip',
-                'disable_cache' => true,
-            ],
-            [
+                'match_response' => true,
                 'rule_set' => [
-                    'geosite-geolocation-!cn',
+                    'geoip-cn',
                 ],
+                'invert' => true,
+                'action' => 'route',
                 'server' => 'fakeip',
                 'disable_cache' => true,
             ],
@@ -375,6 +351,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -387,6 +364,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -399,6 +377,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -411,6 +390,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -423,6 +403,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -435,6 +416,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -447,6 +429,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
         ],
@@ -455,7 +438,7 @@ $_ENV['SingBox_Config'] = [
         'override_android_vpn' => $isSfaVisitor,
         'default_domain_resolver' => [
             'server' => 'local',
-            'rewrite_tll' => 60,
+            'rewrite_ttl' => 60,
         ],
     ],
     'experimental' => [
