@@ -1,0 +1,15 @@
+.git
+.github
+.phpunit.cache
+coverage
+tests
+vendor
+config/.config.php
+config/.config.php.bak
+config/appprofile.php
+public/clients/*
+!public/clients/.gitkeep
+storage/framework/smarty/cache/*
+storage/framework/smarty/compile/*
+storage/framework/twig/cache/*
+storage/LocalClientVersion.json

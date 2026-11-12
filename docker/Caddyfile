@@ -1,0 +1,27 @@
+# FrankenPHP's default Caddyfile reduced to what the panel uses; the environment
+# hooks keep their documented meaning (https://frankenphp.dev/docs/config/).
+{
+	skip_install_trust
+
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME:localhost} {
+	root public/
+	encode zstd br gzip
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	php_server {
+		# FrankenPHP sets REMOTE_ADDR to the TCP peer, and the panel reads the client
+		# address only from REMOTE_ADDR. {client_ip} is the same peer unless
+		# trusted_proxies is configured, in which case it is the forwarded client.
+		env REMOTE_ADDR {client_ip}
+	}
+}

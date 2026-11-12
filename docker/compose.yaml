@@ -1,0 +1,73 @@
+# SSPanel-UIM with MariaDB and Redis. Put this file and a .env (see .env.example)
+# in an empty directory and run: docker compose up -d
+# The web server is FrankenPHP in classic mode (one PHP request per script run, as
+# with php-fpm); worker mode is not used.
+
+x-sspanel: &sspanel
+  image: ${SSPANEL_IMAGE:-ghcr.io/anankke/sspanel-uim}:${SSPANEL_VERSION:-latest}
+  restart: unless-stopped
+  env_file: .env
+  volumes:
+    - data:/data
+
+services:
+  # Runs migrations and imports new settings once per `docker compose up`, before
+  # web and cron start; a failure leaves them stopped.
+  init:
+    <<: *sspanel
+    command: ["php", "/app/docker/init.php"]
+    restart: "no"
+    healthcheck:
+      disable: true
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  web:
+    <<: *sspanel
+    ports:
+      - "${SSPANEL_HTTP_PORT:-80}:80"
+      - "${SSPANEL_HTTPS_PORT:-443}:443"
+      - "${SSPANEL_HTTPS_PORT:-443}:443/udp"
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+  cron:
+    <<: *sspanel
+    command: ["supercronic", "/app/docker/crontab"]
+    healthcheck:
+      disable: true
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+  mariadb:
+    image: mariadb:11.8
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: sspanel
+      MARIADB_USER: sspanel
+      MARIADB_PASSWORD: ${SSPANEL_DB_PASSWORD:?set SSPANEL_DB_PASSWORD in .env}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 1m
+      start_interval: 2s
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    # Holds only rate limits and short-lived verification state; nothing to persist.
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+volumes:
+  data:
+  db:
