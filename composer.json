@@ -82,8 +82,8 @@
     "require-dev": {
         "dg/bypass-finals": "^1",
         "nunomaduro/phpinsights": "*",
-        "pestphp/pest": "^3.0",
-        "phpunit/phpunit": "^11.5"
+        "pestphp/pest": "^5.0",
+        "phpunit/phpunit": "^13.0"
     },
     "scripts": {
         "update-dev-windows": [
