@@ -6,12 +6,14 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\SubscribeLog;
+use App\Utils\DataTable;
 use App\Utils\Tools;
 use Exception;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_keys;
 
 final class SubLogController extends BaseController
 {
@@ -64,15 +66,13 @@ final class SubLogController extends BaseController
                 ->orWhere('request_user_agent', 'LIKE', "%{$search}%");
         }
 
-        $order = $request->getParam('order')[0]['dir'];
-
-        if ($request->getParam('order')[0]['column'] !== '0') {
-            $order_by = $request->getParam('columns')[$request->getParam('order')[0]['column']]['data'];
-
-            $sub_log->orderBy($order_by, $order)->orderBy('id', 'desc');
-        } else {
-            $sub_log->orderBy('id', $order);
-        }
+        DataTable::applyOrder(
+            $sub_log,
+            $request,
+            array_keys(self::$details['field']),
+            ['id', 'user_id', 'type', 'request_ip', 'request_time', 'request_user_agent'],
+            'id'
+        );
 
         $filtered = $sub_log->count();
         $total = (new SubscribeLog())->count();

@@ -6,11 +6,13 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\DetectBanLog;
+use App\Utils\DataTable;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_keys;
 
 final class DetectBanLogController extends BaseController
 {
@@ -54,15 +56,13 @@ final class DetectBanLogController extends BaseController
             $detect_ban_log->where('user_id', '=', $search);
         }
 
-        $order = $request->getParam('order')[0]['dir'];
-
-        if ($request->getParam('order')[0]['column'] !== '0') {
-            $order_field = self::$details['field'][$request->getParam('order')[0]['column']];
-
-            $detect_ban_log->orderBy($order_field, $order)->orderBy('id', 'desc');
-        } else {
-            $detect_ban_log->orderBy('id', $order);
-        }
+        DataTable::applyOrder(
+            $detect_ban_log,
+            $request,
+            array_keys(self::$details['field']),
+            ['id', 'user_id', 'detect_number', 'ban_time', 'start_time', 'end_time', 'all_detect_number'],
+            'id'
+        );
 
         $filtered = $detect_ban_log->count();
         $total = (new DetectBanLog())->count();

@@ -6,12 +6,14 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\LoginIp;
+use App\Utils\DataTable;
 use App\Utils\Tools;
 use Exception;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_keys;
 
 final class LoginLogController extends BaseController
 {
@@ -61,15 +63,13 @@ final class LoginLogController extends BaseController
                 ->orWhere('ip', 'LIKE', "%{$search}%");
         }
 
-        $order = $request->getParam('order')[0]['dir'];
-
-        if ($request->getParam('order')[0]['column'] !== '0') {
-            $order_by = $request->getParam('columns')[$request->getParam('order')[0]['column']]['data'];
-
-            $login_log->orderBy($order_by, $order)->orderBy('id', 'desc');
-        } else {
-            $login_log->orderBy('id', $order);
-        }
+        DataTable::applyOrder(
+            $login_log,
+            $request,
+            array_keys(self::$details['field']),
+            ['id', 'userid', 'ip', 'datetime', 'type'],
+            'id'
+        );
 
         $filtered = $login_log->count();
         $total = (new LoginIp())->count();

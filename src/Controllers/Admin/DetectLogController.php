@@ -6,11 +6,13 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\DetectLog;
+use App\Utils\DataTable;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_keys;
 
 final class DetectLogController extends BaseController
 {
@@ -55,15 +57,13 @@ final class DetectLogController extends BaseController
                 ->orWhere('node_id', '=', $search);
         }
 
-        $order = $request->getParam('order')[0]['dir'];
-
-        if ($request->getParam('order')[0]['column'] !== '0') {
-            $order_field = self::$details['field'][$request->getParam('order')[0]['column']];
-
-            $detect_log->orderBy($order_field, $order)->orderBy('id', 'desc');
-        } else {
-            $detect_log->orderBy('id', $order);
-        }
+        DataTable::applyOrder(
+            $detect_log,
+            $request,
+            array_keys(self::$details['field']),
+            ['id', 'user_id', 'node_id', 'list_id', 'datetime'],
+            'id'
+        );
 
         $filtered = $detect_log->count();
         $total = (new DetectLog())->count();

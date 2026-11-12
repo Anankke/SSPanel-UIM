@@ -6,12 +6,14 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\OnlineLog;
+use App\Utils\DataTable;
 use App\Utils\Tools;
 use Exception;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_keys;
 use function time;
 
 final class OnlineLogController extends BaseController
@@ -65,15 +67,13 @@ final class OnlineLogController extends BaseController
                 ->orWhere('node_id', '=', $search);
         }
 
-        $order = $request->getParam('order')[0]['dir'];
-
-        if ($request->getParam('order')[0]['column'] !== '7') {
-            $order_by = $request->getParam('columns')[$request->getParam('order')[0]['column']]['data'];
-
-            $online_log->orderBy($order_by, $order)->orderBy('last_time', 'desc');
-        } else {
-            $online_log->orderBy('last_time', $order);
-        }
+        DataTable::applyOrder(
+            $online_log,
+            $request,
+            array_keys(self::$details['field']),
+            ['id', 'user_id', 'node_id', 'ip', 'first_time', 'last_time'],
+            'last_time'
+        );
 
         $filtered = $online_log->count();
         $total = (new OnlineLog())->count();

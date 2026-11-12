@@ -6,11 +6,13 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\SysLog;
+use App\Utils\DataTable;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use Smarty\Exception;
+use function array_keys;
 use function strlen;
 
 final class SysLogController extends BaseController
@@ -87,14 +89,13 @@ final class SysLogController extends BaseController
                 ->orWhere('channel', 'LIKE', "%{$search}%");
         }
 
-        $order = $request->getParam('order')[0]['dir'];
-
-        if ($request->getParam('order')[0]['column'] !== '0') {
-            $order_by = $request->getParam('columns')[$request->getParam('order')[0]['column']]['data'];
-            $syslog->orderBy($order_by, $order)->orderBy('id', 'desc');
-        } else {
-            $syslog->orderBy('id', $order);
-        }
+        DataTable::applyOrder(
+            $syslog,
+            $request,
+            array_keys(self::$details['field']),
+            ['id', 'user_id', 'ip', 'message', 'level', 'channel', 'datetime'],
+            'id'
+        );
 
         $filtered = $syslog->count();
         $total = (new SysLog())->count();
