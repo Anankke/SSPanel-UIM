@@ -11,17 +11,24 @@ use App\Models\HourlyUsage;
 use App\Models\Node;
 use App\Models\OnlineLog;
 use App\Models\User;
+use App\Services\DB;
 use App\Services\DynamicRate;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function array_unique;
 use function count;
 use function date;
+use function filter_var;
+use function in_array;
 use function is_array;
 use function json_decode;
 use function time;
+use const FILTER_VALIDATE_INT;
+use const SORT_REGULAR;
 
 final class UserController extends BaseController
 {
@@ -174,40 +181,79 @@ final class UserController extends BaseController
             $rate = $node->traffic_rate;
         }
 
-        $sum = 0;
         $is_traffic_log = Config::obtain('traffic_log');
 
-        foreach ($data as $log) {
-            $u = $log?->u;
-            $d = $log?->d;
-            $user_id = $log?->user_id;
+        // 整批一个事务，要么全落要么全不落；先按 id 升序一次锁住本批用户，两个节点同时上报交叠用户时取锁顺序一致，且锁在任何一致性读之前取得，HourlyUsage 的读改写由用户行锁串行化；库中不存在的用户整条忽略，不记入用户、HourlyUsage、节点流量与在线人数
+        DB::connection()->transaction(static function () use ($data, $node, $rate, $is_traffic_log): void {
+            $ids = [];
 
-            if ($user_id) {
-                $billed_u = $u * $rate;
-                $billed_d = $d * $rate;
-
-                $user = (new User())->find($user_id);
-
-                $user->update([
-                    'last_use_time' => time(),
-                    'u' => $user->u + $billed_u,
-                    'd' => $user->d + $billed_d,
-                    'transfer_total' => $user->transfer_total + $u + $d,
-                    'transfer_today' => $user->transfer_today + $billed_u + $billed_d,
-                ]);
+            foreach ($data as $log) {
+                if ($log?->user_id) {
+                    $ids[] = $log->user_id;
+                }
             }
 
-            if ($is_traffic_log) {
-                (new HourlyUsage())->add((int) $user_id, (int) ($u + $d));
+            $locked = [];
+
+            if ($ids !== []) {
+                $locked = (new User())->whereIn('id', $ids)->orderBy('id')->lockForUpdate()->pluck('id')->map(
+                    static fn ($id): int => (int) $id
+                )->all();
             }
 
-            $sum += $u + $d;
-        }
+            $logs = [];
+            $kept_ids = [];
 
-        $node->update([
-            'node_bandwidth' => $node->node_bandwidth + $sum,
-            'online_user' => count($data) - 1,
-        ]);
+            foreach ($data as $log) {
+                $user_id = $log?->user_id;
+                $int_id = $user_id ? filter_var($user_id, FILTER_VALIDATE_INT) : false;
+
+                if ($int_id !== false && ! in_array($int_id, $locked, true)) {
+                    continue;
+                }
+
+                $logs[] = $log;
+
+                if ($user_id) {
+                    $kept_ids[] = $user_id;
+                }
+            }
+
+            if ($kept_ids !== [] && count($locked) !== count(array_unique($kept_ids, SORT_REGULAR))) {
+                throw new RuntimeException('User not found.');
+            }
+
+            $sum = 0;
+
+            foreach ($logs as $log) {
+                $u = $log?->u;
+                $d = $log?->d;
+                $user_id = $log?->user_id;
+
+                if ($user_id) {
+                    $billed_u = $u * $rate;
+                    $billed_d = $d * $rate;
+
+                    (new User())->where('id', $user_id)->incrementEach([
+                        'u' => $billed_u,
+                        'd' => $billed_d,
+                        'transfer_total' => $u + $d,
+                        'transfer_today' => $billed_u + $billed_d,
+                    ], ['last_use_time' => time()]);
+                }
+
+                if ($is_traffic_log) {
+                    (new HourlyUsage())->add((int) $user_id, (int) ($u + $d));
+                }
+
+                $sum += $u + $d;
+            }
+
+            (new Node())->where('id', $node->id)->incrementEach(
+                ['node_bandwidth' => $sum],
+                ['online_user' => count($logs) - 1]
+            );
+        }, 3);
 
         return ResponseHelper::success($response, 'ok');
     }

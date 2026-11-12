@@ -8,6 +8,8 @@ declare(strict_types=1);
  * @group api
  */
 
+use App\Models\Config;
+use App\Models\HourlyUsage;
 use App\Models\Node;
 use App\Models\User;
 
@@ -154,6 +156,146 @@ describe('UserController API Traffic Reporting', function () {
         $user->refresh();
         expect($user->u)->toBe($initialU + 1024 * 1024)
             ->and($user->d)->toBe($initialD + 2048 * 1024);
+    });
+
+    describe('with hourly traffic log enabled', function () {
+        beforeEach(function () {
+            $this->usageUserIds = [];
+            $this->trafficLogCreated = false;
+
+            $row = Config::where('item', 'traffic_log')->first();
+
+            if ($row === null) {
+                $this->trafficLogCreated = true;
+                $this->trafficLogOriginal = '0';
+                (new Config())->create([
+                    'item' => 'traffic_log',
+                    'value' => '1',
+                    'class' => 'feature',
+                    'is_public' => 1,
+                    'type' => 'bool',
+                    'default' => '0',
+                    'mark' => '',
+                ]);
+            } else {
+                $this->trafficLogOriginal = (string) $row->value;
+                Config::where('item', 'traffic_log')->update(['value' => '1']);
+            }
+
+            $this->node->traffic_rate = 1;
+            $this->node->is_dynamic_rate = 0;
+            $this->node->save();
+        });
+
+        afterEach(function () {
+            if ($this->trafficLogCreated) {
+                Config::where('item', 'traffic_log')->delete();
+            } else {
+                Config::where('item', 'traffic_log')->update(['value' => $this->trafficLogOriginal]);
+            }
+
+            if ($this->usageUserIds !== []) {
+                HourlyUsage::whereIn('user_id', $this->usageUserIds)->delete();
+            }
+        });
+
+        it('ignores entries for users that do not exist', function () {
+            [$userA, $userB, $userC] = createUsers(3);
+            $idA = $userA->id;
+            $idB = $userB->id;
+            $idC = $userC->id;
+            $this->usageUserIds = [$idA, $idB, $idC];
+            HourlyUsage::whereIn('user_id', $this->usageUserIds)->delete();
+
+            // C is deleted but still present in the node's report
+            $userC->delete();
+
+            $userA->refresh();
+            $userB->refresh();
+            $nodeBefore = Node::find($this->node->id);
+
+            $response = $this->post('/mod_mu/users/traffic?node_id=' . $this->node->id . '&key=' . $_ENV['muKey'], [
+                'data' => [
+                    ['user_id' => $idA, 'u' => 1000, 'd' => 2000],
+                    ['user_id' => $idC, 'u' => 7000, 'd' => 9000],
+                    ['user_id' => $idB, 'u' => 3000, 'd' => 5000],
+                ],
+            ]);
+
+            assertResponseStatus(200, $response);
+            assertJsonResponse($response);
+
+            $data = getJsonData($response);
+            expect($data['ret'])->toBe(1)
+                ->and($data['msg'])->toBe('ok');
+
+            $afterA = User::find($idA);
+            $afterB = User::find($idB);
+
+            expect($afterA->u)->toBe($userA->u + 1000)
+                ->and($afterA->d)->toBe($userA->d + 2000)
+                ->and($afterA->transfer_total)->toBe($userA->transfer_total + 3000)
+                ->and($afterA->transfer_today)->toBe($userA->transfer_today + 3000)
+                ->and($afterB->u)->toBe($userB->u + 3000)
+                ->and($afterB->d)->toBe($userB->d + 5000)
+                ->and($afterB->transfer_total)->toBe($userB->transfer_total + 8000)
+                ->and($afterB->transfer_today)->toBe($userB->transfer_today + 8000);
+
+            expect(User::find($idC))->toBeNull()
+                ->and(HourlyUsage::where('user_id', $idC)->count())->toBe(0);
+
+            $nodeAfter = Node::find($this->node->id);
+            expect($nodeAfter->node_bandwidth)->toBe($nodeBefore->node_bandwidth + 11000)
+                ->and($nodeAfter->online_user)->toBe(1);
+        });
+
+        it('records a batch of existing users exactly as before', function () {
+            $okBody = '{"ret":1,"msg":"ok"}';
+
+            [$userA, $userB] = createUsers(2);
+            $idA = $userA->id;
+            $idB = $userB->id;
+            $this->usageUserIds = [$idA, $idB];
+            HourlyUsage::whereIn('user_id', $this->usageUserIds)->delete();
+
+            $userA->refresh();
+            $userB->refresh();
+            $nodeBefore = Node::find($this->node->id);
+
+            $response = $this->post('/mod_mu/users/traffic?node_id=' . $this->node->id . '&key=' . $_ENV['muKey'], [
+                'data' => [
+                    ['user_id' => $idA, 'u' => 1500, 'd' => 2500],
+                    ['user_id' => $idB, 'u' => 4000, 'd' => 6000],
+                ],
+            ]);
+
+            assertResponseStatus(200, $response);
+            expect((string) $response->getBody())->toBe($okBody);
+
+            $afterA = User::find($idA);
+            $afterB = User::find($idB);
+
+            expect($afterA->u)->toBe($userA->u + 1500)
+                ->and($afterA->d)->toBe($userA->d + 2500)
+                ->and($afterA->transfer_total)->toBe($userA->transfer_total + 4000)
+                ->and($afterA->transfer_today)->toBe($userA->transfer_today + 4000)
+                ->and($afterB->u)->toBe($userB->u + 4000)
+                ->and($afterB->d)->toBe($userB->d + 6000)
+                ->and($afterB->transfer_total)->toBe($userB->transfer_total + 10000)
+                ->and($afterB->transfer_today)->toBe($userB->transfer_today + 10000);
+
+            $nodeAfter = Node::find($this->node->id);
+            expect($nodeAfter->node_bandwidth)->toBe($nodeBefore->node_bandwidth + 14000)
+                ->and($nodeAfter->online_user)->toBe(1);
+
+            $usageA = HourlyUsage::where('user_id', $idA)->get();
+            $usageB = HourlyUsage::where('user_id', $idB)->get();
+
+            expect($usageA)->toHaveCount(1)
+                ->and($usageB)->toHaveCount(1)
+                ->and(array_sum(json_decode($usageA[0]->usage, true)))->toBe(4000)
+                ->and(array_sum(json_decode($usageB[0]->usage, true)))->toBe(10000);
+        });
     });
 });
 
