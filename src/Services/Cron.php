@@ -16,7 +16,6 @@ use App\Models\Order;
 use App\Models\Paylist;
 use App\Models\SubscribeLog;
 use App\Models\User;
-use App\Models\UserMoneyLog;
 use App\Utils\Tools;
 use DateTime;
 use Exception;
@@ -374,23 +373,26 @@ final class Cron
             ->get();
 
         foreach ($orders as $order) {
-            $user_id = $order->user_id;
-            $user = (new User())->find($user_id);
-            $content = json_decode($order->product_content);
-            // 充值
-            $user->money += $content->amount;
-            $user->save();
-            $order->status = 'activated';
-            $order->update_time = time();
-            $order->save();
-            (new UserMoneyLog())->add(
-                $user_id,
-                $user->money - $content->amount,
-                $user->money,
-                $content->amount,
-                "充值订单 #{$order->id}"
-            );
-            echo "充值订单 #{$order->id} 已激活。\n";
+            $activated = DB::connection()->transaction(static function () use ($order): bool {
+                $locked_order = (new Order())->lockForUpdate()->find($order->id);
+
+                if ($locked_order === null || $locked_order->status !== 'pending_activation') {
+                    return false;
+                }
+
+                $content = json_decode($locked_order->product_content);
+                // 充值
+                Wallet::credit($locked_order->user_id, $content->amount, "充值订单 #{$locked_order->id}");
+                $locked_order->status = 'activated';
+                $locked_order->update_time = time();
+                $locked_order->save();
+
+                return true;
+            }, 3);
+
+            if ($activated) {
+                echo "充值订单 #{$order->id} 已激活。\n";
+            }
         }
 
         echo Tools::toDateTime(time()) . ' 充值订单激活处理完成' . PHP_EOL;

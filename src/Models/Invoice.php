@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\DB;
+use App\Services\Wallet;
 use Illuminate\Database\Query\Builder;
 use function in_array;
 use function json_decode;
@@ -65,30 +67,30 @@ final class Invoice extends Model
 
     public function refundToBalance(): void
     {
-        if (in_array($this->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {
-            $user = (new User())->find($this->user_id);
-            $user->money += $this->price;
-            $user->save();
+        $id = $this->id;
 
-            (new UserMoneyLog())->add(
-                $user->id,
-                $user->money - $this->price,
-                $user->money,
-                $this->price,
-                '账单 #' . $this->id . ' 退款至账户余额'
-            );
+        DB::connection()->transaction(static function () use ($id): void {
+            $invoice = (new Invoice())->lockForUpdate()->find($id);
 
-            $content = json_decode($this->content, true);
+            if ($invoice === null ||
+                ! in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin'])
+            ) {
+                return;
+            }
+
+            Wallet::credit($invoice->user_id, (string) $invoice->price, '账单 #' . $invoice->id . ' 退款至账户余额');
+
+            $content = json_decode($invoice->content, true);
             $content[] = [
                 'content_id' => count($content),
                 'name' => '退款至账户余额',
-                'price' => '-' . $this->price,
+                'price' => '-' . $invoice->price,
             ];
 
-            $this->content = json_encode($content);
-            $this->status = 'refunded_balance';
-            $this->update_time = time();
-            $this->save();
-        }
+            $invoice->content = json_encode($content);
+            $invoice->status = 'refunded_balance';
+            $invoice->update_time = time();
+            $invoice->save();
+        }, 3);
     }
 }

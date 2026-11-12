@@ -55,8 +55,22 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">账户余额</label>
                                 <div class="col">
-                                    <input id="money" type="number" step="1" class="form-control"
-                                           value="{$edit_user->money}">
+                                    <input type="number" step="0.01" class="form-control"
+                                           value="{$edit_user->money}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">余额调整</label>
+                                <div class="col">
+                                    <input id="money_adjust" type="number" step="0.01" class="form-control"
+                                           placeholder="正数增加，负数扣除">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">调整备注</label>
+                                <div class="col">
+                                    <input id="money_remark" type="text" class="form-control"
+                                           placeholder="留空则写默认备注">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">

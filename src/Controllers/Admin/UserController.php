@@ -8,14 +8,21 @@ use App\Controllers\AuthController;
 use App\Controllers\BaseController;
 use App\Models\Config;
 use App\Models\User;
-use App\Models\UserMoneyLog;
 use App\Services\I18n;
+use App\Services\Wallet;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
+use LogicException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function bccomp;
+use function bcround;
+use function is_finite;
+use function is_numeric;
+use function ltrim;
+use function sprintf;
 
 final class UserController extends BaseController
 {
@@ -68,7 +75,8 @@ final class UserController extends BaseController
         'email',
         'user_name',
         'pass',
-        'money',
+        'money_adjust',
+        'money_remark',
         'ref_by',
         'port',
         'method',
@@ -176,23 +184,47 @@ final class UserController extends BaseController
         $id = (int) $args['id'];
         $user = (new User())->find($id);
 
+        $money_adjust = $request->getParam('money_adjust');
+        $money_delta = '0.00';
+
+        if ($money_adjust !== null && $money_adjust !== '') {
+            if (! is_numeric($money_adjust) || ! is_finite((float) $money_adjust)) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '余额调整额格式错误',
+                ]);
+            }
+
+            $money_delta = bcround(sprintf('%.10F', (float) $money_adjust), 2);
+        }
+
+        if (bccomp($money_delta, '0', 2) !== 0) {
+            $money_remark = (string) $request->getParam('money_remark');
+
+            try {
+                if (bccomp($money_delta, '0', 2) > 0) {
+                    Wallet::credit($id, $money_delta, $money_remark !== '' ? $money_remark : '管理员添加余额');
+                } else {
+                    Wallet::debit(
+                        $id,
+                        ltrim($money_delta, '-'),
+                        $money_remark !== '' ? $money_remark : '管理员扣除余额'
+                    );
+                }
+            } catch (LogicException) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '余额不足，无法扣除',
+                ]);
+            }
+        }
+
         if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
 
             if (Config::obtain('enable_forced_replacement')) {
                 $user->removeLink();
             }
-        }
-
-        if ($request->getParam('money') !== '' &&
-            $request->getParam('money') !== null &&
-            (float) $request->getParam('money') !== $user->money
-        ) {
-            $money = (float) $request->getParam('money');
-            $diff = $money - $user->money;
-            $remark = ($diff > 0 ? '管理员添加余额' : '管理员扣除余额');
-            (new UserMoneyLog())->add($id, (float) $user->money, $money, $diff, $remark);
-            $user->money = $money;
         }
 
         $user->email = $request->getParam('email');
