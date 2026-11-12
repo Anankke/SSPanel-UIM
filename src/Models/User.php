@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\IM;
+use App\Services\IM\ImType;
 use App\Services\IM\Telegram;
 use App\Utils\Tools;
 use GuzzleHttp\Exception\GuzzleException;
@@ -111,9 +112,9 @@ final class User extends Model
      */
     public function imType(): string
     {
-        return match ($this->im_type) {
-            1 => 'Slack',
-            2 => 'Discord',
+        return match (ImType::tryFrom($this->im_type)) {
+            ImType::Slack => 'Slack',
+            ImType::Discord => 'Discord',
             default => 'Telegram',
         };
     }
@@ -260,10 +261,10 @@ final class User extends Model
 
     public function unbindIM(): bool
     {
-        $this->im_type = 0;
+        $this->im_type = ImType::None->value;
         $this->im_value = '';
 
-        if ($this->im_type === 4 && Config::obtain('telegram_unbind_kick_member')) {
+        if ($this->im_type === ImType::Telegram->value && Config::obtain('telegram_unbind_kick_member')) {
             try {
                 (new Telegram())->banGroupMember((int) $this->im_value);
             } catch (TelegramSDKException) {
@@ -312,7 +313,7 @@ final class User extends Model
             $text .= '今日使用：' . $lastday_traffic;
 
             try {
-                IM::send((int) $this->im_value, $text, $this->im_type);
+                IM::send($this->im_value, $text, $this->im_type);
             } catch (GuzzleException|TelegramSDKException $e) {
                 echo $e->getMessage() . PHP_EOL;
             }

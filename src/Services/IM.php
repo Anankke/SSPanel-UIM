@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Services\IM\Discord;
+use App\Services\IM\ImType;
 use App\Services\IM\Slack;
 use App\Services\IM\Telegram;
 use GuzzleHttp\Exception\GuzzleException;
@@ -17,9 +18,9 @@ final class IM
 {
     public static function getClient(int $type): Discord|Slack|Telegram
     {
-        return match ($type) {
-            1 => new Discord(),
-            2 => new Slack(),
+        return match (ImType::tryFrom($type)) {
+            ImType::Slack => new Slack(),
+            ImType::Discord => new Discord(),
             default => new Telegram(),
         };
     }
@@ -28,7 +29,7 @@ final class IM
      * @throws GuzzleException
      * @throws TelegramSDKException
      */
-    public static function send(int $to, string $msg, int $type): void
+    public static function send(string $to, string $msg, int $type): void
     {
         self::getClient($type)->send($to, $msg);
     }

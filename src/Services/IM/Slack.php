@@ -14,17 +14,17 @@ final class Slack extends Base
     private string $token;
     private Client $client;
 
-    public function __construct()
+    public function __construct(?Client $client = null)
     {
         $this->token = Config::obtain('slack_token');
-        $this->client = new Client();
+        $this->client = $client ?? new Client();
     }
 
     /**
      * @throws GuzzleException
      * @throws Exception
      */
-    public function send(int $to, string $msg): void
+    public function send(string $to, string $msg): void
     {
         $url = 'https://slack.com/api/chat.postMessage';
 

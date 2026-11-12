@@ -132,17 +132,17 @@
                                                     <h3 class="card-title">IM 账号绑定</h3>
                                                     <div class="mb-3">
                                                         <select id="imtype" class="form-select"
-                                                                {if $user->im_type !== 0 && $user->im_value !== ''}disabled=""{/if}>
-                                                            <option value="0" {if $user->im_type === 0}selected{/if}>
+                                                                {if $user->im_type !== $im_types.None && $user->im_value !== ''}disabled=""{/if}>
+                                                            <option value="{$im_types.None}" {if $user->im_type === $im_types.None}selected{/if}>
                                                                 未绑定
                                                             </option>
-                                                            <option value="1" {if $user->im_type === 1}selected{/if}>
+                                                            <option value="{$im_types.Slack}" {if $user->im_type === $im_types.Slack}selected{/if}>
                                                                 Slack
                                                             </option>
-                                                            <option value="2" {if $user->im_type === 2}selected{/if}>
+                                                            <option value="{$im_types.Discord}" {if $user->im_type === $im_types.Discord}selected{/if}>
                                                                 Discord
                                                             </option>
-                                                            <option value="4" {if $user->im_type === 4}selected{/if}>
+                                                            <option value="{$im_types.Telegram}" {if $user->im_type === $im_types.Telegram}selected{/if}>
                                                                 Telegram
                                                             </option>
                                                         </select>
@@ -162,7 +162,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">解绑 IM 账户</h3>
-                                                    {if $user->im_type === 0}
+                                                    {if $user->im_type === $im_types.None}
                                                     <p>你的账户当前没有绑定任何 IM 服务</p>
                                                     {else}
                                                     <p>
@@ -172,7 +172,7 @@
                                                     </p>
                                                     {/if}
                                                 </div>
-                                                {if $user->im_type !== 0}
+                                                {if $user->im_type !== $im_types.None}
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         <button class="btn btn-red ms-auto"
@@ -758,23 +758,23 @@
                 failDialog.show();
             }
         });
-        {if $user->im_type === 0 && $user->im_value === ''}
+        {if $user->im_type === $im_types.None && $user->im_value === ''}
         let oauthProvider = $('#oauth-provider');
 
         $("#imtype").on('change', function () {
-            if ($(this).val() === '0') {
+            if ($(this).val() === '{$im_types.None}') {
                 oauthProvider.empty();
-            } else if ($(this).val() === '1') {
+            } else if ($(this).val() === '{$im_types.Slack}') {
                 oauthProvider.empty();
                 oauthProvider.append(
                     "<a id='bind-slack' class='btn btn-azure ms-auto'>绑定 Slack</a>"
                 );
-            } else if ($(this).val() === '2') {
+            } else if ($(this).val() === '{$im_types.Discord}') {
                 oauthProvider.empty();
                 oauthProvider.append(
                     "<a id='bind-discord' class='btn btn-indigo ms-auto'>绑定 Discord</a>"
                 );
-            } else if ($(this).val() === '4') {
+            } else if ($(this).val() === '{$im_types.Telegram}') {
                 oauthProvider.empty();
                 oauthProvider.append(
                     '<script async src=\"https://telegram.org/js/telegram-widget.js?22\"' +

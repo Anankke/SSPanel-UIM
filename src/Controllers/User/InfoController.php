@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Auth;
 use App\Services\Cache;
 use App\Services\Filter;
+use App\Services\IM\ImType;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
@@ -42,6 +43,7 @@ final class InfoController extends BaseController
             $this->view()
                 ->assign('user', $this->user)
                 ->assign('themes', $themes)
+                ->assign('im_types', ImType::map())
                 ->assign('methods', $methods)
                 ->assign('webauthnDevices', $webauthnDevices)
                 ->assign('totpDevices', $totpDevices)

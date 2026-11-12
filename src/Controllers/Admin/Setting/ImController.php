@@ -148,7 +148,7 @@ final class ImController extends BaseController
     {
         try {
             (new Discord())->send(
-                (int) $request->getParam('discord_channel_id'),
+                (string) $request->getParam('discord_channel_id'),
                 I18n::trans('bot.test_message', $_ENV['locale']),
             );
         } catch (GuzzleException|\Exception $e) {
@@ -168,7 +168,7 @@ final class ImController extends BaseController
     {
         try {
             (new Slack())->send(
-                (int) $request->getParam('slack_channel_id'),
+                (string) $request->getParam('slack_channel_id'),
                 I18n::trans('bot.test_message', $_ENV['locale']),
             );
         } catch (GuzzleException|\Exception $e) {

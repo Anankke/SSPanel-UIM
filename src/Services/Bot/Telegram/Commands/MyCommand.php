@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\User;
 use App\Services\Bot\Telegram\Message;
 use App\Services\I18n;
+use App\Services\IM\ImType;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use function in_array;
@@ -51,7 +52,7 @@ final class MyCommand extends Command
             'username' => $message->from->username,
         ];
 
-        $user = (new User())->where('im_type', 4)->where('im_value', $send_user['id'])->first();
+        $user = (new User())->where('im_type', ImType::Telegram->value)->where('im_value', $send_user['id'])->first();
 
         if ($user === null) {
             // 回送信息

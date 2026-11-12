@@ -15,17 +15,17 @@ final class Discord extends Base
     private string $token;
     private Client $client;
 
-    public function __construct()
+    public function __construct(?Client $client = null)
     {
         $this->token = Config::obtain('discord_bot_token');
-        $this->client = new Client();
+        $this->client = $client ?? new Client();
     }
 
     /**
      * @throws GuzzleException
      * @throws Exception
      */
-    public function send(int $to, string $msg): void
+    public function send(string $to, string $msg): void
     {
         $headers = [
             'Authorization' => "Bot {$this->token}",
@@ -37,6 +37,7 @@ final class Discord extends Base
 
         $channel_check_response = $this->client->get($channel_check_url, [
             'headers' => $headers,
+            'http_errors' => false,
         ]);
 
         if ($channel_check_response->getStatusCode() !== 200) {

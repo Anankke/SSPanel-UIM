@@ -12,6 +12,7 @@ use App\Services\Auth;
 use App\Services\Cache;
 use App\Services\Captcha;
 use App\Services\Filter;
+use App\Services\IM\ImType;
 use App\Services\Mail;
 use App\Services\MFA\FIDO;
 use App\Services\MFA\TOTP;
@@ -348,7 +349,7 @@ final class AuthController extends BaseController
             }
         }
 
-        $imtype = 0;
+        $imtype = ImType::None->value;
         $imvalue = '';
 
         // check email format

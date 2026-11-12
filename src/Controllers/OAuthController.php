@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Models\Config;
 use App\Models\User;
 use App\Services\Cache;
+use App\Services\IM\ImType;
 use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Exception;
@@ -107,12 +108,12 @@ final class OAuthController extends BaseController
 
         $slack_user_id = $id_token->claims()->get('https://slack.com/user_id');
 
-        if ((new User())->where('im_type', 1)->where('im_value', $slack_user_id)->first() !== null ||
-            ($user->im_type === 1 && $user->im_value === $slack_user_id)) {
+        if ((new User())->where('im_type', ImType::Slack->value)->where('im_value', $slack_user_id)->first() !== null ||
+            ($user->im_type === ImType::Slack->value && $user->im_value === $slack_user_id)) {
             return ResponseHelper::error($response, 'Slack 账户已绑定');
         }
 
-        $user->im_type = 1;
+        $user->im_type = ImType::Slack->value;
         $user->im_value = $slack_user_id;
         $user->save();
 
@@ -192,12 +193,12 @@ final class OAuthController extends BaseController
 
         $discord_user_id = json_decode($user_response->getBody()->getContents(), true)['id'];
 
-        if ((new User())->where('im_type', 2)->where('im_value', $discord_user_id)->first() !== null ||
-            ($user->im_type === 2 && $user->im_value === $discord_user_id)) {
+        if ((new User())->where('im_type', ImType::Discord->value)->where('im_value', $discord_user_id)->first() !== null ||
+            ($user->im_type === ImType::Discord->value && $user->im_value === $discord_user_id)) {
             return ResponseHelper::error($response, 'Discord 账户已绑定');
         }
 
-        $user->im_type = 2;
+        $user->im_type = ImType::Discord->value;
         $user->im_value = $discord_user_id;
         $user->save();
 
@@ -247,12 +248,12 @@ final class OAuthController extends BaseController
         $telegram_id = $this->antiXss->xss_clean($user_auth['id']);
         $user = $this->user;
 
-        if ((new User())->where('im_type', 4)->where('im_value', $telegram_id)->first() !== null ||
-            ($user->im_type === 4 && $user->im_value === $telegram_id)) {
+        if ((new User())->where('im_type', ImType::Telegram->value)->where('im_value', $telegram_id)->first() !== null ||
+            ($user->im_type === ImType::Telegram->value && $user->im_value === $telegram_id)) {
             return ResponseHelper::error($response, 'Telegram 账户已绑定');
         }
 
-        $user->im_type = 4;
+        $user->im_type = ImType::Telegram->value;
         $user->im_value = $telegram_id;
 
         $user->save();
