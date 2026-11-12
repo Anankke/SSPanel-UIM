@@ -108,8 +108,10 @@ EOL;
                 continue;
             }
 
-            if ($query->class !== $item['class']) {
+            // class and is_public are owned by settings.json, value stays as configured by the site
+            if ($query->class !== $item['class'] || (int) $query->is_public !== (int) $item['is_public']) {
                 $query->class = $item['class'];
+                $query->is_public = $item['is_public'];
                 $query->save();
                 echo '更新数据库设置：' . $item_name . PHP_EOL;
                 $update_counter += 1;

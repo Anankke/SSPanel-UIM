@@ -1596,7 +1596,7 @@
         "item": "cryptomus_api_key",
         "value": "",
         "class": "billing",
-        "is_public": 1,
+        "is_public": 0,
         "type": "string",
         "default": "",
         "mark": "cryptomus_api_key"
@@ -1605,7 +1605,7 @@
         "item": "cryptomus_uuid",
         "value": "",
         "class": "billing",
-        "is_public": 1,
+        "is_public": 0,
         "type": "string",
         "default": "",
         "mark": "cryptomus_uuid"
