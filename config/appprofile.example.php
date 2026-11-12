@@ -431,7 +431,7 @@ $_ENV['SingBox_Config'] = [
         'override_android_vpn' => $isSfaVisitor,
         'default_domain_resolver' => [
             'server' => 'local',
-            'rewrite_tll' => 60,
+            'rewrite_ttl' => 60,
         ],
     ],
     'experimental' => [
