@@ -70,9 +70,14 @@ on_exit(){
     fi
 
     if [[ $step == migration ]]; then
-        echo "The database version (db_version) is unchanged, but migrations do not run in a transaction:"
-        echo "changes made before the failing statement stay in the database. Restore your database backup"
-        echo "taken before the update if the site does not work."
+        if [[ $status -eq 2 ]]; then
+            echo "The database has not been changed."
+        else
+            echo "Migrations up to the db_version shown above have completed and stay in the database; the failing"
+            echo "one may have left partial changes. Fix the cause and run update.sh again: it continues with the"
+            echo "failed migration, which starts again from its first statement. If that fails because of statements"
+            echo "it already ran, or the site does not work meanwhile, restore the database backup taken before the update."
+        fi
     else
         echo "The database has not been changed."
     fi
@@ -134,6 +139,7 @@ upgrade(){
     php xcat Update
     config_merged=1
     step='migration'
+    # Exit codes of Migration (0 done, 1 failed, 2 usage, nothing changed) are in its help (php xcat).
     php xcat Migration "$1"
     migrated=1
     step='importing settings'
