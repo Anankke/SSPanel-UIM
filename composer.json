@@ -39,7 +39,7 @@
         "monolog/monolog": "^3",
         "nikolaposa/rate-limit": "^3",
         "openai-php/client": "^0",
-        "phpmailer/phpmailer": "^6",
+        "phpmailer/phpmailer": "^7",
         "postal/postal": "^2",
         "ramsey/uuid": "^4",
         "resend/resend-php": "^0.18.1",
