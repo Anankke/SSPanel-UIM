@@ -201,6 +201,13 @@ final class OrderController extends BaseController
                 ]);
             }
 
+            if (! $coupon->allowsUser($user)) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '此优惠码仅限新用户使用',
+                ]);
+            }
+
             $content = json_decode($coupon->content);
 
             if ($content->type === 'percentage') {
@@ -229,14 +236,11 @@ final class OrderController extends BaseController
             ]);
         }
 
-        if ($product_limit->new_user_required !== 0) {
-            $order_count = (new Order())->where('user_id', $user->id)->count();
-            if ($order_count > 0) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '此商品仅限新用户购买',
-                ]);
-            }
+        if ($product_limit->new_user_required !== 0 && ! $user->isNewUser()) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '此商品仅限新用户购买',
+            ]);
         }
 
         $order = new Order();

@@ -225,6 +225,14 @@ final class User extends Model
     }
 
     /**
+     * 没有下过订单的用户
+     */
+    public function isNewUser(): bool
+    {
+        return ! (new Order())->where('user_id', $this->id)->exists();
+    }
+
+    /**
      * 删除用户的订阅链接
      */
     public function removeLink(): void

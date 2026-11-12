@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Query\Builder;
 use function json_decode;
+use function property_exists;
 use function time;
 
 /**
@@ -34,6 +35,24 @@ final class UserCoupon extends Model
             'fixed' => '固定金额',
             default => '未知',
         };
+    }
+
+    /**
+     * 是否仅限新用户使用
+     */
+    public function isNewUserOnly(): bool
+    {
+        $limit = json_decode($this->limit);
+
+        return property_exists($limit, 'new_user') && (int) $limit->new_user === 1;
+    }
+
+    /**
+     * 优惠码是否允许该用户使用
+     */
+    public function allowsUser(User $user): bool
+    {
+        return ! $this->isNewUserOnly() || $user->isNewUser();
     }
 
     /**

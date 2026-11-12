@@ -87,6 +87,13 @@ final class CouponController extends BaseController
             ]);
         }
 
+        if (! $coupon->allowsUser($user)) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $invalid_coupon_msg,
+            ]);
+        }
+
         $content = json_decode($coupon->content);
 
         if ($content->type === 'percentage') {
