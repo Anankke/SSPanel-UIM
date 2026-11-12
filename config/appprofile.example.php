@@ -351,6 +351,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -363,6 +364,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -375,6 +377,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -387,6 +390,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -399,6 +403,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -411,6 +416,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
             [
@@ -423,6 +429,7 @@ $_ENV['SingBox_Config'] = [
                     'engine' => 'go',
                     'version' => 2,
                     'disable_version_fallback' => false,
+                    'detour' => 'select',
                 ],
             ],
         ],
