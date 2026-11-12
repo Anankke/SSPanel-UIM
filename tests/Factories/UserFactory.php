@@ -76,8 +76,6 @@ class UserFactory
             'node_group' => 0,
             'class' => 0,
             'class_expire' => date('Y-m-d H:i:s', strtotime('+1 month')),
-            'ga_token' => '',
-            'ga_enable' => 0,
         ];
     }
     

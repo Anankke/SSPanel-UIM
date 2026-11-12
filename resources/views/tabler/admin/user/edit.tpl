@@ -237,15 +237,6 @@
                                 </span>
                             </div>
                             <div class="form-group mb-3 row">
-                                <span class="col">两步认证</span>
-                                <span class="col-auto">
-                                    <label class="form-check form-check-single form-switch">
-                                        <input id="ga_enable" class="form-check-input" type="checkbox"
-                                               {if $edit_user->ga_enable}checked="" {/if}>
-                                    </label>
-                                </span>
-                            </div>
-                            <div class="form-group mb-3 row">
                                 <span class="col">账户异常状态（Shadow Banned）</span>
                                 <span class="col-auto form-check-single form-switch">
                                     <input id="is_shadow_banned" class="form-check-input" type="checkbox"
@@ -294,7 +285,6 @@
                 {$key}: $('#{$key}').val(),
                 {/foreach}
                 is_admin: $("#is_admin").is(":checked"),
-                ga_enable: $("#ga_enable").is(":checked"),
                 is_shadow_banned: $("#is_shadow_banned").is(":checked"),
                 is_banned: $("#is_banned").is(":checked"),
             },
