@@ -55,6 +55,14 @@ final class Invoice extends Model
         };
     }
 
+    /**
+     * 账单当前是否还可以收款
+     */
+    public function acceptsPayment(): bool
+    {
+        return in_array($this->status, ['unpaid', 'partially_paid'], true);
+    }
+
     public function refundToBalance(): void
     {
         if (in_array($this->status, ['paid_gateway', 'paid_balance', 'paid_admin'])) {

@@ -86,15 +86,11 @@ final class PayPal extends Base
         }
 
         $user = Auth::getUser();
-        $pl = (new Paylist())->where('invoice_id', $invoice_id)->first();
-
-        if ($pl === null) {
-            $pl = new Paylist();
-            $pl->userid = $user->id;
-            $pl->total = $price;
-            $pl->invoice_id = $invoice_id;
-            $pl->tradeno = self::generateGuid();
-        }
+        $pl = new Paylist();
+        $pl->userid = $user->id;
+        $pl->total = $price;
+        $pl->invoice_id = $invoice_id;
+        $pl->tradeno = self::generateGuid();
 
         $pl->gateway = self::_readableName();
         $pl->save();

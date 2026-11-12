@@ -7,13 +7,18 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Invoice;
 use App\Models\Paylist;
-use App\Models\UserMoneyLog;
+use App\Models\User;
+use App\Services\DB;
 use App\Services\Payment;
+use App\Services\Wallet;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
+use function bccomp;
+use function bcsub;
+use function count;
 use function json_decode;
 use function json_encode;
 use function time;
@@ -110,17 +115,27 @@ final class InvoiceController extends BaseController
             ]);
         }
 
-        // 组合支付
-        if ($user->money > 0) {
-            $money_before = $user->money;
+        $status = DB::connection()->transaction(static function () use ($invoice, $user): string {
+            $invoice = (new Invoice())->lockForUpdate()->find($invoice->id);
 
-            if ($user->money >= $invoice->price) {
-                $paid = $invoice->price;
+            if (! $invoice->acceptsPayment()) {
+                return 'not_payable';
+            }
+
+            $money = (string) (new User())->lockForUpdate()->find($user->id)->money;
+
+            if (bccomp($money, '0', 2) <= 0) {
+                return 'insufficient';
+            }
+
+            // 组合支付
+            if (bccomp($money, (string) $invoice->price, 2) >= 0) {
+                $paid = (string) $invoice->price;
                 $invoice->status = 'paid_balance';
             } else {
-                $paid = $user->money;
+                $paid = $money;
                 $invoice->status = 'partially_paid';
-                $invoice->price -= $paid;
+                $invoice->price = bcsub((string) $invoice->price, $paid, 2);
                 $invoice_content = json_decode($invoice->content);
                 $invoice_content[] = [
                     'content_id' => count($invoice_content),
@@ -130,28 +145,30 @@ final class InvoiceController extends BaseController
                 $invoice->content = json_encode($invoice_content);
             }
 
-            $user->money -= $paid;
-            $user->save();
-
-            (new UserMoneyLog())->add(
-                $user->id,
-                $money_before,
-                (float) $user->money,
-                -$paid,
-                '支付账单 #' . $invoice->id
-            );
+            Wallet::debit($user->id, $paid, '支付账单 #' . $invoice->id);
 
             $invoice->update_time = time();
             $invoice->pay_time = time();
             $invoice->save();
-        } else {
+
+            return $invoice->status;
+        }, 3);
+
+        if ($status === 'not_payable') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '账单已支付或已取消',
+            ]);
+        }
+
+        if ($status === 'insufficient') {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '余额不足',
             ]);
         }
 
-        if ($invoice->status === 'paid_balance') {
+        if ($status === 'paid_balance') {
             return $response->withHeader('HX-Redirect', '/user/invoice');
         }
 

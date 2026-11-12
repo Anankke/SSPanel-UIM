@@ -7,6 +7,8 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\GiftCard;
 use App\Models\UserMoneyLog;
+use App\Services\DB;
+use App\Services\Wallet;
 use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -59,22 +61,29 @@ final class MoneyController extends BaseController
             ]);
         }
 
-        $giftcard->status = 1;
-        $giftcard->use_time = time();
-        $giftcard->use_user = $user->id;
-        $giftcard->save();
+        $redeemed = DB::connection()->transaction(static function () use ($giftcard, $user): bool {
+            $giftcard = (new GiftCard())->lockForUpdate()->find($giftcard->id);
 
-        $money_before = $user->money;
-        $user->money += $giftcard->balance;
-        $user->save();
+            if ($giftcard->status !== 0) {
+                return false;
+            }
 
-        (new UserMoneyLog())->add(
-            $user->id,
-            $money_before,
-            (float) $user->money,
-            $giftcard->balance,
-            '礼品卡充值 ' . $giftcard->card
-        );
+            $giftcard->status = 1;
+            $giftcard->use_time = time();
+            $giftcard->use_user = $user->id;
+            $giftcard->save();
+
+            Wallet::credit($user->id, (string) $giftcard->balance, '礼品卡充值 ' . $giftcard->card);
+
+            return true;
+        }, 3);
+
+        if (! $redeemed) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '礼品卡无效',
+            ]);
+        }
 
         return $response->withJson([
             'ret' => 1,
