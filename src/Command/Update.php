@@ -28,11 +28,12 @@ END;
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
 
-        if ($copy_result) {
-            echo '.config.php 文件备份成功。' . PHP_EOL;
-        } else {
+        if (! $copy_result) {
             echo '.config.php 文件备份失败，迁移终止。' . PHP_EOL;
+            exit(1);
         }
+
+        echo '.config.php 文件备份成功。' . PHP_EOL;
 
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
@@ -88,7 +89,11 @@ END;
         }
 
         echo '没有任何新 .config.php 配置项需要添加。' . PHP_EOL;
-        file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
+        if (file_put_contents(BASE_PATH . '/config/.config.php', $config_new) === false) {
+            echo '.config.php 写入失败，请用 .config.php.bak 恢复。' . PHP_EOL;
+            exit(1);
+        }
+
         echo '迁移完成。' . PHP_EOL;
     }
 }

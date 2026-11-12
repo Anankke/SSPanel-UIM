@@ -23,11 +23,13 @@ final class Boot
         try {
             DB::init();
         } catch (Exception $e) {
+            echo 'Database Error';
+
             if ($_ENV['debug']) {
-                die('Database Error' . PHP_EOL . 'Reason: ' . $e->getMessage());
+                echo PHP_EOL . 'Reason: ' . $e->getMessage();
             }
 
-            die('Database Error');
+            exit(1);
         }
     }
 
