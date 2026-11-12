@@ -163,6 +163,42 @@ final class Clash extends Base
                     ];
 
                     break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    if ($hy2 === null) {
+                        $node = [];
+
+                        break;
+                    }
+
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'hysteria2',
+                        'server' => $hy2['server'],
+                        'port' => $hy2['port'],
+                        'password' => $user->uuid,
+                        'sni' => $hy2['sni'],
+                        'skip-cert-verify' => $hy2['insecure'],
+                    ];
+
+                    if ($hy2['obfs'] === 'salamander') {
+                        $node['obfs'] = 'salamander';
+                        $node['obfs-password'] = $hy2['obfs_password'];
+                    }
+                    if ($hy2['up'] !== null) {
+                        $node['up'] = $hy2['up'];
+                    }
+                    if ($hy2['down'] !== null) {
+                        $node['down'] = $hy2['down'];
+                    }
+                    if ($hy2['hop_enabled']) {
+                        $node['ports'] = $hy2['ports'];
+                    }
+                    if ($hy2['hop_interval'] !== null) {
+                        $node['hop-interval'] = $hy2['hop_interval'];
+                    }
+
+                    break;
                 default:
                     $node = [];
                     break;

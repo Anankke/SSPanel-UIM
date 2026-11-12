@@ -60,6 +60,27 @@ describe('UserController API - Trojan Node', function () {
     });
 });
 
+describe('UserController API - Hysteria2 Node', function () {
+    it('returns the user uuid used as the Hysteria2 password', function () {
+        $this->node->sort = 15;
+        $this->node->custom_config = json_encode([
+            'offset_port_node' => '443',
+            'hysteria2' => ['version' => 2],
+        ]);
+        $this->node->save();
+        $user = createUsers(1)[0];
+
+        $response = $this->get('/mod_mu/users?node_id=' . $this->node->id . '&key=' . $_ENV['muKey']);
+        assertResponseStatus(200, $response);
+        $userData = findUserData(getJsonData($response)['data'], $user->id);
+
+        expect($userData)
+            ->not->toHaveKeys(['u', 'd', 'transfer_enable', 'method', 'port', 'passwd', 'node_iplimit'])
+            ->toHaveKeys(['id', 'uuid', 'node_speedlimit'])
+            ->and($userData['uuid'])->toBe($user->uuid);
+    });
+});
+
 describe('UserController API - Shadowsocks 2022 Node', function () {
     it('returns user list for shadowsocks 2022 node', function () {
         // Update node type

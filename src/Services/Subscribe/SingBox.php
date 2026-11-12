@@ -7,9 +7,13 @@ namespace App\Services\Subscribe;
 use App\Services\Subscribe;
 use App\Utils\Tools;
 use function array_filter;
+use function array_map;
 use function array_merge;
+use function explode;
 use function json_decode;
 use function json_encode;
+use function str_replace;
+use function trim;
 
 final class SingBox extends Base
 {
@@ -164,6 +168,51 @@ final class SingBox extends Base
 
                     $node['tls'] = array_filter($node['tls']);
                     $node['transport'] = array_filter($node['transport']);
+
+                    break;
+                case 15:
+                    $hy2 = Hysteria2::config($node_raw);
+                    if ($hy2 === null) {
+                        $node = [];
+
+                        break;
+                    }
+
+                    $node = [
+                        'type' => 'hysteria2',
+                        'tag' => $node_raw->name,
+                        'server' => $hy2['server'],
+                        'server_port' => $hy2['port'],
+                        'password' => $user->uuid,
+                        'tls' => [
+                            'enabled' => true,
+                            'server_name' => $hy2['sni'],
+                            'insecure' => $hy2['insecure'],
+                        ],
+                    ];
+
+                    if ($hy2['obfs'] === 'salamander') {
+                        $node['obfs'] = [
+                            'type' => 'salamander',
+                            'password' => $hy2['obfs_password'],
+                        ];
+                    }
+                    if ($hy2['up_mbps'] !== null) {
+                        $node['up_mbps'] = $hy2['up_mbps'];
+                    }
+                    if ($hy2['down_mbps'] !== null) {
+                        $node['down_mbps'] = $hy2['down_mbps'];
+                    }
+                    if ($hy2['hop_enabled']) {
+                        unset($node['server_port']);
+                        $node['server_ports'] = array_map(
+                            static fn (string $range): string => str_replace('-', ':', trim($range)),
+                            explode(',', $hy2['ports'])
+                        );
+                    }
+                    if ($hy2['hop_interval'] !== null) {
+                        $node['hop_interval'] = $hy2['hop_interval'] . 's';
+                    }
 
                     break;
                 default:
