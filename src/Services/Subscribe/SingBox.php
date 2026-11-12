@@ -149,6 +149,9 @@ final class SingBox extends Base
                         $node_custom_config['host'] ?? '';
                     $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '';
                     $headers = $node_custom_config['header']['request']['headers'] ?? [];
+                    if ($transport === 'ws' && $host !== '') {
+                        $headers += ['Host' => $host];
+                    }
                     $service_name = $node_custom_config['servicename'] ?? '';
                     $utls = $node_custom_config['utls'] ?? false;
                     $method = $node_custom_config['method'] ?? '';
@@ -161,11 +164,12 @@ final class SingBox extends Base
                         'server' => $node_raw->server,
                         'server_port' => (int) $v2_port,
                         'uuid' => $user->uuid,
-                        'security' => 'auto',
+                        'security' => $node_custom_config['encryption'] ?? 'auto',
                         'alter_id' => 0,
                         'tls' => [
                             'enabled' => true,
                             'server_name' => $host,
+                            'insecure' => (bool) ($node_custom_config['allow_insecure'] ?? false),
                             'utls' => [
                                 'enabled' => $utls,
                                 'fingerprint' => 'chrome',
@@ -176,6 +180,7 @@ final class SingBox extends Base
                         'authenticated_length' => true,
                         'transport' => [
                             'type' => $transport,
+                            'host' => $transport === 'httpupgrade' ? $host : '',
                             'path' => $path,
                             'method' => $method,
                             'headers' => $headers,
@@ -187,6 +192,9 @@ final class SingBox extends Base
 
                     $node['tls'] = array_filter($node['tls']);
                     $node['transport'] = array_filter($node['transport']);
+                    if (($node_custom_config['security'] ?? 'none') !== 'tls') {
+                        unset($node['tls']);
+                    }
 
                     break;
                 case 14:

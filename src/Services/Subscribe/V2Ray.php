@@ -42,7 +42,9 @@ final class V2Ray extends Base
                 $header = $node_custom_config['header'] ?? ['type' => 'none'];
                 $header_type = $header['type'] ?? '';
                 $host = $node_custom_config['header']['request']['headers']['Host'][0] ?? $node_custom_config['host'] ?? '';
-                $path = $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/';
+                // v2rayN share links carry the gRPC service name in path.
+                $path = $network === 'grpc' ? ($node_custom_config['servicename'] ?? '') :
+                    ($node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/');
 
                 $v2rayn_array = [
                     'v' => '2',

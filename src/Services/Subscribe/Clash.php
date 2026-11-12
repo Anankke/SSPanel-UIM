@@ -7,6 +7,7 @@ namespace App\Services\Subscribe;
 use App\Services\Subscribe;
 use App\Utils\Tools;
 use function array_merge;
+use function is_array;
 use function json_decode;
 use function yaml_emit;
 use const YAML_UTF8_ENCODING;
@@ -162,9 +163,24 @@ final class Clash extends Base
                     $h2_opts = $node_custom_config['h2-opts'] ?? $node_custom_config['h2_opts'] ?? null;
                     $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
                     $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+                    if ($network === 'ws' || $network === 'httpupgrade') {
+                        $ws_opts = is_array($ws_opts) ? $ws_opts : [];
+                        $ws_opts += [
+                            'path' => $node_custom_config['header']['request']['path'][0] ?? $node_custom_config['path'] ?? '/',
+                        ];
+                        if ($host !== '') {
+                            $ws_opts['headers'] = (is_array($ws_opts['headers'] ?? null) ? $ws_opts['headers'] : []) + ['Host' => $host];
+                        }
+                    }
                     // HTTPUpgrade 在 Clash.Meta 内核中属于 ws 类型
                     if ($network === 'httpupgrade') {
                         $network = 'ws';
+                        $ws_opts += ['v2ray-http-upgrade' => true];
+                    }
+                    if ($network === 'grpc') {
+                        $grpc_opts = (is_array($grpc_opts) ? $grpc_opts : []) + [
+                            'grpc-service-name' => $node_custom_config['servicename'] ?? '',
+                        ];
                     }
 
                     $node = [
