@@ -41,10 +41,7 @@ final class Smogate extends Base
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_HTTPHEADER, ['User-Agent: Smogate ' . Config::obtain('smogate_app_id')]);
-        $data = curl_exec($curl);
-        curl_close($curl);
-
-        return $data;
+        return curl_exec($curl);
     }
 
     public function prepareSign($data)

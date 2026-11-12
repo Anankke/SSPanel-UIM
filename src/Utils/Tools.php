@@ -129,7 +129,18 @@ final class Tools
             return -1;
         }
 
-        return (int) ($base * pow(1024, array_flip($units)[$suffix_double]));
+        $bytes = $base * pow(1024, array_flip($units)[$suffix_double]);
+
+        // Casting a float outside the int range yields an arbitrary value and warns since PHP 8.5.
+        if ($bytes >= PHP_INT_MAX) {
+            return PHP_INT_MAX;
+        }
+
+        if ($bytes <= PHP_INT_MIN) {
+            return PHP_INT_MIN;
+        }
+
+        return (int) $bytes;
     }
 
     /**
