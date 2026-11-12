@@ -93,6 +93,60 @@ final class Clash extends Base
 
                     break;
                 case 11:
+                    if (Vless::enabled($node_custom_config)) {
+                        $client = $this->vlessClient($node_raw, $node_custom_config);
+                        if ($client === null) {
+                            continue 2;
+                        }
+                        $node = [
+                            'name' => $node_raw->name,
+                            'type' => 'vless',
+                            'server' => $node_raw->server,
+                            'port' => $client['port'],
+                            'uuid' => $user->uuid,
+                            'network' => $client['network'],
+                            'tls' => $client['security'] !== 'none',
+                            'udp' => (bool) ($node_custom_config['udp'] ?? true),
+                        ];
+                        if ($client['flow'] !== '') {
+                            $node['flow'] = $client['flow'];
+                        }
+                        if ($client['security'] === 'reality') {
+                            $node['servername'] = $client['server_name'];
+                            $node['client-fingerprint'] = $client['fingerprint'];
+                            $node['reality-opts'] = [
+                                'public-key' => $client['public_key'],
+                                'short-id' => $client['short_id'],
+                            ];
+                            // Xray-core 26.9+ REALITY servers require the hybrid key share; older servers reject it.
+                            if ($client['x25519mlkem768']) {
+                                $node['reality-opts']['support-x25519mlkem768'] = true;
+                            }
+                        } elseif ($client['security'] === 'tls') {
+                            $node['servername'] = $client['server_name'];
+                            $node['skip-cert-verify'] = $client['allow_insecure'];
+                        }
+                        if (in_array($client['network'], ['ws', 'httpupgrade'], true)) {
+                            $node['network'] = 'ws';
+                            $node['ws-opts'] = [
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'headers' => ['Host' => $node_custom_config['host'] ?? ''],
+                            ];
+                            if ($client['network'] === 'httpupgrade') {
+                                $node['ws-opts']['v2ray-http-upgrade'] = true;
+                            }
+                        } elseif ($client['network'] === 'grpc') {
+                            $node['grpc-opts'] = ['grpc-service-name' => $node_custom_config['servicename'] ?? ''];
+                        } elseif ($client['network'] === 'xhttp') {
+                            $node['xhttp-opts'] = [
+                                'host' => $node_custom_config['host'] ?? '',
+                                'path' => $node_custom_config['path'] ?? '/',
+                                'mode' => 'auto',
+                            ];
+                        }
+                        break;
+                    }
+
                     $v2_port = $node_custom_config['offset_port_user'] ??
                         ($node_custom_config['offset_port_node'] ?? 443);
                     $security = $node_custom_config['security'] ?? 'none';

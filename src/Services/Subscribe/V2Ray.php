@@ -27,6 +27,15 @@ final class V2Ray extends Base
             $node_custom_config = json_decode($node_raw->custom_config, true);
 
             if ((int) $node_raw->sort === 11) {
+                if (Vless::enabled($node_custom_config)) {
+                    $client = $this->vlessClient($node_raw, $node_custom_config);
+                    if ($client === null) {
+                        continue;
+                    }
+                    $links .= Vless::uri($node_raw, $user, $node_custom_config, $client) . PHP_EOL;
+                    continue;
+                }
+
                 $v2_port = $node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443);
                 $security = $node_custom_config['security'] ?? 'none';
                 $network = $node_custom_config['network'] ?? '';

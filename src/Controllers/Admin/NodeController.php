@@ -368,6 +368,28 @@ final class NodeController extends BaseController
 
     private function validateCustomConfig(int $sort, mixed $raw): ?string
     {
+        if ($sort === 11) {
+            $vless = is_string($raw) ? json_decode($raw, true) : null;
+            if (! \App\Services\Subscribe\Vless::enabled($vless)) {
+                return null;
+            }
+
+            try {
+                \App\Services\Subscribe\Vless::client($vless, '');
+            } catch (\InvalidArgumentException | \RuntimeException $error) {
+                return 'VLESS custom_config 无效：' . $error->getMessage();
+            }
+            if (filter_var(
+                $vless['offset_port_node'] ?? null,
+                FILTER_VALIDATE_INT,
+                ['options' => ['min_range' => 1, 'max_range' => 65535]]
+            ) === false) {
+                return 'VLESS 的 offset_port_node 必须是 1-65535 的端口';
+            }
+
+            return null;
+        }
+
         if ($sort !== 15) {
             return null;
         }

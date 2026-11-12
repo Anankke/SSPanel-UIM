@@ -90,6 +90,58 @@ final class SingBox extends Base
 
                     break;
                 case 11:
+                    if (Vless::enabled($node_custom_config)) {
+                        $client = $this->vlessClient($node_raw, $node_custom_config);
+                        if ($client === null) {
+                            continue 2;
+                        }
+                        // Official sing-box has no XHTTP transport; omit rather than emit an invalid outbound.
+                        if ($client['network'] === 'xhttp') {
+                            $node = [];
+                            break;
+                        }
+                        $node = [
+                            'type' => 'vless',
+                            'tag' => $node_raw->name,
+                            'server' => $node_raw->server,
+                            'server_port' => $client['port'],
+                            'uuid' => $user->uuid,
+                        ];
+                        if ($client['flow'] !== '') {
+                            $node['flow'] = $client['flow'];
+                        }
+                        if ($client['security'] !== 'none') {
+                            $node['tls'] = [
+                                'enabled' => true,
+                                'server_name' => $client['server_name'],
+                            ];
+                            if ($client['security'] === 'reality') {
+                                $node['tls']['utls'] = ['enabled' => true, 'fingerprint' => $client['fingerprint']];
+                                $node['tls']['reality'] = [
+                                    'enabled' => true,
+                                    'public_key' => $client['public_key'],
+                                    'short_id' => $client['short_id'],
+                                ];
+                            } else {
+                                $node['tls']['insecure'] = $client['allow_insecure'];
+                            }
+                        }
+                        if ($client['network'] !== 'tcp') {
+                            $node['transport'] = ['type' => $client['network']];
+                            if ($client['network'] === 'ws' || $client['network'] === 'httpupgrade') {
+                                $node['transport']['path'] = $node_custom_config['path'] ?? '/';
+                                if ($client['network'] === 'httpupgrade') {
+                                    $node['transport']['host'] = $node_custom_config['host'] ?? '';
+                                } else {
+                                    $node['transport']['headers'] = ['Host' => $node_custom_config['host'] ?? ''];
+                                }
+                            } elseif ($client['network'] === 'grpc') {
+                                $node['transport']['service_name'] = $node_custom_config['servicename'] ?? '';
+                            }
+                        }
+                        break;
+                    }
+
                     $v2_port = $node_custom_config['offset_port_user'] ??
                         ($node_custom_config['offset_port_node'] ?? 443);
                     $transport = ($node_custom_config['network'] ?? '') === 'tcp' ? '' : $node_custom_config['network'];
