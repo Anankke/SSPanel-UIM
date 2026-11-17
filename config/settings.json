@@ -1638,6 +1638,42 @@
         "mark": "cryptomus_currency"
     },
     {
+        "item": "nano_account",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "nano_account"
+    },
+    {
+        "item": "nano_node_url",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "nano_node_url"
+    },
+    {
+        "item": "nano_rate",
+        "value": "",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "nano_rate"
+    },
+    {
+        "item": "nano_max_age",
+        "value": "86400",
+        "class": "billing",
+        "is_public": 0,
+        "type": "string",
+        "default": "86400",
+        "mark": "nano_max_age"
+    },
+    {
         "item": "llm_backend",
         "value": "",
         "class": "llm",
