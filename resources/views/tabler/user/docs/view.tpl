@@ -17,7 +17,7 @@
             <div class="card card-lg">
                 <div class="card-body ">
                     <div class="row g-4">
-                        {$doc->content}
+                        {$doc->content nofilter}
                     </div>
                 </div>
             </div>

@@ -56,7 +56,7 @@
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div>
+                                            <div style="white-space: pre-line">
                                                 {$comment->comment}
                                             </div>
                                             <div class="text-secondary my-1">{$comment->commenter_name}

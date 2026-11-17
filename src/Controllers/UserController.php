@@ -18,7 +18,6 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
-use function json_encode;
 use function strtotime;
 use function time;
 
@@ -64,11 +63,11 @@ final class UserController extends BaseController
             $this->view()
                 ->assign('ann', $ann)
                 ->assign('captcha', $captcha)
-                ->assign('traffic_logs', json_encode($traffic_logs))
+                ->assign('traffic_logs', $traffic_logs)
                 ->assign('class_expire_days', $class_expire_days)
                 ->assign('UniversalSub', $universalSub)
-                ->assign('clientData', json_encode($clientData['clients']))
-                ->assign('platformIcons', json_encode($clientData['icons']))
+                ->assign('clientData', $clientData['clients'])
+                ->assign('platformIcons', $clientData['icons'])
                 ->assign('user_class', $this->user->class)
                 ->assign('user_money', $this->user->money)
                 ->assign('ip_limit', $this->user->node_iplimit)

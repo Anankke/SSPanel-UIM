@@ -22,7 +22,6 @@ use function array_merge;
 use function count;
 use function json_decode;
 use function json_encode;
-use function nl2br;
 use function time;
 
 final class TicketController extends BaseController
@@ -170,7 +169,6 @@ final class TicketController extends BaseController
         $comments = json_decode($ticket->content);
 
         foreach ($comments as $comment) {
-            $comment->comment = nl2br($comment->comment);
             $comment->datetime = Tools::toDateTime((int) $comment->datetime);
         }
 

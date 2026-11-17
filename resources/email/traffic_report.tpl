@@ -16,9 +16,9 @@
                         <div border="0" cellpadding="0" cellspacing="0" style="background-color:#FFFFFF" width="100%">
                             <div align="center" valign="top" style="padding-bottom:60px;padding-left:20px;padding-right:20px;">
                                 <p class="midText">
-                                    用户名: {$user->user_name}
+                                    用户名: {$user->user_name|escape}
                                     <br>
-                                    Email: {$user->email}
+                                    Email: {$user->email|escape}
                                     <br><br>
                                     总流量: {$enable_traffic}
                                     <br>

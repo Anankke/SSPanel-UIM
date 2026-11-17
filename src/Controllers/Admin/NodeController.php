@@ -169,6 +169,7 @@ final class NodeController extends BaseController
     public function edit(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $node = (new Node())->find($args['id']);
+        $node->custom_config = json_decode($node->custom_config, true);
 
         $dynamic_rate_config = json_decode($node->dynamic_rate_config);
         $node->max_rate = $dynamic_rate_config?->max_rate ?? 1;

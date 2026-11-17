@@ -1,7 +1,7 @@
 {if $public_setting['live_chat'] === 'crisp'}
     <script>
         window.$crisp = [];
-        window.CRISP_WEBSITE_ID = "{$public_setting["crisp_id"]}";
+        window.CRISP_WEBSITE_ID = {$public_setting["crisp_id"]|js nofilter};
         (function () {
             d = document;
             s = d.createElement("script");
@@ -10,13 +10,13 @@
             d.getElementsByTagName("head")[0].appendChild(s);
         })();
         $crisp.push(["safe", true])
-        $crisp.push(["set", "user:nickname", "{$user->user_name}"],
-            ["set", "user:email", "{$user->email}"],
+        $crisp.push(["set", "user:nickname", {$user->user_name|js nofilter}],
+            ["set", "user:email", {$user->email|js nofilter}],
             ["set", "session:data",
                 [[
                     ["user_id", "{$user->id}"],
                     ["user_class", "{$user->class}"],
-                    ["reg_email", "{$user->email}"],
+                    ["reg_email", {$user->email|js nofilter}],
                     ["class_expire_time", "{$user->class_expire}"],
                     ["available_traffic", "{$user->unusedTraffic()}"],
                     ["balance", "{$user->money}"]
@@ -29,7 +29,7 @@
         window.__lc = window.__lc ||
         {
         };
-        window.__lc.license = "{$public_setting['livechat_license']}";
+        window.__lc.license = {$public_setting['livechat_license']|js nofilter};
         window.__lc.params = [
             {
                 name: '用户编号', value: '{$user->id}'
@@ -38,7 +38,7 @@
                 name: '用户类别', value: '{$user->class}'
             },
             {
-                name: '注册邮箱', value: '{$user->email}'
+                name: '注册邮箱', value: {$user->email|js nofilter}
             },
             {
                 name: '等级时间', value: '{$user->class_expire}'

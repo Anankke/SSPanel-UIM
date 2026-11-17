@@ -240,7 +240,7 @@
         modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);
-    editor.set({$node->custom_config})
+    editor.set({$node->custom_config|js nofilter})
 
     {literal}
     $('#sort').on('change', function () {

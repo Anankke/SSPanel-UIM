@@ -778,7 +778,7 @@
                 oauthProvider.empty();
                 oauthProvider.append(
                     '<script async src=\"https://telegram.org/js/telegram-widget.js?22\"' +
-                    ' data-telegram-login=\"' + "{$public_setting['telegram_bot']}" +
+                    ' data-telegram-login=\"' + {$public_setting['telegram_bot']|js nofilter} +
                     '\" data-size=\"large" data-onauth=\"onTelegramAuth(user)\"' +
                     ' data-request-access=\"write\"><\/script>'
                 );

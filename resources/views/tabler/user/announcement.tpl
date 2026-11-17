@@ -34,7 +34,7 @@
                                     <tr>
                                         <td>{$ann->id}</td>
                                         <td>{$ann->date}</td>
-                                        <td>{$ann->content}</td>
+                                        <td>{$ann->content nofilter}</td>
                                     </tr>
                                 {/foreach}
                                 </tbody>

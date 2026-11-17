@@ -403,7 +403,7 @@
                             </h3>
                             <p class="text-secondary">
                                 {if $ann !== null}
-                                {$ann->content}
+                                {$ann->content nofilter}
                                 {else}
                                 暂无公告
                                 {/if}
@@ -499,7 +499,7 @@
             if (!chartElement || !window.ApexCharts) return;
             
             try {
-                const chart = new ApexCharts(chartElement, getTrafficChartConfig({$traffic_logs}));
+                const chart = new ApexCharts(chartElement, getTrafficChartConfig({$traffic_logs|js nofilter}));
                 chart.render();
             } catch (error) {
                 console.error('流量图表初始化失败:', error);
@@ -515,16 +515,16 @@
     <script>
     window.APP_CONFIG = {
         enableR2Download: {if $config['enable_r2_client_download']}true{else}false{/if},
-        universalSubUrl: "{$UniversalSub}",
-        appName: "{$config['appName']}",
+        universalSubUrl: {$UniversalSub|js nofilter},
+        appName: {$config['appName']|js nofilter},
         enableSsSub: {if $public_setting['enable_ss_sub']}true{else}false{/if},
         enableV2Sub: {if $public_setting['enable_v2_sub']}true{else}false{/if},
         enableTrojanSub: {if $public_setting['enable_trojan_sub']}true{else}false{/if}
     };
     
-    const platformIcons = {$platformIcons};
+    const platformIcons = {$platformIcons|js nofilter};
 
-    const clientRecommendations = {$clientData};
+    const clientRecommendations = {$clientData|js nofilter};
     
     {literal}
     function detectOS() {

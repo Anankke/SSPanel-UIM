@@ -9,6 +9,7 @@ use Illuminate\Database\DatabaseManager;
 use Smarty\Smarty;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use function json_encode;
 use const BASE_PATH;
 
 final class View
@@ -19,6 +20,15 @@ final class View
     public static function getSmarty(): Smarty
     {
         $smarty = new Smarty(); //实例化smarty
+        $smarty->escape_html = true;
+        $smarty->registerPlugin(
+            'modifier',
+            'js',
+            static fn ($value): string => (string) json_encode(
+                $value,
+                JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+            )
+        );
         $user = Auth::getUser();
 
         $smarty->setTemplateDir(BASE_PATH . '/resources/views/' . self::getTheme($user) . '/'); //设置模板文件存放目录

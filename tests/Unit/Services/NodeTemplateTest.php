@@ -17,6 +17,11 @@ it('renders Hysteria2 defaults without interpreting JavaScript objects as Smarty
     try {
         $smarty = new Smarty();
         $smarty->setCompileDir($compileDir);
+        $smarty->registerPlugin(
+            'modifier',
+            'js',
+            static fn ($value): string => (string) json_encode($value, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)
+        );
         $smarty->assign('config', ['jsdelivr_url' => 'example.invalid', 'jump_delay' => 1234]);
         $smarty->assign('update_field', ['name']);
         $node = new stdClass();
@@ -25,7 +30,7 @@ it('renders Hysteria2 defaults without interpreting JavaScript objects as Smarty
             $node->{$property} = 0;
         }
         $node->id = 42;
-        $node->custom_config = '{"existing":true}';
+        $node->custom_config = ['existing' => true];
         $smarty->assign('node', $node);
         $rendered = $smarty->fetch('string:' . $source);
 
