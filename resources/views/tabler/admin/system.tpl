@@ -50,13 +50,16 @@
                 type: 'POST',
                 dataType: "json",
                 success: function (data) {
+                    $('.badge').remove();
+                    const badge = document.createElement('span');
                     if (data.is_upto_date) {
-                        $('.badge').remove();
-                        $('#version').append('<span class="badge bg-green text-green-fg">已是最新版本</span>');
+                        badge.className = 'badge bg-green text-green-fg';
+                        badge.textContent = '已是最新版本';
                     } else {
-                        $('.badge').remove();
-                        $('#version').append('<span class="badge bg-red text-red-fg">有新版本 ' + data.latest_version + ' 可用</span>');
+                        badge.className = 'badge bg-red text-red-fg';
+                        badge.textContent = '有新版本 ' + data.latest_version + ' 可用';
                     }
+                    document.getElementById('version').appendChild(badge);
                 }
             })
         });

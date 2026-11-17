@@ -243,7 +243,8 @@ final class AnnController extends BaseController
             onclick="deleteAnn(' . $ann->id . ')">删除</button>
             <a class="btn btn-primary" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
             $ann->status = $ann->status();
-            $ann->content = strlen($ann->content) > 40 ? mb_substr(strip_tags($ann->content), 0, 40, 'UTF-8') . '...' : $ann->content;
+            $ann_content = strip_tags($ann->content);
+            $ann->content = mb_strlen($ann_content, 'UTF-8') > 40 ? mb_substr($ann_content, 0, 40, 'UTF-8') . '...' : $ann_content;
         }
 
         return $response->withJson([

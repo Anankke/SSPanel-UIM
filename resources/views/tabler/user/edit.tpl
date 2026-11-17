@@ -647,7 +647,7 @@
                 let qrcodeElement = document.getElementById('qrcode');
                 qrcodeElement.innerHTML = '';
                 let totpSecret = document.getElementById('totpSecret');
-                totpSecret.innerHTML = data.token;
+                totpSecret.textContent = data.token;
                 let qrcode = new QRCode(qrcodeElement, {
                     text: data.url,
                     width: 256,
@@ -682,13 +682,13 @@
 
                     if (data.ret === 1) {
                         totpModal.hide();
-                        document.getElementById("success-message").innerHTML = data.msg;
+                        document.getElementById("success-message").textContent = data.msg;
                         successDialog.show();
                         setTimeout(function () {
                             location.reload();
                         }, 1000);
                     } else {
-                        document.getElementById("fail-message").innerHTML = data.msg;
+                        document.getElementById("fail-message").textContent = data.msg;
                         failDialog.show();
                     }
                 })

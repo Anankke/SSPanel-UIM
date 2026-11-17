@@ -105,17 +105,17 @@
                         if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
                             element.value = res.data[key];
                         } else {
-                            element.innerHTML = res.data[key];
+                            element.textContent = res.data[key];
                         }
                     }
                 }
             }
         }
         if (res.ret === 1) {
-            document.getElementById("success-message").innerHTML = res.msg;
+            document.getElementById("success-message").textContent = res.msg;
             successDialog.show();
         } else {
-            document.getElementById("fail-message").innerHTML = res.msg;
+            document.getElementById("fail-message").textContent = res.msg;
             failDialog.show();
         }
     });

@@ -81,7 +81,7 @@
             try {
                 asseResp = await startAuthentication({ optionsJSON: options });
             } catch (error) {
-                document.getElementById("fail-message").innerHTML = error;
+                document.getElementById("fail-message").textContent = error;
                 throw error;
             }
             const verificationResp = await fetch('/auth/webauthn', {
@@ -93,11 +93,11 @@
             });
             const verificationJSON = await verificationResp.json();
             if (verificationJSON.ret === 1) {
-                document.getElementById("success-message").innerHTML = verificationJSON.msg;
+                document.getElementById("success-message").textContent = verificationJSON.msg;
                 successDialog.show();
                 window.location.href = verificationJSON.redir;
             } else {
-                document.getElementById("fail-message").innerHTML = verificationJSON.msg;
+                document.getElementById("fail-message").textContent = verificationJSON.msg;
                 failDialog.show();
             }
         });

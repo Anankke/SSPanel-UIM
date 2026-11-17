@@ -125,7 +125,7 @@
                     show: false,
                 },
             });
-            document.getElementById('dropdown-toggle').innerHTML = evt.detail.msg;
+            document.getElementById('dropdown-toggle').textContent = evt.detail.msg;
             chart.render();
             chart.updateOptions({
                 series: [{

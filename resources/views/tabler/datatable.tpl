@@ -9,7 +9,8 @@
         columns: [
             {foreach $details['field'] as $key => $value}
             {
-                data: '{$key}'
+                data: '{$key}'{if $key ne 'op'},
+                render: DataTable.render.text(){/if}
             },
             {/foreach}
         ],
