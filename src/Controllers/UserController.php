@@ -95,7 +95,7 @@ final class UserController extends BaseController
 
     public function checkin(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
-        if (! Config::obtain('enable_checkin') || ! $this->user->isAbleToCheckin()) {
+        if (! Config::obtain('enable_checkin')) {
             return ResponseHelper::error($response, '暂时还不能签到');
         }
 
@@ -109,8 +109,8 @@ final class UserController extends BaseController
 
         $traffic = Reward::issueCheckinReward($this->user->id);
 
-        if (! $traffic) {
-            return ResponseHelper::error($response, '签到失败');
+        if ($traffic === false) {
+            return ResponseHelper::error($response, '暂时还不能签到');
         }
 
         return $response->withJson([

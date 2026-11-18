@@ -139,8 +139,7 @@ final class Detect
                 continue;
             }
 
-            $user->all_detect_number += $value;
-            $user->save();
+            $user->increment('all_detect_number', $value);
 
             $last_DetectBanLog = (new DetectBanLog())->where('user_id', $userid)->orderBy('id', 'desc')->first();
             $last_all_detect_number = ((int) $last_DetectBanLog?->all_detect_number);

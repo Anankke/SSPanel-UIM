@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Utils\Tools;
 use Exception;
 use function random_int;
+use function strtotime;
 use function time;
 
 final class Reward
@@ -91,20 +92,13 @@ final class Reward
             }
 
             if ($invite_reg_traffic_reward !== 0) {
-                $ref_user->transfer_enable += Tools::gbToB($invite_reg_traffic_reward);
-                $ref_user->save();
+                $ref_user->increment('transfer_enable', Tools::gbToB($invite_reg_traffic_reward));
             }
         }
     }
 
     public static function issueCheckinReward($user_id): int|false
     {
-        $user = (new User())->where('id', $user_id)->first();
-
-        if ($user === null) {
-            return false;
-        }
-
         $checkin_min = Config::obtain('checkin_min');
         $checkin_max = Config::obtain('checkin_max');
 
@@ -118,10 +112,22 @@ final class Reward
             }
         }
 
-        if ($traffic !== 0) {
-            $user->transfer_enable += Tools::mbToB($traffic);
-            $user->last_check_in_time = time();
-            $user->save();
+        $today_start = strtotime('today');
+        $tomorrow_start = strtotime('tomorrow');
+
+        $updated = (new User())->where('id', $user_id)
+            ->where('is_shadow_banned', 0)
+            ->where(static function ($query) use ($today_start, $tomorrow_start): void {
+                $query->where('last_check_in_time', '<', $today_start)
+                    ->orWhere('last_check_in_time', '>=', $tomorrow_start);
+            })
+            ->update([
+                'transfer_enable' => DB::connection()->raw('transfer_enable + ' . Tools::mbToB($traffic)),
+                'last_check_in_time' => time(),
+            ]);
+
+        if ($updated === 0) {
+            return false;
         }
 
         return $traffic;

@@ -66,16 +66,12 @@ final class CheckinCommand extends Command
                 ]
             );
         } else {
-            if ($user->isAbleToCheckin()) {
-                $traffic = Reward::issueCheckinReward($user->id);
+            $traffic = Reward::issueCheckinReward($user->id);
 
-                if (! $traffic) {
-                    $msg = '签到失败';
-                } else {
-                    $msg = '获得了 ' . $traffic . 'MB 流量';
-                }
-            } else {
+            if ($traffic === false) {
                 $msg = '你今天已经签到过了';
+            } else {
+                $msg = '获得了 ' . $traffic . 'MB 流量';
             }
             // 回送信息
             $response = $this->replyWithMessage(

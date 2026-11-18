@@ -308,8 +308,7 @@ final class Cron
                 // 获取流量包订单内容准备激活
                 $content = json_decode($order->product_content);
                 // 激活流量包
-                $user->transfer_enable += Tools::gbToB($content->bandwidth);
-                $user->save();
+                $user->increment('transfer_enable', Tools::gbToB($content->bandwidth));
                 $order->status = 'activated';
                 $order->update_time = time();
                 $order->save();

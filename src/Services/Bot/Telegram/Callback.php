@@ -965,16 +965,12 @@ final class Callback
      */
     public function userCheckin(): void
     {
-        if ($this->user->isAbleToCheckin()) {
-            $traffic = Reward::issueCheckinReward($this->user->id);
+        $traffic = Reward::issueCheckinReward($this->user->id);
 
-            if (! $traffic) {
-                $msg = '签到失败';
-            } else {
-                $msg = '获得了 ' . $traffic . 'MB 流量';
-            }
-        } else {
+        if ($traffic === false) {
             $msg = '你今天已经签到过了';
+        } else {
+            $msg = '获得了 ' . $traffic . 'MB 流量';
         }
 
         $this->answerCallbackQuery([
