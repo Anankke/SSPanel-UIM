@@ -22,7 +22,7 @@
         var invoice = {$invoice->id};
         fetch('/user/payment/purchase/nano', {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'invoice_id=' + encodeURIComponent(invoice) + '&type=nano'
         }).then(function (r) { return r.json(); }).then(function (d) {
             if (d.ret !== 1 || !d.nano) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway\Nano;
 
 use InvalidArgumentException;
+
 use function array_merge;
 use function count;
 use function pack;
@@ -22,6 +23,11 @@ use function unpack;
  * state. A Nano address checksum is 5 bytes, so it is implemented here on
  * 32-bit halves, so it never depends on integer overflow behaviour. It uses no
  * dependency and no network, so it unit-tests on its own.
+ *
+ * The one-letter names (v, m, h, s, a, b, c, d, x, y) are the RFC 7693 names,
+ * kept so the code can be checked line by line against the specification.
+ *
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 final class Blake2b
 {
@@ -159,21 +165,32 @@ final class Blake2b
      */
     private function xorRotate(int $a, int $b, int $bits): void
     {
-        $high = $this->v[2 * $a] ^ $this->v[2 * $b];
-        $low = $this->v[2 * $a + 1] ^ $this->v[2 * $b + 1];
+        [$this->v[2 * $a], $this->v[2 * $a + 1]] = self::rotateRight(
+            $this->v[2 * $a] ^ $this->v[2 * $b],
+            $this->v[2 * $a + 1] ^ $this->v[2 * $b + 1],
+            $bits
+        );
+    }
 
+    /**
+     * rotr64 of the 64-bit word given as its high and low 32-bit halves, for
+     * the rotation counts BLAKE2b uses (16, 24, 32 and 63).
+     *
+     * @return array{0: int, 1: int} the rotated high and low halves
+     */
+    private static function rotateRight(int $high, int $low, int $bits): array
+    {
         if ($bits === 32) {
-            [$high, $low] = [$low, $high];
-        } elseif ($bits === 63) {
-            [$high, $low] = [(($high << 1) | ($low >> 31)) & self::MASK, (($low << 1) | ($high >> 31)) & self::MASK];
-        } else {
-            [$high, $low] = [
-                (($high >> $bits) | ($low << (32 - $bits))) & self::MASK,
-                (($low >> $bits) | ($high << (32 - $bits))) & self::MASK,
-            ];
+            return [$low, $high];
         }
 
-        $this->v[2 * $a] = $high;
-        $this->v[2 * $a + 1] = $low;
+        if ($bits === 63) {
+            return [(($high << 1) | ($low >> 31)) & self::MASK, (($low << 1) | ($high >> 31)) & self::MASK];
+        }
+
+        return [
+            (($high >> $bits) | ($low << (32 - $bits))) & self::MASK,
+            (($low >> $bits) | ($high << (32 - $bits))) & self::MASK,
+        ];
     }
 }

@@ -19,6 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 use voku\helper\AntiXSS;
+
 use function time;
 use function trim;
 
@@ -94,14 +95,14 @@ final class Nano extends Base
         }
 
         $user = Auth::getUser();
-        $pl = new Paylist();
+        $paylist = new Paylist();
         $tradeNumber = self::generateGuid();
-        $pl->userid = $user->id;
-        $pl->total = $invoice->price;
-        $pl->invoice_id = $invoiceId;
-        $pl->tradeno = $tradeNumber;
-        $pl->gateway = self::_readableName();
-        $pl->save();
+        $paylist->userid = $user->id;
+        $paylist->total = $invoice->price;
+        $paylist->invoice_id = $invoiceId;
+        $paylist->tradeno = $tradeNumber;
+        $paylist->gateway = self::_readableName();
+        $paylist->save();
 
         $priceRaw = $this->priceRaw((string) $invoice->price);
 
@@ -125,7 +126,7 @@ final class Nano extends Base
      * the operator's node, settles the first that the Verifier accepts and that
      * has not already been claimed, and is a safe no-op once the invoice is paid.
      */
-    public function notify($request, $response, $args): ResponseInterface
+    public function notify(ServerRequest $request, Response $response, array $args): ResponseInterface
     {
         $tradeNo = trim((string) $request->getParam('trade_no'));
         $paylist = $tradeNo === '' ? null : (new Paylist())->where('tradeno', $tradeNo)->first();
@@ -142,31 +143,11 @@ final class Nano extends Base
             return $response->withJson(['ret' => 0, 'msg' => 'Nano gateway is not configured']);
         }
 
-        $priceRaw = $this->priceRaw((string) $paylist->total);
-        $representative = Binding::representativeAccount($tradeNo, $this->account, $priceRaw);
-
         $node = new NodeClient($this->nodeUrl);
         $given = trim((string) $request->getParam('block'));
         $candidates = $given !== '' ? [$given] : $node->candidateSendHashes($this->account);
 
-        foreach ($candidates as $hash) {
-            $blockInfo = $node->blockInfo($hash);
-            if ($blockInfo === null) {
-                continue;
-            }
-
-            $result = Verifier::verify($blockInfo, $this->account, $priceRaw, $representative, $this->maxAgeSeconds, time());
-            if (!$result['ok']) {
-                continue;
-            }
-
-            // Durable, restart-proof replay refusal, then the atomic credit.
-            if (!(new ReplayGuard(DB::getPdo()))->claim($hash, $tradeNo)) {
-                continue;
-            }
-
-            $this->postPayment($tradeNo);
-
+        if ($this->settleFirstValid($node, $candidates, $tradeNo, (string) $paylist->total)) {
             return $response->withJson(['ret' => 1, 'msg' => '支付成功']);
         }
 
@@ -176,6 +157,44 @@ final class Nano extends Base
     public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('gateway/nano.tpl');
+    }
+
+    /**
+     * Settle the paylist row with the first candidate send that the Verifier
+     * accepts and that has not already been claimed. Returns true when a block
+     * was claimed and the payment posted.
+     *
+     * @param list<string> $candidates
+     */
+    private function settleFirstValid(NodeClient $node, array $candidates, string $tradeNo, string $total): bool
+    {
+        $priceRaw = $this->priceRaw($total);
+        $representative = Binding::representativeAccount($tradeNo, $this->account, $priceRaw);
+
+        foreach ($candidates as $hash) {
+            $blockInfo = $node->blockInfo($hash);
+            if ($blockInfo === null) {
+                continue;
+            }
+
+            $result = Verifier::verify(
+                $blockInfo,
+                $this->account,
+                $priceRaw,
+                $representative,
+                $this->maxAgeSeconds,
+                time()
+            );
+
+            // Durable, restart-proof replay refusal, then the atomic credit.
+            if ($result['ok'] && (new ReplayGuard(DB::getPdo()))->claim($hash, $tradeNo)) {
+                $this->postPayment($tradeNo);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

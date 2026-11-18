@@ -6,6 +6,7 @@ namespace App\Services\Gateway\Nano;
 
 use PDO;
 use PDOException;
+
 use function preg_match;
 use function strtoupper;
 use function time;
@@ -48,9 +49,12 @@ final class ReplayGuard
             $insert = $this->pdo->prepare(
                 "INSERT INTO {$this->table} (block_hash, tradeno, claimed_at) VALUES (:hash, :trade, :at)"
             );
-            $insert->execute([':hash' => $blockHash, ':trade' => $tradeNo, ':at' => time()]);
 
-            return true;
+            // Fail closed: a handle in silent or warning error mode reports a
+            // duplicate (or any other failed insert) as false instead of
+            // throwing, and that must never read as a fresh claim.
+            return $insert !== false
+                && $insert->execute([':hash' => $blockHash, ':trade' => $tradeNo, ':at' => time()]) === true;
         } catch (PDOException $exception) {
             // A unique-constraint violation means the hash is already claimed.
             if ($this->exists($blockHash)) {

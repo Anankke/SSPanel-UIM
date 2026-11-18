@@ -22,6 +22,13 @@ use function is_string;
 final class Verifier
 {
     public const OK = '';
+    public const NOT_CONFIRMED = 'The Nano send block is not confirmed yet.';
+    public const NOT_A_SEND = 'The block is not a Nano send.';
+    public const NOT_RAW = 'The block amount is not a raw integer.';
+    public const WRONG_ACCOUNT = 'The send does not pay the configured Nano account.';
+    public const UNDERPAID = 'The send amount is less than the invoice amount in raw.';
+    public const NOT_BOUND = 'The send is not bound to this invoice (representative mismatch).';
+    public const TOO_OLD = 'The send is outside the replay window.';
 
     /**
      * @param array<string, mixed> $blockInfo the node's `block_info` reply (json_block=true)
@@ -32,7 +39,7 @@ final class Verifier
         array $blockInfo,
         string $payTo,
         string $priceRaw,
-        string $representativeAccount,
+        string $boundRep,
         int $maxAgeSeconds,
         int $now,
     ): array {
@@ -41,15 +48,16 @@ final class Verifier
         $amountRaw = is_string($blockInfo['amount'] ?? null) ? $blockInfo['amount'] : null;
         $rep = is_string($contents['representative'] ?? null) ? $contents['representative'] : null;
         $dest = is_string($contents['link_as_account'] ?? null) ? $contents['link_as_account'] : null;
+        $timestamp = $blockInfo['local_timestamp'] ?? null;
 
         $error = match (true) {
-            !in_array($blockInfo['confirmed'] ?? null, [true, 'true'], true) => 'The Nano send block is not confirmed yet.',
-            ($blockInfo['subtype'] ?? null) !== 'send' || $payer === null => 'The block is not a Nano send.',
-            $amountRaw === null || !Amount::isRaw($amountRaw) => 'The block amount is not a raw integer.',
-            !Address::matches($dest, $payTo) => 'The send does not pay the configured Nano account.',
-            !Amount::atLeast($amountRaw, $priceRaw) => 'The send amount is less than the invoice amount in raw.',
-            !Address::matches($rep, $representativeAccount) => 'The send is not bound to this invoice (representative mismatch).',
-            !self::isRecent($blockInfo['local_timestamp'] ?? null, $maxAgeSeconds, $now) => 'The send is outside the replay window.',
+            !in_array($blockInfo['confirmed'] ?? null, [true, 'true'], true) => self::NOT_CONFIRMED,
+            ($blockInfo['subtype'] ?? null) !== 'send' || $payer === null => self::NOT_A_SEND,
+            $amountRaw === null || !Amount::isRaw($amountRaw) => self::NOT_RAW,
+            !Address::matches($dest, $payTo) => self::WRONG_ACCOUNT,
+            !Amount::atLeast($amountRaw, $priceRaw) => self::UNDERPAID,
+            !Address::matches($rep, $boundRep) => self::NOT_BOUND,
+            !self::isRecent($timestamp, $maxAgeSeconds, $now) => self::TOO_OLD,
             default => self::OK,
         };
 
@@ -57,7 +65,12 @@ final class Verifier
             return ['ok' => false, 'error' => $error, 'amount' => null, 'payer' => null];
         }
 
-        return ['ok' => true, 'error' => self::OK, 'amount' => Amount::normalizeRaw((string) $amountRaw), 'payer' => $payer];
+        return [
+            'ok' => true,
+            'error' => self::OK,
+            'amount' => Amount::normalizeRaw((string) $amountRaw),
+            'payer' => $payer,
+        ];
     }
 
     private static function isRecent(mixed $timestamp, int $maxAgeSeconds, int $now): bool

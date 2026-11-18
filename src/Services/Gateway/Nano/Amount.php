@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway\Nano;
 
 use InvalidArgumentException;
+
 use function array_fill;
 use function array_reverse;
 use function implode;
@@ -37,16 +38,12 @@ final class Amount
      */
     public static function xnoToRaw(string $xno): string
     {
-        if (preg_match('/^(\d+)(?:\.(\d+))?$/', trim($xno), $m) !== 1) {
-            throw new InvalidArgumentException('A XNO amount is a non-negative decimal.');
-        }
-
-        $fraction = $m[2] ?? '';
+        [$whole, $fraction] = self::split($xno);
         if (strlen($fraction) > self::RAW_DECIMALS) {
             throw new InvalidArgumentException('A XNO amount cannot be finer than one raw (10^-30 XNO).');
         }
 
-        $digits = $m[1] . str_pad($fraction, self::RAW_DECIMALS, '0');
+        $digits = $whole . str_pad($fraction, self::RAW_DECIMALS, '0');
         $digits = ltrim($digits, '0');
 
         return $digits === '' ? '0' : $digits;
@@ -57,13 +54,13 @@ final class Amount
      * string with no float anywhere. Used to turn an invoice total and a rate
      * (XNO per one unit of the invoice currency) into the XNO amount owed.
      */
-    public static function multiplyDecimals(string $a, string $b): string
+    public static function multiplyDecimals(string $left, string $right): string
     {
-        [$ai, $af] = self::split($a);
-        [$bi, $bf] = self::split($b);
+        [$leftWhole, $leftFraction] = self::split($left);
+        [$rightWhole, $rightFraction] = self::split($right);
 
-        $product = self::multiplyIntegers($ai . $af, $bi . $bf);
-        $scale = strlen($af) + strlen($bf);
+        $product = self::multiplyIntegers($leftWhole . $leftFraction, $rightWhole . $rightFraction);
+        $scale = strlen($leftFraction) + strlen($rightFraction);
 
         if ($scale === 0) {
             return $product;
@@ -86,9 +83,9 @@ final class Amount
         return self::compareIntegers(self::normalizeRaw($paid), self::normalizeRaw($required)) >= 0;
     }
 
-    public static function equals(string $a, string $b): bool
+    public static function equals(string $left, string $right): bool
     {
-        return self::normalizeRaw($a) === self::normalizeRaw($b);
+        return self::normalizeRaw($left) === self::normalizeRaw($right);
     }
 
     /**
@@ -116,30 +113,31 @@ final class Amount
      */
     private static function split(string $value): array
     {
-        if (preg_match('/^(\d+)(?:\.(\d+))?$/', trim($value), $m) !== 1) {
+        if (preg_match('/^(\d+)(?:\.(\d+))?$/', trim($value), $matches) !== 1) {
             throw new InvalidArgumentException('A decimal amount is a non-negative decimal.');
         }
 
-        return [$m[1], $m[2] ?? ''];
+        return [$matches[1], $matches[2] ?? ''];
     }
 
-    private static function multiplyIntegers(string $a, string $b): string
+    private static function multiplyIntegers(string $left, string $right): string
     {
-        $a = ltrim($a, '0');
-        $b = ltrim($b, '0');
-        if ($a === '' || $b === '') {
+        $left = ltrim($left, '0');
+        $right = ltrim($right, '0');
+        if ($left === '' || $right === '') {
             return '0';
         }
 
-        $result = array_fill(0, strlen($a) + strlen($b), 0);
-        $aDigits = array_reverse(str_split($a));
-        $bDigits = array_reverse(str_split($b));
+        $result = array_fill(0, strlen($left) + strlen($right), 0);
+        $leftDigits = array_reverse(str_split($left));
+        $rightDigits = array_reverse(str_split($right));
 
-        foreach ($aDigits as $i => $da) {
-            foreach ($bDigits as $j => $db) {
-                $result[$i + $j] += (int) $da * (int) $db;
-                $result[$i + $j + 1] += intdiv($result[$i + $j], 10);
-                $result[$i + $j] %= 10;
+        foreach ($leftDigits as $leftPos => $leftDigit) {
+            foreach ($rightDigits as $rightPos => $rightDigit) {
+                $cell = $leftPos + $rightPos;
+                $result[$cell] += (int) $leftDigit * (int) $rightDigit;
+                $result[$cell + 1] += intdiv($result[$cell], 10);
+                $result[$cell] %= 10;
             }
         }
 
@@ -148,12 +146,12 @@ final class Amount
         return $out === '' ? '0' : $out;
     }
 
-    private static function compareIntegers(string $a, string $b): int
+    private static function compareIntegers(string $left, string $right): int
     {
-        if (strlen($a) !== strlen($b)) {
-            return strlen($a) <=> strlen($b);
+        if (strlen($left) !== strlen($right)) {
+            return strlen($left) <=> strlen($right);
         }
 
-        return strcmp($a, $b);
+        return strcmp($left, $right);
     }
 }

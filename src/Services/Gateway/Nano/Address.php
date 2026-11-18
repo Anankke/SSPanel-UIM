@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway\Nano;
 
 use InvalidArgumentException;
+
 use function bin2hex;
 use function bindec;
 use function decbin;
@@ -99,15 +100,15 @@ final class Address
      * Compare two addresses by the key they encode, so the `xrb_` and `nano_`
      * forms of one account match.
      */
-    public static function matches(?string $a, ?string $b): bool
+    public static function matches(?string $first, ?string $second): bool
     {
-        if ($a === null || $b === null) {
+        if ($first === null || $second === null) {
             return false;
         }
 
-        $key = self::publicKey($a);
+        $key = self::publicKey($first);
 
-        return $key !== null && $key === self::publicKey($b);
+        return $key !== null && $key === self::publicKey($second);
     }
 
     private static function bytes(string $bits): string

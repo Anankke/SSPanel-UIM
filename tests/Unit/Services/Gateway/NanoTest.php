@@ -6,6 +6,7 @@ use App\Services\Gateway\Nano\Address;
 use App\Services\Gateway\Nano\Amount;
 use App\Services\Gateway\Nano\Binding;
 use App\Services\Gateway\Nano\Blake2b;
+use App\Services\Gateway\Nano\NodeClient;
 use App\Services\Gateway\Nano\ReplayGuard;
 use App\Services\Gateway\Nano\Verifier;
 
@@ -100,7 +101,9 @@ test('the verifier refuses a send bound to another invoice', function () {
     $wrongRep = Binding::representativeAccount('TRADE-2', NANO_GENESIS, Amount::xnoToRaw('0.5'));
     $expectedRep = Binding::representativeAccount('TRADE-1', NANO_GENESIS, Amount::xnoToRaw('0.5'));
     $block = nano_block(['contents' => ['representative' => $wrongRep, 'link_as_account' => NANO_GENESIS]]);
-    expect(Verifier::verify($block, NANO_GENESIS, Amount::xnoToRaw('0.5'), $expectedRep, 86400, 1000000010)['ok'])->toBeFalse();
+    $result = Verifier::verify($block, NANO_GENESIS, Amount::xnoToRaw('0.5'), $expectedRep, 86400, 1000000010);
+    expect($result['ok'])->toBeFalse();
+    expect($result['error'])->toBe(Verifier::NOT_BOUND);
 });
 
 test('the verifier refuses an unconfirmed send', function () {
@@ -111,7 +114,36 @@ test('the verifier refuses an unconfirmed send', function () {
 
 test('the verifier refuses a send outside the replay window', function () {
     $rep = Binding::representativeAccount('TRADE-1', NANO_GENESIS, Amount::xnoToRaw('0.5'));
-    expect(Verifier::verify(nano_block(), NANO_GENESIS, Amount::xnoToRaw('0.5'), $rep, 3600, 2000000000)['ok'])->toBeFalse();
+    $result = Verifier::verify(nano_block(), NANO_GENESIS, Amount::xnoToRaw('0.5'), $rep, 3600, 2000000000);
+    expect($result['ok'])->toBeFalse();
+    expect($result['error'])->toBe(Verifier::TOO_OLD);
+});
+
+test('already-pocketed sends are found through the raw account history', function () {
+    $send = str_repeat('C', 64);
+    $openSource = str_repeat('D', 64);
+    $history = ['history' => [
+        ['type' => 'state', 'subtype' => 'receive', 'link' => $send],
+        ['type' => 'state', 'subtype' => 'open', 'link' => $openSource],
+        ['type' => 'state', 'subtype' => 'send', 'link' => str_repeat('E', 64)],
+        ['type' => 'receive', 'link' => str_repeat('F', 64)],
+        'not-an-entry',
+    ]];
+
+    expect(NodeClient::receivedSourceHashes($history))->toBe([$send, $openSource, str_repeat('F', 64)]);
+    expect(NodeClient::receivedSourceHashes(null))->toBe([]);
+    expect(NodeClient::receivableHashes(['blocks' => [$send, 7]]))->toBe([$send]);
+    expect(NodeClient::receivableHashes(['blocks' => '']))->toBe([]);
+});
+
+test('a replayed block hash is refused even when PDO errors are silent', function () {
+    $pdo = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT]);
+    $pdo->exec('CREATE TABLE nano_payment_claims (block_hash TEXT NOT NULL UNIQUE, tradeno TEXT, claimed_at INTEGER)');
+    $guard = new ReplayGuard($pdo);
+    $hash = str_repeat('A', 64);
+
+    expect($guard->claim($hash, 'TRADE-1'))->toBeTrue();
+    expect($guard->claim($hash, 'TRADE-1'))->toBeFalse();
 });
 
 test('a settled block hash cannot be claimed twice, even after a restart', function () {
