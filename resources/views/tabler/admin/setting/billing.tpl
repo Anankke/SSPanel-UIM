@@ -51,6 +51,9 @@
                                 <li class="nav-item">
                                     <a href="#cryptomus" class="nav-link" data-bs-toggle="tab">Cryptomus</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#nano" class="nav-link" data-bs-toggle="tab">Nano</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -377,6 +380,42 @@
                                             <div class="col">
                                                 <input id="cryptomus_currency" type="text" class="form-control"
                                                        value="{$settings['cryptomus_currency']}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="nano">
+                                    <div class="card-body">
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Receiving account</label>
+                                            <div class="col">
+                                                <input id="nano_account" type="text" class="form-control"
+                                                       value="{$settings['nano_account']}">
+                                                <span>The nano_ account that receives payments. Its key stays in your own wallet.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Node URL</label>
+                                            <div class="col">
+                                                <input id="nano_node_url" type="text" class="form-control"
+                                                       value="{$settings['nano_node_url']}">
+                                                <span>A Nano node RPC URL. The panel only reads from it (block_info, receivable); it needs no key.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Rate (XNO per unit)</label>
+                                            <div class="col">
+                                                <input id="nano_rate" type="text" class="form-control"
+                                                       value="{$settings['nano_rate']}">
+                                                <span>How much XNO one unit of the invoice currency is worth, e.g. 0.08.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3 row">
+                                            <label class="form-label col-3 col-form-label">Replay window (seconds)</label>
+                                            <div class="col">
+                                                <input id="nano_max_age" type="number" class="form-control"
+                                                       value="{$settings['nano_max_age']}">
+                                                <span>How long a confirmed send may still settle an invoice.</span>
                                             </div>
                                         </div>
                                     </div>
