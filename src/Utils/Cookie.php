@@ -9,14 +9,27 @@ final class Cookie
     public static function set(array $arg, int $time): void
     {
         foreach ($arg as $key => $value) {
-            setcookie($key, $value, $time, path: '/', secure: true, httponly: true);
+            setcookie($key, $value, [
+                'expires' => $time,
+                'path' => '/',
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
         }
     }
 
     public static function setWithDomain(array $arg, int $time, string $domain): void
     {
         foreach ($arg as $key => $value) {
-            setcookie($key, $value, $time, path: '/', domain: $domain, secure: true, httponly: true);
+            setcookie($key, $value, [
+                'expires' => $time,
+                'path' => '/',
+                'domain' => $domain,
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
         }
     }
 
