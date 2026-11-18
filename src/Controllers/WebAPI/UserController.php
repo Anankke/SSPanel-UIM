@@ -25,6 +25,7 @@ use function date;
 use function filter_var;
 use function in_array;
 use function is_array;
+use function is_numeric;
 use function json_decode;
 use function time;
 use const FILTER_VALIDATE_INT;
@@ -148,6 +149,16 @@ final class UserController extends BaseController
         }
 
         $data = $data->data;
+
+        foreach ($data as $log) {
+            $u = $log?->u ?? 0;
+            $d = $log?->d ?? 0;
+
+            if (! is_numeric($u) || ! is_numeric($d) || $u < 0 || $d < 0) {
+                return ResponseHelper::error($response, 'Invalid data.');
+            }
+        }
+
         $node_id = $request->getQueryParam('node_id');
         $node = (new Node())->find($node_id);
 
@@ -226,8 +237,8 @@ final class UserController extends BaseController
             $sum = 0;
 
             foreach ($logs as $log) {
-                $u = $log?->u;
-                $d = $log?->d;
+                $u = $log?->u ?? 0;
+                $d = $log?->d ?? 0;
                 $user_id = $log?->user_id;
 
                 if ($user_id) {
