@@ -11328,16 +11328,16 @@
         },
         {
             "name": "dg/bypass-finals",
-            "version": "v1.11.0",
+            "version": "v1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/bypass-finals.git",
-                "reference": "b21595bdd1937e9ac912d68380dc85a65d77285f"
+                "reference": "295d8549a99848afc7fe39099d9bfac6fceb0e75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/b21595bdd1937e9ac912d68380dc85a65d77285f",
-                "reference": "b21595bdd1937e9ac912d68380dc85a65d77285f",
+                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/295d8549a99848afc7fe39099d9bfac6fceb0e75",
+                "reference": "295d8549a99848afc7fe39099d9bfac6fceb0e75",
                 "shasum": ""
             },
             "require": {
@@ -11367,19 +11367,21 @@
                     "homepage": "https://davidgrudl.com"
                 }
             ],
-            "description": "Removes final keyword from source code on-the-fly and allows mocking of final methods and classes",
+            "description": "🔓 BypassFinals: removes final and readonly from your code on the fly, so you can mock final classes and methods in PHPUnit, Mockery or Nette Tester.",
             "keywords": [
-                "finals",
+                "final",
+                "mock final class",
+                "mockery",
                 "mocking",
                 "phpunit",
-                "testing",
-                "unit"
+                "readonly",
+                "testing"
             ],
             "support": {
                 "issues": "https://github.com/dg/bypass-finals/issues",
-                "source": "https://github.com/dg/bypass-finals/tree/v1.11.0"
+                "source": "https://github.com/dg/bypass-finals/tree/v1.11.1"
             },
-            "time": "2026-07-24T12:24:07+00:00"
+            "time": "2026-10-23T13:27:43+00:00"
         },
         {
             "name": "ergebnis/agent-detector",
